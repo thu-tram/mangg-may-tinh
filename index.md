@@ -23,9 +23,14 @@ These notes have not been proofread. They likely contain errors.
 If you're a CS 168 student at Berkeley, in any case of dispute, the official course lectures are the correct source of truth.
 
 
+## Diagrams
+
+[Slideshow versions of these notes with diagrams are available here.](https://drive.google.com/drive/folders/13RnAGH1OrsOVvXdmQC73WkmoVD9r5lzd)
+
+
 ## PDF Version
 
-[These notes are available as a PDF here.](/assets/cs168-course-notes-aug-2024.pdf)
+[These notes are available as a PDF here.](https://drive.google.com/file/d/15KD2W04xJGcnnDY_1RX1G3rFyKb_g8eh)
 
 The PDF version is not always up-to-date. It was last updated in August 2024.
 
