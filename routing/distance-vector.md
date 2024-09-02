@@ -44,13 +44,12 @@ What if there were multiple destinations? We could run this same algorithm repea
 
 In these notes, we'll focus on a single section for simplicity, but the protocol we'll design can extend to multiple destinations.
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear about a path to that destination, update the table.
-- Then, tell all your neighbors.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear about a path to that destination, update the table.
+> - Then, tell all your neighbors.
 
 
 ## Direction of Announcements and Messages
@@ -100,15 +99,14 @@ R5 might not hear about both paths simultaneously, so we'll need to be more prec
 
 3. If the new path (that we hear about) is worse than the best-known path (from the forwarding table), we should ignore the new path, and keep using the path in the table.
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear about a path to that destination, update the table if:
-    - **The destination isn't in the table.**
-    - **The advertised cost is better than the best-known cost.**
-- Then, tell all your neighbors.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear about a path to that destination, update the table if:
+>     - **The destination isn't in the table.**
+>     - **The advertised cost is better than the best-known cost.**
+> - Then, tell all your neighbors.
 
 How do we know if a new path is better or worse? We have to be careful, because not all link costs are the same. When someone advertises a path, the cost via that path is actually the sum of two numbers: The link cost from you to the neighbor, plus the cost from the neighbor to the destination (as advertised by the neighbor).
 
@@ -120,15 +118,15 @@ Later, we might hear: ``I am R2, and A is 3 away from me.'' It is incorrect to j
 
 <img width="600px" src="/assets/routing/2-042-costs2.png">
 
-<p class="blue">
-Let's review our protocol so far.
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear about a path to that destination, update the table if:
+>     - The destination isn't in the table.
+>     - The advertised cost, **plus the link cost to the neighbor**, is better than the best-known cost.
+> - Then, tell all your neighbors.
 
-For each destination:
-- If you hear about a path to that destination, update the table if:
-    - The destination isn't in the table.
-    - The advertised cost, **plus the link cost to the neighbor**, is better than the best-known cost.
-- Then, tell all your neighbors.
-</p>
 
 For every announcement we hear, we have to compare two numbers. One number is the best-known cost in the table. The other number is the sum of the link cost to the neighbor, plus the advertised cost from neighbor to destination. If the latter number is lower, we use the new path and abandon the old path.
 
@@ -219,16 +217,15 @@ To fix this, we have to modify our update rule. If we hear an announcement from 
 
 Note that when this new rule applies, we don't update the destination or the next hop in the forwarding table, only the distance. In the example, packets at R3 destined for A are still forwarded to R2 (same destination, same next hop), but the cost via R2 changed.
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - **The advertisement is from the current next-hop.**
-- Then, tell all your neighbors.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - **The advertisement is from the current next-hop.**
+> - Then, tell all your neighbors.
 
 In order to support changing topologies, routers will run the routing protocol indefinitely.
 
@@ -253,16 +250,15 @@ Formally, the protocol will define an **advertisement interval**. 30 seconds is 
 
 As long as we wait long enough and re-send the packet enough times, the link will eventually successfully send the advertisement, as long as the link works some of the time. If the link was dropping every single packet, then there's no way for the advertisement to be sent (and maybe a link with 0\% success rate probably shouldn't be in the graph anyway). Eventually, with enough re-sending, this protocol will still converge.
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - **The advertisement is from the current next-hop.**
-- Advertise to all your neighbors **when the table updates, and periodically (advertisement interval)**.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - **The advertisement is from the current next-hop.**
+> - Advertise to all your neighbors **when the table updates, and periodically (advertisement interval)**.
 
 Note that re-sending at intervals can work in combination with our rule from earlier, where we sent an announcement any time the forwarding table changes. Announcements sent immediately after a change are called **triggered updates**.
 
@@ -305,17 +301,16 @@ At t=16 (11 seconds after the last update at t=5), the TTL in our table entry ha
 
 <img width="900px" src="/assets/routing/2-059-ttl4.png">
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table **and reset the TTL** if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - The advertisement is from the current next-hop.
-- Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
-- **If a table entry expires, delete it.**
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table **and reset the TTL** if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - The advertisement is from the current next-hop.
+> - Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
+> - **If a table entry expires, delete it.**
 
 Be careful not to confuse the various timers that the router must maintain.
 
@@ -394,17 +389,16 @@ One final modification: Now that our tables contain poison, we have to be carefu
 
 <img width="500px" src="/assets/routing/2-066-poison-route.png">
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table **and reset the TTL** if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - The advertisement is from the current next-hop. **Includes poison advertisements.**
-- Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
-- If a table entry expires, **make the entry poison and advertise it**.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table **and reset the TTL** if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - The advertisement is from the current next-hop. **Includes poison advertisements.**
+> - Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
+> - If a table entry expires, **make the entry poison and advertise it**.
 
 
 ## Rule 5A: Split Horizon
@@ -437,18 +431,17 @@ To solve this problem, we need to avoid offering Alice a route that already invo
 
 This leads us to a solution called **split horizon**, where we never advertise a route back to the person who gave us that route.
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table **and reset the TTL** if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - The advertisement is from the current next-hop. Includes poison advertisements.
-- Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
-    - **But don't advertise back to the next-hop.**
-- If a table entry expires, make the entry poison and advertise it.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table **and reset the TTL** if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - The advertisement is from the current next-hop. Includes poison advertisements.
+> - Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
+>     - **But don't advertise back to the next-hop.**
+> - If a table entry expires, make the entry poison and advertise it.
 
 
 ## Rule 5B: Poison Reverse
@@ -487,19 +480,18 @@ By contrast, if we used the poison reverse approach, R3 explicitly sends poison 
 
 <img width="900px" src="/assets/routing/2-075-split-and-poison2.png">
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table **and reset the TTL** if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - The advertisement is from the current next-hop. Includes poison advertisements.
-- Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
-    - But don't advertise back to the next-hop.
-    - **...Or, advertise poison back to the next-hop.**
-- If a table entry expires, make the entry poison and advertise it.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table **and reset the TTL** if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - The advertisement is from the current next-hop. Includes poison advertisements.
+> - Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
+>     - But don't advertise back to the next-hop.
+>     - **...Or, advertise poison back to the next-hop.**
+> - If a table entry expires, make the entry poison and advertise it.
 
 Note that split horizon and poison reverse are two choices, and you can pick exactly one to use (not both). Either you say nothing back to the next-hop, or you explicitly advertise poison back to the next-hop.
 
@@ -591,20 +583,19 @@ Finally, R1 advertises to R2: ``I'm R1, and A is infinity away from me.'' R2 acc
 We've reached steady-state again! Any future advertisements would all be advertising infinite cost, and they won't change the tables. Eventually, the infinite-cost entries would all expire. Or, if another route to A appears, it would replace the infinite-cost entry.
 
 
-<p class="blue">
-Let's review our protocol so far.
-
-For each destination:
-- If you hear an advertisement for that destination, update the table **and reset the TTL** if:
-    - The destination isn't in the table.
-    - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
-    - The advertisement is from the current next-hop. Includes poison advertisements.
-- Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
-    - But don't advertise back to the next-hop.
-    - ...Or, advertise poison back to the next-hop.
-    - **Any cost greater than or equal to 16 is advertised as infinity.**
-- If a table entry expires, make the entry poison and advertise it.
-</p>
+{: .blue}
+> Let's review our protocol so far.
+> 
+> For each destination:
+> - If you hear an advertisement for that destination, update the table **and reset the TTL** if:
+>     - The destination isn't in the table.
+>     - The advertised cost, plus the link cost to the neighbor, is better than the best-known cost.
+>     - The advertisement is from the current next-hop. Includes poison advertisements.
+> - Advertise to all your neighbors when the table updates, and periodically (advertisement interval).
+>     - But don't advertise back to the next-hop.
+>     - ...Or, advertise poison back to the next-hop.
+>     - **Any cost greater than or equal to 16 is advertised as infinity.**
+> - If a table entry expires, make the entry poison and advertise it.
 
 
 ## Eventful Updates
