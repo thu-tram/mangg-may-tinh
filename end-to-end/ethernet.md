@@ -133,9 +133,9 @@ A data packet in Ethernet is called a **frame**. Many fields look similar to the
 
 <img width="900px" src="/assets/end-to-end/5-10-ethernet-packet.png">
 
-The Ethernet packet starts with a 7-bit preamble, which indicates the start of a packet. This helps separate packets as they're signalled across the wire.
+The Ethernet packet starts with a 7-byte preamble, which indicates the start of a packet. This helps separate packets as they're signalled across the wire.
 
-Then, we have the destination and source MAC addresses, similar to the destination and source fields in the IP header. We have a 2-bit type field, which allows us to demultiplex between IPv4 or IPv6, and pass the packet payload to the correct next protocol. This is similar to the protocol field in the IP header, or the port field in the TCP/UDP headers. We also have a checksum, though unlike IP, the checksum is over the entire packet, so that we don't have to rely on higher layers (e.g. the packet might not be TCP/IP at all).
+Then, we have the destination and source MAC addresses, similar to the destination and source fields in the IP header. We have a 2-byte type field, which allows us to demultiplex between IPv4 or IPv6, and pass the packet payload to the correct next protocol. This is similar to the protocol field in the IP header, or the port field in the TCP/UDP headers. We also have a checksum, though unlike IP, the checksum is over the entire packet, so that we don't have to rely on higher layers (e.g. the packet might not be TCP/IP at all).
 
 To unicast a message, we set the destination MAC address to a specific machine's MAC address. Everybody on the shared medium receives the packet, so everybody needs to check the destination MAC to see if the packet is meant for them. If the destination MAC address doesn't match your address, you should ignore the packet.
 
