@@ -39,12 +39,12 @@ The PDF version is not always up-to-date. It was last updated in August 2024.
 
 As of the Fall 2024 semester, this textbook is still being actively maintained and updated.
 
-If you see any parts that needs to be corrected, please open a Github issue [here](https://github.com/cs168-berkeley/textbook/issues).
+If you see any parts that needs to be corrected, please open a Github issue [here](https://github.com/berkeley-cs168/textbook/issues).
 
 
 ## Source and Changelog
 
-The source for the textbook and a log of all changes is [available on Github](https://github.com/cs168-berkeley/textbook).
+The source for the textbook and a log of all changes is [available on Github](https://github.com/berkeley-cs168/textbook).
 
 
 ## License
