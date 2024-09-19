@@ -46,7 +46,7 @@ Note that the IP checksum is only computed over the IP header. The checksum can 
 
 The IP checksum is updated at every router, because the TTL changes, and the checksum has to be re-computed. One possible alternative design is to exclude the TTL in the checksum, to save routers the extra work.
 
-IP packets could be too large for a specific link. Each link has a **maximum transmission unit (MTU)**, indicating the largest packet size (in bits) that link can carry as one unit. For example, the link might have limited memory for remembering a packet while it sends the bits along the wire.
+IP packets could be too large for a specific link. Each link has a **maximum transmission unit (MTU)**, indicating the largest packet size (in bytes) that link can carry as one unit. For example, the link might have limited memory for remembering a packet while it sends the bits along the wire.
 
 The end host doesn't know which links will be carrying the packet, so the end host might sent a packet that's too large for one of the links. To solve this, a router can perform **fragmentation**, splitting the packet into multiple fragments, which the router on the other end of the link must reassemble to recover the original packet. The identification (16-bit), flags (3-bit), and offset (13-bit) fields in the header are used to implement fragmentation.
 
@@ -65,7 +65,7 @@ In the original IP design, additional **option bits** can be added to the IP hea
 
 IPv6 was motivated by the concern that we would eventually run out of 32-bit IPv4 addresses. IPv6 **expanded addresses** so that addresses are 128 bits long. The number of possible IPv6 addresses is astronomically large (think: number of atoms in the universe), so we will almost certainly never run out of IPv6 addresses.
 
-The designers of IPv6 took the opportunity to clean up and modernize the IP header, removing and updating fields that are outdated. Originally, IPv6 was intended to be a more ambitious protocol with many new addressing features, but most of these features were never realized. In practice, besides this ``spring cleaning'' removal of outdated features, there weren't many significant changes to the protocol from IPv4, so the result is a more elegant IP protocol, without many ambitious changes.
+The designers of IPv6 took the opportunity to clean up and modernize the IP header, removing and updating fields that are outdated. Originally, IPv6 was intended to be a more ambitious protocol with many new addressing features, but most of these features were never realized. In practice, besides this "spring cleaning" removal of outdated features, there weren't many significant changes to the protocol from IPv4, so the result is a more elegant IP protocol, without many ambitious changes.
 
 Note: In case you're curious, IPv5 was published in 1990 (before IPv6 in 1998). It was an experimental protocol that was never widely implemented.
 
