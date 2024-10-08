@@ -56,7 +56,7 @@ More generally, our addresses have two parts: a network ID,and a host ID. This a
 
 <img width="900px" src="/assets/routing/2-103-address-intuition4.png">
 
-Note that the forwarding table in R9 still needs entries for each individual host inside its own network (i.e. network 3).
+Note that the forwarding table in R9 still needs entries for each individual host inside its own network (i.e. network 2).
 
 Similarly, R4, an internal router with no connections to other networks, needs both entries for individual hosts inside network 3, and aggregated entries for other networks (e.g. 2.* has a next hop of R9). The scale of a forwarding table depends on the number of internal hosts in the same network, plus the number of external networks.
 
@@ -148,7 +148,7 @@ We could write IP addresses as a 32-bit sequence of 1s and 0s, or as a single bi
 
 So far, we've been writing ranges of addresses as bits (e.g. all IPs starting with 1101). To write a range of addresses, we can use **slash notation**. We write the fixed prefix, then we write 0s for all remaining unfixed bits, and we convert the resulting 32-bit value into an dotted quad IP address. Then, after the slash, we write the number of fixed bits.
 
-For example, if the prefix is 11000000, we add zeros for all the unfixed bits to get 11000000 00000000 00000000 00000000. As a 32-bit address, this is 192.0.0.0. Then, because 24 bits were fixed, we write the range as 192.0.0.0/24.
+For example, if the prefix is 11000000, we add zeros for all the unfixed bits to get 11000000 00000000 00000000 00000000. As a 32-bit address, this is 192.0.0.0. Then, because 8 bits were fixed, we write the range as 192.0.0.0/8.
 
 To write an individual address as a range, we could write something like 192.168.1.1/32, which indicates that all 32 bits are fixed. Also, the default route *.* can be written as 0.0.0.0/0.
 
