@@ -109,7 +109,7 @@ In the rightmost structure, we only need to remove one link to partition the net
 
 An equivalent way of defining bisection bandwidth is: We divide the network into two halves, and each node in one half wants to simultaneously send data to a corresponding node in the other half. Among all possible partitions of nodes, what is the minimum bandwidth that the nodes can collectively send at? Considering the worst case (minimum bandwidth) forces us to think about bottlenecks.
 
-<img width="900px" src="/assets/datacenter/6-13-bisection2.png">
+<img width="900px" src="/assets/datacenter/6-14-bisection3.png">
 
 The most-connected network has full bisection bandwidth. This means that there are no bottlenecks, and no matter how you assign nodes to partitions, all nodes in one partition can communicate simultaneously with all nodes in the other partition at full rate. If there are N nodes, and all N/2 nodes in the left partition are sending data at full rate R, then the full bisection bandwidth is N/2 times R.
 
@@ -146,7 +146,7 @@ To increase bisection bandwidth, we could install higher-bandwidth links at high
 
 In this case, if the four lower links are 100 Gbps, and the two higher links are 300 Gbps, then we've removed the bottleneck and restored full bisection bandwidth.
 
-This fat tree topology maintains high capacity on the network while reducing the radix of each switch.
+This topology can be used, although we still haven't solved the problem where the top switch is expensive and scales poorly.
 
 
 ## Clos Networks
@@ -170,19 +170,92 @@ In a classic Clos network, we'd have all the racks on the left send data to the 
 
 ## Fat-Tree Clos Topology
 
-TODO write about this topology.
+The fat-tree topology has low radix per switch, and achieves full bisection bandwidth. However, the switch at the top of the tree is expensive, scales poorly, and still represents a single point of failure.
+
+The Clos topology allows us to use commodity switches to scale up our network. If we combine the Clos topology with the fat-tree topology, we can build a scalable topology out of commodity switches!
+
+The topology presented here was introduced in a 2008 SIGCOMM paper titled "A Scalable, Commodity Data Center Network Architecture" (Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat).
+
+In a k-ary fat tree, we create k pods. Each pod has k switches.
+
+Within a pod, k/2 switches are in the upper aggregation layer, and the other k/2 switches are in the lower edge layer.
+
+(Note: This topology is defined for even k, so that we can split up the switches evenly between the aggregation layer and edge layer).
 
 <img width="900px" src="/assets/datacenter/6-22-pods1.png">
 
+Each switch in the pod has k links. Half of the links (k/2) connect upwards, and the other half (k/2) connect downwards.
+
+Consider a switch in the upper aggregation layer. Half (k/2) of its links connect up to the core layer (which connects the pods, discussed more below). The other half (k/2) of its links connect downwards to the k/2 switches in the edge layer.
+
+Similarly, consider a switch in the lower edge layer. Half (k/2) of its links connect upwards to the k/2 switches in the aggregation layer. The other half (k/2) of its links connect downwards to k/2 hosts in this pod.
+
 <img width="900px" src="/assets/datacenter/6-23-pods2.png">
+
+
+Next, let's look at the core layer, which connects the pods together. Each core switch has k links, connecting to each of the k pods.
+
+There are $$(k/2)^2$$ core switches. How did we derive this number? There are k pods, and each pod has k/2 switches in the upper aggregation layer, for a total of $$k^2/2$$ switches in the aggregation layer. Each aggregation-layer switch has k/2 links pointing upwards, for a total of $$k^2/2 \times k/2 = k^3/4$$ links pointing upwards. This means that the core layer will need to have a total of $$k^3/4$$ links pointing downwards, to match the number of upwards links from the aggregation layer.
+
+Each core layer switch has k links pointing downwards, so we need $$k^2/4$$ core layer swiches (each with k links) to create $$k^3/4$$ links pointing towards. This allows the number of links up from the aggregation layer to match the number of links down from the core layer.
+
+We can also compute that there are $$(k/2)^2$$ hosts per pod in this topology. How did we derive this number? There are k/2 switches at the edge layer of each pod. Each edge-layer switch has k/2 downwards links to hosts, for a total of $$k/2 \times k/2 = (k/2)^2$$ hosts per pod. Note that each host is only connected to one edge-layer switch (a host is not connected to multiple switches in this topology). Since there are k pods in total, we can also deduce that there are $$(k/2)^2 \times k$$ hosts in total in this topology.
 
 <img width="900px" src="/assets/datacenter/6-24-pods3.png">
 
+
+k = 4, the smallest example, is unfortunately a little confusing because some of the numbers coincidentally end up the same (e.g. $$(k/2)^2 = k = 4$$). For a clearer example, we can look at k = 6.
+
+Each pod has k = 6 switches. k/2 = 3 switches are in the upper aggregation layer, and k/2 = 3 switches are in the lower edge layer.
+
+An edge layer switch has k/2 = 3 links downwards to 3 hosts, and k/2 = 3 links upwards to the 3 aggregation switches in the same pod.
+
+An aggregation layer switch has k/2 = 3 links upwards to the core layer (specifically, to 3 different core layer switches), and k/2 = 3 links downwards to the 3 edge layer switches in the same pod.
+
+Each pod has k/2 = 3 edge switches, each connected to k/2 = 3 hosts, so each pod has a total of $$(k/2)^2 = 9$$ hosts. The topology has k pods in total, for a total of $$k \times (k/2)^2 = 54$$ hosts.
+
+At the core layer, we have $$(k/2)^2 = 9$$ core switches. Each switch has k = 6 links, connecting downwards to each of the k = 6 pods.
+
+In total, the core layer has $$(k/2)^2 \times k$$ links pointing downwards (number of core switches, times number of links per switch). The aggregation layer has $$k \times (k/2) \times (k/2)$$ links pointing upwards (number of pods, times number of aggregation switches per pod, times number of upwards links per aggregation switch). These two expressions match (and evaluate to 54 for k = 6), allowing the core layer to be fully-connected to the aggregation layer.
+
 <img width="900px" src="/assets/datacenter/6-25-pods4.png">
+
+This topology achieves full bisection bandwidth. If you split the pods into two halves (e.g. left half and right half), then every host in the left half has a dedicated path to a corresponding host in the right half. This allows all the hosts to pair up (one in left half, one in right half), and for each pair to communicate along a dedicated path, with no bottlenecks.
+
+Also, notice that this topology can be built out of commodity switches. Every switch has a radix of k links, regardless of which layer the switch is in. Also, every link can have the same bandwidth (e.g. 1 Gbps), and the scalability comes from the fact that we've created a dedicated path between any pair of hosts.
 
 <img width="900px" src="/assets/datacenter/6-26-pods5.png">
 
+
+Another way to see the full bisection bandwidth is to delete links until the network is partitioned into two halves (pods in the left half, and pods in the right half).
+
+Each core layer switch has k links, one to each of the pods. This also means that each core layer switch has k/2 links to the left side, and k/2 links to the right side.
+
+In order to fully isolate one side (e.g. fully isolate the left side), then for each core switch, we'd have to cut k/2 links to the left side. There are $$(k/2)^2$$ core switches, and we have to cut k/2 links per switch, for a total of $$(k/2)^3$$ links cut. This means our bisection bandwidth is $$(k/2)^3$$ links (assuming every link has identical bandwidth).
+
+There are $$(k/2)^2$$ hosts per pod, and k/2 pods in the left side, for a total of $$(k/2)^3$$ links in the left side. Similarly, there are $$(k/2)^3$$ links in the right side. If every host in the left side wanted to communicate with every host in the right side, then $$(k/2)^3$$ links' worth of bandwidth would be needed. Our bisection bandwidth matches this number, which means that full bisection bandwidth is achieved.
+
 <img width="900px" src="/assets/datacenter/6-27-pods6.png">
+
+How does this Clos fat-tree topology relate to the idea of racks and top-of-rack switches from earlier?
+
+For specific nice values of k, we can arrange the hosts and switches inside a pod into separate racks, and connect the racks to to each other.
+
+For example, consider k = 48, the example value used in the original paper. This means that inside a pod, there are k/2 = 24 aggregation layer switches, k/2 = 24 edge layer switches, and $$(k/2)^2$$ = 576 hosts per pod.
+
+We can arrange the switches and hosts such that all 48 switches live in a rack that we place in the middle. Then, we can surround that rack of switches with 12 racks, each holding 48 hosts. This helps us fit all switches and hosts into identically-sized racks (48 machines per rack). Placing the switches in the middle rack also reduces the amount of physical wiring needed to build this topology.
+
+The middle rack has k = 48 switches. Each switch has k = 48 ports, for a total of $$48^2 = 2304$$ ports in this rack.
+
+Of these $$k^2 = 2304$$ ports, half of them ($$k^2/2 = 1152$$) connect switches inside the rack to each other. How did we derive $$k^2/2$$? It might help to look at some of the conceptual diagrams from earlier. Each of the k/2 aggregation layer switches has k/2 downward links, for a total of $$(k/2)^2$$ ports used. Similarly, each of the k/2 edge layer switches has k/2 upward links, for a total of $$(k/2)^2$$ ports used. This gives a total of $$2 \times (k/2)^2 = k^2/2$$ ports used.
+
+Note that the links between aggregation and edge switches are connecting switches inside the same rack. Therefore, two ports are needed for each link (one from an aggregation switch, and one from an edge switch), and that's why we doubled the $$(k/2)^2$$ value (or equivalently, accounted for that value twice at both the aggregation and edge layers).
+
+Of the $$k^2 = 2304$$ ports, another quarter of them ($$k^2/4 = 576$$) connect switches to hosts inside the same pod. How did we derive this number? Remember that there are $$(k/2)^2$$ hosts within a pod, and each host is connected to exactly one switch. Therefore, we need $$(k/2)^2 = k^2/4$$ ports on the switches to connect to hosts.
+
+Finally, of the $$k^2 = 2304$$ ports, the remaining quarter ($$k^2/4 = 576$$) connect the pod to the core layer. How did we derive this number? Remember that there are $$(k/2)^2$$ core switches, and each core switch has a link to each pod. In other words, a pod has a single link to each of the $$(k/2)^2$$ core switches. Therefore, we need $$(k/2)^2 = k^2/4$$ ports on the switches to connect to the core switches.
+
+In summary: Out of $$k^2$$ total ports, half of them are used to interconnect aggregation/edge switches in the same layer (connections happen entirely within the middle rack). Another quarter of them are used to connect edge switches to hosts in the pod (connections between the middle rack and the 12 surrounding racks with hosts). The last quarter of them are used to connect aggregation switches to the core layer (connections between the middle rack and other core-layer racks).
 
 <img width="600px" src="/assets/datacenter/6-28-pods7.png">
 

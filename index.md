@@ -30,9 +30,9 @@ If you're a CS 168 student at Berkeley, in any case of dispute, the official cou
 
 ## PDF Version
 
-[These notes are available as a PDF here.](https://drive.google.com/file/d/15KD2W04xJGcnnDY_1RX1G3rFyKb_g8eh)
+[These notes are available as a PDF here.](https://drive.google.com/file/d/1ddvyJPOQm4D6VKMeiqH4DEBMIUE1IeYP/view)
 
-The PDF version is not always up-to-date. It was last updated in August 2024.
+The PDF version is not always up-to-date. It was last updated in November 2024.
 
 
 ## Corrections
