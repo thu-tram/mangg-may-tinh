@@ -6,6 +6,8 @@ nav_order: 1
 
 # Host Networking
 
+Note (Nov 14, 2024): This section is out of sync with the new Host Networking lecture presented in Fall 2024. We'll try to update it soon, but no promises.
+
 ## What is Host Networking?
 
 Traditionally, the bottleneck of the network is inside the network infrastructure, not at the end hosts. However, in modern high-performance datacenters, as network performance demand continues to increase, the end hosts are struggling to keep up with the demand.
