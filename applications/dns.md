@@ -90,7 +90,7 @@ DNS queries always start at the root. The root will direct your query to one of 
 
 To redirect you to a child name server, the parent name server must provide the child's zone, human-readable domain name, and IP address, so that you can contact that child name server for more information.
 
-As an example, a DNS query for `eecs.berkeley.edu` might have the following steps. (A comic version of this query is available at \href{https://howdns.works/}{https://howdns.works/}.)
+As an example, a DNS query for `eecs.berkeley.edu` might have the following steps. (A comic version of this query is available at [howdns.works](https://howdns.works/).)
 
 <img width="900px" src="/assets/applications/4-05-basic-lookup.png">
 

@@ -54,19 +54,19 @@ Because wireless is a shared medium, we need to deal with noise and interference
 
 **SINR (Signal to Interference and Noise Ratio)** is a metric we can use to measure the quality of a wireless connection at the receiver. As the name implies, SINR is the power of the signal, divided by the power of the interference plus noise.
 
-$$$$\text{SINR} = \frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}$$$$
+$$\text{SINR} = \frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}$$
 
 SINR is a dimensionless quantity, since it's a ratio of two numbers. It can also be expressed in terms of decibels (dB), which is a logarithmic way to measure a ratio. At 0 dB, the ratio is 1, and when the SINR increases by 10 dB, the underlying ratio is 10 times greater (e.g. signal is 10 times more powerful, or noise/interference is 10 times weaker).
 
 <img width="400px" src="/assets/special-topics/7-27-decibels.png">
 
-$$$$\text{SINR}_\text{dB} = 10 \cdot \log_{10}\left(\frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}\right)$$$$
+$$\text{SINR}_\text{dB} = 10 \cdot \log_{10}\left(\frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}\right)$$
 
 What does this equation tell us? It tells us that if there's more noise, we have to transmit the signal with more power. It's also possible to employ coding gain (think: error-correcting codes), so that even if the signal is weak and gets mixed in with noise and interference, we're sending the signal with enough redundancy to allow the receiver to re-extract the signal.
 
 The Shannon capacity gives us a theoretical limit on how much data per unit time we can send along a channel, given the amount of noise and interference along that channel. The equation works not just for wireless links, but also other types of links (e.g. wires).
 
-$$$$C = B \cdot \log_2(1 + \text{SINR})$$$$
+$$C = B \cdot \log_2(1 + \text{SINR})$$
 
 In this equation, $$B$$ is the bandwidth of the channel. $$\text{SINR}$$ is the signal-to-interference-and-noise ratio. $$C$$ is the theoretical limit of how much data per unit time we can send along this channel, measured in bits per second. Note that in this equation, bandwidth is measured as the difference between the highest frequency and the lowest frequency that the receiver understands.
 
@@ -88,7 +88,7 @@ One simple way to model signal attenuation is the free-space model (also known a
 
 In this model, the power of the signal is inversely proportional to the distance between the transmitter and receiver. This is due to the inverse-square law:
 
-$$$$P_r \propto \frac{P_t}{d^2}$$$$
+$$P_r \propto \frac{P_t}{d^2}$$
 
 In this equation, $$P_r$$ is the power at the receiver, $$P_t$$ is the power at the transmitter, and $$d$$ is the distance between the transmitter and receiver. If we double the distance, the signal at the receiver is $$1/4$$ as strong. If the distance is 10 times larger, the signal at the receiver is $$1/100$$ as strong.
 
@@ -117,13 +117,13 @@ Finally, the $$\frac{\lambda^2}{4\pi}$$ term relates to the aperture (think of i
 
 We can also rewrite the Friis equation by dividing both sides by $$P_t$$:
 
-$$$$\frac{P_r}{P_t} = G_t \cdot G_r \cdot \left(\frac{\lambda}{4\pi d}\right)^2$$$$
+$$\frac{P_r}{P_t} = G_t \cdot G_r \cdot \left(\frac{\lambda}{4\pi d}\right)^2$$
 
 What does this equation tell us? The relative signal strength at the receiver (e.g. half as strong, or $$1/100$$ as strong, as the signal strength at the transmitter) is a function of the antenna gains, the inverse of the square of the distance, and the effective aperture (think: area) of the antenna.
 
 Yet another way to rewrite the same Friis equation is to take the log of both sides, allowing us to express the power and gain in terms of decibels:
 
-$$$$P_r^\text{dB} = P_t^\text{dB} + G_t^\text{dB} + G_r^\text{dB} + 20 \log_{10} \left(\frac{\lambda}{4\pi d}\right)$$$$
+$$P_r^\text{dB} = P_t^\text{dB} + G_t^\text{dB} + G_r^\text{dB} + 20 \log_{10} \left(\frac{\lambda}{4\pi d}\right)$$
 
 The free space model is a useful theoretical model to measure the ideal signal strength at the receiver, though in practice, physical obstacles (e.g. the Earth's surface) prevent us from achieving this ideal value.
 
@@ -134,7 +134,7 @@ If signals get weaker over distance, how do we know if a link will actually work
 
 To measure if a link is viable, we can compute a link budget, which accounts for all gains and losses along the link.
 
-$$$$P_r^\text{dB} = P_t^\text{dB} + \sum \text{gains} - \sum \text{losses}$$$$
+$$P_r^\text{dB} = P_t^\text{dB} + \sum \text{gains} - \sum \text{losses}$$
 
 In this equation, $$P_r$$ is the signal power at the receiver, and $$P_t$$ is the signal power at the sender. All gains (e.g. a stronger antenna gain) add to our link budget, and all losses (e.g. path loss from long distance) cost us link budget.
 
@@ -200,7 +200,7 @@ What if there are additional obstacles besides Earth's surface? The two-ray mode
 
 From these models, we can derive a simplified path loss model to relate distance and signal strength:
 
-$$$$P_r = P_t K d^\gamma$$$$
+$$P_r = P_t K d^\gamma$$
 
 In this equation, as before, $$P_r$$ and $$P_t$$ represent the receiver signal power and the transmitter signal power, and $$d$$ represents the distance.
 
