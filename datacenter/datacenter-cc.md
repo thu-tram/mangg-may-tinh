@@ -42,7 +42,7 @@ The ECN bit is not very effective in the wide-area Internet because not all rout
 
 To measure how DCTCP performs, we can measure **flow completion time (FCT)**, which measures the time between the first byte being sent and the last byte being received. As a benchmark, the ideal FCT is the completion time if we used an omniscient scheduler that had global knowledge of the entire network and all connections. The scheduler could then use that knowledge to optimally schedule flows and allocate bandwidth to flows.
 
-<img width="500px" src="/assets/datacenter/6-31-fct-chart1.png">
+<img width="500px" src="/assets/datacenter/6-031-fct-chart1.png">
 
 This graph shows the normalized FCT, which is a ratio of actual FCT to ideal FCT. This tells us how much worse we're doing, compared to the ideal congestion control algorithm. We can see that standard TCP congestion control performs 3x worse than ideal, and up to 10x worse than ideal if the load on the network is higher. By contrast, DCTCP performs significantly better than standard TCP congestion control. DCTCP connections are finishing much faster, with less queuing delay.
 
@@ -61,7 +61,7 @@ With the priority system in place, senders can now safely transmit and retransmi
 
 If we look at the graph of FCTs again, we see that pFabric performance is even better than DCTCP, and is very close to ideal.
 
-<img width="500px" src="/assets/datacenter/6-32-fct-chart2.png">
+<img width="500px" src="/assets/datacenter/6-032-fct-chart2.png">
 
 Why does pFabric work so well? Elephants and mice travel together, and everybody is sending at full line rate, which ensures full utilization of the available bandwidth. We don't have to waste time on slow start. Also, we can avoid collapses because most of the packets in large elephants are low-priority. The priority system ensures that mice packets still get through the queue with low latency.
 

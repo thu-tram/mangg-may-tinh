@@ -51,7 +51,7 @@ Standardization also makes experimentation and research difficult. If you want t
 
 Another major obstacle to innovation and experimentation is routers being **vertically integrated**. The router you buy already has the functionality for all three planes wired on the chips. There's no modularity that would let you swap out just the control plane by itself.
 
-<img width="300px" src="/assets/datacenter/6-63-vertical-integration.png">
+<img width="300px" src="/assets/datacenter/6-063-vertical-integration.png">
 
 
 ## Innovating Routers
@@ -77,11 +77,11 @@ Standardization and vertical integration were making it difficult to innovate an
 
 In order to connect the three layers, we need an API between the layers of abstraction. In a vertically-coupled router, we don't care how the data plane and control plane talk to each other. However, if we buy the data plane separately, and we want to design our own custom control plane on top, we need an interface to interact with the data plane.
 
-<img width="300px" src="/assets/datacenter/6-64-sdn1.png">
+<img width="300px" src="/assets/datacenter/6-064-sdn1.png">
 
 An even more radical idea is to stop thinking about the three planes in terms of only the router, and instead design a new system architecture that naturally splits up the data plane and control plane.
 
-<img width="900px" src="/assets/datacenter/6-65-sdn2.png">
+<img width="900px" src="/assets/datacenter/6-065-sdn2.png">
 
 At the bottom, we have commodity network devices. You can think of these as buying just the data plane by itself. These routers receive instructions from the control program via the network OS, and simply forward packets according to those instructions. These routers don't need to think about routing protocols at all, so they can be cheaper.
 
@@ -94,7 +94,7 @@ At the top, we have the control program. You can think of this as buying or impl
 
 **OpenFlow** is an API for interacting with the data plane of a router. The operator writes their own fancy code, separate from the router, that computes routes through the network. Then, those routes can be programmed onto the forwarding chip.
 
-<img width="300px" src="/assets/datacenter/6-66-openflow1.png">
+<img width="300px" src="/assets/datacenter/6-066-openflow1.png">
 
 The OpenFlow paradigm is different from traditional routers, where the control plane is implemented in the router, and there's no clear API for programming custom routes onto the forwarding chip.
 
@@ -104,13 +104,13 @@ The basic building block of the API is a flow table, which you can think of as a
 
 The output format is a sequence of one or more numbered flow tables, where each table has its own different match-action entries. These flow tables can then be programmed onto the forwarding chip.
 
-<img width="700px" src="/assets/datacenter/6-68-openflow3.png">
+<img width="700px" src="/assets/datacenter/6-068-openflow3.png">
 
 When a packet arrives at a router, it is checked against each table in order (e.g. Table 0, Table 1, Table 2, etc.), and when there's a match, we write down the corresponding action (without executing it yet). Eventually, once the packet is checked against the final table, any action(s) we wrote down are applied to the packet.
 
 There are also special actions for skipping to later tables, which we can use in rules like: If the source port matches this number, skip to table 5 to set additional actions.
 
-<img width="800px" src="/assets/datacenter/6-67-openflow2.png">
+<img width="800px" src="/assets/datacenter/6-067-openflow2.png">
 
 The operator can run any code they want to generate flow tables, and the flow tables can be more general than a destination/next-hop forwarding table. However, the rules (match/action pairs) that we generate are still constrained by the specialized forwarding chip hardware. The forwarding chip is optimized for speed, and probably can't handle complex match rules like ``if the TCP payload is in English, set this action.''
 
@@ -118,7 +118,7 @@ As a result, the flow tables we see in practice end up looking pretty similar to
 
 If the forwarding rules aren't so different, why use OpenFlow at all? Remember, the main advantage is that it gives the operator total freedom at the control plane. We're not limited to distance-vector or link-state protocols anymore.
 
-<img width="400px" src="/assets/datacenter/6-69-openflow4.png">
+<img width="400px" src="/assets/datacenter/6-069-openflow4.png">
 
 
 ## Benefits of a Flexible Control Plane
@@ -142,13 +142,13 @@ Centralization can also make it easier for routing protocols to converge. In a d
 
 A flexible control plane allows us to perform **traffic engineering**, which means we can route traffic in a more intelligent and efficient way than a standard distributed routing protocol could.
 
-<img width="700px" src="/assets/datacenter/6-70-engineering1.png">
+<img width="700px" src="/assets/datacenter/6-070-engineering1.png">
 
 Suppose there are two connections, S1-D at 10 Gbps and S2-D at 10 Gbps. If we just ran standard least-cost routing, both flows would send traffic along the bottom path. The bottom path would be congested (20 Gbps on 10 Gbps link), while the top path's bandwidth is sitting there unused.
 
 With a more intelligent routing scheme, we could send S1-D traffic along the top path, and S2-D traffic along the bottom path. Using traffic engineering, we've forced some packets to take a longer route, in order to better utilize the bandwidth in the network.
 
-<img width="700px" src="/assets/datacenter/6-71-engineering2.png">
+<img width="700px" src="/assets/datacenter/6-071-engineering2.png">
 
 To compute these routes, we can modify least-cost routing, and instead enforce that traffic should be on the shortest path that has sufficient capacity. We can also enforce other constraints instead of capacity, such as latency. The resulting algorithm is called **constrained Shortest Path First (cSPF)**.
 
@@ -158,13 +158,13 @@ To fix this, our traffic engineering can be even more intelligent, and split tra
 
 Again, our traffic engineering allowed us to implement custom logic that resulted in better utilization of the network capacity.
 
-<img width="700px" src="/assets/datacenter/6-74-engineering5.png">
+<img width="700px" src="/assets/datacenter/6-074-engineering5.png">
 
 How do we actually implement split paths through the network, using the OpenFlow API from earlier? Remember, our routing decisions should still follow simple rules that forwarding tables can understand.
 
 One approach is to use encapsulation. At the sender, we can add rules to add an extra header, where some packets get label 0, and the rest get label 1. This label tells us which path to send the traffic along.
 
-<img width="700px" src="/assets/datacenter/6-75-engineering6.png">
+<img width="700px" src="/assets/datacenter/6-075-engineering6.png">
 
 Now, at R1, we can add simple rules to route label 0 packets upwards to R2, and label 1 packets downwards to R3. This idea can be applied in addition to the other rules we had for constrained least-cost routing (e.g. the flow tables might have other entries for other destinations or other flows).
 
@@ -175,7 +175,7 @@ One major difference in the SDN model of custom routing protocols is centralizat
 
 Centralization allows us to make **globally optimal decisions**. In a distributed protocol, each router is making the best decision for itself, but that might not be the best decision for other routers. In the centralized model, the boss can use its global view of the network to decide what's best for everybody, and tell the routers to follow that decision.
 
-<img width="700px" src="/assets/datacenter/6-72-engineering3.png">
+<img width="700px" src="/assets/datacenter/6-072-engineering3.png">
 
 Consider this network with two flows, S1-D at 20 Gbps, and S2-D at 100 Gbps. Assume we haven't implemented support for splitting a flow onto multiple paths.
 
@@ -187,7 +187,7 @@ The key problem here is, each individual router made its own decision independen
 
 By introducing a centralized controller, the controller can look at the overall network structure and the demands of each flow, and assign paths to each flow more intelligently. The resulting decision is globally optimal, and increases network efficiency.
 
-<img width="700px" src="/assets/datacenter/6-73-engineering4.png">
+<img width="700px" src="/assets/datacenter/6-073-engineering4.png">
 
 Centralized traffic engineering can make even more intelligent routing decisions, depending on what the operator wants to optimize. For example, we could classify flows as high-priority or low-priority, and make decisions that optimize both network utilization and the needs of different applications.
 
@@ -200,7 +200,7 @@ We also saw that encapsulation can be used to to support multiple tenants in a s
 
 A centralized SDN controller can be used in the datacenter to solve these problems. Each tenant can operate its own controller. When a new VM is created, the SDN learns about its virtual and physical addresses. Then, the SDN can update the forwarding tables in the other virtual switches, adding encapsulation rules with the new virtual/physical address mapping.
 
-<img width="900px" src="/assets/datacenter/6-76-sdn-overlay.png">
+<img width="900px" src="/assets/datacenter/6-076-sdn-overlay.png">
 
 For example, suppose Coke VM 2 is created with virtual IP 192.0.2.1 and physical IP 2.2.2.2. The SDN knows Coke VM 1 lives on physical server 1.1.1.1, so it can go to the virtual switch on 1.1.1.1 and add an encapsulation rule for the new Coke VM 2.
 
@@ -224,11 +224,11 @@ The datacenter underlay is a physical network, just like any other network, alth
 
 SDN at the underlay network can help us efficiently route packets through the datacenter. For example, the operator might want to send mice flows along links with small delay, and elephant flows along links with high bandwidth. 
 
-<img width="900px" src="/assets/datacenter/6-77-sdn-underlay.png">
+<img width="900px" src="/assets/datacenter/6-077-sdn-underlay.png">
 
 In our underlay Clos network, per-flow load balancing (hash 5-tuple to choose a path) could still send multiple elephant flows along the same path. Even if two elephant flows used different paths, the paths might share links, and those links might become congested. An SDN controller could solve this problem by coordinating the flows and placing them onto non-overlapping paths.
 
-<img width="800px" src="/assets/datacenter/6-78-sdn-paper.png">
+<img width="800px" src="/assets/datacenter/6-078-sdn-paper.png">
 
 This 2022 Google paper describes eliminating layers in the Clos network (fewer links, cheaper datacenter) by using SDN to route traffic more intelligently.
 

@@ -1,13 +1,11 @@
 ---
 title: Host Networking
-parent: Special Topics
-nav_order: 1
+parent: Datacenters
+nav_order: 7
 layout: page-with-toc
 ---
 
 # Host Networking
-
-Note (Nov 14, 2024): This section is out of sync with the new Host Networking lecture presented in Fall 2024. We'll try to update it soon, but no promises.
 
 ## What is Host Networking?
 
@@ -19,14 +17,14 @@ Also, the actual protocols that we've been running, like IP and TCP, are no long
 
 To solve these two problems, we turn to **host networking**, which involves optimizations at the end hosts (as opposed to inside the network).
 
-<img width="700px" src="/assets/special-topics/7-01-host-networking-taxonomy.png">
+<img width="700px" src="/assets/datacenter/6-079-host-networking-taxonomy.png">
 
 
 ## Optimization: Shared Memory in User Space
 
 Recall that at the end host, Layers 1 and 2 are implemented in hardware at the network interface card (NIC). Layers 3 and 4 are implemented in software in the operating system (on the CPU). Layer 7 is the application itself.
 
-<img width="800px" src="/assets/special-topics/7-02-layers.png">
+<img width="800px" src="/assets/datacenter/6-080-layers.png">
 
 Recall from a prerequisite class (e.g. CS 61C at UC Berkeley) that modern computers are designed with virtual memory, so that each application gets its own dedicated address space, isolated from other applications. In particular, each Layer 7 application gets its own dedicated address space in **user space**. By contrast, the operating system itself runs in **kernel space**, which is a special part of memory that applications in user space cannot access.
 
@@ -34,11 +32,11 @@ This memory management model means that when we pass packets down the stack to s
 
 Another problem with this memory management model is, programming in kernel space is difficult. If we wanted to modify TCP and optimize it for our purposes, we would have to reach into the operating system and program at a very low level. Deployment and testing is harder and slower in the kernel space than in the user space.
 
-<img width="800px" src="/assets/special-topics/7-03-kernel1.png">
+<img width="800px" src="/assets/datacenter/6-081-kernel1.png">
 
 To solve these two problems, we can move the networking stack (e.g. Layer 3 and 4 protocols) out of kernel space, and into user space. Now, Layers 3, 4, and 7 can all access a shared address space, and no copying back-and-forth is needed. Also, iterating and innovating in user space is now easier.
 
-<img width="500px" src="/assets/special-topics/7-04-kernel2.png">
+<img width="500px" src="/assets/datacenter/6-082-kernel2.png">
 
 Using shared memory in user space helps us eliminate some extraneous work like copying back-and-forth, but it still isn't enough to make our hosts meet modern performance requirements.
 
@@ -51,7 +49,7 @@ To solve this problem, we can offload the networking stack out of the CPU (softw
 
 The NIC is a natural place for offloading operations. Every packet has to pass through the NIC, so the NIC can do some extra processing and save the CPU from doing that work.
 
-<img width="900px" src="/assets/special-topics/7-05-epoch0-1.png">
+<img width="900px" src="/assets/datacenter/6-084-epoch0-1.png">
 
 The **network driver** is a piece of software in the OS that programs and manages the NIC. The driver provides an API that allows higher-level programs in the OS to interact with the NIC. You can think of the driver as the bridge between hardware and software.
 
@@ -70,14 +68,14 @@ For incoming packets, the transceiver converts electrical signals into digital s
 
 For outgoing packets, packets from the network driver are placed in a buffer. The NIC reads bits from the buffer and processes them to construct Ethernet frames. Then, the frame is passed to a transceiver, which converts the digital bits to electrical signals.
 
-<img width="900px" src="/assets/special-topics/7-06-epoch0-2.png">
+<img width="900px" src="/assets/datacenter/6-085-epoch0-2.png">
 
 In the standard networking stack, you can think of the NIC as a doormat that passes incoming packets to the OS, and sends outgoing packets for the OS, but performs very minimal processing on those packets.
 
 
 ## Brief History of Offloading: Epoch 1
 
-<img width="700px" src="/assets/special-topics/7-07-epoch-taxonomy.png">
+<img width="700px" src="/assets/datacenter/6-086-epoch-taxonomy.png">
 
 The first operations that we tried to offload to the NIC are simple, stateless operations. These stateless operations can be done independently per packet, and the NIC doesn't have to remember any state across multiple packets.
 
@@ -85,7 +83,7 @@ One stateless operation we can offload is checksum computations, not just at Lay
 
 Another stateless operation we can offload is segmentation. In our standard model, if the application has a huge file to send, then the OS is responsible for splitting up the file into smaller packets. Then, at the recipient, the OS is responsible for reassembling those packets. As an optimization, we can make the NIC deal with splitting up and reassembling packets. Now, the OS no longer has to deal with a ton of small packets, and can instead deal with a few large packets, which is more efficient (e.g. fewer headers to process).
 
-<img width="900px" src="/assets/special-topics/7-08-reassemble.png">
+<img width="900px" src="/assets/datacenter/6-087-reassemble.png">
 
 With segmentation, there's a trade-off between smooth connections and CPU efficiency. If the application hands large packets to the NIC, the CPU has less work to do. However, the NIC now gets large bursts of data, and the connection is more bursty. By contrast, if the application hands smaller packets to the NIC, the CPU has more work to do, but the NIC gets a steadier stream of data, and the resulting connection is smoother.
 
@@ -97,7 +95,7 @@ We can instead offload this load balancing job to the NIC. Now, the NIC has mult
 
 Even though the NIC has multiple queues, it ultimately still has to send out all the packets along one wire. Therefore, the NIC needs some packet scheduler to decide which queue to send from next. The scheduler can be programmed to achieve the desired load-balancing behavior (e.g. if we want to prioritize one queue over another).
 
-<img width="400px" src="/assets/special-topics/7-09-multiqueue.png">
+<img width="400px" src="/assets/datacenter/6-088-multiqueue.png">
 
 One challenge with multiple queues is mapping packets to queues. When a CPU has some data to send, which queue does it use? In particular, we want to make sure that all the packets within a single flow end up in the same queue (and not spread out across many queues). This helps us ensure that packets in a flow are sent in-order. Recall that in TCP, sending packets out-of-order works, but is bad for performance (e.g. receiver has to buffer out-of-order packets).
 
@@ -114,14 +112,14 @@ Firewalls and bandwidth management are another example of a stateful offload. In
 
 To implement these stateful operations, we can use a match-action pair table, similar to the OpenFlow tables (from the SDN section). This API allows the software to program different policies onto the hardware, so that the hardware can process packets according to those policies. As we saw earlier, the match could be against a 5-tuple or some other header fields. The actions could be dropping packets, forwarding packets to a specific next-hop, or modifying headers.
 
-<img width="600px" src="/assets/special-topics/7-10-flowtable.png">
+<img width="600px" src="/assets/datacenter/6-089-flowtable.png">
 
 
 ## Brief History of Offloading: Epoch 3
 
 This is the current era of offloading. There are ongoing efforts to offload entire protocols, like TCP, out of the OS and onto the NIC. This epoch is being driven by even higher performance demands, especially with applications like AI/ML (artificial intelligence, machine learning) with high performance requirements.
 
-<img width="900px" src="/assets/special-topics/7-11-epoch3.png">
+<img width="900px" src="/assets/datacenter/6-090-epoch3.png">
 
 Ideally, we'd like to let the application directly hand data to hardware, and let the hardware perform all the necessary network processing at Layers 4, 3, 2, and 1. The OS is entirely out of the picture, and all the network protocols are implemented directly in hardware.
 
@@ -135,25 +133,25 @@ RDMA offers an abstraction where Server A can directly access the memory in Serv
 
 Suppose that Server A wants to send a 10 GB file to Server B. In the standard networking stack, the CPU reads the file from memory, processes it (e.g. TCP/IP), and passes the resulting packets to the NIC. At the recipient, the NIC passes the packets to the CPU, which processes the packets, and writes the resulting file payload into memory. Notice that the CPU is involved in processing every single packet of the 10 GB file.
 
-<img width="800px" src="/assets/special-topics/7-12-pre-rdma.png">
+<img width="800px" src="/assets/datacenter/6-091-pre-rdma.png">
 
 In the RDMA abstraction, the NIC reads the file from memory and sends it out, with no CPU involvement. At the recipient, the NIC processes the incoming bytes and writes them to memory, again with no CPU involvement. Note that the CPU is still needed at the beginning to set up the transfer, and at the end to complete the transfer. But the bulk of the 10 GB file transfer is done without the CPU.
 
-<img width="800px" src="/assets/special-topics/7-13-post-rdma.png">
+<img width="800px" src="/assets/datacenter/6-092-post-rdma.png">
 
 To use RDMA, programmers no longer use the socket abstraction. Instead, the main abstraction we use is the **queue pair**. The send work queue has all of the pending jobs where data needs to be transferred from me to somebody else. The receive work queue has all of the pending jobs where I need to receive data from somebody else. A single NIC can have multiple queue pairs, where each offers different service to the programmer. For example, one pair might offer reliable, in-order delivery, while another pair might offer unreliable delivery. A queue pair configured to be reliable and in-order is the closest to a traditional TCP connection.
 
-<img width="300px" src="/assets/special-topics/7-14-queue1.png">
+<img width="300px" src="/assets/datacenter/6-093-queue1.png">
 
 Each element in the queue is called a **work queue element (WQE)**. A WQE lets the application describe what work needs to be done. In English, the WQE in the receive queue might say, ``Take 100 MB starting from address 0xffff1234 on the remote server, and write them to address 0xffff7890 in my local memory.'' In code, the WQE is a struct that contains these instructions, e.g. a pointer to where we're writing the received data.
 
-<img width="400px" src="/assets/special-topics/7-15-queue2.png">
+<img width="400px" src="/assets/datacenter/6-094-queue2.png">
 
 Notice that the WQE abstraction gives the RDMA protocol a higher-level view of the application. In the TCP/IP stack, the network just sees a bytestream, but in RDMA, the WQE allows the application to describe the job in more detail (e.g. specifying the start and end of a block of data being transferred).
 
 When a job is finished, the WQE is removed from the queue, and the NIC creates a new struct called a **Completion Queue Element (CQE)**, describing what happened to the job (e.g. success or failure). This CQE is stored in the Completion Queue, and sits there waiting until the application is ready to read the CQE and understand what happened to the job.
 
-<img width="300px" src="/assets/special-topics/7-16-queue3.png">
+<img width="300px" src="/assets/datacenter/6-095-queue3.png">
 
 Notice that RDMA is asynchronous. Applications can add jobs (WQEs) to the queue pairs whenever they want, and the NIC will process the jobs in order. Similarly, when the job is done, a CQE is placed in the completion queue, and the application can read the CQE whenever it wants. (Contrast this with the TCP/IP stack, where incoming data triggers an interrupt for the CPU to handle that data.)
 
@@ -164,29 +162,29 @@ RDMA can be used for several different operations between servers. Each operatio
 
 1. Each server designates some section of its memory to be accessible by the NIC for RDMA transfers. Server A designates the memory corresponding to the file as NIC-readable. Server B designates a blank buffer where it will receive the file as NIC-readable.
 
-<img width="900px" src="/assets/special-topics/7-17-rdma1.png">
+<img width="900px" src="/assets/datacenter/6-096-rdma1.png">
 
 2. Each server sets up queues. Both NICs now have a send queue, a receive queue, and a completion queue. Note that this step can be done out-of-band, using a traditional protocol like TCP to coordinate between the two servers.
 
-<img width="900px" src="/assets/special-topics/7-18-rdma2.png">
+<img width="900px" src="/assets/datacenter/6-097-rdma2.png">
 
 3. Server A creates a WQE in the send queue. This WQE contains a pointer to the file, indicating the data to be sent. On the other side, Server B creates a WQE in the receive queue. This WQE contains a pointer to the blank buffer, indicating where the received data should be written.
 
-<img width="900px" src="/assets/special-topics/7-19-rdma3.png">
+<img width="900px" src="/assets/datacenter/6-098-rdma3.png">
 
-<img width="900px" src="/assets/special-topics/7-20-rdma4.png">
+<img width="900px" src="/assets/datacenter/6-099-rdma4.png">
 
 4. Once the transfer is queued on both sides, the data transfer can occur, with no involvement from software. The NIC handles everything, including reliability, congestion control, and so on.
 
-<img width="900px" src="/assets/special-topics/7-21-rdma5.png">
+<img width="900px" src="/assets/datacenter/6-100-rdma5.png">
 
 5. When the transfer is done, the WQEs are removed from the queues. Both NICs generate a CQE, indicating that the transfer is done, and including any relevant status messages (e.g. error messages). Server A's CQE indicates that the data was successfully sent, and Server B's CQE indicates that the data was successfully received.
 
-<img width="900px" src="/assets/special-topics/7-22-rdma6.png">
+<img width="900px" src="/assets/datacenter/6-101-rdma6.png">
 
 6. Eventually, the applications read the CQE to understand what happened to the transfer.
 
-<img width="900px" src="/assets/special-topics/7-23-rdma7.png">
+<img width="900px" src="/assets/datacenter/6-102-rdma7.png">
 
 
 ## RDMA Pros, Cons, Applications

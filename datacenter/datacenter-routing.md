@@ -15,13 +15,13 @@ What problems occur if we apply our standard routing algorithms to these network
 
 So far, our routing protocols pick a single path between a source and destination. If all our traffic uses the same path, we aren't taking advantage of all the extra links in the Clos network. Ideally, we'd like to modify our routing protocols so that a packet can use multiple paths between the same endpoints.
 
-<img width="400px" src="/assets/datacenter/6-33-dcrouting1.png">
+<img width="400px" src="/assets/datacenter/6-033-dcrouting1.png">
 
 Suppose that A and B have 200 Gbps uplink bandwidth, and the switch-to-switch links have 100 Gbps bandwidth. If all traffic between A and B is forced to take the green path, we're leaving the red path unused. We could have sent data at full rate, if we allowed packets to take different paths.
 
 Also, if there are multiple simultaneous connections, we'd like those connections to use different paths in order to maximize bandwidth.
 
-<img width="400px" src="/assets/datacenter/6-34-dcrouting2.png">
+<img width="400px" src="/assets/datacenter/6-034-dcrouting2.png">
 
 Suppose that all links have 100 Gbps bandwidth. In this example, multiple connections are competing for bandwidth. If the A-B and C-D connections both pick the same path, the R1-R2 and R2-R4 links are overused (200 Gbps on 100 Gbps capacity). We could have sent data at full rate, if A-B and C-D used different paths.
 
@@ -32,7 +32,7 @@ In **equal cost multi-path** routing, our goal is to find all of the shortest pa
 
 If a packet arrives at a router, but there are multiple outgoing links that are all valid shortest paths, which link should the router choose? The router needs some function (think of it like a piece of code) that takes a packet, and outputs a choice of link. The function should properly load-balance traffic across the equal-cost paths.
 
-<img width="900px" src="/assets/datacenter/6-35-ecmp1.png">
+<img width="900px" src="/assets/datacenter/6-035-ecmp1.png">
 
 One possible strategy is round-robin. If there are two shortest-path outgoing links, our function could say: send all odd packets along Link 1 and all even packets along Link 2.
 
@@ -42,21 +42,21 @@ A smarter strategy would involve looking at some of the packet header fields, an
 
 We could use the destination IP to select between shortest links. (We're already using the destination IP in routing anyway.) But, what if lots of sources send packets to the same destination? All the packets have the same destination IP, so they all get mapped to the same shortest link. We aren't load-balancing packets across the various shortest links.
 
-<img width="400px" src="/assets/datacenter/6-36-ecmp2.png">
+<img width="400px" src="/assets/datacenter/6-036-ecmp2.png">
 
 What if we used the source IP to select between shortest links? We have a similar problem, if one source is sending packets to lost of destinations. All the packets have the same source, so they all get mapped to the same shortest link.
 
-<img width="400px" src="/assets/datacenter/6-37-ecmp3.png">
+<img width="400px" src="/assets/datacenter/6-037-ecmp3.png">
 
 Instead of looking at only one field, we could look at both the source and destination IP. To load-balance between shortest links, we could hash the source and destination IP and map the resulting hash to a link (similar to how hash tables work). The source and destination IP together contain enough entropy to avoid our problems from earlier, where many connections with the same source or the same destination get mapped to the same link.
 
-<img width="400px" src="/assets/datacenter/6-38-ecmp4.png">
+<img width="400px" src="/assets/datacenter/6-038-ecmp4.png">
 
 We still have one more problem: What if there are multiple large connections between the same source and destination? We don't want all these connections to map to the same link. To solve this, we can additionally look at the source and destination ports in the TCP or UDP header.
 
 More generally, all of the problems we've described (reordering in a TCP connection, too many connections on one link) can be solved if we place each connection on a separate link. To uniquely identify a connection, we need a 5-tuple of: (source IP, destination IP, protocol, source port, destination port). Note that we need the protocol to distinguish between TCP and UDP connections using the same IPs/ports. Two packets are part of the same connection if and only if they have the same 5-tuple.
 
-<img width="400px" src="/assets/datacenter/6-39-ecmp5.png">
+<img width="400px" src="/assets/datacenter/6-039-ecmp5.png">
 
 By hashing all 5 values, we can ensure packets in the same connection use the same path (avoiding reordering problems), and we can load-balance connections across different paths. This approach is sometimes called **per-flow load balancing**. Modern commodity routers usually have built-in support to read these 5 values.
 
@@ -69,11 +69,11 @@ To maximize bandwidth, we should send packets along different paths, even if the
 
 In standard distance-vector protocols, if we receive an advertisement for a new path with cost equal to the best-known cost, we don't accept that new path. But, in order to remember all least-cost paths, we should actually accept that equal-cost path, and store both paths in the forwarding table. In the forwarding table, a destination can now be mapped to multiple next hops, as long as they all have the same minimal cost.
 
-<img width="600px" src="/assets/datacenter/6-40-ecmp6.png">
+<img width="600px" src="/assets/datacenter/6-040-ecmp6.png">
 
 In this example, R1 receives advertisements from both R4 and R3, both advertising that they can reach B in 2 hops. Our forwarding table stores both R4 and R3 as possible next hops, both with equal minimal cost of 3.
 
-<img width="600px" src="/assets/datacenter/6-41-ecmp7.png">
+<img width="600px" src="/assets/datacenter/6-041-ecmp7.png">
 
 When forwarding packets, the router hashes the 5-tuple to forward roughly half the connections to R3, and the other half to R2.
 

@@ -20,7 +20,7 @@ However, in datacenters, we can exploit the fact that the operator controls the 
 
 ## Topology-Aware Addressing
 
-<img width="900px" src="/assets/datacenter/6-42-dc-addressing.png">
+<img width="900px" src="/assets/datacenter/6-042-dc-addressing.png">
 
 In this particular topology, the racks are physically organized into separate pods in the building. One natural approach would be to allocate a range of addresses to each pod. Then, each pod can allocate sub-ranges to each rack in the pod. Finally, each rack can allocate an individual IP address to each server.
 
