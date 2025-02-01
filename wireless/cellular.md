@@ -1,7 +1,7 @@
 ---
 title: Cellular
-parent: Special Topics
-nav_order: 3
+parent: Wireless
+nav_order: 2
 layout: page-with-toc
 ---
 
@@ -19,14 +19,14 @@ Cellular is just one of many technologies that can offer mobile wireless connect
 
 In the future, high-performance applications that require wireless mobile technology, like self-driving cars or virtual reality, could lead to more innovation. Current cellular networks might get prohibitively expensive as we try to scale them up to support future applications. Also, cellular network operators like AT&T and Verizon don't have a reputation for rapid innovation. The general consensus is that this is an area ripe for disruption in the near future, and is an active area of research.
 
-<img width="700px" src="/assets/special-topics/7-50-cellular-taxonomy.png">
+<img width="700px" src="/assets/wireless/8-029-cellular-taxonomy.png">
 
 
 ## Brief History of Cellular Networks
 
 Cellular technology has its roots in the old telephone system. Cellular networks were first developed to allow users to make phone calls wirelessly, instead of on a wired landline. The first mobile phone was sold in 1983 for \$4,000 (way more today, after inflation).
 
-<img width="900px" src="/assets/special-topics/7-51-first-phone.png">
+<img width="900px" src="/assets/wireless/8-030-first-phone.png">
 
 Because cellular technology was derived from the telephone network (not the Internet), many of the design choices differ from the traditional Internet. For many years, cellular technology (e.g. pre-smartphone cell phones for voice calls) and the Internet developed in parallel, each with a different set of architectural choices.
 
@@ -47,7 +47,7 @@ Typically, a new technology generation is introduced every 10 years. Now you kno
 
 Each generation tries to improve on the previous generation along multiple dimensions, including peak theoretical data rate, average data rate experienced by users, mobility (connection while user is traveling at a high speed), connection density (number of devices within a specific area), and so on. Each generation usually operates around 10 times better than the previous generation, along all these dimensions.
 
-<img width="900px" src="/assets/special-topics/7-52-cellular-generations.png">
+<img width="900px" src="/assets/wireless/8-031-cellular-generations.png">
 
 In addition to performance improvements, the architectural design has also evolved across generations, to move away from the telephone network design and towards the Internet design. 1G phones were purely analog, designed for voice calls. 2G/3G was still mostly circuit-switched, with a focus on voice traffic (a bit of texting, barely any Internet traffic). From 4G onwards, we've moved to a packet-switched architecture, and voice is now just one of many applications running over the network.
 
@@ -75,13 +75,13 @@ The radio tower has an antenna. Inside the tower is a radio transceiver, which c
 
 Also inside the tower is a radio controller, which decides how to allocate radio resources.
 
-<img width="900px" src="/assets/special-topics/7-53-towers.png">
+<img width="900px" src="/assets/wireless/8-032-towers.png">
 
 You can think of the controller like a CPU running a scheduler. The controller allocates different segments of frequency and time to different customers, depending on demand and business model (e.g. how much the customer is paying). This is actually a pretty difficult scheduling problem, though we won't discuss further here.
 
 Here's a simplified model of the radio controller allocating resources. Each colored rectangle shows us that a user (denoted by color) can use that specific frequency, at that specific time.
 
-<img width="900px" src="/assets/special-topics/7-54-scheduling.png">
+<img width="900px" src="/assets/wireless/8-033-scheduling.png">
 
 Each vertical cross-section represents one time slot, and shows you how the frequencies have been allocated to users in that cross-section. For example, in the first time slot, the blue user gets 3 frequency slots, the orange user gets 5 frequency slots, and the gray user gets 4 frequency slots.
 
@@ -93,7 +93,7 @@ Radio controllers were traditionally installed in the tower or near the tower, t
 
 Each operator runs many cellular towers, spaced out over the entire country, so that users can connect to a tower no matter where they are. The result is a Radio Access Network (RAN).
 
-<img width="400px" src="/assets/special-topics/7-55-ran.png">
+<img width="400px" src="/assets/wireless/8-034-ran.png">
 
 Typically, each tower gets its own set of frequencies that it can use, and frequencies are assigned such that neighboring towers get different frequency ranges. This ensures that neighboring towers don't use the same frequencies and interfere with each other. In this picture, each color corresponds to one set of frequencies. It's possible that two towers both use the blue set of frequencies, but they aren't neighboring so they won't interfere. Any neighboring towers are using non-overlapping frequencies. Note that frequencies are often allocated according to demand, so that a cell tower in downtown San Francisco gets more frequencies than a cell tower in the middle of nowhere.
 
@@ -104,7 +104,7 @@ A mobile user can now send data to a cell tower. The cell tower now needs to sen
 
 Each cell tower has a wired connection to the cellular core. You can think of the cellular core as the backend infrastructure of the cellular network (not user-facing).
 
-<img width="900px" src="/assets/special-topics/7-56-core.png">
+<img width="900px" src="/assets/wireless/8-035-core.png">
 
 The cellular core contains some data-plane components. You can think of these like typical routers and switches that forward packets between the users (via towers) and the rest of the network. We'll focus on two special types of routers in the cellular core.
 
@@ -123,39 +123,39 @@ To summarize the infrastructure: User devices send data to cell towers in the RA
 
 Step 0: Registration. The user registers for the cellular service. For example, you walk into a Verizon store and purchase a data plan and sign a contract. The operator now stores information about you and your service plan in the database.
 
-<img width="900px" src="/assets/special-topics/7-57-step0.png">
+<img width="900px" src="/assets/wireless/8-036-step0.png">
  
 Step 1: Discovery. The user turns on their phone in the middle of nowhere. Their phone must discover which nearby towers are available, and must also pick a tower to use.
 
-<img width="900px" src="/assets/special-topics/7-58-step1.png">
+<img width="900px" src="/assets/wireless/8-037-step1.png">
 
 Step 2: Attachment. After picking a tower, the user's device tells the tower that it wants to connect. The tower must ask the mobility manager if the connection is allowed (e.g. check if the user has exceeded their quota).
 
-<img width="900px" src="/assets/special-topics/7-59-step2.png">
+<img width="900px" src="/assets/wireless/8-038-step2.png">
 
 If the authentication checks out, then the mobility manager configures the tower and the routers to establish a path from the user to the Internet (via the tower and the routers).
 
-<img width="900px" src="/assets/special-topics/7-60-step2-part2.png">
+<img width="900px" src="/assets/wireless/8-039-step2-part2.png">
 
 Step 3: Data exchange. The user can now send and receive data along the path configured.
 
-<img width="900px" src="/assets/special-topics/7-61-step3.png">
+<img width="900px" src="/assets/wireless/8-040-step3.png">
 
 Step 4: Handover. As the user moves around, they might move away from their original tower, and closer to a new tower (in the same operator's RAN). The old tower, new tower, and the user's device all work together to decide if the user should switch towers.
 
-<img width="900px" src="/assets/special-topics/7-62-step4.png">
+<img width="900px" src="/assets/wireless/8-041-step4.png">
 
 If everyone agrees that the user should switch towers, they tell the mobility manager, and the mobility manager re-configures the tower and the routers to establish a new path from the user to the Internet (now using the new tower, and possibly different routers too). This handoff must be seamless, which means the user could be sending and receiving data through the whole process, and shouldn't be disrupted. Achieving such a seamless handoff requires the network to constantly babysit the user device.
 
-<img width="900px" src="/assets/special-topics/7-63-step4-part2.png">
+<img width="900px" src="/assets/wireless/8-042-step4-part2.png">
 
 Steps 3 and 4 can repeat as the user moves around, and the best router to use keeps changing.
 
-<img width="900px" src="/assets/special-topics/7-64-step4-part3.png">
+<img width="900px" src="/assets/wireless/8-043-step4-part3.png">
 
 One final feature we need to implement is roaming. If the user goes to a different country like Germany, their operator (e.g. Verizon, US-based) might not have coverage in Germany. But, Verizon might sign a contract with Deutsche Telecom (an operator in Germany), to allow Verizon's customers to use Deutsche Telecom's infrastructure. This means that Deutsche Telecom might need to support not only its own users, but also users from other networks like Verizon.
 
-<img width="900px" src="/assets/special-topics/7-65-step-roaming.png">
+<img width="900px" src="/assets/wireless/8-044-step-roaming.png">
 
 The steps of connecting in a visiting network (while roaming) are generally pretty similar, except the mobility managers in the visited network and the home network must also coordinate with each other (e.g. Deutsche Telecom checks with Verizon to see if the user paid for roaming).
 
@@ -168,7 +168,7 @@ Note: This is why operators like Verizon give you a SIM card to insert into your
 
 The first 3 digits of the IMSI are the Mobile Country Code, identifying a country. The next 2-3 digits are the Mobile Network Code, representing your service provider (e.g. Verizon, AT&T). The remaining digits are the Mobile Subscriber Identification Number, which identifies a specific user within that service provider. The IMSI overall cannot exceed 15 digits.
 
-<img width="600px" src="/assets/special-topics/7-66-imsi.png">
+<img width="600px" src="/assets/wireless/8-045-imsi.png">
 
 Note that the IMSI is not the same as an IP address. If you pay for a year-long data plan, you keep the same IMSI all year. But, each time you attach and connect to the network, you could get a different IP address.
 
@@ -178,7 +178,7 @@ The other identifier is your phone number. Again, this is distinct from the IMSI
 
 After you register and receive an IMSI, the operator (e.g. Verizon) stores your IMSI and information about your plan in the database.
 
-<img width="600px" src="/assets/special-topics/7-67-registration.png">
+<img width="600px" src="/assets/wireless/8-046-registration.png">
 
 During registration, the user's device (SIM card) and the operator (database) also agree on a shared secret key. This will be useful when we do attachment.
 
@@ -193,7 +193,7 @@ The beacon is transmitted on a specific frequency called the control channel, so
 
 The user's device might hear many beacons. The user measures the signal strength to different towers, and picks the tower (belonging to its operator) with the best signal.
 
-<img width="300px" src="/assets/special-topics/7-68-discovery.png">
+<img width="300px" src="/assets/wireless/8-047-discovery.png">
 
 There's one problem we have to solve. How does the user's device know which control channel to listen to? The device needs to tune in to the control channel in order to pick up the beacons. We have a bootstrapping problem.
 
@@ -212,24 +212,24 @@ Note that scanning for subsequent towers after discovery is not necessary. Durin
 
 If the authentication succeeds, we know the user is who they say they are. If the database lookup also shows that the user is eligible for service, then the manager approves the attach request.
 
-<img width="700px" src="/assets/special-topics/7-69-attachment1.png">
+<img width="700px" src="/assets/wireless/8-048-attachment1.png">
 
 4. After the attach request is approved, the mobility manager now has to configure the data plane to give the user connectivity. First, the manager assigns an IP address to the device. Then, the the manager configures the tower, telling the tower radio controller how many resources to allocate for this user. The manager also configures the tower and the routers to create a path between the device and the Internet. Finally, the manager initializes counters and shapers to keep track of the device's Internet usage.
 
 After setting up the user's connectivity, the manager finishes by recording the user's location information in the database. Specifically, the database maps the user's IMSI to its IP address and the path it's using (which tower, which gateways).
 
-<img width="700px" src="/assets/special-topics/7-70-attachment2.png">
+<img width="700px" src="/assets/wireless/8-049-attachment2.png">
 
 Note that the entire attachment process occurs over control channels. We haven't assigned any frequencies to the user yet, so the user has to use dedicated control channels to communicate.
 
-<img width="700px" src="/assets/special-topics/7-71-attachment3.png">
+<img width="700px" src="/assets/wireless/8-050-attachment3.png">
 
 
 ## Step 3: Data Exchange
 
 At this point, the network is configured so that the device can use its IP address to send and receive messages.
 
-<img width="900px" src="/assets/special-topics/7-72-exchange1.png">
+<img width="900px" src="/assets/wireless/8-051-exchange1.png">
 
 How does the cellular network (tower, radio gateway, tower gateway) know how to forward packets? Users are constantly moving, so if we ran a traditional routing algorithm like distance-vector, routes would never converge.
 
@@ -237,7 +237,7 @@ Instead, the manager will create a path between the device and the Internet usin
 
 Conceptually, to implement the tunnel, we'll tell the tower: If you get a packet from the user, send it this way (into the blue tunnel). On the other side of the wired link, the packets will exit the blue tunnel and arrive at the radio gateway. We'll then tell the radio gateway: If you get a packet exiting the tunnel, send it this way (into the green tunnel). Packets then travel through the green tunnel and arrive at the packet gateway, who can forward the packet into the Internet.
 
-<img width="900px" src="/assets/special-topics/7-73-exchange2.png">
+<img width="900px" src="/assets/wireless/8-052-exchange2.png">
 
 Incoming packets also travel through the tunnels. We tell the packet gateway: If you get a packet bound for User A, send it into the green tunnel (toward the radio gateway). We also tell the radio gateway: If you get a packet exiting the green tunnel, send it into the blue tunnel (toward the tower).
 
@@ -245,7 +245,7 @@ Notice that none of the network components are running a routing protocol to fin
 
 How do we actually implement these rules? For example, how does the radio gateway know when an incoming packet is coming out of the blue tunnel? We can use encapsulation. When entering a tunnel, we can add a new header, indicating that the packet is traveling through that tunnel (e.g. ``this packet is traveling through the blue tunnel''). On the other end, when the packet exits the tunnel, the gateway looks at the extra header and knows which tunnel the packet came from. The gateway can then use this information to decide where to forward the packet next.
 
-<img width="900px" src="/assets/special-topics/7-74-exchange3.png">
+<img width="900px" src="/assets/wireless/8-053-exchange3.png">
 
 Notice that with tunnels and encapsulation, the routers are never forwarding based on the user's IP. The user is always moving around, so we can't use their IP to determine their location. Instead, we have to use these pre-configured tunnels to decide where to forward the packet.
 
@@ -254,7 +254,7 @@ Notice that with tunnels and encapsulation, the routers are never forwarding bas
 
 What happens if the user moves from one tower to another? Let's look at a (slightly simplified) protocol. We'll call the towers old and new, and move from the old tower to the new tower.
 
-<img width="900px" src="/assets/special-topics/7-75-handover1.png">
+<img width="900px" src="/assets/wireless/8-054-handover1.png">
 
 1. Your device is constantly measuring its signal strength to the old tower, and reporting that strength to the old tower. At some point, the old tower will say: Your signal strength is too low. Here are some nearby towers (owned by the same operator) and their corresponding control channel frequencies. Can you measure your signal strength to these nearby towers?
 
@@ -295,11 +295,11 @@ There are two different approaches to set up tunnels between the user and the In
 
 In the home routing approach, traffic is tunneled through the home network's packet gateway. This means that all packets must travel from the visiting network back to the home network, before getting forwarded to the wider Internet. This is beneficial because it lets the home network's packet gateway can track the user. One drawback is, if you're a USA-based user, you roam in Germany, and you want to access a website in Germany, your packet must travel from Germany, back to the USA gateway, and then back to Germany.
 
-<img width="900px" src="/assets/special-topics/7-76-roaming1.png">
+<img width="900px" src="/assets/wireless/8-055-roaming1.png">
 
 In the local breakout approach, traffic is tunneled through the visiting network's packet gateway. This can shorten the route between the user and the Internet, since packets don't have to travel all the way back to the home network first. However, this can make accounting for the user's usage more complicated, since the roaming network must now do the accounting and send the data back to the home network.
 
-<img width="900px" src="/assets/special-topics/7-77-roaming2.png">
+<img width="900px" src="/assets/wireless/8-056-roaming2.png">
 
 
 ## Additional Operations

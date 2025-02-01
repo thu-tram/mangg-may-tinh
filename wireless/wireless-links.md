@@ -1,11 +1,11 @@
 ---
-title: Wireless
-parent: Special Topics
-nav_order: 2
+title: Wireless Links
+parent: Wireless
+nav_order: 1
 layout: page-with-toc
 ---
 
-# Wireless
+# Wireless Links
 
 ## Introduction to Wireless Technologies
 
@@ -13,7 +13,7 @@ Wireless communication technologies actually predate the Internet. In the 1880s,
 
 Conceptually, you might imagine that wireless communication consists of invisible particles traveling along an imaginary link from point A to point B, but that's not actually very accurate. In reality, wireless communication is more like ripples on a pond. When you transmit data wirelessly, you create ripples that propagate outward and weaken over distance. If others are also transmitting data, the ripples can constructively and destructively interfere with each. The ripples can also reflect or refract against objects like boats on the pond, or the edge of the pond.
 
-<img width="500px" src="/assets/special-topics/7-24-wireless-intro.png">
+<img width="500px" src="/assets/wireless/8-001-wireless-intro.png">
 
 In this section, we'll look at four key differences between wired and wireless communications. The differences mostly affect Layer 1 (physical) and Layer 2 (link), with a few exceptions that we'll look at elater (notably, breaking the end-to-end principle and implementing reliability at Layer 2 for performance).
 
@@ -39,13 +39,13 @@ Wireless links have the opposite properties. By default, wireless links are shar
 
 How do we encode data into electromagnetic waves at Layer 1? We could just take our sequence of 1s and 0s and draw it as a wave, but the resulting wave is probably low-frequency, and it turns out a low-frequency signal is weak and difficult to transmit.
 
-<img width="500px" src="/assets/special-topics/7-25-modulation1.png">
+<img width="500px" src="/assets/wireless/8-002-modulation1.png">
 
 Instead, we have to use **modulation** to transmit our data. We start with the carrier signal, which is just a constant-frequency wave (e.g. a sine wave). This wave carries no information, but it's high-frequency, so it's much easier to transmit. Then, we impose our data signal (also called the modulation signal) on top of the carrier signal. The resulting wave is high-frequency (easy to transmit), and also contains the data we want to send! Note that the receiver will need to take the modulated waveform and re-extract the 1s and 0s out of that waveform.
 
 There are several strategies for modulating our data signal on top of the carrier signal. In amplitude modulation (AM), we vary the height of the carrier signal based on the input signal. To transmit a 1, make the sine wave tall, and to transmit a 0, make the sine wave short. In frequency modulation (FM), we vary the frequency (width) of the carrier signal based on the input signal. To transmit a 1, make the sine wave skinny (higher-frequency), and to transmit a 0, make the sine wave fat (lower-frequency). Other more complex modulation strategies exist, such as phase modulation, or a combination of amplitude and phase modulation.
 
-<img width="900px" src="/assets/special-topics/7-26-modulation2.png">
+<img width="900px" src="/assets/wireless/8-003-modulation2.png">
 
 
 ## Noise and Interference
@@ -58,7 +58,7 @@ $$\text{SINR} = \frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}$$
 
 SINR is a dimensionless quantity, since it's a ratio of two numbers. It can also be expressed in terms of decibels (dB), which is a logarithmic way to measure a ratio. At 0 dB, the ratio is 1, and when the SINR increases by 10 dB, the underlying ratio is 10 times greater (e.g. signal is 10 times more powerful, or noise/interference is 10 times weaker).
 
-<img width="400px" src="/assets/special-topics/7-27-decibels.png">
+<img width="400px" src="/assets/wireless/8-004-decibels.png">
 
 $$\text{SINR}_\text{dB} = 10 \cdot \log_{10}\left(\frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}\right)$$
 
@@ -92,11 +92,11 @@ $$P_r \propto \frac{P_t}{d^2}$$
 
 In this equation, $$P_r$$ is the power at the receiver, $$P_t$$ is the power at the transmitter, and $$d$$ is the distance between the transmitter and receiver. If we double the distance, the signal at the receiver is $$1/4$$ as strong. If the distance is 10 times larger, the signal at the receiver is $$1/100$$ as strong.
 
-<img width="200px" src="/assets/special-topics/7-28-freespace1.png">
+<img width="200px" src="/assets/wireless/8-005-freespace1.png">
 
 Intuitively, the inverse-square law applies here because the signal is radiating outwards in all directions. At any instant, the signal has radiated out to a sphere around the transmitter, and the sphere grows as the signal radiates further outwards. The surface area of a sphere with radius $$r$$ is $$4\pi r^2$$, so as the signal propagates out, it's spread out over an area that grows quadratically (with the square of the distance). For exapmle, when the distance doubles, the resulting sphere has 4 times larger surface area. Therefore, the signal is spread out over an area that's 4 times larger, so the signal is $$1/4$$ as strong.
 
-<img width="300px" src="/assets/special-topics/7-29-freespace2.png">
+<img width="300px" src="/assets/wireless/8-006-freespace2.png">
 
 Besides the distance, we also need to consider the antennas being used by the transmitter and receiver. This leads us to the Friis equation for measuring signal strength across a distance:
 
@@ -142,7 +142,7 @@ Adding all gains and subtracting all losses tells us the signal strength at the 
 
 Notice that the link budget is computed in decibels, which are logarithmic. This allows us to use addition and subtraction instead of multiplication and division. For example, a gain of 1000x power is represented by adding 30 decibels, and a loss down to 1\% of power is represented by subtracting 20 decibels.
 
-<img width="900px" src="/assets/special-topics/7-30-link-budget.png">
+<img width="900px" src="/assets/wireless/8-007-link-budget.png">
 
 Here's an example of computing the link budget. The signal power at the transmitter is 10 dB. The signal travels along a cable, a lightning arrestor (you don't have to know what this is), and another cable, losing 0.44 dB, 0.1 dB, and 2.21 dB along the way. Then, the signal is broadcast on an antenna, which gives us a 25 dB increase. Then, the signal travels across 10 kilometers of space, losing 120 dB along the way. Then, the signal is received by an antenna, giving us a 25 dB increase. Then, the signal travels along some more cables, losing 0.44 dB, 0.1 dB, and 2.21 dB, before finally reaching the receiver. If we add up all the gains and subtract all the losses, we can compute that the signal strength at the receiver is -65.5 dB.
 
@@ -161,11 +161,11 @@ In the free-space model from earlier, we set the distance between the devices, $
 
 In the free-space model, assuming the antennas stay the same (same gain, same aperture), we got a nice, smooth graph where signal strength decreased as distance increased. After accounting for a changing environment, the resulting graph of distance vs. signal strength is much more wobbly.
 
-<img width="900px" src="/assets/special-topics/7-31-obstacle1.png">
+<img width="900px" src="/assets/wireless/8-008-obstacle1.png">
 
 This graph is actually the sum of three smaller graphs. Each one shows how a different characteristic of the environment affects the signal strength, as a function of distance. Notice that some characteristics change slowly as distance increases, while others change rapidly and erratically as distance increases.
 
-<img width="900px" src="/assets/special-topics/7-32-obstacle2.png">
+<img width="900px" src="/assets/wireless/8-009-obstacle2.png">
 
 The first characteristic is free-space path loss. We've already seen this from the free-space model, which shows us that the signal strength decreases slowly and consistently over longer distances, according to the inverse-square loss.
 
@@ -186,17 +186,17 @@ It can be difficult to approximate path loss (from free-space loss, shadowing, a
 
 One relatively simple model for approximating path loss is the **two-ray model**. In this model, we assume that the signal travels along only two paths: one line-of-sight path directly from the sender to the receiver, and one ground-bounce path that reflects off the ground to the receiver. Remember, this is still one signal radiating from the transmitter, but some waves directly reach the receiver, while others bounce off the ground to the receiver.
 
-<img width="900px" src="/assets/special-topics/7-33-obstacle3.png">
+<img width="900px" src="/assets/wireless/8-010-obstacle3.png">
 
 If the sender and receiver are far enough apart, the waves from the two paths will be 180 degrees out of phase. As a result, the waves from the two paths will destructively interfere and cancel out, significantly weakening the signal at the receiver. When this happens, the signal strength is no longer proportional to $$1/d^2$$, but instead is proportional to $$1/d^4$$. In other words, signal strength now falls off much faster as the distance increases.
 
 Remember, our free-space model assumed no obstacles (not even Earth's surface), which is why we derived that signal strength is proportional to $$1/d^2$$. In the two-ray model, accounting for Earth's surface causes signal strength to now be proportional to $$1/d^4$$.
 
-<img width="900px" src="/assets/special-topics/7-34-obstacle4.png">
+<img width="900px" src="/assets/wireless/8-011-obstacle4.png">
 
 What if there are additional obstacles besides Earth's surface? The two-ray model doesn't account for those. In more complicated environments, we can create general ray tracing models, which account for signals being reflected, scattered, and diffracted. These models require specific information about the environment (e.g. where the obstacles are), and can be built using computer simulations. In these models, reflected versions of the signal usually dominate the signal, compared to the unobstructed line-of-sight version of the signal.
 
-<img width="900px" src="/assets/special-topics/7-35-obstacle5.png">
+<img width="900px" src="/assets/wireless/8-012-obstacle5.png">
 
 From these models, we can derive a simplified path loss model to relate distance and signal strength:
 
@@ -215,7 +215,7 @@ Wired collisions are often easy to detect. On a point-to-point link, they might 
 
 By contrast, wireless collisions are much harder to detect, because there is now a spatial aspect to collisions. Waves might collide in one place, but not another.
 
-<img width="500px" src="/assets/special-topics/7-36-collision1.png">
+<img width="500px" src="/assets/wireless/8-013-collision1.png">
 
 Designing collision detection and collision avoidance is much harder in a wireless system, but it's still necessary so that multiple devices can send over the shared medium. Recall that there are many different approaches to multiple access, including fixed allocations of frequencies, and coordinating who's sending at what times. Which approach works best depends on your environment. For example, if you're in the middle of nowhere, it might be okay to just let collisions happen and deal with them when they do. In this section, though, we'll focus on the CSMA (Carrier Sense Multiple Access) approach, where you listen for signals and don't transmit if someone else is talking.
 
@@ -228,19 +228,19 @@ To check if someone else is talking, the radio tries to detect energy exceeding 
 
 This strategy works fine if two well-separated pairs of devices are communicating.
 
-<img width="800px" src="/assets/special-topics/7-37-collision2.png">
+<img width="800px" src="/assets/wireless/8-014-collision2.png">
 
 In this example, A and B want to talk, and C and D want to talk. A senses nothing, and starts transmitting to B. Notice that A's signal propagates in all directions, not just toward B. Later, C senses nothing (since it's out of A's range), so it can start transmitting to D.
 
 This strategy also works fine if the two pairs of devices are within range of each other.
 
-<img width="600px" src="/assets/special-topics/7-38-collision3.png">
+<img width="600px" src="/assets/wireless/8-015-collision3.png">
 
 Again, A and B want to talk, and C and D want to talk. A senses nothing, and starts transmitting to B. Later, C senses a signal, since A is talking and C is within range of that signal. Therefore, C will wait until A is done, and only start transmitting to D afterward.
 
 Sometimes, this strategy leads to problems.
 
-<img width="700px" src="/assets/special-topics/7-39-collision4.png">
+<img width="700px" src="/assets/wireless/8-016-collision4.png">
 
 Suppose that A and C both want to talk to B. A senses nothing, and starts transmitting to B. Later, C senses nothing, because it's out-of-range of A, so C also starts transmitting to B. There's a collision at B!
 
@@ -248,7 +248,7 @@ This is called the **hidden terminal problem**. In this case, the two transmitte
 
 Here's another case where CSMA is problematic:
 
-<img width="600px" src="/assets/special-topics/7-40-collision5.png">
+<img width="600px" src="/assets/wireless/8-017-collision5.png">
 
 In this case, suppose that B wants to talk to A, and C wants to talk to D. First, B senses nothing and starts transmitting to A. Remember, B's signal propagates in all directions, including to C. Now, C wants to talk to D, but senses B's signal and stays quiet.
 
@@ -265,7 +265,7 @@ The key problem with CSMA was, the sender was detecting collisions at the sender
 
 Suppose A wants to send data to B. A successful data transfer involves a sequence of 3 steps:
 
-<img width="900px" src="/assets/special-topics/7-40-maca1.png">
+<img width="900px" src="/assets/wireless/8-018-maca1.png">
 
 1. A transmits a **Request To Send (RTS)** packet with the length of the data. This is A saying: ``I'd like to send k bits to B.''
 
@@ -275,7 +275,7 @@ Suppose A wants to send data to B. A successful data transfer involves a sequenc
 
 This protocol solves the hidden terminal problem. Remember, in the hidden terminal problem, A and C both sense quiet and start transmitting, causing a collision at B. With this protocol, if A sends an RTS, B will transmit a CTS, warning everybody in B's range (including C) to be quiet.
 
-<img width="700px" src="/assets/special-topics/7-41-maca2.png">
+<img width="700px" src="/assets/wireless/8-019-maca2.png">
 
 If you hear an RTS packet, this means you're in range of the sender. The sender is about to listen for a CTS. Therefore, you need to be quiet and wait for one time slot, which is long enough so that you don't clobber out the CTS at the sender with data of your own. In other words, you need to be quiet and let the sender receive a CTS.
 
@@ -283,11 +283,11 @@ After the RTS, if you then hear a CTS, that means you're also in the range of th
 
 Under certain assumptions, this protocol solves the exposed terminal problem. Remember, in the exposed terminal problem, B is sending to A, and C is sending to D. With CSMA, C senses B's signal and stays quiet, though it could have safely transmitted. With this protocol, if B sends an RTS, C will defer for one time slot (to avoid clobbering the CTS at B). Then, because C didn't hear the CTS, this means that C is out of range of the receiver (A), so C can safely start transmitting to D.
 
-<img width="900px" src="/assets/special-topics/7-42-maca3.png">
+<img width="900px" src="/assets/wireless/8-020-maca3.png">
 
 The assumption we make for this to work is, C must be able to hear the CTS from D. Remember, even though C is the sender, it must receive the CTS before it can start sending. However, C is actually hearing the data from B as well, so it might not be able to hear the CTS to start sending. The key problem here is: In CSMA, the sender only ever sends. But in MACA, the sender actually has to receive a CTS before it can start sending, and that CTS might be clobbered in the exposed terminal case.
 
-<img width="900px" src="/assets/special-topics/7-43-maca4.png">
+<img width="900px" src="/assets/wireless/8-021-maca4.png">
 
 If we send an RTS, but we don't hear a corresponding CTS, this means that we are not clear to send. There's a collision at the receiver, maybe because the receiver is currently receiving data, or because the receiver gets two requests at the same time. If this happens, we apply binary exponential backoff (similar to CSMA/CD), and wait up to twice as long before sending another RTS. 
 
@@ -300,7 +300,7 @@ In MACA, each device maintains a CW (Contention Window) value, which tells us ho
 
 The first improvement is adding acknowledgements for reliability. As before, the sender transmits an RTS, and the receiver transmits a CTS, and the sender transmits data. Now, we have an extra step at the end, where the receiver transmits an ack.
 
-<img width="300px" src="/assets/special-topics/7-44-macaw-acks.png">
+<img width="300px" src="/assets/wireless/8-022-macaw-acks.png">
 
 If the data is lost, then there won't be an ack, and the sender will have to retry, starting over with a new RTS. If the data is correctly sent but the ack is lost, then the sender will retry with a new RTS, but the receiver can immediately reply with the ack instead of the CTS.
 
@@ -313,7 +313,7 @@ The MACA protocol is unfair when two colliding hosts want to send data. In parti
 
 Here's an example of unfairness. Suppose A and B both have their windows set to 2, and they simultaneously attempt to reserve the channel. Let's assume A wins, and B loses. Then A's window stays at 2, while B's window doubles to 4. This means that A probably gets to reserve the channel again sooner, and will probably win again. This also means that by the time B tries again, A has already captured the channel again, and B's window doubles again to 8. This pattern continues, and A keeps re-capturing the channel quickly, while B keeps failing and waiting increasingly longer before trying (and failing) again.
 
-<img width="800px" src="/assets/special-topics/7-45-maca-unfair.png">
+<img width="800px" src="/assets/wireless/8-023-maca-unfair.png">
 
 To solve this problem, instead of each device having its own CW, we'll have everybody share the same CW. The packet header now contains a field for the CW value, and if you receive a packet, you set the CW to the value in the packet. Since everybody now has the same CW, the retry mechanism doesn't favor any one device. Everybody picks a random value between 0 and CW and waits that long. (Note: We're slightly simplifying here, but this is true if all devices are in range of each other.)
 
@@ -330,7 +330,7 @@ This means that if we're in the range of the other sender, we actually can't sen
 
 To solve this problem, we add an extra Data Sending (DS) packet before the data. This is the sender warning everybody: I'm about to send k bits of data, so you need to be quiet during this time.
 
-<img width="900px" src="/assets/special-topics/7-46-ds1.png">
+<img width="900px" src="/assets/wireless/8-024-ds1.png">
 
 The protocol now has 5 steps:
 
@@ -355,13 +355,13 @@ Assume there's no DS packet. Then, as before, B sends an RTS, A sends a CTS, and
 
 By contrast, B knows exactly when it will stop sending data. This gives B a huge advantage in the next round of contention. When B is done sending data, it can immediately send out another request, and it will probably win and get to keep sending data. On the other hand, C has no idea when B will stop sending data, so it has to randomly guess when to send out another request. Most likely, C will guess a time and re-request while B is still sending data, so C will lose and the request won't be granted (collision).
 
-<img width="900px" src="/assets/special-topics/7-47-ds2.png">
+<img width="900px" src="/assets/wireless/8-025-ds2.png">
 
 This lack of synchronization leads to unfairness. If I win, I'll probably win again, because I know exactly when the next round of contention will happen (it's when I'm done sending). If you lose, you'll probably lose again, because you don't know when the next round of contention will happen (you don't know when I'm done). The contention time is usually a tiny sliver of time, since most of the time is spent sending data. I know exactly when that time is, and you don't, so I'll keep winning.
 
 The DS packet solves this problem, because it allows the sender to tell everybody when the next round of contention occurs. Now, B is using the DS packet to tell everybody: I'm starting to send k bits. Not only does C now know to not send futile RTS requests, but it also knows when B will be done sending. This gives C a much fairer shot at winning the next round of contention.
 
-<img width="900px" src="/assets/special-topics/7-48-ds3.png">
+<img width="900px" src="/assets/wireless/8-026-ds3.png">
 
 
 ## MACAW Feature: RRTS (For Synchronization)
@@ -372,7 +372,7 @@ A transmits to B (A sends RTS, B sends CTS, A sends DS and sends data). C hears 
 
 By contrast, A knows exactly when it will stop sending data. Just like before, this gives A a huge advantage in the next round of contention. A can immediately re-request and win. On the other hand, D has no idea when to re-request. The only way D will win is if it gets really lucky and sends the request immediately after A is done sending, but before A re-requests.
 
-<img width="900px" src="/assets/special-topics/7-48-rrts1.png">
+<img width="900px" src="/assets/wireless/8-027-rrts1.png">
 
 Notice that the DS packet doesn't help us here, because the two senders, A and D, are out-of-range of each other. A will send a DS packet and announce when it's sending data, but D won't hear it, so D is still doomed to lose.
 
@@ -380,7 +380,7 @@ To solve this problem, we'll let the receiver do the contending on behalf of the
 
 When D sends the RTS, C learns that D wants to talk, but C must stay quiet until the next round of contention. Notice that C knows when the next round of contention occurs, because it will hear the ack from B. When the next round of contention occurs, C sends a new packet called a Request-for-RTS (RRTS). This immediately alerts D that the next round has begun, and allows D to immediately send an RTS. This gives D a much fairer shot at winning the contention round.
 
-<img width="900px" src="/assets/special-topics/7-49-rrts2.png">
+<img width="900px" src="/assets/wireless/8-028-rrts2.png">
 
 If you hear an RRTS, this means that someone in your range is trying to request, so you should be quiet for 2 time slots while they perform the RTS/CTS exchange.
 
