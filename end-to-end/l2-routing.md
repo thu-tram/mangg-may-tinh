@@ -60,7 +60,7 @@ Let's start with the first problem: Flooding packets wastes bandwidth.
 
 To solve this problem, we'd like to populate the forwarding tables for switches, so that they are able to forward packets directly toward their destination, instead of flooding copies of the packets in all directions.
 
-We could run a routing algorithm to populate the forwarding tables, but an even simpler approach is use \textbf{learning switches}.
+We could run a routing algorithm to populate the forwarding tables, but an even simpler approach is use **learning switches**.
 
 Suppose you are router R2. You don't have any information about the full network topology, and your forwarding table is empty. You have ports to the north, south, east, and west.
 
@@ -70,7 +70,7 @@ You see a packet coming from the port to your west. The packet says: "From A, To
 
 You can now add an entry to your forwarding table: Packets for A should be forwarded to the west.
 
-This is the key idea behind learning switches. When you receive an incoming packet, you get a clue about where the \textit{sender} is. You can use that information to populate the forwarding entry for the \textit{sender}.
+This is the key idea behind learning switches. When you receive an incoming packet, you get a clue about where the *sender* is. You can use that information to populate the forwarding entry for the *sender*.
 
 Note that the incoming packet doesn't tell you anything about where the recipient is. In the example above, when you receive "From A, To B" from the west port, that doesn't tell you anything about where B (recipient) is. Instead, you populate the forwarding table for A, so that future packets for A can be forwarded to the west.
 
@@ -166,7 +166,7 @@ Note: Another solution might be to drop packets if you've seen them before. This
 
 ## STP: Electing a Root
 
-The \textbf{Spanning Tree Protocol (STP)} helps us disable links, so that the resulting topology has no loops. This will help us avoid broadcast storms.
+The **Spanning Tree Protocol (STP)** helps us disable links, so that the resulting topology has no loops. This will help us avoid broadcast storms.
 
 Note that hosts don't participate in this protocol. Routers will work together to disable links and reomve loops from the topology. As a result, we'll ignore hosts when describing this protocol.
 
@@ -174,7 +174,7 @@ Note that hosts don't participate in this protocol. Routers will work together t
 
 How does STP decide which links to disable? Let's start by solving this problem with a global view of the network. Then, we'll think about how switches exchange messages to achieve this, without a global view of the network.
 
-The first step in STP is to elect a \textbf{root switch}, as follows:
+The first step in STP is to elect a **root switch**, as follows:
 
 Each switch is assigned an ID, consisting of a priority value (manually set by the network operator), and the MAC address of the switch. 
 
@@ -191,11 +191,11 @@ If the network operator wants to pick a specific root, they can do so by manuall
 
 Now that we have a root switch, we will classify every port on every switch into one of three states:
 
-1. \textbf{Designated Port:} These are ports pointing away from the root (i.e. they lead somewhere further from the root).
+1. **Designated Port:** These are ports pointing away from the root (i.e. they lead somewhere further from the root).
 
-2. \textbf{Root Port:} There are one or more ports pointing toward the root (i.e. they lead somewhere closer to the root). Of these ports, the one along the least-cost path to the root is the root port.
+2. **Root Port:** There are one or more ports pointing toward the root (i.e. they lead somewhere closer to the root). Of these ports, the one along the least-cost path to the root is the root port.
 
-3. \textbf{Blocked Port:} All ports pointing toward the root, that are not the root port (best way to reach the root), are blocked ports.
+3. **Blocked Port:** All ports pointing toward the root, that are not the root port (best way to reach the root), are blocked ports.
 
 <img width="800px" src="/assets/end-to-end/5-025-stp-port-types.png">
 
@@ -266,7 +266,7 @@ With this in mind, another equivalent interpretation of a designated port is: Ho
 
 We now know how to use STP to disable links and remove loops from a network topology. However, our protocol so far assumes global knowledge of the network. You would need a global view to identify the root, and to decide if ports point toward or away from the root.
 
-In order for switches to learn the information they need to label their ports, the switches exchange messages called \textbf{Bridge Protocol Data Units (BPDUs)}. These are pretty much the same thing as the control-plane routing messages we exchanged in other routing protocols, but with a fancy name. Note that these control-plane messages are distinct from data-plane user packets (the actual data we're forwarding).
+In order for switches to learn the information they need to label their ports, the switches exchange messages called **Bridge Protocol Data Units (BPDUs)**. These are pretty much the same thing as the control-plane routing messages we exchanged in other routing protocols, but with a fancy name. Note that these control-plane messages are distinct from data-plane user packets (the actual data we're forwarding).
 
 When the protocol begins, every switch thinks that the root is itself, and the cost to the root (itself) is 0.
 

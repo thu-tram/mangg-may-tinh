@@ -206,11 +206,11 @@ As the Internet grew, we started to realize that we would eventually run out of 
 
 Fundamentally, IPv6 addressing structure is the same as IPv4. There are some minor implementation changes needed for IPv6, though they aren't relevant here.
 
-The main new feature in IPv6 is longer addresses. IPv6 addresses are 128 bits long, which means there are roughly $$3.4 \times 10^{38}$$ possible addresses. This is an astronomically big number, so we'll never run out. The universe is $$10^{21}$$ seconds old, so we could assign an address to every second and still have only used 0.000000000000001\% of all available addresses.
+The main new feature in IPv6 is longer addresses. IPv6 addresses are 128 bits long, which means there are roughly $$3.4 \times 10^{38}$$ possible addresses. This is an astronomically big number, so we'll never run out. The universe is $$10^{21}$$ seconds old, so we could assign an address to every second and still have only used 0.000000000000001% of all available addresses.
 
 <img width="900px" src="/assets/routing/2-113-ipv6-2.png">
 
-IPv6 was developed in the 1990s, but was not immediately adopted by all computers. Even in 2010, basically nobody used IPv6. As of 2024, IPv6 is used by around 45\% of end users, and most of these users are located in developed countries with wider Internet adoption. The main reason why IPv6 is becoming more widely-adopted is because we're running out of IPv4 addresses.
+IPv6 was developed in the 1990s, but was not immediately adopted by all computers. Even in 2010, basically nobody used IPv6. As of 2024, IPv6 is used by around 45% of end users, and most of these users are located in developed countries with wider Internet adoption. The main reason why IPv6 is becoming more widely-adopted is because we're running out of IPv4 addresses.
 
 Why is IPv6 adoption so slow? Users, servers, and Internet operators have to upgrade their software and hardware (e.g. routers, links, device drivers on computers) to support IPv6. Routers now need two forwarding tables, one with IPv4 addresses and one with IPv6 addresses.
 

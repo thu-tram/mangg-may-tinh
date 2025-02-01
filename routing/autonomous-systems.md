@@ -114,12 +114,12 @@ In order to allow each AS to carry traffic in a way that's compatible with its r
 
 In theory, ASes can set any sort of policy that they like, although standard conventions do exist (which we'll discuss next). Here are some examples of policies that an AS could set:
 
-- "I don't want to carry AS\#2046's traffic through my network." (Defining how I will handle traffic from other ASes.)
-- "I prefer if my traffic was carried by AS\#10 instead of AS\#4." (Defining how other ASes should handle my traffic.)
-- "Don't send my traffic through AS\#54 unless absolutely necessary."
-- "I prefer AS\#12 on weekdays, and AS\#13 on weekends." (Policies can change over time!)
+- "I don't want to carry AS#2046's traffic through my network." (Defining how I will handle traffic from other ASes.)
+- "I prefer if my traffic was carried by AS#10 instead of AS#4." (Defining how other ASes should handle my traffic.)
+- "Don't send my traffic through AS#54 unless absolutely necessary."
+- "I prefer AS#12 on weekdays, and AS#13 on weekends." (Policies can change over time!)
 
-The routing protocol doesn't care why the AS has these preferences. Perhaps I'm refusing to carry traffic from AS\#2046 because it's a rival company, but the protocol doesn't need to know that.
+The routing protocol doesn't care why the AS has these preferences. Perhaps I'm refusing to carry traffic from AS#2046 because it's a rival company, but the protocol doesn't need to know that.
 
 Our least-cost routing protocols so far have no way of supporting these policies. Least-cost was a global minimization problem, where every router was trying to solve the same problem. By contrast, in policy-based routing, each AS only cares about its own policy, and there isn't a global problem that everybody is cooperating to solve.
 

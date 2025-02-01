@@ -197,9 +197,9 @@ Important takeaways from this section: Each DNS packet has a 16-bit random ID fi
 
 ## DNS Lookup (Implementation)
 
-Now, let's walk through a real DNS query for the IP address of `eecs.berkeley.edu`. You can try this at home with the \href{https://en.wikipedia.org/wiki/Dig_(command)}{`dig` utility}--remember to set the `+norecurse` flag so you can unravel the recursion yourself.
+Now, let's walk through a real DNS query for the IP address of `eecs.berkeley.edu`. You can try this at home with the [`dig` utility](https://en.wikipedia.org/wiki/Dig_(command)) -- remember to set the `+norecurse` flag so you can unravel the recursion yourself.
 
-Every DNS query begins with the root server. The names and IP addresses of the root servers are usually hardcoded into resolvers, in the form of a root hints file. Here's a root hints file if you're curious: https://www.internic.net/domain/named.root.
+Every DNS query begins with the root server. The names and IP addresses of the root servers are usually hardcoded into resolvers, in the form of a root hints file. Here's a root hints file if you're curious: [https://www.internic.net/domain/named.root](https://www.internic.net/domain/named.root).
 
 The first root server has domain `a.root-servers.net` and IP address `198.41.0.4`. We can use `dig` to send a DNS request to this address, asking for the IP address of `eecs.berkeley.edu`.
 
@@ -240,7 +240,7 @@ The **additional section** contains 27 records. The first one has key `a.edu-ser
 
 Together, the authority section and additional section combined give us the zone, domain name, and IP address of the next name server. This information is spread across two sections to maintain the key-value structure of the DNS message.
 
-For completeness: `172800` is the TTL (time-to-live) for each record, set at 172,800 seconds = 48 hours here. The `IN` is the Internet class and can basically be ignored. Sometimes you will see records of type `AAAA`, which correspond to \href{https://en.wikipedia.org/wiki/IPv6}{IPv6} addresses (the usual `A` type records correspond to \href{https://en.wikipedia.org/wiki/IPv4}{IPv4} addresses).
+For completeness: `172800` is the TTL (time-to-live) for each record, set at 172,800 seconds = 48 hours here. The `IN` is the Internet class and can basically be ignored. Sometimes you will see records of type `AAAA`, which correspond to IPv6 addresses (the usual `A` type records correspond to IPv4 addresses).
 
 Sanity check: What name server do we query next? How do we know where that name server is located? What do we query that name server for?\footnote{Query `a.edu-servers.net`, whose location we know because of the records in the additional section. Query for the IP address of `eecs.berkeley.edu` just like before.}
 
@@ -341,7 +341,7 @@ In addition to registrars, companies like Google might also run their own name s
 
 It would be really bad if the root servers were unavailable. Someone with an empty cache would be unable to make any DNS requests. Eventually, everyone's caches would empty out as TTLs expire, and the Internet would stop working.
 
-For redundancy, there are 13 root servers located around the world. We can look up the \href{https://www.iana.org/domains/root/servers}{IP addresses} of the root servers, which are public and well-known.
+For redundancy, there are 13 root servers located around the world. We can look up the [IP addresses](https://www.iana.org/domains/root/servers) of the root servers, which are public and well-known.
 
 13 still seems like kind of a low number, considering the entire Internet relies on them. To provide extremely high availability, there are actually way more than 13 root servers, but the list only contains 13 IP addresses, because of a clever trick called anycast.
 

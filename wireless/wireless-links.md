@@ -140,7 +140,7 @@ In this equation, $$P_r$$ is the signal power at the receiver, and $$P_t$$ is th
 
 Adding all gains and subtracting all losses tells us the signal strength at the receiver. We can compare this against the sensitivity of the receiver, which is the signal strength needed for the receiver to extract useful information. This comparison tells us our link budget. If the overall budget ends up positive, then this is a viable link, and we're in the money. If the overall budget ends up negative, then this is not a viable link, and we're in trouble.
 
-Notice that the link budget is computed in decibels, which are logarithmic. This allows us to use addition and subtraction instead of multiplication and division. For example, a gain of 1000x power is represented by adding 30 decibels, and a loss down to 1\% of power is represented by subtracting 20 decibels.
+Notice that the link budget is computed in decibels, which are logarithmic. This allows us to use addition and subtraction instead of multiplication and division. For example, a gain of 1000x power is represented by adding 30 decibels, and a loss down to 1% of power is represented by subtracting 20 decibels.
 
 <img width="900px" src="/assets/wireless/8-007-link-budget.png">
 

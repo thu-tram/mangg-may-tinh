@@ -16,7 +16,7 @@ We can also see this in our equation, which related throughput to loss rate. The
 
 ## Short Connections
 
-Most TCP connections in real life are very short-lived. 50\% of connections send fewer than 1.5 KB, and 80\% of connections send less than 100 KB. Very few packets (maybe only one) are sent during these connections.
+Most TCP connections in real life are very short-lived. 50% of connections send fewer than 1.5 KB, and 80% of connections send less than 100 KB. Very few packets (maybe only one) are sent during these connections.
 
 Suppose we had a connection where the sender only had 3 packets to send. What would TCP congestion control do? We'd start with window size 1 and send the first packet. Then, we'd wait for the ack, increase the window size to 2, and send the remaining two packets. Then, we'd wait for two more acks, and finish.
 

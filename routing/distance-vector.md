@@ -249,7 +249,7 @@ You could try to design a more complicated scheme to ensure reliability (e.g. fo
 
 Formally, the protocol will define an **advertisement interval**. 30 seconds is a common interval used in practice. If the interval is X seconds, then every advertisement must be re-sent every X seconds.
 
-As long as we wait long enough and re-send the packet enough times, the link will eventually successfully send the advertisement, as long as the link works some of the time. If the link was dropping every single packet, then there's no way for the advertisement to be sent (and maybe a link with 0\% success rate probably shouldn't be in the graph anyway). Eventually, with enough re-sending, this protocol will still converge.
+As long as we wait long enough and re-send the packet enough times, the link will eventually successfully send the advertisement, as long as the link works some of the time. If the link was dropping every single packet, then there's no way for the advertisement to be sent (and maybe a link with 0% success rate probably shouldn't be in the graph anyway). Eventually, with enough re-sending, this protocol will still converge.
 
 {: .blue}
 > Let's review our protocol so far.
