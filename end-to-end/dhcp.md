@@ -1,7 +1,7 @@
 ---
 title: "DHCP: Joining Networks"
 parent: End-to-End
-nav_order: 3
+nav_order: 4
 layout: page-with-toc
 ---
 
@@ -32,19 +32,19 @@ DHCP has four steps:
 
 1. The new client broadcasts a **Discover** message, asking for configuration information.
 
-<img width="800px" src="/assets/end-to-end/5-20-dhcp1.png">
+<img width="800px" src="/assets/end-to-end/5-050-dhcp1.png">
 
 2. Any **DHCP server** who can help will unicast an **Offer** to the client, with a configuration that the client can use (e.g. IP address, gateway address, DNS address).
 
-<img width="800px" src="/assets/end-to-end/5-21-dhcp2.png">
+<img width="800px" src="/assets/end-to-end/5-051-dhcp2.png">
 
 3. The client will broadcast a **Request** message, indicating which offer they accepted. This message is broadcast because the client might get multiple offers. By telling everybody which offer it's accepting, the client allows the rejected offers to be freed up for future clients.
 
-<img width="800px" src="/assets/end-to-end/5-22-dhcp3.png">
+<img width="800px" src="/assets/end-to-end/5-052-dhcp3.png">
 
 4. The server sends an acknowledgement to confirm that the request was granted.
 
-<img width="800px" src="/assets/end-to-end/5-23-dhcp4.png">
+<img width="800px" src="/assets/end-to-end/5-053-dhcp4.png">
 
 
 ## DHCP Servers
@@ -55,7 +55,7 @@ DHCP servers need to be in the same local network as the client, since the proto
 
 DHCP servers listen on a fixed port, UDP port 67, for requests from new machines. The servers are configured with all the necessary information: They know about the gateway and DNS servers, and they have a pool of usable IP addresses that they can allocate to new users.
 
-<img width="900px" src="/assets/end-to-end/5-24-dhcp-over-ip.png">
+<img width="900px" src="/assets/end-to-end/5-054-dhcp-over-ip.png">
 
 Note that IP addresses are only temporarily leased to hosts. The lease is only valid for a limited amount of time (e.g. order of hours or days). If the host wants to keep using the address, it must renew the lease. If an IP address is currently leased to a host, the DHCP server cannot offer the same address to other clients.
 
@@ -79,7 +79,7 @@ DHCP also exists in IPv6 networks. However, because IPv6 addresses are longer, i
 
 The trick is to use the MAC address, which we know is unique to each machine. As before, we ask for the local network information, which includes the gateway address, DNS address, and notably, the prefix for the local network. This prefix is usually 64 bits long. Then, we copy our own MAC address bits into the host bits of the IPv6 address. We can be confident that nobody else has this IPv6 address: users in other networks will have a different prefix, and no one else in the network (or anywhere else) will have the same MAC address bits.
 
-<img width="900px" src="/assets/end-to-end/5-25-slaac.png">
+<img width="900px" src="/assets/end-to-end/5-055-slaac.png">
 
 To get the local network information, we can extend the Neighbor Discovery protocol (IPv6 version of ARP). The Router Solicitation message lets the user broadcast a request for the local network information, and the Router Advertisement message lets routers reply with that information.
 

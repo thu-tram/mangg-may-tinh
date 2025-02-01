@@ -1,7 +1,7 @@
 ---
 title: "TLS: Secure Bytestreams"
 parent: End-to-End
-nav_order: 5
+nav_order: 6
 layout: page-with-toc
 ---
 
@@ -17,7 +17,7 @@ To address these security issues, we add a new protocol, **Transport Layer Secur
 
 TLS can be thought of as a Layer 4.5 protocol, sitting in between TCP and application protocols like HTTP. (We use a weird number like 4.5 because the obsolete Layers 5 and 6 have nothing to do with security.) TLS relies on the bytestream abstraction of TCP, so it doesn't think about individual packets or packet loss/reordering. TLS provides the exact same bytestream abstraction to applications as TCP does, but the bytestream is now secure against network attackers. This is why HTTP and HTTPS are semantically identical protocols. The only difference is that HTTPS runs over the secure bytestream of TLS-over-TCP, while HTTP runs over raw TCP with no TLS.
 
-<img width="400px" src="/assets/end-to-end/5-42-layer45.png">
+<img width="400px" src="/assets/end-to-end/5-072-layer45.png">
 
 To distinguish between HTTPS and HTTP, we use Port 80 for HTTP connections, and Port 443 for HTTPS connections. Servers can force users to use HTTPS by replying to all Port 80 requests with a redirect to use Port 443 instead.
 
@@ -32,7 +32,7 @@ Because TLS is built on top of TCP, the TCP three-way handshake first proceeds a
 
 The TLS handshake can now proceed:
 
-<img width="400px" src="/assets/end-to-end/5-43-tls-handshake.png">
+<img width="400px" src="/assets/end-to-end/5-073-tls-handshake.png">
 
 1. The client and server exchange hellos. The hellos contain random numbers, which ensures that every handshake results in different secret keys. (It would be bad if we used the same key every time, and attackers hacked us and learned that key.) The hellos also allow the client and server to agree on specific cryptographic protocols to use. The client's hello lists all cryptographic schemes the client supports, and the server's hello picks one to use.
 
