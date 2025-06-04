@@ -11,7 +11,7 @@ layout: page-with-toc
 
 As you've probably read in the news, AI (artificial intelligence) is a very active area of research. Modern AI systems require training models on huge amounts of data.
 
-For these notes, we will completely ignore the details of how these models work. All you need to know is that we start with some untrained model: think of this as a big matrix filled with random numbers. Then, we use train the model using a huge amount of training data: think of this as running many matrix multiplication operations (i.e. multiplications and additions) with the training data and the model. Eventually, the output is a trained model: think of this like the big matrix from before, but now filled with useful numbers. 
+For these notes, we will completely ignore the details of how these models work. All you need to know is that we start with some untrained model: think of this as a big matrix filled with random numbers. Then, we use train the model using a huge amount of training data: think of this as running many matrix multiplication operations (i.e. multiplications and additions) with the training data and the model. Eventually, the output is a trained model: think of this like the big matrix from before, but now filled with useful numbers.
 
 <img width="900px" src="/assets/beyond-client-server/7-062-ai-model.png">
 
@@ -117,7 +117,7 @@ We'll now define the 7 basic collective operations. We will define what the oper
 
 Each node has a $$p$$-element vector of data. For these examples, you can think of the data as an array of 4 integers. In practice, this data could be higher-dimensional as well, e.g. 4 rows of a matrix, or 4 equally-sized chunks of training data.
 
-**Output:** The elements are moved around between nodes in some specified way. The output specifies what values go in which boxes as a result of this operation. 
+**Output:** The elements are moved around between nodes in some specified way. The output specifies what values go in which boxes as a result of this operation.
 
 Also, sometimes the elements can be aggregated (e.g. summed together). Again, the output specifies what computation(s) this specific operation does, if any, and which box(es) to put the computation result(s) in.
 
