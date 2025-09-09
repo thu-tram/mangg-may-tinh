@@ -50,7 +50,7 @@ ECN bit không hiệu quả trên Internet diện rộng vì không phải tất
 
 Để đo hiệu năng của DCTCP, ta có thể đo **Flow Completion Time (FCT)** – thời gian từ khi byte đầu tiên được gửi đến khi byte cuối cùng được nhận. Chuẩn lý tưởng là thời gian hoàn thành nếu dùng một **omniscient scheduler** (bộ lập lịch toàn tri) có kiến thức toàn cục về toàn bộ mạng và tất cả kết nối, để lập lịch và phân bổ băng thông tối ưu.
 
-<img width="500px" src="/assets/datacenter/6-031-fct-chart1.png">
+<img width="500px" src="../assets/datacenter/6-031-fct-chart1.png">
 
 Biểu đồ này cho thấy **normalized FCT** (FCT chuẩn hóa) – tỷ lệ giữa FCT thực tế và FCT lý tưởng. Nó cho biết chúng ta kém lý tưởng bao nhiêu. Có thể thấy TCP congestion control tiêu chuẩn kém hơn lý tưởng 3 lần, và kém tới 10 lần nếu tải mạng cao. Ngược lại, DCTCP hoạt động tốt hơn đáng kể, kết nối hoàn thành nhanh hơn nhiều với ít queuing delay hơn.
 
@@ -72,7 +72,7 @@ Với hệ thống ưu tiên này, bên gửi có thể truyền và truyền l�
 
 Nếu xem lại biểu đồ FCT, ta thấy pFabric còn tốt hơn DCTCP và gần với lý tưởng.
 
-<img width="500px" src="/assets/datacenter/6-032-fct-chart2.png">
+<img width="500px" src="../assets/datacenter/6-032-fct-chart2.png">
 
 Tại sao pFabric hoạt động tốt? Elephant và mice cùng truyền, mọi người đều gửi ở full line rate, đảm bảo tận dụng tối đa băng thông. Không mất thời gian cho **slow start**. Ngoài ra, tránh được sụp đổ vì hầu hết packet của elephant có ưu tiên thấp. Hệ thống ưu tiên đảm bảo packet của mice vẫn đi qua hàng đợi với độ trễ thấp.
 

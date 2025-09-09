@@ -20,7 +20,7 @@ So far, we've drawn routers as boxes on a diagram. In reality, a router is a spe
 
 In real life, homes and offices have small routers to connect hosts to the Internet. Where do all these routers all connect to each other?
 
-<img width="700px" class="real-photo" src="/assets/routing/2-114-carrier-hotel.png">
+<img width="700px" class="real-photo" src="../assets/routing/2-114-carrier-hotel.png">
 
 **Colocation facilities** or **carrier hotels** are buildings where multiple ISPs install routers to connect to each other. These buildings are specially designed to have power and cooling infrastructure, and ISPs can rent space to install routers and connect them to other routers in the same building.
 
@@ -31,7 +31,7 @@ Inside a carrier hotel, routers are stacked together into racks (6-7 feet tall, 
 
 Routers come in all sizes, depending on the user requirements. Home routers only forward traffic for a few users, and the forwarding table has a single default entry. Industrial routers might need to forward traffic from thousands of customers, with a huge forwarding table.
 
-<img width="800px" class="real-photo" src="/assets/routing/2-115-router-sizes.png">
+<img width="800px" class="real-photo" src="../assets/routing/2-115-router-sizes.png">
 
 There are different ways we can measure the size of a router. We could consider its physical size, the number of physical ports it has, and its bandwidth.
 
@@ -39,7 +39,7 @@ We can measure a router's capacity as the number of physical ports, multiplied b
 
 Not all physical ports need to have the same line rate. For example, a modern home router might have 4 physical ports that can send at 100 Mbps, and 1 physical port that can send at 1 Gbps. The total capacity of this router is 1.4 Gbps.
 
-<img width="200px" class="real-photo" src="/assets/routing/2-116-modern-router.png">
+<img width="200px" class="real-photo" src="../assets/routing/2-116-modern-router.png">
 
 A modern state-of-the-art router used by ISPs might have a line rate of up to 400 Gbps per physical port.
 
@@ -51,7 +51,7 @@ This router could cost upwards of \$1 million. Breaking up a router into line ca
 
 In the future, next-generation routers will have 800 Gbps physical ports. Physical space for routers is constrained, so modern improvements are focused on improving the speed per port, instead of increasing the number of ports. (Stuffing more ports into the same space is also difficult because of power and cooling constraints.)
 
-<img width="700px" class="real-photo" src="/assets/routing/2-117-router-evolution.png">
+<img width="700px" class="real-photo" src="../assets/routing/2-117-router-evolution.png">
 
 Router capacity has increased over the years in response to the growth in user demand (e.g. video quality has increased from 720p to 8K = 8000p). In 2010, state-of-the-art routers had 1.7 Tbps capacity, and that's increased by a factor of 100 in the past decade. Much of this improvement came from increasing the link speed, from 10 Gbps in 2010 to 100 Gbps around 2016 to 400 Gbps today. These improvements are starting to slow down because of constraints like Moore's law slowing and physical challenges with sending signals at high rate. The next improvement to 800 Gbps is only a 2x increase (compared to the earlier 10x and 4x increases).
 
@@ -87,7 +87,7 @@ We defined a router as a computer that performs routing tasks, but in reality, i
 
 The physical shelf that makes up an industrial-size router is called a **chassis**. Inside the chassis, we install many **line cards**, and we have several physical ports on each line card. Each physical port can be used for either input or output.
 
-<img width="900px" src="/assets/routing/2-118-router1.png">
+<img width="900px" src="../assets/routing/2-118-router1.png">
 
 Every physical port has to be connected to every other physical port in the router (both in the same linecard and other linecards). You might receive a packet through one port, and need to forward it out of a port on a different linecard.
 
@@ -95,32 +95,32 @@ It would be pretty inefficient to physically wire each port to every other port.
 
 Separate from all the linecards, we have a controller card with its own CPU, which talks with other routers to perform routing protocols. After running some algorithm to compute paths, the controller programs the forwarding chips with the correct forwarding table entries. 
 
-<img width="900px" src="/assets/routing/2-119-router2.png">
+<img width="900px" src="../assets/routing/2-119-router2.png">
 
 Each linecard has its own local CPU to control linecard functions (e.g. populate the forwarding table). The linecard also has hardware for basic processing of packets (e.g. updating its TTL before sending it out). The linecard contains one or more chips specifically optimized for forwarding.
 
-<img width="700px" src="/assets/routing/2-120-router3.png">
+<img width="700px" src="../assets/routing/2-120-router3.png">
 
 We can also categorize the router components by the different planes. The data plane is supported by forwarding chips on linecards, the fabric connecting linecards, and the fabric chips connecting the linecards to the fabric. The control plane and management plane are supported by the controller card.
 
-<img width="800px" src="/assets/routing/2-121-router4.png">
+<img width="800px" src="../assets/routing/2-121-router4.png">
 
 Here's a picture of an industrial router. This router has 6 slots, where 4 of them have line cards, and the other 2 have controller cards. There's also a fan tray for cooling. The fabric connecting linecards is in the back (not pictured).
 
-<img width="900px" src="/assets/routing/2-122-router5.png">
+<img width="900px" src="../assets/routing/2-122-router5.png">
 
 
 ## Types of Packets
 
 The most common packet is a **user packet**, containing data from an end host. When the router receives this packet, the forwarding chip first reads the destination field in the header and looks up the appropriate port. If that port is on a different linecard, the packet is sent through the fabric to the appropriate linecard. Once the packet reaches the correct linecard, the packet is sent along the appropriate port.
 
-<img width="900px" src="/assets/routing/2-123-user-traffic.png">
+<img width="900px" src="../assets/routing/2-123-user-traffic.png">
 
 Some packets are **control-plane traffic**, which are destined for the router itself. In particular, when we run routing protocols, advertisements are sent to the router itself. When the router receives this packet, the forwarding chip sends the packet up to the controller card. The CPU on the controller card processes the packet accordingly.
 
 The last type of traffic is **punt traffic**. These are user packets, but they require some additional special processing. For example, if we receive a packet with a TTL of 1, the packet has expired, and we shouldn't forward it. We might also need to send an error message back to the sender. When the router receives a punt packet, the forwarding chip "punts" the packet to the controller card for special processing.
 
-<img width="900px" src="/assets/routing/2-124-punt-traffic.png">
+<img width="900px" src="../assets/routing/2-124-punt-traffic.png">
 
 
 ## Scaling Routers
@@ -146,7 +146,7 @@ Now that we have an IP packet, we have to parse the packet. For example, we need
 
 We may also need to update various IP header fields. We have to decrease the TTL. Since we updated the header, we also need to update the checksum in the header. We might also need to update other fields like options and fragment (discussed in more detail in the IP header section).
 
-<img width="900px" src="/assets/routing/2-125-pipeline.png">
+<img width="900px" src="../assets/routing/2-125-pipeline.png">
 
 All of this functionality has to happen in a matter of nanoseconds. Even if we somehow did all the processing in one clock cycle, the linecard still has to operate at 0.2 GHz. In practice, all these operations will take more than one clock cycle. Also, we have to do all this processing for every port on the linecard (one forwarding chip supports all the ports).
 
@@ -161,7 +161,7 @@ The fabric interconnect chips are also similarly specialized. These chips help s
 
 TODO
 
-<img width="900px" src="/assets/routing/2-126-queuing.png">
+<img width="900px" src="../assets/routing/2-126-queuing.png">
 
 
 ## Efficient Forwarding Table Lookup
@@ -172,7 +172,7 @@ Ideally, for maximum speed, the forwarding table could contain one entry per des
 
 To achieve this ideal approach, we could expand every range into its individual IP addresses. For example, an entry for the 24-bit prefix 192.0.1.0/24 would be expanded into 256 entries.
 
-<img width="200px" src="/assets/routing/2-127-forwarding1.png">
+<img width="200px" src="../assets/routing/2-127-forwarding1.png">
 
 This is space-inefficient (remember, this is being implemented in hardware). Also, if a route changes, we'd have to update tons of entries in the table. Expanding routes isn't going to work, so we'll have to work with ranges.
 
@@ -180,7 +180,7 @@ Recall that forwarding table lookup is done using longest prefix matching. If mu
 
 How do we implement longest prefix matching in hardware efficiently?
 
-<img width="900px" src="/assets/routing/2-128-forwarding2.png">
+<img width="900px" src="../assets/routing/2-128-forwarding2.png">
 
 TODO rewrite this to match the diagram
 
@@ -201,17 +201,17 @@ Thinking back to a data structures class (like CS 61B in UC Berkeley), you might
 
 For example, this trie stores a map of words to numbers. If you don't remember tries, it's okay.
 
-<img width="800px" src="/assets/routing/2-129-trie1.png">
+<img width="800px" src="../assets/routing/2-129-trie1.png">
 
 If we want to find the longest prefix, just like before, we read the word one letter at a time. This allows us to trace a path down the tree, from the root to a leaf. Along this path, we look for all prefixes in the table (nodes with colors), and pick the longest prefix.
 
-<img width="800px" src="/assets/routing/2-130-trie2.png">
+<img width="800px" src="../assets/routing/2-130-trie2.png">
 
 We can use a similar approach for our forwarding table. Each layer of the trie represents one of the digits in the IP address. The zeroth layer is the root (empty string), the first layer represents the first bit, the second layer represents the second bit, etc.
 
 Each node in the trie represents a prefix. For example, the 2-bit prefix 11* is at the second layer of the tree, and the 3-bit prefix 100 is at the third layer of the tree. The trie has all possible 3-bit prefixes. If a prefix is in the forwarding table, at the corresponding node, we write the next hop. If the prefix is not in the forwarding table, we don't write anything in the node (in the picture, colored white).
 
-<img width="900px" src="/assets/routing/2-131-trie3.png">
+<img width="900px" src="../assets/routing/2-131-trie3.png">
 
 Tracing the path down the tree can be done in constant time. We visit one node per bit of the destination address, and the destination address is always 32 bits (constant). Even if the forwarding table had millions of entries, we'd still pick out 32 nodes.
 
@@ -221,10 +221,10 @@ As before, we use the destination address to trace a path down the tree. If we f
 
 As a slight optimization, as we walk down the tree, we could keep track of the longest prefix match seen so far. This will always be the most recent match, because the prefixes get longer as we move down the tree. If we fall off the tree, we use the longest prefix match (the most recent match we found).
 
-<img width="900px" src="/assets/routing/2-132-trie4.png">
+<img width="900px" src="../assets/routing/2-132-trie4.png">
 
 Note that the default route would be stored in the root node (0-length prefix). Our algorithm of walking down the tree ensures that we only use the default route if no other prefixes match.
 
-<img width="900px" src="/assets/routing/2-133-trie5.png">
+<img width="900px" src="../assets/routing/2-133-trie5.png">
 
 All routers have some form of longest prefix matching functionality, but some use more advanced solutions than others. For example, we could add heuristics and optimizations based on real-world Internet assumptions. Some destinations might be more popular, so we might want to look them up more efficiently. Some ports might be used for more ranges. The modern Internet has some conventions for prefix sizes (e.g. the longest IPv4 prefix for routes to other networks is 24 bits). We could also make optimizations for updating the forwarding tables.

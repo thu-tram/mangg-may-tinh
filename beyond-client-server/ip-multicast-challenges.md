@@ -23,13 +23,13 @@ Ngoài ra, hãy nhớ rằng định tuyến liên miền còn có thách thức
 
 Mô hình dịch vụ **IP multicast** về cơ bản mâu thuẫn với mô hình kinh doanh mà các **ISP** hiện đại sử dụng. Ví dụ: xét đồ thị AS dưới đây, trong đó AS A và AS B là **peers** (ngang hàng):
 
-<img width="400px" src="/assets/beyond-client-server/7-048-multicast-charging-1.png">
+<img width="400px" src="../assets/beyond-client-server/7-048-multicast-charging-1.png">
 
 Là peers, AS A và AS B nên trao đổi một lượng lưu lượng tương đương, nhưng multicast khiến việc định nghĩa “lưu lượng tương đương” trở nên khó khăn. Ví dụ: giả sử AS A gửi một gói multicast tới AS B. Có thể AS B có nhiều **children** (nút con) là thành viên của nhóm. Điều này có nghĩa là AS B nhận một gói, nhưng phải gửi ra nhiều gói. AS B đã sử dụng nhiều băng thông hơn AS A. Liệu AS A có cần trả thêm phí cho AS B vì điều này không? (Đây là một câu hỏi mở, chưa có câu trả lời rõ ràng.)
 
 Ví dụ khác: xét đồ thị AS dưới đây, trong đó AS A là **provider** (nhà cung cấp) và AS B là **customer** (khách hàng):
 
-<img width="200px" src="/assets/beyond-client-server/7-049-multicast-charging-2.png">
+<img width="200px" src="../assets/beyond-client-server/7-049-multicast-charging-2.png">
 
 AS B trả tiền cho AS A để sử dụng dịch vụ. Nếu AS B gửi một gói multicast, và AS A phải chuyển tiếp nhiều bản sao của gói đó tới nhiều đích khác nhau, thì AS A có nên tính phí cao hơn so với một gói unicast không? Nếu có, thì nên tính thêm bao nhiêu? (Cũng là một câu hỏi mở, chưa có câu trả lời rõ ràng.)
 
@@ -41,7 +41,7 @@ Việc thiết kế mô hình kinh doanh trở nên khó khăn hơn bởi vì m�
 
 Xét một nguồn gửi gói multicast xuống **delivery tree** (cây phân phối) tới nhiều người nhận. Nguồn cần chọn một tốc độ gửi hợp lý để tránh quá tải mạng. Vậy tốc độ nào là phù hợp?
 
-<img width="800px" src="/assets/beyond-client-server/7-050-multicast-congestion.png">
+<img width="800px" src="../assets/beyond-client-server/7-050-multicast-congestion.png">
 
 Lưu lượng sẽ đi qua nhiều đường khác nhau, và mỗi đường có thể có dung lượng khác nhau. Nguồn có thể gửi ở tốc độ 1 Mbps để tránh quá tải bất kỳ liên kết nào, nhưng điều này để lại dung lượng chưa sử dụng ở các đường khác. Ngược lại, nguồn có thể gửi ở tốc độ 100 Mbps để tối đa hóa hiệu năng, nhưng điều này sẽ làm một số liên kết bị quá tải. Không có câu trả lời rõ ràng cho tốc độ tối ưu.
 

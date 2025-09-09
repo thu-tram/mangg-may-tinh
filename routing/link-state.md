@@ -41,7 +41,7 @@ Many single-source shortest-path algorithms can be used in this step. For exampl
 
 One thing we have to be careful about is inconsistencies between routers.
 
-<img width="900px" src="/assets/routing/2-090-link-state-loop.png">
+<img width="900px" src="../assets/routing/2-090-link-state-loop.png">
 
 Remember, every router is computing the shortest paths independently, and deciding on a next hop accordingly. Each router only controls its own next hop, and cannot influence what the next hop will do. 
 
@@ -66,19 +66,19 @@ How do routers learn about the full network graph? First, we need to learn who o
 
 To discover neighbors, every router sends a hello message to all of its neighbors.
 
-<img width="600px" src="/assets/routing/2-091-hellos.png">
+<img width="600px" src="../assets/routing/2-091-hellos.png">
 
 For example, in this network, R2 sends to both of its neighbors: "Hello, I'm R2." Now, R1 knows that it's connected to R2, and R3 also knows that it's connected to R2. Similarly, R1 says hello to R2, so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also knows about R3.
 
 As a result, everybody now knows who their immediate neighbors are. Note that R1 does not know about R3, because R1 and R3 are not neighbors.
 
-<img width="900px" src="/assets/routing/2-092-after-hellos.png">
+<img width="900px" src="../assets/routing/2-092-after-hellos.png">
 
 We also want to know if links go down. To support this, we'll periodically re-send the hello message. If a neighbor stops saying hello (e.g. misses some number of hellos), we assume they disappeared.
 
 Now that we know about our neighbors, we should announce that fact to everybody. To make a global announcement, we send the announcement to all of our neighbors. Also, if we ever receive an announcement, we should send it to all of our neighbors as well. This ensures that every message gets propagated throughout the network. This is known as **flooding** information across the network. If any information changes (e.g. a neighbor disappears), we should flood that information as well.
 
-<img width="800px" src="/assets/routing/2-093-flooding.png">
+<img width="800px" src="../assets/routing/2-093-flooding.png">
 
 We also need to make sure that messages don't get dropped. Otherwise, other routers might miss an update and compute paths on the wrong graph. To fix this problem, we use the same trick as we used in distance-vector, and periodically re-send the message. As long as the link is functioning, our message should get sent after enough tries.
 
@@ -87,7 +87,7 @@ We also need to make sure that messages don't get dropped. Otherwise, other rout
 
 We have to be careful about how we flood announcements through the network.
 
-<img width="400px" src="/assets/routing/2-094-flood-problem1.png">
+<img width="400px" src="../assets/routing/2-094-flood-problem1.png">
 
 R2 learns some information and announces it to its neighbor R3. When R3 receives this information, it makes an announcement to its neighbor R2. When R2 receives this information, it makes an announcement to its neighbor R3. These two routers are stuck making announcements to each other, wasting bandwidth, even though there's no new information.
 
@@ -95,7 +95,7 @@ Note that this is not the same as periodically re-sending messages for reliabili
 
 The problem is even worse if our network contains a loop:
 
-<img width="300px" src="/assets/routing/2-095-flood-problem2.png">
+<img width="300px" src="../assets/routing/2-095-flood-problem2.png">
 
 Time step 1: R1 broadcasts to R2 and R3.
 
@@ -107,7 +107,7 @@ Time step 4: R1, R1, R2, R2, R2, R3, R3, R3 all make broadcasts to (R2, R3), (R2
 
 Time step 5: R1 makes 6 broadcasts, R2 makes 5 broadcasts, R3 makes 5 broadcasts.
 
-<img width="900px" src="/assets/routing/2-096-flood-problem3.png">
+<img width="900px" src="../assets/routing/2-096-flood-problem3.png">
 
 All the new information was learned at time step 1. But, everybody keeps re-sending the same information, and duplicate announcements multiply exponentially and eventually overwhelm the network.
 
@@ -119,7 +119,7 @@ To uniquely identify a message, we can introduce a timestamp (or some other coun
 
 Now, if we go back to the example from earlier:
 
-<img width="500px" src="/assets/routing/2-097-flood-solution.png">
+<img width="500px" src="../assets/routing/2-097-flood-solution.png">
 
 Time step 1: R1 broadcasts to R2 and R3.
 
@@ -136,7 +136,7 @@ Link-state converges on a valid least-cost routing state after every router lear
 
 As soon as the network topology changes, it can take some time for the network to converge again. We have to wait for the change to be detected (e.g. a link failure). Then, we have to wait for the new information to be propagated through the network, and for routers to re-compute forwarding table entries. While the network is converging, we might be in an invalid routing state, because some routers are using the old graph, while others are using the updated graph. The routing state could have dead-ends, loops, or paths that are not least-cost.
 
-<img width="800px" src="/assets/routing/2-098-link-state-converge.png">
+<img width="800px" src="../assets/routing/2-098-link-state-converge.png">
 
 For example, suppose the R3-A link has failed. R3 knows about this, but the other routers do not. R3 will forward packets to R1. However, R1 will still forward packets to R3.
 

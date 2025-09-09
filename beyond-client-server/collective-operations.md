@@ -13,7 +13,7 @@ Như bạn có thể đã đọc trên các bản tin, **AI (Artificial Intellig
 
 Trong phạm vi ghi chú này, chúng ta sẽ hoàn toàn bỏ qua chi tiết về cách các mô hình này hoạt động. Tất cả những gì bạn cần biết là chúng ta bắt đầu với một mô hình chưa được huấn luyện: hãy hình dung nó như một ma trận lớn chứa đầy các số ngẫu nhiên. Sau đó, chúng ta huấn luyện mô hình này bằng một lượng dữ liệu huấn luyện khổng lồ: hãy hình dung quá trình này như việc thực hiện rất nhiều phép nhân ma trận (tức là các phép nhân và cộng) giữa dữ liệu huấn luyện và mô hình. Cuối cùng, đầu ra là một mô hình đã được huấn luyện: hãy hình dung nó như ma trận lớn ban đầu, nhưng giờ đây chứa đầy các con số hữu ích.
 
-<img width="900px" src="/assets/beyond-client-server/7-062-ai-model.png">
+<img width="900px" src="../assets/beyond-client-server/7-062-ai-model.png">
 
 Trên thực tế, quá trình huấn luyện AI phức tạp hơn nhiều. Ví dụ, quá trình huấn luyện mang tính lặp (**iterative**): bạn sẽ chạy mô hình trên một tập dữ liệu huấn luyện, và xem kết quả đạt được. Sau đó, bạn tính toán một giá trị sai số (**error term**) dựa trên những lỗi đã mắc phải, và sử dụng nó để cập nhật mô hình. Chúng ta sẽ không quan tâm đến các chi tiết này. Ở đây, chúng ta chỉ coi quá trình huấn luyện như một “hộp đen” (**black box**) thực hiện rất nhiều phép nhân ma trận trên các bộ dữ liệu cực lớn.
 
@@ -35,15 +35,15 @@ Kết hợp hình dung về mô hình huấn luyện với hình dung về tính
 
 1. **Chia tác vụ thành các tác vụ con**. Mỗi node thực hiện một tác vụ con.
 
-    <img width="900px" src="/assets/beyond-client-server/7-063-distributed-1.png">
+    <img width="900px" src="../assets/beyond-client-server/7-063-distributed-1.png">
 
 2. **Sau khi mọi node hoàn thành tác vụ con**, tất cả trao đổi một lượng lớn trạng thái.
 
-    <img width="800px" src="/assets/beyond-client-server/7-064-distributed-2.png">
+    <img width="800px" src="../assets/beyond-client-server/7-064-distributed-2.png">
 
 3. **Chuyển sang tác vụ tiếp theo**, và lặp lại bước 1–2 cho tác vụ tiếp theo.
 
-    <img width="900px" src="/assets/beyond-client-server/7-065-distributed-3.png">
+    <img width="900px" src="../assets/beyond-client-server/7-065-distributed-3.png">
 
 Trọng tâm của chúng ta là **quá trình trao đổi dữ liệu ở bước thứ hai**, và cách làm cho quá trình trao đổi dữ liệu này hiệu quả hơn.
 
@@ -69,7 +69,7 @@ Các GPU được kết nối với nhau trong một mạng có cấu trúc gi�
 
 Nếu bạn nhìn vào bên trong một datacenter huấn luyện AI, bạn sẽ thấy các **server** (máy chủ) được tổ chức thành các **rack** (giá đỡ), giống như trong bất kỳ datacenter nào khác. Tuy nhiên, khác với các datacenter thông thường, mỗi server chứa một hoặc nhiều GPU để tính toán AI. Server cũng có thể có một CPU đa dụng thông thường cho các tác vụ phụ, mặc dù CPU này thường không mạnh và không đảm nhận phần lớn công việc tính toán. Tất cả GPU trên server sử dụng cùng một **NIC (Network Interface Card – card giao tiếp mạng)** để trao đổi dữ liệu với các server khác.
 
-<img width="900px" src="/assets/beyond-client-server/7-066-distributed-infra.png">
+<img width="900px" src="../assets/beyond-client-server/7-066-distributed-infra.png">
 
 Vì mỗi server có nhiều GPU, chúng ta cần điều chỉnh một chút mô hình trừu tượng topology mạng. Giống như trước đây, các server được kết nối với nhau qua **switch** và các liên kết băng thông cao. Tuy nhiên, giờ đây chúng ta cũng phải xem xét khả năng hai node trên cùng một server giao tiếp với nhau. Giao tiếp trong cùng một server cực kỳ hiệu quả so với giao tiếp giữa các server, nên chúng ta có thể mô hình hóa liên kết nội bộ server như một liên kết có băng thông vô hạn và **latency** (độ trễ) bằng 0.
 
@@ -77,13 +77,13 @@ Mỗi GPU có thể có bộ nhớ riêng, và chúng ta có thể sử dụng c
 
 Có nhiều topology khác nhau để kết nối giữa các rack, nhưng trong phạm vi này, chúng ta sẽ sử dụng topology **fat-tree Clos** để kết nối các rack. Dù sử dụng topology nào, một số cặp GPU sẽ gần nhau hơn (ví dụ: GPU trong cùng một server có thể giao tiếp mà không cần qua mạng), một số cặp sẽ xa hơn (ví dụ: GPU trên các server khác nhau nhưng cùng rack, kết nối qua một switch), và một số cặp sẽ xa nhất (ví dụ: GPU trên các rack khác nhau, kết nối qua nhiều hop). Các cặp GPU gần nhau có thể giao tiếp với băng thông cao hơn và độ trễ thấp hơn so với các cặp xa nhau. Tóm lại, nếu chọn ngẫu nhiên một cặp node, sẽ có cặp được kết nối tốt hơn cặp khác.
 
-<img width="900px" src="/assets/beyond-client-server/7-067-clos-with-gpus.png">
+<img width="900px" src="../assets/beyond-client-server/7-067-clos-with-gpus.png">
 
 Ngoài ra còn có các topology khác. TPU được tích hợp sẵn **router** trên chip, nên có thể kết nối trực tiếp TPU vào mạng mà không cần switch. Một topology phổ biến với TPU là kết nối chúng thành **3D torus** (khối lập phương 3D có các cạnh nối vòng). Ví dụ: nếu bạn đi tới đỉnh của khối lập phương và tiếp tục theo liên kết hướng lên, bạn sẽ quay lại đáy khối; hoặc nếu bạn đi tới mặt trước và tiếp tục theo liên kết hướng ra trước, bạn sẽ quay lại mặt sau. Giống như topology Clos, một số cặp node sẽ gần nhau (ví dụ: hàng xóm trực tiếp), trong khi các cặp khác sẽ xa hơn (ví dụ: cách nhau nhiều hop).
 
-<img width="400px" src="/assets/beyond-client-server/7-068-2d-torus.png">
+<img width="400px" src="../assets/beyond-client-server/7-068-2d-torus.png">
 
-<img width="600px" src="/assets/beyond-client-server/7-069-3d-torus.png">
+<img width="600px" src="../assets/beyond-client-server/7-069-3d-torus.png">
 
 ---
 
@@ -133,7 +133,7 @@ Mỗi node có một vector dữ liệu gồm $$p$$ phần tử. Trong các ví 
 
 Ngoài ra, đôi khi các phần tử có thể được **aggregate** (tổng hợp), ví dụ: cộng lại với nhau. Đầu ra cũng chỉ rõ phép tính nào (nếu có) được thực hiện trong thao tác này, và kết quả được đặt vào ô nào.
 
-<img width="900px" src="/assets/beyond-client-server/7-070-collective-setup.png">
+<img width="900px" src="../assets/beyond-client-server/7-070-collective-setup.png">
 
 Trước khi thao tác collective diễn ra, cần có một số bước **phối hợp bổ sung** để mỗi node biết số thứ tự của mình và tổng số node (ví dụ: “Bạn là node 1, và có tổng cộng 4 node”). Việc phối hợp bổ sung này nằm ngoài phạm vi của chúng ta, nhưng bạn có thể hình dung rằng một **scheduler** hoặc **controller** tập trung sẽ phân phát thông tin này tới các node và thiết lập tác vụ.
 
@@ -151,7 +151,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả:** Lấy toàn bộ vector trong một **root node** (nút gốc) được chỉ định, và gửi một bản sao của toàn bộ vector đó tới mọi node.
 
-<img width="900px" src="/assets/beyond-client-server/7-071-broadcast.png">
+<img width="900px" src="../assets/beyond-client-server/7-071-broadcast.png">
 
 **Ghi chú:**  
 - Sơ đồ minh họa Broadcast với Node 1 là root, nhưng có thể chọn node khác làm root. Người dùng phải chỉ định root node như một “tham số” của thao tác.  
@@ -164,7 +164,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả:** Lấy toàn bộ vector trong một root node được chỉ định. Gửi phần tử thứ $$i$$ của vector này tới node thứ $$i$$.
 
-<img width="900px" src="/assets/beyond-client-server/7-072-scatter.png">
+<img width="900px" src="../assets/beyond-client-server/7-072-scatter.png">
 
 **Ghi chú:** Giống như Broadcast, có thể chỉ định bất kỳ node nào làm root. Vector đầu vào ở các node không phải root không được dùng để tạo đầu ra.
 
@@ -174,7 +174,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả:** Tạo một vector mới, trong đó phần tử thứ $$i$$ được lấy từ phần tử thứ $$i$$ của node thứ $$i$$. Gửi vector này tới một root node được chỉ định.
 
-<img width="900px" src="/assets/beyond-client-server/7-073-gather.png">
+<img width="900px" src="../assets/beyond-client-server/7-073-gather.png">
 
 **Ghi chú:** Trong thao tác này, không có dữ liệu nào được lưu vào bộ đệm nhận của các node không phải root.
 
@@ -186,7 +186,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả thay thế:** Node $$i$$ thực hiện Broadcast phần tử thứ $$i$$ của mình, để nó trở thành phần tử thứ $$i$$ trong vector đầu ra của mọi node.
 
-<img width="900px" src="/assets/beyond-client-server/7-074-allgather.png">
+<img width="900px" src="../assets/beyond-client-server/7-074-allgather.png">
 
 ---
 
@@ -194,7 +194,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả:** Tính tổng theo từng phần tử (**element-wise sum**) của tất cả các vector, và gửi vector tổng này tới một root node được chỉ định.
 
-<img width="900px" src="/assets/beyond-client-server/7-075-reduce.png">
+<img width="900px" src="../assets/beyond-client-server/7-075-reduce.png">
 
 **Ghi chú:** Trong phần này, chúng ta dùng phép cộng làm phép **reduction** (giảm dữ liệu), nhưng có thể thay bằng phép khác (ví dụ: nhân). Các phép reduction thường **associative** (kết hợp) và **commutative** (giao hoán), nghĩa là có thể thực hiện theo bất kỳ thứ tự nào mà vẫn cho kết quả giống nhau.
 
@@ -204,7 +204,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả:** Tính tổng theo từng phần tử của tất cả các vector, và gửi một bản sao của vector tổng này tới tất cả các node.
 
-<img width="900px" src="/assets/beyond-client-server/7-076-allreduce.png">
+<img width="900px" src="../assets/beyond-client-server/7-076-allreduce.png">
 
 ---
 
@@ -214,7 +214,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Mô tả thay thế:** Phần tử thứ $$i$$ của mỗi node được cộng lại, và kết quả (một số vô hướng) được gửi tới node $$i$$.
 
-<img width="900px" src="/assets/beyond-client-server/7-077-reducescatter.png">
+<img width="900px" src="../assets/beyond-client-server/7-077-reducescatter.png">
 
 ---
 
@@ -224,15 +224,15 @@ Một số cặp thao tác là **dual** của nhau, nghĩa là một thao tác l
 
 - **Broadcast** và **Reduce** là dual của nhau: Broadcast đọc từ 4 ô trong root node và ghi vào tất cả 16 ô của mọi node. Reduce làm ngược lại: đọc từ tất cả 16 ô và ghi vào 4 ô trong root node.
 
-<img width="900px" src="/assets/beyond-client-server/7-078-duals-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-078-duals-1.png">
 
 - **Scatter** và **Gather** là dual của nhau: Scatter đọc từ 4 ô trong root node và ghi vào ô thứ $$i$$ của node $$i$$ (tổng 4 ô). Gather làm ngược lại.
 
-<img width="900px" src="/assets/beyond-client-server/7-079-duals-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-079-duals-2.png">
 
 - **AllGather** và **ReduceScatter** là dual của nhau: AllGather đọc từ ô thứ $$i$$ của node $$i$$ và ghi vào tất cả 16 ô. ReduceScatter làm ngược lại.
 
-<img width="900px" src="/assets/beyond-client-server/7-080-duals-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-080-duals-3.png">
 
 - **AllReduce** không có dual, hoặc có thể coi nó là dual của chính nó.
 
@@ -247,4 +247,4 @@ Người dùng có thể kết hợp nhiều thao tác để tạo ra thao tác 
 Ví dụ: AllReduce could equivalently be expressed as a ReduceScatter, followed by an AllGather.
 
 
-<img width="900px" src="/assets/beyond-client-server/7-081-composition.png">
+<img width="900px" src="../assets/beyond-client-server/7-081-composition.png">

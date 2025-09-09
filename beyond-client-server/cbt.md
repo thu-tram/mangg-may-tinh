@@ -13,11 +13,11 @@ Mục tiêu của **multicast routing** (định tuyến quảng bá nhóm) vẫ
 
 Tuy nhiên, bây giờ chúng ta sẽ thử một cách tiếp cận khác, hoàn toàn khác với **DVMRP (Distance Vector Multicast Routing Protocol)**.
 
-<img width="900px" src="/assets/beyond-client-server/7-032-cbt-taxonomy.png">
+<img width="900px" src="../assets/beyond-client-server/7-032-cbt-taxonomy.png">
 
 Trong phương pháp **Core-Based Tree (CBT)**, mỗi nhóm đích sẽ có một cây riêng. CBT cho một nhóm đích đơn giản là một cây kết nối tới mọi thành viên của nhóm đó.
 
-<img width="600px" src="/assets/beyond-client-server/7-033-cbt-end-goal.png">
+<img width="600px" src="../assets/beyond-client-server/7-033-cbt-end-goal.png">
 
 Có thể gây nhầm lẫn khi nghĩ về cây CBT và cây DVMRP cùng lúc. Tạm thời, bạn có thể coi chúng là hai loại cây hoàn toàn khác nhau, không có điểm chung.
 
@@ -31,27 +31,27 @@ Bây giờ, chúng ta sẽ xây dựng một cây kết nối tới mọi thành
 
 Nếu một thành viên muốn tham gia nhóm, thành viên đó sẽ **unicast** (gửi đơn hướng) một thông điệp **join** (tham gia) tới core. Gói tin này sẽ đi qua nhiều router để tới core. Tất cả các router trên đường đi này cũng sẽ tham gia vào cây, để cây có đường từ core tới thành viên mới.
 
-<img width="800px" src="/assets/beyond-client-server/7-034-cbt-join-1.png">
+<img width="800px" src="../assets/beyond-client-server/7-034-cbt-join-1.png">
 
-<img width="600px" src="/assets/beyond-client-server/7-035-cbt-join-2.png">
+<img width="600px" src="../assets/beyond-client-server/7-035-cbt-join-2.png">
 
 Cụ thể hơn, nếu bạn là một router và nhận được thông điệp join cho một nhóm cụ thể, bạn biết rằng mình hiện là một phần của cây nhóm đó. **Incoming link** (liên kết đầu vào) của thông điệp join là **child** (nhánh con) của bạn – liên kết hướng ra xa gốc. **Outgoing link** (liên kết đầu ra – bước nhảy tiếp theo tới gốc) là **parent** (nhánh cha) của bạn – liên kết hướng về gốc. Bạn có thể ghi lại thông tin về parent và các child của mình để nhớ vị trí của mình trong cây. Không có một thực thể trung tâm nào ghi nhớ toàn bộ cây; mỗi router trên cây tự chịu trách nhiệm ghi nhớ parent và child của mình.
 
-<img width="900px" src="/assets/beyond-client-server/7-036-cbt-join-recap.png">
+<img width="900px" src="../assets/beyond-client-server/7-036-cbt-join-recap.png">
 
 Nếu một thành viên muốn rời nhóm, thành viên đó có thể unicast một thông điệp **quit** (rời nhóm) tới **parent** trực tiếp của mình trên cây. Nếu tất cả các child của bạn trên cây đã gửi thông điệp quit, điều đó có nghĩa là bạn cũng có thể rời cây, và gửi thông điệp quit tới parent trực tiếp của mình. Thông điệp quit chỉ được gửi tới parent trực tiếp và không được chuyển tiếp xa hơn.
 
-<img width="700px" src="/assets/beyond-client-server/7-037-cbt-leave-1.png">
+<img width="700px" src="../assets/beyond-client-server/7-037-cbt-leave-1.png">
 
-<img width="600px" src="/assets/beyond-client-server/7-038-cbt-leave-2.png">
+<img width="600px" src="../assets/beyond-client-server/7-038-cbt-leave-2.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-039-cbt-quit-recap.png">
+<img width="900px" src="../assets/beyond-client-server/7-039-cbt-quit-recap.png">
 
 Hãy nhớ rằng chúng ta xây dựng **một cây cho mỗi nhóm**. Điều này có nghĩa là các router phải ghi nhớ parent và child của mình cho từng cây mà chúng tham gia. Đồng thời, các thông điệp join và leave phải gắn với nhóm cụ thể, ví dụ: “Tôi muốn tham gia nhóm G2.”
 
-<img width="600px" src="/assets/beyond-client-server/7-040-multiple-1.png">
+<img width="600px" src="../assets/beyond-client-server/7-040-multiple-1.png">
 
-<img width="600px" src="/assets/beyond-client-server/7-041-multiple-2.png">
+<img width="600px" src="../assets/beyond-client-server/7-041-multiple-2.png">
 
 **Một số lưu ý về core** (không phải là trực giác chính của giao thức):  
 - Vì core là một router, nó có địa chỉ IP unicast, và mọi người đều có thể gửi gói tin unicast tới core.  
@@ -73,7 +73,7 @@ Sau khi đã xây dựng CBT cho một nhóm, làm thế nào để sử dụng 
 
 Cụ thể hơn, bạn bắt đầu bằng cách chuyển tiếp gói tin tới parent của mình trên cây. Sau đó, mỗi router trên cây nhận gói tin và **flood** (lan truyền) gói tin tới tất cả các liên kết cây của nó (cả liên kết parent và child).
 
-<img width="700px" src="/assets/beyond-client-server/7-042-cbt-forwarding-1.png">
+<img width="700px" src="../assets/beyond-client-server/7-042-cbt-forwarding-1.png">
 
 **Trường hợp 2:** Nếu bạn không phải là thành viên nhóm, bạn không nằm trên cây, nên chiến lược ở Trường hợp 1 sẽ không hiệu quả. Thay vào đó, bạn có thể unicast gói tin tới core. Sau đó, core sẽ broadcast thông điệp tới tất cả mọi người trên cây.
 
@@ -81,7 +81,7 @@ Cụ thể hơn, khi bạn unicast gói tin tới core, bạn cần **encapsulat
 
 Khi core nhận gói tin, nó gỡ bỏ outer header và thấy gói tin multicast bên trong. Core sau đó có thể broadcast gói tin này dọc theo cây. Giống như Trường hợp 1, mỗi router trên cây nhận gói tin và flood gói tin tới tất cả các liên kết cây của nó (cả parent và child).
 
-<img width="900px" src="/assets/beyond-client-server/7-043-cbt-forwarding-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-043-cbt-forwarding-2.png">
 
 ---
 
@@ -93,7 +93,7 @@ Trong phương pháp CBT, CBT cho một nhóm đích đơn giản là một cây
 
 Lưu ý rằng CBT giống nhau cho tất cả các nguồn. Không giống DVMRP (một cây cho mỗi nguồn và mỗi nhóm đích), giờ đây chúng ta chỉ cần một cây cho mỗi nhóm đích.
 
-<img width="900px" src="/assets/beyond-client-server/7-044-dvmrp-cbt-scaling.png">
+<img width="900px" src="../assets/beyond-client-server/7-044-dvmrp-cbt-scaling.png">
 
 Việc so sánh cây DVMRP và cây CBT giúp thấy rõ khả năng mở rộng của các giao thức, nhưng ngoài điều đó, các cây trong mỗi giao thức có ý nghĩa hoàn toàn khác nhau. Nếu bạn thấy khó hiểu, hãy coi chúng như hai khái niệm hoàn toàn tách biệt.
 
@@ -110,11 +110,11 @@ CBT đánh đổi giữa khả năng mở rộng (**scalability**) và hiệu su
 
 Hiệu suất của CBT phụ thuộc rất nhiều vào việc router nào được chọn làm **core**. Ví dụ, hãy xem xét cấu trúc mạng dưới đây với các lựa chọn core khác nhau.
 
-<img width="700px" src="/assets/beyond-client-server/7-045-core-choice-1.png">
+<img width="700px" src="../assets/beyond-client-server/7-045-core-choice-1.png">
 
-<img width="700px" src="/assets/beyond-client-server/7-046-core-choice-2.png">
+<img width="700px" src="../assets/beyond-client-server/7-046-core-choice-2.png">
 
-<img width="700px" src="/assets/beyond-client-server/7-047-core-choice-3.png">
+<img width="700px" src="../assets/beyond-client-server/7-047-core-choice-3.png">
 
 Trong mọi lựa chọn core, luôn có ít nhất một cặp router được kết nối bằng một đường đi không tối ưu. Chúng ta không còn có một cây đường đi ngắn nhất được đảm bảo từ một nguồn tới tất cả các thành viên nhóm.
 

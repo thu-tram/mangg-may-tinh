@@ -11,7 +11,7 @@ layout: page-with-toc
 
 Recall that packets get additional headers wrapped around them as they move down the stack, to lower layers. To send an IP packet, we first fill in its destination IP at Layer 3. Then, we pass that packet down to Layer 2, where we have to add a MAC address to send the packet along the link. What MAC address do we add?
 
-<img width="800px" src="/assets/end-to-end/5-041-arp-blank-mac.png">
+<img width="800px" src="../assets/end-to-end/5-041-arp-blank-mac.png">
 
 First, we need to check if the destination IP is somebody in our own local network, or somebody in a different local network. To determine this, the sender's forwarding table will have an entry indicating the range of local IP addresses, sometimes called our **subnet**. For example, the entry might say that 192.0.2.0/24 is direct, which means all addresses between 192.0.2.0 and 192.0.2.255 are on the same local network. The table also has a default route, saying that all other non-local destinations should be forwarded to the router.
 
@@ -36,23 +36,23 @@ When you receive an IP-to-MAC mapping, you can add it to your local **ARP Table*
 
 Step 1:
 
-<img width="900px" src="/assets/end-to-end/5-042-arp1.png">
+<img width="900px" src="../assets/end-to-end/5-042-arp1.png">
 
 Step 2:
 
-<img width="900px" src="/assets/end-to-end/5-043-arp2.png">
+<img width="900px" src="../assets/end-to-end/5-043-arp2.png">
 
 Step 3:
 
-<img width="900px" src="/assets/end-to-end/5-044-arp3.png">
+<img width="900px" src="../assets/end-to-end/5-044-arp3.png">
 
 Step 4:
 
-<img width="900px" src="/assets/end-to-end/5-045-arp4.png">
+<img width="900px" src="../assets/end-to-end/5-045-arp4.png">
 
 Note that ARP runs directly on Layer 2, so all packets are sent and received over Ethernet, not IP.
 
-<img width="900px" src="/assets/end-to-end/5-046-arp5.png">
+<img width="900px" src="../assets/end-to-end/5-046-arp5.png">
 
 
 ## Connecting ARP and Forwarding Tables
@@ -61,7 +61,7 @@ Recall that in a router's forwarding table, we would sometimes include an entry 
 
 In reality, the router's forwarding table contains a single entry, mapping the entire subnet's range of IP addresses to be direct. If the router receives a packet whose destination is in this local range, the router runs ARP to find the corresponding MAC address, and uses Layer 2 to send the packet to the correct host on the link.
 
-<img width="600px" src="/assets/end-to-end/5-047-direct-route.png">
+<img width="600px" src="../assets/end-to-end/5-047-direct-route.png">
 
 This also helps us in the case where multiple hosts are connected on the same link. In our conceptual picture, we'd say that Host A is directly connected on Port 1. Multiple hosts might be on that link, so by using ARP, we can create a Layer 2 packet that gets unicast to only Host A, and not other computers on the link.
 
@@ -71,7 +71,7 @@ Now, to check if an address is in the range, we perform a bitwise AND of the add
 
 Note that as packets get forwarded across hops, the Layer 2 destination will change to the MAC address of the next hop, so that packets can travel across links. However, the Layer 3 destination stays the same across each hop.
 
-<img width="700px" src="/assets/end-to-end/5-048-arp-filled-in-mac.png">
+<img width="700px" src="../assets/end-to-end/5-048-arp-filled-in-mac.png">
 
 
 ## Neighbor Discovery in IPv6
@@ -82,6 +82,6 @@ Instead of broadcasting the request for an IP-to-MAC translation, neighbor disco
 
 If I want the MAC address corresponding to the user with an IPv6 address ending in 12:3456, I can plug those IPv6 bits into the group MAC address to get 33:33:FF:12:34:56, and I know that the user with that IP address must be listening to this group MAC address.
 
-<img width="900px" src="/assets/end-to-end/5-049-neighbor-discovery.png">
+<img width="900px" src="../assets/end-to-end/5-049-neighbor-discovery.png">
 
 Some terminology: In the neighbor discovery protocol, the request for a mapping is called Neighbor Solicitation, and the reply containing the mapping is called Neighbor Advertisement.

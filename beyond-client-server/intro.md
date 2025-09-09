@@ -14,13 +14,13 @@ Mô hình client-server không phải là cách tự nhiên nhất để hình d
 
 Một câu trả lời khả dĩ là: Mạng **không cần** hỗ trợ gì cả. Giao tiếp nhóm có thể được triển khai bằng unicast. Ví dụ: khi bạn cập nhật một tài liệu cộng tác, bạn có thể gửi một gói tin unicast riêng tới từng thành viên khác trong nhóm để họ biết về bản cập nhật của bạn.
 
-<img width="500px" src="/assets/beyond-client-server/7-001-unicast-model.png">
+<img width="500px" src="../assets/beyond-client-server/7-001-unicast-model.png">
 
 Tuy nhiên, cách tiếp cận chỉ dùng unicast này có thể kém hiệu quả. Xét ví dụ topology mạng, trong đó bạn ở Mỹ và tất cả các thành viên khác của nhóm ở châu Âu. Nếu bạn gửi các gói tin unicast riêng tới từng thành viên, bạn đang gửi nhiều bản sao trùng lặp của dữ liệu qua tuyến cáp quang biển đắt đỏ. Ngoài ra, điều này buộc bên gửi phải gửi nhiều gói tin unicast trùng lặp, dẫn đến khả năng mở rộng kém (ví dụ: tưởng tượng một server duy nhất phát trực tiếp một trận đấu thể thao cho hàng triệu người dùng).
 
 Một cách tiếp cận tự nhiên hơn là chỉ gửi **một** gói tin qua tuyến cáp biển, sau đó để một thiết bị ở châu Âu (ví dụ: một **router** hoặc một host) phân phối bản sao gói tin đó tới các thành viên trong nhóm. Lý tưởng nhất, chúng ta muốn tránh gửi các bản sao trùng lặp của một gói tin trên cùng một liên kết. Nói cách khác, mỗi liên kết chỉ nên mang gói tin đó **một lần** (hoặc không mang, nếu không có thành viên nhóm nào ở phía đó).
 
-<img width="500px" src="/assets/beyond-client-server/7-002-multicast-model.png">
+<img width="500px" src="../assets/beyond-client-server/7-002-multicast-model.png">
 
 Cách tiếp cận này đòi hỏi mạng phải có hỗ trợ bổ sung và cần phát triển một số giao thức mới.
 
@@ -35,7 +35,7 @@ Hãy nhớ rằng chúng ta đã thấy bốn mô hình truyền gói tin cho đ
 - **Broadcast:** Gửi gói tin tới tất cả các đích. Định nghĩa “tất cả” phụ thuộc vào ngữ cảnh, nhưng bạn có thể hình dung là tất cả host trong một mạng cục bộ.  
 - **Multicast:** Gửi gói tin tới tất cả các thành viên trong một nhóm. Host có thể tham gia/rời nhóm bất kỳ lúc nào. Lưu ý rằng bạn có thể gửi gói tin tới một nhóm ngay cả khi bạn không phải là thành viên của nhóm đó.
 
-<img width="900px" src="/assets/beyond-client-server/7-003-uni-any-multi-broadcast.png">
+<img width="900px" src="../assets/beyond-client-server/7-003-uni-any-multi-broadcast.png">
 
 Mô hình multicast có thể được sử dụng để giải quyết các vấn đề giao tiếp nhóm đã nêu ở trên. Ví dụ: tất cả host quan tâm đến việc nhận phát trực tiếp một trận đấu thể thao có thể tham gia vào một **multicast group**. Sau đó, dịch vụ phát trực tiếp có thể gửi gói tin multicast tới toàn bộ nhóm.
 
@@ -53,4 +53,4 @@ Một cuộc tranh luận lâu dài trong lịch sử multicast là câu hỏi v
 
 Không có lựa chọn nào là tuyệt đối tốt hơn. Chúng ta sẽ nghiên cứu cả hai cách và phân tích các đánh đổi giữa chúng.
 
-<img width="500px" src="/assets/beyond-client-server/7-004-multicast-taxonomy.png">
+<img width="500px" src="../assets/beyond-client-server/7-004-multicast-taxonomy.png">

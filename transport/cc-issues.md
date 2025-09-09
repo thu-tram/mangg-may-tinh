@@ -20,7 +20,7 @@ Most TCP connections in real life are very short-lived. 50% of connections send 
 
 Suppose we had a connection where the sender only had 3 packets to send. What would TCP congestion control do? We'd start with window size 1 and send the first packet. Then, we'd wait for the ack, increase the window size to 2, and send the remaining two packets. Then, we'd wait for two more acks, and finish.
 
-<img width="400px" src="/assets/transport/3-091-short-flow.png">
+<img width="400px" src="../assets/transport/3-091-short-flow.png">
 
 This connection took two RTTs to send 3 packets, resulting in an incredibly low throughput (1.5 packets per RTT).
 
@@ -41,7 +41,7 @@ This problem is made worse if routers keep extremely large queues. Routers havin
 
 To avoid queues filling up, we could find a way to measure congestion that doesn't involve deliberately triggering losses. In particular, we could detect congestion when the RTT starts increasing, which indicates delay. This is the idea behind Google's recent BBR algorithm (2016). The sender learns its minimum RTT, and decreases its rate if it starts noticing the RTT exceeding the minimum.
 
-<img width="600px" src="/assets/transport/3-092-delay-based-taxonomy.png">
+<img width="600px" src="../assets/transport/3-092-delay-based-taxonomy.png">
 
 
 ## Cheating
@@ -50,7 +50,7 @@ There is nothing enforcing that senders have to follow the TCP congestion contro
 
 For example, a sender could increase the window faster (e.g. +2 every RTT, instead of +1). If we applied our graphical model to one cheating sender and one honest sender, AIMD updates would actually converge on a bad fairness line where the cheating sender gets twice the bandwidth of the honest sender.
 
-<img width="600px" src="/assets/transport/3-093-cheating-aimd.png">
+<img width="600px" src="../assets/transport/3-093-cheating-aimd.png">
 
 Many other ways to modify the protocol also exist, such as starting with very large initial congestion window.
 

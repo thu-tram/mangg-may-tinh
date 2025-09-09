@@ -13,7 +13,7 @@ In this section, we'll focus on what happens inside a local area network, such a
 
 In particular, we'll look at forwarding and addressing at Layer 2. We'll have to define how packets are forwarded from a local host to a router. We'll also see how hosts in the same local network can exchange messages at Layer 2, without a need to contact routers at all. The predominant protocol at Layer 2 is Ethernet. 
 
-<img width="400px" src="/assets/end-to-end/5-001-layer2.png">
+<img width="400px" src="../assets/end-to-end/5-001-layer2.png">
 
 
 ## Connecting Local Hosts
@@ -22,17 +22,17 @@ So far, we've drawn links connecting exactly two machines. In the local network,
 
 In reality, a single wire might be used to connect multiple machines. In the local network, the hosts and the router can all be on the same wire. We can abstract even further and note that at Layer 2, the router is really just a machine like any other (that happens to run routing protocols at higher layers). Ultimately, the wire doesn't really care what the connected machines are doing with the data they exchange.
 
-<img width="700px" src="/assets/end-to-end/5-002-linking-machines.png">
+<img width="700px" src="../assets/end-to-end/5-002-linking-machines.png">
 
 What is the best way to wire up computers in a local network? Earlier, when we first introduced routing, we thought about using a mesh topology to connect all pairs of computers in the world. We also considered using a single wire to connect up all the computers. Ultimately, we decided that for a global network, neither approach was practical, and we needed to introduce routers.
 
-<img width="800px" src="/assets/end-to-end/5-003-mesh-bus.png">
+<img width="800px" src="../assets/end-to-end/5-003-mesh-bus.png">
 
 We can consider these topologies again in the local network. A mesh topology is still pretty impractical. If a new host joins, we'd have to add a wire connecting it to every other host. However, a **bus** topology, where we connect all the computers along a single wire, is pretty common and practical in a local network.
 
 The single-wire bus topology introduces the notion of a **shared media**. When we drew links connecting two machines, only those two computers used that link to communicate. Now, a packet from A to C, and a packet from B to D, might be on the wire at the same time, and the electrical signal on that wire cannot hold both packets simultaneously.
 
-<img width="600px" src="/assets/end-to-end/5-004-collision.png">
+<img width="600px" src="../assets/end-to-end/5-004-collision.png">
 
 As an analogy, consider multiple people on a group call, sharing a single phone line: Any two people can talk to each other, but you can't have two simultaneous conversations, or else nobody understands what's being said.
 
@@ -43,7 +43,7 @@ We've drawn links as wires with electrical signals on them for simplicity, but i
 
 In a network with a shared medium, there's a risk that transmissions from different nodes may interfere or collide with each other. If two computers try to transmit data simultaneously, their signals will overlap and interfere. The recipients may be unable to decode the signal, and they can't tell who sent the signal. To solve this problem, we need a **multiple access protocol** that ensures that multiple computers can share the link and transmit over it.
 
-<img width="700px" src="/assets/end-to-end/5-005-multiple-access-taxonomy.png">
+<img width="700px" src="../assets/end-to-end/5-005-multiple-access-taxonomy.png">
 
 One possible category of approaches is to allocate a fixed portion of resources to each node on the link. There are two ways we could consider dividing up the resources. In **frequency-division multiplexing**, we allocate a different slice of frequencies to each computer. (Consider AM/FM radio or broadcast TV, which divide up frequencies into channels.) In **time-division multiplexing**, we divide time into fixed slots and allocate a slot to every connected node.
 
@@ -53,11 +53,11 @@ Instead of fixed allocation, another category of approaches are based on the nod
 
 In a **polling protocol**, a centralized coordinator decides when each connected node gets to speak. The coordinator goes to each node one by one and asks if the node has something to say. If the node says yes, the coordinator lets the node speak for some time. If the node says no, the coordinator immediately moves on to the next node, and the node doesn't waste any resources. Bluetooth is a real-world protocol using this idea.
 
-<img width="900px" src="/assets/end-to-end/5-006-polling.png">
+<img width="900px" src="../assets/end-to-end/5-006-polling.png">
 
 The other way to let nodes take turns is **token passing**. Instead of having a centralized coordinator, we have a virtual token that can be passed between nodes, and only the node with the token is allowed to speak. If a node has something to say, it holds onto the token while transmitting, then passes it to the next node. If a node doesn't have anything to say at the moment, it immediately passes the token to the next node. IBM Token Ring and FDDI are real-world examples of protocols that use this idea.
 
-<img width="900px" src="/assets/end-to-end/5-007-token.png">
+<img width="900px" src="../assets/end-to-end/5-007-token.png">
 
 One downside to these turn-based approaches is complexity. We have to implement some form of inter-node communication, which could get complicated. In token passing, we might need some dedicated frequency channel for nodes to reliably pass the token between each other. We might also have to deal with complications like two nodes both thinking they have the token and causing a collision. In a polling protocol, we need to designate a central coordinator to communicate with nodes, and implement a way for the coordinator to talk to the nodes. In Bluetooth, your smartphone can be the central coordinator talking to auxiliary devices, but in other networks, it might not be obvious who the coordinator is.
 
@@ -74,7 +74,7 @@ The naive random access protocol is "rude" because nodes start talking whenever 
 
 Note that CSMA does not help us avoid all collisions. If signals instantaneously propagated along the entire length of the wire, there would be no collisions in CSMA. However, propagation delay can introduce issues. Suppose node A on one end of the wire hears silence and starts transmitting. The signal might not have propagated to node B yet, on the other end of the wire. Node B hears silence and also starts transmitting, causing a collision.
 
-<img width="500px" src="/assets/end-to-end/5-008-propagation.png">
+<img width="500px" src="../assets/end-to-end/5-008-propagation.png">
 
 This 2D diagram demonstrates how propagation delay can cause conflicts. A horizontal cross-section shows the wire at an instant in time, and lets us see how far the signal has propagated across the wire at that instant. A vertical cross-section shows a single location on the wire across time, and lets us see when that location sees the first and last bits of the transmission. Both H2 and H4 hear silence before they start transmitting, but their signals still collide.
 
@@ -99,7 +99,7 @@ By contrast, all the remote nodes transmit on a separate shared frequency, and t
 
 This asymmetric design worked well for ALOHANet because the hub probably has more to send than the remote nodes.
 
-<img width="200px" src="/assets/end-to-end/5-009-alohanet.png">
+<img width="200px" src="../assets/end-to-end/5-009-alohanet.png">
 
 ALOHANet was one of the first systems to use a random access protocol to handle collisions, and this approach would later be used in Ethernet. ALOHANet used the naive rude approach to random access. Later protocols like Ethernet used the more polite approach of CSMA/CD, where we listen for collisions before and during transimssion, and we back off exponentially when there are collisions.
 
@@ -132,7 +132,7 @@ This unicast/broadcast/multicast model extends to other layers too. For example,
 
 A data packet in Ethernet is called a **frame**. Many fields look similar to the IP header fields, though there are some differences.
 
-<img width="900px" src="/assets/end-to-end/5-010-ethernet-packet.png">
+<img width="900px" src="../assets/end-to-end/5-010-ethernet-packet.png">
 
 The Ethernet packet starts with a 7-byte preamble, which indicates the start of a packet. This helps separate packets as they're signalled across the wire.
 

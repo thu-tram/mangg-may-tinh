@@ -21,7 +21,7 @@ Trong phần này, chúng ta đặt $$p=5$$ để một số ví dụ minh họa
 
 Trong phần này, chúng ta sẽ tập trung vào việc triển khai collective **AllReduce**, mặc dù các ý tưởng có thể áp dụng cho các collective khác. Nhắc lại rằng AllReduce tính tổng theo từng phần tử của các vector, sau đó gửi vector tổng này tới tất cả các nút.
 
-<img width="900px" src="/assets/beyond-client-server/7-082-allreduce-reminder.png">
+<img width="900px" src="../assets/beyond-client-server/7-082-allreduce-reminder.png">
 
 ---
 
@@ -29,16 +29,16 @@ Trong phần này, chúng ta sẽ tập trung vào việc triển khai collectiv
 
 Topology đầu tiên chúng ta xem xét là **full-mesh** (lưới đầy đủ), trong đó mỗi nút có một liên kết trực tiếp tới mọi nút khác.
 
-<img width="900px" src="/assets/beyond-client-server/7-083-mesh-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-083-mesh-1.png">
 
 Với topology này, chúng ta có thể triển khai AllReduce theo các bước:  
 1. Mỗi nút gửi toàn bộ vector của mình trực tiếp tới mọi nút khác.
 
-<img width="900px" src="/assets/beyond-client-server/7-084-mesh-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-084-mesh-2.png">
 
 2. Sau đó, mỗi nút cộng tất cả các vector mà nó nhận được.
 
-<img width="900px" src="/assets/beyond-client-server/7-085-mesh-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-085-mesh-3.png">
 
 **Băng thông sử dụng:** Mỗi nút cần gửi toàn bộ vector ($$D$$ byte) của mình tới tất cả $$p-1$$ nút khác, nên mỗi nút gửi $$D(p-1)$$ byte. Có tổng cộng $$p$$ nút, nên tổng dữ liệu gửi là $$Dp(p-1) = O(D \cdot p^2)$$ byte.
 
@@ -50,16 +50,16 @@ Với topology này, chúng ta có thể triển khai AllReduce theo các bướ
 
 Trong topology tiếp theo, chúng ta để một nút duy nhất thực hiện toàn bộ công việc tính toán:
 
-<img width="900px" src="/assets/beyond-client-server/7-086-root-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-086-root-1.png">
 
 Để chạy AllReduce:  
 1. Tất cả các nút (trừ Node 1) gửi vector của mình tới Node 1.
 
-<img width="800px" src="/assets/beyond-client-server/7-087-root-2.png">
+<img width="800px" src="../assets/beyond-client-server/7-087-root-2.png">
 
 2. Node 1 tính tổng, và gửi vector tổng này trở lại cho tất cả các nút.
 
-<img width="900px" src="/assets/beyond-client-server/7-088-root-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-088-root-3.png">
 
 **Băng thông sử dụng:**  
 - Bước 1: Mỗi nút (trừ Node 1) cần gửi toàn bộ vector tới Node 1, tức là $$D$$ byte. Có $$p-1$$ nút gửi dữ liệu, nên tổng dữ liệu gửi trong bước này là $$D(p-1)$$ byte.  
@@ -79,29 +79,29 @@ Chúng ta không đo chính xác độ dài của một time step ở đây, nh�
 
 Trong topology tiếp theo, chúng ta sẽ xây dựng một **binary tree** (cây nhị phân). Ở đây, “binary” nghĩa là mỗi nút có tối đa 2 **child** (nút con).
 
-<img width="800px" src="/assets/beyond-client-server/7-089-tree-1.png">
+<img width="800px" src="../assets/beyond-client-server/7-089-tree-1.png">
 
 Để chạy **AllReduce**: Bắt đầu từ các **leaf node** (nút lá) ở đáy cây, mỗi nút gửi vector của mình tới **parent** (nút cha).
 
-<img width="800px" src="/assets/beyond-client-server/7-090-tree-2.png">
+<img width="800px" src="../assets/beyond-client-server/7-090-tree-2.png">
 
 Khi nhận được tất cả vector từ các child, bạn sẽ cộng chúng với vector của mình.
 
-<img width="800px" src="/assets/beyond-client-server/7-091-tree-3.png">
+<img width="800px" src="../assets/beyond-client-server/7-091-tree-3.png">
 
 Sau đó, bạn gửi vector tổng này lên parent.
 
-<img width="700px" src="/assets/beyond-client-server/7-092-tree-4.png">
+<img width="700px" src="../assets/beyond-client-server/7-092-tree-4.png">
 
 Sau khi lặp lại bước này qua tất cả các tầng của cây, **root** (nút gốc) sẽ tính được tổng cuối cùng.
 
-<img width="700px" src="/assets/beyond-client-server/7-093-tree-5.png">
+<img width="700px" src="../assets/beyond-client-server/7-093-tree-5.png">
 
 Tiếp theo, ở bước thứ hai, root gửi vector tổng này xuống cây, tới các child của nó. Khi nhận được vector tổng từ parent, bạn sẽ gửi một bản sao của vector tổng đó tới tất cả các child của mình.
 
-<img width="800px" src="/assets/beyond-client-server/7-094-tree-6.png">
+<img width="800px" src="../assets/beyond-client-server/7-094-tree-6.png">
 
-<img width="800px" src="/assets/beyond-client-server/7-095-tree-7.png">
+<img width="800px" src="../assets/beyond-client-server/7-095-tree-7.png">
 
 **Băng thông sử dụng:**  
 - Bước 1: Mỗi nút nhận tối đa 2 vector từ các child (vì cây là nhị phân) và gửi 1 vector tới parent. Điều này cho giới hạn trên là $$3D$$ byte mỗi nút, tổng cộng $$3D \cdot p$$ byte trong Bước 1.  
@@ -121,37 +121,37 @@ Nói chung, các collective dạng hợp nhất dữ liệu (**Reduce**, **Reduc
 
 Trong hai cách tiếp cận cuối, chúng ta sẽ xây dựng topology dạng **ring** (vòng). Lưu ý rằng liên kết vòng từ Node 1 tới Node 5 không có gì đặc biệt so với các liên kết khác (việc liên kết này dài hơn không mang ý nghĩa gì).
 
-<img width="900px" src="/assets/beyond-client-server/7-096-naive-ring-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-096-naive-ring-1.png">
 
 Để chạy AllReduce theo cách ngây thơ: Node 5 bắt đầu bằng cách gửi vector của mình sang trái.
 
-<img width="900px" src="/assets/beyond-client-server/7-097-naive-ring-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-097-naive-ring-2.png">
 
 Khi nhận vector từ **neighbor** (nút láng giềng) bên phải, bạn cộng nó với vector của mình.
 
-<img width="900px" src="/assets/beyond-client-server/7-098-naive-ring-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-098-naive-ring-3.png">
 
 Sau đó, bạn gửi vector tổng này sang **neighbor** bên trái.
 
-<img width="900px" src="/assets/beyond-client-server/7-099-naive-ring-4.png">
+<img width="900px" src="../assets/beyond-client-server/7-099-naive-ring-4.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-100-naive-ring-5.png">
+<img width="900px" src="../assets/beyond-client-server/7-100-naive-ring-5.png">
 
 Quá trình này sẽ tiếp tục quanh vòng.
 
-<img width="900px" src="/assets/beyond-client-server/7-101-naive-ring-6.png">
+<img width="900px" src="../assets/beyond-client-server/7-101-naive-ring-6.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-102-naive-ring-7.png">
+<img width="900px" src="../assets/beyond-client-server/7-102-naive-ring-7.png">
 
 Cuối cùng, Node 1 sẽ tính được vector tổng cuối cùng.
 
-<img width="900px" src="/assets/beyond-client-server/7-103-naive-ring-8.png">
+<img width="900px" src="../assets/beyond-client-server/7-103-naive-ring-8.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-104-naive-ring-9.png">
+<img width="900px" src="../assets/beyond-client-server/7-104-naive-ring-9.png">
 
 Sau đó, ở bước thứ hai, chúng ta gửi vector tổng này quanh vòng để mọi nút đều có bản sao. Node 5 bắt đầu bằng cách gửi vector tổng sang trái. Khi nhận vector tổng từ neighbor bên phải, bạn gửi một bản sao sang neighbor bên trái. Quá trình này tiếp tục quanh vòng cho đến khi mọi nút nhận được vector tổng.
 
-<img width="900px" src="/assets/beyond-client-server/7-105-naive-ring-10.png">
+<img width="900px" src="../assets/beyond-client-server/7-105-naive-ring-10.png">
 
 **Băng thông sử dụng:**  
 - Bước 1: Mỗi nút nhận 1 vector từ neighbor bên phải và gửi 1 vector sang neighbor bên trái. Giới hạn trên là $$2D$$ byte mỗi nút, tổng cộng $$2D \cdot p$$ byte.  
@@ -172,43 +172,43 @@ Các cách tiếp cận trước đây đều cho ra kết quả đúng, nhưng 
 
 Để tạo tải công việc ít dồn cục hơn và cân bằng hơn, chúng ta có thể **stagger** (xen kẽ) các bước của AllReduce dạng ring-based *ngây thơ* (naive ring-based AllReduce). Việc gửi toàn bộ vector sang trái cùng lúc sẽ khiến nó bị quá tải. Thay vào đó, bạn có thể gửi vector về bên trái theo từng lượt một, mỗi element một lần gửi.
 
-<img width="900px" src="/assets/beyond-client-server/7-106-optimized-ring-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-106-optimized-ring-1.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-107-optimized-ring-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-107-optimized-ring-2.png">
 
 
 
 Khi bạn nhận được **một phần tử** (từ bên trái), bạn có thể cộng phần tử đó với phần tử tương ứng của mình. Sau đó, bạn gửi kết quả tổng này (vẫn chỉ là một phần tử) sang bên trái.
 
-<img width="900px" src="/assets/beyond-client-server/7-108-optimized-ring-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-108-optimized-ring-3.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-109-optimized-ring-4.png">
+<img width="900px" src="../assets/beyond-client-server/7-109-optimized-ring-4.png">
 
 Ngoài việc **stagger** (xen kẽ) việc gửi từng phần tử của vector, hãy chú ý rằng **điểm bắt đầu** cũng được sắp xếp xen kẽ. Thay vì điểm bắt đầu là Node 5 gửi tất cả các phần tử của nó, bây giờ chúng ta bắt đầu bằng cách để nút thứ $$i$$ gửi phần tử thứ $$i$$ của nó.
 
-<img width="900px" src="/assets/beyond-client-server/7-110-optimized-ring-5.png">
+<img width="900px" src="../assets/beyond-client-server/7-110-optimized-ring-5.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-111-optimized-ring-6.png">
+<img width="900px" src="../assets/beyond-client-server/7-111-optimized-ring-6.png">
 
 Bằng cách xen kẽ thao tác theo cả hai chiều này (mỗi nút gửi một phần tử tại một thời điểm, và mỗi nút bắt đầu ở một phần tử khác nhau), chúng ta có thể tạo ra một **workload** (tải công việc) cân bằng hơn. Ở mỗi **time step**, mỗi nút nhận đúng một phần tử từ bên phải, tính một phép cộng, và gửi đúng một phần tử sang bên trái.
 
-<img width="900px" src="/assets/beyond-client-server/7-112-optimized-ring-7.png">
+<img width="900px" src="../assets/beyond-client-server/7-112-optimized-ring-7.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-113-optimized-ring-8.png">
+<img width="900px" src="../assets/beyond-client-server/7-113-optimized-ring-8.png">
 
 Nếu chúng ta lặp lại quá trình này $$p$$ lần, thì mỗi phần tử sẽ đi hết một vòng quanh vòng tròn.
 
-<img width="900px" src="/assets/beyond-client-server/7-114-optimized-ring-9.png">
+<img width="900px" src="../assets/beyond-client-server/7-114-optimized-ring-9.png">
 
 Tuy nhiên, không phải mọi nút đều biết tất cả các phần tử của vector tổng, vì vậy chúng ta phải chạy thêm một vòng nữa. Giống như trong cách tiếp cận **naive** (ngây thơ), ở vòng thứ hai này, khi bạn nhận được một phần tử của vector tổng, bạn chỉ cần gửi một bản sao sang bên phải.
 
-<img width="900px" src="/assets/beyond-client-server/7-115-optimized-ring-10.png">
+<img width="900px" src="../assets/beyond-client-server/7-115-optimized-ring-10.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-116-optimized-ring-11.png">
+<img width="900px" src="../assets/beyond-client-server/7-116-optimized-ring-11.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-117-optimized-ring-12.png">
+<img width="900px" src="../assets/beyond-client-server/7-117-optimized-ring-12.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-118-optimized-ring-13.png">
+<img width="900px" src="../assets/beyond-client-server/7-118-optimized-ring-13.png">
 
 Khi xem bản demo động này, hãy chú ý vào **hai chiều** mà chúng ta đang xen kẽ thao tác:  
 - Nếu bạn tập trung vào một **cột**, bạn sẽ thấy rằng chúng ta gửi từng phần tử một, và nhận từng phần tử một.  
@@ -230,7 +230,7 @@ Hãy nhớ rằng các thao tác collective này được định nghĩa sao cho
 
 Câu trả lời là sử dụng **overlay**. Chúng ta có thể vẽ các liên kết ảo để kết nối các host thành topology vòng:
 
-<img width="900px" src="/assets/beyond-client-server/7-119-ring-overlay-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-119-ring-overlay-1.png">
 
 Khi Node D gửi vector tới Node B, ở góc nhìn **overlay**, Node D đang gửi vector qua một liên kết ảo duy nhất tới neighbor trực tiếp của nó. Ở góc nhìn **underlay**, vector này thực tế phải đi qua nhiều **hop** (bước nhảy) trước khi đến đích là Node B.
 
@@ -242,15 +242,15 @@ Trước hết, lưu ý rằng **bất kỳ cách đánh số nào** cũng sẽ 
 
 Dưới đây là hai cách đánh số nút:
 
-<img width="900px" src="/assets/beyond-client-server/7-120-ring-overlay-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-120-ring-overlay-2.png">
 
 Cách đầu tiên dẫn đến **average stretch** (độ giãn trung bình) là 3.5. Đặc biệt, hãy chú ý rằng các liên kết ảo C–D và B–A phải đi qua nhiều liên kết trong mạng underlay.
 
-<img width="900px" src="/assets/beyond-client-server/7-121-ring-overlay-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-121-ring-overlay-3.png">
 
 Ngược lại, cách thứ hai dẫn đến average stretch là 2.5. Tập hợp các liên kết ảo này đặt các liên kết liền kề trong vòng gần nhau hơn.
 
-<img width="900px" src="/assets/beyond-client-server/7-122-ring-overlay-4.png">
+<img width="900px" src="../assets/beyond-client-server/7-122-ring-overlay-4.png">
 
 Nói chung, để tối ưu hiệu năng của AllReduce dạng vòng, chúng ta muốn các nút liền kề (ví dụ: Node $$i$$ và Node $$i+1$$) gần nhau trong mạng.
 

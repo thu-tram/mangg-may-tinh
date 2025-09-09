@@ -14,7 +14,7 @@ Hãy nhớ lại mục tiêu của **multicast routing** (định tuyến multic
 
 Cách triển khai ngây thơ nhất là **flooding** (phát tràn). Khi một router nhận được gói tin, nó đơn giản chuyển tiếp gói tin đó ra tất cả các cổng (trừ cổng nhận vào).
 
-<img width="500px" src="/assets/beyond-client-server/7-012-dvmrp-flooding.png">
+<img width="500px" src="../assets/beyond-client-server/7-012-dvmrp-flooding.png">
 
 **Tại sao flooding hoạt động?** Nó đảm bảo mọi **host** trên mạng đều nhận được gói tin, bao gồm tất cả các thành viên của nhóm đích.
 
@@ -35,13 +35,13 @@ Bây giờ, hãy tập trung vào vấn đề đầu tiên. (Lưu ý: Điều n�
 
 Flooding gửi gói tin tới tất cả mọi người, nhưng lãng phí băng thông khi gửi dữ liệu qua các liên kết dư thừa. Ví dụ: nếu có nhiều đường giữa R1 và R4, flooding sẽ khiến các bản sao gói tin đi qua mọi đường từ R1 tới R4. Sau đó, R4 sẽ loại bỏ tất cả các bản sao trùng lặp.
 
-<img width="500px" src="/assets/beyond-client-server/7-013-redundant-paths.png">
+<img width="500px" src="../assets/beyond-client-server/7-013-redundant-paths.png">
 
 Lý tưởng nhất, chúng ta muốn gói tin chỉ đi qua **một** đường duy nhất từ R1 tới R4, và tương tự giữa mọi cặp router khác.
 
 Điều này gợi nhớ đến cấu trúc dữ liệu nào? **Tree** (cây) chỉ có một đường duy nhất giữa mọi cặp nút!
 
-<img width="500px" src="/assets/beyond-client-server/7-014-single-path.png">
+<img width="500px" src="../assets/beyond-client-server/7-014-single-path.png">
 
 Cụ thể, chúng ta muốn xây dựng một **spanning tree** (cây bao trùm), để mọi người chỉ nhận gói tin qua một đường duy nhất.
 
@@ -49,11 +49,11 @@ Chúng ta có thể xây dựng spanning tree từ đầu, nhưng có thể tậ
 
 Khi chạy **distance-vector routing** cho gói unicast, chúng ta đã xây dựng một spanning tree hướng về đích. Điều này cho phép tất cả gói tin chảy “lên” trong đồ thị mạng, hướng tới một đích duy nhất (gốc của cây).
 
-<img width="500px" src="/assets/beyond-client-server/7-015-unicast-trees.png">
+<img width="500px" src="../assets/beyond-client-server/7-015-unicast-trees.png">
 
 Nếu đảo ngược tất cả các mũi tên trong đồ thị này, chúng ta sẽ có một spanning tree phù hợp cho gói multicast. Gốc của cây bây giờ là **sender** (nguồn gửi), và các bản sao gói tin chảy “xuống” trong đồ thị mạng, rời khỏi nguồn và đi qua mạng để đến mọi đích.
 
-<img width="500px" src="/assets/beyond-client-server/7-016-multicast-trees.png">
+<img width="500px" src="../assets/beyond-client-server/7-016-multicast-trees.png">
 
 Để tránh nhầm lẫn khi nghĩ về mũi tên đảo ngược, chúng ta sẽ dùng thuật ngữ quen thuộc hơn: Trong cây router, mỗi router có đúng một **parent** (nút cha) và 0 hoặc nhiều **child** (nút con). Router ở “đỉnh” cây là **root** (gốc), và các router ở “đáy” cây không có con được gọi là **leaf** (lá).
 
@@ -72,21 +72,21 @@ Làm thế nào để triển khai quy tắc này? Mỗi router cần biết cha
 
 **Xác định cha:** Dễ dàng. Cây này giống hệt cây từ distance-vector cho unicast. Trong **unicast forwarding table** (bảng chuyển tiếp unicast), **next-hop** tới root chính là cha của bạn. Bạn có thể tái sử dụng thông tin này.
 
-<img width="900px" src="/assets/beyond-client-server/7-017-learning-parents.png">
+<img width="900px" src="../assets/beyond-client-server/7-017-learning-parents.png">
 
 **Xác định con:** Khó hơn một chút. Bảng chuyển tiếp chỉ cho biết cha (next-hop về phía root), nhưng không cho biết con (previous-hop, rời khỏi root).
 
 Vì bạn không biết con của mình, nên các con phải tự thông báo cho bạn. Cụ thể, mọi nút gửi **multicast routing advertisement** (thông báo định tuyến multicast) tới cha của mình: “Tôi là con của bạn (trong cây gốc A).” (Mọi nút biết cha của mình từ bảng chuyển tiếp unicast.)
 
-<img width="600px" src="/assets/beyond-client-server/7-018-learning-children.png">
+<img width="600px" src="../assets/beyond-client-server/7-018-learning-children.png">
 
 Sau đó, mỗi router nhận các thông báo này và lưu thông tin về các con của mình. Đây là thông tin mới, được thêm riêng cho multicast routing. **Multicast forwarding table** (bảng chuyển tiếp multicast) này tách biệt với bảng chuyển tiếp unicast.
 
-<img width="900px" src="/assets/beyond-client-server/7-019-learning-children-tables.png">
+<img width="900px" src="../assets/beyond-client-server/7-019-learning-children-tables.png">
 
 **Tóm tắt:** Khi nhận gói tin, dùng bảng chuyển tiếp unicast (liệt kê cha) để kiểm tra xem gói tin có đến từ cha không. Nếu có, dùng bảng chuyển tiếp multicast (chứa danh sách con) để gửi cho các con.
 
-<img width="700px" src="/assets/beyond-client-server/7-020-rpb-recap.png">
+<img width="700px" src="../assets/beyond-client-server/7-020-rpb-recap.png">
 
 **Vai trò của từng bảng:**  
 - **Unicast forwarding table:** Liệt kê cha, dùng để unicast gói tin, kiểm tra gói multicast có từ cha không, và gửi multicast routing advertisement cho cha.  
@@ -94,9 +94,9 @@ Sau đó, mỗi router nhận các thông báo này và lưu thông tin về cá
 
 **Lưu ý quan trọng:** Trong distance-vector unicast routing, chúng ta xây dựng một spanning tree cho mỗi đích, nên bảng chuyển tiếp unicast có một next-hop cho mỗi đích (một cha cho mỗi cây). Khi đảo mũi tên, chúng ta có một spanning tree cho mỗi nguồn. Bảng chuyển tiếp multicast có danh sách con cho mỗi nguồn. Ví dụ: “Nếu nhận gói tin từ nguồn A, gửi cho các con R6, R7.”
 
-<img width="900px" src="/assets/beyond-client-server/7-021-multiple-rpb-trees-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-021-multiple-rpb-trees-1.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-022-multiple-rpb-trees-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-022-multiple-rpb-trees-2.png">
 
 
 
@@ -108,37 +108,37 @@ Tuy nhiên, chúng ta vẫn còn vấn đề thứ hai cần giải quyết. Cho
 
 Để giải quyết, chúng ta sẽ **prune** (cắt tỉa) cây bằng cách loại bỏ các nhánh không có thành viên nhóm.
 
-<img width="900px" src="/assets/beyond-client-server/7-023-pruning-end-goal-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-023-pruning-end-goal-1.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-024-pruning-end-goal-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-024-pruning-end-goal-2.png">
 
 Quá trình cắt tỉa được lan truyền từ các **child** (nút con) lên **parent** (nút cha). Giả sử bạn là R5, và được kết nối trực tiếp với 3 host. Sử dụng **IGMP** (trao đổi thông tin với các host này), bạn biết rằng không host nào thuộc nhóm. Điều này có nghĩa là không có lý do gì để bạn tiếp tục là một phần của cây này.
 
-<img width="900px" src="/assets/beyond-client-server/7-025-pruning-igmp.png">
+<img width="900px" src="../assets/beyond-client-server/7-025-pruning-igmp.png">
 
 Bạn có thể gửi một **advertisement** (thông báo) tới cha của mình: “Tôi là con của bạn, nhưng không có hậu duệ nào của tôi tham gia nhóm này, vì vậy đừng gửi gói dữ liệu cho tôi.” Cha của bạn sau đó có thể cập nhật **multicast forwarding table** (bảng chuyển tiếp multicast) để loại bạn khỏi danh sách con. Lưu ý rằng thông điệp pruning chỉ được gửi tới cha trực tiếp của bạn (không được chuyển tiếp xa hơn).
 
-<img width="900px" src="/assets/beyond-client-server/7-026-pruning-message-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-026-pruning-message-1.png">
 
-<img width="900px" src="/assets/beyond-client-server/7-027-pruning-message-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-027-pruning-message-2.png">
 
 Việc cắt tỉa cũng có thể xảy ra ở các mức cao hơn của cây. Xét R3, một router có 2 con. Giả sử cả hai con đều gửi thông báo pruning, nói rằng chúng không tham gia nhóm này. Nếu không con nào của bạn tham gia nhóm, thì bạn cũng không cần tham gia. Do đó, bạn có thể loại mình khỏi cây bằng cách gửi thông báo pruning tới cha, để cha ngừng gửi dữ liệu cho bạn.
 
-<img width="900px" src="/assets/beyond-client-server/7-028-pruning-message-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-028-pruning-message-3.png">
 
 **Lưu ý:** Các router ở mức cao hơn có thể vừa có con là router, vừa có host kết nối trực tiếp. Trong trường hợp này, router chỉ có thể loại mình khỏi cây nếu **tất cả** các con gửi thông báo pruning **và** tất cả các host kết nối trực tiếp không thuộc nhóm.
 
-<img width="700px" src="/assets/beyond-client-server/7-029-pruning-children-and-igmp.png">
+<img width="700px" src="../assets/beyond-client-server/7-029-pruning-children-and-igmp.png">
 
 Việc cắt tỉa làm cho bảng chuyển tiếp multicast phức tạp hơn một chút. Trước đây, mỗi mục ánh xạ một nguồn tới danh sách các con: “Nếu nhận gói tin từ nguồn A, chuyển tiếp tới các con R11, R12.” Tuy nhiên, danh sách con giờ đây còn phụ thuộc vào **destination group** (nhóm đích). Ví dụ: có thể R11 và R2 đều có hậu duệ thuộc nhóm G1, nhưng chỉ R11 có hậu duệ thuộc nhóm G2 (tức là R12 đã gửi thông báo prune cho bạn).
 
 Để xử lý, bảng chuyển tiếp multicast phải có một mục cho mỗi **(source, group)**. Ví dụ: “Nếu nhận gói tin từ nguồn A tới nhóm G1, chuyển tiếp tới các con R11, R12.”
 
-<img width="900px" src="/assets/beyond-client-server/7-030-pruning-multiple-tables-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-030-pruning-multiple-tables-1.png">
 
 Một mục khác: “Nếu nhận gói tin từ nguồn A tới nhóm G2, chuyển tiếp tới con R11.”
 
-<img width="900px" src="/assets/beyond-client-server/7-031-pruning-multiple-tables-2.png">
+<img width="900px" src="../assets/beyond-client-server/7-031-pruning-multiple-tables-2.png">
 
 Một cách khác để hình dung: Trước đây, chúng ta có một cây cho mỗi nguồn, cho thấy nguồn đó gửi gói multicast tới tất cả mọi người. Giờ đây, chúng ta cắt bỏ các nhánh tùy theo nhóm đích. Do đó, chúng ta cần một cây cho mỗi **(source, destination group)**.
 

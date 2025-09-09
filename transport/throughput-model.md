@@ -26,7 +26,7 @@ Then, for each subsequent RTT, our window size will increase by 1: $$\frac{1}{2}
 
 Starting at $$\frac{1}{2} W_\text{max}$$ and reaching $$W_\text{max}$$ takes $$\frac{1}{2} W_\text{max}$$ RTTs (adding 1 per iteration, and each iteration is one RTT). This also tells us that there are $$\frac{1}{2} W_\text{max}$$ RTTs between each loss.
 
-<img width="900px" src="/assets/transport/3-088-equation1.png">
+<img width="900px" src="../assets/transport/3-088-equation1.png">
 
 Within each RTT, the average window size is $$\frac{3}{4} W_\text{max}$$ (right in between $$\frac{1}{2} W_\text{max}$$ and $$W_\text{max}$$).
 
@@ -45,7 +45,7 @@ From earlier, we deduced that a packet is lost once every $$\frac{1}{2} W_\text{
 
 So, to determine the loss rate, we just need to figure out how many packets are sent in $$\frac{1}{2} W_\text{max}$$ RTTs.
 
-<img width="900px" src="/assets/transport/3-089-equation2.png">
+<img width="900px" src="../assets/transport/3-089-equation2.png">
 
 Graphically, the number of packets sent is the area of this shape (rate times time), or equivalently, the area under the curve (the curve shows rate, and we want integral of rate).
 
@@ -83,7 +83,7 @@ Throughput is inversely proportional to RTT. Intuitively, if the RTT is lower, t
 
 This relationship between RTT and throughput can be a problem if we have multiple connections with different RTTs.
 
-<img width="600px" src="/assets/transport/3-090-multi-flow.png">
+<img width="600px" src="../assets/transport/3-090-multi-flow.png">
 
 The connection with the lower RTT is going to be receiving acks more quickly, which means this connection also increases its window size and sends packets faster. In this case, it turns out the lower-RTT connection gets twice as much bandwidth as the higher-RTT connection.
 

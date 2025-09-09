@@ -102,39 +102,39 @@ Mỗi trạm phát sóng di động có một kết nối có dây đến **cell
 
 **Bước 0: Registration (Đăng ký).** Người dùng đăng ký dịch vụ di động. Ví dụ, bạn bước vào một cửa hàng của Verizon, mua một **data plan** (gói dữ liệu) và ký hợp đồng. Nhà khai thác lúc này sẽ lưu trữ thông tin về bạn và gói dịch vụ của bạn trong **database**.
 
-<img width="900px" src="/assets/wireless/8-036-step0.png" />
+<img width="900px" src="../assets/wireless/8-036-step0.png" />
  
 **Bước 1: Discovery.** Người dùng bật điện thoại của họ ở một nơi bất kỳ. Điện thoại của họ phải khám phá xem có những trạm phát sóng nào ở gần, và cũng phải chọn một trạm để sử dụng.
 
-<img width="900px" src="/assets/wireless/8-037-step1.png" />
+<img width="900px" src="../assets/wireless/8-037-step1.png" />
 
 **Bước 2: Attachment (Gắn kết).** Sau khi chọn một trạm phát sóng, thiết bị của người dùng thông báo cho trạm rằng nó muốn kết nối. Trạm phát sóng phải hỏi **mobility manager** xem kết nối có được phép không (ví dụ: kiểm tra xem người dùng đã vượt quá hạn ngạch của họ chưa).
 
-<img width="900px" src="/assets/wireless/8-038-step2.png" />
+<img width="900px" src="../assets/wireless/8-038-step2.png" />
 
 Nếu việc xác thực thành công, **mobility manager** sẽ cấu hình trạm phát sóng và các **router** để thiết lập một đường dẫn từ người dùng đến Internet (thông qua trạm phát sóng và các **router**).
 
-<img width="900px" src="/assets/wireless/8-039-step2-part2.png" />
+<img width="900px" src="../assets/wireless/8-039-step2-part2.png" />
 
 **Bước 3: Data exchange (Trao đổi dữ liệu).** Người dùng bây giờ có thể gửi và nhận dữ liệu dọc theo đường dẫn đã được cấu hình.
 
-<img width="900px" src="/assets/wireless/8-040-step3.png" />
+<img width="900px" src="../assets/wireless/8-040-step3.png" />
 
 **Bước 4: Handover (Chuyển giao).** Khi người dùng di chuyển, họ có thể đi xa khỏi trạm phát sóng ban đầu của mình và đến gần một trạm mới hơn (trong cùng **RAN** của nhà khai thác). Trạm cũ, trạm mới và thiết bị của người dùng đều phối hợp với nhau để quyết định xem người dùng có nên chuyển trạm hay không.
 
-<img width="900px" src="/assets/wireless/8-041-step4.png" />
+<img width="900px" src="../assets/wireless/8-041-step4.png" />
 
 Nếu tất cả đều đồng ý rằng người dùng nên chuyển trạm, họ sẽ thông báo cho **mobility manager**, và **mobility manager** sẽ cấu hình lại trạm phát sóng và các **router** để thiết lập một đường dẫn mới từ người dùng đến Internet (lúc này sử dụng trạm mới, và có thể cả các **router** khác). Quá trình chuyển giao này phải liền mạch, nghĩa là người dùng có thể gửi và nhận dữ liệu trong suốt quá trình và không bị gián đoạn. Để đạt được một cuộc **handover** liền mạch như vậy đòi hỏi mạng phải liên tục giám sát thiết bị người dùng.
 
-<img width="900px" src="/assets/wireless/8-042-step4-part2.png" />
+<img width="900px" src="../assets/wireless/8-042-step4-part2.png" />
 
 Các bước 3 và 4 có thể lặp lại khi người dùng di chuyển và **router** tốt nhất để sử dụng liên tục thay đổi.
 
-<img width="900px" src="/assets/wireless/8-043-step4-part3.png" />
+<img width="900px" src="../assets/wireless/8-043-step4-part3.png" />
 
 Một tính năng cuối cùng chúng ta cần triển khai là **roaming** (chuyển vùng). Nếu người dùng đến một quốc gia khác như Đức, nhà khai thác của họ (ví dụ: Verizon, có trụ sở tại Mỹ) có thể không có vùng phủ sóng ở Đức. Nhưng, Verizon có thể ký hợp đồng với Deutsche Telecom (một nhà khai thác ở Đức), để cho phép khách hàng của Verizon sử dụng cơ sở hạ tầng của Deutsche Telecom. Điều này có nghĩa là Deutsche Telecom có thể cần hỗ trợ không chỉ người dùng của mình, mà cả người dùng từ các mạng khác như Verizon.
 
-<img width="900px" src="/assets/wireless/8-044-step-roaming.png" />
+<img width="900px" src="../assets/wireless/8-044-step-roaming.png" />
 
 Các bước kết nối trong một mạng khách (khi đang **roaming**) nói chung khá tương tự, ngoại trừ việc các **mobility manager** trong mạng khách và mạng chủ cũng phải phối hợp với nhau (ví dụ: Deutsche Telecom kiểm tra với Verizon để xem người dùng có trả tiền cho dịch vụ **roaming** hay không).
 
@@ -148,7 +148,7 @@ Lưu ý: Đây là lý do tại sao các nhà khai thác như Verizon cung cấp
 
 3 chữ số đầu tiên của **IMSI** là **Mobile Country Code** (Mã Quốc gia Di động), xác định một quốc gia. 2-3 chữ số tiếp theo là **Mobile Network Code** (Mã Mạng Di động), đại diện cho nhà cung cấp dịch vụ của bạn (ví dụ: Verizon, AT\&T). Các chữ số còn lại là **Mobile Subscriber Identification Number** (Số Nhận dạng Thuê bao Di động), xác định một người dùng cụ thể trong nhà cung cấp dịch vụ đó. Tổng thể **IMSI** không thể vượt quá 15 chữ số.
 
-<img width="600px" src="/assets/wireless/8-045-imsi.png" />
+<img width="600px" src="../assets/wireless/8-045-imsi.png" />
 
 Lưu ý rằng **IMSI** không giống như một **IP address** (địa chỉ IP). Nếu bạn trả tiền cho một **data plan** kéo dài một năm, bạn sẽ giữ nguyên **IMSI** trong cả năm. Nhưng, mỗi lần bạn **attachment** và kết nối với mạng, bạn có thể nhận được một **IP address** khác nhau.
 
@@ -158,7 +158,7 @@ Mã định danh còn lại là số điện thoại của bạn. Một lần n�
 
 Sau khi bạn đăng ký và nhận được **IMSI**, nhà khai thác (ví dụ: Verizon) sẽ lưu trữ **IMSI** của bạn và thông tin về gói cước của bạn trong **database**.
 
-<img width="600px" src="/assets/wireless/8-046-registration.png" />
+<img width="600px" src="../assets/wireless/8-046-registration.png" />
 
 Trong quá trình **registration**, thiết bị của người dùng (**SIM card**) và nhà khai thác (**database**) cũng đồng ý về một khóa bí mật chia sẻ. Điều này sẽ hữu ích khi chúng ta thực hiện **attachment**.
 
@@ -174,7 +174,7 @@ Mỗi trạm phát sóng sẽ truyền các **beacons** (tín hiệu báo hiệu
 
 Thiết bị của người dùng có thể nghe thấy nhiều **beacons**. Người dùng đo cường độ tín hiệu đến các trạm khác nhau và chọn trạm (thuộc nhà khai thác của mình) có tín hiệu tốt nhất.
 
-<img width="300px" src="/assets/wireless/8-047-discovery.png" />
+<img width="300px" src="../assets/wireless/8-047-discovery.png" />
 
 Có một vấn đề chúng ta phải giải quyết. Làm thế nào thiết bị của người dùng biết nên nghe **control channel** nào? Thiết bị cần phải dò đúng **control channel** để nhận được các **beacons**. Chúng ta có một **bootstrapping problem** (vấn đề mồi).
 
@@ -192,17 +192,17 @@ Lưu ý rằng việc quét các trạm tiếp theo sau khi **discovery** là kh
 
 Nếu xác thực thành công, chúng ta biết người dùng chính là người mà họ tự nhận. Nếu việc tra cứu **database** cũng cho thấy người dùng đủ điều kiện sử dụng dịch vụ, thì trình quản lý sẽ chấp thuận **attach request**.
 
-<img width="700px" src="/assets/wireless/8-048-attachment1.png" />
+<img width="700px" src="../assets/wireless/8-048-attachment1.png" />
 
 4.  Sau khi **attach request** được chấp thuận, **mobility manager** bây giờ phải cấu hình **data plane** để cung cấp kết nối cho người dùng. Đầu tiên, trình quản lý gán một **IP address** cho thiết bị. Sau đó, trình quản lý cấu hình trạm, cho bộ điều khiển vô tuyến của trạm biết cần phân bổ bao nhiêu tài nguyên cho người dùng này. Trình quản lý cũng cấu hình trạm và các **router** để tạo ra một đường dẫn giữa thiết bị và Internet. Cuối cùng, trình quản lý khởi tạo các bộ đếm và bộ định hình để theo dõi việc sử dụng Internet của thiết bị.
 
 Sau khi thiết lập kết nối cho người dùng, trình quản lý kết thúc bằng cách ghi lại thông tin vị trí của người dùng trong **database**. Cụ thể, **database** ánh xạ **IMSI** của người dùng tới **IP address** của nó và đường dẫn mà nó đang sử dụng (trạm nào, cổng nào).
 
-<img width="700px" src="/assets/wireless/8-049-attachment2.png" />
+<img width="700px" src="../assets/wireless/8-049-attachment2.png" />
 
 Lưu ý rằng toàn bộ quá trình **attachment** xảy ra trên các **control channel**. Chúng ta chưa gán bất kỳ tần số nào cho người dùng, vì vậy người dùng phải sử dụng các **control channel** chuyên dụng để giao tiếp.
 
-<img width="700px" src="/assets/wireless/8-050-attachment3.png" />
+<img width="700px" src="../assets/wireless/8-050-attachment3.png" />
 
 -----
 
@@ -210,7 +210,7 @@ Lưu ý rằng toàn bộ quá trình **attachment** xảy ra trên các **contr
 
 Tại thời điểm này, mạng được cấu hình để thiết bị có thể sử dụng **IP address** của mình để gửi và nhận tin nhắn.
 
-<img width="900px" src="/assets/wireless/8-051-exchange1.png" />
+<img width="900px" src="../assets/wireless/8-051-exchange1.png" />
 
 Làm thế nào mạng di động (**tower**, **radio gateway**, **packet gateway**) biết cách chuyển tiếp các gói tin? Người dùng liên tục di chuyển, vì vậy nếu chúng ta chạy một thuật toán định tuyến truyền thống như vector khoảng cách, các tuyến đường sẽ không bao giờ hội tụ.
 
@@ -218,7 +218,7 @@ Thay vào đó, trình quản lý sẽ tạo ra một đường dẫn giữa thi
 
 Về mặt khái niệm, để triển khai **tunnel**, chúng ta sẽ nói với trạm: Nếu bạn nhận được một gói tin từ người dùng, hãy gửi nó theo đường này (vào **tunnel** màu xanh). Ở phía bên kia của liên kết có dây, các gói tin sẽ thoát khỏi **tunnel** màu xanh và đến **radio gateway**. Sau đó, chúng ta sẽ nói với **radio gateway**: Nếu bạn nhận được một gói tin thoát ra khỏi **tunnel**, hãy gửi nó theo đường này (vào **tunnel** màu xanh lá). Các gói tin sau đó đi qua **tunnel** màu xanh lá và đến **packet gateway**, nơi có thể chuyển tiếp gói tin vào Internet.
 
-<img width="900px" src="/assets/wireless/8-052-exchange2.png" />
+<img width="900px" src="../assets/wireless/8-052-exchange2.png" />
 
 Các gói tin đến cũng đi qua các **tunnels**. Chúng ta nói với **packet gateway**: Nếu bạn nhận được một gói tin dành cho Người dùng A, hãy gửi nó vào **tunnel** màu xanh lá (hướng tới **radio gateway**). Chúng ta cũng nói với **radio gateway**: Nếu bạn nhận được một gói tin thoát ra khỏi **tunnel** màu xanh lá, hãy gửi nó vào **tunnel** màu xanh lam (hướng tới trạm).
 
@@ -226,7 +226,7 @@ Lưu ý rằng không có thành phần mạng nào đang chạy một giao th�
 
 Làm thế nào chúng ta thực sự triển khai các quy tắc này? Ví dụ, làm thế nào **radio gateway** biết khi nào một gói tin đến đang ra khỏi **tunnel** màu xanh? Chúng ta có thể sử dụng **encapsulation** (đóng gói). Khi đi vào một **tunnel**, chúng ta có thể thêm một tiêu đề mới, cho biết gói tin đang đi qua **tunnel** đó (ví dụ: "gói tin này đang đi qua **tunnel** màu xanh"). Ở đầu kia, khi gói tin thoát khỏi **tunnel**, cổng sẽ nhìn vào tiêu đề phụ và biết gói tin đến từ **tunnel** nào. Cổng sau đó có thể sử dụng thông tin này để quyết định nơi chuyển tiếp gói tin tiếp theo.
 
-<img width="900px" src="/assets/wireless/8-053-exchange3.png" />
+<img width="900px" src="../assets/wireless/8-053-exchange3.png" />
 
 Lưu ý rằng với **tunnels** và **encapsulation**, các **router** không bao giờ chuyển tiếp dựa trên IP của người dùng. Người dùng luôn di chuyển, vì vậy chúng ta không thể sử dụng IP của họ để xác định vị trí của họ. Thay vào đó, chúng ta phải sử dụng các **tunnels** được cấu hình sẵn này để quyết định nơi chuyển tiếp gói tin.
 
@@ -236,7 +236,7 @@ Lưu ý rằng với **tunnels** và **encapsulation**, các **router** không b
 
 Điều gì xảy ra nếu người dùng di chuyển từ một trạm này sang một trạm khác? Hãy xem xét một giao thức (đơn giản hóa một chút). Chúng ta sẽ gọi các trạm là cũ và mới, và di chuyển từ trạm cũ sang trạm mới.
 
-<img width="900px" src="/assets/wireless/8-054-handover1.png" />
+<img width="900px" src="../assets/wireless/8-054-handover1.png" />
 
 1.  Thiết bị của bạn liên tục đo cường độ tín hiệu của nó tới trạm cũ và báo cáo cường độ đó cho trạm cũ. Tại một thời điểm nào đó, trạm cũ sẽ nói: Cường độ tín hiệu của bạn quá thấp. Đây là một số trạm lân cận (thuộc cùng một nhà khai thác) và các tần số **control channel** tương ứng của chúng. Bạn có thể đo cường độ tín hiệu của mình tới các trạm lân cận này không?
 2.  Thiết bị của bạn đo cường độ tín hiệu đến các trạm lân cận và báo cáo các giá trị đó cho trạm cũ. Trạm cũ sẽ chọn trạm mới tốt nhất, dựa trên bất kỳ chính sách nào mà nhà khai thác muốn.
@@ -272,11 +272,11 @@ Có hai cách tiếp cận khác nhau để thiết lập các **tunnels** giữ
 
 Trong phương pháp **home routing** (định tuyến tại nhà), lưu lượng được tạo **tunnel** thông qua **packet gateway** của mạng chủ. Điều này có nghĩa là tất cả các gói tin phải đi từ mạng khách trở về mạng chủ, trước khi được chuyển tiếp đến mạng Internet rộng lớn hơn. Điều này có lợi vì nó cho phép **packet gateway** của mạng chủ có thể theo dõi người dùng. Một nhược điểm là, nếu bạn là người dùng có trụ sở tại Hoa Kỳ, bạn **roaming** ở Đức, và bạn muốn truy cập một trang web ở Đức, gói tin của bạn phải đi từ Đức, trở về cổng ở Hoa Kỳ, và sau đó quay trở lại Đức.
 
-<img width="900px" src="/assets/wireless/8-055-roaming1.png" />
+<img width="900px" src="../assets/wireless/8-055-roaming1.png" />
 
 Trong phương pháp **local breakout** (tách nhánh cục bộ), lưu lượng được tạo **tunnel** thông qua **packet gateway** của mạng khách. Điều này có thể rút ngắn tuyến đường giữa người dùng và Internet, vì các gói tin không phải đi hết quãng đường trở về mạng chủ trước. Tuy nhiên, điều này có thể làm cho việc tính toán mức sử dụng của người dùng trở nên phức tạp hơn, vì mạng **roaming** bây giờ phải thực hiện việc tính toán và gửi dữ liệu trở lại mạng chủ.
 
-<img width="900px" src="/assets/wireless/8-056-roaming2.png" />
+<img width="900px" src="../assets/wireless/8-056-roaming2.png" />
 
 -----
 

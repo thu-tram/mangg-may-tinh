@@ -12,13 +12,13 @@ layout: page-with-toc
 
 Trong phần này, chúng ta sẽ xem xét một số ứng dụng phổ biến ở **Layer 7** (tầng ứng dụng) hoạt động trên nền tảng các tầng mà chúng ta đã xây dựng trước đó.
 
-<img width="400px" src="/assets/applications/4-01-layer7.png">
+<img width="400px" src="../assets/applications/4-01-layer7.png">
 
 Ứng dụng đầu tiên chúng ta sẽ tìm hiểu là **DNS (Domain Name System – Hệ thống tên miền)**, đây là một giao thức hoạt động trên các tầng (1–4) để cung cấp chức năng mạng quan trọng là **name resolution** (phân giải tên miền).
 
 Trên Internet, thông tin thường được lập chỉ mục theo hai cách khác nhau. Con người truy cập các trang web bằng các tên dễ đọc như `google.com` và `eecs.berkeley.edu`, trong khi máy tính truy cập các trang web bằng địa chỉ IP như `172.217.4.174` và `23.195.69.108`. **DNS** là giao thức dịch giữa hai cách biểu diễn này.
 
-<img width="700px" src="/assets/applications/4-02-dns-intro.png">
+<img width="700px" src="../assets/applications/4-02-dns-intro.png">
 
 ---
 
@@ -42,7 +42,7 @@ Chúng ta phải đảm bảo rằng `hosts.txt` giống nhau trên các máy t�
 
 Tệp hosts dạng giấy ban đầu có thể đọc được bởi con người. Nó ánh xạ hostname tới địa chỉ, nhưng cũng bao gồm thông tin như tên đầy đủ của người dùng, các giao thức họ sử dụng (ví dụ: TCP, FTP), và thậm chí cả số điện thoại.
 
-<img width="600px" src="/assets/applications/4-03-paper-hostsfile.png">
+<img width="600px" src="../assets/applications/4-03-paper-hostsfile.png">
 
 Mọi người đều đồng ý (như được đề cập trong **RFC606** năm 1973) rằng đây là một tình huống bất hợp lý. Nếu bạn nhận được bản sao giấy của tệp, bạn phải nhập thủ công vào máy tính. Hơn nữa, vì tệp được truyền tay dưới dạng giấy, bạn có thể nhận phải bản đã lỗi thời.
 
@@ -80,7 +80,7 @@ Bạn có thể nhận thấy hai vấn đề với thiết kế này. Thứ nh�
 
 DNS sắp xếp tất cả các name server thành một cấu trúc cây phân cấp dựa trên các zone của chúng:
 
-<img width="900px" src="/assets/applications/4-04-basic-tree.png">
+<img width="900px" src="../assets/applications/4-04-basic-tree.png">
 
 **Root server** (máy chủ gốc) ở cấp cao nhất của cây có tất cả các tên miền trong zone của nó (zone này thường được viết là `.`). Các name server ở cấp thấp hơn của cây có các zone nhỏ hơn và cụ thể hơn.
 
@@ -94,7 +94,7 @@ Các truy vấn DNS luôn bắt đầu từ root. Root sẽ hướng truy vấn 
 
 Ví dụ, một truy vấn DNS cho `eecs.berkeley.edu` có thể diễn ra như sau (phiên bản minh họa dạng comic có tại [howdns.works](https://howdns.works/)):
 
-<img width="900px" src="/assets/applications/4-05-basic-lookup.png">
+<img width="900px" src="../assets/applications/4-05-basic-lookup.png">
 
 1. Bạn → root name server: Vui lòng cho tôi biết địa chỉ IP của `eecs.berkeley.edu`.
 2. Root server → bạn: Tôi không biết, nhưng tôi có thể chuyển bạn đến một name server khác có nhiều thông tin hơn. Name server này chịu trách nhiệm cho zone `.edu`. Nó có tên miền dễ đọc là `a.edu-servers.net` và địa chỉ IP là `192.5.6.30`.
@@ -113,7 +113,7 @@ Ban đầu, máy chủ đầu cuối (ví dụ: máy tính của bạn) sẽ t�
 
 Ngày nay, máy tính của bạn thường ủy quyền nhiệm vụ tra cứu DNS cho một **DNS Recursive Resolver** (bộ phân giải đệ quy DNS), bộ này sẽ truy vấn các name server thay cho bạn. Khi thực hiện tra cứu, **DNS Stub Resolver** (bộ phân giải stub DNS) trên máy tính của bạn sẽ gửi truy vấn đến recursive resolver, để resolver thực hiện toàn bộ công việc và trả lại kết quả.
 
-<img width="900px" src="/assets/applications/4-06-stub-resolver.png">
+<img width="900px" src="../assets/applications/4-06-stub-resolver.png">
 
 Làm thế nào để biết địa chỉ IP của resolver? Khi bạn kết nối Internet lần đầu, ai đó (ví dụ: ISP hoặc Router) có thể cung cấp địa chỉ của resolver. Bạn cũng có thể nhập thủ công địa chỉ của resolver mà bạn muốn sử dụng.
 
@@ -179,7 +179,7 @@ Hãy nhớ rằng UDP sử dụng **port** để hỗ trợ nhiều ứng dụng
 
 ## **Định dạng gói tin DNS (DNS Message Format)**
 
-<img width="800px" src="/assets/applications/dns_packet.png">
+<img width="800px" src="../assets/applications/dns_packet.png">
 
 Trường đầu tiên là **identification field** (trường định danh) dài 16 bit, được chọn ngẫu nhiên cho mỗi truy vấn và dùng để ghép yêu cầu với phản hồi. Khi gửi truy vấn DNS, trường ID được điền bằng các bit ngẫu nhiên. Vì UDP là giao thức không trạng thái, phản hồi DNS phải gửi lại đúng các bit này trong trường ID để bên gửi truy vấn biết phản hồi này thuộc về truy vấn nào.
 
@@ -314,17 +314,17 @@ Cấu trúc cây mà chúng ta đã vẽ thực tế thể hiện ba cách khác
 
 Như chúng ta đã thấy, tên miền DNS có cấu trúc phân cấp. Đây là lý do tại sao tên miền của chúng ta, như `eecs.berkeley.edu`, gồm nhiều từ được phân tách bằng dấu chấm.
 
-<img width="900px" src="/assets/applications/4-07-hierarchy1.png">
+<img width="900px" src="../assets/applications/4-07-hierarchy1.png">
 
 Chúng ta cũng đã thấy rằng hạ tầng của DNS có tính phân cấp. Chúng ta có thể tổ chức các name server thành cấu trúc cây, trong đó mỗi name server chỉ biết về phần cây mà nó quản lý.
 
-<img width="700px" src="/assets/applications/4-08-hierarchy2.png">
+<img width="700px" src="../assets/applications/4-08-hierarchy2.png">
 
 Phân cấp thứ ba mà chúng ta sẽ giới thiệu là **authority** (quyền quản lý). Điều này cho biết ai là người định nghĩa các tên tồn tại trong cây. Ví dụ, tổ chức vận hành name server `.edu` chịu trách nhiệm cho tất cả các tên miền trong zone `.edu`. Tổ chức `.edu` có thể ủy quyền quản lý một phần zone của mình cho các đơn vị cấp dưới trong cây.
 
 Ví dụ, tổ chức `.edu` có thể nói: `berkeley.edu` (và tất cả các tên miền con) thuộc zone của tôi, và tôi sẽ chuyển quyền kiểm soát phần này của zone cho tổ chức UC Berkeley. Bây giờ, chúng ta đã tạo ra một zone mới thuộc sở hữu của UC Berkeley, và tổ chức `.edu` không cần biết về các cập nhật trong zone `berkeley.edu` mới này. UC Berkeley có quyền tạo các tên miền mới trong zone của mình, hoặc có thể ủy quyền một số phần của zone cho các đơn vị cấp dưới khác.
 
-<img width="700px" src="/assets/applications/4-09-hierarchy3.png">
+<img width="700px" src="../assets/applications/4-09-hierarchy3.png">
 
 Khi vẽ cây này với cả ba khía cạnh phân cấp, chúng ta có thể nói chính xác hơn rằng mỗi nút đại diện cho một **zone**. Zone được định nghĩa chính thức là một đơn vị quản trị chịu trách nhiệm cho một phần của hệ thống phân cấp.
 
@@ -338,7 +338,7 @@ Khi vẽ cây này với cả ba khía cạnh phân cấp, chúng ta có thể n
 
 Vậy trong thực tế, những tổ chức này là ai?
 
-<img width="800px" src="/assets/applications/4-10-zones.png">
+<img width="800px" src="../assets/applications/4-10-zones.png">
 
 **Root zone** (zone gốc) được kiểm soát bởi **ICANN (Internet Corporation for Assigned Names and Numbers)**. ICANN chịu trách nhiệm phân chia các phần của root zone (đại diện cho toàn bộ Internet) cho các **top-level domain** (TLD – tên miền cấp cao nhất) cụ thể.
 
@@ -372,7 +372,7 @@ Mỗi root server trong số 13 cái thực chất bao gồm nhiều bản sao. 
 
 Anycast cũng có nghĩa là các địa chỉ IP của root server rất hiếm khi thay đổi, ngay cả khi các mirror được thêm hoặc gỡ bỏ. Do đó, **root hints file** (tệp gợi ý root) chứa các bản ghi cho các root name server với giá trị **TTL (time-to-live)** rất dài (42 ngày).
 
-<img width="500px" src="/assets/applications/4-11-anycast.png">
+<img width="500px" src="../assets/applications/4-11-anycast.png">
 
 Đây là bản đồ tất cả các mirror của `k.root-servers.net`. Tất cả chúng đều quảng bá cùng một địa chỉ IP, và router của bạn có thể sẽ chọn kết nối tới mirror gần nhất. `k.root-servers.net` được vận hành bởi **RIPE** (tại châu Âu), điều này có thể giải thích tại sao có nhiều mirror ở châu Âu.
 
@@ -402,7 +402,7 @@ Name server lúc này cần thêm logic bổ sung (có thể là độc quyền)
 
 Cân bằng tải dựa trên vị trí địa lý của người dùng không phải lúc nào cũng hoàn hảo. Ngay cả khi biết vị trí vật lý của máy chủ và của người dùng, chúng ta vẫn phải phỏng đoán máy chủ nào gần nhất về mặt mạng. Chúng ta cũng không biết về hiệu năng (ví dụ: **network bandwidth** – băng thông mạng) giữa người dùng và các máy chủ khác nhau.
 
-<img width="600px" src="/assets/applications/4-12-load-balance.png">
+<img width="600px" src="../assets/applications/4-12-load-balance.png">
 
 Dưới đây là một thí nghiệm để xem Google thực hiện cân bằng tải theo vị trí địa lý tốt như thế nào. Chúng tôi tra cứu `www.google.com` tại San Francisco và Oregon và nhận được hai địa chỉ IP khác nhau.
 

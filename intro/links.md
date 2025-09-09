@@ -19,7 +19,7 @@ Có ba đặc tính mà chúng ta có thể dùng để đo hiệu năng của m
 
 - Nếu nhân băng thông với độ trễ lan truyền, ta được **Bandwidth-Delay Product (BDP)**. Hiểu đơn giản, đây là **capacity** (dung lượng) của liên kết, tức là số bit tồn tại trên liên kết tại một thời điểm. Trong phép so sánh ống nước, nếu ta làm đầy ống và “đóng băng” thời gian, dung lượng của ống chính là lượng nước có trong ống tại thời điểm đó.
 
-<img width="600px" src="/assets/intro/1-57-link-properties.png">
+<img width="600px" src="../assets/intro/1-57-link-properties.png">
 
 **Lưu ý:** Đôi khi bạn sẽ thấy thuật ngữ **latency** (độ trễ). Trong ngữ cảnh của một liên kết, latency chính là propagation delay, mặc dù từ này cũng được dùng trong các ngữ cảnh khác (ví dụ: độ trễ từ end host đến end host qua nhiều liên kết). Latency không có định nghĩa chính thức duy nhất và phụ thuộc vào ngữ cảnh.
 
@@ -33,13 +33,13 @@ Chúng ta muốn gửi một packet 100 byte = 800 bit qua liên kết này. M�
 
 Để trả lời, ta có thể vẽ một **timing diagram**. Cột bên trái là **sender** (bên gửi), cột bên phải là **recipient** (bên nhận). Thời gian bắt đầu từ 0 và tăng dần khi ta di chuyển xuống biểu đồ.
 
-<img width="300px" src="/assets/intro/1-58-timing1.png">
+<img width="300px" src="../assets/intro/1-58-timing1.png">
 
 Xét bit đầu tiên: Với băng thông 1.000.000 bit/giây, mất 1/1.000.000 = 0,000001 giây để đặt một bit lên liên kết. Tại thời điểm 0,000001 giây, liên kết có một bit ở đầu bên gửi.
 
 Bit này mất 0,001 giây để di chuyển hết liên kết (propagation delay), nên tại thời điểm 0,000001 + 0,001 giây, bit đầu tiên đến được bên nhận.
 
-<img width="900px" src="/assets/intro/1-59-timing2.png">
+<img width="900px" src="../assets/intro/1-59-timing2.png">
 
 Xét bit cuối cùng: Như trên, mất 0,000001 giây để đặt một bit lên liên kết. Có 800 bit cần gửi, nên bit cuối cùng được đặt lên liên kết tại thời điểm:
 
@@ -47,7 +47,7 @@ $$800 \cdot 0,000001 = 0,0008 \ \text{giây}$$
 
 Bit này cũng mất 0,001 giây để truyền, nên tại thời điểm 0,0008 + 0,001 giây, bit cuối cùng đến bên nhận. Đây là lúc ta nói packet đã đến nơi.
 
-<img width="900px" src="/assets/intro/1-60-timing3.png">
+<img width="900px" src="../assets/intro/1-60-timing3.png">
 
 ---
 
@@ -94,17 +94,17 @@ Một cách khác để hình dung packet được gửi qua mạng là vẽ cá
 - **Chiều cao** = bandwidth.  
 - **Diện tích** = capacity của liên kết.
 
-<img width="600px" src="/assets/intro/1-61-pipe1.png">
+<img width="600px" src="../assets/intro/1-61-pipe1.png">
 
 Giả sử ta muốn gửi một packet 50 byte qua liên kết. Trong biểu đồ ống, ta có thể minh họa một thời điểm đóng băng khi packet đang được gửi.
 
 Packet được biểu diễn dưới dạng hình chữ nhật, trong đó chiều cao cho biết số byte được đặt lên dây trong một đơn vị thời gian. Mỗi bước thời gian, packet trượt sang phải trong ống. Cuối cùng, packet bắt đầu thoát ra khỏi ống, và ở mỗi bước thời gian, một cột của hình chữ nhật rời khỏi ống.
 
-<img width="900px" src="/assets/intro/1-62-pipe2.png">
+<img width="900px" src="../assets/intro/1-62-pipe2.png">
 
-<img width="900px" src="/assets/intro/1-63-pipe3.png">
+<img width="900px" src="../assets/intro/1-63-pipe3.png">
 
-<img width="900px" src="/assets/intro/1-64-pipe4.png">
+<img width="900px" src="../assets/intro/1-64-pipe4.png">
 
 
 
@@ -113,17 +113,17 @@ Một sự thật không hiển nhiên: **Packet transmission delay** (độ tr�
 
 Để thấy tại sao, giả sử chúng ta có một **link** (liên kết) có thể gửi 5 bit mỗi giây, và chúng ta có một packet 20 bit. Trong timing diagram, có 11 giây giữa thời điểm bit đầu tiên và bit cuối cùng được gửi.
 
-<img width="900px" src="/assets/intro/1-65-packet-delay-1.png">
+<img width="900px" src="../assets/intro/1-65-packet-delay-1.png">
 
 Trong **pipe diagram** (biểu đồ ống), mỗi giây, một cột gồm 5 bit “bước” vào ống. Chúng ta cần 4 cột để đưa toàn bộ packet vào ống, mất 4 giây. Điều này có nghĩa là chiều rộng của packet trong ống là 4 cột = 4 giây.
 
-<img width="900px" src="/assets/intro/1-66-packet-delay-2.png">
+<img width="900px" src="../assets/intro/1-66-packet-delay-2.png">
 
 Pipe diagram cho phép chúng ta quan sát **thời gian truyền packet** trên cùng một trục với **propagation delay** (độ trễ lan truyền) và so sánh hai giá trị này.
 
 Pipe diagram cũng hữu ích khi so sánh các liên kết khác nhau. Hãy xem cùng một packet di chuyển qua ba liên kết khác nhau.
 
-<img width="700px" src="/assets/intro/1-67-different-pipes.png">
+<img width="700px" src="../assets/intro/1-67-different-pipes.png">
 
 Nếu chúng ta rút ngắn propagation delay, **chiều rộng** của ống ngắn lại. **Chiều cao** của ống giữ nguyên, và hình dạng của mỗi packet hình chữ nhật cũng giữ nguyên. (Hãy nhớ: chiều cao của packet = số bit được đưa vào ống mỗi đơn vị thời gian; chiều rộng của packet = thời gian để đưa toàn bộ bit vào ống.)
 
@@ -137,37 +137,37 @@ Lúc này, hình dạng packet cũng thay đổi: packet cao hơn vì mỗi đơ
 
 ## **Overloaded Links** (Liên kết quá tải)
 
-<img width="700px" src="/assets/intro/1-68-link1.png">
+<img width="700px" src="../assets/intro/1-68-link1.png">
 
 Xem hình minh họa packet đến một **switch** (bộ chuyển mạch). Switch cần chuyển tiếp tất cả packet qua **outgoing link** (liên kết đầu ra). Trong trường hợp này, không có vấn đề gì vì switch có đủ khả năng xử lý mọi packet khi chúng đến.
 
-<img width="700px" src="/assets/intro/1-69-link2.png">
+<img width="700px" src="../assets/intro/1-69-link2.png">
 
 Còn trong hình này thì sao?
 
-<img width="700px" src="/assets/intro/1-70-transient1.png">
+<img width="700px" src="../assets/intro/1-70-transient1.png">
 
 Về lâu dài, chúng ta có đủ khả năng để gửi tất cả packet ra ngoài, nhưng tại một thời điểm cụ thể, có hai packet đến cùng lúc, và chúng ta chỉ có thể gửi một. Đây được gọi là **transient overload** (quá tải tạm thời), và nó cực kỳ phổ biến ở các switch trên Internet.
 
 Để xử lý quá tải tạm thời, switch duy trì một **queue** (hàng đợi) packet. Nếu hai packet đến cùng lúc, switch sẽ đưa một packet vào hàng đợi và gửi packet còn lại.
 
-<img width="700px" src="/assets/intro/1-71-transient2.png">
+<img width="700px" src="../assets/intro/1-71-transient2.png">
 
 Tại bất kỳ thời điểm nào, switch có thể chọn gửi một packet từ một trong các **incoming link** (liên kết đầu vào), hoặc gửi một packet từ hàng đợi. Lựa chọn này được xác định bởi một **packet scheduling algorithm** (thuật toán lập lịch gói tin), và có rất nhiều thiết kế khác nhau mà chúng ta sẽ tìm hiểu.
 
-<img width="900px" src="/assets/intro/1-72-transient3.png">
+<img width="900px" src="../assets/intro/1-72-transient3.png">
 
 Khi không có packet đến, switch có thể **drain** (xả) hàng đợi và gửi các packet đang chờ.
 
-<img width="900px" src="/assets/intro/1-73-transient4.png">
+<img width="900px" src="../assets/intro/1-73-transient4.png">
 
 Điều này cho phép hàng đợi giúp hấp thụ các đợt bùng nổ tạm thời.
 
-<img width="700px" src="/assets/intro/1-74-transient5.png">
+<img width="700px" src="../assets/intro/1-74-transient5.png">
 
 Nhưng nếu các liên kết đầu vào trông như thế này thì sao?
 
-<img width="700px" src="/assets/intro/1-75-persistent.png">
+<img width="700px" src="../assets/intro/1-75-persistent.png">
 
 Lúc này, chúng ta có **persistent overload** (quá tải kéo dài). Đơn giản là không đủ dung lượng trên liên kết đầu ra để đáp ứng mức lưu lượng đầu vào.
 

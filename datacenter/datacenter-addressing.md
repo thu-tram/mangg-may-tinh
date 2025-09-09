@@ -26,7 +26,7 @@ Tuy nhiên, trong datacenter, chúng ta có thể tận dụng việc **operator
 
 ## **Địa chỉ hóa nhận thức topology** (Topology-Aware Addressing)
 
-<img width="900px" src="/assets/datacenter/6-042-dc-addressing.png">
+<img width="900px" src="../assets/datacenter/6-042-dc-addressing.png">
 
 Trong topology cụ thể này, các **rack** (tủ máy) được tổ chức vật lý thành các **pod** riêng biệt trong tòa nhà. Một cách tiếp cận tự nhiên là phân bổ một dải địa chỉ cho mỗi pod. Sau đó, mỗi pod có thể phân bổ các **sub-range** (dải con) cho từng rack trong pod. Cuối cùng, mỗi rack có thể phân bổ một địa chỉ IP riêng cho từng server.
 

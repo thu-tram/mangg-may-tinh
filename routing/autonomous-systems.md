@@ -20,7 +20,7 @@ We can formalize the notion of a local network by defining an **autonomous syste
 
 To think about routing packets between autonomous systems, we can abstract away all of the individual routers and hosts within the AS, and treat the AS as a single entity. Then, we can draw a graph where each node represents an AS, and edges between two ASes represents a connection between them. This graph is sometimes called the **inter-domain topology** or an **AS graph**.
 
-<img width="900px" src="/assets/routing/2-134-interdomain.png">
+<img width="900px" src="../assets/routing/2-134-interdomain.png">
 
 ## Brief History of Autonomous Systems
 
@@ -30,9 +30,9 @@ Fun fact: In the early days, the IANA was administered manually by a single pers
 
 Today, there are over 90,000 autonomous systems, with the United States having the most ASes of any country.
 
-<img width="600px" src="/assets/routing/2-135-as-history1.png">
+<img width="600px" src="../assets/routing/2-135-as-history1.png">
 
-<img width="600px" src="/assets/routing/2-136-as-history2.png">
+<img width="600px" src="../assets/routing/2-136-as-history2.png">
 
 Fun fact: UC Berkeley has ASN 25, which is a remarkably low number given that there are so many ASNs. This reflects the fact that UC Berkeley received its ASN very early in the Internet's history (in the 1980s).
 
@@ -66,7 +66,7 @@ A pair of ASes could also be involved in a **peer** relationship. Two peer ASes 
 
 We can draw these relationships into the AS graph by adding arrows to the graph. A directed edge points from the provider to the customer. An undirected edge connects two peers. Note that the graph can contain both directed and undirected edges (not all edges need to have arrows).
 
-<img width="500px" src="/assets/routing/2-137-as-graph.png">
+<img width="500px" src="../assets/routing/2-137-as-graph.png">
 
 Stub ASes in the graph are only customers. They have incoming edges, showing who provides them with connectivity. However, they don't have any outgoing edges, because they don't provide connectivity to others.
 
@@ -82,7 +82,7 @@ This acyclic property exists because of the real-world implications of having a 
 
 To use an analogy, imagine if you paid UC Berkeley tuition for classes, then UC Berkeley paid the UC system for classes, and then the UC system paid you for classes. This business relationship doesn't make any sense!
 
-<img width="700px" src="/assets/routing/2-138-acyclic.png">
+<img width="700px" src="../assets/routing/2-138-acyclic.png">
 
 Note that the acyclic property only applies to customer-provider relationships. It is okay if peering relationships form a cycle. For example, it's okay if A-B, B-C, and C-A are all peers. None of them are sending each other money, so we don't have an ill-defined business relationship.
 
@@ -92,7 +92,7 @@ A consequence of the graph being acyclic is, we can form a hierarchy of provider
 
 At the very top of the hierarchy, there are **Tier 1 autonomous systems**, which have no providers (no incoming edges). Every Tier 1 AS has a peering relationship with every other Tier 1 AS.
 
-<img width="600px" src="/assets/routing/2-139-tier1.png">
+<img width="600px" src="../assets/routing/2-139-tier1.png">
 
 A consequence of this hierarchy is: Every non-Tier 1 AS has at least one provider (incoming edge). This makes sense in real life, since you have to pay somebody to offer you connectivity.
 
@@ -130,11 +130,11 @@ Although our routing protocol allows each AS to set any arbitrary policy they li
 
 There are two broad rules that ASes typically follow. First, when an AS has a choice of multiple routes, the AS prefers to forward packets to the most profitable next hop. Specifically, the AS prefers a route with a next hop that is a customer. If there are no such routes, the AS prefers a route with a next hop that is a peer. The AS will only select a route with a next hop that is a provider if it's forced to do so, because there are no better routes.
 
-<img width="900px" src="/assets/routing/2-140-gaorexford1.png">
+<img width="900px" src="../assets/routing/2-140-gaorexford1.png">
 
 This principle dictates the routes that the AS selects. You can think of this principle as a preference-based version of selecting paths in the distance-vector protocol. Instead of selecting the shortest route I know about, I select the route where the next hop makes me money (customer best), or saves me money (if no customers, then peer), and avoids losing money (if no customers or peers, then provider).
 
-<img width="900px" src="/assets/routing/2-141-gaorexford2.png">
+<img width="900px" src="../assets/routing/2-141-gaorexford2.png">
 
 Second, ASes only carry traffic if they're getting paid for it. There's no incentive for ASes to perform free labor. This principle dictates the paths that the AS is willing to participate in. You can think of this principle as a more restrictive version of announcing paths in the distance-vector protocol. Instead of advertising a route to every neighbor, allowing anybody to forward packets through me, I only advertise routes in which I'm paid to forward packets.
 
@@ -144,38 +144,38 @@ Let's go through all the specific cases.
 
 Routes where both of my neighbors are customers are good, because I am getting paid by the two customers to forward packets.
 
-<img width="900px" src="/assets/routing/2-142-gaorexford3.png">
+<img width="900px" src="../assets/routing/2-142-gaorexford3.png">
 
 Similarly, routes where one of my neighbors is a customer, and one of my neighbors is a peer are good, because even though the peer doesn't pay me, the customer does.
 
-<img width="900px" src="/assets/routing/2-143-gaorexford4.png">
+<img width="900px" src="../assets/routing/2-143-gaorexford4.png">
 
 Routes where one of my neighbors is a customer, and the other is a provider are good. At first, it might seem like this path is bad, because the customer is paying me, and then I'm paying the provider. Isn't it possible that I make no money, or lose money from this transaction? That may be true, but if we didn't participate in these routes, we would be a useless AS with no customers. An AS's job is to give connectivity to its users, and participating in these customer-AS-provider routes unlocks more routes to the rest of the Internet.
 
-<img width="900px" src="/assets/routing/2-144-gaorexford5.png">
+<img width="900px" src="../assets/routing/2-144-gaorexford5.png">
 
 Routes where both of my neighbors are peers are bad, because neither side is paying me to forward packets.
 
 More generally, peers do not provide transit between other peers. Thinking in terms of the hierarchy structure, a path should not stay at a given level for multiple hops.
 
-<img width="900px" src="/assets/routing/2-145-gaorexford6.png">
+<img width="900px" src="../assets/routing/2-145-gaorexford6.png">
 
 Routes where one of my neighbors is a peer, and the other is a provider are also bad, because again, neither side is paying me to forward packets.
 
 More generally, if an AS has a peering link, that link will only carry traffic to/from its own customers. In other words, when packets arrive at B via that peering link, B's only profitable option is to forward the packet to a customer (not a provider, and not another peer). Similarly, packets from customers can be forwarded through the peering link (customer pays), but packets from providers and peers cannot be forwarded through the peering link (nobody is paying).
 
-<img width="900px" src="/assets/routing/2-146-gaorexford7.png">
+<img width="900px" src="../assets/routing/2-146-gaorexford7.png">
 
 Similarly, routes where both of my neighbors are providers are bad, because I have to pay both sides to forward the packet, and nobody is paying me to do this.
 
-<img width="900px" src="/assets/routing/2-147-gaorexford8.png">
+<img width="900px" src="../assets/routing/2-147-gaorexford8.png">
 
 
 ## Examples of Gao-Rexford Rules
 
 The policy for selecting routes (customer best, provider worst), and the policy for announcing routes (only announce and participate in routes where one of my neighbors is a customer) will be used in our modified protocol to compute routes that respect each AS's policy. We haven't said how to compute routes yet, but given a route, we can check if it satisfies these two policies.
 
-<img width="300px" src="/assets/routing/2-148-gaorexford9.png">
+<img width="300px" src="../assets/routing/2-148-gaorexford9.png">
 
 In this example, suppose that a computer in D (a stub AS) wants to talk to a computer in E (another stub AS). D and E might want to exchange messages (remember, arrows represent customer/provider relationships, not direction of packets).
 
@@ -191,17 +191,17 @@ B's neighbors are a customer (D) and a provider (A). B is making money from the 
 
 Similarly, C has at least one customer neighbor (E), so it also thinks this route is good.
 
-<img width="600px" src="/assets/routing/2-149-gaorexford10.png">
+<img width="600px" src="../assets/routing/2-149-gaorexford10.png">
 
 Instead of B and C both paying A, perhaps they choose to establish a peer relationship, which causes the AS graph to change:
 
-<img width="300px" src="/assets/routing/2-150-gaorexford11.png">
+<img width="300px" src="../assets/routing/2-150-gaorexford11.png">
 
 Now, another possible path for the traffic is D, B, C, E. Now, D still needs to pay B, and E still has to pay C. However, B and C no longer need to pay A, and they don't pay each other (peering relationship).
 
 Again, we can check if the transit ASes on this path, namely B and C, will agree to announce and participate in this route. B's neighbors are a customer (D) and a provider (C). B is making money from the customer (D), and thinks this path is good. Similarly, C has at least one customer neighbor (E), so C also thinks this path is good.
 
-<img width="600px" src="/assets/routing/2-151-gaorexford12.png">
+<img width="600px" src="../assets/routing/2-151-gaorexford12.png">
 
 We've just reasoned that there are two good paths that can be used to send messages from D to E. Now, B must decide to forward through either path B-A-C-E, or path B-C-E. Which path should B choose? According to our first principle, B prefers the most profitable path (not the shortest path). In B-A-C-E, the next hop is provider A (who we'd have to pay), and in B-C-E, the next hop is peer C (no payment needed). Therefore, B will select the path through C, giving final path D-B-C-E.
 
@@ -218,7 +218,7 @@ Thinking in terms of the hierarchy structure, if a path includes a downward hop 
 
 If a downhill link must be followed by another downhill link, then we can conclude that as soon as you have a downhill link in a path, all subsequent links must also be downhill. A valley is a path that goes downhill, and then turns around to start going uphill. Paths cannot contain valleys, because once you start going downhill, you must continue downhill all the way to the destination.
 
-<img width="900px" src="/assets/routing/2-152-singlepeak.png">
+<img width="900px" src="../assets/routing/2-152-singlepeak.png">
 
 In summary, here are the rules we've derived (though it's better to understand them in terms of respecting AS money preferences, instead of memorizing them):
 

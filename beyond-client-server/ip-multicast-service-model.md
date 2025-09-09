@@ -23,19 +23,19 @@ Mặc dù các giao thức này không được triển khai toàn cầu, nhưng
 
 Làm thế nào để định nghĩa một nhóm? Mỗi **multicast group** được định nghĩa bởi một địa chỉ IP. Các địa chỉ từ `224.0.0.0` đến `239.255.255.255` là địa chỉ multicast, và mọi người đều biết rằng các địa chỉ trong dải cố định này là địa chỉ multicast.
 
-<img width="500px" src="/assets/beyond-client-server/7-005-multicast-addresses.png">
+<img width="500px" src="../assets/beyond-client-server/7-005-multicast-addresses.png">
 
 Để tham gia một nhóm, bạn sẽ thông báo địa chỉ multicast của nhóm mà bạn muốn tham gia. Ít nhất một router phải nhận được thông báo này (ví dụ: router gia đình của bạn), sau đó các router sẽ phối hợp với nhau để lan truyền thông tin này (ví dụ: thông qua một giao thức định tuyến). Cuối cùng, tất cả các router sẽ biết rằng bạn là thành viên của nhóm đó.
 
-<img width="900px" src="/assets/beyond-client-server/7-006-join-message.png">
+<img width="900px" src="../assets/beyond-client-server/7-006-join-message.png">
 
 Tương tự, bạn có thể thông báo rằng mình rời nhóm, và bạn cũng sử dụng địa chỉ multicast để xác định nhóm mà bạn đang đề cập.
 
-<img width="900px" src="/assets/beyond-client-server/7-007-leave-message.png">
+<img width="900px" src="../assets/beyond-client-server/7-007-leave-message.png">
 
 Để gửi một gói tin tới nhóm, tất cả những gì bạn cần làm là điền địa chỉ multicast của nhóm vào trường **IP destination**. Sau đó, các router sẽ sử dụng địa chỉ nhóm này để chuyển tiếp gói tin tới tất cả các thành viên của nhóm. Lưu ý rằng với tư cách là bên gửi, bạn không cần quan tâm ai thuộc nhóm, vì các router sẽ tự xác định điều đó.
 
-<img width="900px" src="/assets/beyond-client-server/7-008-multicast-forwarding.png">
+<img width="900px" src="../assets/beyond-client-server/7-008-multicast-forwarding.png">
 
 Tóm lại, mô hình dịch vụ IP multicast định nghĩa ba thao tác cho **end host** (máy đầu cuối):  
 - Bạn có thể gửi gói tin tới một nhóm (ngay cả khi bạn không phải là thành viên của nhóm đó).  
@@ -60,11 +60,11 @@ Chúng ta có thể chia vấn đề này thành hai phần:
 
 1. **Làm thế nào để router biết các nhóm mà các host kết nối trực tiếp thuộc về?** Chúng ta sẽ sử dụng một giao thức gọi là **IGMP (Internet Group Management Protocol)** để giải quyết.
 
-    <img width="900px" src="/assets/beyond-client-server/7-009-igmp-taxonomy.png">
+    <img width="900px" src="../assets/beyond-client-server/7-009-igmp-taxonomy.png">
 
 2. **Làm thế nào để router chuyển tiếp gói tin qua mạng để đến các thành viên nhóm đích?** Chúng ta sẽ xem xét hai giao thức để giải quyết: **DVMRP** và **CBT**. Cả hai giao thức đều đạt cùng mục tiêu, vì vậy bạn có thể chọn một trong hai để triển khai (giống như bạn có thể chọn **distance-vector** hoặc **link-state**, nhưng không dùng cả hai).
 
-    <img width="900px" src="/assets/beyond-client-server/7-010-dvmrp-cbt-taxonomy.png">
+    <img width="900px" src="../assets/beyond-client-server/7-010-dvmrp-cbt-taxonomy.png">
 
 ---
 
@@ -77,7 +77,7 @@ Trước khi giải quyết vấn đề lớn hơn là định tuyến multicast
 - **Queries:** Router định kỳ gửi **Query** tới các host. Các thông điệp này hỏi: “Bạn thuộc nhóm nào?”  
 - **Reports:** Để trả lời, host gửi **Report** về cho router. Report trả lời câu hỏi: “Đây là (các) nhóm mà tôi thuộc về.” Host cũng có thể gửi **unsolicited Report** (tức là không cần chờ Query).
 
-<img width="900px" src="/assets/beyond-client-server/7-011-igmp-queries-reports.png">
+<img width="900px" src="../assets/beyond-client-server/7-011-igmp-queries-reports.png">
 
 Bằng cách định kỳ trao đổi Query và Report, router luôn được cập nhật thông tin thành viên nhóm mới nhất. Nếu router không nhận được Report về một thành viên trong thời gian dài, router sẽ giả định rằng thành viên đó đã hết hiệu lực và xóa bỏ.
 

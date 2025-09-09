@@ -13,7 +13,7 @@ Các công nghệ truyền thông không dây thực tế đã xuất hiện tr�
 
 Về mặt khái niệm, bạn có thể hình dung rằng truyền thông không dây bao gồm các hạt vô hình di chuyển dọc theo một liên kết tưởng tượng từ điểm A đến điểm B, nhưng thực tế thì không hoàn toàn chính xác như vậy. Thực tế, truyền thông không dây giống như những gợn sóng trên mặt hồ. Khi bạn truyền dữ liệu không dây, bạn tạo ra các gợn sóng lan tỏa ra ngoài và yếu dần theo khoảng cách. Nếu những người khác cũng đang truyền dữ liệu, các gợn sóng này có thể giao thoa cộng hưởng hoặc triệt tiêu lẫn nhau. Các gợn sóng cũng có thể phản xạ hoặc khúc xạ khi gặp các vật thể như thuyền trên hồ hoặc bờ hồ.
 
-<img width="500px" src="/assets/wireless/8-001-wireless-intro.png">
+<img width="500px" src="../assets/wireless/8-001-wireless-intro.png">
 
 Trong phần này, chúng ta sẽ xem xét bốn điểm khác biệt chính giữa truyền thông có dây và không dây. Các khác biệt này chủ yếu ảnh hưởng đến **Layer 1 (Physical)** và **Layer 2 (Link)**, với một vài ngoại lệ mà chúng ta sẽ tìm hiểu sau (đáng chú ý là việc phá vỡ **End-to-end Principle** (Nguyên tắc đầu-cuối) và triển khai cơ chế đảm bảo độ tin cậy ở Layer 2 để cải thiện hiệu năng).
 
@@ -39,13 +39,13 @@ Kết nối không dây có đặc tính ngược lại. Mặc định, kết n�
 
 Làm thế nào để chúng ta mã hóa dữ liệu vào sóng điện từ ở **Layer 1**? Chúng ta có thể lấy chuỗi 1 và 0 và vẽ nó thành dạng sóng, nhưng dạng sóng thu được thường có tần số thấp, và tín hiệu tần số thấp thì yếu và khó truyền.
 
-<img width="500px" src="/assets/wireless/8-002-modulation1.png">
+<img width="500px" src="../assets/wireless/8-002-modulation1.png">
 
 Thay vào đó, chúng ta phải sử dụng **modulation** (điều chế) để truyền dữ liệu. Chúng ta bắt đầu với **carrier signal** (tín hiệu sóng mang), vốn là một sóng có tần số cố định (ví dụ: sóng sin). Sóng này không mang thông tin, nhưng có tần số cao nên dễ truyền hơn. Sau đó, chúng ta chồng tín hiệu dữ liệu (còn gọi là **modulation signal** – tín hiệu điều chế) lên trên sóng mang. Dạng sóng thu được vừa có tần số cao (dễ truyền), vừa chứa dữ liệu cần gửi. Lưu ý rằng phía thu sẽ cần tách dạng sóng đã điều chế để khôi phục lại chuỗi 1 và 0.
 
 Có nhiều chiến lược điều chế tín hiệu dữ liệu lên sóng mang. Trong **amplitude modulation (AM)** (điều chế biên độ), chúng ta thay đổi độ cao của sóng mang dựa trên tín hiệu đầu vào. Để truyền bit 1, làm sóng sin cao; để truyền bit 0, làm sóng sin thấp. Trong **frequency modulation (FM)** (điều chế tần số), chúng ta thay đổi tần số (độ rộng) của sóng mang dựa trên tín hiệu đầu vào. Để truyền bit 1, làm sóng sin hẹp (tần số cao hơn); để truyền bit 0, làm sóng sin rộng (tần số thấp hơn). Ngoài ra còn có các chiến lược điều chế phức tạp hơn, như **phase modulation** (điều chế pha), hoặc kết hợp giữa điều chế biên độ và điều chế pha.
 
-<img width="900px" src="/assets/wireless/8-003-modulation2.png">
+<img width="900px" src="../assets/wireless/8-003-modulation2.png">
 
 
 ## Nhiễu và can nhiễu (Noise and Interference)
@@ -58,7 +58,7 @@ $$\text{SINR} = \frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}$$
 
 SINR là một đại lượng không thứ nguyên, vì nó là tỷ số của hai giá trị. Nó cũng có thể được biểu diễn theo đơn vị **decibel (dB)**, là cách đo tỷ số theo thang logarit. Ở mức 0 dB, tỷ số là 1, và khi SINR tăng thêm 10 dB, tỷ số thực tế lớn hơn gấp 10 lần (ví dụ: tín hiệu mạnh hơn gấp 10 lần, hoặc nhiễu/can nhiễu yếu hơn gấp 10 lần).
 
-<img width="400px" src="/assets/wireless/8-004-decibels.png">
+<img width="400px" src="../assets/wireless/8-004-decibels.png">
 
 $$\text{SINR}_\text{dB} = 10 \cdot \log_{10}\left(\frac{P_\text{signal}}{P_\text{interference} + P_\text{noise}}\right)$$
 
@@ -98,11 +98,11 @@ $$P_r \propto \frac{P_t}{d^2}$$
 
 Trong phương trình này, $$P_r$$ là công suất tại bộ thu, $$P_t$$ là công suất tại bộ phát, và $$d$$ là khoảng cách giữa bộ phát và bộ thu. Nếu khoảng cách tăng gấp đôi, tín hiệu tại bộ thu sẽ yếu đi còn $$1/4$$. Nếu khoảng cách tăng gấp 10 lần, tín hiệu tại bộ thu sẽ yếu đi còn $$1/100$$.
 
-<img width="200px" src="/assets/wireless/8-005-freespace1.png">
+<img width="200px" src="../assets/wireless/8-005-freespace1.png">
 
 Trực quan mà nói, định luật nghịch đảo bình phương áp dụng ở đây vì tín hiệu lan tỏa ra mọi hướng. Tại một thời điểm, tín hiệu đã lan ra thành một hình cầu bao quanh bộ phát, và hình cầu này lớn dần khi tín hiệu lan xa hơn. Diện tích bề mặt của hình cầu bán kính $$r$$ là $$4\pi r^2$$, vì vậy khi tín hiệu lan ra, nó được phân bố trên một diện tích tăng theo bình phương khoảng cách. Ví dụ, khi khoảng cách tăng gấp đôi, diện tích bề mặt hình cầu tăng gấp 4 lần, do đó tín hiệu yếu đi còn $$1/4$$.
 
-<img width="300px" src="/assets/wireless/8-006-freespace2.png">
+<img width="300px" src="../assets/wireless/8-006-freespace2.png">
 
 Ngoài khoảng cách, chúng ta cũng cần xem xét loại **antenna** (ăng-ten) được sử dụng ở bộ phát và bộ thu. Điều này dẫn đến **Friis equation** (phương trình Friis) để đo cường độ tín hiệu theo khoảng cách:
 
@@ -149,7 +149,7 @@ Cộng tất cả độ lợi và trừ tất cả suy hao sẽ cho chúng ta bi
 
 Lưu ý rằng **link budget** được tính theo đơn vị **decibel (dB)**, là thang đo logarit. Điều này cho phép chúng ta sử dụng phép cộng và trừ thay vì nhân và chia. Ví dụ: độ lợi công suất gấp 1000 lần được biểu diễn bằng cách cộng 30 dB, và suy hao xuống còn 1% công suất được biểu diễn bằng cách trừ 20 dB.
 
-<img width="900px" src="/assets/wireless/8-007-link-budget.png">
+<img width="900px" src="../assets/wireless/8-007-link-budget.png">
 
 **Ví dụ:** Công suất tín hiệu tại bộ phát là 10 dB. Tín hiệu đi qua một đoạn cáp, một **lightning arrestor** (thiết bị chống sét – bạn không cần biết chi tiết), và một đoạn cáp khác, lần lượt mất 0,44 dB, 0,1 dB và 2,21 dB. Sau đó, tín hiệu được phát qua ăng-ten, tăng thêm 25 dB. Tín hiệu truyền qua 10 km không gian, mất 120 dB. Tín hiệu được thu bởi ăng-ten, tăng thêm 25 dB. Sau đó, tín hiệu đi qua thêm các đoạn cáp, mất 0,44 dB, 0,1 dB và 2,21 dB, trước khi đến bộ thu. Cộng tất cả độ lợi và trừ tất cả suy hao, ta tính được công suất tín hiệu tại bộ thu là -65,5 dB.
 
@@ -169,11 +169,11 @@ Trong **free-space model** (mô hình không gian tự do) đã đề cập trư
 
 Trong **free-space model**, giả sử ăng-ten không đổi (cùng độ lợi, cùng diện tích hiệu dụng), chúng ta có đồ thị mượt mà, trong đó cường độ tín hiệu giảm dần khi khoảng cách tăng. Khi tính đến môi trường thay đổi, đồ thị khoảng cách – cường độ tín hiệu trở nên dao động mạnh hơn.
 
-<img width="900px" src="/assets/wireless/8-008-obstacle1.png">
+<img width="900px" src="../assets/wireless/8-008-obstacle1.png">
 
 Đồ thị này thực chất là tổng của ba đồ thị nhỏ hơn, mỗi đồ thị thể hiện một đặc tính môi trường ảnh hưởng đến cường độ tín hiệu theo khoảng cách. Một số đặc tính thay đổi chậm khi khoảng cách tăng, trong khi một số thay đổi nhanh và thất thường.
 
-<img width="900px" src="/assets/wireless/8-009-obstacle2.png">
+<img width="900px" src="../assets/wireless/8-009-obstacle2.png">
 
 1. **Free-space path loss** – suy hao đường truyền trong không gian tự do: tín hiệu giảm chậm và đều theo khoảng cách, tuân theo **inverse-square law** (định luật nghịch đảo bình phương).
 2. **Shadowing** – hiện tượng bóng che: xảy ra khi vật cản vật lý nằm giữa bộ phát và bộ thu chặn tín hiệu. Tín hiệu phải khúc xạ hoặc phản xạ để đi vòng qua vật cản, khiến tín hiệu đến bộ thu yếu hơn. Khi di chuyển, tín hiệu có thể yếu đi hoặc mạnh lên tùy vị trí vật cản.
@@ -191,17 +191,17 @@ Việc xấp xỉ **path loss** (suy hao đường truyền) từ **free-space l
 
 Một mô hình đơn giản hơn để xấp xỉ suy hao là **two-ray model** (mô hình hai tia). Trong mô hình này, tín hiệu truyền theo hai đường: một đường thẳng **line-of-sight** (tầm nhìn thẳng) từ bộ phát đến bộ thu, và một đường phản xạ từ mặt đất (**ground-bounce**) đến bộ thu. Đây vẫn là một tín hiệu phát ra từ bộ phát, nhưng một phần sóng đến trực tiếp, phần khác phản xạ từ mặt đất.
 
-<img width="900px" src="/assets/wireless/8-010-obstacle3.png">
+<img width="900px" src="../assets/wireless/8-010-obstacle3.png">
 
 Nếu khoảng cách đủ xa, hai sóng từ hai đường sẽ lệch pha 180°, gây giao thoa triệt tiêu (**destructive interference**) và làm tín hiệu tại bộ thu yếu đi đáng kể. Khi đó, cường độ tín hiệu không còn tỉ lệ với $$1/d^2$$ mà tỉ lệ với $$1/d^4$$ – tức là suy giảm nhanh hơn nhiều khi khoảng cách tăng.
 
 Trong **free-space model**, không tính đến vật cản (kể cả bề mặt Trái Đất), nên tín hiệu tỉ lệ với $$1/d^2$$. Trong **two-ray model**, tính đến bề mặt Trái Đất khiến tín hiệu tỉ lệ với $$1/d^4$$.
 
-<img width="900px" src="/assets/wireless/8-011-obstacle4.png">
+<img width="900px" src="../assets/wireless/8-011-obstacle4.png">
 
 Nếu tồn tại các vật cản khác ngoài bề mặt Trái Đất, **two-ray model** (mô hình hai tia) sẽ không tính đến chúng. Trong các môi trường phức tạp hơn, chúng ta có thể xây dựng **general ray tracing models** (mô hình dò tia tổng quát), mô phỏng việc tín hiệu bị phản xạ (**reflected**), tán xạ (**scattered**) và nhiễu xạ (**diffracted**). Các mô hình này yêu cầu thông tin chi tiết về môi trường (ví dụ: vị trí các vật cản) và có thể được xây dựng bằng mô phỏng máy tính. Trong các mô hình này, các phiên bản tín hiệu bị phản xạ thường chiếm ưu thế so với tín hiệu truyền thẳng không bị cản (**unobstructed line-of-sight**).
 
-<img width="900px" src="/assets/wireless/8-012-obstacle5.png">
+<img width="900px" src="../assets/wireless/8-012-obstacle5.png">
 
 Từ các mô hình này, chúng ta có thể rút ra một mô hình suy hao đường truyền (**path loss model**) đơn giản hơn, liên hệ giữa khoảng cách và cường độ tín hiệu:
 
@@ -221,7 +221,7 @@ Trong kết nối có dây (**wired**), việc phát hiện va chạm (**collisi
 
 Ngược lại, trong kết nối không dây (**wireless**), việc phát hiện va chạm khó hơn nhiều, vì va chạm còn phụ thuộc vào yếu tố không gian. Sóng có thể va chạm ở một vị trí nhưng không va chạm ở vị trí khác.
 
-<img width="500px" src="/assets/wireless/8-013-collision1.png">
+<img width="500px" src="../assets/wireless/8-013-collision1.png">
 
 Thiết kế cơ chế phát hiện và tránh va chạm (**collision detection** và **collision avoidance**) trong hệ thống không dây phức tạp hơn, nhưng vẫn cần thiết để nhiều thiết bị có thể truyền trên cùng một môi trường dùng chung (**shared medium**). Có nhiều phương pháp **multiple access** (truy nhập đa điểm), bao gồm phân bổ tần số cố định (**fixed frequency allocation**) hoặc điều phối thời gian truyền. Phương pháp nào hiệu quả nhất phụ thuộc vào môi trường. Ví dụ, ở nơi hẻo lánh, có thể chấp nhận để va chạm xảy ra và xử lý sau. Trong phần này, chúng ta tập trung vào phương pháp **CSMA (Carrier Sense Multiple Access)** – cảm nhận sóng mang và không truyền nếu phát hiện có thiết bị khác đang truyền.
 
@@ -235,19 +235,19 @@ Thiết kế cơ chế phát hiện và tránh va chạm (**collision detection*
 
 Chiến lược này hoạt động tốt nếu hai cặp thiết bị ở xa nhau.
 
-<img width="800px" src="/assets/wireless/8-014-collision2.png">
+<img width="800px" src="../assets/wireless/8-014-collision2.png">
 
 Ví dụ: A và B muốn liên lạc, C và D cũng muốn liên lạc. A không phát hiện tín hiệu nào và bắt đầu truyền cho B. Lưu ý rằng tín hiệu của A lan tỏa ra mọi hướng, không chỉ về phía B. Sau đó, C cũng không phát hiện tín hiệu (vì nằm ngoài phạm vi của A), nên bắt đầu truyền cho D.
 
 Chiến lược này cũng hoạt động tốt nếu hai cặp thiết bị ở trong phạm vi của nhau.
 
-<img width="600px" src="/assets/wireless/8-015-collision3.png">
+<img width="600px" src="../assets/wireless/8-015-collision3.png">
 
 Ví dụ: A và B muốn liên lạc, C và D cũng muốn liên lạc. A không phát hiện tín hiệu và bắt đầu truyền cho B. Sau đó, C phát hiện tín hiệu (vì A đang truyền và C nằm trong phạm vi), nên C sẽ chờ đến khi A kết thúc mới truyền cho D.
 
 Tuy nhiên, đôi khi chiến lược này gây ra vấn đề.
 
-<img width="700px" src="/assets/wireless/8-016-collision4.png">
+<img width="700px" src="../assets/wireless/8-016-collision4.png">
 
 Giả sử A và C đều muốn truyền cho B. A không phát hiện tín hiệu và bắt đầu truyền cho B. Sau đó, C cũng không phát hiện tín hiệu (vì nằm ngoài phạm vi của A), nên cũng bắt đầu truyền cho B. Kết quả là xảy ra va chạm tại B.
 
@@ -257,7 +257,7 @@ Trường hợp này gọi là **hidden terminal problem** (vấn đề nút ẩ
 
 Dưới đây là một trường hợp khác mà **CSMA (Carrier Sense Multiple Access)** gặp vấn đề:
 
-<img width="600px" src="/assets/wireless/8-017-collision5.png">
+<img width="600px" src="../assets/wireless/8-017-collision5.png">
 
 Trong trường hợp này, giả sử B muốn truyền dữ liệu cho A, và C muốn truyền dữ liệu cho D. Đầu tiên, B không phát hiện tín hiệu nào và bắt đầu truyền cho A. Hãy nhớ rằng tín hiệu của B lan tỏa ra mọi hướng, bao gồm cả đến C. Lúc này, C muốn truyền cho D nhưng phát hiện tín hiệu của B nên giữ im lặng.
 
@@ -275,7 +275,7 @@ Vấn đề chính của CSMA là bộ phát (**sender**) phát hiện va chạm
 
 Giả sử A muốn gửi dữ liệu cho B. Một phiên truyền dữ liệu thành công gồm 3 bước:
 
-<img width="900px" src="/assets/wireless/8-018-maca1.png">
+<img width="900px" src="../assets/wireless/8-018-maca1.png">
 
 1. A gửi một gói **RTS (Request To Send)** kèm độ dài dữ liệu. Đây là cách A nói: “Tôi muốn gửi k bit cho B.”
 2. B gửi lại một gói **CTS (Clear To Send)** kèm độ dài dữ liệu. Điều này báo cho A rằng có thể gửi dữ liệu an toàn và xác nhận rằng không có va chạm ở phía thu. Gói CTS cũng cảnh báo tất cả các thiết bị trong phạm vi của B: “Tôi là B, tôi sắp nhận k bit, vui lòng không truyền trong thời gian này.”
@@ -283,7 +283,7 @@ Giả sử A muốn gửi dữ liệu cho B. Một phiên truyền dữ liệu t
 
 Giao thức này giải quyết được **hidden terminal problem**. Hãy nhớ rằng, trong vấn đề nút ẩn, A và C đều cảm nhận kênh trống và bắt đầu truyền, gây va chạm tại B. Với giao thức này, nếu A gửi RTS, B sẽ gửi CTS, cảnh báo tất cả các thiết bị trong phạm vi của B (bao gồm C) giữ im lặng.
 
-<img width="700px" src="/assets/wireless/8-019-maca2.png">
+<img width="700px" src="../assets/wireless/8-019-maca2.png">
 
 Nếu bạn nghe thấy một gói RTS, điều đó có nghĩa là bạn nằm trong phạm vi của bộ phát. Bộ phát sắp lắng nghe CTS. Do đó, bạn cần giữ im lặng và chờ một **time slot** (khoảng thời gian) đủ lâu để không làm nhiễu CTS tại bộ phát bằng dữ liệu của bạn. Nói cách khác, bạn cần giữ im lặng để bộ phát nhận được CTS.
 
@@ -291,11 +291,11 @@ Sau khi RTS được gửi, nếu bạn nghe thấy CTS, điều đó có nghĩa
 
 Với một số giả định nhất định, giao thức này cũng giải quyết được **exposed terminal problem**. Hãy nhớ rằng, trong vấn đề nút lộ, B đang gửi cho A và C đang gửi cho D. Với CSMA, C phát hiện tín hiệu của B và giữ im lặng, mặc dù thực tế có thể truyền an toàn. Với giao thức này, nếu B gửi RTS, C sẽ trì hoãn một time slot (để tránh làm nhiễu CTS tại B). Sau đó, vì C không nghe thấy CTS, điều này có nghĩa là C nằm ngoài phạm vi của bộ thu (A), nên C có thể bắt đầu truyền cho D một cách an toàn.
 
-<img width="900px" src="/assets/wireless/8-020-maca3.png">
+<img width="900px" src="../assets/wireless/8-020-maca3.png">
 
 Giả định để điều này hoạt động là C phải nghe được CTS từ D. Hãy nhớ rằng, ngay cả khi C là bộ phát, nó phải nhận được CTS trước khi bắt đầu truyền. Tuy nhiên, C thực tế cũng đang nghe dữ liệu từ B, nên có thể không nghe được CTS để bắt đầu truyền. Vấn đề chính ở đây là: Trong CSMA, bộ phát chỉ truyền. Nhưng trong MACA, bộ phát phải nhận được CTS trước khi truyền, và CTS này có thể bị nhiễu trong trường hợp **exposed terminal**.
 
-<img width="900px" src="/assets/wireless/8-021-maca4.png">
+<img width="900px" src="../assets/wireless/8-021-maca4.png">
 
 Nếu chúng ta gửi RTS nhưng không nghe thấy CTS tương ứng, điều đó có nghĩa là chúng ta **không được phép truyền**. Có thể đang có va chạm ở phía thu, ví dụ: bộ thu đang nhận dữ liệu hoặc nhận hai yêu cầu cùng lúc. Nếu điều này xảy ra, chúng ta áp dụng **binary exponential backoff** (cơ chế lùi thời gian theo cấp số nhân nhị phân, tương tự CSMA/CD) và chờ lâu gấp đôi trước khi gửi lại RTS.
 
@@ -308,7 +308,7 @@ Trong MACA, mỗi thiết bị duy trì một giá trị **CW (Contention Window
 
 Cải tiến đầu tiên là bổ sung **acknowledgement** (gói xác nhận – ACK) để đảm bảo độ tin cậy. Như trước đây, bộ phát (**sender**) gửi một gói **RTS (Request To Send)**, bộ thu (**receiver**) gửi một gói **CTS (Clear To Send)**, và bộ phát truyền dữ liệu. Giờ đây, chúng ta thêm một bước nữa ở cuối, trong đó bộ thu gửi một gói ACK.
 
-<img width="300px" src="/assets/wireless/8-022-macaw-acks.png">
+<img width="300px" src="../assets/wireless/8-022-macaw-acks.png">
 
 Nếu dữ liệu bị mất, sẽ không có ACK, và bộ phát sẽ phải thử lại, bắt đầu lại với một RTS mới. Nếu dữ liệu được gửi chính xác nhưng ACK bị mất, bộ phát sẽ thử lại với một RTS mới, nhưng bộ thu có thể trả lời ngay bằng ACK thay vì CTS.
 
@@ -322,7 +322,7 @@ Giao thức MACA thiếu công bằng khi hai nút va chạm cùng muốn gửi 
 
 Ví dụ về sự thiếu công bằng: Giả sử A và B đều có giá trị **CW (Contention Window)** là 2, và cả hai đồng thời cố gắng đặt chỗ kênh truyền. Giả sử A thắng, B thua. Khi đó, CW của A vẫn là 2, còn CW của B tăng gấp đôi thành 4. Điều này có nghĩa là A có khả năng đặt chỗ kênh sớm hơn và nhiều khả năng lại thắng. Khi B thử lại, A đã chiếm kênh, và CW của B lại tăng gấp đôi thành 8. Mẫu này tiếp diễn: A liên tục chiếm kênh nhanh chóng, còn B liên tục thất bại và phải chờ lâu hơn trước khi thử lại (và lại thất bại).
 
-<img width="800px" src="/assets/wireless/8-023-maca-unfair.png">
+<img width="800px" src="../assets/wireless/8-023-maca-unfair.png">
 
 Để giải quyết vấn đề này, thay vì mỗi thiết bị có CW riêng, tất cả sẽ dùng chung một CW. Phần tiêu đề gói tin (**packet header**) giờ đây có một trường chứa giá trị CW, và nếu bạn nhận được một gói tin, bạn sẽ đặt CW của mình bằng giá trị trong gói đó. Vì tất cả cùng có CW như nhau, cơ chế thử lại sẽ không thiên vị thiết bị nào. Mỗi thiết bị chọn ngẫu nhiên một giá trị từ 0 đến CW và chờ tương ứng. (Lưu ý: Chúng ta đang đơn giản hóa một chút, điều này đúng nếu tất cả thiết bị đều trong phạm vi của nhau.)
 
@@ -340,7 +340,7 @@ MACAW kết luận rằng trong trường hợp **exposed terminal**, các cặp
 
 Để giải quyết vấn đề này, MACAW thêm một gói **DS (Data Sending)** trước khi truyền dữ liệu. Đây là cách bộ phát cảnh báo mọi thiết bị: “Tôi sắp gửi k bit dữ liệu, vui lòng giữ im lặng trong thời gian này.”
 
-<img width="900px" src="/assets/wireless/8-024-ds1.png">
+<img width="900px" src="../assets/wireless/8-024-ds1.png">
 
 Giao thức giờ đây có 5 bước:
 
@@ -360,13 +360,13 @@ Giả sử không có gói DS. Khi đó, như trước, B gửi một gói **RTS
 
 Ngược lại, B biết chính xác khi nào nó sẽ ngừng truyền dữ liệu. Điều này mang lại cho B lợi thế lớn trong vòng tranh chấp (**contention**) tiếp theo. Khi B truyền xong, nó có thể ngay lập tức gửi yêu cầu mới và nhiều khả năng sẽ thắng, tiếp tục giữ quyền truyền dữ liệu. Trong khi đó, C không biết khi nào B sẽ ngừng, nên phải đoán ngẫu nhiên thời điểm gửi yêu cầu mới. Khả năng cao là C sẽ đoán sai và gửi yêu cầu khi B vẫn đang truyền, dẫn đến thất bại và yêu cầu không được chấp nhận (va chạm).
 
-<img width="900px" src="/assets/wireless/8-025-ds2.png">
+<img width="900px" src="../assets/wireless/8-025-ds2.png">
 
 Sự thiếu đồng bộ này dẫn đến mất công bằng. Nếu tôi thắng, tôi có khả năng sẽ thắng tiếp, vì tôi biết chính xác khi nào vòng tranh chấp tiếp theo diễn ra (ngay khi tôi truyền xong). Nếu bạn thua, bạn có khả năng sẽ tiếp tục thua, vì bạn không biết khi nào vòng tranh chấp tiếp theo diễn ra (bạn không biết khi nào tôi truyền xong). Thời gian tranh chấp thường rất ngắn, vì phần lớn thời gian được dùng để truyền dữ liệu. Tôi biết chính xác thời điểm đó, còn bạn thì không, nên tôi sẽ liên tục thắng.
 
 Gói DS giải quyết vấn đề này, vì nó cho phép bộ phát thông báo cho mọi người khi nào vòng tranh chấp tiếp theo sẽ diễn ra. Giờ đây, B sử dụng gói DS để thông báo cho mọi người: “Tôi bắt đầu gửi k bit dữ liệu.” Nhờ đó, C không chỉ biết rằng mình không nên gửi các yêu cầu RTS vô ích, mà còn biết khi nào B sẽ truyền xong. Điều này giúp C có cơ hội công bằng hơn để thắng trong vòng tranh chấp tiếp theo.
 
-<img width="900px" src="/assets/wireless/8-026-ds3.png">
+<img width="900px" src="../assets/wireless/8-026-ds3.png">
 
 ---
 
@@ -378,7 +378,7 @@ A truyền cho B (A gửi RTS, B gửi CTS, A gửi DS và truyền dữ liệu)
 
 Ngược lại, A biết chính xác khi nào nó sẽ ngừng truyền dữ liệu. Giống như trước, điều này mang lại cho A lợi thế lớn trong vòng tranh chấp tiếp theo. A có thể ngay lập tức gửi yêu cầu mới và giành quyền truyền. Trong khi đó, D không biết khi nào nên gửi lại yêu cầu. Cách duy nhất để D thắng là cực kỳ may mắn, gửi yêu cầu ngay sau khi A truyền xong nhưng trước khi A gửi lại yêu cầu.
 
-<img width="900px" src="/assets/wireless/8-027-rrts1.png">
+<img width="900px" src="../assets/wireless/8-027-rrts1.png">
 
 Lưu ý rằng gói DS không giúp ích trong trường hợp này, vì hai bộ phát A và D nằm ngoài phạm vi của nhau. A sẽ gửi gói DS và thông báo khi nó đang truyền dữ liệu, nhưng D sẽ không nghe thấy, nên vẫn thất thế.
 
@@ -386,7 +386,7 @@ Lưu ý rằng gói DS không giúp ích trong trường hợp này, vì hai b�
 
 Khi D gửi RTS, C biết rằng D muốn liên lạc, nhưng C phải giữ im lặng cho đến vòng tranh chấp tiếp theo. Lưu ý rằng C biết khi nào vòng tranh chấp tiếp theo diễn ra, vì nó sẽ nghe thấy gói ACK từ B. Khi vòng tranh chấp tiếp theo bắt đầu, C gửi một gói mới gọi là **RRTS (Request-for-RTS)**. Gói này ngay lập tức báo cho D rằng vòng tranh chấp đã bắt đầu, cho phép D gửi RTS ngay lập tức. Điều này giúp D có cơ hội công bằng hơn để thắng vòng tranh chấp.
 
-<img width="900px" src="/assets/wireless/8-028-rrts2.png">
+<img width="900px" src="../assets/wireless/8-028-rrts2.png">
 
 Nếu bạn nghe thấy một gói RRTS, điều đó có nghĩa là có ai đó trong phạm vi của bạn đang cố gắng gửi yêu cầu, vì vậy bạn nên giữ im lặng trong 2 time slots để họ thực hiện trao đổi RTS/CTS.
 

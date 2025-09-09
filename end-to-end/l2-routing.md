@@ -45,7 +45,7 @@ The most naive approach to forwarding is to flood every packet you receive. When
 
 As a slight optimization, we don't need to send the packet back out of the port we received the packet from.
 
-<img width="500px" src="/assets/end-to-end/5-011-flooding.png">
+<img width="500px" src="../assets/end-to-end/5-011-flooding.png">
 
 This naive approach has two major problems:
 
@@ -66,7 +66,7 @@ Suppose you are router R2. You don't have any information about the full network
 
 You see a packet coming from the port to your west. The packet says: "From A, To B." From this packet, you can deduce that A must be to your west.
 
-<img width="800px" src="/assets/end-to-end/5-012-learning-1.png">
+<img width="800px" src="../assets/end-to-end/5-012-learning-1.png">
 
 You can now add an entry to your forwarding table: Packets for A should be forwarded to the west.
 
@@ -78,7 +78,7 @@ As you receive more incoming packets, you are able to start filling in your forw
 
 For example, when you receive "From A, To B" from the west port, you don't have a forwarding table for B yet. Therefore, you should forward this packet out of all ports (except the west port).
 
-<img width="900px" src="/assets/end-to-end/5-013-learning-2.png">
+<img width="900px" src="../assets/end-to-end/5-013-learning-2.png">
 
 Note: There's no need to send the packet back out of the incoming port (e.g. west), because the previous switch/host (e.g. to your west) already had a copy of the packet and forwarded it (that's how it reached you). If you send the packet back again, the previous switch/host would just make the same forwarding decision again (either flooding again, or forwarding back to you again), and this repeated forwarding doesn't help the packet reach its destination.
 
@@ -96,35 +96,35 @@ R1 sees the packet "From A, To B" incoming from Port 1. Therefore, A must be tow
 
 R1 does not know where B is, so R1 floods this packet out of all ports (except the incoming port).
 
-<img width="800px" src="/assets/end-to-end/5-014-learning-3.png">
+<img width="800px" src="../assets/end-to-end/5-014-learning-3.png">
 
 R2 and R4 both receive the "From A, to B" packet. Both of them now have a clue about where A is, and add a mapping for A to their forwarding tables. Both of them do not know where B is, so they flood the packet out of all ports (except the incoming port).
 
-<img width="800px" src="/assets/end-to-end/5-015-learning-4.png">
+<img width="800px" src="../assets/end-to-end/5-015-learning-4.png">
 
 R3 and R5 both receive the "From A, to B" packet. Both of them now have a clue about where A is, and add a mapping for A to their forwarding tables. Both of them do not know where B is, so they flood the packet out of all ports (except the incoming port).
 
-<img width="800px" src="/assets/end-to-end/5-016-learning-5.png">
+<img width="800px" src="../assets/end-to-end/5-016-learning-5.png">
 
 C receives the "From A, to B" packet. C checks the header and realizes that it is not the intended recipient of this packet, so C drops the packet.
 
 B receives the "From A, to B" packet. B checks the header and realizes that it is the recipient, so B successfully receives and processes this packet.
 
-<img width="800px" src="/assets/end-to-end/5-017-learning-6.png">
+<img width="800px" src="../assets/end-to-end/5-017-learning-6.png">
 
 Next, suppose B sends a packet to A. First, B forwards the packet to R3.
 
 R3 receives the "From B, to A" packet. This gives R3 a clue about where B is, so R3 adds a mapping for B to its forwarding table. Also, R3 notices that A is in its forwarding table, so R3 can forward the packet along the next-hop to A (instead of flooding the packet).
 
-<img width="800px" src="/assets/end-to-end/5-018-learning-7.png">
+<img width="800px" src="../assets/end-to-end/5-018-learning-7.png">
 
 R2 receives the "From B, to A" packet. This allows R2 to add a mapping for B to its forwarding table. R2 looks in its forwarding table and sees an entry for A, so it forwards the packet along the next-hop to A.
 
-<img width="800px" src="/assets/end-to-end/5-019-learning-8.png">
+<img width="800px" src="../assets/end-to-end/5-019-learning-8.png">
 
 R1 receives the "From B, to A" packet. This allows R1 to add a mapping for B to its forwarding table. R1 looks in its forwarding table and sees an entry for A, so it forwards the packet along the next-hop to A.
 
-<img width="800px" src="/assets/end-to-end/5-020-learning-9.png">
+<img width="800px" src="../assets/end-to-end/5-020-learning-9.png">
 
 As more packets get sent, more entries get added to forwarding tables, and less flooding takes place.
 
@@ -137,7 +137,7 @@ Recall that flooding has two problems: It wastes bandwidth, and loops can overwh
 
 To see why, consider this topology with loops. Suppose all switches are learning switches, and all forwarding tables start empty. A tries to send a packet to B, and forwards the packet to R1.
 
-<img width="700px" src="/assets/end-to-end/5-021-loop.png">
+<img width="700px" src="../assets/end-to-end/5-021-loop.png">
 
 R1 has no entry for B, so it floods the packet to R2 (and R3).
 
@@ -157,7 +157,7 @@ This problem is sometimes called a broadcast storm, since the network is getting
 
 How do we solve this problem? Ideally, we'd like to "delete" redundant links, so that the topology has no loops. Then, the learning switch approach will work just fine, with no broadcast storms.
 
-<img width="700px" src="/assets/end-to-end/5-022-loop-fixed.png">
+<img width="700px" src="../assets/end-to-end/5-022-loop-fixed.png">
 
 Note: Another solution might be to add a TTL field to each packet, so that the packet expires after being forwarded too many times. Unfortunately, the Ethernet header does not have a TTL field, so this solution can't be implemented.
 
@@ -170,7 +170,7 @@ The **Spanning Tree Protocol (STP)** helps us disable links, so that the resulti
 
 Note that hosts don't participate in this protocol. Routers will work together to disable links and reomve loops from the topology. As a result, we'll ignore hosts when describing this protocol.
 
-<img width="200px5" src="/assets/end-to-end/5-023-stp-no-hosts.png">
+<img width="200px5" src="../assets/end-to-end/5-023-stp-no-hosts.png">
 
 How does STP decide which links to disable? Let's start by solving this problem with a global view of the network. Then, we'll think about how switches exchange messages to achieve this, without a global view of the network.
 
@@ -182,7 +182,7 @@ When comparing two switches, the switch with the lower priority has the lower ID
 
 The root switch is the switch with the lowest ID.
 
-<img width="300px" src="/assets/end-to-end/5-024-stp-root-election.png">
+<img width="300px" src="../assets/end-to-end/5-024-stp-root-election.png">
 
 If the network operator wants to pick a specific root, they can do so by manually setting the priorities of various switches. Or, the operator could leave all the switch priorities at their default value, which would cause the switch with the lowest MAC address to be elected as the root. For these notes, we won't discuss which root is best; the important thing is just that one of the routers is unambiguously chosen as the root.
 
@@ -197,11 +197,11 @@ Now that we have a root switch, we will classify every port on every switch into
 
 3. **Blocked Port:** All ports pointing toward the root, that are not the root port (best way to reach the root), are blocked ports.
 
-<img width="800px" src="/assets/end-to-end/5-025-stp-port-types.png">
+<img width="800px" src="../assets/end-to-end/5-025-stp-port-types.png">
 
 Here are some examples of the port states in action. Assume that IDs are ordered according to the router labels. This means that R1 has the lowest ID, so it is elected as the root switch.
 
-<img width="200px5" src="/assets/end-to-end/5-026-stp-port-types-example.png">
+<img width="200px5" src="../assets/end-to-end/5-026-stp-port-types-example.png">
 
 All the ports on the root switch (R1) point away from the root, so they are all designated ports.
 
@@ -215,13 +215,13 @@ At R6, the ports to R4 and R3 both point toward the root. However, the port to R
 
 Sometimes, we have a tie, and there are two best ways to reach the root.
 
-<img width="400px" src="/assets/end-to-end/5-027-stp-tie-1.png">
+<img width="400px" src="../assets/end-to-end/5-027-stp-tie-1.png">
 
 For example, at R4, both the port to R2 and the port to R3 point toward the root, and both of them provide a cost-2 path to the root. In case of a tie, we will say that the next-hop with the lower ID is the better path to the root. This makes the port to R2 the root port, and the port to R3 a blocked port.
 
 Sometimes, we'll have a link that leads somewhere equally-far from the root.
 
-<img width="900px" src="/assets/end-to-end/5-028-stp-tie-2.png">
+<img width="900px" src="../assets/end-to-end/5-028-stp-tie-2.png">
 
 For example, R4 is distance 2 from the root, and it has a link to R5, which is also distance 2 from the root. Again, we'll use router IDs as a tiebreaker. If the link leads to a higher-ID router, we'll say that the link points away from the root. If the link leads to a lower-ID router, we'll say that the link points toward the root. In this example, R4's right-facing port points away from the root (leads to somewhere same-distance, but higher-ID), so it is a designated port. On the other hand, R5's left-facing port points toward the root (leads to somewhere same-distance, but lower-ID), so it is either a root port or a blocked port.
 
@@ -232,7 +232,7 @@ Now that every port has been assigned a state (designated port, root port, or bl
 
 To remove loops, each switch simply needs to pretend like its blocked ports don't exist. In other words, do not send any user data out of that port, and do not receive any user data from that port.
 
-<img width="200px5" src="/assets/end-to-end/5-029-stp-disabling-ports.png">
+<img width="200px5" src="../assets/end-to-end/5-029-stp-disabling-ports.png">
 
 (Note: We specify user data here because STP packets could still be sent and received from the blocked port. This will allow STP to re-enable the blocked port if the topology changes.)
 
@@ -248,7 +248,7 @@ With this strategy, every link is disabled by only one side. The side that's fur
 
 The side that's closer always makes this link's port a designated port. This has the effect of leaving the decision to disable up to the further side. This is good, because the closer side has no idea if the further side will be using this link as their best path to root.
 
-<img width="800px" src="/assets/end-to-end/5-030-stp-why-it-works.png">
+<img width="800px" src="../assets/end-to-end/5-030-stp-why-it-works.png">
 
 
 ## STP: Designated Ports
@@ -257,7 +257,7 @@ Side note: Why did we call them designated ports? So far, we've been drawing net
 
 Suppose that a link connecting two switches also has lots of hosts connected to it. If these hosts want to send or receive data, they will send data to the designated port, but not the blocked port. (The blocked port won't receive any user data.) This ensures that their data takes exactly one path to the destination. If the data was sent to both the designated port and blocked port, the data could take two paths to the destination, creating a loop.
 
-<img width="400px" src="/assets/end-to-end/5-031-stp-designated-ports.png">
+<img width="400px" src="../assets/end-to-end/5-031-stp-designated-ports.png">
 
 With this in mind, another equivalent interpretation of a designated port is: Hosts on a link should send data toward the designated port to reach the root (or anywhere else on the spanning tree). From the switch's perspective, the designated port points away from the root. From the hosts' perspective, sending to the designated port takes them closer to the root (or anywhere else on the spanning tree).
 
@@ -272,7 +272,7 @@ When the protocol begins, every switch thinks that the root is itself, and the c
 
 As the protocol runs, every switch keeps track of what it thinks the root is, and the best-known path to that root (and the cost of that path).
 
-<img width="600px" src="/assets/end-to-end/5-032-bpdu-start.png">
+<img width="600px" src="../assets/end-to-end/5-032-bpdu-start.png">
 
 When you send a BPDU, you include two pieces of information: Who you think the root is, and how far away you are from the root. For example, a BPDU might say: "The root is R2, and I can reach R2 with cost 7."
 
@@ -282,7 +282,7 @@ When you receive a BPDU, you check if it has any "better" information. The BPDU 
 
 2. The root in the BPDU is the same, but the BPDU is offering a better path to the root. You should adopt the new path to the root.
 
-<img width="900px" src="/assets/end-to-end/5-033-bpdu-advertisements.png">
+<img width="900px" src="../assets/end-to-end/5-033-bpdu-advertisements.png">
 
 Costs to root are computed just like we did in the distance-vector protocol. For example, suppose your neighbor tells you "The root is R2, and I can reach R2 with cost 7." Then your cost to the root is your direct link cost to your neighbor, plus your neighbor's cost to root (as specified in the advertisement).
 
@@ -301,7 +301,7 @@ Routers send and receive BPDU exchanges in parallel, so there isn't a specific r
 
 R3's initial state says: Root R3 is 0 away. R3's first advertisement sends this state to its neighbors.
 
-<img width="800px" src="/assets/end-to-end/5-034-bpdu-exchanges-1.png">
+<img width="800px" src="../assets/end-to-end/5-034-bpdu-exchanges-1.png">
 
 R1 hears this advertisement. R1 currently thinks the root is R1, and the advertisement offers a root of R3. The advertised root is worse (higher ID), so R1 rejects this advertisement.
 
@@ -311,7 +311,7 @@ At this point, R6 has updated its state, so it will send an advertisement to its
 
 Some time later, R1 sends an advertisement to its neighbors with its state: Root R1 is 0 away.
 
-<img width="800px" src="/assets/end-to-end/5-035-bpdu-exchanges-2.png">
+<img width="800px" src="../assets/end-to-end/5-035-bpdu-exchanges-2.png">
 
 R2 hears this advertisement. The advertised root (R1) is better than the currently best-known root (R2), so R2 accepts this advertisement. R2's updated state says: Root R1 is 1 away.
 
@@ -319,7 +319,7 @@ Likewise, R3 hears this advertisement, and accepts it because the advertised roo
 
 R2 and R3 have updated their states, so they will each send an advertisement to their neighbors.
 
-<img width="900px" src="/assets/end-to-end/5-036-bpdu-exchanges-3.png">
+<img width="900px" src="../assets/end-to-end/5-036-bpdu-exchanges-3.png">
 
 R4 hears the advertisement from R2. The advertised root (R1) is better than the currently best-known root (R4), so R4 accepts this advertisement. R4's updated state says: Root R1 is 2 away. Note: This cost is computed by summing 1 (cost in advertisement from R2), plus 1 (link cost to R2).
 
@@ -327,7 +327,7 @@ R6 hears the advertisement from R3. The advertised root (R1) is better than the 
 
 R4 and R6 have updated its state, so they will send advertisements to their neighbors with its updated state. We'll first show R4's advertisement, then come back to R6 later (again, remember that all of these are happening in parallel in reality).
 
-<img width="900px" src="/assets/end-to-end/5-037-bpdu-exchanges-4.png">
+<img width="900px" src="../assets/end-to-end/5-037-bpdu-exchanges-4.png">
 
 R5 hears the advertisement from R4. The advertised root (R1) is better than the currently best-known root (R5), so R5 accepts this advertisement. R5's updated state says: Root R1 is 3 away (2 from the advertisement, plus 1 from the link cost to R4).
 
@@ -335,18 +335,18 @@ R6 also hears the advertisement from R4. The advertised root (R1) is the same th
 
 R5 has updated its state, so it will send an advertisement to its neighbors with its updated state.
 
-<img width="700px" src="/assets/end-to-end/5-038-bpdu-exchanges-5.png">
+<img width="700px" src="../assets/end-to-end/5-038-bpdu-exchanges-5.png">
 
 R7 hears the advertisement from R5. The advertised root (R1) is better than the currently best-known root (R7), so R7 accepts this advertisement.
 
 R7 has updated its state, and will send an advertisement to its neighbors, though that advertisement is not shown here (R6 would reject it for having a worse cost to root).
 
-<img width="700px" src="/assets/end-to-end/5-039-bpdu-exchanges-6.png">
+<img width="700px" src="../assets/end-to-end/5-039-bpdu-exchanges-6.png">
 
 Following up from earlier, R6 sends an advertisement to its neighbors, and R7 receives this advertisement. The advertised root (R1) is the same than the currently best-known root (R1), so we need to check the cost. Accepting the advertisement would give a cost of 2 (from the advertisement), plus 1 (from the link cost to R6), for a total of 3. The currently best-known cost is 4. Therefore, R7 rejects the advertisement (3 is better than 4), and updates its state to have a cost-to-root of 3 (instead of 4).
 
 The routers continue to periodically exchange advertisements with each other. Not all advertisements were shown in this demo, but eventually, the protocol will converge, and all routers will know that the root is R1. Also, all routers will know about their cost to the root.
 
-<img width="900px" src="/assets/end-to-end/5-040-bpdu-exchanges-7.png">
+<img width="900px" src="../assets/end-to-end/5-040-bpdu-exchanges-7.png">
 
 Once all the routers know their cost to the agreed-upon root, they can exchange periodic advertisements. This allows routers to learn about their neighbors' cost-to-root values, which in turn allows the routers to assign ports as DP, RP, or BP.

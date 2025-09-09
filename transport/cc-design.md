@@ -32,7 +32,7 @@ Instead of checking for packet loss, the sender could instead detect congestion 
 
 Historically, accurately measuring delay has been considered difficult. Packet delay can vary depending on queue size and other traffic. For many years, packet delay was not widely deployed, though in recent years, Google's BBR protocol (2016) has shown that delay-based algorithms is possible, and some services (e.g. Google services) have adopted delay-based algorithms.
 
-<img width="600px" src="/assets/transport/3-059-taxonomy2.png">
+<img width="600px" src="../assets/transport/3-059-taxonomy2.png">
 
 
 ## Discovering Initial Rate
@@ -45,7 +45,7 @@ At the same time, we want the discovery process to quickly discover the availabl
 
 In order to support a slow start but a fast ramp-up, we'll increase the bandwidth by a multiplicative factor each time (instead of an additive factor). This solution is called **slow start**, though this is arguably an unintuitive name. In slow start, we start with a small rate that will almost always be much less than the actual bandwidth. Then, we increase the rate exponentially (e.g. doubling the rate each time) until we encounter loss. A safe rate to use is the one just before we encounter loss (we don't want to use a rate where we experienced loss). Formally, if loss occurs at rate R, then the safe rate is R/2.
 
-<img width="700px" src="/assets/transport/3-060-slow-start.png">
+<img width="700px" src="../assets/transport/3-060-slow-start.png">
 
 
 ## Adjustments: Reacting to Congestion
@@ -74,7 +74,7 @@ Intuitively, AIMD is a reasonable choice because sending too much is worse than 
 
 AIMD leads to the behavior where we slowly increase the rate when there's no congestion, creeping up to the maximal bandwidth. Then, as soon as we exceed maximal bandwidth and detect congestion, we rapidly decrease. This way, we spend most of our time with the rate too low (preferable), and when the rate is too high (not preferable), we quickly decrease to avoid congestion.
 
-<img width="700px" src="/assets/transport/3-061-sawtooth.png">
+<img width="700px" src="../assets/transport/3-061-sawtooth.png">
 
 
 ## Adjustments: Model
@@ -91,11 +91,11 @@ To visualize the space of possibilities, consider a 2D plot, where the x-axis is
 
 Suppose C=1. To achieve maximum efficiency, we want X1+X2 = 1. We can plot this line on the graph. Every point along this line is using the full available bandwidth.
 
-<img width="500px" src="/assets/transport/3-062-graph1.png">
+<img width="500px" src="../assets/transport/3-062-graph1.png">
 
 We know that the network is congested when X1+X2 is greater than 1. On the plot, this inequality is the half-plane above the line. We also know that the network is underused when X1+X2 is less than 1, which is represented by the half-plane below the line. This means that all points above the line represent a congested state, and all points below the line represent an underused state.
 
-<img width="500px" src="/assets/transport/3-063-graph2.png">
+<img width="500px" src="../assets/transport/3-063-graph2.png">
 
 To achieve fairness, we want X1 = X2. We can also plot this line. Every point along this line represents a fair state, where both users are using the same amount of bandwidth. Any point not along this line is unfair.
 
@@ -103,7 +103,7 @@ The ideal state occurs at the intersection of the two lines, when X1 = X2 = 0.5.
 
 The point (0.2, 0.5) is inefficient, because we are only using 0.7 bandwidth. Graphically, we are below the efficiency line. The point (0.7, 0.5) is congested and therefore above the efficiency line. The point (0.7, 0.3) is efficient (on the efficiency line), but is not fair (not on the fairness line).
 
-<img width="500px" src="/assets/transport/3-064-graph3.png">
+<img width="500px" src="../assets/transport/3-064-graph3.png">
 
 Recall that in our dynamic adjustment algorithm, every sender is independently running the same algorithm to determine their own rate. This means that if the two users detect underuse, both will increase their rate in the same way (additive or multiplicative, depending on our choice of rule). Similarly, if the two users detect congestion, both will decrease their rate in the same way.
 
@@ -111,13 +111,13 @@ What happens if both users additively increase or decrease their rate? If both u
 
 On the graph, if we make an additive change, the point representing our state moves along a line with a slope of 1.
 
-<img width="500px" src="/assets/transport/3-065-graph4.png">
+<img width="500px" src="../assets/transport/3-065-graph4.png">
 
 What happens if both users multiplicatively increase or decrease their rate? Multiplying by c transforms (x1, x2) to (cx1, cx2), and dividing by d transforms (x1, x2) to (x1/d, x2/d).
 
 On the graph, if we make a multiplicative change, the point representing our state moves along a line with slope x2/x1. Equivalently, this is the line connecting (x1, x2) to the origin (0, 0).
 
-<img width="500px" src="/assets/transport/3-066-graph5.png">
+<img width="500px" src="../assets/transport/3-066-graph5.png">
 
 Now, we can apply this model to each of the four increase/decrease options, and see if they cause the point to approach, or move away from, the fairness line. Our goal is for the point to approach the fairness line as we adjust the rates.
 
@@ -140,7 +140,7 @@ In fact, if we look at the difference between X1 and X2 (fair gap is 0), the gap
 
 We can see this behavior graphically. From a given starting point, if we increase and decrease additively, we will always move along a line of slope 1, never getting any closer to the fairness line.
 
-<img width="500px" src="/assets/transport/3-067-aiad.png">
+<img width="500px" src="../assets/transport/3-067-aiad.png">
 
 Do note, though, that our point oscillates around the efficiency line, as desired. All four options will have this behavior.
 
@@ -167,7 +167,7 @@ Again, we've returned to where we started, with no improvement in fairness!
 
 We can see this behavior on the plot. When we multiplicatively increase or decrease the rate, we are moving along the line between the point and the origin, and we are never getting any closer to the fairness line.
 
-<img width="500px" src="/assets/transport/3-068-mimd.png">
+<img width="500px" src="../assets/transport/3-068-mimd.png">
 
 Algebraically, consider the ratio between X2 and X1, i.e. X2/X1 (fair ratio would be 1). In the example above, the ratio is always 2, i.e. X2 always has twice the bandwidth of X1. This ratio stays the same even if we multiply or divide both X1 and X2 by constant factor. Our adjustments don't get us closer to a fair ratio of 1.
 
@@ -221,10 +221,10 @@ We can see that X1 and X2 are getting closer together, and in fact, they're appr
 
 Algebraically, we can see that the gap between X1 and X2 is decreasing. Specifically, when we add a constant to both numbers, the gap stays the same. But, when we halve both numbers, the gap also halves, from (X1 - X2) to (X1 / 2 - X2 / 2) = (X1 - X2) / 2. As we alternate increasing and decreasing, the gap will keep halving and approaching 0.
 
-<img width="500px" src="/assets/transport/3-069-aimd.png">
+<img width="500px" src="../assets/transport/3-069-aimd.png">
 
 We can see this graphically as well. When we multiplicatively decrease, we are moving along the line through the origin. This line is angled toward the fairness line, and moving downwards along this line means we're approaching the fairness line. As before, additive increases don't get us any closer to the fairness line, since we're moving along a line with slope 1 (parallel to fairness line). But the key realization is that adding don't move us any further, either. Our only two operations are moving closer, or not getting closer or further away. After many iterations, our point will slowly move closer toward the fairness line.
 
 In summary: AIAD and MIMD retain unfairness, and make no improvements toward fairness. MIAD increases unfairness, and AIMD converges toward fairness.
 
-<img width="800px" src="/assets/transport/3-070-aimd-sawtooth.png">
+<img width="800px" src="../assets/transport/3-070-aimd-sawtooth.png">

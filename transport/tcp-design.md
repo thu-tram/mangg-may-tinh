@@ -11,13 +11,13 @@ layout: page-with-toc
 
 The time it takes for a packet to travel from sender to receiver is the **one-way delay**. The time it takes for a packet to travel from sender to receiver, plus the time for a reply packet to travel from receiver to sender, is the **round-trip time (RTT)**.
 
-<img width="800px" src="/assets/transport/3-008-tcpdemo1.png">
+<img width="800px" src="../assets/transport/3-008-tcpdemo1.png">
 
 Let's build intuition by designing a simplified protocol for reliably sending a single packet.
 
 The sender tries to send a packet. How does the sender know if the packet was successfully received?
 
-<img width="800px" src="/assets/transport/3-009-tcpdemo2.png">
+<img width="800px" src="../assets/transport/3-009-tcpdemo2.png">
 
 The receiver can send an **acknowledgment (ack)** message, confirming that the packet was received.
 
@@ -25,7 +25,7 @@ What happens if the packet gets dropped?
 
 We can re-send the packet if it's dropped. How do we know when to re-send the packet?
 
-<img width="600px" src="/assets/transport/3-010-tcpdemo3.png">
+<img width="600px" src="../assets/transport/3-010-tcpdemo3.png">
 
 The sender can maintain a timer. When the timer expires, we can re-send the packet.
 
@@ -33,7 +33,7 @@ When the sender receives an ack, the sender can cancel the timer and does not ne
 
 What happens if the ack is dropped?
 
-<img width="600px" src="/assets/transport/3-011-tcpdemo4.png">
+<img width="600px" src="../assets/transport/3-011-tcpdemo4.png">
 
 The protocol still works without modification. The sender will time out (no ack received) and re-send the packet until the ack is successfully sent. In this case, the destination received two copies of the same packet, but that's okay. The destination can notice the duplicate and discard it.
 
@@ -49,25 +49,25 @@ In practice, operators usually err on the side of setting the timer to be longer
 
 What if the bits are corrupted?
 
-<img width="600px" src="/assets/transport/3-012-tcpdemo5.png">
+<img width="600px" src="../assets/transport/3-012-tcpdemo5.png">
 
 We can add a checksum in the transport layer header (different from the IP layer checksum). When the receiver sees a corrupt packet, it can do two things: Either the receiver can explicitly re-send a **negative acknowledgement (nack)**, telling the sender to re-send the packet.
 
 Or, the receiver can drop the corrupt packet and do nothing (don't send an ack or nack). Then, the sender will time out and re-send the packet.
 
-<img width="600px" src="/assets/transport/3-013-tcpdemo6.png">
+<img width="600px" src="../assets/transport/3-013-tcpdemo6.png">
 
 Both approaches (nack or wait for timeout) work, though TCP uses the latter (wait for timeout) and does not implement nacks.
 
 What if the packets are delayed?
 
-<img width="500px" src="/assets/transport/3-014-tcpdemo7.png">
+<img width="500px" src="../assets/transport/3-014-tcpdemo7.png">
 
 No modifications are needed. If the delay is very long, the sender might time out before the ack arrives. The sender will re-send the packet (so the recipient might get two duplicates), and the sender might get two acks, but that's okay.
 
 What if the sender sends one packet, but it's duplicated in the network, and the recipient receives two copies?
 
-<img width="500px" src="/assets/transport/3-015-tcpdemo8.png">
+<img width="500px" src="../assets/transport/3-015-tcpdemo8.png">
 
 No modifications are needed. The recipient would send two acks, but both the sender and the recipient can safely handle duplicates.
 
@@ -88,17 +88,17 @@ Note that this protocol guarantees at-least-once delivery, since duplicates may 
 
 How would this protocol be extended to multiple packets?
 
-<img width="500px" src="/assets/transport/3-016-tcpdemo9.png">
+<img width="500px" src="../assets/transport/3-016-tcpdemo9.png">
 
 We could follow the same transmission rules (re-send when timer expires) for every single packet. To distinguish packets, we can attach a unique **sequence number** to every packet. Each ack will be related to a specific packet. Sequence numbers can also help us reorder packets if they arrive out of order.
 
 When does the sender send each packet? The simplest approach is the **stop and wait** protocol, where the sender waits for packet i to be acknowledged before sending packet i+1. This will correctly provide reliability, but it is very slow. Each packet takes at least one RTT to be sent (more if a packet is dropped or corrupted).
 
-<img width="600px" src="/assets/transport/3-017-tcpdemo10.png">
+<img width="600px" src="../assets/transport/3-017-tcpdemo10.png">
 
 This protocol might work in smaller settings where efficiency is less of  a concern, but this is too slow for the Internet. How can we make this faster?
 
-<img width="600px" src="/assets/transport/3-018-tcpdemo11.png">
+<img width="600px" src="../assets/transport/3-018-tcpdemo11.png">
 
 We can send packets in parallel. More specifically, we can send more packets while waiting for acks to arrive. When a packet is sent, but its corresponding ack has not been received, we call that packet **in flight**.
 
@@ -111,7 +111,7 @@ Sending packets one at a time is too slow, but sending all packets at once overw
 
 If W is the maximum number of in-flight packets, then the sender can start by sending W packets. When an ack arrives, we send the next packet in line.
 
-<img width="500px" src="/assets/transport/3-019-window1.png">
+<img width="500px" src="../assets/transport/3-019-window1.png">
 
 How should W be selected?
 
@@ -126,11 +126,11 @@ Let's focus on just the first RTT, from the time the first packet is sent, to th
 
 If we set W to be lower than 50, then the sender would finish sending all the initial packets before the first ack arrives. Then, the sender would be forced to sit idling while waiting for acks to arrive, and some network bandwidth would be wasted. More generally, we want the sender to be sending packets during the entire RTT.
 
-<img width="600px" src="/assets/transport/3-020-window2.png">
+<img width="600px" src="../assets/transport/3-020-window2.png">
 
 In this example, W is 4. But, after sending 4 packets, the sender is idling and wasting bandwidth while waiting for the first ack to arrive.
 
-<img width="600px" src="/assets/transport/3-021-window3.png">
+<img width="600px" src="../assets/transport/3-021-window3.png">
 
 In this example, W is increased so that the sender is constantly sending packets. As the first ack arrives, the sender is just about to reach the limit of W packets in flight, and is able to immediately continue sending packets as more acks arrive.
 
@@ -148,9 +148,9 @@ For a concrete example, we can set RTT = 1 second, and B = 8 Mbits/second. Then,
 
 If our packet size is 100 bytes, then we want W = 10,000 packets, so that we are fully using the bandwidth and sending 1,000,000 bytes during the RTT.
 
-<img width="900px" src="/assets/transport/3-022-window4.png">
+<img width="900px" src="../assets/transport/3-022-window4.png">
 
-<img width="900px" src="/assets/transport/3-023-window5.png">
+<img width="900px" src="../assets/transport/3-023-window5.png">
 
 We can also draw the window size in terms of the link itself. In this picture, we are showing the outgoing and incoming directions of a specific link. As the sender pushes packets through the link at maximum capacity, the first ack will arrive immediately after the 6th packet is sent. Therefore, our window size should be 6.
 
@@ -158,7 +158,7 @@ Note that the window size is not 3. When packet 6 is sent, 3 packets are being s
 
 If we set the window size to 3, the outgoing pipe would have been unused while the acks for 1, 2, 3 are in flight.
 
-<img width="900px" src="/assets/transport/3-024-window6.png">
+<img width="900px" src="../assets/transport/3-024-window6.png">
 
 Note that the acks don't fill up the entire incoming pipe because the packets don't contain any actual data besides acknowledging receipt of a packet.
 
@@ -169,13 +169,13 @@ Consider the transport layer protocol in the recipient's operating system. The r
 
 For example, suppose the recipient has received and processed packets 1 and 2. Then, the recipient sees packets 4 and 5. The transport layer implementation cannot deliver 4 and 5 to the application yet. Instead, we have to wait for packet 3 to arrive, and in the meantime, we have to keep packets 4 and 5 stored in the transport layer implementation's memory.
 
-<img width="900px" src="/assets/transport/3-025-buffer1.png">
+<img width="900px" src="../assets/transport/3-025-buffer1.png">
 
 However, memory is not unlimited, and the recipient's buffer size for storing out-of-order packets is finite. The recipient has to store every out-of-order packet in memory until the missing packets in between arrive. If the connection has a lot of packet loss and reordering, the recipient might run out of memory.
 
 **Flow control** ensures that the recipient's buffer does not run out of memory. To achieve this, we have the recipient tell the sender how much space is left in the buffer. The amount of space left in the recipient buffer is called the **advertised window**. In the acknowledgment, the recipient says "I have received these packets, and I have X bytes of space left to hold packets."
 
-<img width="900px" src="/assets/transport/3-026-buffer2.png">
+<img width="900px" src="../assets/transport/3-026-buffer2.png">
 
 When the sender learns about the advertised window, the sender adjusts its window accordingly. Specifically, the number of packets in flight cannot exceed the recipient's advertised window. If the recipient says "my buffer has enough space for 5 packets," the sender must set the window to be at most 5 packets (even if the bandwidth might allow for more packets to be in flight).
 
@@ -186,7 +186,7 @@ Recall that in order to make the most use of bandwidth, the sender sets the wind
 
 In practice, it's unlikely that the 1Gbps link is only being used by a single connection. Other connections could also be using the capacity along that link. Instead of consuming the entire bandwidth on that link, the sender should only consume its own share of that bandwidth capacity.
 
-<img width="600px" src="/assets/transport/3-027-cc.png">
+<img width="600px" src="../assets/transport/3-027-cc.png">
 
 But, what share of the bandwidth goes to each connection?
 
@@ -209,13 +209,13 @@ Also, in practice, it's difficult to discover the bottleneck bandwidth. The send
 
 So far, every ack packet corresponds to a single packet. Can we do better than acknowledging one packet at a time? What are some issues with acknowledging one packet at a time?
 
-<img width="600px" src="/assets/transport/3-028-ack1.png">
+<img width="600px" src="../assets/transport/3-028-ack1.png">
 
 In this example, one of the acks is dropped, even though the recipient successfully received all 4 packets. This would force the sender to re-send packet 2, even though this re-sending was unnecessary.
 
 Instead of sending an acknowledgement for a specific packet, each time we send an acknowledgement, we can actually list every packet we have received. This is called a **full information ack**.
 
-<img width="600px" src="/assets/transport/3-029-ack2.png">
+<img width="600px" src="../assets/transport/3-029-ack2.png">
 
 In this example, the acks now say: "I received 1," and "I received 1 and 2", and "I received 1, 2, 3", and "I received 1, 2, 3, 4."
 
@@ -225,11 +225,11 @@ As more packets are sent, the list of all packets received is going to get very 
 
 Even with this abbreviation, full information acks can get long. For example, if all even-numbered packets are dropped, then the highest cumulative ack will always be 1 (we can only say all packets up to 1 have been received, since 2 is dropped). The rest of the received packets will have to be in a list like [1, 3, 5, 7, 9, ...] which can get very long.
 
-<img width="600px" src="/assets/transport/3-030-ack3.png">
+<img width="600px" src="../assets/transport/3-030-ack3.png">
 
 A compromise between individual acks (every ack drop forces re-sending) and full information acks (acks can get long) is **cumulative acks**, where we provide only the highest cumulative ack, and discard the additional list. Formally, the ack encodes the highest sequence number for which all previous packets have been received.
 
-<img width="900px" src="/assets/transport/3-031-ack4.png">
+<img width="900px" src="../assets/transport/3-031-ack4.png">
 
 In this example, where even-numbered packets are dropped, every cumulative ack would say: "I received all packets up to and including 1." Even though 3 and 5 were received, the cumulative ack will not encode this information, because it only confirms receipts of consecutive packets starting from 1.
 
@@ -242,7 +242,7 @@ Can we do better than waiting for timeouts, and use other information that we re
 
 More formally, we can set a value K (not related to the window), and say that if K subsequent packets are acked after the missing packet, we'll consider the packet lost (even if the timer hasn't expired). For example, if K=3, we're waiting on packet 5's ack, and we get acks for 6, 7, and 8, then we can consider packet 5 lost.
 
-<img width="900px" src="/assets/transport/3-032-fast-retransmit1.png">
+<img width="900px" src="../assets/transport/3-032-fast-retransmit1.png">
 
 In practice, detecting loss from subsequent acks is much faster than waiting for a timeout. If our timeout is calculated from the RTT, it could be on the order of seconds. On the other hand, modern bandwidths can allow for acks to arrive once every few microseconds.
 
@@ -250,13 +250,13 @@ This strategy for detecting loss looks different depending on our strategy for s
 
 If we use full-information acks, the strategy is pretty similar, and the acks will actually show the missing packet more clearly.
 
-<img width="900px" src="/assets/transport/3-033-fast-retransmit2.png">
+<img width="900px" src="../assets/transport/3-033-fast-retransmit2.png">
 
 If packet 5 is lost, the acks might say "up to 4", then "up to 4, plus 6", then "up to 4, plus 6, 7", then "up to 4, plus 6, 7, 8." At this point, if K=3, then K packets after 5 have been acked, so we can declare that packet 5 is lost.
 
 If we use cumulative acks, this strategy can be more ambiguous. If packet 5 is lost, then the acks might say "up to 4" (acking 4), "up to 4" (acking 6), "up to 4" (acking 7), "up to 4" (acking 8). The sender is seeing **duplicate acks** because of the gap in consecutive packets. If K=3, then we can declare packet 5 lost after receiving 3 duplicate packets (corresponding to 3 more packets acked after the gap), for a total of 4 duplicates.
 
-<img width="900px" src="/assets/transport/3-034-fast-retransmit3.png">
+<img width="900px" src="../assets/transport/3-034-fast-retransmit3.png">
 
 When we had individual and full-information acks, we could clearly see which packet needed to be re-sent. There was one packet missing the ack (and K subesquent acks arriving). However, the decision for which packet to re-send is more ambiguous with cumulative acks, especially when multiple packets are lost.
 

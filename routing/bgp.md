@@ -45,11 +45,11 @@ At a high level, in order to support policies, we will change the rules for impo
 
 When an AS receives multiple advertisements for the same destination, instead of picking the shortest route, the AS now selects (imports) a route based on policy.
 
-<img width="500px" src="/assets/routing/2-153-import-export.png">
+<img width="500px" src="../assets/routing/2-153-import-export.png">
 
 Remember that advertisements propagate outward from the destination, and messages are forwarded closer to the destination (the opposite direction from advertisements). The import decision dictates where an AS is sending its outbound traffic. For example, if S hears advertisements from A, B, and C about the same destination, S's import decision (A or B or C) determines where packets for that destination will be forwarded.
 
-<img width="900px" src="/assets/routing/2-154-import-policy.png">
+<img width="900px" src="../assets/routing/2-154-import-policy.png">
 
 In the distance-vector protocol, when I receive an announcement and install a new route, I always announce this new route to all my neighbors.
 
@@ -72,7 +72,7 @@ Brief history: The rules are named for Lixin Gao and Jennifer Rexford at AT&T in
 
 When importing routes, the Gao-Rexford rules say that the AS prefers to import a route advertised by a customer, over a route advertised by a peer, over a route advertised by a provider.
 
-<img width="900px" src="/assets/routing/2-154-import-policy.png">
+<img width="900px" src="../assets/routing/2-154-import-policy.png">
 
 In practice, ASes also implement additional tiebreaking rules in addition to the Gao-Rexford rules. For example, if I receive advertisements from two customers, I need some additional tiebreaker to prefer one of them. Performance is a common tiebreaker, where we pick routes with higher bandwidth or shorter paths.
 
@@ -82,23 +82,23 @@ Let's go through all the specific cases.
 
 I receive and install a route from a customer. This means that the next hop on this route is that customer. Who should I export this route to? I've already guaranteed that there's a customer on one side paying me, so I can export this route to everybody (customers, providers, and peers).
 
-<img width="900px" src="/assets/routing/2-155-export-policy1.png">
+<img width="900px" src="../assets/routing/2-155-export-policy1.png">
 
-<img width="900px" src="/assets/routing/2-156-export-policy2.png">
+<img width="900px" src="../assets/routing/2-156-export-policy2.png">
 
 I receive and install a route from a peer (the next hop is a peer). Who should I export this route to? Nobody is paying me yet, so I should only export this route to customers. If I export this route to a peer or provider who accepts, then I've created a route where neither side is paying me.
 
-<img width="900px" src="/assets/routing/2-157-export-policy3.png">
+<img width="900px" src="../assets/routing/2-157-export-policy3.png">
 
-<img width="900px" src="/assets/routing/2-158-export-policy3.png">
+<img width="900px" src="../assets/routing/2-158-export-policy3.png">
 
 Similarly, if I receive and install a route from a provider, I should only export this route to customers, because I need at least one side to pay me, and the provider isn't paying.
 
-<img width="900px" src="/assets/routing/2-159-export-policy5.png">
+<img width="900px" src="../assets/routing/2-159-export-policy5.png">
 
-<img width="900px" src="/assets/routing/2-160-export-policy3.png">
+<img width="900px" src="../assets/routing/2-160-export-policy3.png">
 
-<img width="800px" src="/assets/routing/2-161-export-policy7.png">
+<img width="800px" src="../assets/routing/2-161-export-policy7.png">
 
 The Gao-Rexford rules allow us to provably show that this statement is true: Assuming that the AS graph is hierarchical and acyclic, and all ASes follow the Gao-Rexford rules, then we can guarantee reachability and convergence in steady state.
 
@@ -121,7 +121,7 @@ These forwarding tables could get very large (imagine if a provider had hundreds
 
 To improve scalability, BGP allows ASes to **aggregate** multiple destinations into a single forwarding table entry, and announce a more general prefix that includes all of the destinations combined.
 
-<img width="900px" src="/assets/routing/2-162-bgp-aggregation.png">
+<img width="900px" src="../assets/routing/2-162-bgp-aggregation.png">
 
 Note that in practice, BGP has conventions on the size of the prefixes being announced. For example, ASes will not make an announcement for an individual IP address. 24-bit prefixes (blocks of 256 addresses) are usually the smallest unit of addresses that are announced.
 
@@ -132,7 +132,7 @@ In least-cost protocols such as distance vector, we didn't have to worry about l
 
 Now that each AS is choosing routes based on its own preferences, we've lost the guarantee of no loops. For example, suppose B likes paths through C, and C likes paths through B. We've created a routing loop!
 
-<img width="800px" src="/assets/routing/2-163-bgp-loop.png">
+<img width="800px" src="../assets/routing/2-163-bgp-loop.png">
 
 To fix this problem, instead of the distance to destination, BGP announcements will include the full AS path to the destination. This changes the protocol from a distance-vector to a **path-vector** protocol.
 
@@ -155,7 +155,7 @@ Some ASes don't need to run BGP to determine how to forward packets through the 
 
 What about other ASes trying to send packets to the stub AS? The stub can ask the provider to install a **static route**, which tells the provider how to send packets to the stub AS. Now, the provider can run BGP and advertise this static route to the rest of the Internet. The stub can ask the provider to hard-code the static route, and the stub never has to run BGP, since the provider is advertising routes to the stub on behalf of the stub.
 
-<img width="600px" src="/assets/routing/2-164-stub-routes.png">
+<img width="600px" src="../assets/routing/2-164-stub-routes.png">
 
 Most small ASes in the Internet are stub ASes that use default and static routes.
 

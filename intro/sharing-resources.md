@@ -13,11 +13,11 @@ Các **link** (liên kết) và **switch** (bộ chuyển mạch) trên Internet
 
 Hãy mô hình hóa vấn đề rõ hơn. Nhớ rằng một **flow** (luồng) là một chuỗi **packet** (gói tin) được trao đổi giữa hai **end host** (máy đầu cuối), ví dụ: một cuộc gọi video giữa bạn và bạn bè. Internet cần hỗ trợ nhiều flow đồng thời, mặc dù dung lượng có hạn.
 
-<img width="600px" src="/assets/intro/1-44-multiple-flows.png">
+<img width="600px" src="../assets/intro/1-44-multiple-flows.png">
 
 Chúng ta thường nói rằng tài nguyên mạng được **statistically multiplexed** (ghép kênh thống kê), nghĩa là chúng ta sẽ phân bổ tài nguyên cho người dùng một cách **dynamic** (động) dựa trên nhu cầu của họ, thay vì chia cố định một phần tài nguyên cho mỗi người dùng.
 
-<img width="900px" src="/assets/intro/1-45-statistical-multiplex.png">
+<img width="900px" src="../assets/intro/1-45-statistical-multiplex.png">
 
 Ví dụ tương tự: máy tính cá nhân của bạn không chia sẵn một nửa CPU cho Firefox và một nửa cho Zoom, rồi chỉ cho mỗi ứng dụng dùng phần của mình. Thay vào đó, máy tính phân bổ tài nguyên động cho các ứng dụng tùy theo nhu cầu.
 
@@ -29,23 +29,23 @@ Tiền đề giúp ghép kênh thống kê hoạt động là: **Trên thực t�
 
 Giả sử có hai người dùng A và B. Chúng ta vẽ đồ thị nhu cầu của từng người theo thời gian.
 
-<img width="700px" src="/assets/intro/1-46-demand-over-time.png">
+<img width="700px" src="../assets/intro/1-46-demand-over-time.png">
 
 **Chiến lược kém hiệu quả** (không ghép kênh thống kê) là cộng đỉnh nhu cầu của từng người. Ta lấy đỉnh nhu cầu của A và B, rồi cộng lại.
 
-<img width="900px" src="/assets/intro/1-47-sum-of-peak1.png">
+<img width="900px" src="../assets/intro/1-47-sum-of-peak1.png">
 
 Nếu phân bổ dung lượng bằng tổng này, chắc chắn đáp ứng được nhu cầu. Ví dụ: đỉnh nhu cầu của A là X, ta cấp X cho A; đỉnh của B là Y, ta cấp Y cho B. Nhưng cách này lãng phí, vì đỉnh của A và B không xảy ra cùng lúc.
 
-<img width="400px" src="/assets/intro/1-48-sum-of-peak2.png">
+<img width="400px" src="../assets/intro/1-48-sum-of-peak2.png">
 
 **Chiến lược tốt hơn** (ghép kênh thống kê) là tính **aggregate demand** (tổng nhu cầu) bằng cách cộng nhu cầu của A và B tại từng thời điểm. Ví dụ: nhu cầu lúc 10h sáng = nhu cầu của A lúc 10h + nhu cầu của B lúc 10h. Sau đó, ta tìm đỉnh của tổng nhu cầu này.
 
-<img width="900px" src="/assets/intro/1-49-peak-of-sum1.png">
+<img width="900px" src="../assets/intro/1-49-peak-of-sum1.png">
 
 Nếu phân bổ dung lượng bằng đỉnh của tổng nhu cầu, ta không thể chia cố định cho từng người. Nhưng bằng cách thay đổi động lượng cấp cho mỗi người theo thời gian, ta vẫn đáp ứng được nhu cầu, dù tổng dung lượng ít hơn.
 
-<img width="400px" src="/assets/intro/1-50-peak-of-sum2.png">
+<img width="400px" src="../assets/intro/1-50-peak-of-sum2.png">
 
 Cách tiếp cận này cho phép hỗ trợ cùng số người dùng với dung lượng ít hơn (tiết kiệm chi phí, sử dụng tài nguyên hiệu quả hơn). Với nhiều phân phối, đỉnh của tổng nhu cầu gần bằng tổng nhu cầu trung bình, nhỏ hơn nhiều so với tổng các đỉnh riêng lẻ.
 
@@ -68,7 +68,7 @@ Hai cách chia sẻ tài nguyên mạng cũng tương tự:
 
 Ngoài việc packet độc lập với nhau, các switch cũng độc lập với nhau. Khi packet đi qua nhiều switch, mỗi switch xử lý nó riêng, không phối hợp.
 
-<img width="700px" src="/assets/intro/1-51-best-effort.png">
+<img width="700px" src="../assets/intro/1-51-best-effort.png">
 
 - **Reservations** (đặt chỗ): Khi bắt đầu một flow, người dùng yêu cầu và đặt trước băng thông cần thiết. Sau khi gửi xong dữ liệu, tài nguyên được giải phóng cho người khác.
 
@@ -78,11 +78,11 @@ Khi bắt đầu một flow, end host xác định một đường đi (chuỗi 
 
 Sau đó, nguồn gửi một **reservation request message** (thông điệp yêu cầu đặt chỗ) tới đích. Trên đường đi, mỗi switch nhận yêu cầu này. Nếu tất cả switch chấp nhận, đặt chỗ được thiết lập, và một **circuit** (kênh) giữa nguồn và đích được hình thành.
 
-<img width="700px" src="/assets/intro/1-52-reservations.png">
+<img width="700px" src="../assets/intro/1-52-reservations.png">
 
 Khi tất cả switch xác nhận, dữ liệu có thể được gửi. Khi flow kết thúc, nguồn gửi một **teardown message** (thông điệp hủy kênh) tới đích. Trên đường đi, mỗi switch nhận thông điệp và giải phóng dung lượng.
 
-<img width="700px" src="/assets/intro/1-53-reservation-teardown.png">
+<img width="700px" src="../assets/intro/1-53-reservation-teardown.png">
 
 **Lưu ý:** Từ “circuit” xuất phát từ mạng điện thoại, nơi hai người gọi cho nhau bằng cách thiết lập một kênh như vậy.
 
@@ -92,7 +92,7 @@ Nhớ rằng, cả circuit switching và packet switching đều áp dụng ghé
 
 Ngay cả trong circuit switching, chúng ta vẫn phân bổ tài nguyên động dựa trên đặt chỗ, chứ không đặt trước cho mọi flow có thể xảy ra.
 
-<img width="600px" src="/assets/intro/1-54-circuit-packet-multiplexing.png">
+<img width="600px" src="../assets/intro/1-54-circuit-packet-multiplexing.png">
 
 
 
@@ -118,11 +118,11 @@ Circuit switching cũng hữu ích nếu bạn là **network operator** (nhà v�
 
 - Nếu mỗi bên gửi dữ liệu với tốc độ **constant rate** (ổn định) theo thời gian, cả circuit switching và packet switching đều tận dụng hết dung lượng.
 
-<img width="900px" src="/assets/intro/1-55-smooth.png">
+<img width="900px" src="../assets/intro/1-55-smooth.png">
 
 - Ngược lại, nếu tốc độ gửi thay đổi theo thời gian, packet switching tận dụng băng thông tốt hơn.
 
-<img width="900px" src="/assets/intro/1-56-bursty.png">
+<img width="900px" src="../assets/intro/1-56-bursty.png">
 
 Ví dụ: với **reservations** (đặt chỗ), ba flow phải đặt lần lượt 12, 11 và 13 Mbps. Một yêu cầu sẽ bị từ chối vì tổng chỉ có 30 Mbps. Cách này lãng phí băng thông ở hai điểm:  
 1. Flow đặt 12 Mbps không dùng hết phần lớn thời gian.  

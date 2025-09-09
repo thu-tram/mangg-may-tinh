@@ -27,7 +27,7 @@ Trong phép so sánh, khi đã có cách gửi dữ liệu qua không gian, chú
 
 Trong Internet, một **link** (liên kết) kết nối hai máy. Liên kết này có thể sử dụng bất kỳ loại công nghệ nào (có dây, không dây, cáp quang, v.v.). Nếu chúng ta dùng các liên kết để kết nối nhiều máy tính gần nhau (ví dụ: tất cả máy tính trong UC Berkeley), chúng ta sẽ có một **Local Area Network (LAN)** (mạng cục bộ).
 
-<img width="175px" src="/assets/intro/1-01-lan.png">
+<img width="175px" src="../assets/intro/1-01-lan.png">
 
 Ở Layer 2, chúng ta cũng có thể nhóm các bit thành các đơn vị dữ liệu gọi là **packet** (gói tin – đôi khi ở tầng này gọi là **frame**), và xác định điểm bắt đầu và kết thúc của một gói tin trong tín hiệu vật lý. Chúng ta cũng có thể xử lý các vấn đề như nhiều người cùng lúc sử dụng chung một dây để gửi dữ liệu.
 
@@ -37,17 +37,17 @@ Trong Internet, một **link** (liên kết) kết nối hai máy. Liên kết n
 
 Giờ đây, chúng ta đã có cách kết nối mọi người trong một khu vực cục bộ, nhưng nếu hai người ở hai khu vực khác nhau muốn giao tiếp thì sao? Một cách tiếp cận là thêm nhiều liên kết giữa các mạng cục bộ khác nhau, nhưng điều này không hiệu quả (đặc biệt nếu hai mạng ở hai châu lục khác nhau).
 
-<img width="400px" src="/assets/intro/1-02-mesh.png">
+<img width="400px" src="../assets/intro/1-02-mesh.png">
 
 Thay vào đó, một cách thông minh hơn là đặt một bưu điện trong mỗi mạng, và chỉ cần kết nối hai bưu điện này. Khi ai đó trong mạng A muốn liên lạc với ai đó trong mạng B, họ gửi thư tới bưu điện của mạng A. Bưu điện này sẽ chuyển thư tới bưu điện của mạng B, và bưu điện B sẽ giao thư tới đích.
 
-<img width="400px" src="/assets/intro/1-03-router.png">
+<img width="400px" src="../assets/intro/1-03-router.png">
 
 Trong Internet, bưu điện nhận và chuyển tiếp thư được gọi là **switch** hoặc **router**.
 
 Nếu chúng ta xây thêm các liên kết giữa các switch, chúng ta có thể kết nối các mạng cục bộ. Với đủ liên kết và mạng cục bộ, chúng ta có thể kết nối mọi người trên toàn thế giới, tạo thành Internet.
 
-<img width="700px" src="/assets/intro/1-04-network-of-networks.png">
+<img width="700px" src="../assets/intro/1-04-network-of-networks.png">
 
 Một câu hỏi cần trả lời là: Làm thế nào để tìm đường đi qua mạng? Khi một switch nhận gói tin, làm sao nó biết phải chuyển tiếp gói tin đi đâu để đến gần đích hơn? Đây sẽ là trọng tâm của phần **routing** (định tuyến).
 
@@ -63,7 +63,7 @@ Internet thường được mô tả là một **network of networks**. Có rấ
 
 Trong mạng, các liên kết khác nhau có thể sử dụng công nghệ Layer 2 khác nhau. Một số liên kết có thể dùng **Ethernet** có dây, số khác dùng cáp quang hoặc công nghệ di động không dây. Ở Layer 2, chúng ta tìm cách gửi một gói tin trong mạng cục bộ, qua các liên kết trong mạng đó, sử dụng công nghệ cụ thể của mạng. Sau đó, ở Layer 3, chúng ta dùng khả năng gửi gói tin qua các liên kết như một khối xây dựng để gửi gói tin đi bất cứ đâu trên Internet. Khi gói tin nhảy qua nhiều mạng khác nhau, nó có thể được truyền qua nhiều loại liên kết khác nhau.
 
-<img width="700px" src="/assets/intro/1-05-different-links.png">
+<img width="700px" src="../assets/intro/1-05-different-links.png">
 
 Trong phép so sánh, chúng ta thấy sự khác biệt giữa **home** (nhà) và **post office** (bưu điện). Các ngôi nhà gửi và nhận thư cho nhau. Các bưu điện không gửi hoặc nhận thư của riêng mình, mà giúp kết nối các ngôi nhà khác.
 
@@ -120,7 +120,7 @@ Với khái niệm trừu tượng packet này, chúng ta có thể xem xét “
 
 Lưu ý rằng, do mô hình **best-effort**, bất kỳ switch nào cũng có thể **drop** (loại bỏ) packet, và không có gì đảm bảo packet thực sự đến được đích.
 
-<img width="700px" src="/assets/intro/1-06-path-through-network.png">
+<img width="700px" src="../assets/intro/1-06-path-through-network.png">
 
 ---
 ---
@@ -149,7 +149,7 @@ Trong khóa học này, chúng ta sẽ tập trung nhiều hơn vào **hạ tầ
 
 Bây giờ, khi đã xem tất cả các tầng, hãy chú ý rằng mỗi tầng dựa vào dịch vụ của tầng ngay bên dưới và cung cấp dịch vụ cho tầng ngay bên trên. Ví dụ: một người viết **Layer 7 protocol** có thể giả định rằng họ có dịch vụ truyền dữ liệu tin cậy từ Layer 4. Họ không cần lo lắng về việc mất packet riêng lẻ, vì Layer 4 đã xử lý vấn đề này.
 
-<img width="700px" src="/assets/intro/1-07-layers.png">
+<img width="700px" src="../assets/intro/1-07-layers.png">
 
 Hai tầng tương tác trực tiếp thông qua **interface** (giao diện) giữa chúng. Không có cách thực tiễn nào để bỏ qua tầng và xây dựng Layer 7 trực tiếp trên Layer 3, chẳng hạn.
 

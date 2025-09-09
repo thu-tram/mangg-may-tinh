@@ -32,11 +32,11 @@ To formally define fairness, the router could maintain a separate queue for each
 
 If all packets are the same size, then the router could pick queues round-robin (send from the first queue, then the second queue, etc.). It turns out that this works, even if not all connections need the same bandwidth. Some connections might queue up packets more slowly than others. If we apply round-robin service to connections of different bandwidth, how do we compute the bandwidth allocated to each connection? For example, suppose we can send 10 packets per second, and A, B, and C sent 8, 6, and 2 packets per second, respectively.
 
-<img width="500px" src="/assets/transport/3-094-fair-queuing-1.png">
+<img width="500px" src="../assets/transport/3-094-fair-queuing-1.png">
 
 If we sent out packets round-robin, how many packets per second of each type would be sent? We can model this as a resource allocation problem and solve it.
 
-<img width="600px" src="/assets/transport/3-095-fair-queuing2.png">
+<img width="600px" src="../assets/transport/3-095-fair-queuing2.png">
 
 For example, suppose we have a link capacity of 10. Connection A requests 8, B requests 6, and C requests 2. How should we distribute the capacity among the three connections? If we tried to be fair, everybody would receive 3.33. But C only asked for 2, so let's give C the 2 it asked for, with no extra.
 
@@ -56,7 +56,7 @@ Fun fact: The paper about simulating fair queuing is extremely influential, and 
 
 Here's an example of exact bit-by-bit fair queuing on two connections (when a tie occurs, we pick the packet that arrives first).
 
-<img width="900px" src="/assets/transport/3-096-fair-queuing3.png">
+<img width="900px" src="../assets/transport/3-096-fair-queuing3.png">
 
 
 ## Fair Queuing in Practice

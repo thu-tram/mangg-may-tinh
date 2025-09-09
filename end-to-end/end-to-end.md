@@ -13,7 +13,7 @@ In this section, we'll do a step-by-step walkthrough of what happens when we tur
 
 We'll assume that we don't need to turn on the Internet from scratch. For example, routers are already actively running routing protocols and have populated their forwarding tables accordingly.
 
-<img width="900px" src="/assets/end-to-end/5-074-end1.png">
+<img width="900px" src="../assets/end-to-end/5-074-end1.png">
 
 
 ## Step 1: DHCP
@@ -24,7 +24,7 @@ We'll assume the home router is the DHCP server, which is common in home network
 
 To complete the DHCP protocol, we send the request message confirming we'd like to use the offered configuration, and the router/server responds with an acknowledgement.
 
-<img width="900px" src="/assets/end-to-end/5-075-end2.png">
+<img width="900px" src="../assets/end-to-end/5-075-end2.png">
 
 
 ## Step 2: Find Router at Layer 2
@@ -39,7 +39,7 @@ To find the router's MAC address, we broadcast an ARP request, asking for the MA
 
 We can now cache this IP-to-MAC mapping, and we now know the router's MAC address. As long as this entry stays in the cache, we won't have to make the same ARP request again. All future requests to the outside Internet can be forwarded to the router's MAC address.
 
-<img width="900px" src="/assets/end-to-end/5-076-end3.png">
+<img width="900px" src="../assets/end-to-end/5-076-end3.png">
 
 
 ## Step 3: DNS Lookup
@@ -60,13 +60,13 @@ Layer 2: The source MAC is our own MAC address, which is burned into our hardwar
 
 With the packet fully built, we can send the bits along the wire (Layer 1).
 
-<img width="800px" src="/assets/end-to-end/5-077-end4.png">
+<img width="800px" src="../assets/end-to-end/5-077-end4.png">
 
 When the packet reaches the router, if the network is using NAT, the router might rewrite the UDP/IP headers to translate our private IP address into a public IP address. However, as the end host, we don't have to worry about NAT. The router should be doing all the translation for us, giving us the illusion that we can use our own IP address (from DHCP).
 
 When our packet reaches the recursive resolver at 8.8.8.8, if the resolver doesn't have our answer cached already, it might need to perform some additional lookups and ask the authoritative name servers for the records. Eventually, the recursive resolver finds the answer, and sends the A record back to us. We now have `www.berkeley.edu`'s IP address.
 
-<img width="900px" src="/assets/end-to-end/5-078-end5.png">
+<img width="900px" src="../assets/end-to-end/5-078-end5.png">
 
 
 ## Step 4: Connect to Website
@@ -77,7 +77,7 @@ HTTP runs on top of TCP, so we first have to make a TCP handshake to open a conn
 
 The TCP handshake is performed: We send a SYN, Berkeley sends a SYN-ACK, and we send an ACK. We now have a bytestream between our computer and the Berkeley server.
 
-<img width="900px" src="/assets/end-to-end/5-079-end6.png">
+<img width="900px" src="../assets/end-to-end/5-079-end6.png">
 
 Now, we can build up or HTTP packet, from the top down.
 
@@ -89,21 +89,21 @@ Layer 3: The source IP is our own IP, as assigned by DHCP. The destination IP is
 
 Layer 2: This is the same as our DNS packet earlier. The source MAC is our own (burned into hardware), and the destination MAC is the router's (discovered and cached from ARP).
 
-<img width="800px" src="/assets/end-to-end/5-080-end7.png">
+<img width="800px" src="../assets/end-to-end/5-080-end7.png">
 
 The HTTP response comes back with status code 200 OK, and the content of the response has the HTML code of the website. The browser calls `read` on the socket to fetch the bytes of the HTTP payload, with the status code and the response, and processes them accordingly.
 
 Within the bytestream, HTTP can add some delimiter like a newline character to denote the end of a request or response. Also, HTTP headers like Content-Length can specify the length of the payload. This also allows the browser to allocate enough memory to receive the response.
 
-The HTTP response that comes back might trigger further requests. If the HTML in the response has some syntax like `<img src="/logo.png">`, this tells the browser to make another HTTP request to fetch the `/logo.png` resource. Or, the user might click a link on the website like `www.berkeley.edu/about.html`, which would also trigger another HTTP request to the same server.
+The HTTP response that comes back might trigger further requests. If the HTML in the response has some syntax like `<img src="../logo.png">`, this tells the browser to make another HTTP request to fetch the `/logo.png` resource. Or, the user might click a link on the website like `www.berkeley.edu/about.html`, which would also trigger another HTTP request to the same server.
 
-<img width="900px" src="/assets/end-to-end/5-081-end8.png">
+<img width="900px" src="../assets/end-to-end/5-081-end8.png">
 
 Recall that multiple HTTP requests to the same server can be pipelined across the same TCP connection for efficiency, so we can keep the TCP connection open and keep using it for subsequent HTTP requests and responses.
 
 Eventually, after some pipelining, the client or server chooses to close the connection. The normal teardown handshake occurs, where each side sends a FIN, and both FIN packets are acked. We're all done!
 
-<img width="900px" src="/assets/end-to-end/5-082-end9.png">
+<img width="900px" src="../assets/end-to-end/5-082-end9.png">
 
 Note that the HTTP requests/responses are not necessarily contained in a single packet. HTTP is built on top of the TCP bytestream, so a single HTTP request or response could get split up across multiple TCP/IP packets, where each packet has the same headers at Layers 1-3, and the Layer 4 headers differ in sequence number. There's only a single header for the entire HTTP request/response, even if the request/response is split across packets. With HTTP, there's no longer a one-to-one correlation from one request/response to one packet.
 
@@ -153,7 +153,7 @@ In this class, we've discussed HTTP as the predominant Layer 7 protocol, but HTT
 
 One example of a protocol above Layer 7 is a remote procedure call (RPC) library. This allows a programmer to write some code, where some of the functions actually execute on a different computer elsewhere in the network. It would be annoying if everyone had to write RPC on top of HTTP from scratch, so instead, libraries like Apache Thrift and gRPC exist to abstract even more details away from the programmer.
 
-<img width="900px" src="/assets/end-to-end/5-083-layer8.png">
+<img width="900px" src="../assets/end-to-end/5-083-layer8.png">
 
 Here's an example of some network code that a programmer might write. It programs a client to say hello to some remote server.
 

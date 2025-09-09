@@ -11,19 +11,19 @@ layout: page-with-toc
 
 So far, we've been talking about TCP conceptually, in terms of individual packets being sent. But the application doesn't provide us with pre-made packets that we can directly send into the Layer 3 network. The application is relying on a bytestream abstraction, and is instead sending us a continuous stream of bytes. In order to fully implement TCP, we'll need to rethink all of our previous ideas (e.g. sequence numbers, window size, etc.) in terms of bytes, not packets. (You should still be able to reason about the design choices in terms of both bytes or packets, though.)
 
-<img width="900px" src="/assets/transport/3-035-segment1.png">
+<img width="900px" src="../assets/transport/3-035-segment1.png">
 
 In order to form packets out of bytes in the bytestream, we'll introduce a unit of data called a **TCP segment**. The TCP implementation at the sender will collect bytes from the bytestream, one by one, and place those bytes into a TCP segment. When the TCP segment is full (reaches a fixed maximum segment size), we send that TCP segment, and then start a new TCP segment.
 
 Sometimes, the sender wants to send less data than the maximum segment size. In that case, we wouldn't want the TCP segment to be waiting forever for more bytes that never come. To fix this, we'll start a timer every time we start filling a new empty segment. If the timer expires, we'll send the TCP segment, even if it is not full yet.
 
-<img width="900px" src="/assets/transport/3-036-segment2.png">
+<img width="900px" src="../assets/transport/3-036-segment2.png">
 
 Before sending the data in a TCP segment, the sender's TCP implementation will add a TCP header with relevant metadata (e.g. sequence number, port numbers). Then, the segment and header are passed down to the IP layer, which will attach an IP header and send the packet through the network.
 
 The TCP segment, with a TCP header and IP header on top, is sometimes called a **TCP/IP packet**. Equivalently, this is an IP packet whose payload consists of a TCP header and data.
 
-<img width="600px" src="/assets/transport/3-037-segment3.png">
+<img width="600px" src="../assets/transport/3-037-segment3.png">
 
 How should the **maximum segment size (MSS)** be set? Recall that the size of an IP packet is limited by the maximum transmission unit (MTU) along each link. However, the IP packet must also contain the IP and TCP header, so the TCP maximum segment size is going to be slightly smaller than the IP maximum transmission unit. Specifically:
 
@@ -38,19 +38,19 @@ In practice, instead of numbering individual segments, we assign a number to eve
 
 Each bytestream starts with an **initial sequence number (ISN)**. The sender chooses an ISN and labels the first byte with number ISN+1, the next byte with number ISN+2, the next byte with ISN+3, and so on.
 
-<img width="900px" src="/assets/transport/3-038-seq-num1.png">
+<img width="900px" src="../assets/transport/3-038-seq-num1.png">
 
 Since we're now numbering bytes instead of packets, acknowledgement numbers will also now be in terms of bytes, not packets. Specifically, the acknowledgement number says, I have received all bytes up to, but not including, this number. Equivalently, the acknowledgement number represents the next byte it expects to receive (but has not received yet). Note that TCP is using the cumulative ack model (as opposed to full-information acks or individual byte acks).
 
 As an example, suppose the ISN has randomly been chosen to be 50. Then the first few bytes have numbers 51, 52, 53, etc. A specific TCP segment might contain the bytes 140 to 219, inclusive. The sequence number of this segment is 140 (representing the first byte in the segment). If the recipient has received everything so far, the recipient can acknowledge this segment by sending an ack number of 220, which is the next byte that has not been received yet.
 
-<img width="900px" src="/assets/transport/3-039-seq-num2.png">
+<img width="900px" src="../assets/transport/3-039-seq-num2.png">
 
 More generally, suppose we have a packet where the first byte has sequence number X, and the packet has B bytes. This packet has the bytes X, X+1, X+2, ..., X+B-1. If this packet (and all prior data) is received, the ack will acknowledge X+B (the next expected byte). If this packet is not received, or this packet is received but some prior packet was not received, then the ack will acknowledge some smaller number (because TCP uses cumulative acks).
 
 More generally, suppose we had many packets, all B bytes long. The ISN is X, and the window size is 1 (stop-and-wait protocol, only one packet or ack being sent at once). Assume that no packets are dropped. Then, the sequence and ack numbers would proceed as follows: The first packet has sequence number X. The first ack has ack number X+B. The second packet has sequence number X+B. The second ack has ack number X+2B. The third packet has sequence number X+2B, and so on. In particular, note that when there's no loss, the ack number corresponds to the next packet's sequence number.
 
-<img width="500px" src="/assets/transport/3-040-seq-num3.png">
+<img width="500px" src="../assets/transport/3-040-seq-num3.png">
 
 Historically, the ISN was chosen to be random because the designers were concerned about ambiguous sequence numbers if all bytestreams started numbering at 0. Specifically, suppose a TCP connection sends some data starting at ISN 0, and then the sender crashes. If the sender restarts a new connection, and the ISN starts at 0 again, the recipient might get confused if it sees a packet with sequence number 0. Is this packet from the first connection before the crash, or the second connection after the crash?
 
@@ -74,7 +74,7 @@ So far, we've seen TCP as a bytestream from one end host (the sender) to the oth
 
 To support sending messages in both directions, TCP connections are **full duplex**. Instead of designating one sender and one recipient, both end hosts in the connection can send and receive data simultaneously, in the same connection.
 
-<img width="900px" src="/assets/transport/3-041-duplex.png">
+<img width="900px" src="../assets/transport/3-041-duplex.png">
 
 To support sending data in both directions, each TCP connection has two bytestreams: one containing data from A to B, and the other containing data from B to A. Each packet can contain both data and acknowledgement information. The sequence number would correspond to the sender's bytestream (the bytes I am sending), and the acknowledgement number would correspond to the recipient's bytestream (the bytes I received from you).
 
@@ -85,7 +85,7 @@ Recall that TCP is connection-oriented, so connections must be explicitly create
 
 To establish a TCP connection, the two hosts perform a **three-way handshake** to agree on the ISNs in each direction.
 
-<img width="500px" src="/assets/transport/3-042-handshake.png">
+<img width="500px" src="../assets/transport/3-042-handshake.png">
 
 The first packet (from A to B) is the **SYN** message. This message contains A's ISN (data from A to B will start counting at this ISN), in the sequence number.
 
@@ -106,7 +106,7 @@ In normal cases, when I am done sending messages, I can send a special FIN packe
 
 Eventually, the other side will also finish sending data and send a FIN packet. When this FIN packet is acked, the connection is closed.
 
-<img width="500px" src="/assets/transport/3-043-fin.png">
+<img width="500px" src="../assets/transport/3-043-fin.png">
 
 Sometimes, we have to terminate a connection abruptly, without the agreement of the other side. To unilaterally end a connection, I can send a special RST packet, which says: I will not send or receive any more data. This packet does not have to be acked, and I can tear down my connection as soon as I send this data.
 
@@ -116,15 +116,15 @@ If I sent a RST, and someone continues sending me data, if I am able, I will con
 
 RST packets can also be used by attackers to censor connections. An attacker can spoof and inject a RST packet, which causes the entire connection to terminate.
 
-<img width="500px" src="/assets/transport/3-044-rst.png">
+<img width="500px" src="../assets/transport/3-044-rst.png">
 
 The full TCP state diagram is quite complicated, with many intermediate states in the process of opening or closing a connection. Examples of intermediate states include: I have sent a SYN, and am waiting for a SYN-ACK. Or, I have received a FIN, sent my FIN, but am waiting for my FIN to be acked. Most TCP connections spend most of their time in the Established state, where the connection has started (but not ended), and data is being exchanged back-and-forth. You don't need to understand this full state diagram for these notes.
 
-<img width="900px" src="/assets/transport/3-045-state-diagram.png">
+<img width="900px" src="../assets/transport/3-045-state-diagram.png">
 
 In the simplified state diagram, we start in the closed state (no connection in progress). To start a connection, we send a SYN. Eventually, we receive a SYN-ACK and reply with an ACK, moving to an established connection. When we're done sending data, we send a FIN, and receive an ACK. Eventually, we receive a FIN, and the connection is closed again.
 
-<img width="900px" src="/assets/transport/3-046-simplified-state.png">
+<img width="900px" src="../assets/transport/3-046-simplified-state.png">
 
 
 ## Piggybacking
@@ -152,11 +152,11 @@ The restriction of the in-flight bytes being contiguous is different from before
 
 The left side of the window is the first unacknowledged byte (as determined by the ack number from the recipient). Starting at this byte, the next W bytes, up to the right side of the window, can be in-flight.
 
-<img width="900px" src="/assets/transport/3-047-window1.png">
+<img width="900px" src="../assets/transport/3-047-window1.png">
 
 Note that even if some of the intermediate bytes in this window were acknowledged, we still cannot send more bytes beyond the window. The only way we can send more bytes is if the window slides to the right, i.e. when the ack number increases (bytes on the left side of the window are acknowledged).
 
-<img width="900px" src="/assets/transport/3-048-window2.png">
+<img width="900px" src="../assets/transport/3-048-window2.png">
 
 Recall that the window size (which determines the right edge of the window) is limited by flow control and congestion control. In the case of flow control, the window size is decided by the window advertised by the recipient. The recipient decides the advertised window based on the amount of buffer space available on the receiver end.
 
@@ -165,7 +165,7 @@ Recall that the window size (which determines the right edge of the window) is l
 
 There are two conditions for data to be re-sent. Only one condition (not both) needs to be true to trigger a re-send.
 
-<img width="900px" src="/assets/transport/3-049-window3.png">
+<img width="900px" src="../assets/transport/3-049-window3.png">
 
 The first trigger for retransmission is a timer (data not acknowledged after some time). In packet-based TCP, every packet had a timer, and when the timer expired without that packet being acked, we would re-send that packet.
 
@@ -178,7 +178,7 @@ In byte-based TCP, if we receive K duplicate acks, we will re-send the left-most
 
 ## TCP Header
 
-<img width="800px" src="/assets/transport/3-050-tcp-header.png">
+<img width="800px" src="../assets/transport/3-050-tcp-header.png">
 
 The TCP header has 16-bit source and destination ports.
 

@@ -19,7 +19,7 @@ Phiên bản đặc tả HTTP ban đầu được đánh số **HTTP/0.9** và p
 
 HTTP hoạt động trên **TCP (Transmission Control Protocol)**. Hai bên muốn gửi dữ liệu qua HTTP sẽ bắt đầu bằng việc thiết lập kết nối TCP. Sau đó, họ có thể sử dụng cơ chế **bytestream** (luồng byte) của TCP để trao đổi dữ liệu có độ dài tùy ý một cách tin cậy. Các máy chủ chạy HTTP không phải lo lắng về việc gói tin bị sắp xếp lại, mất mát, v.v.
 
-<img width="900px" src="/assets/applications/4-13-http-bytestream.png">
+<img width="900px" src="../assets/applications/4-13-http-bytestream.png">
 
 HTTP là một giao thức **client-server**. Một bên được chỉ định là **client** (ví dụ: bạn – người dùng cuối), và một bên là **server** (ví dụ: Google, trang web ngân hàng, v.v.). Client gần như luôn chạy HTTP trong trình duyệt web (ví dụ: Firefox hoặc Chrome), mặc dù HTTP cũng có thể chạy theo cách khác (ví dụ: trực tiếp trên terminal).
 
@@ -132,9 +132,9 @@ Content-Type: text/html; charset=ISO-8859-1
 
 Dòng `HTTP/1.1 200 OK` cho chúng ta biết phiên bản và mã trạng thái (200) cùng thông điệp tương ứng (OK). Có hai header đi kèm: ngày tạo phản hồi và loại nội dung. Sau đó, phần nội dung chứa HTML thô của trang web. Nếu mở HTML này trong trình duyệt, nó sẽ hiển thị như một trang web thực sự.
 
-<img width="800px" src="/assets/applications/4-14-httpexample1.png">
+<img width="800px" src="../assets/applications/4-14-httpexample1.png">
 
-<img width="800px" src="/assets/applications/4-15-httpexample2.png">
+<img width="800px" src="../assets/applications/4-15-httpexample2.png">
 
 Dưới đây là một số ví dụ khác. Lưu ý rằng phần nội dung trống trong GET request, nhưng chứa dữ liệu trong POST và PUT request. Ngược lại, phản hồi của POST và PUT không có nội dung, nhưng phản hồi của GET thì có.
 
@@ -152,11 +152,11 @@ Tải một trang duy nhất trong trình duyệt web của bạn có thể yêu
 
 Hãy nhớ rằng HTTP chạy trên TCP. Trong trường hợp đơn giản, mỗi yêu cầu riêng biệt sẽ cần bắt đầu một kết nối TCP mới với **3-way handshake**. Sau khi yêu cầu hoàn tất, chúng ta đóng kết nối và lại thực hiện handshake cho yêu cầu tiếp theo.
 
-<img width="900px" src="/assets/applications/4-16-no-pipeline.png">
+<img width="900px" src="../assets/applications/4-16-no-pipeline.png">
 
 **HTTP/1.1** đã tối ưu điều này bằng cách cho phép nhiều HTTP request và response được **pipelined** (xếp nối) trên cùng một kết nối. Giờ đây, chúng ta không cần một kết nối TCP riêng (với handshake riêng) cho mỗi yêu cầu nữa.
 
-<img width="900px" src="/assets/applications/4-17-pipeline.png">
+<img width="900px" src="../assets/applications/4-17-pipeline.png">
 
 Một nhược điểm của tối ưu hóa này là server giờ phải giữ nhiều kết nối mở đồng thời hơn. Server cần có cơ chế **timeout** (hết thời gian chờ) cho các kết nối. Nếu server bị quá tải với các kết nối mở, client có thể gặp lỗi như `503 Service Unavailable`. Kẻ tấn công có thể lợi dụng điều này để thực hiện **denial-of-service attack** (tấn công từ chối dịch vụ).
 
@@ -168,17 +168,17 @@ Một chiến lược khác để tăng tốc **HTTP** là lưu vào bộ nhớ 
 
 Nếu không có caching, mọi yêu cầu đều phải đi đến server.
 
-<img width="900px" src="/assets/applications/4-18-nocache.png">
+<img width="900px" src="../assets/applications/4-18-nocache.png">
 
 Có ba loại HTTP cache:
 
 - **Private cache** (bộ nhớ đệm riêng) gắn liền với một client (máy khách) cụ thể kết nối tới server (ví dụ: cache trong trình duyệt của bạn). Khi cùng một người dùng yêu cầu cùng một tài nguyên lần thứ hai, họ có thể lấy tài nguyên từ cache cục bộ. Tuy nhiên, private cache không được chia sẻ giữa các người dùng.
 
-<img width="900px" src="/assets/applications/4-19-privatecache.png">
+<img width="900px" src="../assets/applications/4-19-privatecache.png">
 
 - **Proxy cache** (bộ nhớ đệm proxy) nằm trong mạng (không nằm trên máy của người dùng cuối), và được điều khiển bởi nhà vận hành mạng, không phải nhà cung cấp ứng dụng. Các cache này có thể được chia sẻ giữa nhiều người dùng, vì vậy một người dùng yêu cầu một tài nguyên lần đầu tiên có thể nhận dữ liệu từ proxy cache thay vì từ **origin server** (máy chủ gốc).
 
-<img width="900px" src="/assets/applications/4-20-proxycache.png">
+<img width="900px" src="../assets/applications/4-20-proxycache.png">
 
   **Vấn đề** với proxy cache là client cần một cách nào đó để được chuyển hướng tới proxy cache. Ứng dụng không vận hành proxy cache, nên origin server không nhất thiết biết về nó. Nhà vận hành mạng cần một cách để kiểm soát client và thông báo cho họ về proxy cache.
 
@@ -188,7 +188,7 @@ Có ba loại HTTP cache:
 
 - **Managed cache** (bộ nhớ đệm được quản lý) nằm trong mạng và do nhà cung cấp ứng dụng điều khiển. Các máy chủ cache này được triển khai riêng biệt, không phải là origin server tạo ra nội dung. Vì được kiểm soát bởi nhà cung cấp ứng dụng, managed cache cho phép ứng dụng có nhiều quyền kiểm soát hơn.
 
-<img width="900px" src="/assets/applications/4-21-managedcache.png">
+<img width="900px" src="../assets/applications/4-21-managedcache.png">
 
   Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ `static.youtube.com` thay vì `www.youtube.com`).
 
@@ -266,7 +266,7 @@ Hãy nhớ lại mô hình Internet: Yêu cầu của client được chuyển t
 
 Nếu không triển khai CDN, mọi yêu cầu đều phải đến origin server. Điều này dẫn đến **latency** (độ trễ) cao nhất (so với các phương án có CDN), hiệu năng thấp nhất, yêu cầu nhiều băng thông nhất, và buộc origin server phải mở rộng để xử lý mọi yêu cầu.
 
-<img width="900px" src="/assets/applications/4-21-cdn1.png">
+<img width="900px" src="../assets/applications/4-21-cdn1.png">
 
 Một lựa chọn tốt hơn là triển khai một số máy chủ CDN ở rìa mạng của nhà cung cấp ứng dụng. Ví dụ: nếu mạng của Google kết nối ngang hàng với mạng ISP ở New York, chúng ta có thể đặt một số CDN tại đó.
 
@@ -274,11 +274,11 @@ Khi đó, lượng băng thông truyền qua mạng của nhà cung cấp ứng 
 
 Ngoài ra, như đã thấy, chúng ta có thể mở rộng bằng cách thêm nhiều CDN thay vì nâng cấp một origin server duy nhất. Chúng ta cũng có thêm khả năng dự phòng.
 
-<img width="900px" src="/assets/applications/4-22-cdn2.png">
+<img width="900px" src="../assets/applications/4-22-cdn2.png">
 
 Chúng ta có thể làm tốt hơn nữa bằng cách đẩy caching sâu hơn vào trong mạng. Lúc này, ứng dụng triển khai máy chủ ngay bên trong mạng của ISP.
 
-<img width="900px" src="/assets/applications/4-23-cdn3.png">
+<img width="900px" src="../assets/applications/4-23-cdn3.png">
 
 Tại sao ISP lại đồng ý cho ứng dụng triển khai CDN trong mạng của họ? Thực tế, điều này mang lại lợi ích cho cả hai bên. Khách hàng của ISP sẽ có hiệu năng tốt hơn vì họ có thể sử dụng CDN gần hơn. Ngoài ra, lưu lượng lớn giữa người dùng và CDN giờ đây được giữ hoàn toàn trong mạng của ISP. Điều này có nghĩa là ISP cần ít băng thông hơn ở kết nối peering giữa ISP và ứng dụng (vì nội dung chỉ được gửi một lần qua kết nối đó).
 
@@ -286,7 +286,7 @@ Trên thực tế, ISP và CDN thường hợp tác để triển khai máy ch�
 
 Chúng ta có thể tiến xa hơn nữa, nhưng cuối cùng sẽ gặp giới hạn chi phí – lợi ích. Trong trường hợp cực đoan, chúng ta có thể triển khai CDN tại từng hộ gia đình, nhưng chi phí có thể vượt quá lợi ích. Đặc biệt, CDN hoạt động tốt nhất khi có nhiều người dùng sử dụng nó. Cache tập thể sẽ lớn hơn, và một điểm triển khai có thể phục vụ nhiều người dùng.
 
-<img width="900px" src="/assets/applications/4-24-cdn4.png">
+<img width="900px" src="../assets/applications/4-24-cdn4.png">
 
 Nói chung, luôn tồn tại sự đánh đổi giữa chi phí bổ sung CDN mới và số tiền tiết kiệm được từ việc giảm xây dựng băng thông. Trên thực tế, CDN tồn tại trong mạng ISP vì chúng vẫn mang lại lợi nhuận khi lắp đặt.
 
@@ -308,13 +308,13 @@ Trong một **CDN (Content Delivery Network – Mạng phân phối nội dung)*
 
 Một số kỹ thuật từ **DNS (Domain Name System)** cũng có thể áp dụng cho CDN. Chúng ta có thể sử dụng **anycast**, trong đó nhiều máy chủ quảng bá cùng một tiền tố địa chỉ IP (**IP prefix**). Điều này cho phép thuật toán định tuyến tìm đường tốt nhất tới bất kỳ máy chủ nào trong số đó.
 
-<img width="800px" src="/assets/applications/4-25-anycast1.png">
+<img width="800px" src="../assets/applications/4-25-anycast1.png">
 
 Một vấn đề của anycast là với các kết nối dài hạn. Giả sử client đang có một kết nối **TCP** đang hoạt động với một trong các máy chủ. Trong quá trình kết nối, một liên kết trung gian trong mạng bị lỗi. Vì tất cả các máy chủ đều có cùng địa chỉ IP, nên từ góc nhìn của router trung gian, việc chuyển tiếp tới bất kỳ máy chủ nào cũng hợp lệ. Router trung gian có thể bắt đầu chuyển tiếp gói tin tới một máy chủ khác (có cùng địa chỉ IP). Tuy nhiên, kết nối TCP ban đầu là với máy chủ cũ, và máy chủ mới này không thể tiếp tục kết nối đó.
 
 Lưu ý rằng vấn đề này không xảy ra khi chúng ta dùng anycast trong DNS, vì các kết nối DNS rất ngắn (thường chỉ là một gói UDP duy nhất).
 
-<img width="800px" src="/assets/applications/4-26-anycast2.png">
+<img width="800px" src="../assets/applications/4-26-anycast2.png">
 
 Chúng ta cũng có thể dùng DNS để **load-balance** (cân bằng tải). Khác với anycast, các máy chủ lúc này có địa chỉ IP khác nhau, nhưng vẫn cùng một tên miền. Khi client truy vấn ánh xạ tên miền–IP, **DNS name server** có thể trả về địa chỉ IP khác nhau tùy theo vị trí của client.
 
@@ -322,7 +322,7 @@ Cách tiếp cận dựa trên DNS này không gặp vấn đề với kết n�
 
 Một vấn đề của cách tiếp cận dựa trên DNS là thiếu tính chi tiết (**granularity**). Ví dụ cực đoan: giả sử tất cả người dùng trong ISP Comcast dùng chung một **recursive resolver**. Điều này có nghĩa là tất cả gửi truy vấn DNS tới resolver này, và resolver sẽ gửi truy vấn tới **application name server**. Application name server chỉ thấy rằng truy vấn đến từ Comcast, và phải trả về một địa chỉ IP duy nhất cho Comcast. Kết quả là mọi người dùng trong mạng Comcast sẽ dùng cùng một máy chủ, ngay cả khi họ ở khắp nơi trên thế giới.
 
-<img width="800px" src="/assets/applications/4-27-dns-loadbalance.png">
+<img width="800px" src="../assets/applications/4-27-dns-loadbalance.png">
 
 Một cách tiếp cận mạnh mẽ hơn anycast hoặc DNS là **application-level mapping** (ánh xạ ở tầng ứng dụng). Khi origin server nhận một yêu cầu HTTP, các liên kết trong phản hồi có thể trỏ tới các máy chủ khác nhau (ví dụ: `static1.google.com` hoặc `static2.google.com`, hai máy chủ ở các vị trí khác nhau), tùy thuộc vào nơi yêu cầu xuất phát. Hoặc, origin server có thể trả về mã trạng thái HTTP 300-level để chuyển hướng người dùng tới máy chủ phù hợp.
 

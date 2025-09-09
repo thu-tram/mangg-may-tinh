@@ -13,17 +13,17 @@ At this point, we have an intuitive picture of how BGP works between ASes. In th
 
 So far, our model of inter-domain routing has treated an entire AS as a single entity, importing and exporting paths.
 
-<img width="900px" src="/assets/routing/2-165-combining1.png">
+<img width="900px" src="../assets/routing/2-165-combining1.png">
 
 However, in reality, the AS contains many routers (and hosts) connected by links.
 
-<img width="900px" src="/assets/routing/2-166-combining2.png">
+<img width="900px" src="../assets/routing/2-166-combining2.png">
 
 In order to actually implement BGP, we need all the routers inside the AS to work cooperatively to act as a single node.
 
 Within an AS, we will classify all routers into two types. **Border routers** have at least one link to a router in a different AS. **Interior routers** only have links to other routers within the same AS.
 
-<img width="900px" src="/assets/routing/2-167-borders.png">
+<img width="900px" src="../assets/routing/2-167-borders.png">
 
 Only the border routers need to advertise routes to other ASes. Sometimes, we call the routers advertising BGP routes **BGP speakers**. The BGP speakers need to understand the semantics and syntax of the BGP protocol (how to read and create a BGP announcement, what to do when receiving an announcement, and so on).
 
@@ -32,41 +32,41 @@ Only the border routers need to advertise routes to other ASes. Sometimes, we ca
 
 A **BGP session** consists of two routers exchanging information between each other.
 
-<img width="900px" src="/assets/routing/2-168-bgp1.png">
+<img width="900px" src="../assets/routing/2-168-bgp1.png">
 
 An **external BGP (eBGP) session** is between two routers from different ASes. eBGP sessions can be used to exchange announcements between different ASes and learn about routes to other ASes. Only border routers participate in eBGP sessions (since eBGP requires talking to a different AS).
 
-<img width="900px" src="/assets/routing/2-169-bgp2.png">
+<img width="900px" src="../assets/routing/2-169-bgp2.png">
 
 By contrast, an **internal BGP (iBGP) session** is between two routers in the same AS (not necessarily directly connected by a link). More specifically, if a border router learns about a new route, it can use iBGP to distribute that new route to the other routers in the AS. This allows all the routers in the AS to coordinate and act together as one entity. Both border and internal routers participate in iBGP sessions.
 
-<img width="900px" src="/assets/routing/2-170-bgp3.png">
+<img width="900px" src="../assets/routing/2-170-bgp3.png">
 
 eBGP and iBGP sessions are different from **interior gateway protocols (IGP)**. These are the intra-domain routing protocols (e.g. distance-vector, link-state) that are deployed within an AS to route packets inside the AS.
 
-<img width="900px" src="/assets/routing/2-171-bgp4.png">
+<img width="900px" src="../assets/routing/2-171-bgp4.png">
 
 It's easy to confuse iBGP and IGP. Both exchange messages within the same AS. However, iBGP is part of an inter-domain protocol, helping routers learn about paths to other ASes. IGP is an intra-domain protocol, helping routers learn about paths to destinations in the same AS.
 
-<img width="900px" src="/assets/routing/2-172-bgp5.png">
+<img width="900px" src="../assets/routing/2-172-bgp5.png">
 
 eBGP, iBGP, and IGP work together to establish routes from any one router to any other router in the Internet (even if the routers are in different ASes).
 
 First, each AS runs IGP to learn least-cost paths between any two routers inside the same AS.
 
-<img width="900px" src="/assets/routing/2-173-bgp6.png">
+<img width="900px" src="../assets/routing/2-173-bgp6.png">
 
 Next, the ASes run eBGP, advertising routes to each other to learn about routes to other ASes.
 
-<img width="900px" src="/assets/routing/2-174-bgp7.png">
+<img width="900px" src="../assets/routing/2-174-bgp7.png">
 
 Finally, the ASes run iBGP, so that a router that has learned about an external route can distribute that route to all the other routers in the same AS.
 
-<img width="900px" src="/assets/routing/2-175-bgp8.png">
+<img width="900px" src="../assets/routing/2-175-bgp8.png">
 
 The routes learned from eBGP, iBGP, and IGP can be used to send packets anywhere in the Internet. If the destination is within the same AS (same IP prefix), we can use the routes learned from IGP to forward the packet. If the destination is in a different AS (different IP prefix), we can think back to iBGP, which told us about any external routes discovered by anybody in my AS. Using the iBGP results, we can figure out which border router is on that external route. Then, we can use IGP to forward the packet to the correct border router (who will then forward the packet to the next AS).
 
-<img width="900px" src="/assets/routing/2-176-bgp9.png">
+<img width="900px" src="../assets/routing/2-176-bgp9.png">
 
 As a concrete example, let's say E wants to send packets to Z. First, every router in E's AS runs IGP, learning all the internal routes. Next, some router in AS#5 advertises a route to Z using eBGP. At this point, only G knows that it can reach Z. Finally, G tells all routers in its own AS that it can reach Z, using iBGP.
 
@@ -76,15 +76,15 @@ The border router who advertises a route to an external destination is sometimes
 
 A consequence of these protocols is that every router has two forwarding tables. One is a table mapping all internal destinations (same AS) to a next hop, populated with information from IGP. The other is a table mapping all external destinations to an egress router (who knows a route to the external destination), populated with information from eBGP.
 
-<img width="900px" src="/assets/routing/2-177-bgp10.png">
+<img width="900px" src="../assets/routing/2-177-bgp10.png">
 
 Note that in the eBGP table, the egress router is not necessarily a next hop. The egress router might be several local hops away, but we use IGP to reach that egress router.
 
-<img width="900px" src="/assets/routing/2-178-bgp11.png">
+<img width="900px" src="../assets/routing/2-178-bgp11.png">
 
 We've seen how eBGP (path-vector, advertising routes) and IGP (distance-vector or link-state) are implemented as algorithms. How is iBGP implemented? When a border router installs a new route to a destination, it has to inform the other routers in the AS. One simple solution is to have the border router directly tell every other router in the AS.
 
-<img width="900px" src="/assets/routing/2-179-bgp12.png">
+<img width="900px" src="../assets/routing/2-179-bgp12.png">
 
 This solution is relatively simple, though it requires every border router to have an iBGP session with every other router. In a network with B border routers and N routers total, this protocol would require BN iBGP connections, and might scale poorly as local networks get larger.
 
@@ -97,29 +97,29 @@ So far, in our AS graph, we've shown two ASes having a single link (edge) betwee
 
 In practice, it can be useful to have multiple links between large ASes. For example, Verizon and AT&T are very large ASes with infrastructure across the entire United States. Suppose there was only one link between the two ASes on the west coast. If a Verizon router in the east coast and an AT&T router in the east coast wanted to communicate, the packet would have to travel across the country on Verizon's network, traverse the link into AT&T's network, and then travel back across the country to the destination.
 
-<img width="800px" src="/assets/routing/2-180-multilink1.png">
+<img width="800px" src="../assets/routing/2-180-multilink1.png">
 
 Multiple links between two ASes also means that there can be multiple paths between two routers that pass through the same ASes. At the AS level, both of these paths go through the same ASes, and our earlier model made no distinction between them. However, in our more detailed model, both paths need to be exported, and a preferred route has to be imported.
 
-<img width="800px" src="/assets/routing/2-181-multilink2.png">
+<img width="800px" src="../assets/routing/2-181-multilink2.png">
 
 If there are two routes, which route does the importing AS prefer?
 
-<img width="800px" src="/assets/routing/2-182-multilink3.png">
+<img width="800px" src="../assets/routing/2-182-multilink3.png">
 
 Bandwidth costs money, so I would prefer if this traffic traveled as far as possible on infrastructure owned and paid for by other people, and traveled as little as possible on my own infrastructure. Therefore, the orange path is preferred.
 
 More formally, the importing AS receives two announcements: one from the west router, and one from the east router.
 
-<img width="800px" src="/assets/routing/2-183-multilink4.png">
+<img width="800px" src="../assets/routing/2-183-multilink4.png">
 
 Using iBGP, every router inside the AS sees both announcements. One says, the egress router is the west router, and the other says, the egress router is the east router. Every router has to decide which announcement to import.
 
-<img width="800px" src="/assets/routing/2-184-multilink5.png">
+<img width="800px" src="../assets/routing/2-184-multilink5.png">
 
 Let's focus on router E. Using IGP, this router can figure out the distance to the west egress router (F), and the distance to the east egress router (I). Since the west egress router (F) is closer, routing packets via the west egress router (F) will use up less of this AS's bandwidth. Therefore, this router will import the path via the west egress router (F). Another router, like one closer to the east egress router (I), might decide to import a different path.
 
-<img width="800px" src="/assets/routing/2-185-multilink6.png">
+<img width="800px" src="../assets/routing/2-185-multilink6.png">
 
 This strategy of selecting the nearest egress router is sometimes called **hot potato routing**. We want the packet to leave our AS as soon as possible, and start traveling over somebody else's links as soon as possible.
 
@@ -128,21 +128,21 @@ This strategy of selecting the nearest egress router is sometimes called **hot p
 
 What if a router is equally close to both possible egress routers?
 
-<img width="800px" src="/assets/routing/2-186-med1.png">
+<img width="800px" src="../assets/routing/2-186-med1.png">
 
 In order to tiebreak, the exporting AS can announce a preference for one route over the other.
 
 Which route does the exporting AS prefer? Again, since bandwidth costs money, the exporting AS prefers the pink path, which uses less of its bandwidth. In the announcement of the pink path, the exporting AS can additionally say "I prefer if you used this path," and in the announcement of the orange path, the exporting AS can additionally say "I prefer if you avoided this path."
 
-<img width="900px" src="/assets/routing/2-187-med2.png">
+<img width="900px" src="../assets/routing/2-187-med2.png">
 
 Now, the router that is equally close to both egress routers can see this extra information in the iBGP announcement.
 
-<img width="900px" src="/assets/routing/2-188-med3.png">
+<img width="900px" src="../assets/routing/2-188-med3.png">
 
 Using this extra information, the router can select the egress router on the pink path, since the exporting AS preferred this path.
 
-<img width="800px" src="/assets/routing/2-189-med4.png">
+<img width="800px" src="../assets/routing/2-189-med4.png">
 
 This additional information in the exporting announcement is called the **Multi-Exit Discriminator (MED)**. From the perspective of the exporter, it indicates my preferred router for entering my network. From the perspective of the importer, it indicates the other AS's preferred router for exiting my network and entering the other AS's network.
 
@@ -159,21 +159,21 @@ Our more detailed model, where two ASes can be connected with multiple links, me
 4. If multiple paths have the same distance to egress router, select the path with the **lower MED** (where MED is included in the advertisement).
 5. If multiple paths have the same MED, **tiebreak arbitrarily** (e.g. pick the router with the lower IP address).
 
-<img width="900px" src="/assets/routing/2-190-med5.png">
+<img width="900px" src="../assets/routing/2-190-med5.png">
 
 Notice that closest egress router (hot potato routing) and MED are often contradictory. Every AS prefers to minimize their own bandwidth usage, and wants the packet to be carried on other ASes' bandwidth.
 
 As the exporting AS, I want the packet to enter my AS as close to the destination as possible. This means I want the importing AS to carry the packet really far (long path to egress).
 
-<img width="900px" src="/assets/routing/2-191-med6.png">
+<img width="900px" src="../assets/routing/2-191-med6.png">
 
 By contrast, as the importing AS, I want to carry the packet as little as possible (short path to egress). This means I want the packet to enter the other AS as far from the destination as possible (force the other AS to do all the work).
 
-<img width="900px" src="/assets/routing/2-192-med7.png">
+<img width="900px" src="../assets/routing/2-192-med7.png">
 
 One consequence of this contradiction is that paths through the Internet are often asymmetric. If two hosts are sending packets back and forth, the path in one direction might be different from the path in the other direction.
 
-<img width="800px" src="/assets/routing/2-193-med8.png">
+<img width="800px" src="../assets/routing/2-193-med8.png">
 
 In this example, for eastbound packets, A picks the west egress router and forces B to carry the traffic most of the way. In the other (westbound) direction, B picks the east egress router, and forces A to carry the traffic most of the way.
 
@@ -198,7 +198,7 @@ There are many BGP attributes, but we'll focus on three important ones, which ar
 
 The **LOCAL PREFERENCE** attribute encodes the Gao-Rexford import rules (top priority tiebreaker) inside a specific AS. An AS can assign a higher value to more preferred routes (e.g. from customers), and a lower value to less preferred routes (e.g. from providers). This attribute is local, and only carried in iBGP messages. This attribute is not sent to other ASes in eBGP announcements, because other ASes don't need to know about this AS's preferences.
 
-<img width="900px" src="/assets/routing/2-194-attribute1.png">
+<img width="900px" src="../assets/routing/2-194-attribute1.png">
 
 As an example, suppose router E receives an eBGP announcement from AS#7, and router A knows that AS#7 is a customer. Then, in the iBGP message, router E can set a local preference value of 3000 (high number). Now, every other router in the same AS knows that router E can reach the destination it's announcing, via the path in the `ASPATH` attribute, with a local preference of 3000.
 
@@ -208,7 +208,7 @@ The local preference numbers are arbitrary, and only their relative ranking is i
 
 The **ASPATH** attribute contains a list of ASes along the route being advertised (in reverse order). This attribute is global, and can be sent in eBGP announcements.
 
-<img width="800px" src="/assets/routing/2-195-attribute2.png">
+<img width="800px" src="../assets/routing/2-195-attribute2.png">
 
 As an example, an announcement would have IP prefix of the destination (128.112.0.0/16), and an ASPATH attribute of [3, 72, 25].
 
@@ -218,7 +218,7 @@ If the local preference and path length are tied, the third priority tiebreaker 
 
 The **MED** attribute encodes the preferences of the exporting AS. Equivalently, this attribute represents the distance from the exporting router to the destination (lower numbers are preferred).
 
-<img width="900px" src="/assets/routing/2-196-attribute3.png">
+<img width="900px" src="../assets/routing/2-196-attribute3.png">
 
 For example, if there are two links between these two ASes, both border routers from the exporting AS will announce a path. The `ASPATH` and destination are the same, since the path of ASes to the destination is the same in both cases. However, the west router will include a lower `MED` attribute number, than the east router. This says: when possible, please route packets for the destination through my west router (lower number), because this router is closer to the destination.
 

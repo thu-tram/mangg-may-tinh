@@ -13,7 +13,7 @@ Let's create a simplified model of the Internet to help us formally define the r
 
 Recall from the previous unit that we can think of the Internet as a set of machines, connected together with a set of links, where each link connects two of the machines on the network.
 
-<img width="900px" src="/assets/routing/2-002-network-of-networks.png">
+<img width="900px" src="../assets/routing/2-002-network-of-networks.png">
 
 We can represent the network topology as a graph, where each node represents a machine, and each edge between two nodes represents a link between two machines.
 
@@ -25,7 +25,7 @@ Suppose we have two machines, A and B. If the two machines want to exchange mess
 
 But what if we had five machines instead of two? One possible approach is to create a link between every pair of machines, such that every machine is connected to every other machine. This is sometimes called a full mesh topology.
 
-<img width="300px" src="/assets/routing/2-005-mesh.png">
+<img width="300px" src="../assets/routing/2-005-mesh.png">
 
 What are some drawbacks of this approach?
 
@@ -39,7 +39,7 @@ In general, there is no guarantee that each machine has a direct link to all oth
 
 In addition to the full mesh topology, there are other ways in which we can deploy links to connect up multiple machines. For example, we could use a single link to connect up all five machines:
 
-<img width="300px" src="/assets/routing/2-006-single-link.png">
+<img width="300px" src="../assets/routing/2-006-single-link.png">
 
 (Here, we're temporarily breaking the assumption that a link connects only two machines, by considering a link that connects more than two machines.)
 
@@ -57,7 +57,7 @@ In our simplified model, we'll classify every machine as being one of two types.
 
 **Routers**, by contrast, are machines connected to the Internet responsible for receiving and forwarding intermediate packets closer to their final destination. For example, consider the router installed in your home network, or routers living in a data center building somewhere. These machines usually do not create and send new packets of their own, and they usually are not the final destination for packets. For example, in your daily Internet use, you might want to send packets to a Google web server to perform a search, but you probably don't need to send a message directly to your home router or a data center. Those routers will help you forward your packet toward Google, but they are not the final destination of your packet.
 
-<img width="900px" src="/assets/routing/2-007-host-router.png">
+<img width="900px" src="../assets/routing/2-007-host-router.png">
 
 Depending on the network design, routers could be legal destinations, but in this unit, we'll ignore routers as destinations. However, do note that routers potentially can be sources and send new packets of their own.
 
@@ -67,19 +67,19 @@ In our graph model of the Internet, routers appear as intermediate nodes that ar
 
 In these notes, when possible, we'll always draw routers as squares and end hosts as circles. In practice, sometimes routers are represented by other symbols. For example, this is a common router symbol used in network diagrams:
 
-<img width="100px" src="/assets/routing/2-008-router-icon.png">
+<img width="100px" src="../assets/routing/2-008-router-icon.png">
 
 ## Network Topologies with Routers
 
 Now that we have routers in addition to end hosts, we can create more complicated network topologies like this:
 
-<img width="400px" src="/assets/routing/2-009-router-topology.png">
+<img width="400px" src="../assets/routing/2-009-router-topology.png">
 
 This topology lets us combine the benefits of the full-mesh and single-link topologies. In particular, this topology uses fewer links than the full mesh topology from earlier. Also, this topology has more bandwidth than the single link topology from earlier.
 
 This topology is also more robust to failure. If a link goes down, the packet can take a different path through the network and still reach its destination.
 
-<img width="900px" src="/assets/routing/2-010-different-path.png">
+<img width="900px" src="../assets/routing/2-010-different-path.png">
 
 
 ## End Hosts in Routing
@@ -99,7 +99,7 @@ Routing protocols are not concerned with the application-level data. It doesn't 
 
 In the header, the main metadata field we're concerned with is the destination address. This tells us the final destination of the packet. When a router receives a packet, the router reads the metadata field in the header to determine how to send the packet towards its final destination. The problem of figuring out where to send the packet is the key problem we'll need to solve in routing.
 
-<img width="200px" src="/assets/routing/2-011-header.png">
+<img width="200px" src="../assets/routing/2-011-header.png">
 
 ## Addressing
 
@@ -127,7 +127,7 @@ If the network changes, perhaps we could solve the routing problem by updating o
 
 Another problem that makes routing difficult is that routers don't inherently have a global, birds-eye view of the entire network. For example, if a link somewhere else in the network fails, there's no way for all routers to automatically know this. We will have to somehow propagate that information about the new network topology to the routers as part of our routing protocol.
 
-<img width="900px" src="/assets/routing/2-012-non-global.png">
+<img width="900px" src="../assets/routing/2-012-non-global.png">
 
 This leads to routing protocols often being distributed protocols. Instead of a single central mastermind computing all the answers, each router must compute its own part of the answer (possibly without full knowledge of the network topology). Collectively, the answers computed by each router must form a global answer to the routing problem that allows packets to reach their end destination.
 

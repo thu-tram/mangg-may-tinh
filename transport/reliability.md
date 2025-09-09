@@ -21,7 +21,7 @@ We will use Layer 4 (the transport layer) to bridge this gap by developing proto
 
 For practical reasons (discussed elsewhere), reliability is implemented at the end hosts, not at intermediate routers. Also, reliability is implemented in the operating system for convenience, so that applications don't need to all re-implement their own reliability.
 
-<img width="900px" src="/assets/transport/3-007-reliability-at-end-hosts.png">
+<img width="900px" src="../assets/transport/3-007-reliability-at-end-hosts.png">
 
 We will formalize reliability by defining **at-least-once delivery**. In this model, the destination must receive every packet, without corruption, at least once, but may receive multiple duplicate copies of a packet. The transport layer will use the best-effort delivery to provide at-least-once delivery. Then, using at-least-once delivery, our protocol can remove duplicates and provide exactly-once delivery to the applications.
 
@@ -45,15 +45,15 @@ The transport layer also implements flow control and congestion control, which w
 
 Suppose that my personal computer has two applications that are both talking to the same server. When packets arrive at my personal computer, they have the same source IP address (server), and the same destination IP address (my computer). How can I tell which packets are meant for which application?
 
-<img width="900px" src="/assets/transport/3-001-demultiplex.png">
+<img width="900px" src="../assets/transport/3-001-demultiplex.png">
 
 In order to distinguish, or **demultiplex**, which packets are meant for which application, the transport layer header includes an additional **port number**, which can be used to identify a specific application on an end host.
 
-<img width="900px" src="/assets/transport/3-002-ports.png">
+<img width="900px" src="../assets/transport/3-002-ports.png">
 
 When the transport layer receives a packet, it can use the port number to decide which higher-layer application the payload should be sent to. Because the transport layer is implemented in the operating system, these ports (sometimes called **logical ports**) are the attachment point where the application connects to the operating system's network stack. The application knows its own port number, and the operating system knows the port numbers for all the applications, and the matching number is how data is unambiguously transferred between the application and operating system (without getting mixed up with data from other applications).
 
-<img width="800px" src="/assets/transport/3-003-port-attachment.png">
+<img width="800px" src="../assets/transport/3-003-port-attachment.png">
 
 Port numbers are 16 bits long. The modern Internet commonly uses the client-server design, where clients access services, and servers provide those services. Servers usually listen for requests on well-known ports (port numbers 0-1023). Clients know these ports and can access them to request services. For example, application-level protocols with well-known port numbers include HTTP (port 80) and SSH (port 22).
 
@@ -64,7 +64,7 @@ By contrast, clients can select their own random port numbers (usually port numb
 
 Implementing reliability at the transport layer means that the application developer no longer needs to think in terms of individual limited-size packets being sent across the network. Instead, the developer can think in terms of a **reliable in-order bytestream**. The sender has a stream of bytes with no length limit, and provides this stream to the transport layer. Then, the recipient receives the exact same stream of bytes, in the same order, with no bytes lost. You can think of a bytestream as a pipe, where the sender inserts bytes, one by one, into the pipe, and those same bytes appear, one by one, on the recipient's end of the pipe. The sender and recipient don't need to think about re-sending lost packets or packets arriving out of order, because the transport layer protocol will implement that for the developer.
 
-<img width="900px" src="/assets/transport/3-004-bytestream.png">
+<img width="900px" src="../assets/transport/3-004-bytestream.png">
 
 
 ## UDP and Datagrams
@@ -73,11 +73,11 @@ Sometimes, applications don't need reliability. For example, consider a sensor t
 
 Applications that don't need reliability can use **UDP** (User Datagram Protocol) instead of TCP at the transport layer. UDP does not provide reliability guarantees. If the application needs a packet to arrive, the application must handle re-sending packets on its own (the transport layer will not re-send packets). Messages in UDP are limited to a single packet. If the application wants to send larger messages, the application is responsible for breaking up and reassembling those messages. Note that UDP still implements the notion of ports for demultiplexing, though.
 
-<img width="900px" src="/assets/transport/3-005-datagram.png">
+<img width="900px" src="../assets/transport/3-005-datagram.png">
 
 At the transport layer, you can choose to use either UDP and TCP depending on your needs, but you can't choose to use both. UDP and TCP are the standard transport layer protocols in the modern Internet.
 
-<img width="300px" src="/assets/transport/3-006-tcp-features.png">
+<img width="300px" src="../assets/transport/3-006-tcp-features.png">
 
 ## Other Reliability Designs
 

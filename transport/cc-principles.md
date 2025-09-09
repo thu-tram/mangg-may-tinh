@@ -11,11 +11,11 @@ layout: page-with-toc
 
 Recall that if many packets arrive at a router at the same time (e.g. bursty traffic), and the router needs to send both packets over the same link, then the router will send one packet and put the other packets in a queue (to be sent later).
 
-<img width="800px" src="/assets/transport/3-051-congestion1.png">
+<img width="800px" src="../assets/transport/3-051-congestion1.png">
 
 More generally, if the input rate of packets exceeds the output rate that the link can sustain, the router will be unable to keep up with the pace of incoming packets. This router is **congested**, and needs to keep packets in a queue while they wait their turn to be sent. The queue can cause packets to be delayed. If the queue itself gets too full and packets are still incoming, then packets can get dropped.
 
-<img width="500px" src="/assets/transport/3-052-congestion2.png">
+<img width="500px" src="../assets/transport/3-052-congestion2.png">
 
 This graph shows the performance of a queueing system with bursty arrivals. The dotted line represents the link's capacity (maximum load). As we increase the load, packets get more delayed.
 
@@ -45,19 +45,19 @@ TCP congestion control is one of many examples of Internet design being ad-hoc. 
 
 To get a sense of why congestion control is a difficult problem, consider the following network graph. At what rate should host A send traffic?
 
-<img width="700px" src="/assets/transport/3-053-congestion3.png">
+<img width="700px" src="../assets/transport/3-053-congestion3.png">
 
 It depends on the destination, so A can't just come up with one fixed rate for all destinations. For example, if A is communicating with C, then A could send packets at 10 Gbps.
 
 What if A is communicating with F instead? The bottleneck link (least capacity) along this path is 2Gbps, so A should probably send packets at 2 Gbps.
 
-<img width="700px" src="/assets/transport/3-054-congestion4.png">
+<img width="700px" src="../assets/transport/3-054-congestion4.png">
 
 What if A is communicating with E?
 
 It depends on what path the traffic is taking between A and E. If the traffic is taking the bottom path through R3, then A could send packets at 10 Gbps. But if the traffic is taking the top path through R2, then A can now only send packets at 1 Gbps.
 
-<img width="700px" src="/assets/transport/3-055-congestion5.png">
+<img width="700px" src="../assets/transport/3-055-congestion5.png">
 
 One takeaway so far is that our congestion control algorithm will need to somehow learn about the bandwidths and bottlenecks along the path that the packet is taking.
 
@@ -65,7 +65,7 @@ Also, recall that the network graph changes over time as new links are added or 
 
 So far, we've assumed that A is the only host sending traffic on the network, and A can use the full capacity of every link. But what if other connections are also using bandwidth?
 
-<img width="700px" src="/assets/transport/3-056-congestion6.png">
+<img width="700px" src="../assets/transport/3-056-congestion6.png">
 
 In this example, A and F have a connection, and B and E have a connection. The two connections seem like they should be totally separate (different senders, different recipients), but in fact, their paths share a link in the network.
 
@@ -73,7 +73,7 @@ If we want the two connections to share the capacity on this link fairly, maybe 
 
 What if a new connection starts between G and D? Should A change its rate of 1 Gbps? (No formal algorithm yet, just think about using bandwidth in a way that seems reasonable.)
 
-<img width="700px" src="/assets/transport/3-057-congestion7.png">
+<img width="700px" src="../assets/transport/3-057-congestion7.png">
 
 First, notice that the G-D and B-E connections are sharing a link. This means that these two connections have to slow their rate down to 0.5 Gbps.
 
@@ -125,6 +125,6 @@ Some router-assisted algorithms send very little information, e.g. a single bit 
 
 Note that in both cases, routers are signaling congestion back to the sender. In router-assisted algorithms, the router is explicitly sending a message about its level of congestion. By contrast, in host-based algorithms, the sender does not receive explicit feedback from the routers. Instead, the sender uses implicit clues from the router (e.g. packets getting dropped or delayed) to deduce that the router is congested.
 
-<img width="600px" src="/assets/transport/3-058-taxonomy.png">
+<img width="600px" src="../assets/transport/3-058-taxonomy.png">
 
 In this taxonomy of congestion control approaches, we'll focus on the dynamic adjustment approach, and within the space of dynamic adjustment solutions, we'll focus on host-based solutions.

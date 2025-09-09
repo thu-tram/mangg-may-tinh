@@ -15,7 +15,7 @@ If we ran distance-vector on the entire Internet, we'd have to send an announcem
 
 The trick to scale routing is how we address hosts. So far, we've called every host and router by some name (e.g. R1, R2, A, B), but in practice, we'll use a smarter addressing scheme.
 
-<img width="750px" src="/assets/routing/2-099-scaling-routing.png">
+<img width="750px" src="../assets/routing/2-099-scaling-routing.png">
 
 
 ## IP Addressing
@@ -37,11 +37,11 @@ The length of an IP address depends on the version of IP being used. IPv4 addres
 
 Recall that the Internet is a network of networks. There are many local networks, and we add links between local networks to form the wider Internet. This gives us a natural hierarchy that we can use to organize our addressing scheme.
 
-<img width="900px" src="/assets/routing/2-100-address-intuition1.png">
+<img width="900px" src="../assets/routing/2-100-address-intuition1.png">
 
 Here's an intuitive picture of addressing. We could assign a number to every network. Then, within network 3, we could assign host numbers 3.1, 3.2, 3.3, etc., and similar for hosts in the other networks.
 
-<img width="900px" src="/assets/routing/2-101-address-intuition2.png">
+<img width="900px" src="../assets/routing/2-101-address-intuition2.png">
 
 Now, consider the forwarding table in router R9. Before, we would have one entry for every host in network 1, and they would all have the same next hop of R6. With our hierarchical addressing, we could instead have a single entry for the entire local network, saying that all 1.* addresses (where the * represents any number) have a next hop of R6. We could also say that all 2.* addresses have a next hop of R8.
 
@@ -49,13 +49,13 @@ This hierarchical model, where we use wildcard matches to summarize routes, make
 
 In addition, this model also makes our tables more stable.
 
-<img width="900px" src="/assets/routing/2-102-address-intuition3.png">
+<img width="900px" src="../assets/routing/2-102-address-intuition3.png">
 
 If the topology inside network 1 changes, we don't need to update R9's forwarding table (or any other tables in other networks). In practice, changes within a local network (e.g. new host joins the network) happens much more often than changes between networks (e.g. new underground cable installed), so it's a good thing that local changes only affect local tables.
 
 More generally, our addresses have two parts: a network ID,and a host ID. This allows inter-domain routing protocols to focus on the network ID to find routes between networks, and intra-domain routing protocols to focus on the host ID to find routes inside networks. This also makes our routing protocols more stable as the network changes. Inter-domain protocols don't care about changes inside networks, and intra-domain protocols don't care about changes in other networks.
 
-<img width="900px" src="/assets/routing/2-103-address-intuition4.png">
+<img width="900px" src="../assets/routing/2-103-address-intuition4.png">
 
 Note that the forwarding table in R9 still needs entries for each individual host inside its own network (i.e. network 2).
 
@@ -66,11 +66,11 @@ Similarly, R4, an internal router with no connections to other networks, needs b
 
 We now know that our entries can represent entire ranges of addresses, instead of always representing a single address. We can extend this idea even further to improve scale.
 
-<img width="900px" src="/assets/routing/2-104-aggregation1.png">
+<img width="900px" src="../assets/routing/2-104-aggregation1.png">
 
 Consider R4. It has an entry for every external network (1.\*, 3.\*, and 4.\*), all with the same next hop of R9. We could aggregate every external network into a single entry. We'll still have entries for every internal host (2.1, 2.2, etc.), but at the end, we'll say: For all other hosts not in the forwarding table, the next hop is R9.
 
-<img width="900px" src="/assets/routing/2-105-aggregation2.png">
+<img width="900px" src="../assets/routing/2-105-aggregation2.png">
 
 We can use more aggressive aggregation at R2. Again, all external networks have a next hop of R3. But, 2.1, 2.2, 2.3, 2.6, and 2.7 also have a next hop of R3. Therefore, the forwarding table only needs static entries for 2.4 and 2.5. Then, we can say, for all other hosts not in the forwarding table (including some internal and some external hosts), the next hop is R3.
 
@@ -85,7 +85,7 @@ In order to get more scalable routing, we need to assign addresses in some hiera
 
 In the early Internet, IPv4 addresses had an 8-bit network ID and a 24-bit host ID, just like in our intuitive version.
 
-<img width="800px" src="/assets/routing/2-106-cidr1.png">
+<img width="800px" src="../assets/routing/2-106-cidr1.png">
 
 For example, AT&T has network ID 12, Apple has network ID 17, and the US Department of Defense has 13 different network IDs.
 
@@ -96,7 +96,7 @@ The 8-bit network ID means we can only assign 256 different network IDs, but in 
 
 The first attempt to fix this was **classful addressing**, which allocates different network sizes based on need. In this approach, there are 3 classes of addresses, each with a different number of bits allocated to the network ID and host ID. The first 1-3 bits identify which class is being used.
 
-<img width="900px" src="/assets/routing/2-107-cidr2.png">
+<img width="900px" src="../assets/routing/2-107-cidr2.png">
 
 Class A addresses start with leading bit 0. The next 7 bits are the network ID (128 networks), and the next 24 bits are the host ID (16 million hosts).
 
@@ -138,7 +138,7 @@ Each RIR then gives out portions of their ranges to large organizations (e.g. co
 
 Finally, each local Internet registry assigns individual IPs to specific hosts. For additional hierarchy, local registries can also assign IP ranges to small organizations, and the small organizations can in turn assign individual IPs.
 
-<img width="700px" src="/assets/routing/2-108-cidr3.png">
+<img width="700px" src="../assets/routing/2-108-cidr3.png">
 
 At each level, the number of additional bits fixed is determined by the number of addresses to be allocated. For example, ARIN might want to give AT&T 8 million addresses, and computes that fixing 9 bits results in 8 million host addresses. ARIN had 4 bits fixed already, so it fixes another 5 bits and assigns AT&T all addresses starting with those 9 bits. AT&T might then give the prefix 1101 11001 110100010 to give 16,000 addresses to UC Berkeley. As we allocate addresses to sub-organizations, more bits are fixed, always keeping the fixed bits from parent organizations.
 
@@ -166,11 +166,11 @@ In our original model with a network ID and host ID, we could aggregate all host
 
 Multi-layered hierarchical addressing means that we can also aggregate multiple networks into a single route.
 
-<img width="900px" src="/assets/routing/2-109-aggregation1.png">
+<img width="900px" src="../assets/routing/2-109-aggregation1.png">
 
 Consider this diagram of networks. In our original model, R6 needs a separate forwarding entry for AT&T, UCB, and Stanford.
 
-<img width="900px" src="/assets/routing/2-110-aggregation2.png">
+<img width="900px" src="../assets/routing/2-110-aggregation2.png">
 
 However, if we used hierarchical addressing, then UCB's range (4.12.0.0/16) and Stanford's range (4.29.0.0/16) are both subsets of AT&T's range (4.0.0.0/8). This could happen if AT&T allocated those ranges to its subordinate customers UCB and Stanford.
 
@@ -181,7 +181,7 @@ Now, R6 only needs a single entry for AT&T, UCB, and Stanford. We've aggregated 
 
 Aggregating ranges doesn't always work. Suppose we added a link from R6 directly to Stanford.
 
-<img width="900px" src="/assets/routing/2-111-aggregation3.png">
+<img width="900px" src="../assets/routing/2-111-aggregation3.png">
 
 Our aggregated route says that all packets to AT&T (and its subordinates) have a next hop of R2. We need to add an additional entry saying that Stanford has a next hop of R7.
 
@@ -194,7 +194,7 @@ If instead we had a packet destined for a UCB host, we can't use the Stanford-sp
 
 IPv4 addresses are 32 bits, which means we have roughly 4 billion addresses available. Is this enough?
 
-<img width="900px" src="/assets/routing/2-112-ipv6-1.png">
+<img width="900px" src="../assets/routing/2-112-ipv6-1.png">
 
 This graph plots the number of remaining unallocated IP addresses (y-axis) for each regional registry over time. 
 
@@ -208,7 +208,7 @@ Fundamentally, IPv6 addressing structure is the same as IPv4. There are some min
 
 The main new feature in IPv6 is longer addresses. IPv6 addresses are 128 bits long, which means there are roughly $$3.4 \times 10^{38}$$ possible addresses. This is an astronomically big number, so we'll never run out. The universe is $$10^{21}$$ seconds old, so we could assign an address to every second and still have only used 0.000000000000001% of all available addresses.
 
-<img width="900px" src="/assets/routing/2-113-ipv6-2.png">
+<img width="900px" src="../assets/routing/2-113-ipv6-2.png">
 
 IPv6 was developed in the 1990s, but was not immediately adopted by all computers. Even in 2010, basically nobody used IPv6. As of 2024, IPv6 is used by around 45% of end users, and most of these users are located in developed countries with wider Internet adoption. The main reason why IPv6 is becoming more widely-adopted is because we're running out of IPv4 addresses.
 

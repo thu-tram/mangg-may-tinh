@@ -27,7 +27,7 @@ Có thể tồn tại nhiều giao thức ở cùng một tầng. Ví dụ: ở 
 
 Lưu ý rằng mặc dù có nhiều giao thức ở một tầng, bạn có thể chọn một **stack** (ngăn xếp) giao thức cụ thể cho ứng dụng của mình. Ví dụ: bạn có thể chọn **HTTP over TCP over IP**, và không cần dùng các giao thức Layer 7 hoặc Layer 4 khác. Khi đó, tất cả người dùng ứng dụng của bạn sẽ dùng cùng một stack.
 
-<img width="900px" src="/assets/intro/1-31-multi-protocols.png">
+<img width="900px" src="../assets/intro/1-31-multi-protocols.png">
 
 Nếu nhìn vào sơ đồ này, bạn sẽ thấy chỉ có **một giao thức ở Layer 3**. Đây chính là “**narrow waist**” (eo hẹp) cho phép kết nối Internet. Cuối cùng, mọi người trên Internet phải đồng ý sử dụng **IP** để các gói tin có thể được gửi đi khắp Internet.
 
@@ -37,29 +37,29 @@ Nếu nhìn vào sơ đồ này, bạn sẽ thấy chỉ có **một giao thức
 
 *(Phần này trong bản gốc chưa được viết đầy đủ – TODO)*
 
-<img width="900px" src="/assets/intro/1-32-demultiplex.png">
+<img width="900px" src="../assets/intro/1-32-demultiplex.png">
 
-<img width="500px" src="/assets/intro/1-33-layer3-demultiplex.png">
+<img width="500px" src="../assets/intro/1-33-layer3-demultiplex.png">
 
-<img width="700px" src="/assets/intro/1-34-layer4-demultiplex.png">
+<img width="700px" src="../assets/intro/1-34-layer4-demultiplex.png">
 
-<img width="700px" src="/assets/intro/1-35-demultiplex-headers.png">
+<img width="700px" src="../assets/intro/1-35-demultiplex-headers.png">
 
-<img width="900px" src="/assets/intro/1-36-ports.png">
+<img width="900px" src="../assets/intro/1-36-ports.png">
 
 Cần cẩn thận với thuật ngữ. Trong mạng máy tính, **port** có thể chỉ hai khái niệm khác nhau:  
 - **Physical port** (cổng vật lý): vị trí thực tế để cắm dây mạng vào switch.  
 - **Logical port** (cổng logic): một số trong **Layer 4 header** để phân biệt gói tin thuộc về ứng dụng nào.
 
-<img width="700px" src="/assets/intro/1-37-logical-physical-port.png">
+<img width="700px" src="../assets/intro/1-37-logical-physical-port.png">
 
 **Lưu ý:** Thuật ngữ **socket** chỉ cơ chế của hệ điều hành (OS) để kết nối một ứng dụng với **networking stack** (ngăn xếp mạng) trong OS. Khi một ứng dụng mở một socket, socket đó được gán với một số cổng logic. Khi OS nhận một gói tin, nó dùng số cổng để chuyển gói tin tới socket tương ứng.
 
-<img width="900px" src="/assets/intro/1-38-layers-in-os1.png">
+<img width="900px" src="../assets/intro/1-38-layers-in-os1.png">
 
-<img width="900px" src="/assets/intro/1-39-layers-in-os2.png">
+<img width="900px" src="../assets/intro/1-39-layers-in-os2.png">
 
-<img width="900px" src="/assets/intro/1-40-layers-in-os3.png">
+<img width="900px" src="../assets/intro/1-40-layers-in-os3.png">
 
 ---
 
@@ -75,15 +75,15 @@ Giả sử một giao thức đơn giản để đảm bảo tin cậy: Host A m
 
 **Nếu triển khai tính tin cậy trong mạng:** Mỗi router phải hiểu Layer 4 ngoài Layer 1–3. Router trung gian phải đảm bảo gửi tin cậy tới **next hop** (bước nhảy tiếp theo), và nếu mất gói, router phải gửi lại. Host không kiểm tra, mà tin tưởng mạng đảm bảo tất cả gói được nhận.
 
-<img width="900px" src="/assets/intro/1-41-reliability-in-network.png">
+<img width="900px" src="../assets/intro/1-41-reliability-in-network.png">
 
 Nhược điểm: Host phải **trust** (tin tưởng) mạng. Nếu một router bị lỗi và làm mất gói, host không thể làm gì.
 
-<img width="900px" src="/assets/intro/1-42-buggy-reliability-in-network.png">
+<img width="900px" src="../assets/intro/1-42-buggy-reliability-in-network.png">
 
 **Nếu triển khai tính tin cậy ở end host (end-to-end approach):** Mạng có thể làm mất gói, và host sẽ tự kiểm tra, xác nhận và xử lý.
 
-<img width="900px" src="/assets/intro/1-43-reliability-in-endhost.png">
+<img width="900px" src="../assets/intro/1-43-reliability-in-endhost.png">
 
 Ưu điểm: Quyền kiểm soát nằm ở host. Nếu host bị lỗi, họ có thể tự sửa. Nói chung, khi lập trình, tốt hơn là bạn tự kiểm soát tính đúng đắn thay vì phụ thuộc vào người khác (và không thể sửa lỗi của họ).
 
