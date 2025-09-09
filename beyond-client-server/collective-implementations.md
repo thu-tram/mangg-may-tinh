@@ -1,9 +1,9 @@
----
-title: Triển khai Collective
-parent: Beyond Client-Server
-nav_order: 8
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Triển khai Collective** (Collective Implementations)
 
@@ -23,7 +23,7 @@ Trong phần này, chúng ta sẽ tập trung vào việc triển khai collectiv
 
 <img width="900px" src="../assets/beyond-client-server/7-082-allreduce-reminder.png">
 
----
+
 
 ## **Cách tiếp cận 1: Full Mesh** (Approach 1: Full Mesh)
 
@@ -44,7 +44,7 @@ Với topology này, chúng ta có thể triển khai AllReduce theo các bướ
 
 **Thời gian thực hiện:** Phụ thuộc vào giới hạn tài nguyên của các nút và liên kết, nhưng giả sử không có giới hạn tài nguyên, tất cả việc gửi vector có thể diễn ra đồng thời, hoàn thành trong một bước thời gian (**time step**). Nói cách khác, Node 1 gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Cùng lúc đó, Node 2 cũng gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Giả sử không có giới hạn tài nguyên, cách tiếp cận này chỉ mất một time step để hoàn thành, trong đó mỗi nút cần gửi và nhận $$2 \cdot D \cdot (p-1)$$ byte mỗi time step (mỗi nút gửi $$D \cdot (p-1)$$ byte và nhận $$D \cdot (p-1)$$ byte, cộng lại thành hệ số 2).
 
----
+
 
 ## **Cách tiếp cận 2: Reduce tại một nút** (Approach 2: Reduce at One Node)
 
@@ -115,7 +115,7 @@ Lưu ý rằng chúng ta đã tận dụng phép **reduction** (giảm dữ li�
 
 Nói chung, các collective dạng hợp nhất dữ liệu (**Reduce**, **ReduceScatter**, **AllReduce**) cho phép tối ưu triển khai. Trong Reduce và ReduceScatter, tổng lượng dữ liệu nhận thực tế nhỏ hơn lượng dữ liệu gửi, và chúng ta có thể tận dụng điều này. Ví dụ, nếu biết đầu ra là tổng của tất cả vector, và bạn nhận 2 vector, bạn có thể cộng chúng lại và gửi một vector tổng duy nhất, thay vì gửi riêng từng vector.
 
----
+
 
 ## **Cách tiếp cận 4: Ring-Based (Naive)** (Dựa trên vòng – Ngây thơ)
 
@@ -222,7 +222,7 @@ Khi xem bản demo động này, hãy chú ý vào **hai chiều** mà chúng ta
 
 Tuy nhiên, **băng thông trên mỗi time step** đã được cải thiện trong cách tối ưu. Trong cách naive, mỗi nút phải nhận và gửi toàn bộ vector trong một time step, tổng cộng $$2D$$ byte truyền trong một time step. Trong cách tối ưu, mỗi nút chỉ phải nhận và gửi **một phần tử** tại mỗi time step, tổng cộng $$2D/p$$ byte truyền trong một time step.
 
----
+
 
 ## **Overlay và Underlay Topologies**
 
@@ -258,7 +258,7 @@ Sơ đồ này minh họa một topology underlay bất kỳ, nhưng ý tưởng
 
 Các tác vụ huấn luyện AI có tính dự đoán, và topology cơ sở hạ tầng là cố định và có cấu trúc. Điều này có nghĩa là chúng ta có nhiều cơ hội để tối ưu hiệu năng của tác vụ huấn luyện. Ví dụ: chúng ta có thể gán các tác vụ cụ thể cho các nút cụ thể, sao cho các thao tác collective được thực hiện trên các nút gần nhau (ví dụ: tất cả các nút trong cùng một rack). Việc tìm cách tối ưu hóa các tác vụ huấn luyện AI là một lĩnh vực nghiên cứu đang rất sôi động.
 
----
+
 
 ## **Các lớp trừu tượng** (Layers of Abstraction)
 

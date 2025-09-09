@@ -1,15 +1,15 @@
----
-title: Layers of the Internet
-parent: Introduction
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # Layers of the Internet
 
 Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:
 
----
+
 
 ## **Layer 1: Physical Layer** (Tầng vật lý)
 
@@ -19,7 +19,7 @@ Trước tiên, chúng ta cần một cách để gửi tín hiệu qua không g
 
 Trong Internet, chúng ta tìm cách truyền **bit** (1 và 0) qua không gian. Công nghệ có thể là điện áp trên dây dẫn điện, sóng vô tuyến không dây, xung ánh sáng qua cáp quang, v.v. Có cả một lĩnh vực **electrical engineering** (kỹ thuật điện) chuyên nghiên cứu việc truyền tín hiệu qua không gian, nhưng chúng ta sẽ không đi sâu vào chi tiết trong khóa học này.
 
----
+
 
 ## **Layer 2: Link Layer** (Tầng liên kết)
 
@@ -31,7 +31,7 @@ Trong Internet, một **link** (liên kết) kết nối hai máy. Liên kết n
 
 Ở Layer 2, chúng ta cũng có thể nhóm các bit thành các đơn vị dữ liệu gọi là **packet** (gói tin – đôi khi ở tầng này gọi là **frame**), và xác định điểm bắt đầu và kết thúc của một gói tin trong tín hiệu vật lý. Chúng ta cũng có thể xử lý các vấn đề như nhiều người cùng lúc sử dụng chung một dây để gửi dữ liệu.
 
----
+
 
 ## **Layer 3: Internet Layer** (Tầng Internet)
 
@@ -55,7 +55,7 @@ Chúng ta cũng cần đảm bảo rằng các liên kết này có đủ **capa
 
 Bức tranh này cho thấy hạ tầng Internet, nhưng trong khóa học này, chúng ta cũng sẽ nghiên cứu các **operator** (nhà vận hành) quản lý hạ tầng. Trong phép so sánh, đây là những người xây dựng và quản lý bưu điện. Trên Internet, các operator là **Internet Service Provider (ISP)** như AT&T, Amazon Web Services, hoặc UC Berkeley, những đơn vị sở hữu và vận hành hạ tầng Internet. Ngoài hạ tầng phần cứng và phần mềm, chúng ta cần xem xét các tổ chức này như những doanh nghiệp và tổ chức thực tế, cân nhắc động cơ kinh tế và chính trị của họ. Ví dụ: nếu AT&T xây dựng một tuyến cáp quang biển, họ có thể thu phí các ISP khác khi gửi dữ liệu qua tuyến cáp này.
 
----
+
 
 ## **Network of Networks** (Mạng của các mạng)
 
@@ -71,7 +71,7 @@ Trên Internet, **end host** là các máy (ví dụ: server, laptop, điện th
 
 Trong các ghi chú này, chúng ta thường vẽ end host dưới dạng hình tròn, và router dưới dạng hình vuông.
 
----
+
 
 ## **Layers of Abstraction** (Các tầng trừu tượng)
 
@@ -85,9 +85,9 @@ Một lợi thế lớn của cách tiếp cận phân tầng và network-of-net
 
 Phân tầng cũng cho phép đổi mới diễn ra song song. Các cộng đồng khác nhau (ví dụ: nhà thiết kế chip phần cứng, lập trình viên phần mềm) có thể đổi mới ở các tầng khác nhau.
 
----
 
----
+
+
 
 ## **Layer 3: Best-Effort Service Model** (Mô hình dịch vụ nỗ lực tối đa)
 
@@ -104,7 +104,7 @@ Các nhà thiết kế Internet đã không hỗ trợ bất kỳ mô hình nào
 
 Tại sao các nhà thiết kế lại chọn một mô hình dịch vụ “yếu” như vậy? Một lý do chính là việc xây dựng mạng đáp ứng các yêu cầu yếu hơn này dễ dàng hơn rất nhiều.
 
----
+
 
 ## **Layer 3: Packets Abstraction** (Khái niệm trừu tượng gói tin)
 
@@ -122,8 +122,8 @@ Lưu ý rằng, do mô hình **best-effort**, bất kỳ switch nào cũng có t
 
 <img width="700px" src="../assets/intro/1-06-path-through-network.png">
 
----
----
+
+
 
 ## **Layer 4: Transport** (Tầng vận chuyển)
 
@@ -139,7 +139,7 @@ Chúng ta đã xác định hai vấn đề ở **Layer 3**:
 
 Giao thức tầng vận chuyển cho phép chúng ta ngừng suy nghĩ ở mức packet riêng lẻ và bắt đầu suy nghĩ ở mức **flow** (luồng) – tức là các chuỗi packet được trao đổi giữa hai **endpoint** (điểm cuối).
 
----
+
 
 ## **Layer 7: Application** (Tầng ứng dụng)
 
@@ -159,4 +159,3 @@ Hai tầng tương tác trực tiếp thông qua **interface** (giao diện) gi�
 
 Ngày nay, hầu hết chức năng của hai tầng này được triển khai trong Layer 7.
 
----

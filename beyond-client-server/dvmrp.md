@@ -1,9 +1,9 @@
----
-title: DVMRP
-parent: Beyond Client-Server
-nav_order: 3
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # DVMRP
 
@@ -27,7 +27,7 @@ Cách triển khai ngây thơ nhất là **flooding** (phát tràn). Khi một r
 
 Ngoài ra, các vòng lặp có thể gây ra **broadcast storm** (bão quảng bá) khi cùng một gói tin được chuyển tiếp vô hạn trong vòng lặp, mặc dù điều này có thể được giải quyết bằng cách để router loại bỏ gói tin nếu đã thấy trước đó.
 
----
+
 
 ## **Reverse Path Broadcasting (RPB)**
 
@@ -64,7 +64,7 @@ Nếu đảo ngược tất cả các mũi tên trong đồ thị này, chúng t
 
 Quy tắc này giúp tránh việc gói tin đi qua nhiều đường. Dù có nhiều đường tới bạn, bạn chỉ nhận gói tin từ cha một lần và chuyển tiếp cho các con. Nếu nhận bản sao từ nút khác (không phải cha), bạn sẽ loại bỏ nó.
 
----
+
 
 ## **RPM: Xác định cha và con** (RPM: Learning Your Parent and Children)
 
@@ -146,7 +146,7 @@ Một cách khác để hình dung: Trước đây, chúng ta có một cây cho
 
 Bằng cách này, nếu một hậu duệ của bạn tham gia nhóm, thì sau khi bộ đếm thời gian hết hạn, bạn sẽ không còn bị cắt tỉa và sẽ tham gia lại cây. Ngược lại, nếu vẫn không có hậu duệ nào thuộc nhóm, bạn chỉ cần gửi lại thông báo pruning cho cha để được loại khỏi cây.
 
----
+
 
 ## **Tóm tắt các quy tắc DVMRP** (Summary of DVMRP Rules)
 
@@ -171,7 +171,7 @@ Với mỗi cặp **(destination group, source)**:
 2. Nếu không hậu duệ nào (host kết nối trực tiếp hoặc con) thuộc nhóm, gửi thông báo pruning cho cha.  
 3. Định kỳ xóa toàn bộ thông tin pruning (quay lại chuyển tiếp cho tất cả các con).
 
----
+
 
 ## **Ưu và nhược điểm của DVMRP** (DVMRP Pros and Cons)
 
@@ -187,4 +187,3 @@ Với mỗi cặp **(destination group, source)**:
 
 **Hạn chế:** Việc gắn kết multicast và unicast routing khiến việc chuyển đổi giao thức khó hơn. Ví dụ: nếu chuyển giao thức unicast từ distance-vector sang **link-state**, chúng ta cũng phải thiết kế lại giao thức multicast.
 
----

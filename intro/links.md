@@ -1,9 +1,9 @@
----
-title: Links
-parent: Introduction
-nav_order: 6
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Links** (Liên kết)
 
@@ -23,7 +23,7 @@ Có ba đặc tính mà chúng ta có thể dùng để đo hiệu năng của m
 
 **Lưu ý:** Đôi khi bạn sẽ thấy thuật ngữ **latency** (độ trễ). Trong ngữ cảnh của một liên kết, latency chính là propagation delay, mặc dù từ này cũng được dùng trong các ngữ cảnh khác (ví dụ: độ trễ từ end host đến end host qua nhiều liên kết). Latency không có định nghĩa chính thức duy nhất và phụ thuộc vào ngữ cảnh.
 
----
+
 
 ## **Timing Diagram** (Biểu đồ thời gian)
 
@@ -49,7 +49,7 @@ Bit này cũng mất 0,001 giây để truyền, nên tại thời điểm 0,000
 
 <img width="900px" src="../assets/intro/1-60-timing3.png">
 
----
+
 
 ## **Packet Delay** (Độ trễ gói tin)
 
@@ -63,7 +63,7 @@ Nói chung, transmission delay = kích thước packet / băng thông liên kế
 
 Vì transmission delay phụ thuộc vào băng thông, ta có thể tính packet delay dựa trên hai đặc tính của liên kết: bandwidth và propagation delay.
 
----
+
 
 ## **Bandwidth và Propagation Delay: Sự đánh đổi** (Trade-offs)
 
@@ -81,7 +81,7 @@ Ví dụ thực tế:
 - Nếu chất lượng video call kém → có thể do bandwidth không đủ (giảm propagation delay không giúp).  
 - Nếu có độ trễ giữa lúc bạn nói và lúc người kia trả lời → có thể do propagation delay quá dài (tăng bandwidth không giúp).
 
----
+
 
 ## **Pipe Diagram** (Biểu đồ ống)
 
@@ -133,7 +133,7 @@ Khi tăng **bandwidth** (băng thông), chiều cao của ống tăng, cho thấ
 
 Lúc này, hình dạng packet cũng thay đổi: packet cao hơn vì mỗi đơn vị thời gian có thể đưa nhiều bit hơn vào ống. Kết quả là chúng ta hoàn tất việc đưa packet vào ống nhanh hơn, nên **chiều rộng** của packet (transmission delay) giảm.
 
----
+
 
 ## **Overloaded Links** (Liên kết quá tải)
 
@@ -180,4 +180,3 @@ Một giải pháp khả thi là để **router** thông báo cho bên gửi gi�
 Bây giờ khi đã có khái niệm về **queuing** (xếp hàng), chúng ta cần cập nhật công thức tính **packet delay**:  
 **Packet delay** = Transmission delay + Propagation delay + Queuing delay.
 
----

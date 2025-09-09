@@ -1,8 +1,8 @@
----
-title: Cellular
+
+
 nav_exclude: true
-layout: page
----
+
+
 
 # Cellular
 

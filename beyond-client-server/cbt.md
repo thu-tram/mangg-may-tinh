@@ -1,9 +1,9 @@
----
-title: Cây dựa trên lõi
-parent: Beyond Client-Server
-nav_order: 4
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Core-Based Trees (CBT)** – Cây dựa trên lõi
 
@@ -21,7 +21,7 @@ Trong phương pháp **Core-Based Tree (CBT)**, mỗi nhóm đích sẽ có mộ
 
 Có thể gây nhầm lẫn khi nghĩ về cây CBT và cây DVMRP cùng lúc. Tạm thời, bạn có thể coi chúng là hai loại cây hoàn toàn khác nhau, không có điểm chung.
 
----
+
 
 ## **Xây dựng CBT (Building CBTs)**
 
@@ -63,7 +63,7 @@ Hãy nhớ rằng chúng ta xây dựng **một cây cho mỗi nhóm**. Điều 
 - Thông điệp join và quit về mặt kỹ thuật được gửi bởi **first-hop router** (router đầu tiên). Router này dùng **IGMP (Internet Group Management Protocol)** để phát hiện một host kết nối trực tiếp đã tham gia hoặc rời nhóm, và first-hop router sẽ gửi thông điệp join hoặc quit.  
 - Thực tế, một thông điệp **JOIN-ACK** được gửi để phản hồi join, và router ghi lại parent/child khi JOIN-ACK được gửi. Tương tự, một thông điệp **QUIT-ACK** được gửi để phản hồi quit. Trong phạm vi bài học này, chúng ta sẽ bỏ qua chi tiết này.
 
----
+
 
 ## **Sử dụng CBT (Using CBTs)**
 
@@ -83,7 +83,7 @@ Khi core nhận gói tin, nó gỡ bỏ outer header và thấy gói tin multica
 
 <img width="900px" src="../assets/beyond-client-server/7-043-cbt-forwarding-2.png">
 
----
+
 
 ## **Lợi ích: Khả năng mở rộng tốt hơn** (Benefit: Better Scaling)
 
@@ -98,7 +98,7 @@ Lưu ý rằng CBT giống nhau cho tất cả các nguồn. Không giống DVMR
 Việc so sánh cây DVMRP và cây CBT giúp thấy rõ khả năng mở rộng của các giao thức, nhưng ngoài điều đó, các cây trong mỗi giao thức có ý nghĩa hoàn toàn khác nhau. Nếu bạn thấy khó hiểu, hãy coi chúng như hai khái niệm hoàn toàn tách biệt.
 
 Hãy nhớ rằng một vấn đề khác về khả năng mở rộng của DVMRP là trạng thái **pruning** (cắt tỉa) được xóa định kỳ, và khi điều đó xảy ra, gói tin sẽ được broadcast tới tất cả mọi người trên mạng (bao gồm cả các thiết bị không thuộc nhóm). CBT cũng giải quyết vấn đề này, vì chẳng có lý do gì để sử dụng CBT khi gói tin phải được phát sóng đến tất cả các thiết bị. Tree cho biết vị trí của các thành viên trong nhóm, do đó đảm bảo rằng các thiết bị không thuộc nhóm sẽ không bao giờ nhận được gói tin.
----
+
 
 ## **Phân tích hiệu suất** (Efficiency Analysis)
 
@@ -122,7 +122,7 @@ Ví dụ, nếu A dự định gửi nhiều gói tin tới nhóm, R2 có thể 
 
 Việc tìm core tối ưu là không khả thi, đặc biệt vì các thành viên có thể tham gia hoặc rời nhóm bất kỳ lúc nào. Trên thực tế, các nhà vận hành thường chọn core thủ công.
 
----
+
 
 ## **Các ưu và nhược điểm khác của CBT** (Other CBT Pros and Cons)
 
@@ -132,7 +132,7 @@ Hãy nhớ rằng DVMRP được xây dựng như một phần mở rộng của
 
 Tài liệu tham khảo thêm về CBT: [https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf](https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf)
 
----
+
 
 **DVMRP hay CBT tốt hơn?** Như chúng ta đã thấy, có những sự đánh đổi giữa hai giao thức này.
 
@@ -142,4 +142,3 @@ Tài liệu tham khảo thêm về CBT: [https://people.eecs.berkeley.edu/~sylvi
 
 Trên thực tế, cả DVMRP và CBT đều đang được sử dụng ngày nay. DVMRP đôi khi được gọi là **PIM-DM (Protocol Independent Multicast – Dense Mode)**, phản ánh việc DVMRP phù hợp cho các nhóm lớn. CBT đôi khi được gọi là **PIM-SM (Protocol Independent Multicast – Sparse Mode)**, phản ánh việc CBT phù hợp cho các nhóm nhỏ hơn.
 
----

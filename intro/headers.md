@@ -1,9 +1,9 @@
----
-title: Headers
-parent: Introduction
-nav_order: 3
-layout: page-with-toc
----
+
+
+
+
+
+
 
 
 # **Headers** (Tiêu đề gói tin)
@@ -24,7 +24,7 @@ Trong phép so sánh, bưu điện không nên đọc nội dung bên trong bứ
 
 Người nhận quan tâm đến nội dung bên trong bức thư, không phải phong bì. Tương tự, ứng dụng ở **end host** (máy đầu cuối) quan tâm đến payload, không phải header. Tuy nhiên, end host vẫn cần biết về header để có thể thêm header vào packet trước khi gửi.
 
----
+
 
 ## **Headers được tiêu chuẩn hóa** (Headers are Standardized)
 
@@ -34,7 +34,7 @@ Tất cả mọi người trên Internet (mọi end host, mọi switch) cần th
 
 Điều này cũng có nghĩa là chúng ta cần cẩn thận khi thiết kế header. Một khi đã thiết kế và triển khai header trên Internet, việc thay đổi nó là rất khó (chúng ta sẽ phải thuyết phục tất cả mọi người đồng ý thay đổi). Đây là lý do tại sao các tổ chức tiêu chuẩn có thể mất nhiều năm để thiết kế và tiêu chuẩn hóa header.
 
----
+
 
 ## **Header nên chứa những gì?** (What Should a Header Contain?)
 
@@ -45,7 +45,7 @@ Thông tin nào nên được đưa vào header?
 - **Checksum**: để đảm bảo packet không bị lỗi trong quá trình truyền.  
 - **Độ dài packet**: vì packet có thể có kích thước khác nhau (ví dụ: người dùng chỉ cần gửi vài byte).
 
----
+
 
 ## **Nhiều header** (Multiple Headers)
 
@@ -96,7 +96,7 @@ Tương tự, các tầng khác nhau trong Internet có các cơ chế địa ch
 
 <img width="700px" src="../assets/intro/1-18-naming.png">
 
----
+
 
 ## **Layers at Hosts and Routers** (Các tầng tại Host và Router)
 
@@ -110,7 +110,7 @@ Còn **router** thì sao? Router cần **Layer 1** để nhận bit qua dây, **
 
 **Tóm lại:** Ba tầng thấp nhất được triển khai ở mọi nơi, nhưng hai tầng cao nhất chỉ được triển khai tại end host.
 
----
+
 
 ## **Multiple Headers at Hosts and Routers: Analogy** (Nhiều header tại Host và Router: Phép so sánh)
 
@@ -132,7 +132,7 @@ Quy trình này lặp lại ở mỗi bưu điện: hộp được mở, lộ ra
 
 Cuối cùng, bức thư đến Công ty B trong một chiếc hộp, và lần này Công ty B mở hộp, rồi mở phong bì, để lấy thư bên trong.
 
----
+
 
 ## **Multiple Headers at Hosts and Routers** (Nhiều header tại Host và Router)
 
@@ -176,4 +176,3 @@ Nói chung, chúng ta đã nói rằng mỗi tầng chỉ cần giao tiếp vớ
 
 <img width="900px" src="../assets/intro/1-30-packet-path.png">
 
----

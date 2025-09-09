@@ -24,7 +24,7 @@ Một cách tiếp cận tự nhiên hơn là chỉ gửi **một** gói tin qua
 
 Cách tiếp cận này đòi hỏi mạng phải có hỗ trợ bổ sung và cần phát triển một số giao thức mới.
 
----
+
 
 ## **Định nghĩa Multicast** (Multicast Definitions)
 
@@ -41,7 +41,7 @@ Mô hình multicast có thể được sử dụng để giải quyết các v�
 
 Một ví dụ khác: nếu muốn dùng multicast cho mục đích discovery, chúng ta có thể để tất cả máy in trong tòa nhà tham gia vào một multicast group. Khi đó, người dùng có thể gửi gói tin multicast tới toàn nhóm để tìm các máy in mà họ có thể sử dụng.
 
----
+
 
 ## **IP Multicast và Overlay Multicast** (IP vs. Overlay Multicast)
 

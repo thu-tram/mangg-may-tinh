@@ -1,9 +1,9 @@
----
-title: DNS
-parent: Applications
-nav_order: 1
-layout: page-with-toc
----
+
+
+
+
+
+
 
 
 # DNS
@@ -20,7 +20,7 @@ Trên Internet, thông tin thường được lập chỉ mục theo hai cách k
 
 <img width="700px" src="../assets/applications/4-02-dns-intro.png">
 
----
+
 
 ## Lược sử DNS (Brief History of DNS)
 
@@ -52,7 +52,7 @@ Cải tiến đầu tiên là làm cho danh sách này có thể đọc được
 
 Một thông tin thú vị: phần mềm đầu tiên để chạy máy chủ DNS trên Unix là **BIND** (1984, UC Berkeley), và đến nay vẫn khá phổ biến.
 
----
+
 
 ## Mục tiêu thiết kế của DNS (DNS Design Goals)
 
@@ -61,7 +61,7 @@ Lược sử trên cho chúng ta thấy một số mục tiêu thiết kế củ
 - **DNS phải có khả năng mở rộng**: Internet có số lượng máy chủ khổng lồ, và mỗi giây có một lượng lớn truy vấn được thực hiện. Các máy chủ có thể được thêm hoặc gỡ bỏ thường xuyên.
 - **DNS phải luôn sẵn sàng, nhẹ và nhanh**: Hầu như mọi kết nối Internet đều bắt đầu bằng một truy vấn DNS để phân giải hostname thành địa chỉ IP. Do đó, DNS phải cực kỳ nhanh, nếu không mọi kết nối sẽ bị chậm lại. Đồng thời, không được tồn tại **single point of failure** (điểm lỗi đơn lẻ), nếu không Internet sẽ ngừng hoạt động khi xảy ra sự cố.
 
----
+
 
 ## Name servers (Máy chủ tên miền)
 
@@ -84,7 +84,7 @@ DNS sắp xếp tất cả các name server thành một cấu trúc cây phân 
 
 **Root server** (máy chủ gốc) ở cấp cao nhất của cây có tất cả các tên miền trong zone của nó (zone này thường được viết là `.`). Các name server ở cấp thấp hơn của cây có các zone nhỏ hơn và cụ thể hơn.
 
----
+
 
 ## Tra cứu DNS (Khái niệm) – DNS Lookup (Conceptual)
 
@@ -105,7 +105,7 @@ Ví dụ, một truy vấn DNS cho `eecs.berkeley.edu` có thể diễn ra như 
 
 Khi đã có câu trả lời, chúng ta có thể lưu nó vào bộ nhớ đệm (**cache**) để không phải hỏi lại nếu cần dùng bản ghi này sau đó.
 
----
+
 
 ## Stub Resolvers và Recursive Resolvers
 
@@ -127,7 +127,7 @@ Một lợi ích lớn của resolver là khả năng lưu đệm tốt hơn. Re
 
 Lưu ý rằng mặc dù recursive resolver lưu trữ bộ nhớ đệm lớn hơn, stub resolver vẫn có thể duy trì bộ nhớ đệm riêng của mình. Một số truy vấn có thể được trả lời ngay từ cache của stub resolver mà không cần hỏi recursive resolver.
 
----
+
 
 ## Dự phòng (Redundancy)
 
@@ -155,7 +155,7 @@ Phiên bản cập nhật, cũng nằm trong thư viện C chuẩn, là `getaddr
 
 Là lập trình viên, bạn không cần quan tâm đến các phức tạp của DNS như **recursive resolver** (bộ phân giải đệ quy) hay các name server cụ thể. Bạn chỉ cần gọi hàm thư viện chuẩn. Các hàm này thường gửi yêu cầu đến **stub resolver** (bộ phân giải stub) trong hệ điều hành của bạn.
 
----
+
 
 ## **DNS sử dụng UDP, không phải TCP**
 
@@ -175,7 +175,7 @@ Những cải tiến gần đây của DNS đã bổ sung các tính năng bảo
 
 Hãy nhớ rằng UDP sử dụng **port** để hỗ trợ nhiều ứng dụng trên cùng một server. Theo quy ước, tất cả name server lắng nghe truy vấn DNS trên **UDP port 53**. Số port này là cố định và được biết rộng rãi để mọi người có thể liên hệ đúng cổng trên name server.
 
----
+
 
 ## **Định dạng gói tin DNS (DNS Message Format)**
 
@@ -204,7 +204,7 @@ Bạn cũng có thể gặp bản ghi loại **CNAME** dùng để tạo bí dan
 
 Điểm mấu chốt: Mỗi gói DNS có một trường ID ngẫu nhiên 16 bit, một số siêu dữ liệu, và một tập hợp các resource record. Mỗi bản ghi thuộc một trong bốn loại (question, answer, authority, additional) và chứa loại, khóa, giá trị. Có các bản ghi loại A và loại NS.
 
----
+
 
 ## **DNS Lookup (Triển khai thực tế)**
 
@@ -306,7 +306,7 @@ Trên thực tế, vì **recursive resolver** (bộ phân giải đệ quy) lưu
 
 Bây giờ, khi chúng ta đã biết DNS được triển khai như thế nào để hỗ trợ các truy vấn, chúng ta có thể xem DNS thực sự hoạt động ra sao trong thực tế và khám phá khía cạnh kinh doanh thực tế của DNS.
 
----
+
 
 ## **DNS Authority Hierarchy** (Phân cấp quyền quản lý DNS)
 
@@ -332,7 +332,7 @@ Khi vẽ cây này với cả ba khía cạnh phân cấp, chúng ta có thể n
 - **Về mặt hạ tầng**: zone đó được hỗ trợ bởi một hoặc nhiều name server trả lời các truy vấn về tên miền trong zone.
 - **Về mặt quyền quản lý**: zone được kiểm soát bởi một tổ chức, tổ chức này được cấp quyền từ zone cha để quản lý các tên miền trong zone. Ví dụ, UC Berkeley, tổ chức kiểm soát zone `berkeley.edu`, có thể ủy quyền zone `eecs.berkeley.edu` cho khoa EECS.
 
----
+
 
 ## **DNS Zones in Practice** (Các zone DNS trong thực tế)
 
@@ -354,7 +354,7 @@ Các name server ở sâu hơn trong cây thường được vận hành bởi *
 
 Ngoài các registrar, các công ty như Google cũng có thể vận hành name server riêng cho các ứng dụng của họ (ví dụ: cung cấp bản ghi cho `maps.google.com`). Amazon Web Services cũng có một name server gọi là **Route 53**, nơi người dùng có thể thêm các bản ghi để được phục vụ.
 
----
+
 
 ## **Root Server Availability with Anycast** (Tính sẵn sàng của Root Server với Anycast)
 
@@ -378,7 +378,7 @@ Anycast cũng có nghĩa là các địa chỉ IP của root server rất hiếm
 
 Các **public resolver** (bộ phân giải công cộng) như 8.8.8.8 của Google cũng có thể sử dụng anycast để đạt độ sẵn sàng cao.
 
----
+
 
 ## **DNS for Email** (DNS cho Email)
 
@@ -390,7 +390,7 @@ Trước đây, một địa chỉ email tương ứng với một người dùn
 
 Một điểm khác biệt quan trọng của bản ghi MX là giá trị của chúng còn chứa **priority** (độ ưu tiên). Nếu bạn nhận được nhiều bản ghi MX, tất cả đều ánh xạ cùng một tên miền tới các máy chủ thư khác nhau, bạn nên thử kết nối tới máy chủ thư có độ ưu tiên cao nhất (số nhỏ nhất) trước.
 
----
+
 
 ## **DNS for Load Balancing** (DNS cho Cân bằng tải)
 

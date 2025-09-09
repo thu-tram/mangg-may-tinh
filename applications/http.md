@@ -1,9 +1,9 @@
----
-title: HTTP
-parent: Applications
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # HTTP
 
@@ -13,7 +13,7 @@ Năm 1989, **Tim Berners-Lee** đang làm việc tại **CERN** (phòng thí ngh
 
 Phiên bản đặc tả HTTP ban đầu được đánh số **HTTP/0.9** và phát hành năm 1991. **HTTP/1.0** được tiêu chuẩn hóa năm 1996, và **HTTP/1.1** được tiêu chuẩn hóa năm 1997. Trừ khi có ghi chú khác, phần này đề cập đến HTTP/1.1, vì đây là phiên bản phổ biến nhất hiện nay. Các phiên bản mới hơn có tồn tại (xem ở cuối phần này), nhưng các nguyên tắc cơ bản của giao thức đã giữ nguyên trong hơn 20 năm.
 
----
+
 
 ## Kiến thức cơ bản về HTTP (HTTP Basics)
 
@@ -27,7 +27,7 @@ Khi thiết lập kết nối HTTP, server phải lắng nghe các yêu cầu k�
 
 HTTP là một giao thức **request-response** (yêu cầu – phản hồi). Mỗi yêu cầu từ client sẽ nhận được đúng một phản hồi tương ứng từ server.
 
----
+
 
 ## HTTP Requests (Yêu cầu HTTP)
 
@@ -50,7 +50,7 @@ Lưu ý: Với các phương thức như POST, chúng ta vẫn phải cung cấp
 - Với **GET request**, nội dung yêu cầu thường rỗng, vì chúng ta chỉ yêu cầu một trang từ server.  
 - Với **POST request**, nội dung yêu cầu chứa dữ liệu mà chúng ta muốn gửi tới server.
 
----
+
 
 ## HTTP Responses (Phản hồi HTTP)
 
@@ -102,7 +102,7 @@ Một số header liên quan đến **response** (phản hồi). Hãy nhớ rằ
 
 Một số header là **representation header**, được sử dụng trong cả request và response để mô tả cách nội dung được biểu diễn. Ví dụ: **Content-Type header** chỉ định loại tài liệu (ví dụ: văn bản, hình ảnh) và có thể xuất hiện trong POST request hoặc GET response. Representation header cho phép chúng ta truyền nhiều loại nội dung khác nhau qua HTTP, giúp giao thức này tổng quát và có thể được sử dụng cho nhiều loại ứng dụng.
 
----
+
 
 ## **HTTP Examples** (Ví dụ về HTTP)
 
@@ -140,7 +140,7 @@ Dưới đây là một số ví dụ khác. Lưu ý rằng phần nội dung tr
 
 Mã trạng thái và header cung cấp metadata hữu ích về yêu cầu. Ví dụ: mã trạng thái `201 Created` cho biết tệp mà chúng ta gửi đã được lưu thành công trên server. Header cho biết vị trí trên server nơi tệp được lưu (và chúng ta có thể dùng vị trí đó để tải lại tệp sau này).
 
----
+
 
 ## **Speeding Up HTTP with Pipelining** (Tăng tốc HTTP với Pipelining)
 
@@ -192,7 +192,7 @@ Có ba loại HTTP cache:
 
   Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ `static.youtube.com` thay vì `www.youtube.com`).
 
----
+
 
 ## **Tăng tốc HTTP với Caching: Lợi ích và Hạn chế** (Benefits and Drawbacks)
 
@@ -213,7 +213,7 @@ Một số tài nguyên tĩnh có thể được cache và phục vụ từ prox
 
 Thuận lợi là các tài nguyên lớn như hình ảnh và video thường là tĩnh và có thể cache mạnh tay. Nội dung động như HTML tùy biến thường nhỏ hơn. Client có thể lấy nội dung động từ origin server (xa) và dùng cache/proxy (gần) cho nội dung tĩnh.
 
----
+
 
 ## **Tăng tốc HTTP với Caching: Triển khai** (Implementation)
 
@@ -258,7 +258,7 @@ CDN cho phép nhà cung cấp mở rộng hạ tầng máy chủ dễ dàng hơn
 
 CDN cũng cung cấp khả năng **redundancy** (dự phòng) tốt hơn cho nhà cung cấp. Nếu một origin server gặp sự cố, dịch vụ có thể bị gián đoạn. Ngược lại, với CDN, nếu một máy chủ gặp sự cố, người dùng vẫn có thể được chuyển hướng tới các máy chủ khác.
 
----
+
 
 ## **Triển khai CDN** (CDN Deployment)
 
@@ -332,7 +332,7 @@ Tuy nhiên, giống như trong cân bằng tải dựa trên DNS, ứng dụng v
 
 Một lợi ích của application-level mapping là có thể tinh chỉnh tùy theo nội dung. Ví dụ: các video phổ biến có thể được triển khai trên nhiều máy chủ, cho phép mọi client lấy video từ máy chủ gần nhất. Ngược lại, các video ít phổ biến hơn có thể chỉ được triển khai trên ít máy chủ, buộc người dùng phải kết nối xa hơn để lấy nội dung.
 
----
+
 
 ## **Newer HTTP Versions** (Các phiên bản HTTP mới hơn)
 

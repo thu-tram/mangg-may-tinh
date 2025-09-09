@@ -1,9 +1,9 @@
----
-title: Collective Operations
-parent: Beyond Client-Server
-nav_order: 7
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Collective Operations** (Các thao tác tập thể)
 
@@ -17,7 +17,7 @@ Trong phạm vi ghi chú này, chúng ta sẽ hoàn toàn bỏ qua chi tiết v�
 
 Trên thực tế, quá trình huấn luyện AI phức tạp hơn nhiều. Ví dụ, quá trình huấn luyện mang tính lặp (**iterative**): bạn sẽ chạy mô hình trên một tập dữ liệu huấn luyện, và xem kết quả đạt được. Sau đó, bạn tính toán một giá trị sai số (**error term**) dựa trên những lỗi đã mắc phải, và sử dụng nó để cập nhật mô hình. Chúng ta sẽ không quan tâm đến các chi tiết này. Ở đây, chúng ta chỉ coi quá trình huấn luyện như một “hộp đen” (**black box**) thực hiện rất nhiều phép nhân ma trận trên các bộ dữ liệu cực lớn.
 
----
+
 
 ## **Distributed Training** (Huấn luyện phân tán)
 
@@ -49,7 +49,7 @@ Trọng tâm của chúng ta là **quá trình trao đổi dữ liệu ở bư�
 
 Một lần nữa, chúng ta không quan tâm chính xác dữ liệu nào được trao đổi. Tùy thuộc vào cách phân chia công việc và tùy thuộc vào mô hình AI cụ thể mà chúng ta xây dựng, bản chất của dữ liệu trao đổi có thể hơi khác nhau. Điều chúng ta tập trung là **cách dữ liệu đó được trao đổi**.
 
----
+
 
 
 
@@ -85,7 +85,7 @@ Ngoài ra còn có các topology khác. TPU được tích hợp sẵn **router*
 
 <img width="600px" src="../assets/beyond-client-server/7-069-3d-torus.png">
 
----
+
 
 ## **Collective Communication: Định nghĩa**
 
@@ -112,7 +112,7 @@ Trước đây, khi nghĩ về việc gửi dữ liệu qua Internet (ví dụ: 
 
 Ngược lại, khi chạy một thao tác collective, dữ liệu có thể được biến đổi khi truyền qua mạng. Điều này khác với những gì chúng ta đã thấy. Các phép toán thường khá đơn giản (ví dụ: tính tổng), nhưng điều đó có nghĩa là dữ liệu do bên gửi gửi đi không nhất thiết giống dữ liệu mà bên nhận nhận được.
 
----
+
 
 Chúng ta có thể thiết kế một sơ đồ giao tiếp phối hợp từ đầu cho mỗi mô hình AI, nhưng điều này sẽ tốn công và lặp lại nhiều công việc. Thay vào đó, chúng ta sẽ định nghĩa một tập hợp các mẫu giao tiếp cơ bản gọi là **collectives**. Sau đó, chúng ta có thể sử dụng các collectives này như các khối xây dựng cơ bản để thiết kế các sơ đồ giao tiếp phối hợp cho các tác vụ cụ thể. Bạn có thể coi các thao tác collective cơ bản như **API** cho giao tiếp phân tán, ví dụ: các hàm thư viện có sẵn cho người dùng. Người dùng có thể gọi các hàm collective này theo nhiều cách khác nhau để đạt mục tiêu cụ thể.
 
@@ -120,7 +120,7 @@ Thực tế cho thấy, chúng ta chỉ cần một số lượng tương đối
 
 Trọng tâm của chúng ta sẽ là **các thao tác collective này là gì** và **chúng được triển khai như thế nào trong mạng**. Chúng ta sẽ không bàn về lý do tại sao huấn luyện AI lại dẫn đến những thao tác collective cụ thể này. Lý do chúng ta chọn những thao tác này làm khối xây dựng cơ bản liên quan nhiều hơn đến bản chất của tính toán AI, điều này nằm ngoài phạm vi của chúng ta.
 
----
+
 ## **Collective Operations: Setup** (Thiết lập các thao tác tập thể)
 
 Chúng ta sẽ định nghĩa 7 thao tác collective cơ bản. Chúng ta sẽ định nghĩa **chức năng** của các thao tác này bằng cách chỉ rõ **đầu vào** (dữ liệu mỗi node đang giữ trước khi thao tác diễn ra) và **đầu ra** tương ứng (dữ liệu mỗi node giữ sau khi thao tác hoàn tất). Ở đây, chúng ta **không** chỉ định cách thao tác được triển khai trong mạng (phần này sẽ được đề cập sau).
@@ -145,7 +145,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 - 4 thao tác về **redistribution** (phân phối lại dữ liệu mà không biến đổi nó)  
 - 3 thao tác về **consolidation** (tổng hợp nhiều mảnh dữ liệu thành một đầu ra duy nhất).
 
----
+
 
 ### **Operation: Broadcast**
 
@@ -158,7 +158,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 - Vector đầu vào ở các node không phải root **không** được dùng để tạo đầu ra (giống như tham số hàm không được sử dụng).  
 - Vị trí lưu vector đầu vào và đầu ra không nhất thiết phải giống nhau. Nếu dùng cùng địa chỉ bộ nhớ, một số thao tác (như Broadcast) sẽ ghi đè dữ liệu đầu vào. Có thể dùng địa chỉ bộ nhớ khác để lưu đầu ra.
 
----
+
 
 ### **Operation: Scatter**
 
@@ -168,7 +168,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Ghi chú:** Giống như Broadcast, có thể chỉ định bất kỳ node nào làm root. Vector đầu vào ở các node không phải root không được dùng để tạo đầu ra.
 
----
+
 
 ### **Operation: Gather**
 
@@ -178,7 +178,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Ghi chú:** Trong thao tác này, không có dữ liệu nào được lưu vào bộ đệm nhận của các node không phải root.
 
----
+
 
 ### **Operation: AllGather**
 
@@ -188,7 +188,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 <img width="900px" src="../assets/beyond-client-server/7-074-allgather.png">
 
----
+
 
 ### **Operation: Reduce**
 
@@ -198,7 +198,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 **Ghi chú:** Trong phần này, chúng ta dùng phép cộng làm phép **reduction** (giảm dữ liệu), nhưng có thể thay bằng phép khác (ví dụ: nhân). Các phép reduction thường **associative** (kết hợp) và **commutative** (giao hoán), nghĩa là có thể thực hiện theo bất kỳ thứ tự nào mà vẫn cho kết quả giống nhau.
 
----
+
 
 ### **Operation: AllReduce**
 
@@ -206,7 +206,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 <img width="900px" src="../assets/beyond-client-server/7-076-allreduce.png">
 
----
+
 
 ### **Operation: ReduceScatter**
 
@@ -216,7 +216,7 @@ Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa c
 
 <img width="900px" src="../assets/beyond-client-server/7-077-reducescatter.png">
 
----
+
 
 ## **Duals** (Các cặp thao tác đối ngẫu)
 
@@ -238,7 +238,7 @@ Một số cặp thao tác là **dual** của nhau, nghĩa là một thao tác l
 
 Ý tưởng về dual hữu ích khi nghĩ về triển khai: với cùng topology và phương án định tuyến, một thao tác và dual của nó sẽ có hiệu năng giống nhau (ví dụ: cùng tổng băng thông sử dụng), vì tổng lượng dữ liệu gửi và nhận là như nhau.
 
----
+
 
 ## **Compositing Operations** (Kết hợp thao tác)
 

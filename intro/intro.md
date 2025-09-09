@@ -1,9 +1,9 @@
----
-title: Giới thiệu về Internet
-parent: Introduction
-nav_order: 1
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Giới thiệu về Internet** (Introduction to the Internet)
 
@@ -13,7 +13,7 @@ Internet hiện diện ở khắp nơi như một công cụ để truyền dữ
 
 Internet và **World Wide Web** không phải là cùng một thứ. Bạn có thể hình dung **web** là các ứng dụng được xây dựng trên nền tảng Internet (ví dụ: Facebook, Twitter) mà bạn có thể truy cập thông qua **web browser** (trình duyệt web) như Firefox, Chrome. Ngoài web, nhiều ứng dụng khác cũng sử dụng hạ tầng Internet. Ví dụ: các ứng dụng không thuộc web như Zoom, trò chơi trực tuyến, hoặc thậm chí các thiết bị **Internet of Things (IoT)** như cảm biến trong tủ lạnh hoặc ô tô của bạn.
 
----
+
 
 ## **Tại sao Internet thú vị?** (Why is the Internet Interesting?)
 
@@ -27,7 +27,7 @@ Mã chạy tốt cho một ứng dụng nhẹ (ví dụ: máy tính cá nhân) c
 
 Thiết kế của Internet đã ảnh hưởng đến cách chúng ta kiến trúc các hệ thống hiện đại (ví dụ: cân nhắc mục tiêu, ràng buộc và đánh đổi trong thiết kế). **Network architecture** (kiến trúc mạng) thiên về tư duy thiết kế hơn là chứng minh định lý hoặc viết mã. Nó thiên về cân nhắc đánh đổi hơn là đạt các chỉ số cụ thể. Nó thiên về thiết kế hệ thống thực tiễn hơn là tìm kiếm thiết kế tối ưu. Internet không phải là tối ưu, nhưng đã cân bằng thành công nhiều mục tiêu khác nhau.
 
----
+
 
 ## **Internet là hệ thống liên kết liên bang** (The Internet is Federated)
 
@@ -37,7 +37,7 @@ Mô hình liên kết liên bang mang đến nhiều thách thức. Các thực 
 
 Liên kết liên bang cũng làm phức tạp hóa đổi mới. Trong các lĩnh vực khác, công ty có thể đổi mới bằng cách phát triển tính năng mà không ai có. Nhưng trên Internet, nếu bạn có tính năng mà không ai khác có, bạn sẽ không thể sử dụng nó. Mọi người phải nói cùng một “ngôn ngữ” (protocol), vì vậy mọi nâng cấp Internet phải được thực hiện với khả năng tương tác trong tâm trí.
 
----
+
 
 ## **Internet có khả năng mở rộng** (The Internet is Scalable)
 
@@ -49,7 +49,7 @@ Quy mô toàn cầu của Internet yêu cầu hệ thống và giao thức hoạ
 
 Quy mô Internet cũng có nghĩa là ngay cả việc gửi một thông điệp đơn lẻ cũng có thể cần tương tác với nhiều thành phần (ví dụ: phần mềm, switch, liên kết). Bất kỳ thành phần nào cũng có thể hỏng, và chúng ta có thể không biết. Nếu có sự cố, có thể mất nhiều thời gian để nhận thông tin xấu. Internet là hệ thống đầu tiên được thiết kế để chịu lỗi ở quy mô lớn. Nhiều ý tưởng này sau đó đã được áp dụng trong các lĩnh vực khác.
 
----
+
 
 ## **Giao thức** (Protocols)
 
@@ -65,4 +65,3 @@ Trong khóa học này, chúng ta sẽ thấy nhiều giao thức đã được 
 
 Có nhiều tổ chức tiêu chuẩn khác nhau chịu trách nhiệm tiêu chuẩn hóa giao thức. **IEEE** tập trung vào các tầng thấp hơn liên quan đến kỹ thuật điện tử. **IETF** tập trung vào Internet và chịu trách nhiệm về các RFC.
 
----

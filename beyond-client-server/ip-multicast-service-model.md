@@ -1,9 +1,9 @@
----
-title: IP Multicast
-parent: Beyond Client-Server
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **IP Multicast**
 
@@ -17,7 +17,7 @@ Các giao thức IP multicast đôi khi được sử dụng trong phạm vi m�
 
 Mặc dù các giao thức này không được triển khai toàn cầu, nhưng các kỹ thuật được sử dụng trong chúng có thể áp dụng để giải quyết các vấn đề mạng khác. Đặc biệt, các kỹ thuật này đang trở nên phù hợp trở lại để giải quyết các vấn đề liên quan đến huấn luyện AI (chúng ta sẽ nghiên cứu khi bàn về **collectives**).
 
----
+
 
 ## **Mô hình dịch vụ IP Multicast** (IP Multicast Service Model)
 
@@ -50,7 +50,7 @@ Trong mô hình unicast, một router nhận gói tin và chuyển tiếp nó qu
 
 Để triển khai multicast, router cần một số **state** (trạng thái) bổ sung để theo dõi thành viên nhóm, nhằm chỉ chuyển tiếp gói tin tới các next-hop dẫn tới thành viên nhóm. Nếu một next-hop không dẫn tới thành viên nào, không cần gửi gói tin qua đó. Khi người dùng tham gia hoặc rời nhóm, các next-hop của router cho nhóm đó có thể thay đổi.
 
----
+
 
 ## **Triển khai Multicast** (Implementing Multicast)
 
@@ -66,7 +66,7 @@ Chúng ta có thể chia vấn đề này thành hai phần:
 
     <img width="900px" src="../assets/beyond-client-server/7-010-dvmrp-cbt-taxonomy.png">
 
----
+
 
 ## **IGMP: Các host kết nối trực tiếp** (IGMP: Directly-Connected Hosts)
 
@@ -85,4 +85,3 @@ IGMP giúp router biết về các host kết nối trực tiếp. Tuy nhiên, r
 
 So sánh với định tuyến **distance-vector**, bạn có thể coi IGMP như phiên bản multicast của **static routing**, nơi router chỉ biết về các host kết nối trực tiếp (nhưng không biết về các host ở nơi khác trong mạng).
 
----

@@ -1,9 +1,9 @@
----
-title: Wireless Links
-parent: Wireless
-nav_order: 1
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # Kết nối Không dây (Wireless Links)
 
@@ -78,7 +78,7 @@ $$C = 4000 \cdot \log_2(1 + 100) \approx 20000$$
 
 Điều này cho thấy hệ thống điện thoại có thể truyền khoảng 20 kbps (**kilobits per second** – kilobit trên giây).
 
----
+
 
 ## Khác biệt: **Attenuation** (Suy hao tín hiệu)
 
@@ -86,7 +86,7 @@ Tín hiệu không dây (**wireless signals**) yếu đi đáng kể khi khoản
 
 Điều này tạo ra một sự đánh đổi cơ bản khi thiết kế hệ thống không dây: chúng ta muốn tối đa hóa hiệu năng bằng cách làm cho kết nối chính xác, nhanh và có tầm xa; nhưng đồng thời muốn giảm thiểu việc sử dụng tài nguyên bằng cách tiết kiệm năng lượng (ví dụ: pin laptop) và sử dụng ít phổ tần (**frequency spectrum**) hơn (việc cấp phép phổ tần có thể tốn kém). Tuy nhiên, để có tín hiệu tốt hơn, cần nhiều công suất hơn hoặc băng thông tần số lớn hơn.
 
----
+
 
 ## **Free Space Model** (Mô hình không gian tự do)
 
@@ -133,7 +133,7 @@ Mô hình không gian trống là một mô hình lý thuyết hữu ích để 
 
 Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành kèm giải thích lần đầu xuất hiện và duy trì định dạng Markdown:
 
----
+
 
 ## **Link Budget** (Ngân sách liên kết)
 
@@ -159,7 +159,7 @@ So sánh với độ nhạy bộ thu là -80 dB: bộ thu có thể nhận bất
 
 **Link margin** cho biết chất lượng của liên kết. Nếu link margin âm, liên kết sẽ không hoạt động và tín hiệu sẽ không được nhận. Link margin càng cao càng tốt, vì tín hiệu sẽ ổn định và ít bị ảnh hưởng bởi nhiễu hoặc các vấn đề khác.
 
----
+
 
 ## Khác biệt: **Environments Change** (Môi trường thay đổi)
 
@@ -183,7 +183,7 @@ Trong **free-space model**, giả sử ăng-ten không đổi (cùng độ lợi
 
 Khi xét cả ba yếu tố này cùng lúc, đồ thị tổng thể sẽ thể hiện sự biến thiên phức tạp của tín hiệu theo khoảng cách. Nếu thiết bị đứng yên, tín hiệu sẽ ở một điểm cố định trên đồ thị; nếu di chuyển, tín hiệu sẽ thay đổi theo đường cong này. Khi môi trường thay đổi (vật cản xuất hiện hoặc biến mất), bản thân đồ thị cũng thay đổi.
 
----
+
 
 ## **Approximating Path Loss** (Xấp xỉ suy hao đường truyền)
 
@@ -213,7 +213,7 @@ $$K$$ và $$\gamma$$ là các hằng số được xác định thực nghiệm,
 
 Trong thực tế, $$\gamma$$ nằm trong khoảng từ 2 đến 8. Trong trường hợp tốt nhất, cường độ tín hiệu tỉ lệ với $$1/d^2$$, tương tự **free-space model** (mô hình không gian tự do). Trong trường hợp xấu nhất, cường độ tín hiệu tỉ lệ với $$1/d^8$$, và tín hiệu yếu đi nhanh hơn nhiều khi khoảng cách tăng.
 
----
+
 
 ## Khác biệt: **Detecting Collisions** (Phát hiện va chạm)
 
@@ -227,7 +227,7 @@ Thiết kế cơ chế phát hiện và tránh va chạm (**collision detection*
 
 Để đơn giản, trong phần này, chúng ta bỏ qua vật cản, nghĩa là tín hiệu lan tỏa ra mọi hướng. Giả sử tín hiệu lan truyền đến một khoảng cách nhất định với cường độ tối đa, và không thể phát hiện được ngoài khoảng cách đó. Ngoài ra, trong các ví dụ minh họa, giả sử tất cả thiết bị được bố trí trên một đường thẳng, nên chỉ cần xét tín hiệu lan sang trái và phải. Trong thực tế, tín hiệu lan tỏa trong không gian ba chiều.
 
----
+
 
 ## Vấn đề với **CSMA**
 
@@ -253,7 +253,7 @@ Giả sử A và C đều muốn truyền cho B. A không phát hiện tín hi�
 
 Trường hợp này gọi là **hidden terminal problem** (vấn đề nút ẩn). Hai bộ phát (A và C) nằm ngoài phạm vi của nhau, nên không thể phát hiện rằng đang có truyền dữ liệu.
 
----
+
 
 Dưới đây là một trường hợp khác mà **CSMA (Carrier Sense Multiple Access)** gặp vấn đề:
 
@@ -265,7 +265,7 @@ Nếu quan sát kỹ, B và C thực ra có thể truyền đồng thời. Đún
 
 Trường hợp này được gọi là **exposed terminal problem** (vấn đề nút lộ). Trong tình huống này, hai phiên truyền hoàn toàn có thể diễn ra đồng thời, nhưng một phiên bị ngăn lại vì C phát hiện nhầm là có va chạm.
 
----
+
 
 ## **MACA for Collision Avoidance** (MACA để tránh va chạm)
 
@@ -314,7 +314,7 @@ Nếu dữ liệu bị mất, sẽ không có ACK, và bộ phát sẽ phải th
 
 Tại sao chúng ta thêm ACK? Hãy nhớ rằng **End-to-end Principle** (Nguyên tắc đầu-cuối) cho rằng độ tin cậy phải được triển khai tại các máy đầu cuối để đảm bảo tính đúng đắn. Tuy nhiên, trong trường hợp này, chúng ta triển khai độ tin cậy ngay trong mạng, trên một liên kết đơn lẻ, chỉ nhằm cải thiện hiệu năng. Nếu không triển khai độ tin cậy ở tầng liên kết, **TCP** vẫn đảm bảo tính đúng đắn, nhưng một gói tin bị mất sẽ khiến TCP giảm tốc độ đáng kể (nhớ rằng cửa sổ tắc nghẽn – **congestion window** – sẽ bị giảm một nửa). Ngược lại, bằng cách triển khai độ tin cậy ở tầng liên kết, chúng ta có thể khôi phục sau mất gói hiệu quả hơn.
 
----
+
 
 ## Tính năng MACAW: **Better Backoff** (Để đảm bảo công bằng)
 
@@ -328,7 +328,7 @@ Ví dụ về sự thiếu công bằng: Giả sử A và B đều có giá tr�
 
 MACAW cũng thay đổi quy tắc cập nhật CW để “mềm” hơn. Như trước, giá trị tối thiểu là 2 và tối đa là 64. Khi RTS thất bại (không nhận được CTS), CW được nhân với 1,5 (thay vì gấp đôi), và vẫn giới hạn không vượt quá 64. Khi truyền thành công một chuỗi RTS/CTS/DATA/ACK, CW giảm đi 1 (thay vì đặt lại về 2). Lưu ý rằng khi RTS/CTS thành công nhưng ACK thất bại, CW không thay đổi. Cách tiếp cận này đôi khi được gọi là **Multiplicative Increase, Linear Decrease (MILD)**.
 
----
+
 
 ## Tính năng MACAW: **DS** (Để xử lý Exposed Terminals)
 
@@ -368,7 +368,7 @@ Gói DS giải quyết vấn đề này, vì nó cho phép bộ phát thông bá
 
 <img width="900px" src="../assets/wireless/8-026-ds3.png">
 
----
+
 
 ## Tính năng MACAW: **RRTS** (Đồng bộ hóa – For Synchronization)
 

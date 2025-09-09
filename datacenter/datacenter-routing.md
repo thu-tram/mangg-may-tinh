@@ -1,9 +1,9 @@
----
-title: Routing
-parent: Datacenters
-nav_order: 3
-layout: page-with-toc
----
+
+
+
+
+
+
 
 
 
@@ -27,7 +27,7 @@ Ngoài ra, nếu có nhiều kết nối đồng thời, chúng ta muốn các k
 
 Giả sử tất cả các liên kết đều có băng thông 100 Gbps. Trong ví dụ này, nhiều kết nối đang cạnh tranh băng thông. Nếu kết nối A-B và C-D đều chọn cùng một đường, các liên kết R1-R2 và R2-R4 sẽ bị quá tải (200 Gbps trên dung lượng 100 Gbps). Chúng ta có thể truyền dữ liệu ở tốc độ tối đa nếu A-B và C-D dùng các đường khác nhau.
 
----
+
 
 ## **Equal Cost Multi-Path (ECMP) Routing** (Định tuyến đa đường có chi phí bằng nhau)
 
@@ -65,7 +65,7 @@ Bằng cách băm cả 5 giá trị, ta đảm bảo packet trong cùng một k�
 
 Per-flow load balancing đảm bảo mỗi liên kết được dùng bởi số lượng kết nối xấp xỉ nhau, dù không tính đến kích thước kết nối. Việc tính đến kích thước kết nối là khả thi về mặt kỹ thuật nhưng tốn kém (router phải xử lý nhiều hơn) và lợi ích không đáng kể (per-flow đã cân bằng khá tốt), nên không áp dụng trong thực tế.
 
----
+
 
 ## **Multi-Path Distance-Vector Protocols** (Giao thức vectơ khoảng cách đa đường)
 
@@ -81,7 +81,7 @@ Ví dụ: R1 nhận quảng bá từ cả R4 và R3, đều cho biết có thể
 
 Khi chuyển tiếp packet, router sẽ băm 5-tuple để gửi khoảng một nửa kết nối qua R3 và nửa còn lại qua R2.
 
----
+
 
 ## **Multi-Path Link-State Protocols** (Giao thức trạng thái liên kết đa đường)
 
@@ -89,4 +89,3 @@ Trong **link-state protocol**, ta flood quảng bá để mọi nút có bức t
 
 Giống như trong distance-vector đã chỉnh sửa, forwarding table giờ có thể chứa nhiều next hop cho một đích nhất định.
 
----

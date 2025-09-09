@@ -1,9 +1,9 @@
----
-title: Addressing
-parent: Datacenters
-nav_order: 4
-layout: page-with-toc
----
+
+
+
+
+
+
 
 
 # **Địa chỉ hóa trong Datacenter** (Datacenter Addressing)
@@ -22,7 +22,7 @@ Trong các mạng đa dụng (general-purpose networks), chúng ta giải quyế
 
 Tuy nhiên, trong datacenter, chúng ta có thể tận dụng việc **operator** (nhà vận hành) kiểm soát **physical topology** (topology vật lý) của mạng, và gán địa chỉ cho **server** dựa trên vị trí của chúng trong tòa nhà. Chúng ta cũng có thể tận dụng việc topology có cấu trúc đều đặn (ví dụ: thường sắp xếp server thành hàng, thay vì đặt ngẫu nhiên trong tòa nhà).
 
----
+
 
 ## **Địa chỉ hóa nhận thức topology** (Topology-Aware Addressing)
 
@@ -38,4 +38,3 @@ Cách phân bổ này cho phép **aggregate routes** (gộp tuyến) và lưu í
 
 Việc gán địa chỉ dựa trên topology của datacenter rất tốt cho khả năng mở rộng, nhưng cũng có một số hạn chế. Đặc biệt, nếu chúng ta di chuyển một server sang vị trí khác, chúng ta sẽ phải thay đổi địa chỉ của nó.
 
----

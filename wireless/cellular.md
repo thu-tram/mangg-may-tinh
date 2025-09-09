@@ -1,9 +1,9 @@
----
-title: Cellular
-parent: Wireless
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # Mạng Di động (Cellular)
 
@@ -96,7 +96,7 @@ Mỗi trạm phát sóng di động có một kết nối có dây đến **cell
 
 Để tóm tắt về hạ tầng: Các thiết bị người dùng gửi dữ liệu đến các trạm phát sóng di động trong **RAN**. Trạm phát sóng di động chuyển tiếp dữ liệu đến **radio gateway** (đi vào lõi). Dữ liệu cuối cùng đến **packet gateway** và được chuyển tiếp đến Internet (ra khỏi lõi). Cũng trong lõi là các thành phần điều khiển (**mobility manager**, **database**) để lưu trữ và quản lý thông tin về khách hàng.
 
------
+
 
 ## Các Bước Hoạt động ở Mức Cao của Mạng Di động
 
@@ -138,7 +138,7 @@ Một tính năng cuối cùng chúng ta cần triển khai là **roaming** (chu
 
 Các bước kết nối trong một mạng khách (khi đang **roaming**) nói chung khá tương tự, ngoại trừ việc các **mobility manager** trong mạng khách và mạng chủ cũng phải phối hợp với nhau (ví dụ: Deutsche Telecom kiểm tra với Verizon để xem người dùng có trả tiền cho dịch vụ **roaming** hay không).
 
------
+
 
 ## Bước 0: Registration
 
@@ -162,7 +162,7 @@ Sau khi bạn đăng ký và nhận được **IMSI**, nhà khai thác (ví dụ
 
 Trong quá trình **registration**, thiết bị của người dùng (**SIM card**) và nhà khai thác (**database**) cũng đồng ý về một khóa bí mật chia sẻ. Điều này sẽ hữu ích khi chúng ta thực hiện **attachment**.
 
------
+
 
 ## Bước 1: Discovery
 
@@ -182,7 +182,7 @@ Có một vài giải pháp cho vấn đề này. Thiết bị có thể chỉ c
 
 Lưu ý rằng việc quét các trạm tiếp theo sau khi **discovery** là không cần thiết. Trong quá trình **handover**, trạm cũ sẽ cho người dùng biết chính xác tần số dữ liệu nào để sử dụng trên trạm mới. Đây là lý do tại sao **handover** (cỡ 0.01--0.1 giây) nhanh hơn nhiều so với việc quét trong quá trình **discovery** (cỡ 10--100 giây).
 
------
+
 
 ## Bước 2: Attachment
 
@@ -204,7 +204,7 @@ Lưu ý rằng toàn bộ quá trình **attachment** xảy ra trên các **contr
 
 <img width="700px" src="../assets/wireless/8-050-attachment3.png" />
 
------
+
 
 ## Bước 3: Data Exchange
 
@@ -230,7 +230,7 @@ Làm thế nào chúng ta thực sự triển khai các quy tắc này? Ví dụ
 
 Lưu ý rằng với **tunnels** và **encapsulation**, các **router** không bao giờ chuyển tiếp dựa trên IP của người dùng. Người dùng luôn di chuyển, vì vậy chúng ta không thể sử dụng IP của họ để xác định vị trí của họ. Thay vào đó, chúng ta phải sử dụng các **tunnels** được cấu hình sẵn này để quyết định nơi chuyển tiếp gói tin.
 
------
+
 
 ## Bước 4: Handover
 
@@ -256,7 +256,7 @@ Lưu ý rằng **IP address** của người dùng không thay đổi trong quá
 
 **Handover** rất phức tạp và đòi hỏi phải cập nhật **per-user state** trong mạng. Nếu số lượng người dùng tăng lên, hoặc người dùng di chuyển rất nhanh, giao thức này sẽ gặp phải những thách thức về khả năng mở rộng. Tuy nhiên, mạng di động hiện đại hoạt động khá tốt ở quy mô lớn, bởi vì rất nhiều công sức đã được đổ vào việc tối ưu hóa các giao thức này. Đó là lý do tại sao các tài liệu đặc tả tiêu chuẩn thường dài hàng ngàn trang\!
 
------
+
 
 ## Roaming
 
@@ -278,7 +278,7 @@ Trong phương pháp **local breakout** (tách nhánh cục bộ), lưu lượng
 
 <img width="900px" src="../assets/wireless/8-056-roaming2.png" />
 
------
+
 
 ## Các Hoạt động Bổ sung
 
@@ -290,7 +290,7 @@ Chúng ta đã xem xét một số hoạt động chính trong các mạng di đ
 
 Những hoạt động bổ sung này là khả thi vì nhà khai thác có quyền kiểm soát tập trung, theo dõi tất cả người dùng và vị trí của họ.
 
------
+
 
 ## Suy ngẫm về Thiết kế Mạng Di động
 

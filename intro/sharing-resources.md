@@ -1,9 +1,9 @@
----
-title: Designing Resource Sharing
-parent: Introduction
-nav_order: 5
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Thiết kế chia sẻ tài nguyên** (Designing Resource Sharing)
 
@@ -53,7 +53,7 @@ Trong thực tế, mạng không được thiết kế để đáp ứng **worst
 
 Cuối cùng, ghép kênh thống kê là một lựa chọn thiết kế có **trade-off** (đánh đổi), và người dùng khác nhau có thể chọn khác nhau. Ví dụ: các sàn giao dịch tài chính đôi khi xây mạng riêng để đáp ứng nhu cầu đỉnh, vì họ ưu tiên đảm bảo kết nối trong giờ cao điểm và có thể chi trả chi phí.
 
----
+
 
 ## **Chia sẻ tài nguyên: Circuit Switching vs. Packet Switching**
 
@@ -102,7 +102,7 @@ Chúng ta hiện có hai cách tiếp cận để chia sẻ tài nguyên trên I
 
 Có bốn khía cạnh chính để so sánh hai cách tiếp cận này:
 
----
+
 
 **1. Đây có phải là một abstraction (hoặc API) tốt để mạng cung cấp cho lập trình viên ứng dụng không?**
 
@@ -110,7 +110,7 @@ Có bốn khía cạnh chính để so sánh hai cách tiếp cận này:
 
 Circuit switching cũng hữu ích nếu bạn là **network operator** (nhà vận hành mạng) cần phân bổ tài nguyên cho người dùng. Bạn biết chính xác mỗi người dùng yêu cầu bao nhiêu băng thông và có thể tính phí phù hợp. Nếu không có đảm bảo, việc xây dựng mô hình kinh doanh trực quan sẽ khó hơn.
 
----
+
 
 **2. Cách tiếp cận này có hiệu quả ở quy mô lớn không? Có tận dụng hết băng thông khả dụng hay lãng phí?**
 
@@ -137,7 +137,7 @@ Ngược lại, với packet switching (gửi packet khi đến), tổng băng t
 
 Một lý do khác packet switching hiệu quả hơn: circuit switching tốn thời gian **setup** và **teardown** kênh, đặc biệt lãng phí với flow rất ngắn (ví dụ: tải một file nhỏ).
 
----
+
 
 **3. Khả năng xử lý sự cố ở quy mô lớn**
 
@@ -147,7 +147,7 @@ Ngược lại, với circuit switching, nếu router trên đường đi hỏng
 
 Cách này **scale** kém: nếu một router hỏng và hàng triệu flow đi qua nó, hàng triệu yêu cầu đặt chỗ phải được thiết lập lại cùng lúc.
 
----
+
 
 **4. Độ phức tạp khi triển khai ở quy mô lớn**
 
@@ -162,13 +162,13 @@ Vấn đề cốt lõi khiến circuit switching phức tạp là **state consen
 
 Bạn có thể đã nghe về **Paxos protocol** — thuật toán đồng thuận phức tạp, thường chỉ chạy trên 4–5 server. Circuit switching yêu cầu chạy điều này ở quy mô Internet, với hàng triệu router và flow.
 
----
+
 
 **Tóm lại:**  
 - **Circuit switching**: hiệu năng tốt hơn cho ứng dụng nhờ băng thông đặt trước, hành vi dễ dự đoán.  
 - **Packet switching**: chia sẻ băng thông hiệu quả hơn, không tốn thời gian khởi tạo, phục hồi sự cố dễ hơn, triển khai đơn giản hơn.
 
----
+
 
 ## **Circuit Switching vs. Packet Switching trong thực tế**
 
@@ -188,4 +188,3 @@ Nhiều nghiên cứu và tiêu chuẩn đã được đề xuất, nhưng thấ
 
 **Hệ quả thú vị:** Người dùng và lập trình viên đã thích nghi với packet switching. Ví dụ: khi xem video mà kết nối kém, ứng dụng sẽ tự giảm chất lượng video — điều mà truyền hình quảng bá không làm. Đây là minh chứng cho việc công nghệ có thể thay đổi hành vi người dùng.
 
----

@@ -1,9 +1,9 @@
----
-title: Network Architecture
-parent: Introduction
-nav_order: 4
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Kiến trúc mạng** (Network Architecture)
 
@@ -19,7 +19,7 @@ Ví dụ: Internet được xây dựng theo mô hình **federated** (liên kế
 
 Trong Internet ban đầu, các **switch** được thiết kế cố ý để “ngu” – chỉ chuyển tiếp dữ liệu mà không phân tích nội dung. Tuy nhiên, trong Internet hiện đại, kẻ tấn công có thể cố gắng làm quá tải switch bằng cách **flood** (phát tràn) dữ liệu vô nghĩa, và switch có thể cần cơ chế phát hiện điều này. Các nhà thiết kế Internet thời kỳ đầu, khi đưa ra mô hình hạ tầng “ngu”, đã không tính đến hệ quả bảo mật này.
 
----
+
 
 ## **Narrow Waist** (Eo hẹp)
 
@@ -31,7 +31,7 @@ Lưu ý rằng mặc dù có nhiều giao thức ở một tầng, bạn có th�
 
 Nếu nhìn vào sơ đồ này, bạn sẽ thấy chỉ có **một giao thức ở Layer 3**. Đây chính là “**narrow waist**” (eo hẹp) cho phép kết nối Internet. Cuối cùng, mọi người trên Internet phải đồng ý sử dụng **IP** để các gói tin có thể được gửi đi khắp Internet.
 
----
+
 
 ## **Demultiplexing** (Phân kênh)
 
@@ -61,7 +61,7 @@ Cần cẩn thận với thuật ngữ. Trong mạng máy tính, **port** có th
 
 <img width="900px" src="../assets/intro/1-40-layers-in-os3.png">
 
----
+
 
 ## **Nguyên tắc End-to-End** (End-to-End Principle)
 

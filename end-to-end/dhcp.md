@@ -1,9 +1,9 @@
----
-title: "DHCP: Joining Networks"
-parent: End-to-End
-nav_order: 4
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # DHCP: Joining Networks
 

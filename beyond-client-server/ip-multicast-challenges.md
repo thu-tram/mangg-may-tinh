@@ -1,9 +1,9 @@
----
-title: Thách thức của IP Multicast
-parent: Beyond Client-Server
-nav_order: 5
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Thách thức của IP Multicast** (IP Multicast Challenges)
 
@@ -17,7 +17,7 @@ Ngoài ra, hãy nhớ rằng định tuyến liên miền còn có thách thức
 
 Định tuyến multicast liên miền là một vấn đề khó, và đã có nhiều nghiên cứu để phát triển giải pháp. Ví dụ: vấn đề chọn core trong CBT có thể được giải quyết bằng cách có nhiều core (mỗi mạng một core) và các core này giao tiếp với nhau. Tuy nhiên, trên thực tế, việc triển khai multicast liên miền rất ít được áp dụng.
 
----
+
 
 ## **Tính phí** (Charging)
 
@@ -35,7 +35,7 @@ AS B trả tiền cho AS A để sử dụng dịch vụ. Nếu AS B gửi một
 
 Việc thiết kế mô hình kinh doanh trở nên khó khăn hơn bởi vì mô hình IP multicast không theo dõi rõ ràng kích thước nhóm. Nếu muốn tính phí dựa trên kích thước nhóm đích, thì không có cách rõ ràng nào để xác định kích thước của một nhóm đích bất kỳ. **Forwarding table** (bảng chuyển tiếp) chỉ cho bạn biết về **parent** và **children** của bạn trên các cây phân phối khác nhau, nhưng không cho biết tổng số **end host** sẽ nhận gói tin này.
 
----
+
 
 ## **Kiểm soát tắc nghẽn** (Congestion Control)
 
@@ -47,7 +47,7 @@ Lưu lượng sẽ đi qua nhiều đường khác nhau, và mỗi đường có
 
 Trên thực tế, một giải pháp khả thi là định nghĩa các nhóm khác nhau tùy theo hiệu năng. Ví dụ: chúng ta có thể định nghĩa bốn nhóm multicast khác nhau, mỗi nhóm nhận cùng một luồng video nhưng với chất lượng khác nhau. Khi đó, người nhận có thể thử tham gia các nhóm khác nhau để xem nhóm nào cho hiệu năng tốt nhất.
 
----
+
 
 ## **Độ tin cậy** (Reliability)
 
@@ -67,7 +67,7 @@ Trên thực tế, một số ứng dụng IP multicast hiện đại không tri
 
 Việc mã hóa dự phòng đồng nghĩa với việc cần nhiều bit hơn để mã hóa cùng một lượng dữ liệu. Ví dụ: nếu muốn gửi dữ liệu tương đương 5 gói, bạn có thể gửi 10 gói, và mã hóa sao cho bất kỳ 5 gói nào cũng có thể khôi phục dữ liệu gốc.
 
----
+
 
 ## **Bảo mật** (Security)
 
@@ -77,7 +77,7 @@ Việc thiếu kiểm soát truy cập dẫn đến các lỗ hổng bảo mật
 
 Các biện pháp bảo mật bổ sung như **encryption** (mã hóa) cũng khó triển khai. Giả sử bạn mã hóa thông điệp multicast bằng cách cung cấp cho mỗi thành viên nhóm một **shared secret key** (khóa bí mật chung). Nếu ai đó rời nhóm, nhưng bạn vẫn dùng cùng khóa, người đó vẫn có thể đọc thông điệp. Một cách là chuyển sang dùng khóa mới, nhưng khi đó bạn cần một cách để phân phối khóa mới này một cách an toàn tới các thành viên còn lại.
 
----
+
 
 ## **IP Multicast trong thực tế** (IP Multicast in Practice)
 

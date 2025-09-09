@@ -1,9 +1,9 @@
----
-title: Host Networking
-parent: Datacenters
-nav_order: 7
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # **Host Networking** (Mạng tại máy chủ)
 
@@ -19,7 +19,7 @@ Ngoài ra, các giao thức mà chúng ta đang sử dụng, như **IP** và **T
 
 <img width="700px" src="../assets/datacenter/6-079-host-networking-taxonomy.png">
 
----
+
 
 ## **Tối ưu hóa: Shared Memory trong User Space** (Optimization: Shared Memory in User Space)
 
@@ -44,7 +44,7 @@ Một vấn đề khác là lập trình trong kernel space rất khó. Nếu mu
 
 Việc sử dụng **shared memory** trong user space giúp loại bỏ một số công việc thừa như copy dữ liệu qua lại, nhưng vẫn chưa đủ để giúp host đáp ứng yêu cầu hiệu năng hiện đại.
 
----
+
 
 ## **Tối ưu hóa: Offloading sang NIC** (Optimization: Offloading to NIC)
 
@@ -65,7 +65,7 @@ NIC là nơi tự nhiên để thực hiện offload. Mọi packet đều phải
 
 Khi chạy ứng dụng trong phần mềm, CPU phải **schedule** (lập lịch) nhiều tiến trình, có thể gây trễ không đoán trước. Ví dụ: nếu có packet cần xử lý, CPU có thể phải hoàn thành tác vụ hiện tại trước khi xử lý packet đó.
 
----
+
 
 ## **Lược sử Offloading: Epoch 0** (Brief History of Offloading: Epoch 0)
 
@@ -85,7 +85,7 @@ Trong networking stack tiêu chuẩn, có thể coi NIC như một “tấm th�
 
 Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:
 
----
+
 
 ## **Lược sử Offloading: Epoch 1** (Brief History of Offloading: Epoch 1)
 
@@ -119,7 +119,7 @@ Một thách thức với multi-queue là ánh xạ packet vào hàng đợi. Kh
 
 Khi xử lý packet đến từ nhiều receive queue, NIC có thể **hash** packet để quyết định CPU nào xử lý packet đó. Sau đó, NIC **interrupt** CPU đó để xử lý. Hành vi dựa trên hash này tương tự **ECMP** (Equal-Cost Multi-Path Routing) và giúp đảm bảo tất cả packet trong cùng một flow được xử lý theo thứ tự bởi cùng một CPU.
 
----
+
 
 ## **Lược sử Offloading: Epoch 2** (Brief History of Offloading: Epoch 2)
 
@@ -133,7 +133,7 @@ Sự phát triển của Epoch 2 được thúc đẩy bởi **virtualization** 
 
 <img width="600px" src="../assets/datacenter/6-089-flowtable.png">
 
----
+
 
 ## **Lược sử Offloading: Epoch 3** (Brief History of Offloading: Epoch 3)
 
@@ -173,7 +173,7 @@ Khi một tác vụ hoàn tất, WQE được gỡ khỏi queue, và NIC tạo m
 
 Lưu ý rằng RDMA hoạt động **asynchronous** (bất đồng bộ). Ứng dụng có thể thêm tác vụ (WQE) vào queue pair bất cứ lúc nào, và NIC sẽ xử lý các tác vụ theo thứ tự. Tương tự, khi tác vụ hoàn tất, một CQE được đặt vào completion queue, và ứng dụng có thể đọc CQE bất cứ lúc nào. (So sánh với TCP/IP stack, nơi dữ liệu đến sẽ kích hoạt một **interrupt** cho CPU để xử lý dữ liệu đó.)
 
----
+
 
 ## **Ví dụ RDMA** (RDMA Example)
 
@@ -205,7 +205,7 @@ Lưu ý rằng RDMA hoạt động **asynchronous** (bất đồng bộ). Ứng 
 
     <img width="900px" src="../assets/datacenter/6-102-rdma7.png">
 
----
+
 
 ## **Ưu, nhược điểm và ứng dụng của RDMA** (RDMA Pros, Cons, Applications)
 
@@ -215,7 +215,7 @@ RDMA cũng có một số hạn chế, và thường hoạt động tốt nhất
 
 RDMA đã được áp dụng trong nhiều bối cảnh yêu cầu tính toán hiệu năng cao, độ trễ thấp, ví dụ: nghiên cứu khoa học, mô hình tài chính, dự báo thời tiết, **machine learning** (học máy) và truy vấn tìm kiếm. Trong **cloud computing** (điện toán đám mây), RDMA có thể dùng để di chuyển một **VM** (Virtual Machine – máy ảo) lớn từ server vật lý này sang server khác, giải phóng CPU cho khách hàng. Trong huấn luyện AI/ML, RDMA không chỉ giải phóng CPU và giảm độ trễ, mà còn mang lại độ trễ **predictable** (dự đoán được), điều này quan trọng khi nhiều server cần phối hợp để huấn luyện mô hình AI/ML.
 
----
+
 
 ## **Triển khai RDMA** (Implementing RDMA)
 
@@ -226,4 +226,3 @@ Hãy nhớ rằng RDMA thay thế TCP/IP networking stack, nên RDMA chịu trá
 
 Trong cả hai trường hợp, ứng dụng và OS ở tầng phần mềm đều có **ảo giác** về việc truyền tin cậy, đúng thứ tự thông qua queue pair abstraction. Sự khác biệt nằm ở cách RDMA thực sự triển khai các đảm bảo dịch vụ đó.
 
----

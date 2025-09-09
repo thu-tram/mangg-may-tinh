@@ -1,9 +1,9 @@
----
-title: Model for Intra-Domain Routing
-parent: Routing
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 # Model for Intra-Domain Routing
 

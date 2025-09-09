@@ -1,9 +1,9 @@
----
-title: Congestion Control
-parent: Datacenters
-nav_order: 2
-layout: page-with-toc
----
+
+
+
+
+
+
 
 
 
@@ -34,7 +34,7 @@ Nếu chạy TCP congestion control với cả hai loại kết nối này, các
 
 Ví dụ: **BBR** được Google phát hành năm 2016. Thay vì phát hiện tắc nghẽn bằng cách kiểm tra mất gói (yêu cầu hàng đợi đầy), BBR phát hiện tắc nghẽn bằng cách kiểm tra **packet delay**.
 
----
+
 
 ## **DCTCP: Phản hồi từ Router** (DCTCP: Feedback from Routers)
 
@@ -54,7 +54,7 @@ ECN bit không hiệu quả trên Internet diện rộng vì không phải tất
 
 Biểu đồ này cho thấy **normalized FCT** (FCT chuẩn hóa) – tỷ lệ giữa FCT thực tế và FCT lý tưởng. Nó cho biết chúng ta kém lý tưởng bao nhiêu. Có thể thấy TCP congestion control tiêu chuẩn kém hơn lý tưởng 3 lần, và kém tới 10 lần nếu tải mạng cao. Ngược lại, DCTCP hoạt động tốt hơn đáng kể, kết nối hoàn thành nhanh hơn nhiều với ít queuing delay hơn.
 
----
+
 
 ## **pFabric: Ưu tiên gói tin** (Packet Priorities)
 
@@ -78,4 +78,3 @@ Tại sao pFabric hoạt động tốt? Elephant và mice cùng truyền, mọi 
 
 Triển khai hệ thống này đòi hỏi thay đổi đáng kể ở cả switch và end host, và cần toàn quyền kiểm soát cả hai. Switch phải hỗ trợ hệ thống ưu tiên, và bên gửi phải thay thế TCP implementation để gửi ở full line rate. Dù vậy, pFabric là ví dụ điển hình về sự hợp tác giữa mạng (switch) và end host để đạt hiệu năng cao.
 
----
