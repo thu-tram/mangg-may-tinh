@@ -7,118 +7,156 @@ layout: page-with-toc
 
 # Layers of the Internet
 
-## Layer 1: Physical Layer
+Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:
 
-In this section, we'll build the Internet from the bottom-up, starting with basic building blocks and combining them to form the Internet infrastructure. We'll use the postal system as a running analogy, since it shares many design choices with the Internet.
+---
 
-First, we need some way to send a signal across space. In the postal system, this could be a mailman, the Pony Express, a truck, a carrier pigeon, etc.
+## **Layer 1: Physical Layer** (Tầng vật lý)
 
-In the Internet, we're looking for a way to signal bits (1s and 0s) across space. The technology could be voltages on an electrical wire, wireless radio waves, light pulses along optical fiber cables, among others. There are entire fields of electrical engineering dedicated to sending signals across space, but we won't go into detail in this class.
+Trong phần này, chúng ta sẽ xây dựng Internet theo hướng **bottom-up** (từ dưới lên), bắt đầu với các khối cơ bản và kết hợp chúng để hình thành hạ tầng Internet. Chúng ta sẽ sử dụng hệ thống bưu điện như một phép so sánh xuyên suốt, vì nó có nhiều lựa chọn thiết kế tương đồng với Internet.
 
+Trước tiên, chúng ta cần một cách để gửi tín hiệu qua không gian. Trong hệ thống bưu điện, điều này có thể là một người đưa thư, dịch vụ Pony Express, xe tải, chim bồ câu đưa thư, v.v.
 
-## Layer 2: Link Layer
+Trong Internet, chúng ta tìm cách truyền **bit** (1 và 0) qua không gian. Công nghệ có thể là điện áp trên dây dẫn điện, sóng vô tuyến không dây, xung ánh sáng qua cáp quang, v.v. Có cả một lĩnh vực **electrical engineering** (kỹ thuật điện) chuyên nghiên cứu việc truyền tín hiệu qua không gian, nhưng chúng ta sẽ không đi sâu vào chi tiết trong khóa học này.
 
-In the analogy, now that we have a way to send data across space, we can use that building block to connect up two homes. We could even try to connect up all the homes in the local town.
+---
 
-In the Internet, a **link** connects two machines. That link could be using any sort of technology (wired, wireless, optical fiber, etc.). If we use links to connect up a bunch of nearby computers (e.g. all the computers in UC Berkeley), we get a **local area network (LAN)**.
+## **Layer 2: Link Layer** (Tầng liên kết)
+
+Trong phép so sánh, khi đã có cách gửi dữ liệu qua không gian, chúng ta có thể dùng khối cơ bản này để kết nối hai ngôi nhà. Thậm chí, chúng ta có thể kết nối tất cả các ngôi nhà trong một thị trấn.
+
+Trong Internet, một **link** (liên kết) kết nối hai máy. Liên kết này có thể sử dụng bất kỳ loại công nghệ nào (có dây, không dây, cáp quang, v.v.). Nếu chúng ta dùng các liên kết để kết nối nhiều máy tính gần nhau (ví dụ: tất cả máy tính trong UC Berkeley), chúng ta sẽ có một **Local Area Network (LAN)** (mạng cục bộ).
 
 <img width="175px" src="/assets/intro/1-01-lan.png">
 
-At Layer 2, we can also group bits into units of data called **packets** (sometimes called frames at this layer), and define where a packet starts and ends in the physical signal. We can also handle problems like multiple people simultaneously using the same wire to send data.
+Ở Layer 2, chúng ta cũng có thể nhóm các bit thành các đơn vị dữ liệu gọi là **packet** (gói tin – đôi khi ở tầng này gọi là **frame**), và xác định điểm bắt đầu và kết thúc của một gói tin trong tín hiệu vật lý. Chúng ta cũng có thể xử lý các vấn đề như nhiều người cùng lúc sử dụng chung một dây để gửi dữ liệu.
 
+---
 
-## Layer 3: Internet Layer
+## **Layer 3: Internet Layer** (Tầng Internet)
 
-We now have a way to connect everybody in a local area, but what if two people in different areas wanted to communicate? One possible approach is to add a bunch of links between different local networks, but this doesn't seem very efficient. (What if the two local networks were in different continents?)
+Giờ đây, chúng ta đã có cách kết nối mọi người trong một khu vực cục bộ, nhưng nếu hai người ở hai khu vực khác nhau muốn giao tiếp thì sao? Một cách tiếp cận là thêm nhiều liên kết giữa các mạng cục bộ khác nhau, nhưng điều này không hiệu quả (đặc biệt nếu hai mạng ở hai châu lục khác nhau).
 
 <img width="400px" src="/assets/intro/1-02-mesh.png">
 
-Instead, a smarter approach would be to introduce a post office in each network, and just connect the two post offices together. Now, if someone in network A wants to communicate with someone in network B, they can send the mail to the post office in network A. This post office forwards the mail to the post office in network B, which delivers the mail to the destination.
+Thay vào đó, một cách thông minh hơn là đặt một bưu điện trong mỗi mạng, và chỉ cần kết nối hai bưu điện này. Khi ai đó trong mạng A muốn liên lạc với ai đó trong mạng B, họ gửi thư tới bưu điện của mạng A. Bưu điện này sẽ chuyển thư tới bưu điện của mạng B, và bưu điện B sẽ giao thư tới đích.
 
 <img width="400px" src="/assets/intro/1-03-router.png">
 
-In the Internet, the post office receiving and redirecting mail is called a **switch** or **router**.
+Trong Internet, bưu điện nhận và chuyển tiếp thư được gọi là **switch** hoặc **router**.
 
-If we build additional links between switches, we can connect up local networks. With enough links and local networks, we can connect everybody in the world, resulting in the Internet.
+Nếu chúng ta xây thêm các liên kết giữa các switch, chúng ta có thể kết nối các mạng cục bộ. Với đủ liên kết và mạng cục bộ, chúng ta có thể kết nối mọi người trên toàn thế giới, tạo thành Internet.
 
 <img width="700px" src="/assets/intro/1-04-network-of-networks.png">
 
-One question we'll need to answer is how to find paths across a network. When a switch receives a packet, how does it know where to forward the packet, so that it gets closer to its final destination? This will be the focus of our routing unit.
+Một câu hỏi cần trả lời là: Làm thế nào để tìm đường đi qua mạng? Khi một switch nhận gói tin, làm sao nó biết phải chuyển tiếp gói tin đi đâu để đến gần đích hơn? Đây sẽ là trọng tâm của phần **routing** (định tuyến).
 
-We'll also need to make sure that there's enough capacity on these links to carry our data. This will be the focus of our congestion control unit.
+Chúng ta cũng cần đảm bảo rằng các liên kết này có đủ **capacity** (dung lượng) để truyền dữ liệu. Đây sẽ là trọng tâm của phần **congestion control** (kiểm soát tắc nghẽn).
 
-This picture now shows the infrastructure of the Internet, but in this class, we'll also study the operators managing the infrastructure. In the analogy, these are the people who build and manage the post office. On the Internet, the operators are **Internet service providers** like AT&T, Amazon Web Services, or even UC Berkeley, who own and operate Internet structure. In addition to the hardware and software infrastructure, we'll need to think about these entities as real-life businesses and organizations, and consider their economic and political incentives. For example, if AT&T builds an undersea cable, they might charge a fee for other ISPs to send data through that cable.
+Bức tranh này cho thấy hạ tầng Internet, nhưng trong khóa học này, chúng ta cũng sẽ nghiên cứu các **operator** (nhà vận hành) quản lý hạ tầng. Trong phép so sánh, đây là những người xây dựng và quản lý bưu điện. Trên Internet, các operator là **Internet Service Provider (ISP)** như AT&T, Amazon Web Services, hoặc UC Berkeley, những đơn vị sở hữu và vận hành hạ tầng Internet. Ngoài hạ tầng phần cứng và phần mềm, chúng ta cần xem xét các tổ chức này như những doanh nghiệp và tổ chức thực tế, cân nhắc động cơ kinh tế và chính trị của họ. Ví dụ: nếu AT&T xây dựng một tuyến cáp quang biển, họ có thể thu phí các ISP khác khi gửi dữ liệu qua tuyến cáp này.
 
+---
 
-## Network of Networks
+## **Network of Networks** (Mạng của các mạng)
 
-The Internet is often described as a **network of networks**. There are lots of small local networks, and what happens inside that local network can be managed locally (e.g. by UC Berkeley). Then, all the local networks can connect to each other to form the Internet.
+Internet thường được mô tả là một **network of networks**. Có rất nhiều mạng cục bộ nhỏ, và những gì diễn ra bên trong mạng cục bộ có thể được quản lý nội bộ (ví dụ: bởi UC Berkeley). Sau đó, tất cả các mạng cục bộ kết nối với nhau để tạo thành Internet.
 
-In the network, different links might be using different Layer 2 technology. Some links might use wired Ethernet, and other links might use optical fiber or wireless cellular technology. At Layer 2, we figure out how to send a packet inside a local network, across the link(s) in that network, using the specific technology in that network. Then, at Layer 3, we use the ability to send packets along links as a building block to send packets anywhere in the Internet. As the packet hops across different networks, it may be transmitted across lots of different types of links.
+Trong mạng, các liên kết khác nhau có thể sử dụng công nghệ Layer 2 khác nhau. Một số liên kết có thể dùng **Ethernet** có dây, số khác dùng cáp quang hoặc công nghệ di động không dây. Ở Layer 2, chúng ta tìm cách gửi một gói tin trong mạng cục bộ, qua các liên kết trong mạng đó, sử dụng công nghệ cụ thể của mạng. Sau đó, ở Layer 3, chúng ta dùng khả năng gửi gói tin qua các liên kết như một khối xây dựng để gửi gói tin đi bất cứ đâu trên Internet. Khi gói tin nhảy qua nhiều mạng khác nhau, nó có thể được truyền qua nhiều loại liên kết khác nhau.
 
 <img width="700px" src="/assets/intro/1-05-different-links.png">
 
-In our analogy, we can see a distinction between homes and post offices. The homes are sending and receiving letters to each other. The post offices aren't sending or receiving their own mail, but they're helping to connect up the other homes.
+Trong phép so sánh, chúng ta thấy sự khác biệt giữa **home** (nhà) và **post office** (bưu điện). Các ngôi nhà gửi và nhận thư cho nhau. Các bưu điện không gửi hoặc nhận thư của riêng mình, mà giúp kết nối các ngôi nhà khác.
 
-In the Internet, **end hosts** are machines (e.g. servers, laptops, phones) communicating over the Internet. By contrast, a **switch** (also called a **router**) is a machine that isn't sending or receiving its own data, but exists to help the end hosts communicate with each other. Examples of switches are the router in your home, or larger routers deployed by Internet service providers (e.g. AT&T).
+Trên Internet, **end host** là các máy (ví dụ: server, laptop, điện thoại) giao tiếp qua Internet. Ngược lại, **switch** (còn gọi là **router**) là máy không gửi hoặc nhận dữ liệu của riêng mình, mà tồn tại để giúp các end host giao tiếp với nhau. Ví dụ về switch là router trong nhà bạn, hoặc các router lớn hơn do ISP triển khai (ví dụ: AT&T).
 
-In these notes, we'll typically draw end hosts as circles, and routers as squares.
+Trong các ghi chú này, chúng ta thường vẽ end host dưới dạng hình tròn, và router dưới dạng hình vuông.
 
+---
 
-## Layers of Abstraction
+## **Layers of Abstraction** (Các tầng trừu tượng)
 
-As we've built up the Internet, you might have noticed that we've been decomposing the problem into smaller tasks and abstractions.
+Khi xây dựng Internet, bạn có thể nhận thấy rằng chúng ta đã chia nhỏ vấn đề thành các nhiệm vụ và **abstraction** (trừu tượng) nhỏ hơn.
 
-"Modularity based on abstraction is the way things are done." (Barbara Liskov, Turing lecture). This is how we build and maintain large computer systems. Modularity is especially important for the Internet because the Internet consists of many devices (hosts, routers) and many real-world entities (users, tech companies, ISPs), and having everybody agree on the breakdown of tasks is what enables the Internet to work at scale.
+> “Modularity based on abstraction is the way things are done.” – Barbara Liskov, Turing Lecture.
 
-One major advantage of this layered, network-of-network approaches is, each network can make its own decisions about how to move data. For example, as your packet travels across Internet hops, some links might use wireless technology, and other links might use wired technology. The lower-layer protocols can change across different hops, and the Layer 3 protocol still works.
+Đây là cách chúng ta xây dựng và duy trì các hệ thống máy tính lớn. **Modularity** (tính mô-đun) đặc biệt quan trọng với Internet vì Internet bao gồm nhiều thiết bị (host, router) và nhiều thực thể trong thế giới thực (người dùng, công ty công nghệ, ISP), và việc mọi người đồng ý về cách phân chia nhiệm vụ là yếu tố giúp Internet hoạt động ở quy mô lớn.
 
-Layering also allows innovation to proceed in parallel. Different communities (e.g. hardware chip designers, software developers) can pursue innovation at different layers.
+Một lợi thế lớn của cách tiếp cận phân tầng và network-of-networks là mỗi mạng có thể tự quyết định cách di chuyển dữ liệu. Ví dụ: khi gói tin của bạn di chuyển qua các **hop** trên Internet, một số liên kết có thể dùng công nghệ không dây, số khác dùng công nghệ có dây. Các giao thức tầng thấp hơn có thể thay đổi qua các hop khác nhau, nhưng giao thức Layer 3 vẫn hoạt động.
 
+Phân tầng cũng cho phép đổi mới diễn ra song song. Các cộng đồng khác nhau (ví dụ: nhà thiết kế chip phần cứng, lập trình viên phần mềm) có thể đổi mới ở các tầng khác nhau.
 
-## Layer 3: Best-Effort Service Model
+---
 
-It seems like we've built something that can send data anywhere in the world, so why not stop here? There are two issues with Layer 3 that we still need to solve.
+---
 
-The first issue involves the Layer 3 service model. If you use the Layer 3 infrastructure to send messages across the Internet, what service model does the network offer to you as a user? You can think of the service model as a contract between the network and users, describing what the network does and doesn't support.
+## **Layer 3: Best-Effort Service Model** (Mô hình dịch vụ nỗ lực tối đa)
 
-Examples of practical service models might include: The network guarantees that data is delivered. Or, the network guarantees that data is delivered within some time limit. Or, the network doesn't guarantee delivery, but promises to report an error on failure.
+Có vẻ như chúng ta đã xây dựng được một hệ thống có thể gửi dữ liệu đi bất cứ đâu trên thế giới, vậy tại sao không dừng lại ở đây? Vẫn còn hai vấn đề ở **Layer 3** mà chúng ta cần giải quyết.
 
-The designers of the Internet didn't support any of those models. Instead, the Internet only supports **best effort** delivery of data. If you send data over Layer 3, the Internet will try its best to deliver it, but there is no guarantee that the data will be delivered. The Internet also won't tell you whether or not the delivery succeeded.
+Vấn đề đầu tiên liên quan đến **service model** (mô hình dịch vụ) của Layer 3. Nếu bạn sử dụng hạ tầng Layer 3 để gửi thông điệp qua Internet, mô hình dịch vụ mà mạng cung cấp cho bạn – với tư cách là người dùng – là gì? Bạn có thể coi mô hình dịch vụ như một hợp đồng giữa mạng và người dùng, mô tả những gì mạng hỗ trợ và không hỗ trợ.
 
-Why did the designers choose such a weak service model? One major reason is, it is much easier to build networks that satisfy these weaker demands.
+Ví dụ về các mô hình dịch vụ thực tế có thể bao gồm:  
+- Mạng đảm bảo dữ liệu sẽ được giao.  
+- Mạng đảm bảo dữ liệu sẽ được giao trong một khoảng thời gian nhất định.  
+- Mạng không đảm bảo giao dữ liệu, nhưng cam kết báo lỗi nếu thất bại.
 
+Các nhà thiết kế Internet đã không hỗ trợ bất kỳ mô hình nào trong số đó. Thay vào đó, Internet chỉ hỗ trợ **best-effort** (nỗ lực tối đa) trong việc truyền dữ liệu. Nếu bạn gửi dữ liệu qua Layer 3, Internet sẽ cố gắng hết sức để giao nó, nhưng không có gì đảm bảo dữ liệu sẽ được giao. Internet cũng sẽ không cho bạn biết liệu việc giao có thành công hay không.
 
-## Layer 3: Packets Abstraction
+Tại sao các nhà thiết kế lại chọn một mô hình dịch vụ “yếu” như vậy? Một lý do chính là việc xây dựng mạng đáp ứng các yêu cầu yếu hơn này dễ dàng hơn rất nhiều.
 
-So far, up to Layer 3, we've been thinking about sending each message through the Internet independently. More formally, the primary unit of data transfer at Layer 3 is a **packet**, which is some small chunk of bytes that travel through the Internet, bouncing between routers, as a single unit.
+---
 
-The second issue at Layer 3 is: Packets are limited in size. If the application has some large data to send (e.g. a video), we need to somehow split up that data into packets, and send each packet through the network independently.
+## **Layer 3: Packets Abstraction** (Khái niệm trừu tượng gói tin)
 
-With this packet abstraction, we can now look at the life of a packet as it travels across the network. The sender breaks up data into individual packets. The packet travels along a link and arrives at a switch. The switch forwards the packet either to the destination, or to another switch that's closer to the destination. The packet hops between one or more switches, each one forwarding the packet closer, until it eventually reaches its destination. Note that because of the best-effort model, any of the switches might drop the packet, and there's no guarantee the packet actually reaches the destination.
+Cho đến nay, ở Layer 3, chúng ta vẫn đang nghĩ về việc gửi từng thông điệp qua Internet một cách độc lập. Nói một cách chính xác hơn, **đơn vị dữ liệu cơ bản** được truyền ở Layer 3 là **packet** (gói tin) – một khối byte nhỏ di chuyển qua Internet, bật qua các **router** (bộ định tuyến) như một đơn vị duy nhất.
+
+Vấn đề thứ hai ở Layer 3 là: **Packet** bị giới hạn về kích thước. Nếu ứng dụng có một lượng dữ liệu lớn cần gửi (ví dụ: một video), chúng ta cần chia nhỏ dữ liệu đó thành nhiều packet và gửi từng packet qua mạng một cách độc lập.
+
+Với khái niệm trừu tượng packet này, chúng ta có thể xem xét “hành trình” của một packet khi nó di chuyển qua mạng:  
+- **Sender** (máy gửi) chia dữ liệu thành các packet riêng lẻ.  
+- Packet di chuyển qua một **link** (liên kết) và đến một **switch** (bộ chuyển mạch).  
+- Switch chuyển tiếp packet tới đích hoặc tới một switch khác gần đích hơn.  
+- Packet nhảy qua một hoặc nhiều switch, mỗi switch chuyển tiếp nó gần hơn tới đích, cho đến khi nó đến nơi.
+
+Lưu ý rằng, do mô hình **best-effort**, bất kỳ switch nào cũng có thể **drop** (loại bỏ) packet, và không có gì đảm bảo packet thực sự đến được đích.
 
 <img width="700px" src="/assets/intro/1-06-path-through-network.png">
 
+---
+---
 
-## Layer 4: Transport
+## **Layer 4: Transport** (Tầng vận chuyển)
 
-We've identified two issues at Layer 3 so far. Large data has to be split into packets, and IP is only best-effort.
+Chúng ta đã xác định hai vấn đề ở **Layer 3**:  
+- Dữ liệu lớn phải được chia nhỏ thành các **packet** (gói tin).  
+- **IP** chỉ cung cấp dịch vụ **best-effort** (nỗ lực tối đa, không đảm bảo).
 
-To solve both of these problems, we'll introduce a new layer, the **transport layer**. This layer uses Layer 3 as a building block, and implements an additional protocol for re-sending lost packets, splitting data into packets, and reordering packets that arrive out-of-order (among other features).
+Để giải quyết cả hai vấn đề này, chúng ta sẽ giới thiệu một tầng mới – **transport layer** (tầng vận chuyển). Tầng này sử dụng Layer 3 như một khối xây dựng và triển khai một **protocol** (giao thức) bổ sung để:  
+- Gửi lại các gói tin bị mất.  
+- Chia dữ liệu thành các packet.  
+- Sắp xếp lại các packet đến sai thứ tự.  
+- (Cùng nhiều tính năng khác.)
 
-The transport layer protocol allows us to stop thinking in terms of packets, and start thinking in terms of **flows**, streams of packets that are exchanged between two endpoints.
+Giao thức tầng vận chuyển cho phép chúng ta ngừng suy nghĩ ở mức packet riêng lẻ và bắt đầu suy nghĩ ở mức **flow** (luồng) – tức là các chuỗi packet được trao đổi giữa hai **endpoint** (điểm cuối).
 
+---
 
-## Layer 7: Application
+## **Layer 7: Application** (Tầng ứng dụng)
 
-The application layer being built on top of the Internet is a powerful design choice. If, at lower layers, we built infrastructure for specifically transferring videos between end hosts, then email clients would have to build their own separate infrastructure for transferring emails. The Internet's design allows it to be a general-purpose communication network for any type of application data.
+Việc xây dựng **application layer** (tầng ứng dụng) trên nền Internet là một lựa chọn thiết kế mạnh mẽ. Nếu ở các tầng thấp hơn, chúng ta xây dựng hạ tầng chỉ để truyền video giữa các end host, thì các **email client** (ứng dụng email) sẽ phải tự xây dựng hạ tầng riêng để truyền email. Thiết kế của Internet cho phép nó trở thành một mạng truyền thông đa dụng cho mọi loại dữ liệu ứng dụng.
 
-In this class, we'll focus more on the infrastructure supporting the application layer (e.g. the mailman, the post offices) and less on the applications themselves (e.g. the contents of the mail). We'll see some common application protocols near the end of the class, though.
+Trong khóa học này, chúng ta sẽ tập trung nhiều hơn vào **hạ tầng hỗ trợ tầng ứng dụng** (ví dụ: người đưa thư, bưu điện) và ít hơn vào chính các ứng dụng (ví dụ: nội dung của thư). Tuy nhiên, chúng ta sẽ tìm hiểu một số **application protocol** (giao thức ứng dụng) phổ biến ở cuối khóa học.
 
-Now that we've seen all the layers, notice that each layer relies on services from the layer directly below, and provides services to the layer directly above. For example, someone writing a Layer 7 (application) protocol can assume that they have reliable data delivery from Layer 4. They don't have to worry about individual packets being lost, since that's what Layer 4 already dealt with.
+Bây giờ, khi đã xem tất cả các tầng, hãy chú ý rằng mỗi tầng dựa vào dịch vụ của tầng ngay bên dưới và cung cấp dịch vụ cho tầng ngay bên trên. Ví dụ: một người viết **Layer 7 protocol** có thể giả định rằng họ có dịch vụ truyền dữ liệu tin cậy từ Layer 4. Họ không cần lo lắng về việc mất packet riêng lẻ, vì Layer 4 đã xử lý vấn đề này.
 
 <img width="700px" src="/assets/intro/1-07-layers.png">
 
-Two layers interact directly through the interface between them. There's no practical way to skip layers and build Layer 7 on top of Layer 3, for example.
+Hai tầng tương tác trực tiếp thông qua **interface** (giao diện) giữa chúng. Không có cách thực tiễn nào để bỏ qua tầng và xây dựng Layer 7 trực tiếp trên Layer 3, chẳng hạn.
 
-Note: You might have noticed we skipped Layers 5 and 6. In the 1970s, when the layers were first standardized, the designers thought that these layers were needed, but they're obsolete in the modern Internet. If you're curious, the session layer (5) was supposed to assemble different flows into a session (e.g. loading various images and ads to form a webpage), and the presentation layer (6) was supposed to help the user visualize the data. Today, the functionality of these layers is mostly implemented in Layer 7.
+**Lưu ý:** Bạn có thể nhận thấy chúng ta đã bỏ qua **Layer 5** và **Layer 6**. Vào những năm 1970, khi mô hình phân tầng được tiêu chuẩn hóa, các nhà thiết kế nghĩ rằng hai tầng này là cần thiết, nhưng trong Internet hiện đại, chúng đã trở nên lỗi thời.  
+- **Session layer (Layer 5)**: dự kiến dùng để tập hợp các flow khác nhau thành một **session** (phiên), ví dụ: tải nhiều hình ảnh và quảng cáo để tạo thành một trang web.  
+- **Presentation layer (Layer 6)**: dự kiến giúp người dùng **visualize** (trực quan hóa) dữ liệu.  
+
+Ngày nay, hầu hết chức năng của hai tầng này được triển khai trong Layer 7.
+
+---

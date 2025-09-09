@@ -5,175 +5,187 @@ nav_order: 5
 layout: page-with-toc
 ---
 
-# Designing Resource Sharing
+# **Thiết kế chia sẻ tài nguyên** (Designing Resource Sharing)
 
-## Sharing Resources: Statistical Multiplexing
+## **Chia sẻ tài nguyên: Statistical Multiplexing** (Ghép kênh thống kê)
 
-Links and switches on the Internet have finite capacity. One key design problem we need to solve is: How do we share these resources between different Internet users?
+Các **link** (liên kết) và **switch** (bộ chuyển mạch) trên Internet đều có **finite capacity** (dung lượng hữu hạn). Một vấn đề thiết kế quan trọng cần giải quyết là: **Làm thế nào để chia sẻ các tài nguyên này giữa những người dùng Internet khác nhau?**
 
-Let's formalize the problem a bit more. Recall that a flow is a stream of packets exchanged between two end hosts (e.g. a video call between you and a friend). The Internet needs to support many simultaneous flows at the same time, despite limited capacity.
+Hãy mô hình hóa vấn đề rõ hơn. Nhớ rằng một **flow** (luồng) là một chuỗi **packet** (gói tin) được trao đổi giữa hai **end host** (máy đầu cuối), ví dụ: một cuộc gọi video giữa bạn và bạn bè. Internet cần hỗ trợ nhiều flow đồng thời, mặc dù dung lượng có hạn.
 
 <img width="600px" src="/assets/intro/1-44-multiple-flows.png">
 
-We often say that the network resources are **statistically multiplexed**, which means that we'll dynamically allocate resources to users based on their demand, instead of partitioning a fixed share of resources to users.
+Chúng ta thường nói rằng tài nguyên mạng được **statistically multiplexed** (ghép kênh thống kê), nghĩa là chúng ta sẽ phân bổ tài nguyên cho người dùng một cách **dynamic** (động) dựa trên nhu cầu của họ, thay vì chia cố định một phần tài nguyên cho mỗi người dùng.
 
 <img width="900px" src="/assets/intro/1-45-statistical-multiplex.png">
 
-As an analogy, consider your personal computer. It's not the case that your computer preemptively allocates half its CPU to Firefox, and half its CPU to Zoom, and only allows each application to use its half of the CPU. Instead, your computer dynamically allocates resources to different applications depending on their needs.
+Ví dụ tương tự: máy tính cá nhân của bạn không chia sẵn một nửa CPU cho Firefox và một nửa cho Zoom, rồi chỉ cho mỗi ứng dụng dùng phần của mình. Thay vào đó, máy tính phân bổ tài nguyên động cho các ứng dụng tùy theo nhu cầu.
 
-Statistical multiplexing is now everywhere in computer science. For example, in cloud computing, different companies might dynamically share resources in a datacenter.
+Ghép kênh thống kê hiện diện ở khắp nơi trong khoa học máy tính. Ví dụ: trong **cloud computing** (điện toán đám mây), các công ty khác nhau có thể chia sẻ tài nguyên trong một **datacenter** (trung tâm dữ liệu) một cách động.
 
-Statistical multiplexing is a great way to efficiently share network resources, because user demand changes over time. You probably aren't using a constant 10 Mbps of bandwidth every second, 24 hours a day. You probably have more demand while you're awake, and less while you're sleeping.
+Ghép kênh thống kê là một cách hiệu quả để chia sẻ tài nguyên mạng, vì nhu cầu của người dùng thay đổi theo thời gian. Bạn có thể không dùng liên tục 10 Mbps băng thông mỗi giây, 24 giờ/ngày. Bạn có thể dùng nhiều hơn khi thức và ít hơn khi ngủ.
 
-The premise that makes statistical multiplexing work is: In practice, the peak of aggregate demand is much less than the aggregate of peak demands.
+Tiền đề giúp ghép kênh thống kê hoạt động là: **Trên thực tế, đỉnh của tổng nhu cầu nhỏ hơn nhiều so với tổng của các đỉnh nhu cầu riêng lẻ.**
 
-Let's unpack what this means. Suppose we have two users, A and B. We can plot each user's demand over time.
+Giả sử có hai người dùng A và B. Chúng ta vẽ đồ thị nhu cầu của từng người theo thời gian.
 
 <img width="700px" src="/assets/intro/1-46-demand-over-time.png">
 
-How much capacity do we need to allocate in order to fully meet both users' demands?
-
-The bad strategy (no statistical multiplexing) is to compute the aggregate of peak demands. We find A's peak demand and B's peak demand, and add them together.
+**Chiến lược kém hiệu quả** (không ghép kênh thống kê) là cộng đỉnh nhu cầu của từng người. Ta lấy đỉnh nhu cầu của A và B, rồi cộng lại.
 
 <img width="900px" src="/assets/intro/1-47-sum-of-peak1.png">
 
-If we allocate this much capacity, we can definitely meet their demands. A's peak demand is X, so we allocate X to A, and likewise, we allocate Y to B. However, this approach is wasteful, because A's peak and B's peak didn't happen at the same time.
+Nếu phân bổ dung lượng bằng tổng này, chắc chắn đáp ứng được nhu cầu. Ví dụ: đỉnh nhu cầu của A là X, ta cấp X cho A; đỉnh của B là Y, ta cấp Y cho B. Nhưng cách này lãng phí, vì đỉnh của A và B không xảy ra cùng lúc.
 
 <img width="400px" src="/assets/intro/1-48-sum-of-peak2.png">
 
-The better strategy (statistical multiplexing) is to first compute the aggregate demand by graphing their combined demand over time. For example, the 10am demand in the new graph is the A's 10am demand, plus B's 10am demand. Then, we compute the peak of the aggregate demand. 
+**Chiến lược tốt hơn** (ghép kênh thống kê) là tính **aggregate demand** (tổng nhu cầu) bằng cách cộng nhu cầu của A và B tại từng thời điểm. Ví dụ: nhu cầu lúc 10h sáng = nhu cầu của A lúc 10h + nhu cầu của B lúc 10h. Sau đó, ta tìm đỉnh của tổng nhu cầu này.
 
 <img width="900px" src="/assets/intro/1-49-peak-of-sum1.png">
 
-If we allocate this much capacity, we can no longer statically allocate a portion to each user. However, by dynamically changing the amount we allocate to each user over time, we can still successfully meet their demands, even while having less capacity.
+Nếu phân bổ dung lượng bằng đỉnh của tổng nhu cầu, ta không thể chia cố định cho từng người. Nhưng bằng cách thay đổi động lượng cấp cho mỗi người theo thời gian, ta vẫn đáp ứng được nhu cầu, dù tổng dung lượng ít hơn.
 
 <img width="400px" src="/assets/intro/1-50-peak-of-sum2.png">
 
-The statistical multiplexing approach allows us to support the same users with less capacity (cheaper for us, more efficient use of resources). For many distributions, we can show that the peak of the aggregate is actually closer to the sum of the average demands, which is much less than the sum of the peak demands.
+Cách tiếp cận này cho phép hỗ trợ cùng số người dùng với dung lượng ít hơn (tiết kiệm chi phí, sử dụng tài nguyên hiệu quả hơn). Với nhiều phân phối, đỉnh của tổng nhu cầu gần bằng tổng nhu cầu trung bình, nhỏ hơn nhiều so với tổng các đỉnh riêng lẻ.
 
-In practice, in the network, we don't provision for the absolute worst case, when everything peaks at the same time. Instead, we share resources dynamically and hope that peaks don't occur at the same time. Peaks could still happen at the same time, which would cause packets to be delayed or dropped (recall the link queue). Nevertheless, we made the design choice to statistically multiplex and use resources more efficiently, while dealing with the consequences (occasional simultaneous peaks).
+Trong thực tế, mạng không được thiết kế để đáp ứng **worst case** (trường hợp xấu nhất) khi tất cả cùng đạt đỉnh. Thay vào đó, ta chia sẻ tài nguyên động và hy vọng các đỉnh không trùng nhau. Nếu đỉnh trùng nhau, packet có thể bị trễ hoặc bị drop (rớt) — nhớ lại hàng đợi ở liên kết. Dù vậy, chúng ta chọn ghép kênh thống kê để dùng tài nguyên hiệu quả hơn, chấp nhận hệ quả là đôi khi có đỉnh trùng.
 
-At the end of the day, statistical multiplexing is a design choice with trade-offs, and different users might make different choices. For example, financial exchanges sometimes decide to build their own dedicated networks to support peak demand, because they care more about ensuring network connectivity during peak periods, and they can afford the extra cost.
+Cuối cùng, ghép kênh thống kê là một lựa chọn thiết kế có **trade-off** (đánh đổi), và người dùng khác nhau có thể chọn khác nhau. Ví dụ: các sàn giao dịch tài chính đôi khi xây mạng riêng để đáp ứng nhu cầu đỉnh, vì họ ưu tiên đảm bảo kết nối trong giờ cao điểm và có thể chi trả chi phí.
 
+---
 
-## Sharing Resources: Circuit Switching vs. Packet Switching
+## **Chia sẻ tài nguyên: Circuit Switching vs. Packet Switching**
 
-We now know that we can use statistical multiplexing to decide how much capacity to build. Our next question is: How do we actually dynamically allocate resources between users?
+Chúng ta đã biết có thể dùng ghép kênh thống kê để quyết định dung lượng cần xây dựng. Câu hỏi tiếp theo: **Làm thế nào để phân bổ tài nguyên động giữa người dùng?**
 
-As an analogy, consider a popular restaurant with many customers and a limited supply of tables. There are two ways we could imagine allocating tables to customers. We could have customers make reservations, or we could seat customers first-come first-serve.
+Ví dụ tương tự: một nhà hàng đông khách và số bàn có hạn. Có hai cách phân bổ bàn: đặt chỗ trước hoặc phục vụ theo thứ tự đến trước.
 
-The two approaches to sharing resources in the network are similar. One approach is **best-effort**. Everybody sends their data into the network, without making any reservations, and hopes for the best. There's no guarantee that there will be enough bandwidth to meet your demand.
+Hai cách chia sẻ tài nguyên mạng cũng tương tự:
 
-The canonical design for best-effort is called **packet switching**. The switch looks at each packet independently and forwards the packet closer to its destination. The switches don't think about flows or reservations.
+- **Best-effort**: Mọi người gửi dữ liệu vào mạng mà không đặt chỗ, và hy vọng mọi thứ ổn. Không có gì đảm bảo băng thông đủ cho nhu cầu.
+- Thiết kế chuẩn cho best-effort là **packet switching** (chuyển mạch gói). Switch xử lý từng packet độc lập và chuyển nó gần hơn tới đích. Các switch không quan tâm đến flow hay đặt chỗ.
 
-In addition to packets being independent from each other, the switches are also independent from each other. As a packet hops across switches, every switch considers the packet independently (the switches don't coordinate).
+Ngoài việc packet độc lập với nhau, các switch cũng độc lập với nhau. Khi packet đi qua nhiều switch, mỗi switch xử lý nó riêng, không phối hợp.
 
 <img width="700px" src="/assets/intro/1-51-best-effort.png">
 
-The other approach is based on **reservations**. At the start of a flow, users explicitly request and reserve the bandwidth they need. After the data is sent, the resources can be released for others to reserve.
+- **Reservations** (đặt chỗ): Khi bắt đầu một flow, người dùng yêu cầu và đặt trước băng thông cần thiết. Sau khi gửi xong dữ liệu, tài nguyên được giải phóng cho người khác.
 
-The canonical design for reservations, explored in both research and industry, is called **circuit switching**.
+Thiết kế chuẩn cho reservations, được nghiên cứu và áp dụng trong công nghiệp, là **circuit switching** (chuyển mạch kênh).
 
-At the start of a flow, the end hosts identify a path (sequence of switches and links) through the network, using some routing algorithm. (We haven't discussed routing algorithms to find this path yet, so you can assume it happens by magic for now.)
+Khi bắt đầu một flow, end host xác định một đường đi (chuỗi switch và link) qua mạng, dùng một **routing algorithm** (thuật toán định tuyến). (Chúng ta sẽ học định tuyến sau, tạm coi là “ma thuật” ở đây.)
 
-Then, the source sends a special reservation request message to the destination. Along the way, every switch hears about this request as well. If every switch accepts the request, then the reservation is made, and a circuit of switches has been established between the source and destination.
+Sau đó, nguồn gửi một **reservation request message** (thông điệp yêu cầu đặt chỗ) tới đích. Trên đường đi, mỗi switch nhận yêu cầu này. Nếu tất cả switch chấp nhận, đặt chỗ được thiết lập, và một **circuit** (kênh) giữa nguồn và đích được hình thành.
 
 <img width="700px" src="/assets/intro/1-52-reservations.png">
 
-Once the reservation is confirmed by every switch, data can be sent. Eventually, when the flow ends, the source sends a teardown message to the recipient. Along the way, every switch sees this message and releases its capacity.
+Khi tất cả switch xác nhận, dữ liệu có thể được gửi. Khi flow kết thúc, nguồn gửi một **teardown message** (thông điệp hủy kênh) tới đích. Trên đường đi, mỗi switch nhận thông điệp và giải phóng dung lượng.
 
 <img width="700px" src="/assets/intro/1-53-reservation-teardown.png">
 
-Note: We use the term circuit here because this idea came from the phone network, which uses this same idea to allow two people to call each other.
+**Lưu ý:** Từ “circuit” xuất phát từ mạng điện thoại, nơi hai người gọi cho nhau bằng cách thiết lập một kênh như vậy.
 
-Remember, both circuit switching and packet switching are embodying statistical multiplexing. The main difference is the granularity at which we're allocating resources: per-flow with reservations, or per-packet with best-effort. Even in circuit switching, we're dynamically allocating resources based on reservations. We are not preemptively reserving for all flows that might ever exist.
+Nhớ rằng, cả circuit switching và packet switching đều áp dụng ghép kênh thống kê. Khác biệt chính là **granularity** (độ chi tiết) khi phân bổ tài nguyên:  
+- Circuit switching: theo flow, có đặt chỗ.  
+- Packet switching: theo packet, best-effort.
+
+Ngay cả trong circuit switching, chúng ta vẫn phân bổ tài nguyên động dựa trên đặt chỗ, chứ không đặt trước cho mọi flow có thể xảy ra.
 
 <img width="600px" src="/assets/intro/1-54-circuit-packet-multiplexing.png">
 
 
-## Circuit Switching vs. Packet Switching Trade-offs
 
-We now have two approaches to sharing resources on the Internet. Which is better? It depends on the criteria we're using to evaluate each approach.
+## **Circuit Switching vs. Packet Switching: Các yếu tố đánh đổi** (Trade-offs)
 
-There are four dimensions we can use to compare the two approaches.
+Chúng ta hiện có hai cách tiếp cận để chia sẻ tài nguyên trên Internet. Cách nào tốt hơn? Điều đó phụ thuộc vào tiêu chí mà chúng ta dùng để đánh giá.
 
-1. Is this a good abstraction (or API) for the network to offer to an application developer?
+Có bốn khía cạnh chính để so sánh hai cách tiếp cận này:
 
-Circuit switching offers a more useful abstraction to developers, because there's a guarantee of reserved bandwidth. This gives the developer more predictable and understandable behavior (assuming all goes well). As an analogy, consider reserving a machine in the cloud to run some task. It's easier for the developer to reason about performance if they know the specs of the machine they're getting. If the developer had no idea what machine they were using, the task could still run, but the performance is less predictable.
+---
 
-Circuit switching is also a useful abstraction if you're a network operator who has to distribute resources to users. You know exactly how much bandwidth each user is requesting, and you can charge them the appropriate amount of money. It's a little harder to implement an intuitive business model if there are no guarantees about what you're offering to a client.
+**1. Đây có phải là một abstraction (hoặc API) tốt để mạng cung cấp cho lập trình viên ứng dụng không?**
 
-2. Is the approach efficient at scale? Does the approach use all the available bandwidth on the network, or is some bandwidth wasted?
+**Circuit switching** cung cấp một abstraction hữu ích hơn cho lập trình viên, vì nó đảm bảo **reserved bandwidth** (băng thông được đặt trước). Điều này giúp lập trình viên dự đoán và hiểu rõ hành vi của hệ thống hơn (giả sử mọi thứ diễn ra suôn sẻ). Ví dụ tương tự: đặt trước một máy chủ trên **cloud** để chạy tác vụ. Lập trình viên dễ dàng ước lượng hiệu năng hơn nếu biết cấu hình máy mình nhận được. Nếu không biết, tác vụ vẫn có thể chạy, nhưng hiệu năng sẽ khó dự đoán.
 
-Packet switching is typically more efficient. Exactly how much better depends on the burstiness of the traffic sources.
+Circuit switching cũng hữu ích nếu bạn là **network operator** (nhà vận hành mạng) cần phân bổ tài nguyên cho người dùng. Bạn biết chính xác mỗi người dùng yêu cầu bao nhiêu băng thông và có thể tính phí phù hợp. Nếu không có đảm bảo, việc xây dựng mô hình kinh doanh trực quan sẽ khó hơn.
 
-If each sender sends data at a constant rate throughout time, then both circuit switching and packet switching makes full use of the capacity.
+---
+
+**2. Cách tiếp cận này có hiệu quả ở quy mô lớn không? Có tận dụng hết băng thông khả dụng hay lãng phí?**
+
+**Packet switching** thường hiệu quả hơn. Mức độ hơn bao nhiêu phụ thuộc vào **burstiness** (mức độ bùng nổ) của nguồn lưu lượng.
+
+- Nếu mỗi bên gửi dữ liệu với tốc độ **constant rate** (ổn định) theo thời gian, cả circuit switching và packet switching đều tận dụng hết dung lượng.
 
 <img width="900px" src="/assets/intro/1-55-smooth.png">
 
-By contrast, if each sender's rate varies over time, then packet switching gives us a better use of bandwidth.
+- Ngược lại, nếu tốc độ gửi thay đổi theo thời gian, packet switching tận dụng băng thông tốt hơn.
 
 <img width="900px" src="/assets/intro/1-56-bursty.png">
 
-Here's an example of demand varying over time. With reservations, the three flows must reserve 12, 11, and 13 Mbps. One of the reservations will be rejected, since we can only distribute 30 Mbps.
+Ví dụ: với **reservations** (đặt chỗ), ba flow phải đặt lần lượt 12, 11 và 13 Mbps. Một yêu cầu sẽ bị từ chối vì tổng chỉ có 30 Mbps. Cách này lãng phí băng thông ở hai điểm:  
+1. Flow đặt 12 Mbps không dùng hết phần lớn thời gian.  
+2. Nếu flow 12 Mbps và 11 Mbps được chấp nhận, còn dư 7 Mbps không ai dùng.
 
-This approach is wasting bandwidth in two different ways. The flow reserving 12 Mbps is not actually using its bandwidth for most of its time. Also, if the 12 Mbps and 11 Mbps flows get reservations, we have 7 Mbps left over that isn't being reserved by anybody.
+Ngược lại, với packet switching (gửi packet khi đến), tổng băng thông dùng tại mọi thời điểm không vượt quá 30 Mbps, và ta có thể hỗ trợ tất cả flow.
 
-By contrast, in the packet switching approach, where we just send packets as they arrive, the total amount of bandwidth being used at any time never exceeds 30 Mbps. We can support every flow with the bandwidth we have.
+**Burstiness** được định nghĩa là tỉ lệ giữa **peak rate** (tốc độ đỉnh) và **average rate** (tốc độ trung bình). Không có ngưỡng rõ ràng để phân loại smooth hay bursty — đây là các thuật ngữ mô tả.
 
-Formally, the burstiness of a flow is defined by the ratio between its peak rate and its average rate. There's no clear threshold for when something is smooth or bursty (they're more descriptive terms).
+- **Voice call**: thường có tỉ lệ mượt hơn, khoảng 3:1 → phù hợp với circuit switching (điện thoại cố định).  
+- **Web browsing**: thường bursty hơn, khoảng 100:1.
 
-Voice calls usually have smoother ratios like 3:1, while web browsing usually has burstier ratios like 100:1. (Voice calls having a smooth ratio is also why the phone network used reservations!)
+Một lý do khác packet switching hiệu quả hơn: circuit switching tốn thời gian **setup** và **teardown** kênh, đặc biệt lãng phí với flow rất ngắn (ví dụ: tải một file nhỏ).
 
-Another reason why packet switching is more efficient is: Circuit switching spends additional time setting up and tearing down a circuit. This is especially inefficient for very short flows (e.g. downloading a tiny file).
+---
 
-3. How well does each approach handle failure at scale?
+**3. Khả năng xử lý sự cố ở quy mô lớn**
 
-Packet switching is better at handling failure at scale. If a router fails, we can just send packets along a different path in the network. (We haven't discussed how yet, but it turns out routing algorithms are good at adjusting to failure.) The end host doesn't have to do anything different.
+**Packet switching** xử lý sự cố tốt hơn. Nếu một **router** hỏng, ta chỉ cần gửi packet theo đường khác (routing algorithm sẽ xử lý). **End host** không cần thay đổi gì.
 
-By contrast, in circuit switching, if a router along the path fails, the network still has to find a new path, but there's more for the end host to do. The host has to somehow detect failure, and it has to resend a reservation request. It also has to free up the reservation along the old path somehow. What if the new reservation request is rejected?
+Ngược lại, với circuit switching, nếu router trên đường đi hỏng, mạng vẫn phải tìm đường mới, nhưng end host phải làm nhiều việc hơn: phát hiện sự cố, gửi lại yêu cầu đặt chỗ, giải phóng kênh cũ. Nếu yêu cầu mới bị từ chối thì sao?
 
-This failure mode scales poorly. If a single router goes down, but millions of flows were using that router, then millions of reservation requests have to be simultaneously re-established.
+Cách này **scale** kém: nếu một router hỏng và hàng triệu flow đi qua nó, hàng triệu yêu cầu đặt chỗ phải được thiết lập lại cùng lúc.
 
-We won't solve these problems in detail, but hopefully you're getting a sense that handling failures in circuit switching is a pretty hard problem.
+---
 
-4. How complex is it to implement each approach at scale?
+**4. Độ phức tạp khi triển khai ở quy mô lớn**
 
-If you actually tried to design circuit switching, a lot of additional design questions start to make the protocol really complicated, really quickly.
+Thiết kế circuit switching kéo theo nhiều câu hỏi phức tạp:
 
-How do the routers know that the reservation was successful? When 2 sees the request and agrees, how does it know that 3 and 4 also agreed? (Possible approach: We send a confirmation back in the other direction, indicating that the reservation is confirmed.)
+- Làm sao router biết đặt chỗ thành công? Khi router 2 đồng ý, làm sao biết router 3 và 4 cũng đồng ý? (Giải pháp: gửi **confirmation** ngược lại để xác nhận.)
+- Nếu **reservation request** bị mất giữa đường? (Giải pháp: đặt **timer**, nếu không xác nhận kịp thì xóa đặt chỗ, end host thử lại.)
+- Nếu yêu cầu được chấp nhận nhưng **confirmation** bị mất trên đường về?  
+- Nếu bị từ chối, end host nên thử lại với băng thông nhỏ hơn, hay chờ rồi thử lại? Router có nên gợi ý mức băng thông khả dụng?
 
-What if the reservation request is lost along the way? 1 and 2 agree, but the request packet is dropped before it reaches 3 and 4. (Possible approach: Set a timer, and if the reservation isn't confirmed in time, delete the reservation. Now the end host has to try again.)
+Vấn đề cốt lõi khiến circuit switching phức tạp là **state consensus** (đồng thuận trạng thái). Tất cả router phải lưu trạng thái bổ sung và đồng ý về trạng thái đó.
 
-What if the request is sent and everybody agrees, but the confirmation on the way back is dropped? 4 and 3 see the confirmation, but the confirmation packet is dropped before it reaches 2 and 1.
+Bạn có thể đã nghe về **Paxos protocol** — thuật toán đồng thuận phức tạp, thường chỉ chạy trên 4–5 server. Circuit switching yêu cầu chạy điều này ở quy mô Internet, với hàng triệu router và flow.
 
-What if the reservation is declined? Should the end host try again and request less? Should the end host wait a bit and try again with the same request? Should the router say in the rejection, "I can't do 10 Mbps, but I can give you 8 Mbps?"
+---
 
-We won't solve every design problem, but hopefully you're noticing that circuit switching is harder to implement than it first seemed.
+**Tóm lại:**  
+- **Circuit switching**: hiệu năng tốt hơn cho ứng dụng nhờ băng thông đặt trước, hành vi dễ dự đoán.  
+- **Packet switching**: chia sẻ băng thông hiệu quả hơn, không tốn thời gian khởi tạo, phục hồi sự cố dễ hơn, triển khai đơn giản hơn.
 
-The fundamental problem that makes circuit switching complicated is state consensus. All the routers have to keep track of extra state, and they all have to agree on what that state is.
+---
 
-You might have heard of the Paxos protocols, which are extremely complicated protocols for getting multiple processors to agree on state. In practice, people to run these algorithms on a group of 4-5 servers. With circuit switching, we're basically asking the Internet to run that on Internet scale, with millions of routers and flows.
+## **Circuit Switching vs. Packet Switching trong thực tế**
 
-In summary: Circuit switching gives the application better performance with reserved bandwidth. It also gives the developer more predictable behavior.
+Trên Internet hiện đại, **packet switching** là mặc định.
 
-However, packet switching gives us more efficient sharing of bandwidth, and avoids startup time. It also gives us easier recovery from failure, and is generally simpler to implement (less for routers to think about).
+**Circuit switching** chỉ dùng trong một số trường hợp hạn chế:  
+- **RSVP (Resource Reservation Protocol)** trong mạng cục bộ nhỏ, cho phép router (không phải end host) đặt băng thông giữa nhau.  
+- **Dedicated circuits** (ví dụ: MPLS circuits, leased lines): doanh nghiệp mua băng thông Internet (có thể kèm hạ tầng vật lý) dành riêng cho mình. Chi phí cao hơn nhiều so với kết nối Internet tiêu chuẩn.
 
+Các dedicated circuits này triển khai ở quy mô nhỏ hơn nhiều so với ý tưởng circuit switching toàn Internet. Thường được thiết lập thủ công, tồn tại lâu dài (nhiều năm), và ở cấp độ công ty, không phải từng flow.
 
-## Circuit Switching vs. Packet Switching In Practice
+**Lịch sử ngắn gọn:**  
+- 1970–1980: Internet được thiết kế dưới dạng packet switching, phục vụ nghiên cứu do chính phủ tài trợ.  
+- 1990: Khi Internet thương mại hóa, nhiều người nghĩ cần chuyển sang circuit switching, dự đoán ứng dụng chính sẽ là thoại và truyền hình trực tiếp (nhu cầu băng thông mượt, phù hợp circuit switching). ISP cũng nghĩ circuit switching dễ xây dựng mô hình kinh doanh hơn.
 
-In the modern Internet, packet switching is the default approach.
+Nhiều nghiên cứu và tiêu chuẩn đã được đề xuất, nhưng thất bại vì các lý do đã nêu. Thêm vào đó, ứng dụng thúc đẩy Internet lại là email và web, không phải thoại và TV.
 
-There are limited cases where circuit switching is used. For example, RSVP (Resource Reservation Protocol) can be used within a small local network, to allow routers (not end hosts) to reserve bandwidth between themselves.
+**Hệ quả thú vị:** Người dùng và lập trình viên đã thích nghi với packet switching. Ví dụ: khi xem video mà kết nối kém, ứng dụng sẽ tự giảm chất lượng video — điều mà truyền hình quảng bá không làm. Đây là minh chứng cho việc công nghệ có thể thay đổi hành vi người dùng.
 
-Another use of circuit switching in the modern Internet is dedicated circuits (e.g. MPLS circuits, leased lines). As a company, you can specifically buy some Internet bandwidth (possibly including physical infrastructure) dedicated to your business. This is very expensive compared to a standard Internet connection.
-
-Dedicated circuits are deployed at less ambitious scales than hypothetical full-Internet circuit switching. Someone usually manually sets up the reservation. The reservation is long-lived (e.g. years). The reservation is at the granularity of companies, not individual flows.
-
-Brief history: When the Internet was first designed in the 1970s-1980s as a smaller-scale, government-funded research project, it was packet switched.
-
-In the 1990s, when the government stopped funding the Internet and control passed over to commercial enterprises, research and industry thought we would need to change to circuit switching. The designers predicted that voice and live TV would be the main heavy-duty uses of the Internet. Both of these applications have smooth bandwidth demand, well-suited for circuit switching. Also, because ISPs had to make money off the new commercialized Internet, they thought that circuit switching would offer a more intuitive business model.
-
-There was a lot of work in research and standards bodies to implement circuit switching, but ultimately, this was a failed vision, for many of the reasons we discussed. Also, the main applications driving Internet growth were email and the web, not voice calls and TV, which is another reason why circuit switching vision didn't work out.
-
-An interesting consequence of these design choices is, users and developers adapted to the realities of packet switching. If you watch a video and the connection is poor, you're used to the application adapting and the video quality decreasing. (Contrast with broadcast TV, which wouldn't do this.) This is a lesson in how technology can transform user behavior!
+---

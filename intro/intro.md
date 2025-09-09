@@ -1,62 +1,68 @@
 ---
-title: Introduction to the Internet
+title: Giới thiệu về Internet
 parent: Introduction
 nav_order: 1
 layout: page-with-toc
 ---
 
-# Introduction to the Internet
+# **Giới thiệu về Internet** (Introduction to the Internet)
 
-## What is the Internet?
+## **Internet là gì?** (What is the Internet?)
 
-The Internet is ubiquitous as a tool for transferring data between devices around the world. In this class, we'll be focusing on the infrastructure (both hardware and software) that supports this.
+Internet hiện diện ở khắp nơi như một công cụ để truyền dữ liệu giữa các thiết bị trên toàn thế giới. Trong khóa học này, chúng ta sẽ tập trung vào **hạ tầng** (bao gồm cả phần cứng và phần mềm) hỗ trợ cho hoạt động này.
 
-The Internet and the World Wide Web are not the same thing. You can think of the web as applications built on top of the Internet (e.g. Facebook, Twitter) that you can access through a web browser (e.g. Firefox, Chrome). Other applications besides the web can also use Internet infrastructure, too. Examples of non-web applications are Zoom or online games, or even Internet-of-things (IoT) devices like a sensor in your refrigerator or car.
+Internet và **World Wide Web** không phải là cùng một thứ. Bạn có thể hình dung **web** là các ứng dụng được xây dựng trên nền tảng Internet (ví dụ: Facebook, Twitter) mà bạn có thể truy cập thông qua **web browser** (trình duyệt web) như Firefox, Chrome. Ngoài web, nhiều ứng dụng khác cũng sử dụng hạ tầng Internet. Ví dụ: các ứng dụng không thuộc web như Zoom, trò chơi trực tuyến, hoặc thậm chí các thiết bị **Internet of Things (IoT)** như cảm biến trong tủ lạnh hoặc ô tô của bạn.
 
+---
 
-## Why is the Internet Interesting?
+## **Tại sao Internet thú vị?** (Why is the Internet Interesting?)
 
-The Internet is not a new type of network technology (e.g. electrical wires already existed), but is instead about a completely new problem of tying together different, existing networks. Solving this problem required a new design paradigm that influenced other computer science fields.
+Internet không phải là một loại công nghệ mạng mới (ví dụ: dây điện đã tồn tại từ trước), mà là giải pháp cho một vấn đề hoàn toàn mới: **kết nối các mạng khác nhau đã tồn tại**. Giải quyết vấn đề này đòi hỏi một **mô hình thiết kế** mới, có ảnh hưởng đến nhiều lĩnh vực khác của khoa học máy tính.
 
-Networking is a relatively new addition to the field of computer science. The Internet introduced many new challenges that are different from many traditional computer science fields. For example, unlike theory fields, we don't have a formal model of the Internet. Unlike hardware fields, we don't have a measurable benchmark for performance.
+**Networking** (mạng máy tính) là một lĩnh vực tương đối mới trong khoa học máy tính. Internet đã đưa ra nhiều thách thức mới, khác biệt so với các lĩnh vực truyền thống. Ví dụ: khác với các lĩnh vực lý thuyết, chúng ta không có mô hình hình thức cho Internet; khác với các lĩnh vực phần cứng, chúng ta không có thước đo hiệu năng cố định.
 
-Unlike previous classes you might have taken, it's no longer enough to write code that simply works. The code you write has to scale to billions of users. The code you write also has to align with the business relationships of different operators (otherwise, they might not agree to run your code).
+Khác với các môn học trước đây bạn từng học, giờ đây chỉ viết mã chạy được là chưa đủ. Mã bạn viết phải **scale** (mở rộng) tới hàng tỷ người dùng. Mã bạn viết cũng phải phù hợp với các mối quan hệ kinh doanh giữa các nhà vận hành (nếu không, họ có thể không đồng ý chạy mã của bạn).
 
-Code that works for a lightweight application (e.g. your home computer) might not work for a heavy-duty server. Code that works today might not work tomorrow, when different computers join and leave the network.
+Mã chạy tốt cho một ứng dụng nhẹ (ví dụ: máy tính cá nhân) có thể không hoạt động trên một **server** (máy chủ) chịu tải nặng. Mã chạy tốt hôm nay có thể không chạy được ngày mai, khi các máy tính khác tham gia hoặc rời khỏi mạng.
 
-The design of the Internet has influenced the way in which we architect modern systems (e.g. reasoning about goals, constraints, and trade-offs in the design). Network architecture is more about thinking about designs, and less about proving theorems or writing code. It's more about considering tradeoffs, and less about meeting specific benchmarks. It's more about designing systems that are practical, and less about finding the optimal design. The Internet is not optimal, but has successfully balanced a wide range of goals.
+Thiết kế của Internet đã ảnh hưởng đến cách chúng ta kiến trúc các hệ thống hiện đại (ví dụ: cân nhắc mục tiêu, ràng buộc và đánh đổi trong thiết kế). **Network architecture** (kiến trúc mạng) thiên về tư duy thiết kế hơn là chứng minh định lý hoặc viết mã. Nó thiên về cân nhắc đánh đổi hơn là đạt các chỉ số cụ thể. Nó thiên về thiết kế hệ thống thực tiễn hơn là tìm kiếm thiết kế tối ưu. Internet không phải là tối ưu, nhưng đã cân bằng thành công nhiều mục tiêu khác nhau.
 
+---
 
-## The Internet is Federated
+## **Internet là hệ thống liên kết liên bang** (The Internet is Federated)
 
-The Internet is a federated system, and requires interoperability between operators. In other words, each operator (ISP) acts independently, but every operator has to cooperate in order to connect the entire world. In other words, all the ISPs in the world need to agree on some common protocol(s) in order to achieve global connectivity.
+Internet là một hệ thống **federated** (liên kết liên bang) và yêu cầu khả năng **interoperability** (tương tác) giữa các nhà vận hành. Nói cách khác, mỗi nhà vận hành (**ISP**) hoạt động độc lập, nhưng tất cả phải hợp tác để kết nối toàn thế giới. Tất cả các ISP trên thế giới cần thống nhất về một số **protocol** (giao thức) chung để đạt được khả năng kết nối toàn cầu.
 
-Federation introduces several challenges. Competing entities (e.g. rival companies) are forced to cooperate, even though competitors might not want to share confidential information with each other. When designing protocols, we have to consider real-life business incentives in addition to technical considerations.
+Mô hình liên kết liên bang mang đến nhiều thách thức. Các thực thể cạnh tranh (ví dụ: các công ty đối thủ) buộc phải hợp tác, dù họ có thể không muốn chia sẻ thông tin mật. Khi thiết kế giao thức, chúng ta phải cân nhắc cả yếu tố kinh doanh thực tế bên cạnh yếu tố kỹ thuật.
 
-Federation also complicates innovation. In other fields, companies can innovate by developing a new feature that no one else has. But on the Internet, if you have a feature that nobody else has, you can't use it. Everybody has to speak a common language (protocol), so any upgrades to the Internet have to be made with interoperability in mind.
+Liên kết liên bang cũng làm phức tạp hóa đổi mới. Trong các lĩnh vực khác, công ty có thể đổi mới bằng cách phát triển tính năng mà không ai có. Nhưng trên Internet, nếu bạn có tính năng mà không ai khác có, bạn sẽ không thể sử dụng nó. Mọi người phải nói cùng một “ngôn ngữ” (protocol), vì vậy mọi nâng cấp Internet phải được thực hiện với khả năng tương tác trong tâm trí.
 
+---
 
-## The Internet is Scalable
+## **Internet có khả năng mở rộng** (The Internet is Scalable)
 
-Federation enables the tremendous scale of the Internet. Instead of a single operator managing billions of users and trillions of services, we only need to focus on interconnecting all the different operators. Federation also allows us to build the Internet out of a huge diversity of technologies (e.g. wireless, optical), with a huge range of capabilities (e.g. home links with tiny capacity, or undersea cables with huge capacity). These technologies are also constantly evolving, which means we can't aim for a fixed target (e.g. capacity and demand is constantly increasing by orders of magnitude).
+Liên kết liên bang cho phép Internet đạt quy mô khổng lồ. Thay vì một nhà vận hành duy nhất quản lý hàng tỷ người dùng và hàng nghìn tỷ dịch vụ, chúng ta chỉ cần tập trung vào việc kết nối các nhà vận hành khác nhau. Liên kết liên bang cũng cho phép xây dựng Internet từ nhiều công nghệ đa dạng (ví dụ: **wireless**, **optical**) với nhiều mức năng lực khác nhau (ví dụ: đường truyền gia đình dung lượng nhỏ, hoặc cáp quang biển dung lượng cực lớn). Các công nghệ này liên tục phát triển, nghĩa là chúng ta không thể đặt ra một mục tiêu cố định (ví dụ: dung lượng và nhu cầu liên tục tăng theo cấp số nhân).
 
-The massive scale of the Internet also means that any system we design has to support the massive range of users and applications on the Internet (e.g. some need more capacity than others, some may be malicious).
+Quy mô khổng lồ của Internet cũng đồng nghĩa với việc bất kỳ hệ thống nào chúng ta thiết kế phải hỗ trợ phạm vi rộng lớn người dùng và ứng dụng (ví dụ: một số cần nhiều băng thông hơn, một số có thể có hành vi độc hại).
 
-The worldwide scale of the Internet means that our systems and protocols need to operate asynchronously. Data can't move faster than the speed of light (and often moves much slower than that). Suppose you send a message to a server on the other side of the world. By the time your message arrives, your CPU might have executed millions of additional instructions, and the message you sent might already be outdated.
+Quy mô toàn cầu của Internet yêu cầu hệ thống và giao thức hoạt động **asynchronously** (bất đồng bộ). Dữ liệu không thể di chuyển nhanh hơn tốc độ ánh sáng (và thường chậm hơn nhiều). Giả sử bạn gửi một thông điệp tới một server ở phía bên kia thế giới. Khi thông điệp đến nơi, CPU của bạn có thể đã thực hiện hàng triệu lệnh khác, và thông điệp bạn gửi có thể đã lỗi thời.
 
-The scale of the Internet means that even sending a single message can require interacting with many components (e.g. software, switches, links). Any of the components could fail, and we might not even know if they fail. If something does fail, it could take a long time to hear the bad news. The Internet was the first system that had to be designed for failure at scale. Many of these ideas have since been adopted in other fields.
+Quy mô Internet cũng có nghĩa là ngay cả việc gửi một thông điệp đơn lẻ cũng có thể cần tương tác với nhiều thành phần (ví dụ: phần mềm, switch, liên kết). Bất kỳ thành phần nào cũng có thể hỏng, và chúng ta có thể không biết. Nếu có sự cố, có thể mất nhiều thời gian để nhận thông tin xấu. Internet là hệ thống đầu tiên được thiết kế để chịu lỗi ở quy mô lớn. Nhiều ý tưởng này sau đó đã được áp dụng trong các lĩnh vực khác.
 
+---
 
-## Protocols
+## **Giao thức** (Protocols)
 
-In this class, much of our focus will be on **protocols** that specify how entities exchange in communication. What is the format of the messages they exchange, and how do they respond to those messages?
+Trong khóa học này, chúng ta sẽ tập trung nhiều vào **protocol** – các quy tắc xác định cách các thực thể trao đổi thông tin. Giao thức quy định **định dạng** của thông điệp và **cách phản hồi** với các thông điệp đó.
 
-For example, imagine you're writing an application that needs to send and receive data over the Internet. The code at the sender machine and the code at the recipient machine need to both agree on how the data is formatted, and what they should do in response to different messages.
+Ví dụ: bạn viết một ứng dụng cần gửi và nhận dữ liệu qua Internet. Mã ở máy gửi và mã ở máy nhận phải thống nhất về cách định dạng dữ liệu và cách xử lý các thông điệp khác nhau.
 
-Here's an example of a protocol. Alice and Bob both say hello, then Alice requests a file, and Bob replies with the file. To define this protocol, we need to define syntax (e.g. how to write "give me this file" in 1s and 0s), and semantics (e.g. Alice must receive a hello from Bob before requesting a file).
+Ví dụ về một giao thức: Alice và Bob cùng chào nhau, sau đó Alice yêu cầu một tệp, và Bob gửi lại tệp. Để định nghĩa giao thức này, chúng ta cần xác định **syntax** (cú pháp – ví dụ: cách viết “hãy gửi tôi tệp này” bằng bit 0 và 1) và **semantics** (ngữ nghĩa – ví dụ: Alice phải nhận lời chào từ Bob trước khi yêu cầu tệp).
 
-Different protocols are designed for different needs. For example, if Alice needs to get the file as quickly as possible, we might design a protocol without the initial hello messages. Designing a good protocol can be harder than it seems! We might also need to account for edge cases, bugs, and malicious behavior. For example, what if Alice requests a file, and Bob replies with hello? How should Alice respond?
+Các giao thức khác nhau được thiết kế cho các nhu cầu khác nhau. Ví dụ: nếu Alice cần nhận tệp càng nhanh càng tốt, ta có thể thiết kế giao thức bỏ qua bước chào ban đầu. Thiết kế một giao thức tốt có thể khó hơn tưởng tượng! Chúng ta cũng cần tính đến các trường hợp ngoại lệ, lỗi và hành vi độc hại. Ví dụ: nếu Alice yêu cầu tệp, nhưng Bob lại trả lời bằng lời chào, Alice nên phản ứng thế nào?
 
-Throughout this class, we'll see many protocols that have been standardized across the Internet. You'll sometimes see the acronym RFC (Request For Comments) when we mention a protocol. Many standards are published as RFC documents that are eventually widely accepted, though not all RFCs end up adopted. RFC documents are numbered, and sometimes protocols are referred to by their RFC number. For example, "RFC 1918 addresses" refers to addresses defined by that particular document.
+Trong khóa học này, chúng ta sẽ thấy nhiều giao thức đã được **standardize** (tiêu chuẩn hóa) trên toàn Internet. Bạn sẽ đôi khi thấy từ viết tắt **RFC** (Request For Comments) khi nhắc đến một giao thức. Nhiều tiêu chuẩn được công bố dưới dạng tài liệu RFC và sau đó được chấp nhận rộng rãi, mặc dù không phải tất cả RFC đều được áp dụng. Các tài liệu RFC được đánh số, và đôi khi giao thức được gọi theo số RFC. Ví dụ: “RFC 1918 addresses” đề cập đến các địa chỉ được định nghĩa trong tài liệu đó.
 
-There are different standards bodies responsible for standardizing protocols. The IEEE focuses on the lower-layer electrical engineering side. The IETF focuses on the Internet and is responsible for RFCs.
+Có nhiều tổ chức tiêu chuẩn khác nhau chịu trách nhiệm tiêu chuẩn hóa giao thức. **IEEE** tập trung vào các tầng thấp hơn liên quan đến kỹ thuật điện tử. **IETF** tập trung vào Internet và chịu trách nhiệm về các RFC.
+
+---

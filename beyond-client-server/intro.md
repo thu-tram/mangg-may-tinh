@@ -1,62 +1,56 @@
----
-title: Multicast
-parent: Beyond Client-Server
-nav_order: 1
-layout: page-with-toc
----
 
-# Multicast
 
-## Motivation: Multicast
+# **Multicast**
 
-In every topic we've seen so far, we've said that the goal of the Internet is to deliver data between hosts. In particular, we've assumed unicast delivery, which means that there is a single source, sending data to a single destination.
+## **Động lực: Multicast** (Motivation: Multicast)
 
-Many protocols we've seen (e.g. HTTP, DNS, TCP, TLS) rely on a client-server model, which relies on the unicast delivery model. In the client-server model, there is one client and one server exchanging data, which implies that they are sending unicast data between each other.
+Trong tất cả các chủ đề mà chúng ta đã tìm hiểu cho đến nay, chúng ta đều nói rằng mục tiêu của Internet là truyền dữ liệu giữa các **host** (máy chủ/máy trạm). Đặc biệt, chúng ta đã giả định mô hình truyền **unicast** (truyền đơn hướng), nghĩa là có một nguồn duy nhất gửi dữ liệu tới một đích duy nhất.
 
-Most of the traffic on the Internet is indeed unicast, but there are some exceptions. In particular, some applications involve groups of hosts communicating. For example, consider a multi-player game, or a live content delivery app (e.g. Zoom meeting, live-streaming a sports game), or a collaborative document (e.g. Google Docs). More exotic uses of group communication also exist, such as discovery (e.g. send a message to all Apple devices so that you can find the nearest speaker), or AI training (we'll study this later in these notes).
+Nhiều giao thức mà chúng ta đã thấy (ví dụ: **HTTP**, **DNS**, **TCP**, **TLS**) dựa trên mô hình **client-server** (máy khách – máy chủ), vốn dựa trên mô hình truyền unicast. Trong mô hình client-server, có một client và một server trao đổi dữ liệu, điều này ngụ ý rằng chúng đang gửi dữ liệu unicast cho nhau.
 
-The client-server paradigm is not the most natural way to think about these situations. In a multi-player game or a video-conferencing app, there isn't a single client or a single server. How should the network support these applications, to make it easier for developers to write these types of applications?
+Phần lớn lưu lượng trên Internet thực sự là unicast, nhưng vẫn có một số ngoại lệ. Đặc biệt, một số ứng dụng liên quan đến việc giao tiếp theo nhóm giữa các host. Ví dụ: một trò chơi nhiều người chơi (**multi-player game**), một ứng dụng truyền nội dung trực tiếp (**live content delivery app**, ví dụ: họp trực tuyến qua Zoom, phát trực tiếp một trận đấu thể thao), hoặc một tài liệu cộng tác (ví dụ: Google Docs). Cũng có những ứng dụng nhóm đặc thù hơn, như **discovery** (tìm kiếm thiết bị, ví dụ: gửi một thông điệp tới tất cả thiết bị Apple để tìm loa gần nhất), hoặc huấn luyện AI (chúng ta sẽ nghiên cứu phần này sau).
 
-One possible answer to this question is: The network should offer no support at all. Group communication can be implemented with unicast. For example, when you make an update to the collaborative document, you can send a separate unicast packet to everyone else in the group, so that they all know about your update.
+Mô hình client-server không phải là cách tự nhiên nhất để hình dung các tình huống này. Trong một trò chơi nhiều người chơi hoặc một ứng dụng hội nghị truyền hình, không tồn tại một client hoặc một server duy nhất. Vậy mạng nên hỗ trợ các ứng dụng này như thế nào để giúp lập trình viên dễ dàng phát triển chúng hơn?
+
+Một câu trả lời khả dĩ là: Mạng **không cần** hỗ trợ gì cả. Giao tiếp nhóm có thể được triển khai bằng unicast. Ví dụ: khi bạn cập nhật một tài liệu cộng tác, bạn có thể gửi một gói tin unicast riêng tới từng thành viên khác trong nhóm để họ biết về bản cập nhật của bạn.
 
 <img width="500px" src="/assets/beyond-client-server/7-001-unicast-model.png">
 
-However, this unicast-only approach can be inefficient. Consider this network topology, where you are in the USA and all other group members are in Europe. If you send separate unicast packets to each group member, you're sending duplicate copies of the data across the expensive undersea cable. Also, this forces the sender to send many duplicate unicast packets, which scales poorly (e.g. imagine a single server streaming a sports game to millions of users).
+Tuy nhiên, cách tiếp cận chỉ dùng unicast này có thể kém hiệu quả. Xét ví dụ topology mạng, trong đó bạn ở Mỹ và tất cả các thành viên khác của nhóm ở châu Âu. Nếu bạn gửi các gói tin unicast riêng tới từng thành viên, bạn đang gửi nhiều bản sao trùng lặp của dữ liệu qua tuyến cáp quang biển đắt đỏ. Ngoài ra, điều này buộc bên gửi phải gửi nhiều gói tin unicast trùng lặp, dẫn đến khả năng mở rộng kém (ví dụ: tưởng tượng một server duy nhất phát trực tiếp một trận đấu thể thao cho hàng triệu người dùng).
 
-Intuitively, a more natural approach would be to send just a single packet across the undersea cable, and then let someone in Europe (e.g. a router or a host) distribute copies of the packet to the group members. Ideally, we would like to avoid sending duplicate copies of a packet along a link. In other words, each link should only carry the packet once (or possibly zero times, if there are no group members along that link).
+Một cách tiếp cận tự nhiên hơn là chỉ gửi **một** gói tin qua tuyến cáp biển, sau đó để một thiết bị ở châu Âu (ví dụ: một **router** hoặc một host) phân phối bản sao gói tin đó tới các thành viên trong nhóm. Lý tưởng nhất, chúng ta muốn tránh gửi các bản sao trùng lặp của một gói tin trên cùng một liên kết. Nói cách khác, mỗi liên kết chỉ nên mang gói tin đó **một lần** (hoặc không mang, nếu không có thành viên nhóm nào ở phía đó).
 
 <img width="500px" src="/assets/beyond-client-server/7-002-multicast-model.png">
 
-This approach requires extra support from the network, and requires developing some new protocols.
+Cách tiếp cận này đòi hỏi mạng phải có hỗ trợ bổ sung và cần phát triển một số giao thức mới.
 
+---
 
-## Multicast Definitions
+## **Định nghĩa Multicast** (Multicast Definitions)
 
-Recall that we have seen four packet delivery models so far:
+Hãy nhớ rằng chúng ta đã thấy bốn mô hình truyền gói tin cho đến nay:
 
-Unicast: Send a packet to exactly one destination.
-
-Anycast: Send a packet to anyone in a set of possible destinations. Only one member of the set needs to receive the packet.
-
-Broadcast: Send a packet to all destinations. The definition of "all" depends on the context of the problem, but you can think of it as all hosts in a local network.
-
-Multicast: Send a packet to all members in a group. Hosts can choose to join/leave groups at any time. Note that you can send a packet to a group, even if you yourself are not a member of that group.
+- **Unicast:** Gửi gói tin tới đúng một đích duy nhất.  
+- **Anycast:** Gửi gói tin tới một trong số các đích có thể. Chỉ cần một thành viên trong tập đích nhận được gói tin.  
+- **Broadcast:** Gửi gói tin tới tất cả các đích. Định nghĩa “tất cả” phụ thuộc vào ngữ cảnh, nhưng bạn có thể hình dung là tất cả host trong một mạng cục bộ.  
+- **Multicast:** Gửi gói tin tới tất cả các thành viên trong một nhóm. Host có thể tham gia/rời nhóm bất kỳ lúc nào. Lưu ý rằng bạn có thể gửi gói tin tới một nhóm ngay cả khi bạn không phải là thành viên của nhóm đó.
 
 <img width="900px" src="/assets/beyond-client-server/7-003-uni-any-multi-broadcast.png">
 
-The multicast paradigm can be used to think about the group communication problems from earlier. For example, all hosts interested in receiving the live-streamed sports game can join a multicast group. Then, the streaming service can multicast packets to the entire group.
+Mô hình multicast có thể được sử dụng để giải quyết các vấn đề giao tiếp nhóm đã nêu ở trên. Ví dụ: tất cả host quan tâm đến việc nhận phát trực tiếp một trận đấu thể thao có thể tham gia vào một **multicast group**. Sau đó, dịch vụ phát trực tiếp có thể gửi gói tin multicast tới toàn bộ nhóm.
 
-As another example, if we wanted to use multicast for discovery, we could have all printers in the building join a multicast group. Then, users can multicast packets to the entire group to find the printers that they can use.
+Một ví dụ khác: nếu muốn dùng multicast cho mục đích discovery, chúng ta có thể để tất cả máy in trong tòa nhà tham gia vào một multicast group. Khi đó, người dùng có thể gửi gói tin multicast tới toàn nhóm để tìm các máy in mà họ có thể sử dụng.
 
+---
 
-## IP vs. Overlay Multicast
+## **IP Multicast và Overlay Multicast** (IP vs. Overlay Multicast)
 
-A perennial debate throughout the history of multicast is an architectural question: At what layer should we implement multicast?
+Một cuộc tranh luận lâu dài trong lịch sử multicast là câu hỏi về kiến trúc: **Chúng ta nên triển khai multicast ở tầng nào?**
 
-One option is to implement multicast in Layer 3, sometimes called **IP multicast**. In this approach, we add specialized support to routers so that they understand how to multicast packets. This option gives better performance, but is harder to implement.
+- Một lựa chọn là triển khai multicast ở **Layer 3**, đôi khi gọi là **IP multicast**. Trong cách tiếp cận này, chúng ta bổ sung hỗ trợ chuyên biệt cho các router để chúng hiểu cách gửi gói tin multicast. Cách này cho hiệu năng tốt hơn, nhưng khó triển khai hơn.
 
-The other option is implement multicast in Layer 7, sometimes called **overlay multicast**. In this approach, applications handle any multicast functionality. This approach leaves Layer 3 untouched, so routers only need to understand unicast. This option gives worse performance, but is simpler to implement.
+- Lựa chọn khác là triển khai multicast ở **Layer 7**, đôi khi gọi là **overlay multicast**. Trong cách tiếp cận này, ứng dụng sẽ xử lý toàn bộ chức năng multicast. Cách này giữ nguyên Layer 3, nên các router chỉ cần hiểu unicast. Cách này cho hiệu năng kém hơn, nhưng dễ triển khai hơn.
 
-Neither option is strictly better. We'll study both options and analyze the trade-offs between them.
+Không có lựa chọn nào là tuyệt đối tốt hơn. Chúng ta sẽ nghiên cứu cả hai cách và phân tích các đánh đổi giữa chúng.
 
 <img width="500px" src="/assets/beyond-client-server/7-004-multicast-taxonomy.png">

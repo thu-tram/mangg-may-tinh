@@ -7,305 +7,352 @@ layout: page-with-toc
 
 # HTTP
 
-## Brief History of HTTP
+## Lược sử HTTP (Brief History of HTTP)
 
-In 1989, Tim Berners-Lee was working at CERN (Switzerland research lab) and needed to exchange information between scientists. At the time, protocols like FTP existed for transferring files over the Internet. However, a file will often have links to other resources on the Internet. His goal was to create a protocol and file format that would allow linking pages to each other and fetching those pages.
+Năm 1989, **Tim Berners-Lee** đang làm việc tại **CERN** (phòng thí nghiệm nghiên cứu ở Thụy Sĩ) và cần trao đổi thông tin giữa các nhà khoa học. Thời điểm đó, đã tồn tại các giao thức như **FTP (File Transfer Protocol)** để truyền tệp qua Internet. Tuy nhiên, một tệp thường chứa các liên kết tới những tài nguyên khác trên Internet. Mục tiêu của ông là tạo ra một giao thức và định dạng tệp cho phép liên kết các trang với nhau và truy xuất các trang đó.
 
-The original HTTP specification was given version number HTTP/0.9 and released in 1991. HTTP/1.0 was standardized in 1996, and HTTP/1.1 was standardized in 1997. Unless otherwise specified, this section is referring to HTTP/1.1, since this is the most common version in use today. More recent versions do exist (see end of this section), but the fundamentals of the protocol have stayed the same for over 20 years.
+Phiên bản đặc tả HTTP ban đầu được đánh số **HTTP/0.9** và phát hành năm 1991. **HTTP/1.0** được tiêu chuẩn hóa năm 1996, và **HTTP/1.1** được tiêu chuẩn hóa năm 1997. Trừ khi có ghi chú khác, phần này đề cập đến HTTP/1.1, vì đây là phiên bản phổ biến nhất hiện nay. Các phiên bản mới hơn có tồn tại (xem ở cuối phần này), nhưng các nguyên tắc cơ bản của giao thức đã giữ nguyên trong hơn 20 năm.
 
+---
 
-## HTTP Basics
+## Kiến thức cơ bản về HTTP (HTTP Basics)
 
-HTTP runs over TCP. Two people who want to send data over HTTP will first start a TCP connection. Then, they can use its bytestream abstraction to reliably exchange arbitrary-length data. Hosts running HTTP don't have to worry about packets being reordered, dropped, and so on.
+HTTP hoạt động trên **TCP (Transmission Control Protocol)**. Hai bên muốn gửi dữ liệu qua HTTP sẽ bắt đầu bằng việc thiết lập kết nối TCP. Sau đó, họ có thể sử dụng cơ chế **bytestream** (luồng byte) của TCP để trao đổi dữ liệu có độ dài tùy ý một cách tin cậy. Các máy chủ chạy HTTP không phải lo lắng về việc gói tin bị sắp xếp lại, mất mát, v.v.
 
 <img width="900px" src="/assets/applications/4-13-http-bytestream.png">
 
-HTTP is a **client-server** protocol. We designate one person as the client (e.g. you, the end user), and one person as the server (e.g. Google, a bank website, etc.). The client is almost always running HTTP in a web browser (e.g. Firefox or Chrome), though HTTP can also be run in other ways (e.g. directly on the terminal).
+HTTP là một giao thức **client-server**. Một bên được chỉ định là **client** (ví dụ: bạn – người dùng cuối), và một bên là **server** (ví dụ: Google, trang web ngân hàng, v.v.). Client gần như luôn chạy HTTP trong trình duyệt web (ví dụ: Firefox hoặc Chrome), mặc dù HTTP cũng có thể chạy theo cách khác (ví dụ: trực tiếp trên terminal).
 
-When forming an HTTP connection, the server must listen for connection requests on the well-known, constant port number 80. (HTTPS, a more recent secure version, uses port 443). The client can choose any random ephemeral port number to start the connection, and the server can send replies to that port number.
+Khi thiết lập kết nối HTTP, server phải lắng nghe các yêu cầu kết nối trên **port** cố định và phổ biến là 80. (**HTTPS**, phiên bản bảo mật hơn, sử dụng port 443). Client có thể chọn bất kỳ **ephemeral port** (cổng tạm thời) ngẫu nhiên nào để bắt đầu kết nối, và server sẽ gửi phản hồi về cổng đó.
 
-HTTP is a **request-response** protocol. For each request that the client sends, the server sends exactly one corresponding response.
+HTTP là một giao thức **request-response** (yêu cầu – phản hồi). Mỗi yêu cầu từ client sẽ nhận được đúng một phản hồi tương ứng từ server.
 
+---
 
-## HTTP Requests
+## HTTP Requests (Yêu cầu HTTP)
 
-The HTTP request message is formatted in human-readable plaintext, which means you can type raw HTTP requests into the terminal. The request contains three parts: method, URL, version, and optional content.
+Thông điệp yêu cầu HTTP được định dạng ở dạng văn bản thuần (**plaintext**) dễ đọc, nghĩa là bạn có thể gõ trực tiếp yêu cầu HTTP thô vào terminal. Yêu cầu gồm ba phần: **method** (phương thức), **URL**, **version** (phiên bản), và nội dung tùy chọn (**optional content**).
 
-The message ends with a newline (technically, CRLF, look it up if curious), which you can think of as the user pressing the Enter key after typing in the HTTP request in their terminal.
+Thông điệp kết thúc bằng một ký tự xuống dòng (thực tế là **CRLF** – Carriage Return Line Feed), bạn có thể hình dung như việc nhấn phím Enter sau khi gõ yêu cầu HTTP trong terminal.
 
-The version number specifies what version of HTTP you're using, e.g. HTTP/0.9, HTTP/1.0, HTTP/1.1, etc.
+- **Version**: chỉ định phiên bản HTTP đang sử dụng, ví dụ: HTTP/0.9, HTTP/1.0, HTTP/1.1, v.v.
+- **URL**: xác định tài nguyên trên server. Bạn có thể hình dung URL như đường dẫn tệp mà bạn muốn lấy từ server từ xa. Ví dụ: trong URL `http://cs168.io/assets/lectures/lecture1.pdf`, chúng ta đang yêu cầu tệp `lecture1.pdf` trong thư mục `assets/lectures` trên server `cs168.io`. (Server không bắt buộc phải hoạt động theo cách này, nhưng đây là một cách hình dung hữu ích).
+- **Method**: xác định hành động mà người dùng muốn thực hiện. Ban đầu, HTTP chỉ có một phương thức là **GET**, cho phép client lấy một trang cụ thể (được chỉ định bởi URL) từ server.
 
-The requested URL identifies a resource on the server. You can think of the URL as the filepath of what you're trying to retrieve from the remote server. For example, in the URL http://cs168.io/assets/lectures/lecture1.pdf, we're trying to retrieve a file in the assets/lectures folder, named lecture1.pdf, on the cs168.io remote server. (Servers aren't required to work this way, but it's a useful intuition to have.)
+Sau này, HTTP được mở rộng thêm các phương thức khác. Đáng chú ý là **POST**, cho phép client gửi dữ liệu tới server. Ví dụ: khi người dùng điền vào một biểu mẫu và nhấn Submit, dữ liệu sẽ được gửi tới server trong một yêu cầu POST.
 
-The method identifies what action the user wants to perform. Initially, HTTP only had one method, GET, which allows a client to retrieve a specific page (indicated by the URL) from the server.
+Một số phương thức ít dùng hơn gồm:  
+- **HEAD**: chỉ lấy phần header (metadata) của phản hồi, không lấy nội dung.  
+- **PUT, CONNECT, DELETE, OPTIONS, PATCH, TRACE**: mở rộng HTTP thành giao thức cho phép người dùng tương tác và thay đổi nội dung trên server, thay vì chỉ lấy nội dung như thiết kế ban đầu.  
 
-Later, HTTP was extended to add other methods. Notably, the POST method was added, which allows the client to supply information to the server as well. For example, if the user fills out a form and clicks Submit, that data is sent to the server in a POST request.
+Lưu ý: Với các phương thức như POST, chúng ta vẫn phải cung cấp URL để chỉ định cách diễn giải dữ liệu gửi đi. Ví dụ: trên trang web ngân hàng, gửi tên tới `/send-money` sẽ khác với gửi cùng tên đó tới `/request-money`.
 
-Some less-used methods exist as well. HEAD retrieves the headers (metadata) of the response, but not the actual content of the response. Other methods like PUT, CONNECT, DELETE, OPTIONS, PATCH, and TRACE extend HTTP into a protocol that lets the user interact with content on the server. The user can now make changes to the content, as opposed to the original design, where the user could only retrieve content. These extra methods make HTTP very flexible for all sorts of different application.
+- Với **GET request**, nội dung yêu cầu thường rỗng, vì chúng ta chỉ yêu cầu một trang từ server.  
+- Với **POST request**, nội dung yêu cầu chứa dữ liệu mà chúng ta muốn gửi tới server.
 
-Note that with other methods like POST, we still have to provide a URL to indicate how to interpret the data we're sending. On a bank website, sending a name to the /send-money URL will probably do something different from sending that same name to the /request-money URL.
+---
 
-For GET requests, the content of the request is usually empty, since we're asking for a page from the server and not sending any of our own information. By contrast, for a POST request, the content of the request contains the data we want to send to the server.
+## HTTP Responses (Phản hồi HTTP)
 
+Mỗi yêu cầu HTTP tương ứng với một phản hồi HTTP. Phản hồi cũng ở dạng văn bản thuần dễ đọc, nghĩa là bạn có thể đọc phản hồi HTTP thô trong terminal. Phản hồi gồm bốn phần: **version** (phiên bản), **status code** (mã trạng thái), thông điệp tùy chọn (**optional message**), và **content** (nội dung).
 
-## HTTP Responses
+- **Version**: chỉ định phiên bản HTTP đang sử dụng.
+- **Content**: chứa nội dung mà server trả về, ví dụ: trang mà người dùng yêu cầu trong GET request.
+- **Status code**: là số cho phép server thông báo kết quả xử lý yêu cầu của client. Mỗi mã trạng thái có thông điệp dễ đọc đi kèm.
 
-Each HTTP request corresponds to one HTTP response. The response is also in human-readable plaintext, which means you can read raw HTTP responses in the terminal. The response contains four parts: version, status code, optional message, and content.
+Các mã trạng thái được phân loại theo giá trị số:
 
-As before, the version specifies the version of HTTP being used.
+- **100** = Thông tin (**Informational responses**).
+- **200** = Thành công (**Successful responses**).  
+  - `200 OK`: yêu cầu thành công (ý nghĩa cụ thể phụ thuộc vào phương thức và ứng dụng).  
+  - `201 Created`: yêu cầu thành công và một tài nguyên mới đã được tạo (thường thấy trong POST hoặc PUT).
+- **300** = Chuyển hướng (**Redirection messages**).  
+  - `301 Moved Permanently`: tài nguyên đã được chuyển vĩnh viễn.  
+  - `302 Found`: tài nguyên được chuyển tạm thời.  
+  Trong các trường hợp này, phản hồi thường kèm thông tin bổ sung về vị trí mới của tài nguyên (ví dụ: URL khác).
+- **400** = Lỗi từ phía client (**Client errors**).  
+  - `401 Unauthorized`: client chưa được phép truy cập nội dung, nhưng có thể truy cập nếu xác thực (login).  
+  - `403 Forbidden`: client đã xác thực, server biết danh tính nhưng vẫn không cho phép truy cập.
+- **500** = Lỗi từ phía server (**Server errors**).  
+  - `500 Internal Server Error`, `503 Service Unavailable` là phổ biến. Client hầu như không thể làm gì ngoài thử lại sau.
 
-The content is where the server would put, for example, the page that the user requested in a GET request.
+Một số mã lỗi rất quen thuộc như `404 Not Found` (không tìm thấy tệp) và `503 Service Unavailable` (dịch vụ không khả dụng).
 
-The status code is a number that allows the server to indicate the result of the client's request. Each status code has a corresponding human-readable message.
+Đôi khi, việc chọn mã trạng thái phù hợp có thể không rõ ràng. Ví dụ: nếu gửi yêu cầu HTTP phiên bản 0.9 tới Google, mã phù hợp có thể là `505 HTTP Version Not Supported`, nhưng Google lại trả về `400 Bad Request`. Thông thường, mục tiêu là trả về mã lỗi thuộc đúng nhóm (ví dụ: 400 hoặc 500) để kích hoạt hành vi xử lý phù hợp từ phía client.
 
-The status codes are classified into various categories according to numeric values:
+## **HTTP Headers**
 
-100 = Informational responses.
+Nếu **client** (máy khách) có thêm thông tin muốn gửi tới **server** (máy chủ), họ có thể bao gồm **metadata** (siêu dữ liệu) bổ sung gọi là **header**. Trong **HTTP/1.1**, không có header nào là bắt buộc, vì vậy việc không gửi bất kỳ header nào là hợp lệ (mặc dù server hoặc client có thể mong đợi một header nhất định và báo lỗi nếu thiếu).
 
-200 = Successful responses. 200 OK indicates a successful request, where the definition of success depends on the method of the request and the application using HTTP (remember, status codes are in every response, regardless of what method, GET/POST/etc., the request was). 201 Created indicates that the request succeeded and some new resource was created. This is usually seen in POST or PUT requests.
+Ví dụ: **Location header** có thể được sử dụng trong phản hồi HTTP mã 300 để chỉ ra vị trí mới của tài nguyên.
 
-300 = Redirection messages. These allow the server to tell the client that they should go look for the resource (specified by the URL) somewhere else. Two common ones are 301 Moved Permanently and 302 Found (a weird name for moved temporarily). Sometimes, the status code itself doesn't provide enough context (as seen with these redirects). Therefore, the response will also contain additional information about where the resource has moved (e.g. another URL).
+Đôi khi, thông tin trong header là tùy chọn. Ví dụ: **User-Agent header** trong yêu cầu cho phép client thông báo cho server biết về trình duyệt hoặc chương trình client đang sử dụng (ví dụ: Firefox hoặc Chrome). Điều này có thể cho phép server xử lý yêu cầu khác nhau tùy thuộc vào giá trị của header (ví dụ: người dùng đang dùng Chrome hay đang gửi yêu cầu từ terminal).
 
-The use of more specific status codes allows the client to determine its future behavior based on the code. For example, 301 Moved Permanently tells the client to stop looking in the original location, while 302 Found (moved temporarily) might tell the client to come back and check again later.
+Một số trường hợp khác, thông tin trong header lại rất quan trọng. Ví dụ: **Content-Type** cho biết payload (dữ liệu tải) là một trang HTML, hình ảnh, video, v.v. Thông tin này giúp trình duyệt biết cách hiển thị phản hồi HTTP. Nếu một server lưu trữ nhiều website, **Host header** có thể được dùng trong yêu cầu để chỉ định website nào cần truy cập.
 
-400 = An error attributable to client action. 401 Unauthorized says that the client is not allowed to access this content, but if they authenticate their identity (e.g. log in), then they might be able to access the content. 403 Forbidden says that the client is authenticated, and the server knows their identity, but they're still not allowed to access the content.
+Một số header liên quan đến **request** (yêu cầu). Chúng cho phép client truyền thông tin tới server. Ví dụ:  
+- **Accept header**: cho phép client cho server biết loại nội dung mà client mong đợi (ví dụ: HTML cho trang dễ đọc với con người, JSON cho dữ liệu máy có thể phân tích).  
+- **User-Agent header**: cho biết loại client đang được sử dụng.  
+- **Host header**: cho biết host cụ thể đang được truy cập (trong trường hợp server lưu trữ nhiều website).  
+- **Referer header**: cho biết cách client đã thực hiện yêu cầu (ví dụ: nếu họ nhấp vào một liên kết từ Facebook để thực hiện yêu cầu này).
 
-Again, using more specific codes lets the client determine future behavior. 401 Unauthorized might cause the client browser to show a login window, while 403 Forbidden might cause the client browser to show an error message (since the user has already logged in).
+Một số header liên quan đến **response** (phản hồi). Hãy nhớ rằng header là metadata về nội dung, không phải bản thân nội dung. Ví dụ:  
+- **Content-Encoding**: cho biết cách diễn giải các bit của phản hồi (ví dụ: Unicode/ASCII cho văn bản dễ đọc, hoặc gzip cho tệp nén).  
+- **Date header**: cho biết thời điểm server tạo ra phản hồi.
 
-500 = An error attributable to server action. 500 Internal Server Error and 503 Service Unavailable are common. There's not much the client can do about these errors, except maybe try again later.
+Một số header là **representation header**, được sử dụng trong cả request và response để mô tả cách nội dung được biểu diễn. Ví dụ: **Content-Type header** chỉ định loại tài liệu (ví dụ: văn bản, hình ảnh) và có thể xuất hiện trong POST request hoặc GET response. Representation header cho phép chúng ta truyền nhiều loại nội dung khác nhau qua HTTP, giúp giao thức này tổng quát và có thể được sử dụng cho nhiều loại ứng dụng.
 
-Some error codes like 404 (File Not Found) and 503 (Service Unavailable) are very recognizable.
+---
 
-Sometimes, the appropriate status code to use can be ambiguous. For example, if we sent an HTTP request to Google using version 0.9, the appropriate request might be 505 (HTTP Version Not Supported). Instead, Google responds with 400 (Bad Request). Usually, the goal is to provide an error from the correct category (e.g. 400 and 500 indicate errors) that elicits the correct behavior from the client.
+## **HTTP Examples** (Ví dụ về HTTP)
 
+Trong terminal, bạn có thể gõ:
 
-## HTTP Headers
+```
+telnet google.com 80
+```
 
-If the client has additional information they'd like to send to the server, they can include additional metadata called **headers**. In HTTP/1.1, no headers are mandatory, so it's legal to not include any (though the server/client might expect a header and error).
+để kết nối tới **Port 80** (HTTP) trên server của Google. Terminal sau đó sẽ cho phép bạn gõ một yêu cầu HTTP thô, kèm header, như:
 
-For example, the Location header can be used in HTTP 300 responses to indicate where the resource has moved.
+```
+GET / HTTP/1.1
+User-Agent: robjs
+```
 
-Sometimes, the header information is optional. For example, the User-Agent header in the request lets the client tell the server about the client browser or program (e.g. Firefox or Chrome). This could allow the request to be processed differently depending on the header field (e.g. whether the user is on Chrome or the terminal).
+Đây là một GET request cho trang gốc trên server, chạy trên HTTP phiên bản 1.1. **User-Agent header** cho biết loại client mà chúng ta đang sử dụng.
 
-Other times, header information is more critical. For example, Content-Type tells us whether the payload is an HTML page, image, video, etc. This tells the browser how to display the HTTP response. If a server is hosting multiple websites, the Host header can be used in requests to specify what website to request.
+Tương tự, phản hồi cũng ở dạng văn bản dễ đọc:
 
-Some headers are relevant in requests. These allow the client to pass information to the server. For example, the Accept header lets the client tell the server which content type the client is expecting (e.g. HTML for human-readable pages, JSON for machine-parsable data). The User-Agent header indicates the type of client being used, and the Host header indicates the specific host being accessed (in case a server is hosting multiple websites). The Referer header indicates how the client made the request (e.g. if they clicked on a link from Facebook to make this request).
+```
+HTTP/1.1 200 OK
+Date: Sat, 16 Mar 2024 18:33:08 GMT
+Content-Type: text/html; charset=ISO-8859-1
+<!doctype html><html lang="en"><head><meta content="Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for." name="description">...
+```
 
-Other headers are relevant in responses. Remember, headers are metadata about the content, not the content itself. For example, Content-Encoding tells us how the bits of the response should be interpreted (e.g. Unicode/ASCII for human-readable text, or gzip for a compressed file). The Date header tells us when the server generated the response.
-
-Some headers are representation headers, which are used in both requests and responses to describe how the content is represented. For example, the Content-Type header specifies the type of the document (e.g. text, image) and can be in POST requests, or GET responses. Representation headers let us carry different types of content over HTTP, which allows the protocol to be generalized and usable by all sorts of applications.
-
-
-## HTTP Examples
-
-In your terminal, you can type `telnet google.com 80` to connect to Port 80 (HTTP) on Google's server. The terminal will then allow you to type a raw HTTP request, with headers, like:
-
-`GET / HTTP/1.1`
-
-`User-Agent: robjs`
-
-This is a GET request for the root page on the server, running on HTTP version 1.1. The User-Agent header indicates the type of client we're using.
-
-Likewise, the response is also human-readable.
-
-`HTTP/1.1 200 OK`
-
-`Date: Sat, 16 Mar 2024 18:33:08 GMT`
-
-`Content-Type: text/html; charset=ISO-8859-1`
-
-`<!doctype html><html lang="en"><head><meta content="Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for." name="description">...`
-
-The `HTTP/1.1 200 OK` tells us the version, and the status code (200) with its corresponding message (OK). There are two headers attached, the date of the response, and the content type. Then, the content contains the raw HTML of the webpage. If we opened this HTML in a web browser, it would look like an actual webpage.
+Dòng `HTTP/1.1 200 OK` cho chúng ta biết phiên bản và mã trạng thái (200) cùng thông điệp tương ứng (OK). Có hai header đi kèm: ngày tạo phản hồi và loại nội dung. Sau đó, phần nội dung chứa HTML thô của trang web. Nếu mở HTML này trong trình duyệt, nó sẽ hiển thị như một trang web thực sự.
 
 <img width="800px" src="/assets/applications/4-14-httpexample1.png">
 
 <img width="800px" src="/assets/applications/4-15-httpexample2.png">
 
-Here are some other examples. Notice that the content section is blank in the GET request, but contains data in the POST and PUT request. Conversely, the POST and PUT responses have no contents, but the GET response does.
+Dưới đây là một số ví dụ khác. Lưu ý rằng phần nội dung trống trong GET request, nhưng chứa dữ liệu trong POST và PUT request. Ngược lại, phản hồi của POST và PUT không có nội dung, nhưng phản hồi của GET thì có.
 
-The status code and header tells us useful metadata about the request. For example, status 201 Created tells us that the file we send was successfully stored on the server. The header tells us where on the server the file was stored (and we might use that location to retrieve the file later).
+Mã trạng thái và header cung cấp metadata hữu ích về yêu cầu. Ví dụ: mã trạng thái `201 Created` cho biết tệp mà chúng ta gửi đã được lưu thành công trên server. Header cho biết vị trí trên server nơi tệp được lưu (và chúng ta có thể dùng vị trí đó để tải lại tệp sau này).
 
+---
 
-## Speeding Up HTTP with Pipelining
+## **Speeding Up HTTP with Pipelining** (Tăng tốc HTTP với Pipelining)
 
-Loading a single page in your web browser can require several HTTP requests. When you make a request for a YouTube video, your browser has to make separate requests for the video itself, the HTML with the other text on the webpage (e.g. video title, comments), thumbnails of related videos, and so on. Many of these requests probably go to the same server (e.g. YouTube's server in this case).
+Tải một trang duy nhất trong trình duyệt web của bạn có thể yêu cầu nhiều HTTP request. Khi bạn yêu cầu một video YouTube, trình duyệt phải gửi các yêu cầu riêng cho:  
+- Video chính  
+- HTML chứa văn bản khác trên trang (ví dụ: tiêu đề video, bình luận)  
+- Ảnh thu nhỏ (thumbnail) của các video liên quan  
+… và nhiều thành phần khác. Nhiều yêu cầu trong số này có thể tới cùng một server (ví dụ: server của YouTube).
 
-Recall that HTTP runs over TCP. In the naive case, every separate request would require starting a new TCP connection with a 3-way handshake. After the request, we close the connection and then immediately re-do a handshake for the next request.
+Hãy nhớ rằng HTTP chạy trên TCP. Trong trường hợp đơn giản, mỗi yêu cầu riêng biệt sẽ cần bắt đầu một kết nối TCP mới với **3-way handshake**. Sau khi yêu cầu hoàn tất, chúng ta đóng kết nối và lại thực hiện handshake cho yêu cầu tiếp theo.
 
 <img width="900px" src="/assets/applications/4-16-no-pipeline.png">
 
-HTTP 1.1 optimized this by allowing multiple HTTP requests and responses to be pipelined over the same connection. Now, we no longer need a separate TCP connection (with a separate handshake) for every request.
+**HTTP/1.1** đã tối ưu điều này bằng cách cho phép nhiều HTTP request và response được **pipelined** (xếp nối) trên cùng một kết nối. Giờ đây, chúng ta không cần một kết nối TCP riêng (với handshake riêng) cho mỗi yêu cầu nữa.
 
 <img width="900px" src="/assets/applications/4-17-pipeline.png">
 
-One downside to this optimization is, the server now has to keep more simultaneous open connections. The server needs to have some way to time out connections. If the server gets overloaded with open connections, the client might get an error like 503 Service Unavailable. Attackers could exploit this in a denial-of-service attack.
+Một nhược điểm của tối ưu hóa này là server giờ phải giữ nhiều kết nối mở đồng thời hơn. Server cần có cơ chế **timeout** (hết thời gian chờ) cho các kết nối. Nếu server bị quá tải với các kết nối mở, client có thể gặp lỗi như `503 Service Unavailable`. Kẻ tấn công có thể lợi dụng điều này để thực hiện **denial-of-service attack** (tấn công từ chối dịch vụ).
 
 
-## Speeding Up HTTP with Caching: Types
 
-Another strategy for speeding up HTTP is caching responses to avoid making duplicate requests for the same data.
+## **Tăng tốc HTTP với Caching: Các loại** (Speeding Up HTTP with Caching: Types)
 
-If we don't cache, every request must reach the server.
+Một chiến lược khác để tăng tốc **HTTP** là lưu vào bộ nhớ đệm (**cache**) các phản hồi, nhằm tránh việc gửi các yêu cầu trùng lặp cho cùng một dữ liệu.
+
+Nếu không có caching, mọi yêu cầu đều phải đi đến server.
 
 <img width="900px" src="/assets/applications/4-18-nocache.png">
 
-There are three types of HTTP caches:
+Có ba loại HTTP cache:
 
-**Private caches** are associated with a specific end client connecting to the server (e.g. the cache in your own browser). Now, if the same user requests the same resource a second time, they can fetch the resource from their local cache. However, private caches are not shared between users.
+- **Private cache** (bộ nhớ đệm riêng) gắn liền với một client (máy khách) cụ thể kết nối tới server (ví dụ: cache trong trình duyệt của bạn). Khi cùng một người dùng yêu cầu cùng một tài nguyên lần thứ hai, họ có thể lấy tài nguyên từ cache cục bộ. Tuy nhiên, private cache không được chia sẻ giữa các người dùng.
 
 <img width="900px" src="/assets/applications/4-19-privatecache.png">
 
-**Proxy caches** are in the network (not on the end host), and are controlled by the network operator, not the application provider. These caches can be shared between lots of users, so a user requesting a resource for the first time might get the data from the proxy cache instead of the origin server.
+- **Proxy cache** (bộ nhớ đệm proxy) nằm trong mạng (không nằm trên máy của người dùng cuối), và được điều khiển bởi nhà vận hành mạng, không phải nhà cung cấp ứng dụng. Các cache này có thể được chia sẻ giữa nhiều người dùng, vì vậy một người dùng yêu cầu một tài nguyên lần đầu tiên có thể nhận dữ liệu từ proxy cache thay vì từ **origin server** (máy chủ gốc).
 
 <img width="900px" src="/assets/applications/4-20-proxycache.png">
 
-One problem with proxy caches is, the clients need some way to be redirected to the proxy cache. The application isn't running the proxy cache, so the origin server doesn't necessarily know about the proxy cache. The network operator needs some way to control the end client to inform them about the proxy cache.
+  **Vấn đề** với proxy cache là client cần một cách nào đó để được chuyển hướng tới proxy cache. Ứng dụng không vận hành proxy cache, nên origin server không nhất thiết biết về nó. Nhà vận hành mạng cần một cách để kiểm soát client và thông báo cho họ về proxy cache.
 
-One common approach is lying in DNS responses, which is possible if the network operator controls both the proxy cache and the recursive resolver. When the client makes a request to the origin server, it has to look up the origin server's IP address. The recursive resolver can lie and say, "The IP address of the origin server is, 1.2.3.4 (proxy cache's IP address)." Now, requests to the origin server go to the proxy cache instead, who can serve cached responses. Or, if the requested resource isn't in the proxy cache, the proxy cache can make a request to the origin server, and then the cache can serve the request back to the user.
+  Một cách phổ biến là “nói dối” trong phản hồi **DNS** (nếu nhà mạng kiểm soát cả proxy cache và **recursive resolver**). Khi client tra cứu địa chỉ IP của origin server, recursive resolver có thể trả về địa chỉ IP của proxy cache (ví dụ: 1.2.3.4). Khi đó, các yêu cầu tới origin server sẽ đi tới proxy cache, nơi có thể phục vụ dữ liệu đã được cache. Nếu tài nguyên chưa có trong proxy cache, proxy cache sẽ gửi yêu cầu tới origin server, nhận dữ liệu và trả lại cho người dùng.
 
-Another problem with proxy caches is, the application isn't managing the proxy cache. The origin server has to trust that the proxy cache is doing the right thing (e.g. respecting cache expiry dates, serving the correct data).
+  Một vấn đề khác là ứng dụng không quản lý proxy cache, nên origin server phải tin rằng proxy cache hoạt động đúng (ví dụ: tôn trọng thời hạn cache, trả dữ liệu chính xác).
 
-**Managed caches** are in the network, and are controlled by the application provider. Note that managed cache servers are deployed separately, and are not the original server that generated the content. Because these caches are controlled by the application provider, this gives the application more control.
+- **Managed cache** (bộ nhớ đệm được quản lý) nằm trong mạng và do nhà cung cấp ứng dụng điều khiển. Các máy chủ cache này được triển khai riêng biệt, không phải là origin server tạo ra nội dung. Vì được kiểm soát bởi nhà cung cấp ứng dụng, managed cache cho phép ứng dụng có nhiều quyền kiểm soát hơn.
 
 <img width="900px" src="/assets/applications/4-21-managedcache.png">
 
-Because applications control both the origin server and the cache, they can redirect users to the caches themselves. For example, if you request a YouTube video page from the origin server, the reply might contain the HTML (video title, comments). The HTML might then include links to specifically fetch the video and images from the proxy caches (e.g. load from static.youtube.com instead of www.youtube.com).
+  Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ `static.youtube.com` thay vì `www.youtube.com`).
+
+---
+
+## **Tăng tốc HTTP với Caching: Lợi ích và Hạn chế** (Benefits and Drawbacks)
+
+Caching mang lại lợi ích cho tất cả mọi bên:
+
+- **Client**: tải trang nhanh hơn vì tránh được các yêu cầu trùng lặp và có thể sử dụng proxy gần hơn.
+- **ISP** (nhà cung cấp dịch vụ Internet): giảm số lượng HTTP request/response truyền qua mạng, tiết kiệm băng thông.
+- **Server**: nhận ít yêu cầu hơn, giảm tải xử lý.
+
+Tất cả (client, ISP, server) đều quan tâm đến việc mang lại hiệu năng tốt cho client. Client muốn xem video chất lượng cao, và ISP cùng ứng dụng sẽ thu hút nhiều khách hàng hơn nếu cung cấp hiệu năng tốt. Caching giúp đạt được điều này vì client có thể nhận dữ liệu từ cache gần hơn (cục bộ hoặc trong mạng), với độ trễ (**latency**) thấp hơn. Ngoài ra, hãy nhớ rằng **TCP throughput** và **RTT** (round-trip time) tỉ lệ nghịch, nên RTT ngắn hơn tới server gần hơn sẽ cho throughput cao hơn. Điều này đặc biệt hữu ích cho nội dung lớn như video.
+
+Khi nghĩ về caching, cần xem xét nội dung có thay đổi ở các yêu cầu sau hay không:
+
+- **Tài nguyên tĩnh**: không thay đổi giữa các lần yêu cầu (ví dụ: logo Google).
+- **Tài nguyên động**: thay đổi tùy người yêu cầu và thời điểm yêu cầu (ví dụ: kết quả tìm kiếm Google).
+
+Một số tài nguyên tĩnh có thể được cache và phục vụ từ proxy hoặc managed cache, trong khi tài nguyên động phải được tạo mới. Ví dụ: kết quả tìm kiếm Google (HTML) cần được tạo động từ origin server, nhưng HTML đó có thể chứa liên kết tải logo Google (tĩnh) từ managed cache.
+
+Thuận lợi là các tài nguyên lớn như hình ảnh và video thường là tĩnh và có thể cache mạnh tay. Nội dung động như HTML tùy biến thường nhỏ hơn. Client có thể lấy nội dung động từ origin server (xa) và dùng cache/proxy (gần) cho nội dung tĩnh.
+
+---
+
+## **Tăng tốc HTTP với Caching: Triển khai** (Implementation)
+
+Để triển khai caching, chúng ta cần dùng **HTTP header** để mang metadata về caching (ví dụ: thời gian lưu cache). Đây là một ví dụ khác cho thấy header giúp mở rộng giao thức gốc (vốn không hỗ trợ caching).
+
+- Trong **HTTP/1.0**, caching dùng **Expires header**, chỉ định thời gian dữ liệu có thể được cache.
+- Trong **HTTP/1.1**, giới thiệu **Cache-Control header** phức tạp hơn. Để tương thích, một số web server trả về cả hai header. Client HTTP/1.0 sẽ bỏ qua Cache-Control, còn client HTTP/1.1 sẽ ưu tiên Cache-Control hơn Expires.
+
+**Cache-Control header** chỉ định loại cache nào được phép lưu dữ liệu và thời gian lưu. Ví dụ: nếu tài nguyên là động và thay đổi theo từng người dùng nhưng giữ nguyên theo thời gian cho một người dùng cụ thể, server có thể trả về:
+
+```
+Cache-Control: private, max-age=86400
+```
+
+Điều này nghĩa là nội dung chỉ được lưu trong cache cục bộ của người dùng (không lưu trong proxy/managed cache chia sẻ) và có thể lưu trong 1 ngày (86400 giây).
+
+Một số dữ liệu không thể cache (ví dụ: nội dung động thay đổi thường xuyên). Khi đó, server có thể đặt:
+
+```
+Cache-Control: no-store
+```
+
+để báo rằng client và proxy không được cache nội dung.
+
+Cache-Control là tùy chọn, nên không đảm bảo client sẽ đọc hoặc tuân thủ. Bạn có thể coi đây là “yêu cầu” từ server để cache dữ liệu. Điều này đặc biệt đáng lo với proxy cache (không do nhà cung cấp ứng dụng vận hành). Ngược lại, private cache do client (trình duyệt) vận hành, vi phạm chỉ ảnh hưởng tới chính họ. Managed cache do cùng nhà cung cấp ứng dụng vận hành, nên họ có thể đảm bảo tuân thủ quy tắc từ origin server.
+
+Header này cũng có thể dùng cho chính sách phức tạp hơn. Ví dụ: server có thể cho phép cache dữ liệu, nhưng yêu cầu trước khi dùng dữ liệu cache, client phải gửi **HTTP HEAD request** để lấy lại header và xác thực dữ liệu. Nếu header cho thấy dữ liệu đã thay đổi, hãy xóa cache.
 
 
-## Speeding Up HTTP with Caching: Benefits and Drawbacks
 
-Caching benefits everybody. The client gets to load pages faster, because they can avoid making duplicate requests, and use nearby proxies. The ISPs benefit because there are fewer HTTP requests/responses being sent over the network, so they can build less bandwidth. Servers benefit because users make fewer requests, and they don't need to process as many requests.
+## **Content Delivery Networks (CDNs)** – Mạng phân phối nội dung
 
-Clients, ISPs, and servers all care about giving good performance to the client. The client wants to watch videos in high quality, and ISPs and applications will get more customers by delivering good performance. Caching helps everybody achieve this, because the client can get their request served more efficiently from a closer cache (local, or in-network), with less latency. Also, recall that TCP throughput and RTT are inversely proportional, so a shorter RTT to a closer server means that we get higher throughput. This is especially helpful for large content like videos.
+Trước đây, chúng ta đã thấy rằng **managed cache** (bộ nhớ đệm được quản lý) là một chiến lược tốt để lưu đệm và cải thiện hiệu năng cho người dùng. Không giống như **private cache** (bộ nhớ đệm riêng), chúng được chia sẻ giữa nhiều người dùng (ví dụ: một người dùng yêu cầu một nội dung lần đầu tiên vẫn có thể được phục vụ từ cache). Đồng thời, khác với **proxy cache** (bộ nhớ đệm proxy), chúng được kiểm soát bởi nhà cung cấp ứng dụng (**application provider**), điều này giúp ứng dụng có nhiều quyền kiểm soát hơn. Ứng dụng có thể đảm bảo rằng cache tuân thủ các quy tắc do **origin server** (máy chủ gốc) đặt ra, và origin server có thể kiểm soát việc người dùng được chuyển hướng tới cache nào.
 
-When thinking about caching, we have to consider whether the content will change on future requests. Some HTTP resources are static. If you make a request for the Google logo, it stays the same across multiple requests.
+Triển khai managed cache trên toàn mạng dẫn đến ý tưởng về **Content Delivery Network (CDN)** – tập hợp các máy chủ trong mạng phục vụ nội dung (ví dụ: các tài nguyên HTTP).
 
-Other HTTP resources are dynamic. If you make a Google search request, the response might change depending on who asks and when they ask. The server needs to dynamically generate a different response for every request.
+Để đạt hiệu năng tốt, chúng ta cố gắng đặt CDN gần người dùng cuối. Ở đây, “gần” có nghĩa là gần về mặt địa lý, nhưng cũng gần về mặt mạng (ít số bước nhảy hơn).
 
-Some resources are static and can be cached and served from proxy or managed caches, while other resources must be dynamically generated. For example, if you make a Google search, the HTML response probably needs to be dynamically generated by the origin server. However, the HTML can include a link to fetch the Google logo, a static resource, from one of the managed cache servers.
+CDN mang lại tất cả lợi ích của caching. Người dùng nhận được nội dung với hiệu năng cao hơn vì máy chủ gần hơn. Chúng ta có thể giảm lượng **network bandwidth** (băng thông mạng) và hạ tầng cần thiết, vì người dùng chủ yếu gửi yêu cầu tới các máy chủ gần thay vì một origin server duy nhất (có thể ở rất xa).
 
-Conveniently, larger resources like images and videos are static, and can be cached aggressively. Dynamic content, like customized HTML pages, tend to be smaller. Clients can request the dynamic content from the origin server (far away), and use caches and proxies (closer) for all the static content.
+CDN cho phép nhà cung cấp mở rộng hạ tầng máy chủ dễ dàng hơn. Với một origin server duy nhất, chúng ta phải nâng cấp máy chủ đó trở nên cực kỳ mạnh và có băng thông cực lớn. Ngược lại, với CDN, chúng ta chỉ cần bổ sung thêm nhiều máy chủ nhỏ trên khắp Internet.
 
+CDN cũng cung cấp khả năng **redundancy** (dự phòng) tốt hơn cho nhà cung cấp. Nếu một origin server gặp sự cố, dịch vụ có thể bị gián đoạn. Ngược lại, với CDN, nếu một máy chủ gặp sự cố, người dùng vẫn có thể được chuyển hướng tới các máy chủ khác.
 
-## Speeding Up HTTP with Caching: Implementation
+---
 
-To implement caching, we'll need to use headers to carry some metadata about caching (e.g. how long to cache the data). This is another example of headers allowing extensibility of the original protocol (which did not support caching).
+## **Triển khai CDN** (CDN Deployment)
 
-The original legacy caching functionality in HTTP/1.0 used the Expires header, which just specified how long the data can be cached. In HTTP/1.1, a more sophisticated Cache-Control header was introduced. To support compatibility, some web servers will return data with both headers. HTTP/1.0 clients won't understand the newer Cache-Control header and will ignore it. HTTP/1.1 clients will prioritize the newer Cache-Control header over the older Expires header.
+Hãy nhớ lại mô hình Internet: Yêu cầu của client được chuyển tiếp qua các **WAN router** (do ISP sở hữu) cho đến khi đến một **peering location** (điểm kết nối ngang hàng). Sau đó, yêu cầu đi tới peering location trong mạng của nhà cung cấp ứng dụng. Yêu cầu tiếp tục đi qua mạng WAN của ứng dụng cho đến khi đến **datacenter network** (mạng trung tâm dữ liệu), nơi đặt origin server.
 
-The Cache-Control header specifies what types of caches can cache the data, and how long the data can be cached. For example, if the resource is dynamic and changes per user, but stays the same across time for a specific user, then the server could reply with: Cache-Control: private, max-age:86400. This says that this content should only be stored in a user's local cache (not in shared proxy/managed caches), and can be stored for one day (86400 seconds).
-
-Some data cannot be cached (e.g. dynamic content that changes frequently). In this case, the server can set Cache-Control: no-store to indicate that the client and proxy cannot cache the content.
-
-The Cache-Control header is optional, so there's no guarantee that the client will read or respect the header. You can think of this header as a request from the server cache something. This is especially a concern for proxy caches, which are not operated by the application provider. By contrast, a private cache is run by the client (i.e. their browser) and breaking rules only affects the client themselves. A managed cache is run by the same application provider, so they can enforce that rules from the origin server are obeyed by the managed caches.
-
-This header can be used for more complex policies as well. For example, the server might say, you can cache this data, but before you use the cached data, please make an HTTP HEAD request to re-request the header and re-validate the data. If the header indicates that the data has changed, invalidate the cache.
-
-
-## Content Delivery Networks (CDNs)
-
-Earlier, we saw that managed caches are a good strategy for caching and improving user performance. Unlike private caches, they're shared between users (e.g. a user requesting something for the first time can be served by the cache). Also, unlike proxy caches, they're controlled by the application provider, which gives the application more control. The application can ensure that the caches follow rules set by the origin server, and the origin server can control which caches the user is redirected to.
-
-Deploying managed caches across the network leads us to the idea of **content delivery networks (CDNs)**, which are sets of servers in the network serving content (e.g. HTTP resources).
-
-For good performance, we try to put CDNs close to end users. Here, close means geographically close, but also close from a network perspective (fewer hops).
-
-CDNs give us all the benefits of caching. Users get higher-performance delivery of content, since servers are closer. We can reduce the amount of network bandwidth and infrastructure needed, since users are making most requests to nearby servers instead of a single origin server (possibly far away).
-
-CDNs allow providers to scale their server infrastructure more easily. With a single origin server, we'd have to scale that server by making it incredibly powerful and giving it incredibly high bandwidth. By contrast, with CDNs, we can scale just by adding more small servers throughout the Internet.
-
-CDNs also provide better redundancy for providers. If a single origin server goes down, the service might become unavailable. By contrast, with CDNs, if one server goes down, users can still be redirected to other servers.
-
-
-## CDN Deployment
-
-Recall our model of the Internet: The client's request is forwarded through WAN routers (owned by the ISP) until it reaches a peering location. Then, the request goes to a peering location in the application provider's network. The request goes through the application's WAN networks until it reaches a datacenter network, where the origin server lives.
-
-If we don't deploy any CDN, every request has to reach the origin server. This has the maximum latency (compared to later options with CDNs), resulting in the lowest performance. Also, this requires the most bandwidth to be traversed, which means we have to build more bandwidth. Finally, this requires the origin server to scale to handle every request.
+Nếu không triển khai CDN, mọi yêu cầu đều phải đến origin server. Điều này dẫn đến **latency** (độ trễ) cao nhất (so với các phương án có CDN), hiệu năng thấp nhất, yêu cầu nhiều băng thông nhất, và buộc origin server phải mở rộng để xử lý mọi yêu cầu.
 
 <img width="900px" src="/assets/applications/4-21-cdn1.png">
 
-A better option would be to deploy some CDN servers at the edge of the application provider network. For example, if Google's network peers with ISP networks in New York, we could put some CDNs there.
+Một lựa chọn tốt hơn là triển khai một số máy chủ CDN ở rìa mạng của nhà cung cấp ứng dụng. Ví dụ: nếu mạng của Google kết nối ngang hàng với mạng ISP ở New York, chúng ta có thể đặt một số CDN tại đó.
 
-Now, the amount of bandwidth sent over the application provider's network is much lower. The origin server sends the video to the CDN once, and the CDN can serve that video to many users. The application network no longer needs to scale its WAN network.
+Khi đó, lượng băng thông truyền qua mạng của nhà cung cấp ứng dụng giảm đáng kể. Origin server chỉ cần gửi video tới CDN một lần, và CDN có thể phục vụ video đó cho nhiều người dùng. Mạng ứng dụng không còn cần mở rộng mạng WAN của mình.
 
-Also, as we saw earlier, we can now scale by adding more CDNs, instead of upgrading a single origin server. We also have more redundancy.
+Ngoài ra, như đã thấy, chúng ta có thể mở rộng bằng cách thêm nhiều CDN thay vì nâng cấp một origin server duy nhất. Chúng ta cũng có thêm khả năng dự phòng.
 
 <img width="900px" src="/assets/applications/4-22-cdn2.png">
 
-We can do even better and push caching deeper into the network. Now, the application is deploying servers inside the ISP's network.
+Chúng ta có thể làm tốt hơn nữa bằng cách đẩy caching sâu hơn vào trong mạng. Lúc này, ứng dụng triển khai máy chủ ngay bên trong mạng của ISP.
 
 <img width="900px" src="/assets/applications/4-23-cdn3.png">
 
-Why would an ISP agree to let the application deploy a CDN in their network? It turns out this is mutually beneficial for everybody. The ISP's customers will get better performance because they can use this new closer CDN. Also, the heavy traffic between users and the CDN is now all contained within the ISP's network. This means that ISP needs less bandwidth in the peering connection between the ISP and the application (since the content is sent only once across that peering connection).
+Tại sao ISP lại đồng ý cho ứng dụng triển khai CDN trong mạng của họ? Thực tế, điều này mang lại lợi ích cho cả hai bên. Khách hàng của ISP sẽ có hiệu năng tốt hơn vì họ có thể sử dụng CDN gần hơn. Ngoài ra, lưu lượng lớn giữa người dùng và CDN giờ đây được giữ hoàn toàn trong mạng của ISP. Điều này có nghĩa là ISP cần ít băng thông hơn ở kết nối peering giữa ISP và ứng dụng (vì nội dung chỉ được gửi một lần qua kết nối đó).
 
-In practice, the ISP and CDN often cooperate to deploy servers. For example, the application provides the servers for free, and the ISP connects the server to the network for free. In some cases, the ISP and CDN need to negotiate on some payment (CDN to ISP, or ISP to CDN), depending on where in the network the server is deployed, and the costs of the server and the connectivity. Still, both parties have an interest in deploying these servers.
+Trên thực tế, ISP và CDN thường hợp tác để triển khai máy chủ. Ví dụ: ứng dụng cung cấp máy chủ miễn phí, và ISP kết nối máy chủ vào mạng miễn phí. Trong một số trường hợp, ISP và CDN cần đàm phán về khoản thanh toán (CDN trả cho ISP hoặc ISP trả cho CDN), tùy thuộc vào vị trí triển khai máy chủ trong mạng và chi phí máy chủ cũng như kết nối. Tuy nhiên, cả hai bên đều có lợi ích trong việc triển khai các máy chủ này.
 
-We could try to go even further, but eventually, we encounter cost-benefit trade-offs. In the most extreme case, we could deploy a CDN in everybody's home, but the cost probably outweighs the benefit. In particular, CDNs work best when multiple users are using it. The collective cache is larger, and one deployment can reach many users.
+Chúng ta có thể tiến xa hơn nữa, nhưng cuối cùng sẽ gặp giới hạn chi phí – lợi ích. Trong trường hợp cực đoan, chúng ta có thể triển khai CDN tại từng hộ gia đình, nhưng chi phí có thể vượt quá lợi ích. Đặc biệt, CDN hoạt động tốt nhất khi có nhiều người dùng sử dụng nó. Cache tập thể sẽ lớn hơn, và một điểm triển khai có thể phục vụ nhiều người dùng.
 
 <img width="900px" src="/assets/applications/4-24-cdn4.png">
 
-More generally, there's a trade-off between the cost of adding new CDNs, and the money you save from building less bandwidth. In practice, CDNs do exist in ISP networks because they're still profitable to install there.
+Nói chung, luôn tồn tại sự đánh đổi giữa chi phí bổ sung CDN mới và số tiền tiết kiệm được từ việc giảm xây dựng băng thông. Trên thực tế, CDN tồn tại trong mạng ISP vì chúng vẫn mang lại lợi nhuận khi lắp đặt.
 
-A 2023 Sandvine (packet inspection company) report showed that 15% of all Internet traffic is from Netflix, 11.4% of traffic is from YouTube, and 4.5% is from Disney+. If an ISP installs servers for just these three applications in their network, they could potentially build 25% less network capacity.
+Báo cáo năm 2023 của **Sandvine** (công ty giám sát gói tin) cho thấy 15% tổng lưu lượng Internet đến từ Netflix, 11,4% từ YouTube, và 4,5% từ Disney+. Nếu một ISP cài đặt máy chủ cho chỉ ba ứng dụng này trong mạng của họ, họ có thể giảm tới 25% dung lượng mạng cần xây dựng.
 
-Major application providers like Google, Netflix, Amazon, and Facebook deploy CDNs, both in their own networks, and in ISP networks.
+Các nhà cung cấp ứng dụng lớn như Google, Netflix, Amazon và Facebook triển khai CDN cả trong mạng của họ và trong mạng ISP.
 
-If you're an application provider, you might not be a tech giant like Google or Amazon, but you still want your content to be served through a CDN for good performance. These smaller applications probably can't afford to install their own CDNs. However, companies like Cloudflare, Akamai, and Edgio have deployed CDNs, and you can pay those companies to deploy your content on their existing CDN. These CDN providers also deploy infrastructure in both their own networks and in ISP networks.
+Nếu bạn là nhà cung cấp ứng dụng, có thể bạn không phải là “ông lớn” công nghệ như Google hay Amazon, nhưng bạn vẫn muốn nội dung của mình được phân phối qua CDN để đạt hiệu năng tốt. Các ứng dụng nhỏ hơn có thể không đủ khả năng tự triển khai CDN. Tuy nhiên, các công ty như Cloudflare, Akamai và Edgio đã triển khai CDN, và bạn có thể trả phí để họ phân phối nội dung của bạn trên CDN sẵn có của họ. Các nhà cung cấp CDN này cũng triển khai hạ tầng cả trong mạng của họ và trong mạng ISP.
 
-CDNs can also be used by ISPs, because ISPs themselves can also have applications serving content. When you pay for Internet service, the ISP might also offer TV service (live TV, or video on demand). These ISPs install their own CDNs to efficiently serve that TV content to you.
+CDN cũng có thể được ISP sử dụng, vì bản thân ISP cũng có thể có ứng dụng phục vụ nội dung. Khi bạn trả tiền cho dịch vụ Internet, ISP có thể cung cấp thêm dịch vụ TV (truyền hình trực tiếp hoặc video theo yêu cầu). Các ISP này triển khai CDN riêng để phục vụ nội dung TV đó một cách hiệu quả.
 
-Fundamentally, the servers in CDNs are the same as any other servers on the Internet providing content, though they are often highly optimized for storing and delivering large amounts of content. Some servers might be better at storing and serving large amounts of content, while others might be better at rapidly serving smaller pieces of content to a large number of customers.
+Về cơ bản, các máy chủ trong CDN giống như bất kỳ máy chủ nào khác trên Internet cung cấp nội dung, mặc dù chúng thường được tối ưu hóa cao để lưu trữ và phân phối lượng lớn nội dung. Một số máy chủ có thể được tối ưu để lưu trữ và phục vụ lượng lớn dữ liệu, trong khi một số khác được tối ưu để phục vụ nhanh các phần nội dung nhỏ cho số lượng lớn khách hàng.
 
 
-## Directing Clients to Caches
 
-In a CDN, many different servers throughout the Internet are providing the same content. How does the client know which server to contact?
+## **Directing Clients to Caches** (Chuyển hướng client tới các bộ nhớ đệm)
 
-Some of the tricks from DNS can also apply to CDNs. We could use anycast, where multiple servers advertise the same IP prefix. This allows the routing algorithm to find the best path to any one of the servers.
+Trong một **CDN (Content Delivery Network – Mạng phân phối nội dung)**, có nhiều máy chủ khác nhau trên khắp Internet cùng cung cấp một nội dung giống nhau. Vậy làm thế nào để client (máy khách) biết nên kết nối tới máy chủ nào?
+
+Một số kỹ thuật từ **DNS (Domain Name System)** cũng có thể áp dụng cho CDN. Chúng ta có thể sử dụng **anycast**, trong đó nhiều máy chủ quảng bá cùng một tiền tố địa chỉ IP (**IP prefix**). Điều này cho phép thuật toán định tuyến tìm đường tốt nhất tới bất kỳ máy chủ nào trong số đó.
 
 <img width="800px" src="/assets/applications/4-25-anycast1.png">
 
-One problem with anycast is with long-running connections. Suppose the client has an ongoing TCP connection with one of the servers. During the connection, some intermediate link in the network fails. Since all the servers have the same IP address, from an intermediate router's perspective, forwarding to any of the servers is valid. The intermediate router may now start forwarding packets to a different server (with the same IP address). However, the TCP connection was with the original server, and this new server has no way to continue the original connection.
+Một vấn đề của anycast là với các kết nối dài hạn. Giả sử client đang có một kết nối **TCP** đang hoạt động với một trong các máy chủ. Trong quá trình kết nối, một liên kết trung gian trong mạng bị lỗi. Vì tất cả các máy chủ đều có cùng địa chỉ IP, nên từ góc nhìn của router trung gian, việc chuyển tiếp tới bất kỳ máy chủ nào cũng hợp lệ. Router trung gian có thể bắt đầu chuyển tiếp gói tin tới một máy chủ khác (có cùng địa chỉ IP). Tuy nhiên, kết nối TCP ban đầu là với máy chủ cũ, và máy chủ mới này không thể tiếp tục kết nối đó.
 
-Note that this problem didn't apply when we used anycast in DNS, because DNS connections are very short (usually just one UDP packet).
+Lưu ý rằng vấn đề này không xảy ra khi chúng ta dùng anycast trong DNS, vì các kết nối DNS rất ngắn (thường chỉ là một gói UDP duy nhất).
 
 <img width="800px" src="/assets/applications/4-26-anycast2.png">
 
-We could also use DNS to load-balance. Unlike in anycast, the servers now have different IP addresses, though they still all have the same domain. When the client queries for the domain-to-IP mapping, the DNS name server can provide a different IP address depending on the client's location.
+Chúng ta cũng có thể dùng DNS để **load-balance** (cân bằng tải). Khác với anycast, các máy chủ lúc này có địa chỉ IP khác nhau, nhưng vẫn cùng một tên miền. Khi client truy vấn ánh xạ tên miền–IP, **DNS name server** có thể trả về địa chỉ IP khác nhau tùy theo vị trí của client.
 
-This DNS-based approach doesn't have the same problem with long-lived connections that anycast did, because the servers now have different addresses. The router won't suddenly start forwarding packets to a different server.
+Cách tiếp cận dựa trên DNS này không gặp vấn đề với kết nối dài hạn như anycast, vì các máy chủ có địa chỉ khác nhau. Router sẽ không đột ngột chuyển gói tin sang máy chủ khác.
 
-One problem with the DNS-based approach is lack of granularity. As an extreme example, suppose everybody in Comcast's ISP used the same recursive resolver. This means that everybody sends their DNS queries to the resolver, who then makes the query to the application name server. The application name server can only see that the DNS request came from Comcast, and has to give a single IP address back to Comcast. Now, every user in Comcast's network is using the same server, even if the users are all over the world.
+Một vấn đề của cách tiếp cận dựa trên DNS là thiếu tính chi tiết (**granularity**). Ví dụ cực đoan: giả sử tất cả người dùng trong ISP Comcast dùng chung một **recursive resolver**. Điều này có nghĩa là tất cả gửi truy vấn DNS tới resolver này, và resolver sẽ gửi truy vấn tới **application name server**. Application name server chỉ thấy rằng truy vấn đến từ Comcast, và phải trả về một địa chỉ IP duy nhất cho Comcast. Kết quả là mọi người dùng trong mạng Comcast sẽ dùng cùng một máy chủ, ngay cả khi họ ở khắp nơi trên thế giới.
 
 <img width="800px" src="/assets/applications/4-27-dns-loadbalance.png">
 
-A more robust approach than anycast or DNS is application-level mapping. When the origin server receives an HTTP request, the links in the response can point to different servers (e.g. static1.google.com or static2.google.com, two servers in different places), depending on where the request came from. Or, the origin server can reply with an HTTP 300-level status code to redirect the user to the appropriate server.
+Một cách tiếp cận mạnh mẽ hơn anycast hoặc DNS là **application-level mapping** (ánh xạ ở tầng ứng dụng). Khi origin server nhận một yêu cầu HTTP, các liên kết trong phản hồi có thể trỏ tới các máy chủ khác nhau (ví dụ: `static1.google.com` hoặc `static2.google.com`, hai máy chủ ở các vị trí khác nhau), tùy thuộc vào nơi yêu cầu xuất phát. Hoặc, origin server có thể trả về mã trạng thái HTTP 300-level để chuyển hướng người dùng tới máy chủ phù hợp.
 
-This application-level approach doesn't have the granularity problem of DNS, because the application can see the client's address in the HTTP request. This also doesn't have the anycast problem, since different servers can have different IP addresses.
+Cách tiếp cận ở tầng ứng dụng này không gặp vấn đề về granularity như DNS, vì ứng dụng có thể thấy địa chỉ của client trong yêu cầu HTTP. Nó cũng không gặp vấn đề của anycast, vì các máy chủ có thể có địa chỉ IP khác nhau.
 
-However, just like in DNS load-balancing, the application still needs some way to guess the closest server to the client (where close might be geographic or based on network topology).
+Tuy nhiên, giống như trong cân bằng tải dựa trên DNS, ứng dụng vẫn cần một cách để ước lượng máy chủ gần nhất với client (gần có thể là về mặt địa lý hoặc dựa trên cấu trúc mạng).
 
-One benefit of application-level mapping is additional granularity depending on the content. For example, popular videos can be deployed to lots of servers, allowing every client to get the video from a nearby server. By contrast, unpopular videos that are rarely accessed can be deployed to fewer servers, and require users to go further for the content.
+Một lợi ích của application-level mapping là có thể tinh chỉnh tùy theo nội dung. Ví dụ: các video phổ biến có thể được triển khai trên nhiều máy chủ, cho phép mọi client lấy video từ máy chủ gần nhất. Ngược lại, các video ít phổ biến hơn có thể chỉ được triển khai trên ít máy chủ, buộc người dùng phải kết nối xa hơn để lấy nội dung.
 
+---
 
-## Newer HTTP Versions
+## **Newer HTTP Versions** (Các phiên bản HTTP mới hơn)
 
-As the Internet grew, HTTP started to be used by more and more applications, because it's a very generalizable protocol.
+Khi Internet phát triển, **HTTP** bắt đầu được sử dụng bởi ngày càng nhiều ứng dụng, vì đây là một giao thức rất dễ tổng quát hóa.
 
-Eventually, HTTP security became an increasing concern. A bank server running HTTP probably doesn't want information to be sent in human-readable plaintext over the network, where intermediate routers or malicious attackers can read it.
+Cuối cùng, vấn đề bảo mật của HTTP trở nên đáng lo ngại hơn. Một máy chủ ngân hàng chạy HTTP có lẽ không muốn thông tin được gửi dưới dạng văn bản thuần (**plaintext**) qua mạng, nơi các router trung gian hoặc kẻ tấn công có thể đọc được.
 
-HTTPS is an extension to HTTP that introduces extra security. A protocol called TLS (Transport Layer Security) is built on top of TCP, where users exchange secret keys and encrypt messages before sending them through the bytestream. HTTPS has the same fundamental protocol, but now runs on top of TLS (which itself is over TCP), instead of directly over raw insecure TCP. In recent years, there's been a push for websites to upgrade to HTTPS, and as of 2024, over 85% of websites now default to using HTTPS.
+**HTTPS** là một phần mở rộng của HTTP bổ sung bảo mật. Một giao thức gọi là **TLS (Transport Layer Security)** được xây dựng trên TCP, nơi người dùng trao đổi khóa bí mật và mã hóa thông điệp trước khi gửi qua bytestream. HTTPS có cùng giao thức cơ bản, nhưng chạy trên TLS (TLS chạy trên TCP), thay vì trực tiếp trên TCP không bảo mật. Trong những năm gần đây, đã có xu hướng nâng cấp website lên HTTPS, và tính đến năm 2024, hơn 85% website mặc định sử dụng HTTPS.
 
-HTTP/2.0 was introduced in 2015, and was the first major revision to the protocol since 1997. The main goal of the revision was to improve performance by reducing latency and improving page load speed.
+**HTTP/2.0** được giới thiệu năm 2015, là bản sửa đổi lớn đầu tiên của giao thức kể từ năm 1997. Mục tiêu chính là cải thiện hiệu năng bằng cách giảm độ trễ và tăng tốc độ tải trang.
 
-HTTP/2.0 introduced server-side pushing, where the server can send a response even if the client doesn't make a request. This allows the server to predict and preemptively serve something the user might need, without waiting for the user to make a request. For example, if we make a Google search, the HTML of the results comes back. Then, the user's browser parses the HTML, realizes it needs the Google logo, and makes another HTTP request. With HTTP/2.0, the server can preemptively give the Google logo to the user, without waiting for the user request.
+HTTP/2.0 giới thiệu **server push** (đẩy từ phía máy chủ), cho phép server gửi phản hồi ngay cả khi client chưa gửi yêu cầu. Điều này cho phép server dự đoán và chủ động gửi nội dung mà người dùng có thể cần, mà không phải chờ yêu cầu. Ví dụ: khi tìm kiếm Google, HTML kết quả được trả về. Sau đó, trình duyệt phân tích HTML, nhận ra cần logo Google và gửi yêu cầu HTTP khác. Với HTTP/2.0, server có thể gửi logo Google ngay lập tức, không cần chờ yêu cầu.
 
-HTTP/2.0 had other performance improvements. Headers can be compressed to save space. Requests and responses can have priorities set, so that high-priority content (e.g. text of the search results) is delivered before low-priority content (e.g. the Google logo). Simultaneous requests can be multiplexed more efficiently. If the first request has a 4 GB response and the second request has a 1 KB response, a naive implementation might cause the second response to be stuck waiting for the first one to finish. HTTP/2.0 allows for smarter management of these responses.
+HTTP/2.0 còn có các cải tiến hiệu năng khác:  
+- **Header compression** (nén header) để tiết kiệm dung lượng.  
+- **Request/response prioritization** (ưu tiên yêu cầu/phản hồi) để nội dung quan trọng (ví dụ: văn bản kết quả tìm kiếm) được gửi trước nội dung ít quan trọng (ví dụ: logo Google).  
+- **Multiplexing** hiệu quả hơn: nhiều yêu cầu đồng thời được xử lý thông minh, tránh việc phản hồi nhỏ bị chặn bởi phản hồi lớn.
 
-HTTP/2.0 is widely adopted by both clients (e.g. modern browsers) and servers (e.g. CDNs).
+HTTP/2.0 được hỗ trợ rộng rãi bởi cả client (trình duyệt hiện đại) và server (ví dụ: CDN).
 
-HTTP/3.0 was introduced in 2022 (not long after HTTP/2.0, compared to the gap between 1.1 and 2.0). The semantics are the same as HTTP/2.0, but it replaces the underlying transport layer protocol. Instead of running over the TCP bytestream, HTTP/3.0 runs over a new transport protocol called QUIC, which is custom-built to work well with HTTP/3.0. QUIC = Quick UDP Connections, was designed at Google, and standardized in the IETF.
+**HTTP/3.0** được giới thiệu năm 2022 (không lâu sau HTTP/2.0, so với khoảng cách giữa 1.1 và 2.0). Ngữ nghĩa giống HTTP/2.0, nhưng thay đổi giao thức tầng vận chuyển (**transport layer protocol**). Thay vì chạy trên bytestream của TCP, HTTP/3.0 chạy trên một giao thức vận chuyển mới gọi là **QUIC (Quick UDP Connections)**, được thiết kế riêng để hoạt động tốt với HTTP/3.0. QUIC được Google phát triển và chuẩn hóa tại **IETF**.
 
-HTTP/3.0 is an example where we intentionally abandon one of the core networking paradigms (layering) in exchange for better efficiency. By giving designers the freedom to customize both the transport layer (QUIC) and application layer (HTTP/3.0) protocols, we can design both protocols to work well together.
+HTTP/3.0 là một ví dụ về việc cố ý từ bỏ một trong những nguyên tắc cốt lõi của mạng máy tính (**layering**) để đổi lấy hiệu quả cao hơn. Bằng cách cho phép thiết kế tùy chỉnh cả giao thức tầng vận chuyển (QUIC) và tầng ứng dụng (HTTP/3.0), chúng ta có thể tối ưu để cả hai hoạt động tốt cùng nhau.

@@ -1,44 +1,45 @@
 ---
-title: Core-Based Trees
+title: Cây dựa trên lõi
 parent: Beyond Client-Server
 nav_order: 4
 layout: page-with-toc
 ---
 
-# Core-Based Trees (CBT)
+# **Core-Based Trees (CBT)** – Cây dựa trên lõi
 
-## CBT Definition
+## **Định nghĩa CBT (CBT Definition)**
 
-The goal of multicast routing is still the same: We have a packet whose destination is a group, and the routers need to work together to forward this packet to all members of the group.
+Mục tiêu của **multicast routing** (định tuyến quảng bá nhóm) vẫn giống như trước: Chúng ta có một gói tin mà đích đến là một nhóm, và các **router** (bộ định tuyến) cần phối hợp để chuyển tiếp gói tin này tới tất cả các thành viên của nhóm.
 
-However, we will now try a different approach, completely different from DVMRP.
+Tuy nhiên, bây giờ chúng ta sẽ thử một cách tiếp cận khác, hoàn toàn khác với **DVMRP (Distance Vector Multicast Routing Protocol)**.
 
 <img width="900px" src="/assets/beyond-client-server/7-032-cbt-taxonomy.png">
 
-In the **Core-Based Tree (CBT)** approach, each destination group has its own tree. The CBT for a destination group is simply a tree that touches every member of that group.
+Trong phương pháp **Core-Based Tree (CBT)**, mỗi nhóm đích sẽ có một cây riêng. CBT cho một nhóm đích đơn giản là một cây kết nối tới mọi thành viên của nhóm đó.
 
 <img width="600px" src="/assets/beyond-client-server/7-033-cbt-end-goal.png">
 
-It can be confusing to think about CBT trees and DVMRP trees at the same time. For now, you can think of them as totally different trees with nothing in common.
+Có thể gây nhầm lẫn khi nghĩ về cây CBT và cây DVMRP cùng lúc. Tạm thời, bạn có thể coi chúng là hai loại cây hoàn toàn khác nhau, không có điểm chung.
 
+---
 
-## Building CBTs
+## **Xây dựng CBT (Building CBTs)**
 
-To build a core-based tree, the tree needs a root, which we'll call the core. The core is some arbitrary router in the network, chosen ahead of time.
+Để xây dựng một **core-based tree**, cây cần một gốc, gọi là **core** (lõi). Core là một router bất kỳ trong mạng, được chọn trước.
 
-Now, we'll build a tree that touches every group member, with the core as the root.
+Bây giờ, chúng ta sẽ xây dựng một cây kết nối tới mọi thành viên của nhóm, với core là gốc.
 
-If a member wants to join a group, the member unicasts a join message to the core. This packet travels through several routers to reach the core. All of these routers join the tree as well, so that the tree now has a path from the core to the new member.
+Nếu một thành viên muốn tham gia nhóm, thành viên đó sẽ **unicast** (gửi đơn hướng) một thông điệp **join** (tham gia) tới core. Gói tin này sẽ đi qua nhiều router để tới core. Tất cả các router trên đường đi này cũng sẽ tham gia vào cây, để cây có đường từ core tới thành viên mới.
 
 <img width="800px" src="/assets/beyond-client-server/7-034-cbt-join-1.png">
 
 <img width="600px" src="/assets/beyond-client-server/7-035-cbt-join-2.png">
 
-More formally, if you're a router and you receive a join message for a specific group, you know that you are now part of this group's tree. The join message's incoming link is your child (link pointing away from the root). The join message's outgoing link (next-hop to root) is your parent (link pointing toward the root). You can write down your parent and your children to remember where you are in the tree. There's no global mastermind remembering the tree; each router on the tree is responsible for remembering its own parent and children.
+Cụ thể hơn, nếu bạn là một router và nhận được thông điệp join cho một nhóm cụ thể, bạn biết rằng mình hiện là một phần của cây nhóm đó. **Incoming link** (liên kết đầu vào) của thông điệp join là **child** (nhánh con) của bạn – liên kết hướng ra xa gốc. **Outgoing link** (liên kết đầu ra – bước nhảy tiếp theo tới gốc) là **parent** (nhánh cha) của bạn – liên kết hướng về gốc. Bạn có thể ghi lại thông tin về parent và các child của mình để nhớ vị trí của mình trong cây. Không có một thực thể trung tâm nào ghi nhớ toàn bộ cây; mỗi router trên cây tự chịu trách nhiệm ghi nhớ parent và child của mình.
 
 <img width="900px" src="/assets/beyond-client-server/7-036-cbt-join-recap.png">
 
-If a member wants to leave a group, the member can unicast a quit message to its direct parent on the tree. If all of your children on the tree have sent a quit message, that means that you can also leave the tree, so you can send a quit message to your direct parent. Quit messages are sent to your direct parent, and are not forwarded any further than that.
+Nếu một thành viên muốn rời nhóm, thành viên đó có thể unicast một thông điệp **quit** (rời nhóm) tới **parent** trực tiếp của mình trên cây. Nếu tất cả các child của bạn trên cây đã gửi thông điệp quit, điều đó có nghĩa là bạn cũng có thể rời cây, và gửi thông điệp quit tới parent trực tiếp của mình. Thông điệp quit chỉ được gửi tới parent trực tiếp và không được chuyển tiếp xa hơn.
 
 <img width="700px" src="/assets/beyond-client-server/7-037-cbt-leave-1.png">
 
@@ -46,66 +47,68 @@ If a member wants to leave a group, the member can unicast a quit message to its
 
 <img width="900px" src="/assets/beyond-client-server/7-039-cbt-quit-recap.png">
 
-Remember that we are building one tree per group. This means that routers must remember their parent and children for each tree that they belong to. Also, join and leave messages must be associated with specific group, e.g. "I want to join group G2."
+Hãy nhớ rằng chúng ta xây dựng **một cây cho mỗi nhóm**. Điều này có nghĩa là các router phải ghi nhớ parent và child của mình cho từng cây mà chúng tham gia. Đồng thời, các thông điệp join và leave phải gắn với nhóm cụ thể, ví dụ: “Tôi muốn tham gia nhóm G2.”
 
 <img width="600px" src="/assets/beyond-client-server/7-040-multiple-1.png">
 
 <img width="600px" src="/assets/beyond-client-server/7-041-multiple-2.png">
 
-Here's some fine print about the core, though it's not the main intuition behind the protocol.
-- Since the core is a router, it has a unicast IP address, and everyone can send unicast packets to the core.
-- We're building one tree per group. Different groups can use different cores.
-- We'll assume that everyone knows the mapping from groups to cores, e.g. "Group G1 is using R2 as its core." This mapping could be published using something like DNS (recall: DNS is useful for distributing key-value pairs).
-- The core isn't a group member. In our model, we've assumed that hosts can join/leave groups, not routers. The core is a router, so it isn't joining multicast groups.
+**Một số lưu ý về core** (không phải là trực giác chính của giao thức):  
+- Vì core là một router, nó có địa chỉ IP unicast, và mọi người đều có thể gửi gói tin unicast tới core.  
+- Chúng ta xây dựng một cây cho mỗi nhóm. Các nhóm khác nhau có thể dùng các core khác nhau.  
+- Giả định rằng mọi người đều biết ánh xạ từ nhóm tới core, ví dụ: “Nhóm G1 dùng R2 làm core.” Ánh xạ này có thể được công bố qua một cơ chế như DNS (nhớ rằng DNS hữu ích để phân phối các cặp khóa–giá trị).  
+- Core không phải là thành viên nhóm. Trong mô hình này, chúng ta giả định rằng host có thể tham gia/rời nhóm, không phải router. Core là router, nên nó không tham gia nhóm multicast.
 
-Here's some fine print about the join and quit messages, though it's not the main intuition behind the protocol.
-- The join and quit messages are technically sent by the first-hop router. The router uses IGMP to detect that one of its directly-connected hosts has joined or left the group, and the first-hop router sends out the join or quit message.
-- In reality, a JOIN-ACK is sent in response to join messages, and routers note their parent and children when the JOIN-ACK is sent. Likewise, a QUIT-ACK message is sent in response to quit messages. For this class, we'll ignore this feature.
+**Một số lưu ý về thông điệp join và quit**:  
+- Thông điệp join và quit về mặt kỹ thuật được gửi bởi **first-hop router** (router đầu tiên). Router này dùng **IGMP (Internet Group Management Protocol)** để phát hiện một host kết nối trực tiếp đã tham gia hoặc rời nhóm, và first-hop router sẽ gửi thông điệp join hoặc quit.  
+- Thực tế, một thông điệp **JOIN-ACK** được gửi để phản hồi join, và router ghi lại parent/child khi JOIN-ACK được gửi. Tương tự, một thông điệp **QUIT-ACK** được gửi để phản hồi quit. Trong phạm vi bài học này, chúng ta sẽ bỏ qua chi tiết này.
 
+---
 
-## Using CBTs
+## **Sử dụng CBT (Using CBTs)**
 
-Now that we've built a CBT for a group, how do we use them to send messages to that group?
+Sau khi đã xây dựng CBT cho một nhóm, làm thế nào để sử dụng nó để gửi thông điệp tới nhóm đó?
 
-Case 1: If you are a group member, that means you're already touching the tree. Therefore, all you need to do is broadcast the message to everybody on the tree.
+**Trường hợp 1:** Nếu bạn là thành viên nhóm, nghĩa là bạn đã nằm trên cây. Do đó, bạn chỉ cần **broadcast** (phát quảng bá) thông điệp tới tất cả mọi người trên cây.
 
-More specifically, you start by forwarding the packet to your parent on the tree. Then, every router on the tree receives the packet and floods the packet to all of its tree links (both parent links and child links).
+Cụ thể hơn, bạn bắt đầu bằng cách chuyển tiếp gói tin tới parent của mình trên cây. Sau đó, mỗi router trên cây nhận gói tin và **flood** (lan truyền) gói tin tới tất cả các liên kết cây của nó (cả liên kết parent và child).
 
 <img width="700px" src="/assets/beyond-client-server/7-042-cbt-forwarding-1.png">
 
-Case 2: If you're not a group member, you aren't touching the tree, so the Case 1 strategy won't work. Instead, you can unicast the packet to the core. Then, the core can broadcast the message to everybody on the tree.
+**Trường hợp 2:** Nếu bạn không phải là thành viên nhóm, bạn không nằm trên cây, nên chiến lược ở Trường hợp 1 sẽ không hiệu quả. Thay vào đó, bạn có thể unicast gói tin tới core. Sau đó, core sẽ broadcast thông điệp tới tất cả mọi người trên cây.
 
-More specifically, when you unicast the packet to the core, you need to encapsulate the packet. The outer header has unicast information to reach the core. The inner header has the multicast information.
+Cụ thể hơn, khi bạn unicast gói tin tới core, bạn cần **encapsulate** (đóng gói) gói tin. **Outer header** (tiêu đề ngoài) chứa thông tin unicast để tới core. **Inner header** (tiêu đề trong) chứa thông tin multicast.
 
-When the core receives the packet, it unwraps the outer header and sees the inner multicast packet. The core is then able to broadcast this packet along the tree. As in Case 1, every router on the tree receives the packet and floods the packet to all of its tree links (both parent and child links).
+Khi core nhận gói tin, nó gỡ bỏ outer header và thấy gói tin multicast bên trong. Core sau đó có thể broadcast gói tin này dọc theo cây. Giống như Trường hợp 1, mỗi router trên cây nhận gói tin và flood gói tin tới tất cả các liên kết cây của nó (cả parent và child).
 
 <img width="900px" src="/assets/beyond-client-server/7-043-cbt-forwarding-2.png">
 
+---
 
-## Benefit: Better Scaling
+## **Lợi ích: Khả năng mở rộng tốt hơn** (Benefit: Better Scaling)
 
-Recall that DVMRP scales poorly because the routers must keep track of one tree per source, per destination group. Each tree shows the shortest paths from one source, to all members of one destination group.
+Hãy nhớ rằng DVMRP mở rộng kém vì các router phải duy trì một cây cho mỗi **source** (nguồn) và mỗi nhóm đích. Mỗi cây thể hiện đường đi ngắn nhất từ một nguồn tới tất cả thành viên của một nhóm đích.
 
-In the CBT approach, a CBT for a destination group is a simply a tree that touches every member of that group.
+Trong phương pháp CBT, CBT cho một nhóm đích đơn giản là một cây kết nối tới mọi thành viên của nhóm đó.
 
-Notice that the CBT is the same for all sources. Unlike DVMRP (one tree per source, per destination group), we now only have one tree per destination group.
+Lưu ý rằng CBT giống nhau cho tất cả các nguồn. Không giống DVMRP (một cây cho mỗi nguồn và mỗi nhóm đích), giờ đây chúng ta chỉ cần một cây cho mỗi nhóm đích.
 
 <img width="900px" src="/assets/beyond-client-server/7-044-dvmrp-cbt-scaling.png">
 
-It's useful to compare DVMRP trees and CBT trees to see how the protocols scale, but beyond that, the trees we build in each protocol have totally different semantics. If you're confused, it might be easier to think of the trees as completely separate conceptual topics.
+Việc so sánh cây DVMRP và cây CBT giúp thấy rõ khả năng mở rộng của các giao thức, nhưng ngoài điều đó, các cây trong mỗi giao thức có ý nghĩa hoàn toàn khác nhau. Nếu bạn thấy khó hiểu, hãy coi chúng như hai khái niệm hoàn toàn tách biệt.
 
-Recall that another scaling problem with DVMRP is the fact that pruning states are periodically cleared, and when that happens, packets get broadcast to everybody on the network (including non-group members). CBT also solves this problem, because there's no point in CBT operation where a packet needs to get broadcast to everybody. The tree itself tells us where the group members are, and therefore ensures that non-group members will never receive the packet.
+Hãy nhớ rằng một vấn đề khác về khả năng mở rộng của DVMRP là trạng thái **pruning** (cắt tỉa) được xóa định kỳ, và khi điều đó xảy ra, gói tin sẽ được broadcast tới tất cả mọi người trên mạng (bao gồm cả các thiết bị không thuộc nhóm). CBT cũng giải quyết vấn đề này, vì chẳng có lý do gì để sử dụng CBT khi gói tin phải được phát sóng đến tất cả các thiết bị. Tree cho biết vị trí của các thành viên trong nhóm, do đó đảm bảo rằng các thiết bị không thuộc nhóm sẽ không bao giờ nhận được gói tin.
+---
 
+## **Phân tích hiệu suất** (Efficiency Analysis)
 
-## Efficiency Analysis
+Hãy nhớ rằng **DVMRP (Distance Vector Multicast Routing Protocol)** xây dựng các cây **least-cost** (chi phí thấp nhất) từ **sender** (nguồn gửi) tới tất cả các thành viên của nhóm. Bằng cách chuyển tiếp các gói tin dọc theo các cây này, chúng ta đảm bảo rằng các gói tin sẽ được chuyển tiếp theo các đường đi có chi phí thấp nhất tới tất cả các thành viên nhóm.
 
-Recall that DVMRP built least-cost trees from the sender to all the group members. By forwarding packets along these trees, we ensured that packets would be forwarded along the least-cost paths to all group members.
+Ngược lại, các cây **CBT (Core-Based Tree)** không liên quan đến sender, vì vậy không còn đảm bảo tính tối ưu. Các đường đi từ sender tới tất cả các thành viên nhóm không nhất thiết là các đường đi có chi phí thấp nhất.
 
-By contrast, CBT trees don't involve the sender at all, so there is no more guarantee of optimality. The paths from the sender to all group members are not necessarily the least-cost paths.
+CBT đánh đổi giữa khả năng mở rộng (**scalability**) và hiệu suất (**efficiency**). CBT có khả năng mở rộng tốt hơn vì cần xây dựng ít cây hơn (tức là các router lưu trữ ít trạng thái hơn), nhưng đổi lại, các gói tin có thể được chuyển tiếp theo các đường đi không tối ưu.
 
-CBT trades scalability for efficiency. CBT is more scalable because fewer trees need to be built (i.e. routers store less state), but in exchange, packets may be forwarded along suboptimal paths.
-
-The efficiency of CBT is highly dependent on which router is chosen to be the core. For example, consider the topology below, with various choices of core.
+Hiệu suất của CBT phụ thuộc rất nhiều vào việc router nào được chọn làm **core**. Ví dụ, hãy xem xét cấu trúc mạng dưới đây với các lựa chọn core khác nhau.
 
 <img width="700px" src="/assets/beyond-client-server/7-045-core-choice-1.png">
 
@@ -113,25 +116,30 @@ The efficiency of CBT is highly dependent on which router is chosen to be the co
 
 <img width="700px" src="/assets/beyond-client-server/7-047-core-choice-3.png">
 
-In every choice of core, at least one pair of routers are connected by a suboptimal path. We no longer have a guaranteed shortest paths tree from one source to all group members.
+Trong mọi lựa chọn core, luôn có ít nhất một cặp router được kết nối bằng một đường đi không tối ưu. Chúng ta không còn có một cây đường đi ngắn nhất được đảm bảo từ một nguồn tới tất cả các thành viên nhóm.
 
-For example, if A plans on sending a lot of packets to the group, R2 might be a good choice of core, since it just happens to connect A to B and C along the shortest paths. However, if B wanted to send packets to the group, the packets would travel along a suboptimal path to C.
+Ví dụ, nếu A dự định gửi nhiều gói tin tới nhóm, R2 có thể là một lựa chọn core tốt, vì nó tình cờ kết nối A với B và C theo các đường đi ngắn nhất. Tuy nhiên, nếu B muốn gửi gói tin tới nhóm, các gói tin sẽ phải đi theo một đường không tối ưu tới C.
 
-Finding the optimal core is infeasible, especially since members can join and leave the group at any time. In practice, operators often manually select the core.
+Việc tìm core tối ưu là không khả thi, đặc biệt vì các thành viên có thể tham gia hoặc rời nhóm bất kỳ lúc nào. Trên thực tế, các nhà vận hành thường chọn core thủ công.
 
+---
 
-## Other CBT Pros and Cons
+## **Các ưu và nhược điểm khác của CBT** (Other CBT Pros and Cons)
 
-CBT creates a single point of failure at the root. To introduce fault-tolerance, we would need the tree to have multiple cores. This can be done, though it introduces more complexity. We won't discuss multi-core trees any further, but see the linked paper below if you're curious.
+CBT tạo ra một **single point of failure** (điểm lỗi đơn) tại gốc. Để bổ sung khả năng chịu lỗi (**fault-tolerance**), chúng ta cần cây có nhiều core. Điều này có thể thực hiện được, nhưng sẽ làm tăng độ phức tạp. Chúng ta sẽ không bàn sâu về cây đa-core, nhưng bạn có thể tham khảo bài báo liên kết bên dưới nếu quan tâm.
 
-Recall that DVMRP was built as an extension to distance-vector, which results in the multicast protocol (DVMRP) and the unicast protocol (distance-vector) being tightly-coupled. Changing one protocol requires also updating the other protocol. By contrast, CBT is decoupled from the unicast routing protocol. CBT does use the unicast forwarding tables (e.g. to forward join messages to the root), but it doesn't matter how those forwarding tables were generated (distance-vector, link-state, hard-coded, etc.). As a result, CBT does not rely on any particular unicast protocol being used, and CBT works with any unicast protocol.
+Hãy nhớ rằng DVMRP được xây dựng như một phần mở rộng của **distance-vector**, dẫn đến việc giao thức multicast (DVMRP) và giao thức unicast (distance-vector) bị ràng buộc chặt chẽ. Thay đổi một giao thức sẽ yêu cầu cập nhật cả giao thức còn lại. Ngược lại, CBT được tách rời (**decoupled**) khỏi giao thức định tuyến unicast. CBT có sử dụng bảng chuyển tiếp unicast (ví dụ: để chuyển tiếp thông điệp join tới gốc), nhưng không quan trọng các bảng này được tạo ra bằng cách nào (distance-vector, link-state, cấu hình cố định, v.v.). Do đó, CBT không phụ thuộc vào bất kỳ giao thức unicast cụ thể nào và có thể hoạt động với mọi giao thức unicast.
 
-Further reading on CBT: [https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf](https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf)
+Tài liệu tham khảo thêm về CBT: [https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf](https://people.eecs.berkeley.edu/~sylvia/cs268-2019/papers/cbt.pdf)
 
-Is DVMRP or CBT better? As we've seen, there are trade-offs between the two protocols.
+---
 
-If you have one source sending data to a large group, then DVMRP might be the better solution, since it will ensure that all this data travels along optimal paths through the network. Lots of data is being sent (to lots of group members), so using optimal paths results in significant bandwidth savings. Also, if the group is large (e.g. includes almost everyone on the network), then DVMRP's occasional flooding may not be a big problem.
+**DVMRP hay CBT tốt hơn?** Như chúng ta đã thấy, có những sự đánh đổi giữa hai giao thức này.
 
-By contrast, if you have a small group whose members are scattered across a large network, then CBT might be the better solution. CBT will avoid flooding packets to non-members, which would waste a lot of bandwidth (since most members are not in the group).
+- Nếu bạn có **một nguồn** gửi dữ liệu tới **một nhóm lớn**, thì DVMRP có thể là giải pháp tốt hơn, vì nó đảm bảo tất cả dữ liệu này đi theo các đường tối ưu trong mạng. Khi lượng dữ liệu gửi lớn (tới nhiều thành viên nhóm), việc sử dụng đường tối ưu sẽ tiết kiệm đáng kể băng thông. Ngoài ra, nếu nhóm lớn (ví dụ: bao gồm hầu hết mọi người trong mạng), thì việc DVMRP thỉnh thoảng **flooding** (phát tràn) cũng không phải là vấn đề lớn.
 
-In practice, both DVMRP and CBT are used today. DVMRP is sometimes named PIM-DM (Protocol Independent Multicast - Dense Mode), which reflects the fact that DVMRP is good for large groups. CBT is sometimes called PIM-SM (Protocol Independent Multicast - Sparse Mode), which reflects the fact that CBT is good for smaller groups.
+- Ngược lại, nếu bạn có **một nhóm nhỏ** với các thành viên phân tán trên một mạng lớn, thì CBT có thể là giải pháp tốt hơn. CBT sẽ tránh việc flooding gói tin tới các nút không phải thành viên, điều này sẽ lãng phí nhiều băng thông (vì hầu hết các nút không thuộc nhóm).
+
+Trên thực tế, cả DVMRP và CBT đều đang được sử dụng ngày nay. DVMRP đôi khi được gọi là **PIM-DM (Protocol Independent Multicast – Dense Mode)**, phản ánh việc DVMRP phù hợp cho các nhóm lớn. CBT đôi khi được gọi là **PIM-SM (Protocol Independent Multicast – Sparse Mode)**, phản ánh việc CBT phù hợp cho các nhóm nhỏ hơn.
+
+---

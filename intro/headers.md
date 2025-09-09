@@ -5,169 +5,175 @@ nav_order: 3
 layout: page-with-toc
 ---
 
-# Headers
 
-## Why Do We Need Headers?
+# **Headers** (Tiêu đề gói tin)
 
-In the previous section, we saw that at Layer 3, data travels across the Internet in packets. Suppose an application wants to send a file over the Internet. We can take some bits of the image, put them in a packet, and send them over the Internet. When a switch receives this sequence of 1s and 0s, it has no idea what to do with these bits.
+## **Tại sao chúng ta cần Headers?** (Why Do We Need Headers?)
+
+Trong phần trước, chúng ta đã thấy rằng ở **Layer 3**, dữ liệu di chuyển qua Internet dưới dạng **packet** (gói tin). Giả sử một ứng dụng muốn gửi một tệp qua Internet. Chúng ta có thể lấy một số bit của hình ảnh, đặt chúng vào một packet và gửi qua Internet. Khi một **switch** nhận được chuỗi các bit 1 và 0 này, nó hoàn toàn không biết phải làm gì với chúng.
 
 <img width="700px" src="/assets/intro/1-08-no-headers.png">
 
-In the analogy, if I write a letter to my friend, and hand it to the post office, the post office has no idea what to do with it. Instead, we should put the letter inside an envelope, and write some information on the envelope (e.g. my friend's address) that tells the post office what to do with the letter.
+Trong phép so sánh, nếu tôi viết một bức thư cho bạn mình và đưa nó cho bưu điện, bưu điện sẽ không biết phải làm gì với nó. Thay vào đó, chúng ta nên đặt bức thư vào một phong bì và ghi một số thông tin lên phong bì (ví dụ: địa chỉ của bạn tôi) để cho bưu điện biết phải làm gì với bức thư.
 
-Just like the envelope, when we send a packet, we need to attach additional metadata that tells the network infrastructure what to do with that packet. This additional metadata is called a **header**. The rest of the bits (e.g. the file being sent, the letter inside the envelope) is called the **payload**.
+Tương tự như phong bì, khi chúng ta gửi một packet, chúng ta cần gắn thêm **metadata** (siêu dữ liệu) để cho hạ tầng mạng biết phải xử lý packet đó như thế nào. Phần siêu dữ liệu bổ sung này được gọi là **header** (tiêu đề). Phần còn lại của các bit (ví dụ: tệp đang được gửi, bức thư bên trong phong bì) được gọi là **payload** (tải dữ liệu).
 
 <img width="700px" src="/assets/intro/1-09-header.png">
 
-In the analogy, the post office shouldn't be reading the contents of my letter. It should only read what's on the envelope to decide how to send my letter. Similarly, the network infrastructure should only read the header to decide how to deliver the data.
+Trong phép so sánh, bưu điện không nên đọc nội dung bên trong bức thư, mà chỉ đọc những gì ghi trên phong bì để quyết định cách gửi. Tương tự, hạ tầng mạng chỉ nên đọc header để quyết định cách chuyển dữ liệu.
 
-The recipient cares about the inside of the letter, not the envelope. Similarly, the application at the end host cares about the payload, not the header. That said, the end hosts still need to know about headers, in order to add headers to packets before sending them.
+Người nhận quan tâm đến nội dung bên trong bức thư, không phải phong bì. Tương tự, ứng dụng ở **end host** (máy đầu cuối) quan tâm đến payload, không phải header. Tuy nhiên, end host vẫn cần biết về header để có thể thêm header vào packet trước khi gửi.
 
+---
 
-## Headers are Standardized
+## **Headers được tiêu chuẩn hóa** (Headers are Standardized)
 
-You can also think of headers as the API between the end hosts sending/receiving data, and the network infrastructure carrying the data. When we write software, we need to decide on the interface that users will use to interact with our code (e.g. what functions users can call, the parameters to those functions). Similarly, the information in the header is how users access functions and pass parameters to the network.
+Bạn cũng có thể coi header như **API** giữa end host gửi/nhận dữ liệu và hạ tầng mạng vận chuyển dữ liệu. Khi viết phần mềm, chúng ta cần xác định **interface** (giao diện) mà người dùng sẽ sử dụng để tương tác với mã của chúng ta (ví dụ: các hàm có thể gọi, tham số truyền vào). Tương tự, thông tin trong header là cách người dùng truy cập các chức năng và truyền tham số cho mạng.
 
-Everybody on the Internet (every end host, every switch) needs to agree on the format of a header. If Microsoft Windows changes the code in its operating system to send packets with a different header structure, nobody else will understand the packets being sent.
+Tất cả mọi người trên Internet (mọi end host, mọi switch) cần thống nhất về định dạng của header. Nếu **Microsoft Windows** thay đổi mã trong hệ điều hành để gửi packet với cấu trúc header khác, sẽ không ai khác hiểu được các packet đó.
 
-This also means we need to be careful about designing headers. Once we design a header and deploy it on the Internet, it's very hard to change the design (we'd have to get everybody to agree to change it). This is why standards bodies can spend years designing and standardizing headers.
+Điều này cũng có nghĩa là chúng ta cần cẩn thận khi thiết kế header. Một khi đã thiết kế và triển khai header trên Internet, việc thay đổi nó là rất khó (chúng ta sẽ phải thuyết phục tất cả mọi người đồng ý thay đổi). Đây là lý do tại sao các tổ chức tiêu chuẩn có thể mất nhiều năm để thiết kế và tiêu chuẩn hóa header.
 
+---
 
-## What Should a Header Contain?
+## **Header nên chứa những gì?** (What Should a Header Contain?)
 
-What information should we put in the header?
+Thông tin nào nên được đưa vào header?
 
-The header should definitely contain the destination address, which tells us where to send the packet.
+- **Địa chỉ đích**: chắc chắn phải có, để cho biết nơi cần gửi packet.  
+- **Địa chỉ nguồn**: về mặt kỹ thuật không bắt buộc để chuyển packet, nhưng trên thực tế, chúng ta gần như luôn đưa vào để người nhận có thể gửi phản hồi lại cho người gửi.  
+- **Checksum**: để đảm bảo packet không bị lỗi trong quá trình truyền.  
+- **Độ dài packet**: vì packet có thể có kích thước khác nhau (ví dụ: người dùng chỉ cần gửi vài byte).
 
-Headers could also contain other information that's not required, but is useful to have. Technically, the source address is not required to deliver the packet, but in practice, we almost always include the source address in the header. This allows the recipient to send replies back to the sender.
+---
 
-The header could also include a checksum, to ensure that packet is not corrupted while in transit.
+## **Nhiều header** (Multiple Headers)
 
-The header could also contain other metadata like the length of the packet. Note that packets can vary in size (e.g. the user might only need to send a few bytes).
-
-
-## Multiple Headers
-
-Let's go back to the postal analogy briefly. Suppose the boss of Company A wants to write a letter to the boss of Company B. How does the message get sent?
+Quay lại phép so sánh bưu điện. Giả sử giám đốc Công ty A muốn viết thư cho giám đốc Công ty B. Thông điệp sẽ được gửi như thế nào?
 
 <img width="700px" src="/assets/intro/1-10-multiheader1.png">
 
-Company A's boss folds the letter and hands it to their secretary. Then, the secretary puts the letter in an envelope with Company B's boss's full name.
+Giám đốc Công ty A gấp thư và đưa cho thư ký. Thư ký đặt thư vào phong bì có ghi đầy đủ tên giám đốc Công ty B.
 
 <img width="700px" src="/assets/intro/1-11-multiheader2.png">
 
-The secretary passes this letter to the mailroom. The postal worker puts the letter in a box with Company B's street address on it, and puts the package in a delivery truck.
+Thư ký chuyển thư này cho phòng thư. Nhân viên bưu điện đặt thư vào một hộp có ghi địa chỉ đường phố của Công ty B và đưa gói hàng lên xe tải giao hàng.
 
 <img width="700px" src="/assets/intro/1-12-multiheader3.png">
 
-At this point, the letter itself is wrapped in multiple layers of identifying information (envelope, box). The delivery company sends the letter to Company B (possibly across several trucks, planes, mailmen, etc.).
+Lúc này, bức thư đã được bọc trong nhiều lớp thông tin nhận dạng (phong bì, hộp). Công ty vận chuyển gửi thư tới Công ty B (có thể qua nhiều xe tải, máy bay, nhân viên bưu điện, v.v.).
 
 <img width="700px" src="/assets/intro/1-13-multiheader4.png">
 
-When the letter reaches Company B, the mailroom removes the box and passes the envelope to the secretary.
+Khi thư đến Công ty B, phòng thư gỡ bỏ hộp và chuyển phong bì cho thư ký.
 
 <img width="700px" src="/assets/intro/1-14-multiheader5.png">
 
-Then, the secretary sees the boss's name on the envelope, removes the envelope, and passes the letter up to the Company B boss.
+Sau đó, thư ký nhìn thấy tên giám đốc trên phong bì, mở phong bì và chuyển thư cho giám đốc Công ty B.
 
 <img width="700px" src="/assets/intro/1-15-multiheader6.png">
 
-Notice that as we moved to lower abstraction layers, we wrapped more headers around the data. Then, as we moved to higher abstraction layers, we peeled layers off the data.
+Hãy chú ý rằng khi đi xuống các tầng trừu tượng thấp hơn, chúng ta bọc thêm nhiều header quanh dữ liệu. Khi đi lên các tầng trừu tượng cao hơn, chúng ta gỡ bỏ các lớp header này.
 
 <img width="900px" src="/assets/intro/1-16-wrapping-unwrapping.png">
 
-Each layer only has to understand its own header, and is "communicating" (in some sense) with its peers at the same layer. When Secretary A writes the name on the envelope, that's meant for Secretary B to read (not the mailmen, or the boss).
+Mỗi tầng chỉ cần hiểu header của riêng mình và “giao tiếp” (theo một nghĩa nào đó) với các **peer** (thực thể ngang hàng) ở cùng tầng. Khi Thư ký A ghi tên lên phong bì, điều đó là để Thư ký B đọc (không phải nhân viên bưu điện hay giám đốc).
 
-More formally, on the Internet, peers at the same layer communicate by establishing a protocol at that layer. The protocol only makes sense to entities at that specific layer.
+Một cách chính xác hơn, trên Internet, các peer ở cùng tầng giao tiếp bằng cách thiết lập một **protocol** tại tầng đó. Giao thức này chỉ có ý nghĩa đối với các thực thể ở tầng cụ thể đó.
 
 <img width="900px" src="/assets/intro/1-17-layer-peers.png">
 
-Note that some layers offer multiple choices of protocol (e.g. wireless or wired protocols at Layer 2). In these cases, the two people communicating need to use the same choice of protocol. A wired sender can't talk to a wireless recipient.
+Lưu ý rằng một số tầng cung cấp nhiều lựa chọn giao thức (ví dụ: giao thức không dây hoặc có dây ở Layer 2). Trong các trường hợp này, hai bên giao tiếp cần sử dụng cùng một lựa chọn giao thức. Một bên gửi có dây không thể giao tiếp với một bên nhận không dây.
 
 
-## Addressing and Naming
+## **Addressing and Naming** (Địa chỉ hóa và Định danh)
 
-Earlier, we said that our headers need to contain the address of the recipient. What actually is that address? Formally, a network address is some value that tells us where a host is located in the network.
+Trước đó, chúng ta đã nói rằng **header** (tiêu đề gói tin) cần chứa địa chỉ của người nhận. Vậy chính xác thì địa chỉ đó là gì? Về mặt hình thức, **network address** (địa chỉ mạng) là một giá trị cho biết vị trí của một **host** (máy chủ/máy trạm) trong mạng.
 
-As we look at the different layers in more detail, we'll see that different layers have different addressing schemes. If you want to send a letter inside Soda Hall, you could write the destination address as 413 Soda Hall, and the people in the building know where to deliver the letter. By contrast, if you want to send a letter to New York, you'd have to write a full street address like 123 Main Street, New York, NY.
+Khi xem xét chi tiết các tầng khác nhau, chúng ta sẽ thấy mỗi tầng có một **addressing scheme** (cơ chế địa chỉ hóa) riêng. Nếu bạn muốn gửi thư trong tòa nhà Soda Hall, bạn có thể ghi địa chỉ đích là “413 Soda Hall”, và những người trong tòa nhà sẽ biết cách chuyển thư. Ngược lại, nếu muốn gửi thư tới New York, bạn phải ghi đầy đủ địa chỉ đường phố, ví dụ: “123 Main Street, New York, NY”.
 
-Similarly, different layers in the Internet have different addressing schemes that work best for that particular layer. For example, sometimes a host is referred to by its human-readable name (e.g. www.google.com). Other times, that same host is referred to by a machine-readable IP address (e.g. 74.124.56.2), where this number somehow encodes something about the server's location (and could change if the server moves). Other times, that same host could be referred to by its hardware MAC address, which never changes.
+Tương tự, các tầng khác nhau trong Internet có các cơ chế địa chỉ hóa phù hợp nhất cho tầng đó. Ví dụ: đôi khi một host được gọi bằng **tên dễ đọc với con người** (human-readable name), như `www.google.com`. Lúc khác, cùng host đó được gọi bằng **địa chỉ IP** (ví dụ: `74.124.56.2`), là dạng máy có thể đọc được, trong đó con số này mã hóa thông tin về vị trí của server (và có thể thay đổi nếu server di chuyển). Lại có lúc, cùng host đó được gọi bằng **địa chỉ MAC** phần cứng, vốn không bao giờ thay đổi.
 
 <img width="700px" src="/assets/intro/1-18-naming.png">
 
+---
 
-## Layers at Hosts and Routers
+## **Layers at Hosts and Routers** (Các tầng tại Host và Router)
 
-The Internet is more than just a sender and a recipient. In addition to the two end hosts, there are routers forwarding the packet across multiple hops toward the destination. How do our ideas of layering and headers interact across all these machines?
+Internet không chỉ đơn giản là một bên gửi và một bên nhận. Ngoài hai **end host** (máy đầu cuối), còn có các **router** (bộ định tuyến) chuyển tiếp packet qua nhiều **hop** (bước nhảy) để đến đích. Vậy ý tưởng về phân tầng và header hoạt động thế nào trên tất cả các thiết bị này?
 
-The end hosts need to implement all the layers. Your computer needs to know about Layer 7 to run a web browser. Your computer also needs to know about Layer 1 to send the bits out along the wire. You'll also need all the layers in between in order for application-level data (the boss's letter) to be passed all the way down to the physical layer.
+**End host** cần triển khai tất cả các tầng. Máy tính của bạn cần biết về **Layer 7** để chạy trình duyệt web. Máy tính của bạn cũng cần biết về **Layer 1** để gửi các bit ra dây. Bạn cũng cần tất cả các tầng ở giữa để dữ liệu ở mức ứng dụng (bức thư của giám đốc) được truyền xuống tới tầng vật lý.
 
-What about routers? The router does need Layer 1 for receiving bits on a wire, Layer 2 for sending packets along the wire, and Layer 3 for forwarding packets in the global network. However, the routers don't really need to think about Layer 4 and Layer 7. The router isn't running a web browser to display webpages, and the router doesn't need to think about reliability (recall, best-effort service model).
+Còn **router** thì sao? Router cần **Layer 1** để nhận bit qua dây, **Layer 2** để gửi packet qua dây, và **Layer 3** để chuyển tiếp packet trong mạng toàn cầu. Tuy nhiên, router không cần quan tâm đến **Layer 4** và **Layer 7**. Router không chạy trình duyệt web để hiển thị trang, và cũng không cần xử lý tính tin cậy (nhớ lại mô hình **best-effort service**).
 
 <img width="900px" src="/assets/intro/1-19-layers-host-routers.png">
 
-In summary: The lower 3 layers are implemented everywhere, but the top 2 layers are only implemented at the end hosts.
+**Tóm lại:** Ba tầng thấp nhất được triển khai ở mọi nơi, nhưng hai tầng cao nhất chỉ được triển khai tại end host.
 
+---
 
-## Multiple Headers at Hosts and Routers: Analogy
+## **Multiple Headers at Hosts and Routers: Analogy** (Nhiều header tại Host và Router: Phép so sánh)
 
-Let's think about sending mail again. Company A wrapped the letter in an envelope, which was then put in a box. The box doesn't magically travel to Company B. In fact, it might travel through several post offices.
+Hãy quay lại ví dụ gửi thư. Công ty A bọc bức thư trong phong bì, rồi đặt phong bì vào hộp. Chiếc hộp này không tự di chuyển đến Công ty B, mà có thể đi qua nhiều bưu điện.
 
 <img width="900px" src="/assets/intro/1-20-layer2-forwarding1.png">
 
-At each post office, the mailman opens the box and sorts through the mail. The mailman looks at the envelope (the next header revealed after opening the box), and sees that the envelope is meant for Company B.
+Tại mỗi bưu điện, nhân viên mở hộp và phân loại thư. Họ nhìn vào phong bì (header tiếp theo được lộ ra sau khi mở hộp) và thấy rằng phong bì này gửi cho Công ty B.
 
 <img width="900px" src="/assets/intro/1-21-layer2-forwarding2.png">
 
-The mailman then puts the envelope in another box, possibly different, so that the letter can reach the next post office on the way to Company B.
+Nhân viên bưu điện đặt phong bì vào một chiếc hộp khác (có thể khác loại), để bức thư có thể đến bưu điện tiếp theo trên đường tới Công ty B.
 
 <img width="900px" src="/assets/intro/1-22-layer2-forwarding3.png">
 
-This process repeats at every post office. The box is opened, revealing the envelope inside. Then, the envelope goes in a new box, destined for the next post office. Notice that none of the post offices open the envelope to reveal the letter inside, because they don't need to read it.
+Quy trình này lặp lại ở mỗi bưu điện: hộp được mở, lộ ra phong bì bên trong; sau đó phong bì được đặt vào hộp mới, gửi tới bưu điện kế tiếp. Lưu ý rằng không bưu điện nào mở phong bì để đọc thư bên trong, vì họ không cần đọc nội dung đó.
 
 <img width="900px" src="/assets/intro/1-23-layer2-forwarding4.png">
 
-Eventually, the letter reaches Company B in a box, and this time, Company B opens the box, and the envelope, to reveal the letter inside.
+Cuối cùng, bức thư đến Công ty B trong một chiếc hộp, và lần này Công ty B mở hộp, rồi mở phong bì, để lấy thư bên trong.
 
+---
 
-## Multiple Headers at Hosts and Routers
+## **Multiple Headers at Hosts and Routers** (Nhiều header tại Host và Router)
 
-Now that we have the full picture with hosts and routers, let's revisit the demo of wrapping and unwrapping headers, as the packet takes multiple hops across the network.
+Bây giờ khi đã có bức tranh đầy đủ về host và router, hãy xem lại quá trình **bọc và gỡ header** khi packet đi qua nhiều hop trong mạng.
 
-First, Host A takes the message and works its way down the stack, adding headers for Layer 7, 4, 3, 2, and 1. We now have a packet wrapped with headers for every layer.
+Đầu tiên, **Host A** lấy thông điệp và đi xuống **protocol stack** (ngăn xếp giao thức), thêm header cho **Layer 7**, **Layer 4**, **Layer 3**, **Layer 2** và **Layer 1**. Giờ chúng ta có một packet được bọc header ở mọi tầng.
 
-The Layer 1 protocol sends the bits of this packet along the wire, to the first router on the way to the destination.
+**Layer 1 protocol** gửi các bit của packet này qua dây tới router đầu tiên trên đường đến đích.
 
 <img width="900px" src="/assets/intro/1-24-multiheader1.png">
 
-This router must forward the packet to the next hop, so that the packet eventually reaches Host B. We know that forwarding packets in the global network is a Layer 3 job. Therefore, the router must parse this packet up to Layer 3.
+Router này phải chuyển tiếp packet tới hop tiếp theo để packet đến được **Host B**. Chúng ta biết rằng việc chuyển tiếp packet trong mạng toàn cầu là nhiệm vụ của **Layer 3**. Do đó, router phải phân tích packet đến **Layer 3**.
 
-The router reads and unwraps the Layer 1 and Layer 2 headers, revealing the Layer 3 header underneath. The router reads this header to decide where to forward the packet next.
+Router đọc và gỡ bỏ header của **Layer 1** và **Layer 2**, để lộ ra header của **Layer 3** bên dưới. Router đọc header này để quyết định nơi chuyển tiếp packet tiếp theo.
 
 <img width="900px" src="/assets/intro/1-25-multiheader2.png">
 
-Now, to pass the packet along to the next hop, the router must go down the stack again, wrapping new Layer 2 and Layer 1 headers, and then sending the bits along the wire to the next hop.
+Bây giờ, để gửi packet tới hop tiếp theo, router phải đi xuống stack một lần nữa, bọc header mới cho **Layer 2** và **Layer 1**, rồi gửi các bit qua dây tới hop tiếp theo.
 
 <img width="900px" src="/assets/intro/1-26-multiheader3.png">
 
-This pattern repeats at every router: Layers 1 and 2 are unwrapped to reveal the Layer 3 header, and then new Layer 2 and Layer 1 headers are wrapped before sending the packet to the next hop. Notice that none of the routers look beyond the Layer 3 protocol, because the upper layers are only parsed by the end hosts.
+Mẫu này lặp lại ở mỗi router: **Layer 1** và **Layer 2** được gỡ bỏ để lộ header **Layer 3**, sau đó header mới của Layer 2 và Layer 1 được bọc lại trước khi gửi packet đi. Lưu ý rằng không router nào đọc sâu hơn **Layer 3 protocol**, vì các tầng trên chỉ được phân tích bởi end host.
 
 <img width="900px" src="/assets/intro/1-27-multiheader4.png">
 
-Eventually, the packet reaches Host B, who unwraps every layer, one by one: Layer 1, 2, 3, 4, 7. Host B has successfully received the message!
+Cuối cùng, packet đến **Host B**, nơi nó được gỡ từng tầng một: Layer 1, 2, 3, 4, 7. Host B đã nhận thành công thông điệp!
 
 <img width="900px" src="/assets/intro/1-28-multiheader5.png">
 
-One consequence of this layering scheme is that each hop can use different protocols at Layer 2 and 1. For example, the first hop could get sent along a wire, and the initial Layer 2 and 1 headers used by Host A and the first router can be for a wired protocol. By contrast, a later hop could get sent along a wireless link, and the Layer 2 and 1 headers used by the routers on either end of that hop can be for a wireless protocol.
+Một hệ quả của mô hình phân tầng này là mỗi hop có thể sử dụng các giao thức khác nhau ở Layer 2 và Layer 1. Ví dụ: hop đầu tiên có thể truyền qua dây, và header Layer 2 và Layer 1 ban đầu do Host A và router đầu tiên sử dụng sẽ là giao thức có dây. Ngược lại, một hop sau đó có thể truyền qua liên kết không dây, và header Layer 2 và Layer 1 do các router ở hai đầu hop đó sử dụng sẽ là giao thức không dây.
 
 <img width="900px" src="/assets/intro/1-29-layer2-peers.png">
 
-More generally, we said that each layer only needs to communicate with its peers at the same layer. We can now see this at play across all the layers. At Layers 4 and 7, the two hosts must speak the same protocols to send and receive packets. The host's peer is the other host.
-
-By contrast, at Layers 1 and 2, the router must speak the same protocol as the previous-hop and the next-hop router, so that the router can receive packets from the previous hop and send packets to the next hop. The router's peers are its neighboring routers along the path.
+Nói chung, chúng ta đã nói rằng mỗi tầng chỉ cần giao tiếp với **peer** (thực thể ngang hàng) ở cùng tầng. Giờ đây, chúng ta có thể thấy điều này diễn ra ở tất cả các tầng:  
+- Ở **Layer 4** và **Layer 7**, hai host phải dùng cùng giao thức để gửi và nhận packet. Peer của host là host còn lại.  
+- Ở **Layer 1** và **Layer 2**, router phải dùng cùng giao thức với router ở hop trước và hop sau, để nhận packet từ hop trước và gửi packet tới hop sau. Peer của router là các router lân cận trên đường đi.
 
 <img width="900px" src="/assets/intro/1-19-layers-host-routers.png">
 
-In summary: Each router parses Layers 1 through 3, while the end hosts parse Layers 1 through 7.
+**Tóm lại:** Mỗi router phân tích từ Layer 1 đến Layer 3, trong khi end host phân tích từ Layer 1 đến Layer 7.
 
 <img width="900px" src="/assets/intro/1-30-packet-path.png">
+
+---

@@ -5,81 +5,88 @@ nav_order: 3
 layout: page-with-toc
 ---
 
-# Datacenter Routing
 
-## Why are Datacenters Different?
 
-In the previous section, we designed Clos networks, which created many paths between servers. Servers can communicate simultaneously at high bandwidth by using different paths through the network.
+# **Định tuyến trong Datacenter** (Datacenter Routing)
 
-What problems occur if we apply our standard routing algorithms to these network topologies?
+## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)
 
-So far, our routing protocols pick a single path between a source and destination. If all our traffic uses the same path, we aren't taking advantage of all the extra links in the Clos network. Ideally, we'd like to modify our routing protocols so that a packet can use multiple paths between the same endpoints.
+Trong phần trước, chúng ta đã thiết kế các mạng **Clos**, tạo ra nhiều đường đi giữa các **server**. Các server có thể giao tiếp đồng thời với băng thông cao bằng cách sử dụng các đường đi khác nhau trong mạng.
+
+Vậy sẽ có vấn đề gì nếu áp dụng các **routing algorithm** (thuật toán định tuyến) tiêu chuẩn vào các **network topology** (kiến trúc mạng) này?
+
+Cho đến nay, các **routing protocol** (giao thức định tuyến) của chúng ta chọn một đường duy nhất giữa **source** (nguồn) và **destination** (đích). Nếu toàn bộ lưu lượng đều đi cùng một đường, chúng ta không tận dụng được tất cả các liên kết bổ sung trong mạng Clos. Lý tưởng nhất, chúng ta muốn chỉnh sửa giao thức định tuyến để một **packet** có thể sử dụng nhiều đường khác nhau giữa cùng một cặp điểm cuối.
 
 <img width="400px" src="/assets/datacenter/6-033-dcrouting1.png">
 
-Suppose that A and B have 200 Gbps uplink bandwidth, and the switch-to-switch links have 100 Gbps bandwidth. If all traffic between A and B is forced to take the green path, we're leaving the red path unused. We could have sent data at full rate, if we allowed packets to take different paths.
+Giả sử A và B có băng thông uplink 200 Gbps, và các liên kết giữa switch với switch có băng thông 100 Gbps. Nếu toàn bộ lưu lượng giữa A và B bị buộc đi theo đường màu xanh lá, chúng ta đang bỏ phí đường màu đỏ. Chúng ta có thể truyền dữ liệu ở tốc độ tối đa nếu cho phép packet đi theo các đường khác nhau.
 
-Also, if there are multiple simultaneous connections, we'd like those connections to use different paths in order to maximize bandwidth.
+Ngoài ra, nếu có nhiều kết nối đồng thời, chúng ta muốn các kết nối đó sử dụng các đường khác nhau để tối đa hóa băng thông.
 
 <img width="400px" src="/assets/datacenter/6-034-dcrouting2.png">
 
-Suppose that all links have 100 Gbps bandwidth. In this example, multiple connections are competing for bandwidth. If the A-B and C-D connections both pick the same path, the R1-R2 and R2-R4 links are overused (200 Gbps on 100 Gbps capacity). We could have sent data at full rate, if A-B and C-D used different paths.
+Giả sử tất cả các liên kết đều có băng thông 100 Gbps. Trong ví dụ này, nhiều kết nối đang cạnh tranh băng thông. Nếu kết nối A-B và C-D đều chọn cùng một đường, các liên kết R1-R2 và R2-R4 sẽ bị quá tải (200 Gbps trên dung lượng 100 Gbps). Chúng ta có thể truyền dữ liệu ở tốc độ tối đa nếu A-B và C-D dùng các đường khác nhau.
 
+---
 
-## Equal Cost Multi-Path (ECMP) Routing
+## **Equal Cost Multi-Path (ECMP) Routing** (Định tuyến đa đường có chi phí bằng nhau)
 
-In **equal cost multi-path** routing, our goal is to find all of the shortest paths (with equal cost), and load-balance packets across those paths.
+Trong **equal cost multi-path** routing, mục tiêu là tìm tất cả các đường ngắn nhất (có chi phí bằng nhau) và **load-balance** (cân bằng tải) packet qua các đường này.
 
-If a packet arrives at a router, but there are multiple outgoing links that are all valid shortest paths, which link should the router choose? The router needs some function (think of it like a piece of code) that takes a packet, and outputs a choice of link. The function should properly load-balance traffic across the equal-cost paths.
+Nếu một packet đến **router**, nhưng có nhiều liên kết đầu ra đều là đường ngắn nhất hợp lệ, router sẽ chọn liên kết nào? Router cần một **function** (hàm – có thể hình dung như một đoạn mã) nhận packet và xuất ra lựa chọn liên kết. Hàm này phải cân bằng tải đúng cách giữa các đường có chi phí bằng nhau.
 
 <img width="900px" src="/assets/datacenter/6-035-ecmp1.png">
 
-One possible strategy is round-robin. If there are two shortest-path outgoing links, our function could say: send all odd packets along Link 1 and all even packets along Link 2.
+Một chiến lược khả thi là **round-robin**. Nếu có hai liên kết đầu ra ngắn nhất, hàm có thể quy định: gửi tất cả packet lẻ qua Link 1 và packet chẵn qua Link 2.
 
-What are some problems with this approach? Equal-cost paths doesn't necessarily mean all paths have the same latency. (Remember, the costs are defined by the operator using whatever metric they like.) If we send all odd packets along a slow link, and all even packets along a fast link, then the TCP recipient might end up receiving all the even packets before the odd packets. TCP cares about reordering packets, so the recipient would be forced to buffer the even packets until the missing odd packets arrive, resulting in poor performance.
+Vấn đề của cách này là: đường có chi phí bằng nhau không nhất thiết có **latency** (độ trễ) bằng nhau. (Nhớ rằng chi phí được operator định nghĩa theo tiêu chí tùy ý.) Nếu gửi tất cả packet lẻ qua đường chậm và packet chẵn qua đường nhanh, **TCP recipient** (bên nhận TCP) có thể nhận tất cả packet chẵn trước packet lẻ. TCP quan tâm đến việc sắp xếp lại packet, nên bên nhận sẽ phải **buffer** (đệm) packet chẵn cho đến khi nhận đủ packet lẻ, gây giảm hiệu năng.
 
-A smarter strategy would involve looking at some of the packet header fields, and using those fields to make some deterministic choice of link. What fields could we look at?
+Một chiến lược thông minh hơn là xem xét một số trường trong **packet header** và dùng chúng để đưa ra lựa chọn liên kết một cách **deterministic** (xác định). Có thể xem xét những trường nào?
 
-We could use the destination IP to select between shortest links. (We're already using the destination IP in routing anyway.) But, what if lots of sources send packets to the same destination? All the packets have the same destination IP, so they all get mapped to the same shortest link. We aren't load-balancing packets across the various shortest links.
+- Nếu dùng **destination IP** để chọn giữa các đường ngắn nhất: vấn đề là nếu nhiều nguồn gửi packet đến cùng một đích, tất cả packet có cùng destination IP sẽ bị ánh xạ vào cùng một liên kết ngắn nhất → không cân bằng tải.
 
 <img width="400px" src="/assets/datacenter/6-036-ecmp2.png">
 
-What if we used the source IP to select between shortest links? We have a similar problem, if one source is sending packets to lost of destinations. All the packets have the same source, so they all get mapped to the same shortest link.
+- Nếu dùng **source IP**: tương tự, nếu một nguồn gửi packet đến nhiều đích, tất cả packet có cùng source IP sẽ bị ánh xạ vào cùng một liên kết ngắn nhất.
 
 <img width="400px" src="/assets/datacenter/6-037-ecmp3.png">
 
-Instead of looking at only one field, we could look at both the source and destination IP. To load-balance between shortest links, we could hash the source and destination IP and map the resulting hash to a link (similar to how hash tables work). The source and destination IP together contain enough entropy to avoid our problems from earlier, where many connections with the same source or the same destination get mapped to the same link.
+Giải pháp: dùng cả **source IP** và **destination IP**. Để cân bằng tải, ta có thể **hash** (băm) cặp địa chỉ này và ánh xạ kết quả băm tới một liên kết (tương tự như **hash table**). Cặp địa chỉ này chứa đủ **entropy** (độ ngẫu nhiên) để tránh vấn đề trước đó.
 
 <img width="400px" src="/assets/datacenter/6-038-ecmp4.png">
 
-We still have one more problem: What if there are multiple large connections between the same source and destination? We don't want all these connections to map to the same link. To solve this, we can additionally look at the source and destination ports in the TCP or UDP header.
+Vẫn còn một vấn đề: nếu có nhiều kết nối lớn giữa cùng một source và destination, ta không muốn tất cả chúng vào cùng một liên kết. Giải pháp: xem thêm **source port** và **destination port** trong **TCP** hoặc **UDP header**.
 
-More generally, all of the problems we've described (reordering in a TCP connection, too many connections on one link) can be solved if we place each connection on a separate link. To uniquely identify a connection, we need a 5-tuple of: (source IP, destination IP, protocol, source port, destination port). Note that we need the protocol to distinguish between TCP and UDP connections using the same IPs/ports. Two packets are part of the same connection if and only if they have the same 5-tuple.
+Nói chung, mọi vấn đề đã nêu (sắp xếp lại packet trong kết nối TCP, quá nhiều kết nối trên một liên kết) đều có thể giải quyết nếu đặt mỗi kết nối trên một liên kết riêng. Để định danh duy nhất một kết nối, cần **5-tuple** gồm: (source IP, destination IP, protocol, source port, destination port). Cần protocol để phân biệt giữa kết nối TCP và UDP dùng cùng IP/port. Hai packet thuộc cùng một kết nối khi và chỉ khi chúng có cùng 5-tuple.
 
 <img width="400px" src="/assets/datacenter/6-039-ecmp5.png">
 
-By hashing all 5 values, we can ensure packets in the same connection use the same path (avoiding reordering problems), and we can load-balance connections across different paths. This approach is sometimes called **per-flow load balancing**. Modern commodity routers usually have built-in support to read these 5 values.
+Bằng cách băm cả 5 giá trị, ta đảm bảo packet trong cùng một kết nối đi cùng một đường (tránh sắp xếp lại), đồng thời cân bằng tải kết nối qua các đường khác nhau. Cách này gọi là **per-flow load balancing** (cân bằng tải theo luồng). Các router thương mại hiện đại thường hỗ trợ đọc 5 giá trị này.
 
-Per-flow load balancing ensures that each link is being used by roughly the same number of connections, though it doesn't account for connections being different sizes. Accounting for connection size is technically possible, though it's more expensive (routers would have to do more work) without a lot of benefit (per-flow does a pretty good job balancing different-sized connections), so this is not done in practice.
+Per-flow load balancing đảm bảo mỗi liên kết được dùng bởi số lượng kết nối xấp xỉ nhau, dù không tính đến kích thước kết nối. Việc tính đến kích thước kết nối là khả thi về mặt kỹ thuật nhưng tốn kém (router phải xử lý nhiều hơn) và lợi ích không đáng kể (per-flow đã cân bằng khá tốt), nên không áp dụng trong thực tế.
 
+---
 
-## Multi-Path Distance-Vector Protocols
+## **Multi-Path Distance-Vector Protocols** (Giao thức vectơ khoảng cách đa đường)
 
-To maximize bandwidth, we should send packets along different paths, even if they're going to the same destination (e.g. if the packets are part of different connections). This means we have to modify our routing protocols so that routers learn about all the shortest paths, not just one.
+Để tối đa hóa băng thông, ta nên gửi packet qua các đường khác nhau, ngay cả khi chúng đến cùng một đích (ví dụ: nếu packet thuộc các kết nối khác nhau). Điều này nghĩa là phải chỉnh sửa routing protocol để router học tất cả các đường ngắn nhất, không chỉ một.
 
-In standard distance-vector protocols, if we receive an advertisement for a new path with cost equal to the best-known cost, we don't accept that new path. But, in order to remember all least-cost paths, we should actually accept that equal-cost path, and store both paths in the forwarding table. In the forwarding table, a destination can now be mapped to multiple next hops, as long as they all have the same minimal cost.
+Trong **distance-vector protocol** tiêu chuẩn, nếu nhận được quảng bá về một đường mới có chi phí bằng chi phí tốt nhất hiện tại, ta sẽ bỏ qua đường mới. Nhưng để nhớ tất cả các đường có chi phí tối thiểu, ta nên chấp nhận cả đường bằng chi phí và lưu cả hai vào **forwarding table**. Khi đó, một đích có thể ánh xạ tới nhiều **next hop** miễn là chúng có cùng chi phí tối thiểu.
 
 <img width="600px" src="/assets/datacenter/6-040-ecmp6.png">
 
-In this example, R1 receives advertisements from both R4 and R3, both advertising that they can reach B in 2 hops. Our forwarding table stores both R4 and R3 as possible next hops, both with equal minimal cost of 3.
+Ví dụ: R1 nhận quảng bá từ cả R4 và R3, đều cho biết có thể đến B trong 2 hop. Forwarding table lưu cả R4 và R3 là next hop khả thi, cùng chi phí tối thiểu là 3.
 
 <img width="600px" src="/assets/datacenter/6-041-ecmp7.png">
 
-When forwarding packets, the router hashes the 5-tuple to forward roughly half the connections to R3, and the other half to R2.
+Khi chuyển tiếp packet, router sẽ băm 5-tuple để gửi khoảng một nửa kết nối qua R3 và nửa còn lại qua R2.
 
+---
 
-## Multi-Path Link-State Protocols
+## **Multi-Path Link-State Protocols** (Giao thức trạng thái liên kết đa đường)
 
-In link-state protocols, we flood advertisements so that everybody has a full picture of the network. Normally, each node calculates a shortest path to each destination to populate the forwarding table. To support multiple paths, we need each node to instead compute all of the shortest paths for each destination.
+Trong **link-state protocol**, ta flood quảng bá để mọi nút có bức tranh đầy đủ về mạng. Thông thường, mỗi nút tính một đường ngắn nhất đến mỗi đích để điền vào forwarding table. Để hỗ trợ nhiều đường, mỗi nút cần tính **tất cả** các đường ngắn nhất đến mỗi đích.
 
-As in the modified distance-vector protocol, the forwarding table can now contain multiple next-hops for a given destination.
+Giống như trong distance-vector đã chỉnh sửa, forwarding table giờ có thể chứa nhiều next hop cho một đích nhất định.
+
+---

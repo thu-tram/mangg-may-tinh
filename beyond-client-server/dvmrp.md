@@ -7,187 +7,184 @@ layout: page-with-toc
 
 # DVMRP
 
-## Naive Algorithm: Flooding
 
-Recall that the goal of multicast routing: We have a packet whose destination is a group, and the routers need to work together to forward this packet to all members of the group.
+## **Thuật toán ngây thơ: Flooding** (Naive Algorithm: Flooding)
 
-The most naive way to implement this is flooding. When a router receives a packet, it simply forwards the packet out of every port (except the incoming port).
+Hãy nhớ lại mục tiêu của **multicast routing** (định tuyến multicast): Chúng ta có một gói tin mà đích đến là một nhóm, và các **router** cần phối hợp để chuyển tiếp gói tin này tới tất cả các thành viên của nhóm.
+
+Cách triển khai ngây thơ nhất là **flooding** (phát tràn). Khi một router nhận được gói tin, nó đơn giản chuyển tiếp gói tin đó ra tất cả các cổng (trừ cổng nhận vào).
 
 <img width="500px" src="/assets/beyond-client-server/7-012-dvmrp-flooding.png">
 
-Why does flooding work? It ensures that every host on the network receives the packet, and that will include all members of the desired group.
+**Tại sao flooding hoạt động?** Nó đảm bảo mọi **host** trên mạng đều nhận được gói tin, bao gồm tất cả các thành viên của nhóm đích.
 
-What's good about flooding? It's conceptually simple, and doesn't require running any routing protocols.
+**Điểm tốt của flooding:** Khái niệm đơn giản, không cần chạy bất kỳ giao thức định tuyến nào.
 
-What are some problems with flooding? There are two major problems, which we'll solve one at a time:
+**Vấn đề của flooding:** Có hai vấn đề chính, chúng ta sẽ giải quyết từng vấn đề một:
 
-1. Flooding wastes bandwidth sending the same data along multiple paths, when that data only needed to be sent along one path.
+1. Flooding lãng phí băng thông khi gửi cùng một dữ liệu qua nhiều đường, trong khi dữ liệu đó chỉ cần được gửi qua một đường duy nhất.  
+2. Flooding lãng phí băng thông khi gửi gói tin tới các nút không phải thành viên.
 
-2. Flooding wastes bandwidth sending the packet to non-members.
+Ngoài ra, các vòng lặp có thể gây ra **broadcast storm** (bão quảng bá) khi cùng một gói tin được chuyển tiếp vô hạn trong vòng lặp, mặc dù điều này có thể được giải quyết bằng cách để router loại bỏ gói tin nếu đã thấy trước đó.
 
-Also, loops can cause broadcast storms where the same packet is forwarded infinitely in a loop, though this can be solved by having routers discard a packet if they've seen it before.
+---
 
+## **Reverse Path Broadcasting (RPB)**
 
-## Reverse Path Broadcasting (RPB)
+Bây giờ, hãy tập trung vào vấn đề đầu tiên. (Lưu ý: Điều này có nghĩa là hiện tại chúng ta vẫn sẽ gửi gói multicast tới tất cả mọi người, bao gồm cả các nút không phải thành viên. Chúng ta sẽ giải quyết vấn đề này sau.)
 
-Let's focus on the first problem for now. (Note: This means that for now, we'll still be sending the multicast packet to everybody, including non-members. We'll solve that problem later.)
-
-Flooding correctly sends the packet to everybody, but it wastes data sending data along redundant links. For example, if there are many paths between R1 and R4, flooding will cause copies of the packet to travel along every path from R1 to R4. Then, R4 will discard all the duplicate copies of the packet.
+Flooding gửi gói tin tới tất cả mọi người, nhưng lãng phí băng thông khi gửi dữ liệu qua các liên kết dư thừa. Ví dụ: nếu có nhiều đường giữa R1 và R4, flooding sẽ khiến các bản sao gói tin đi qua mọi đường từ R1 tới R4. Sau đó, R4 sẽ loại bỏ tất cả các bản sao trùng lặp.
 
 <img width="500px" src="/assets/beyond-client-server/7-013-redundant-paths.png">
 
-Ideally, we'd like the packet to travel along a single path from R1 to R4, and likewise between any other pair of routers.
+Lý tưởng nhất, chúng ta muốn gói tin chỉ đi qua **một** đường duy nhất từ R1 tới R4, và tương tự giữa mọi cặp router khác.
 
-We'd like packets to take only a single path between any pair of nodes. What data structure does this remind you of? Trees have a single path between any pair of nodes!
+Điều này gợi nhớ đến cấu trúc dữ liệu nào? **Tree** (cây) chỉ có một đường duy nhất giữa mọi cặp nút!
 
 <img width="500px" src="/assets/beyond-client-server/7-014-single-path.png">
 
-Specifically, we want to build a **spanning tree**, so that everyone receives the packet along a single path only.
+Cụ thể, chúng ta muốn xây dựng một **spanning tree** (cây bao trùm), để mọi người chỉ nhận gói tin qua một đường duy nhất.
 
-We could build a spanning tree from scratch, but we could be more clever and reuse some work that we've already done. Where have we already seen spanning trees?
+Chúng ta có thể xây dựng spanning tree từ đầu, nhưng có thể tận dụng công việc đã làm trước đó. Chúng ta đã thấy spanning tree ở đâu?
 
-When we ran distance-vector routing for unicast packets, we built a spanning tree pointing toward the destination. This allowed all packets to flow "upwards" in the network graph, toward the single destination (the root of the tree).
+Khi chạy **distance-vector routing** cho gói unicast, chúng ta đã xây dựng một spanning tree hướng về đích. Điều này cho phép tất cả gói tin chảy “lên” trong đồ thị mạng, hướng tới một đích duy nhất (gốc của cây).
 
 <img width="500px" src="/assets/beyond-client-server/7-015-unicast-trees.png">
 
-If we took this graph and just reversed all the arrows, we now have a suitable spanning tree for multicast packets. The root of the tree is now the sender, and copies of the packet flow "downwards" in the network graph, away from the sender and through the network to reach every destination.
+Nếu đảo ngược tất cả các mũi tên trong đồ thị này, chúng ta sẽ có một spanning tree phù hợp cho gói multicast. Gốc của cây bây giờ là **sender** (nguồn gửi), và các bản sao gói tin chảy “xuống” trong đồ thị mạng, rời khỏi nguồn và đi qua mạng để đến mọi đích.
 
 <img width="500px" src="/assets/beyond-client-server/7-016-multicast-trees.png">
 
-At this point, thinking about reversed arrows can be confusing, so let's switch to using some less confusing terminology. In the tree of routers, every router has exactly one parent, and zero or more children. The router at the "top" of the tree is the root, and routers at the "bottom" of the tree with no children are called leaves. (These are the same definitions that you're probably used to from any data structures course. Nothing special about them.)
+Để tránh nhầm lẫn khi nghĩ về mũi tên đảo ngược, chúng ta sẽ dùng thuật ngữ quen thuộc hơn: Trong cây router, mỗi router có đúng một **parent** (nút cha) và 0 hoặc nhiều **child** (nút con). Router ở “đỉnh” cây là **root** (gốc), và các router ở “đáy” cây không có con được gọi là **leaf** (lá).
 
-When we thought about unicast routing, the root was the destination. Everyone receives packets from their children, and forwards their packets to their parents, "upwards" toward the destination.
+- Trong unicast routing, root là **destination** (đích). Mọi nút nhận gói tin từ con của mình và chuyển tiếp “lên” cho cha, hướng về đích.  
+- Trong multicast routing, root là **source** (nguồn). Mọi nút nhận gói tin từ cha và chuyển tiếp “xuống” cho các con, hướng tới tất cả các đích.
 
-By contrast, when we think about multicast routing, the root is the source. Everyone receives packets from their parent, and forwards their packets to their children, "downwards" through the network to reach every destination.
+**Quy tắc chuyển tiếp multicast:** Nếu nhận gói tin từ cha, gửi nó tới tất cả các con. Nếu nhận gói tin từ ai khác (không phải cha), loại bỏ gói tin.
 
-In summary, the forwarding rule for multicast routing is: If you get a packet from your parent, send it to all your children. Otherwise, if you get a packet from someone else (not your parent), drop the packet.
+Quy tắc này giúp tránh việc gói tin đi qua nhiều đường. Dù có nhiều đường tới bạn, bạn chỉ nhận gói tin từ cha một lần và chuyển tiếp cho các con. Nếu nhận bản sao từ nút khác (không phải cha), bạn sẽ loại bỏ nó.
 
-This rule helps us avoid packets getting sent along multiple paths. Even if there are multiple paths to you, you will only receive the packet from your parent (and forward it to your children) a single time. If you receive another copy of the packet from someone else (not your parent), you'll drop the packet.
+---
 
+## **RPM: Xác định cha và con** (RPM: Learning Your Parent and Children)
 
-## RPM: Learning Your Parent and Children
+Làm thế nào để triển khai quy tắc này? Mỗi router cần biết cha của mình và tất cả các con.
 
-How do we actually implement this rule? Each router needs to know about its parent, and all of its children.
-
-Figuring out your parent is easy. Remember that this tree is exactly the same as the tree from distance-vector for unicast routing. In your unicast forwarding table, your next-hop to the root is your parent! To determine your parent, you can just reuse the forwarding table entry you computed for unicast routing.
+**Xác định cha:** Dễ dàng. Cây này giống hệt cây từ distance-vector cho unicast. Trong **unicast forwarding table** (bảng chuyển tiếp unicast), **next-hop** tới root chính là cha của bạn. Bạn có thể tái sử dụng thông tin này.
 
 <img width="900px" src="/assets/beyond-client-server/7-017-learning-parents.png">
 
-Figuring out your children takes a bit more work. The forwarding table only tells you about your parent (next-hop, toward the root), but the forwarding table has no information about your children (previous-hop, away from the root).
+**Xác định con:** Khó hơn một chút. Bảng chuyển tiếp chỉ cho biết cha (next-hop về phía root), nhưng không cho biết con (previous-hop, rời khỏi root).
 
-Since you don't know about your children, you need your children to tell you who they are. Specifically, everybody sends multicast routing advertisements to their parents saying: "I am your child (in the tree rooted at A)." (Remember that everybody knows their parents from their unicast forwarding table.)
+Vì bạn không biết con của mình, nên các con phải tự thông báo cho bạn. Cụ thể, mọi nút gửi **multicast routing advertisement** (thông báo định tuyến multicast) tới cha của mình: “Tôi là con của bạn (trong cây gốc A).” (Mọi nút biết cha của mình từ bảng chuyển tiếp unicast.)
 
 <img width="600px" src="/assets/beyond-client-server/7-018-learning-children.png">
 
-Then, every router receives these advertisements and stores additional information about who their children are. This is new information that we've added specifically for multicast routing. This new multicast forwarding table is separate from the forwarding table we used in unicast routing (and for determining parents).
+Sau đó, mỗi router nhận các thông báo này và lưu thông tin về các con của mình. Đây là thông tin mới, được thêm riêng cho multicast routing. **Multicast forwarding table** (bảng chuyển tiếp multicast) này tách biệt với bảng chuyển tiếp unicast.
 
 <img width="900px" src="/assets/beyond-client-server/7-019-learning-children-tables.png">
 
-In summary, the forwarding rule for multicast is implemented like this. When you receive a packet, use the unicast forwarding table (which lists your parent) to check if the packet is from your parent. If the packet is from your parent, use the new multicast forwarding table (containing advertisements from your children) to forward it to your children.
+**Tóm tắt:** Khi nhận gói tin, dùng bảng chuyển tiếp unicast (liệt kê cha) để kiểm tra xem gói tin có đến từ cha không. Nếu có, dùng bảng chuyển tiếp multicast (chứa danh sách con) để gửi cho các con.
 
 <img width="700px" src="/assets/beyond-client-server/7-020-rpb-recap.png">
 
-Now that we have two forwarding tables, let's stop and think about how each one is used. The unicast forwarding table lists your parents. This table is used for unicasting packets toward their destinations, as in standard distance-vector routing. This table is also used for checking if a multicast packet came from your parent. Finally, this table is used to send multicast routing advertisements to tell your parents "I am your child."
+**Vai trò của từng bảng:**  
+- **Unicast forwarding table:** Liệt kê cha, dùng để unicast gói tin, kiểm tra gói multicast có từ cha không, và gửi multicast routing advertisement cho cha.  
+- **Multicast forwarding table:** Liệt kê con, được xây dựng từ các advertisement nhận từ con, dùng để gửi gói multicast cho tất cả các con.
 
-The multicast forwarding table lists your children. This table is constructed by receiving advertisements from your children. This table is used to forward multicast packets to all of your children.
-
-One last, but important, observation: In distance-vector unicast routing, we built one spanning tree for every destination. As a result, our unicast forwarding table has one next-hop for every destination. In other words, for each destination, you have a parent for that particular tree.
-
-When we reverse the arrows, we now end up with one spanning tree for every source. Our multicast forwarding table has a list of children for each different source. In other words, a multicast forwarding table entry can be interpreted as: "If you receive a packet from source A, forward it to children R6, R7."
+**Lưu ý quan trọng:** Trong distance-vector unicast routing, chúng ta xây dựng một spanning tree cho mỗi đích, nên bảng chuyển tiếp unicast có một next-hop cho mỗi đích (một cha cho mỗi cây). Khi đảo mũi tên, chúng ta có một spanning tree cho mỗi nguồn. Bảng chuyển tiếp multicast có danh sách con cho mỗi nguồn. Ví dụ: “Nếu nhận gói tin từ nguồn A, gửi cho các con R6, R7.”
 
 <img width="900px" src="/assets/beyond-client-server/7-021-multiple-rpb-trees-1.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-022-multiple-rpb-trees-2.png">
 
 
-## Reverse Path Multicasting (RPM): Pruning
 
-Our Reverse Path Broadcasting rule ensured that packets travel along a spanning tree, starting at the source (the root) and traveling "downwards" through the network to all destinations. Using a tree solved our first problem (packets taking multiple paths and wasting bandwidth).
+## **Reverse Path Multicasting (RPM): Pruning** (Cắt tỉa trong định tuyến multicast theo đường ngược)
 
-However, we still have the second problem to solve. So far, our packets are still being broadcast to everybody, including hosts who are not in the group. This wastes bandwidth.
+Quy tắc **Reverse Path Broadcasting** (RPB) của chúng ta đảm bảo rằng các gói tin di chuyển dọc theo một **spanning tree** (cây bao trùm), bắt đầu từ **source** (nguồn – gốc cây) và đi “xuống” qua mạng tới tất cả các đích. Việc sử dụng cây đã giải quyết vấn đề đầu tiên (gói tin đi theo nhiều đường và lãng phí băng thông).
 
-To solve this, we will **prune** the tree by cutting off any branches where there are no group members.
+Tuy nhiên, chúng ta vẫn còn vấn đề thứ hai cần giải quyết. Cho đến nay, các gói tin của chúng ta vẫn đang được **broadcast** (phát quảng bá) tới tất cả mọi người, bao gồm cả các host không thuộc nhóm. Điều này gây lãng phí băng thông.
+
+Để giải quyết, chúng ta sẽ **prune** (cắt tỉa) cây bằng cách loại bỏ các nhánh không có thành viên nhóm.
 
 <img width="900px" src="/assets/beyond-client-server/7-023-pruning-end-goal-1.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-024-pruning-end-goal-2.png">
 
-Pruning propagates from children to their parents. Suppose you are R5, and you are directly connected to 3 hosts. Using IGMP (i.e. talking to those hosts), you learn that none of them are in the group. This means that there's no reason for you to be part of this tree.
+Quá trình cắt tỉa được lan truyền từ các **child** (nút con) lên **parent** (nút cha). Giả sử bạn là R5, và được kết nối trực tiếp với 3 host. Sử dụng **IGMP** (trao đổi thông tin với các host này), bạn biết rằng không host nào thuộc nhóm. Điều này có nghĩa là không có lý do gì để bạn tiếp tục là một phần của cây này.
 
 <img width="900px" src="/assets/beyond-client-server/7-025-pruning-igmp.png">
 
-You can send an advertisement to your parent: "I am your child, but none of my descendants are involved in this group, so don't send me data packets." Your parent can then update their multicast forwarding table entry accordingly, so that you are no longer one of the children. Note that pruning messages are only sent to your direct parent (they're not forwarded any further).
+Bạn có thể gửi một **advertisement** (thông báo) tới cha của mình: “Tôi là con của bạn, nhưng không có hậu duệ nào của tôi tham gia nhóm này, vì vậy đừng gửi gói dữ liệu cho tôi.” Cha của bạn sau đó có thể cập nhật **multicast forwarding table** (bảng chuyển tiếp multicast) để loại bạn khỏi danh sách con. Lưu ý rằng thông điệp pruning chỉ được gửi tới cha trực tiếp của bạn (không được chuyển tiếp xa hơn).
 
 <img width="900px" src="/assets/beyond-client-server/7-026-pruning-message-1.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-027-pruning-message-2.png">
 
-Pruning can happen at higher levels of the tree as well. Consider R3, a router with 2 children. Suppose both children send pruning advertisements, saying that they're not involved in this group. If none of your children are involved in this group, then there's no reason for you to be involved in this group either. Therefore, you can remove yourself from this tree as well. You can do this by sending a pruning advertisement to your parent, so that your parent stops sending you data packets.
+Việc cắt tỉa cũng có thể xảy ra ở các mức cao hơn của cây. Xét R3, một router có 2 con. Giả sử cả hai con đều gửi thông báo pruning, nói rằng chúng không tham gia nhóm này. Nếu không con nào của bạn tham gia nhóm, thì bạn cũng không cần tham gia. Do đó, bạn có thể loại mình khỏi cây bằng cách gửi thông báo pruning tới cha, để cha ngừng gửi dữ liệu cho bạn.
 
 <img width="900px" src="/assets/beyond-client-server/7-028-pruning-message-3.png">
 
-Note: Routers at higher levels could have both children routers *and* directly-connected hosts. In this case, the router can only remove themselves from the tree if all their children send pruning advertisements, *and* all their directly-connected hosts are not part of this group.
+**Lưu ý:** Các router ở mức cao hơn có thể vừa có con là router, vừa có host kết nối trực tiếp. Trong trường hợp này, router chỉ có thể loại mình khỏi cây nếu **tất cả** các con gửi thông báo pruning **và** tất cả các host kết nối trực tiếp không thuộc nhóm.
 
 <img width="700px" src="/assets/beyond-client-server/7-029-pruning-children-and-igmp.png">
 
-Pruning makes our multicast forwarding tables a little more complicated. So far, each entry maps a source to a list of children: "If you receive a packet from source A, forward it to children R11, R12." However, the list of children now also depends on the destination group. For example, maybe R11 and R2 both have descendants belonging to group G1. But, only R11 has descendants belonging to group G2 (i.e. R12 has sent you a prune message).
+Việc cắt tỉa làm cho bảng chuyển tiếp multicast phức tạp hơn một chút. Trước đây, mỗi mục ánh xạ một nguồn tới danh sách các con: “Nếu nhận gói tin từ nguồn A, chuyển tiếp tới các con R11, R12.” Tuy nhiên, danh sách con giờ đây còn phụ thuộc vào **destination group** (nhóm đích). Ví dụ: có thể R11 và R2 đều có hậu duệ thuộc nhóm G1, nhưng chỉ R11 có hậu duệ thuộc nhóm G2 (tức là R12 đã gửi thông báo prune cho bạn).
 
-To fix this, our multicast forwarding table must have one entry per source, per group. For example: "If you receive a packet from source A to group G1, forward it to children R11, R12."
+Để xử lý, bảng chuyển tiếp multicast phải có một mục cho mỗi **(source, group)**. Ví dụ: “Nếu nhận gói tin từ nguồn A tới nhóm G1, chuyển tiếp tới các con R11, R12.”
 
 <img width="900px" src="/assets/beyond-client-server/7-030-pruning-multiple-tables-1.png">
 
-Another separate entry would be: "If you receive a packet from source A to group G2, forward it to child R11."
+Một mục khác: “Nếu nhận gói tin từ nguồn A tới nhóm G2, chuyển tiếp tới con R11.”
 
 <img width="900px" src="/assets/beyond-client-server/7-031-pruning-multiple-tables-2.png">
 
-Another way to think about this modification: Previously, we had one tree per source, showing how that source sends multicast packets to everyone else. However, we are now cutting off tree branches depending on the destination group. Therefore, we need one tree per source, per destination group.
+Một cách khác để hình dung: Trước đây, chúng ta có một cây cho mỗi nguồn, cho thấy nguồn đó gửi gói multicast tới tất cả mọi người. Giờ đây, chúng ta cắt bỏ các nhánh tùy theo nhóm đích. Do đó, chúng ta cần một cây cho mỗi **(source, destination group)**.
 
-One final note: It's possible that none of your children currently belong to a group, but some time later, one of your descendants decides to join the group. To fix this problem, every router will periodically clear all of its pruning information, so that nobody is pruned anymore. This causes everyone to revert to the original RPB behavior, where you always forward to all your children.
+**Lưu ý cuối:** Có thể hiện tại không con nào của bạn thuộc nhóm, nhưng sau đó một hậu duệ của bạn tham gia nhóm. Để xử lý, mỗi router sẽ định kỳ xóa toàn bộ thông tin pruning, để không ai bị cắt tỉa nữa. Điều này khiến mọi thứ quay lại hành vi RPB ban đầu, nơi bạn luôn chuyển tiếp cho tất cả các con.
 
-This way, if one of your descendants has joined a group, then after the timer expires, you are no longer pruned and you have re-joined the tree. On the other hand, if it's still the case that none of your descendants belong to the group, you can just send another pruning message to your parent, so that you are removed from the tree again.
+Bằng cách này, nếu một hậu duệ của bạn tham gia nhóm, thì sau khi bộ đếm thời gian hết hạn, bạn sẽ không còn bị cắt tỉa và sẽ tham gia lại cây. Ngược lại, nếu vẫn không có hậu duệ nào thuộc nhóm, bạn chỉ cần gửi lại thông báo pruning cho cha để được loại khỏi cây.
 
+---
 
-## Summary of DVMRP Rules
+## **Tóm tắt các quy tắc DVMRP** (Summary of DVMRP Rules)
 
-**Routing Rules:**
+**Quy tắc định tuyến (Routing Rules):**
 
-For each source's spanning tree, you need to learn your parents and your children.
+Với mỗi spanning tree của một nguồn, bạn cần biết cha và các con của mình.
 
-1. Learning your parents: No action needed. Your unicast forwarding table already identifies your parent.
+1. **Xác định cha:** Không cần hành động gì. Bảng chuyển tiếp unicast của bạn đã xác định cha.  
+2. **Xác định con:** Mọi nút gửi advertisement tới cha. Khi nhận được advertisement, bạn biết ai là con của mình.
 
-2. Learning your children: Everyone sends an advertisement to their parent. When you receive these advertisements, you learn who your children are.
+**Quy tắc chuyển tiếp (Forwarding Rules):**
 
-**Forwarding Rules:**
+1. Khi nhận gói tin, dùng bảng chuyển tiếp unicast cho nguồn đó để kiểm tra xem gói tin có đến từ cha không.  
+2. Nếu gói tin đến từ cha, dùng bảng chuyển tiếp multicast để gửi cho các con. Chỉ gửi cho các con **không bị cắt tỉa** đối với nhóm đích.  
+3. Nếu gói tin không đến từ cha, loại bỏ gói tin.
 
-1. When you receive a packet, use the unicast forwarding table for the given source to check if the packet is from your parent.
+**Quy tắc cắt tỉa (Pruning Rules):**
 
-2. If the packet is from your parent, use the new multicast forwarding table to forward it to your children. Only forward to the non-pruned children for the given destination.
+Với mỗi cặp **(destination group, source)**:
 
-3. Otherwise, if the packet is not from your parent, then just drop the packet.
+1. Nếu nhận thông báo pruning từ một con, loại con đó khỏi mục bảng chuyển tiếp multicast cho nhóm đích này.  
+2. Nếu không hậu duệ nào (host kết nối trực tiếp hoặc con) thuộc nhóm, gửi thông báo pruning cho cha.  
+3. Định kỳ xóa toàn bộ thông tin pruning (quay lại chuyển tiếp cho tất cả các con).
 
-**Pruning Rules:**
+---
 
-For each (destination group, source) pair:
+## **Ưu và nhược điểm của DVMRP** (DVMRP Pros and Cons)
 
-1. If you receive a pruning message from a child, remove that child from your multicast forwarding table entry for this destination group.
+**Nhược điểm:**
 
-2. If none of your descendants (directly-connected hosts or children) belong to this group, send a pruning message to your parent.
+- Thông tin pruning được xóa định kỳ. Khi điều này xảy ra, gói tin lại được broadcast tới tất cả mọi người cho đến khi quá trình pruning hội tụ lại (nhớ rằng không có pruning thì gói tin được gửi tới tất cả).  
+- Bảng chuyển tiếp mở rộng kém: cần một mục cho mỗi **(source, destination group)**.
 
-3. Periodically clear all pruning information (revert to forwarding to all children).
+**Ưu điểm:**
 
+- **DVMRP** là một phần mở rộng đơn giản, tinh gọn của giao thức định tuyến hiện có (**distance-vector**). Chúng ta có thể tái sử dụng bảng chuyển tiếp unicast để triển khai DVMRP. Ví dụ: không cần suy nghĩ nhiều về cách xác định cha vì đã có sẵn.  
+- Vì tái sử dụng cây phân phối từ giao thức distance-vector, các cây này cũng là **least-cost tree** (cây chi phí thấp nhất). Nói cách khác, chúng cung cấp đường tốt nhất từ nguồn tới tất cả thành viên nhóm. Đây là lý do tại sao ta nói IP multicast là tối ưu: DVMRP đạt hiệu năng tốt nhất xét theo chi phí trong topology mạng.
 
-## DVMRP Pros and Cons
+**Hạn chế:** Việc gắn kết multicast và unicast routing khiến việc chuyển đổi giao thức khó hơn. Ví dụ: nếu chuyển giao thức unicast từ distance-vector sang **link-state**, chúng ta cũng phải thiết kế lại giao thức multicast.
 
-What's bad about this routing protocol?
-
-Pruning information is periodically cleared. When that happens, packets end up getting broadcast to everybody again, until pruning converges again (Recall that without pruning, packets were getting sent to everybody.)
-
-Forwarding tables scale poorly. The multicast forwarding table needs one entry per source, per destination group.
-
-What's good about this routing protocol?
-
-DVMRP is a simple, elegant extension to an existing routing protocol (distance-vector). We were able to elegantly reuse the unicast forwarding table to help us implement DVMRP. For example, we didn't have to think hard about how to identify our parent, because it was already done for us.
-
-Because we reused the delivery trees from the distance-vector protocol, the trees we produced are also least-cost trees. In other words, they give us the best path from the sender to all group members. This property is why we say that IP multicasting is optimal: in other words, DVMRP achieves the best possible performance, in terms of the costs in the network topology.
-
-One downside of coupling multicast and unicast routing is that switching protocols is harder. For example, if we switched our unicast routing protocol from distance-vector to link-state, we would have to rethink our multicast routing protocol as well.
+---

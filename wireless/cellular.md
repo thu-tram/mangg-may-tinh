@@ -5,320 +5,299 @@ nav_order: 2
 layout: page-with-toc
 ---
 
-# Cellular
+# Mạng Di động (Cellular)
 
-## Why Study Cellular?
+## Tại sao nên nghiên cứu về Mạng Di động?
 
-Wireless mobile connectivity is the modern standard. Your phone is be able to connect to the Internet while you're in a moving car.
+Kết nối di động không dây là tiêu chuẩn hiện đại. Điện thoại của bạn có thể kết nối Internet trong khi bạn đang ở trên một chiếc xe hơi đang di chuyển.
 
-Traditional Internet networks can't support this. You might be able to move from your bedroom to your kitchen and still have Internet access. In that case, you're within range of your wireless home router, which is then connected via wires to the rest of the Internet. However, the traditional Internet doesn't offer seamless connections across wide distances (e.g. moving in a car).
+Các mạng Internet truyền thống không thể hỗ trợ điều này. Bạn có thể di chuyển từ phòng ngủ đến nhà bếp và vẫn có quyền truy cập Internet. Trong trường hợp đó, bạn đang ở trong phạm vi phủ sóng của **Router** (Bộ định tuyến) không dây tại nhà, thiết bị này sau đó được kết nối qua dây dẫn đến phần còn lại của Internet. Tuy nhiên, Internet truyền thống không cung cấp các kết nối liền mạch trên các khoảng cách xa (ví dụ: khi di chuyển bằng ô tô).
 
-There are many ways to implement wireless mobile connectivity, but cellular is the dominant access technology today. Over half of web traffic today originates from a cellular device!
+Có nhiều cách để triển khai kết nối di động không dây, nhưng mạng di động là công nghệ truy cập chiếm ưu thế hiện nay. Hơn một nửa lưu lượng web ngày nay bắt nguồn từ một thiết bị di động!
 
-Cellular is just one of many technologies that can offer mobile wireless connectivity. Other technologies like satellite or free-space optics also exist, though cellular networks are still the dominant approach today.
+Mạng di động chỉ là một trong nhiều công nghệ có thể cung cấp kết nối di động không dây. Các công nghệ khác như vệ tinh hoặc quang học không gian tự do cũng tồn tại, mặc dù mạng di động vẫn là phương pháp chủ đạo ngày nay.
 
-In the future, high-performance applications that require wireless mobile technology, like self-driving cars or virtual reality, could lead to more innovation. Current cellular networks might get prohibitively expensive as we try to scale them up to support future applications. Also, cellular network operators like AT&T and Verizon don't have a reputation for rapid innovation. The general consensus is that this is an area ripe for disruption in the near future, and is an active area of research.
+Trong tương lai, các ứng dụng hiệu suất cao yêu cầu công nghệ di động không dây, như ô tô tự lái hoặc thực tế ảo, có thể dẫn đến nhiều sự đổi mới hơn. Các mạng di động hiện tại có thể trở nên đắt đỏ một cách cấm đoán khi chúng ta cố gắng mở rộng quy mô để hỗ trợ các ứng dụng trong tương lai. Ngoài ra, các nhà khai thác mạng di động như AT&T và Verizon không có tiếng là đổi mới nhanh chóng. Sự đồng thuận chung là đây là một lĩnh vực chín muồi cho sự đột phá trong tương lai gần và là một lĩnh vực nghiên cứu tích cực.
 
-<img width="700px" src="/assets/wireless/8-029-cellular-taxonomy.png">
+## Lược sử Mạng Di động
 
+Công nghệ di động bắt nguồn từ hệ thống điện thoại cũ. Các mạng di động lần đầu tiên được phát triển để cho phép người dùng thực hiện các cuộc gọi điện thoại không dây, thay vì trên một đường dây điện thoại cố định có dây. Chiếc điện thoại di động đầu tiên được bán vào năm 1983 với giá $4,000 (cao hơn rất nhiều ngày nay, sau khi tính lạm phát).
 
-## Brief History of Cellular Networks
+Do công nghệ di động bắt nguồn từ mạng điện thoại (chứ không phải Internet), nhiều lựa chọn thiết kế khác với Internet truyền thống. Trong nhiều năm, công nghệ di động (ví dụ: điện thoại di động tiền-smartphone cho các cuộc gọi thoại) và Internet đã phát triển song song, mỗi bên có một bộ lựa chọn kiến trúc khác nhau.
 
-Cellular technology has its roots in the old telephone system. Cellular networks were first developed to allow users to make phone calls wirelessly, instead of on a wired landline. The first mobile phone was sold in 1983 for \$4,000 (way more today, after inflation).
+Ví dụ, mạng di động sử dụng cơ chế **resource reservations** (dành riêng tài nguyên), trong khi Internet hiện đại sử dụng **packet switching** (chuyển mạch gói). Các mạng di động thường tư duy theo từng người dùng cá nhân, trong khi Internet chủ yếu tư duy theo từng luồng hoặc gói tin cá nhân. Mô hình kinh doanh của các mạng di động (ví dụ: tính phí người dùng theo phút) khác với Internet, vốn thường không theo dõi việc sử dụng nhiều như vậy.
 
-<img width="900px" class="real-photo" src="/assets/wireless/8-030-first-phone.png">
+Trong những năm gần đây, các mạng di động đã trở nên tương thích hơn với Internet truyền thống. Ngày nay, bạn có thể coi mạng di động như một mạng cục bộ Lớp 2 chuyên dụng có thể tương tác với phần còn lại của Internet **TCP/IP** truyền thống.
 
-Because cellular technology was derived from the telephone network (not the Internet), many of the design choices differ from the traditional Internet. For many years, cellular technology (e.g. pre-smartphone cell phones for voice calls) and the Internet developed in parallel, each with a different set of architectural choices.
+## Các Tiêu chuẩn Di động
 
-For example, the cellular network uses resource reservations, while the modern Internet uses packet switching. Cellular networks often thinks in terms of individual users, while the Internet mostly thinks in terms of individual flows or packets. The business model of cellular networks (e.g. charge user by the minute) is different from the Internet, which generally doesn't keep track of usage as much.
+Trong Internet truyền thống, chúng ta đã thấy rằng các cơ quan tiêu chuẩn hóa giúp chúng ta chuẩn hóa các giao thức như **TCP** và **IP**. Mạng di động cũng có nhiều cơ quan tiêu chuẩn hóa hợp tác để tạo ra một tiêu chuẩn.
 
-In recent years, cellular networks have emerged to be more compatible with the traditional Internet. Today, you can think of a cellular network as a specialized Layer 2 local network that can interact with the rest of the traditional TCP/IP Internet.
+Ở một số khía cạnh, các cơ quan tiêu chuẩn hóa mạng di động có sự phức tạp chính trị trong đời thực nhiều hơn các cơ quan tiêu chuẩn hóa Internet. Để đạt được khả năng tương tác, tất cả các nhà sản xuất điện thoại di động và tất cả các nhà khai thác mạng (ví dụ: Verizon xây dựng các trạm phát sóng di động) cần phải đồng ý về các giao thức, xuống tận lớp vật lý.
 
+Cơ quan tiêu chuẩn hóa chính trong thế giới di động là **3GPP** (Dự án Đối tác Thế hệ thứ 3). Các nhà cung cấp thiết bị lớn và các công ty viễn thông đều tham gia vào tổ chức này. **3GPP** đề xuất các tiêu chuẩn, sau đó được chuyển đến **ITU** (Liên minh Viễn thông Quốc tế). **ITU** là một phần của Liên Hợp Quốc và mỗi quốc gia có một phiếu bầu, vì vậy cũng có một số yếu tố chính trị liên quan đến các tiêu chuẩn. (Thông tin thú vị: Mỗi quốc gia có một phiếu bầu, vì vậy Mỹ có thể bị Liên minh châu Âu bỏ phiếu áp đảo.)
 
-## Cellular Standards
+Thông thường, một thế hệ công nghệ mới được giới thiệu sau mỗi 10 năm. Bây giờ bạn đã biết các con số trong 2G, 3G, 4G và 5G đại diện cho điều gì (các thế hệ công nghệ di động). Mạng 5G được định nghĩa vào khoảng năm 2020, và các nhà khai thác vẫn đang triển khai công nghệ này. Việc lập kế hoạch cho tiêu chuẩn 6G sẽ bắt đầu trong vài năm tới (cuối những năm 2020).
 
-In the traditional Internet, we saw that standards bodies help us standardize protocols like TCP and IP. The cellular network also has many standards bodies that cooperate to generate a standard.
+Mỗi thế hệ cố gắng cải tiến so với thế hệ trước trên nhiều phương diện, bao gồm tốc độ dữ liệu lý thuyết cao nhất, tốc độ dữ liệu trung bình mà người dùng trải nghiệm, tính di động (kết nối trong khi người dùng đang di chuyển ở tốc độ cao), mật độ kết nối (số lượng thiết bị trong một khu vực cụ thể), v.v. Mỗi thế hệ thường hoạt động tốt hơn khoảng 10 lần so với thế hệ trước trên tất cả các phương diện này.
 
-In some ways, the cellular network standards bodies have more real-life political complexity than the Internet standards bodies. In order to aciheve interoperability, all manufacturers of cell phones, and all network operators (e.g. Verizon building cell towers), need to agree on protocols, all the way down to the physical layer.
+Ngoài những cải tiến về hiệu suất, thiết kế kiến trúc cũng đã phát triển qua các thế hệ, để chuyển từ thiết kế mạng điện thoại sang thiết kế Internet. Điện thoại 1G hoàn toàn là analog, được thiết kế cho các cuộc gọi thoại. 2G/3G vẫn chủ yếu là chuyển mạch kênh, tập trung vào lưu lượng thoại (một chút tin nhắn, hầu như không có lưu lượng Internet). Từ 4G trở đi, chúng ta đã chuyển sang kiến trúc **packet-switched**, và thoại giờ đây chỉ là một trong nhiều ứng dụng chạy trên mạng.
 
-The key standards body in the cellular world is the 3GPP (3rd Generation Partnership Project). The large equipment vendors and telecommunications companies all participate in this organization. The 3GPP proposes standards, which are then forwarded to the ITU (International Telecom Union). The ITU is part of the United Nations, and every country gets a vote, so there's some politics involved in standards as well. (Fun fact: Every country gets one vote, so the US can get out-voted by the European Union.)
+Các thông số kỹ thuật di động dài hàng nghìn trang và bao gồm hàng trăm tài liệu, và gần như không ai thực sự đọc hết chúng. Một đặc điểm bất tiện của các tiêu chuẩn này là mọi thứ đều được đổi tên khi chúng ta chuyển từ thế hệ này sang thế hệ tiếp theo. Ví dụ, các trạm phát sóng di động đã được gọi là "base station", "nodeB", "evolved NodeB (eNodeB)", và "next-gen Node B (gNB)", tất cả đều có nghĩa giống nhau. Trong lớp học này, chúng ta sẽ tự đặt ra thuật ngữ riêng để làm cho các tên gọi trở nên trực quan hơn. Nếu bạn xem qua một cuốn sách giáo khoa hoặc một thông số kỹ thuật, bạn có thể thấy các tên gọi khác nhau, nhưng các ý tưởng chúng ta sẽ thấy nhìn chung nên nhất quán về mặt khái niệm với sách giáo khoa và thông số kỹ thuật.
 
-Typically, a new technology generation is introduced every 10 years. Now you know what the numbers in 2G, 3G, 4G, and 5G represent (generations of cellular technology). The 5G network was defined around 2020, and operators are still working on deploying the technology. Planning for the 6G standard will start in the next few years (late 2020s).
+## Thách thức chính: Tính di động (Mobility)
 
-Each generation tries to improve on the previous generation along multiple dimensions, including peak theoretical data rate, average data rate experienced by users, mobility (connection while user is traveling at a high speed), connection density (number of devices within a specific area), and so on. Each generation usually operates around 10 times better than the previous generation, along all these dimensions.
+Thách thức chính khiến mạng di động trở nên khó khăn là **mobility** (tính di động). Hãy nhớ rằng, hãy nghĩ về **mobility** như việc điện thoại của bạn đang phát video khi bạn đang di chuyển trên đường cao tốc (tuy nhiên đừng xem video khi đang lái xe). Có bốn thách thức cơ bản mà chúng ta sẽ nghiên cứu:
 
-<img width="900px" src="/assets/wireless/8-031-cellular-generations.png">
+1.  **Discovery** (Khám phá): Khi tôi đang di chuyển, làm cách nào để biết nên kết nối với trạm phát sóng di động nào?
+2.  **Authentication** (Xác thực): Trạm phát sóng của AT&T có thể chỉ muốn cung cấp kết nối cho khách hàng của mình, chứ không phải các khách hàng khác. Làm thế nào trạm phát sóng di động đạt được điều này?
+3.  **Seamless communication** (Giao tiếp liền mạch): Nếu tôi di chuyển ra khỏi phạm vi của một trạm phát sóng và vào phạm vi của một trạm phát sóng khác, kết nối của tôi phải liền mạch, không bị gián đoạn.
+4.  **Accountability** (Giải trình trách nhiệm): Nếu khách hàng chỉ trả tiền cho 6GB dữ liệu, mạng nên ngừng cung cấp kết nối cho khách hàng (hoặc cung cấp kết nối kém hơn) sau khi khách hàng đã vượt quá giới hạn của họ. Yêu cầu này xuất phát từ mạng di động cũ (trả tiền theo phút gọi thoại), và vẫn tồn tại vì tài nguyên trong mạng di động rất khan hiếm.
 
-In addition to performance improvements, the architectural design has also evolved across generations, to move away from the telephone network design and towards the Internet design. 1G phones were purely analog, designed for voice calls. 2G/3G was still mostly circuit-switched, with a focus on voice traffic (a bit of texting, barely any Internet traffic). From 4G onwards, we've moved to a packet-switched architecture, and voice is now just one of many applications running over the network.
+## Các thành phần hạ tầng: Trạm phát sóng vô tuyến (Radio Towers)
 
-Cellular specifications are thousands of pages and include hundreds of documents, and pretty much no one actually reads them in full. One inconvenient feature of these standards is that everything gets renamed when we move from one generation to the next. For example, cellular towers have been called a "base station", "nodeB", "evolved NodeB (eNodeB)", and a "next-gen Node B (gNB)," all meaning the same thing. In this class, we'll invent our own terminology to make the names more intuitive. If you look through a textbook or a specification, you might see different names, but the ideas we'll see should generally be conceptually consistent with textbooks and specs.
+Các thành phần của một mạng di động là gì? Đầu tiên, có trạm phát sóng vô tuyến.
 
+Trạm phát sóng vô tuyến có một ăng-ten. Bên trong trạm là một bộ thu phát vô tuyến, có chức năng chuyển đổi các bit kỹ thuật số thành tín hiệu analog được gửi qua giao diện không gian.
 
-## Key Challenge: Mobility
+Cũng bên trong trạm là một bộ điều khiển vô tuyến, quyết định cách phân bổ tài nguyên vô tuyến.
 
-The key challenge that makes cellular networks hard is mobility. Remember, think of mobility as your phone playing a video as you're moving down the freeway (don't watch videos while driving though). There are four fundamental challenges that we'll study:
+Bạn có thể coi bộ điều khiển như một CPU đang chạy một bộ lập lịch. Bộ điều khiển phân bổ các đoạn tần số và thời gian khác nhau cho các khách hàng khác nhau, tùy thuộc vào nhu cầu và mô hình kinh doanh (ví dụ: khách hàng đang trả bao nhiêu tiền). Đây thực sự là một bài toán lập lịch khá khó, mặc dù chúng ta sẽ không thảo luận thêm ở đây.
 
-1. Discovery: As I'm moving, how do I know which cell tower to connect to?
+Đây là một mô hình đơn giản hóa về việc bộ điều khiển vô tuyến phân bổ tài nguyên. Mỗi hình chữ nhật có màu cho chúng ta thấy rằng một người dùng (được ký hiệu bằng màu) có thể sử dụng tần số cụ thể đó, tại thời điểm cụ thể đó.
 
-2. Authentication: The AT&T tower may only offer want to offer connectivity to its own customers, but not other customers. How does the cell tower achieve this?
+Mỗi mặt cắt dọc đại diện cho một khe thời gian, và cho bạn thấy các tần số đã được phân bổ cho người dùng trong mặt cắt đó như thế nào. Ví dụ, trong khe thời gian đầu tiên, người dùng màu xanh lam nhận được 3 khe tần số, người dùng màu cam nhận được 5 khe tần số và người dùng màu xám nhận được 4 khe tần số.
 
-3. Seamless communication: If I move out of range of one tower, and into the range of a different cell tower, my connection should be seamless, with no disruption.
+Mỗi mặt cắt ngang đại diện cho một tần số, và cho bạn thấy tần số cụ thể đó được phân bổ cho người dùng theo thời gian như thế nào. Ví dụ, hàng trên cùng cho thấy một tần số được phân bổ cho màu xám, sau đó là màu xanh lá cây, sau đó là màu xanh lam, sau đó là màu đỏ, và cứ thế tiếp tục.
 
-4. Accountability: If the customer only paid for 6GB of data, the network should stop offering the customer connectivity (or offer worse connectivity) after the customer has exceeded their limit. This requirement comes from the old cellular network (pay per minute of a voice call), and still exists because resources in cellular networks are scarce.
+Lưu ý rằng mô hình này đang chia sẻ tài nguyên bằng cách sử dụng **reservations** (cơ chế đặt trước), không phải nỗ lực tối đa. Một người dùng chỉ có thể gửi trong một tần số và thời gian đã được bộ điều khiển phân bổ cho họ.
 
+Các bộ điều khiển vô tuyến trước đây thường được lắp đặt trong trạm phát sóng hoặc gần trạm, tuy nhiên ngày nay, đã có những nỗ lực để chuyển các bộ điều khiển lên đám mây để bảo trì và quản lý dễ dàng hơn.
 
-## Infrastructure Components: Radio Towers
+Mỗi nhà khai thác vận hành nhiều trạm phát sóng di động, được bố trí khắp cả nước, để người dùng có thể kết nối với một trạm dù họ ở bất cứ đâu. Kết quả là một **Radio Access Network (RAN)** (Mạng Truy cập Vô tuyến).
 
-What are the components of a cellular network? First, there's the radio tower.
+Thông thường, mỗi trạm phát sóng nhận được một bộ tần số riêng mà nó có thể sử dụng, và các tần số được gán sao cho các trạm lân cận nhận được các dải tần số khác nhau. Điều này đảm bảo rằng các trạm lân cận không sử dụng cùng tần số và gây nhiễu cho nhau. Trong hình này, mỗi màu tương ứng với một bộ tần số. Có thể hai trạm cùng sử dụng bộ tần số màu xanh lam, nhưng chúng không nằm cạnh nhau nên sẽ không gây nhiễu. Bất kỳ trạm lân cận nào cũng đang sử dụng các tần số không chồng chéo. Lưu ý rằng các tần số thường được phân bổ theo nhu cầu, do đó một trạm phát sóng di động ở trung tâm thành phố San Francisco sẽ nhận được nhiều tần số hơn một trạm ở giữa một nơi hẻo lánh.
 
-The radio tower has an antenna. Inside the tower is a radio transceiver, which converts digital bits to analog signals sent over the air interface.
+## Các thành phần hạ tầng: Lõi Mạng Di động (Cellular Core)
 
-Also inside the tower is a radio controller, which decides how to allocate radio resources.
+Một người dùng di động giờ đây có thể gửi dữ liệu đến một trạm phát sóng di động. Trạm phát sóng di động giờ cần gửi dữ liệu đó đến phần còn lại của Internet.
 
-<img width="900px" class="real-photo" src="/assets/wireless/8-032-towers.png">
+Mỗi trạm phát sóng di động có một kết nối có dây đến **cellular core** (lõi mạng di động). Bạn có thể coi **cellular core** là hạ tầng backend của mạng di động (không phải phần hướng tới người dùng).
 
-You can think of the controller like a CPU running a scheduler. The controller allocates different segments of frequency and time to different customers, depending on demand and business model (e.g. how much the customer is paying). This is actually a pretty difficult scheduling problem, though we won't discuss further here.
+**Cellular core** chứa một số thành phần mặt phẳng dữ liệu. Bạn có thể coi chúng như các **router** và **switch** thông thường chuyển tiếp các gói tin giữa người dùng (thông qua các trạm phát sóng) và phần còn lại của mạng. Chúng ta sẽ tập trung vào hai loại **router** đặc biệt trong **cellular core**.
 
-Here's a simplified model of the radio controller allocating resources. Each colored rectangle shows us that a user (denoted by color) can use that specific frequency, at that specific time.
+**Radio gateway** (Cổng vô tuyến) là ranh giới giữa **RAN** (các trạm phát sóng di động) và **cellular core**. Một trạm phát sóng di động chuyển tiếp dữ liệu của mình đến một trong những **radio gateway** này. Ở đầu kia của lõi, **packet gateway** (cổng gói tin) là ranh giới giữa mạng di động và phần còn lại của Internet. Dữ liệu từ người dùng cuối cùng sẽ đến **packet gateway** và được gửi ra Internet dưới dạng một gói **TCP/IP** tiêu chuẩn.
 
-<img width="900px" src="/assets/wireless/8-033-scheduling.png">
+**Cellular core** cũng chứa một số thành phần mặt phẳng điều khiển. Chúng ta không có những thành phần này trong Internet truyền thống. Lưu lượng của người dùng không đến các thành phần này. Chúng ta sẽ tập trung vào hai thành phần mặt phẳng điều khiển.
 
-Each vertical cross-section represents one time slot, and shows you how the frequencies have been allocated to users in that cross-section. For example, in the first time slot, the blue user gets 3 frequency slots, the orange user gets 5 frequency slots, and the gray user gets 4 frequency slots.
+**Database** (Cơ sở dữ liệu) lưu trữ thông tin về khách hàng, chẳng hạn như: Khách hàng sở hữu những thiết bị nào? Khách hàng có gói dữ liệu nào? Thiết bị của khách hàng hiện đang ở đâu (ví dụ: đang kết nối với trạm nào)?
 
-Each horizontal cross-section represents one frequency, and shows you how that specific frequency is allocated to users over time. For example, the top row shows a frequency being allocated to gray, and later green, and later blue, and later red, and so on.
+**Mobility manager** (Trình quản lý di động) là một bộ điều khiển (hãy nghĩ nó giống như một CPU) quản lý chức năng mạng. Trình quản lý giúp chúng ta xác thực một người dùng (ví dụ: kiểm tra xem họ có thực sự là khách hàng của Verizon hay không). Trình quản lý cũng giúp chúng ta cập nhật các cấu hình khi người dùng di chuyển.
 
-Notice that this model is sharing resources using reservations, not best-effort. A user can only send in a frequency and time that's been allocated to them by the controller.
+Để tóm tắt về hạ tầng: Các thiết bị người dùng gửi dữ liệu đến các trạm phát sóng di động trong **RAN**. Trạm phát sóng di động chuyển tiếp dữ liệu đến **radio gateway** (đi vào lõi). Dữ liệu cuối cùng đến **packet gateway** và được chuyển tiếp đến Internet (ra khỏi lõi). Cũng trong lõi là các thành phần điều khiển (**mobility manager**, **database**) để lưu trữ và quản lý thông tin về khách hàng.
 
-Radio controllers were traditionally installed in the tower or near the tower, though nowadays, there's been work to move controllers into the cloud for easier maintenance and management.
+-----
 
-Each operator runs many cellular towers, spaced out over the entire country, so that users can connect to a tower no matter where they are. The result is a Radio Access Network (RAN).
+## Các Bước Hoạt động ở Mức Cao của Mạng Di động
 
-<img width="400px" src="/assets/wireless/8-034-ran.png">
+**Bước 0: Registration (Đăng ký).** Người dùng đăng ký dịch vụ di động. Ví dụ, bạn bước vào một cửa hàng của Verizon, mua một **data plan** (gói dữ liệu) và ký hợp đồng. Nhà khai thác lúc này sẽ lưu trữ thông tin về bạn và gói dịch vụ của bạn trong **database**.
 
-Typically, each tower gets its own set of frequencies that it can use, and frequencies are assigned such that neighboring towers get different frequency ranges. This ensures that neighboring towers don't use the same frequencies and interfere with each other. In this picture, each color corresponds to one set of frequencies. It's possible that two towers both use the blue set of frequencies, but they aren't neighboring so they won't interfere. Any neighboring towers are using non-overlapping frequencies. Note that frequencies are often allocated according to demand, so that a cell tower in downtown San Francisco gets more frequencies than a cell tower in the middle of nowhere.
+<img width="900px" src="/assets/wireless/8-036-step0.png" />
+ 
+**Bước 1: Discovery.** Người dùng bật điện thoại của họ ở một nơi bất kỳ. Điện thoại của họ phải khám phá xem có những trạm phát sóng nào ở gần, và cũng phải chọn một trạm để sử dụng.
 
+<img width="900px" src="/assets/wireless/8-037-step1.png" />
 
-## Infrastructure Components: Cellular Core
+**Bước 2: Attachment (Gắn kết).** Sau khi chọn một trạm phát sóng, thiết bị của người dùng thông báo cho trạm rằng nó muốn kết nối. Trạm phát sóng phải hỏi **mobility manager** xem kết nối có được phép không (ví dụ: kiểm tra xem người dùng đã vượt quá hạn ngạch của họ chưa).
 
-A mobile user can now send data to a cell tower. The cell tower now needs to send that data to the rest of the Internet.
+<img width="900px" src="/assets/wireless/8-038-step2.png" />
 
-Each cell tower has a wired connection to the cellular core. You can think of the cellular core as the backend infrastructure of the cellular network (not user-facing).
+Nếu việc xác thực thành công, **mobility manager** sẽ cấu hình trạm phát sóng và các **router** để thiết lập một đường dẫn từ người dùng đến Internet (thông qua trạm phát sóng và các **router**).
 
-<img width="900px" src="/assets/wireless/8-035-core.png">
+<img width="900px" src="/assets/wireless/8-039-step2-part2.png" />
 
-The cellular core contains some data-plane components. You can think of these like typical routers and switches that forward packets between the users (via towers) and the rest of the network. We'll focus on two special types of routers in the cellular core.
+**Bước 3: Data exchange (Trao đổi dữ liệu).** Người dùng bây giờ có thể gửi và nhận dữ liệu dọc theo đường dẫn đã được cấu hình.
 
-The radio gateway is the boundary between the RAN (cell towers) and the cellular core. A cell tower forwards its data to one of these radio gateways. On the other end of the core, the packet gateway is the boundary between the cellular network and the rest of the Internet. Data from users eventually reaches the packet gateway and is sent out to the Internet as a standard TCP/IP packet.
+<img width="900px" src="/assets/wireless/8-040-step3.png" />
 
-The cellular core also contains some control-plane components. We didn't have these in the traditional Internet. User traffic doesn't reach these components. We'll focus on two control-plane components.
+**Bước 4: Handover (Chuyển giao).** Khi người dùng di chuyển, họ có thể đi xa khỏi trạm phát sóng ban đầu của mình và đến gần một trạm mới hơn (trong cùng **RAN** của nhà khai thác). Trạm cũ, trạm mới và thiết bị của người dùng đều phối hợp với nhau để quyết định xem người dùng có nên chuyển trạm hay không.
 
-The database stores information about customers, such as: What devices does the customer own? What data plan does the customer have? Where is the customer's device right now (e.g. which tower is it connected to)?
+<img width="900px" src="/assets/wireless/8-041-step4.png" />
 
-The mobility manager is a controller (think of it like a CPU) that manages network functionality. The manager helps us authenticate a user (e.g. check if they're really a Verizon customer). The manager also helps us update configurations as the user moves around.
+Nếu tất cả đều đồng ý rằng người dùng nên chuyển trạm, họ sẽ thông báo cho **mobility manager**, và **mobility manager** sẽ cấu hình lại trạm phát sóng và các **router** để thiết lập một đường dẫn mới từ người dùng đến Internet (lúc này sử dụng trạm mới, và có thể cả các **router** khác). Quá trình chuyển giao này phải liền mạch, nghĩa là người dùng có thể gửi và nhận dữ liệu trong suốt quá trình và không bị gián đoạn. Để đạt được một cuộc **handover** liền mạch như vậy đòi hỏi mạng phải liên tục giám sát thiết bị người dùng.
 
-To summarize the infrastructure: User devices send data to cell towers in the RAN. The cell tower forwards the data to the radio gateway (entering the core). The data eventually reaches the packet gateway and gets forwarded to the Internet (exiting the core). Also in the core are control components (mobility manager, database) to store and manage information about customers.
+<img width="900px" src="/assets/wireless/8-042-step4-part2.png" />
 
+Các bước 3 và 4 có thể lặp lại khi người dùng di chuyển và **router** tốt nhất để sử dụng liên tục thay đổi.
 
-## High-Level Steps of Cellular Operation
+<img width="900px" src="/assets/wireless/8-043-step4-part3.png" />
 
-Step 0: Registration. The user registers for the cellular service. For example, you walk into a Verizon store and purchase a data plan and sign a contract. The operator now stores information about you and your service plan in the database.
+Một tính năng cuối cùng chúng ta cần triển khai là **roaming** (chuyển vùng). Nếu người dùng đến một quốc gia khác như Đức, nhà khai thác của họ (ví dụ: Verizon, có trụ sở tại Mỹ) có thể không có vùng phủ sóng ở Đức. Nhưng, Verizon có thể ký hợp đồng với Deutsche Telecom (một nhà khai thác ở Đức), để cho phép khách hàng của Verizon sử dụng cơ sở hạ tầng của Deutsche Telecom. Điều này có nghĩa là Deutsche Telecom có thể cần hỗ trợ không chỉ người dùng của mình, mà cả người dùng từ các mạng khác như Verizon.
 
-<img width="900px" src="/assets/wireless/8-036-step0.png">
- 
-Step 1: Discovery. The user turns on their phone in the middle of nowhere. Their phone must discover which nearby towers are available, and must also pick a tower to use.
+<img width="900px" src="/assets/wireless/8-044-step-roaming.png" />
 
-<img width="900px" src="/assets/wireless/8-037-step1.png">
+Các bước kết nối trong một mạng khách (khi đang **roaming**) nói chung khá tương tự, ngoại trừ việc các **mobility manager** trong mạng khách và mạng chủ cũng phải phối hợp với nhau (ví dụ: Deutsche Telecom kiểm tra với Verizon để xem người dùng có trả tiền cho dịch vụ **roaming** hay không).
 
-Step 2: Attachment. After picking a tower, the user's device tells the tower that it wants to connect. The tower must ask the mobility manager if the connection is allowed (e.g. check if the user has exceeded their quota).
+-----
 
-<img width="900px" src="/assets/wireless/8-038-step2.png">
+## Bước 0: Registration
 
-If the authentication checks out, then the mobility manager configures the tower and the routers to establish a path from the user to the Internet (via the tower and the routers).
+Khi bạn đăng ký một **data plan**, bạn sẽ nhận được một **IMSI (International Mobile Subscriber Identity)** (Nhận dạng Thuê bao Di động Quốc tế), đây là một mã định danh duy nhất được liên kết với thuê bao của bạn. Số này được lưu trữ an toàn trong phần cứng của một **SIM card** (thẻ SIM).
 
-<img width="900px" src="/assets/wireless/8-039-step2-part2.png">
+Lưu ý: Đây là lý do tại sao các nhà khai thác như Verizon cung cấp cho bạn một **SIM card** để lắp vào điện thoại. Nếu bạn đổi điện thoại nhưng vẫn giữ nguyên gói cước, bạn chỉ cần chuyển **SIM card** sang điện thoại mới, và bây giờ điện thoại mới của bạn được liên kết với cùng một số **IMSI**. Hoặc, nếu bạn đổi gói cước nhưng sử dụng cùng một điện thoại, bạn lắp một **SIM card** mới vào điện thoại, và bây giờ điện thoại đó được liên kết với một số **IMSI** mới.
 
-Step 3: Data exchange. The user can now send and receive data along the path configured.
+3 chữ số đầu tiên của **IMSI** là **Mobile Country Code** (Mã Quốc gia Di động), xác định một quốc gia. 2-3 chữ số tiếp theo là **Mobile Network Code** (Mã Mạng Di động), đại diện cho nhà cung cấp dịch vụ của bạn (ví dụ: Verizon, AT\&T). Các chữ số còn lại là **Mobile Subscriber Identification Number** (Số Nhận dạng Thuê bao Di động), xác định một người dùng cụ thể trong nhà cung cấp dịch vụ đó. Tổng thể **IMSI** không thể vượt quá 15 chữ số.
 
-<img width="900px" src="/assets/wireless/8-040-step3.png">
+<img width="600px" src="/assets/wireless/8-045-imsi.png" />
 
-Step 4: Handover. As the user moves around, they might move away from their original tower, and closer to a new tower (in the same operator's RAN). The old tower, new tower, and the user's device all work together to decide if the user should switch towers.
+Lưu ý rằng **IMSI** không giống như một **IP address** (địa chỉ IP). Nếu bạn trả tiền cho một **data plan** kéo dài một năm, bạn sẽ giữ nguyên **IMSI** trong cả năm. Nhưng, mỗi lần bạn **attachment** và kết nối với mạng, bạn có thể nhận được một **IP address** khác nhau.
 
-<img width="900px" src="/assets/wireless/8-041-step4.png">
+Có hai mã định danh khác được sử dụng trong các mạng di động. Chúng khác biệt với **IMSI**, và chúng ta sẽ không đề cập chi tiết về chúng. **IMEI (International Mobile Equipment Identity)** (Nhận dạng Thiết bị Di động Quốc tế) định danh duy nhất một thiết bị vật lý. **IMEI** mã hóa nhà sản xuất và kiểu máy của thiết bị ("đây là một chiếc iPhone 13"), và không thay đổi ngay cả khi bạn thay đổi **data plan**. Hoặc, nếu bạn có hai điện thoại được bao phủ bởi cùng một **data plan**, bạn sẽ có hai số **IMEI**, nhưng chỉ có một **IMSI** duy nhất.
 
-If everyone agrees that the user should switch towers, they tell the mobility manager, and the mobility manager re-configures the tower and the routers to establish a new path from the user to the Internet (now using the new tower, and possibly different routers too). This handoff must be seamless, which means the user could be sending and receiving data through the whole process, and shouldn't be disrupted. Achieving such a seamless handoff requires the network to constantly babysit the user device.
+Mã định danh còn lại là số điện thoại của bạn. Một lần nữa, điều này khác biệt với **IMSI** hoặc **IMEI**, và các chữ số đại diện cho những thứ khác nhau (ví dụ: mã vùng của bạn). Mạng điện thoại sẽ cần liên kết số điện thoại của bạn với một **IMSI** cụ thể để xác định gói cước điện thoại của bạn.
 
-<img width="900px" src="/assets/wireless/8-042-step4-part2.png">
+Sau khi bạn đăng ký và nhận được **IMSI**, nhà khai thác (ví dụ: Verizon) sẽ lưu trữ **IMSI** của bạn và thông tin về gói cước của bạn trong **database**.
 
-Steps 3 and 4 can repeat as the user moves around, and the best router to use keeps changing.
+<img width="600px" src="/assets/wireless/8-046-registration.png" />
 
-<img width="900px" src="/assets/wireless/8-043-step4-part3.png">
+Trong quá trình **registration**, thiết bị của người dùng (**SIM card**) và nhà khai thác (**database**) cũng đồng ý về một khóa bí mật chia sẻ. Điều này sẽ hữu ích khi chúng ta thực hiện **attachment**.
 
-One final feature we need to implement is roaming. If the user goes to a different country like Germany, their operator (e.g. Verizon, US-based) might not have coverage in Germany. But, Verizon might sign a contract with Deutsche Telecom (an operator in Germany), to allow Verizon's customers to use Deutsche Telecom's infrastructure. This means that Deutsche Telecom might need to support not only its own users, but also users from other networks like Verizon.
+-----
 
-<img width="900px" src="/assets/wireless/8-044-step-roaming.png">
+## Bước 1: Discovery
 
-The steps of connecting in a visiting network (while roaming) are generally pretty similar, except the mobility managers in the visited network and the home network must also coordinate with each other (e.g. Deutsche Telecom checks with Verizon to see if the user paid for roaming).
+Làm thế nào thiết bị người dùng khám phá ra những trạm phát sóng nào đang trong tầm phủ sóng và thuộc sở hữu của nhà khai thác của người dùng?
 
+Mỗi trạm phát sóng sẽ truyền các **beacons** (tín hiệu báo hiệu) định kỳ, thông báo cho mọi người trong phạm vi rằng trạm đó tồn tại. Thông điệp **beacon** cũng bao gồm nhà khai thác mạng (ví dụ: xin chào, tôi là một trạm của Verizon), trong đó nhà khai thác được xác định bằng **Mobile Network Code** gồm 2-3 chữ số. Hãy nhớ rằng, **IMSI** của thiết bị (trên **SIM card**) cũng có một **Mobile Network Code**, vì vậy thiết bị có thể kiểm tra: **SIM card** của tôi nói rằng tôi ở trong mạng 220, và **beacon** của trạm này nói rằng nó ở trong mạng 220, vì vậy tôi có thể sử dụng trạm này.
 
-## Step 0: Registration
+**Beacon** được truyền trên một tần số cụ thể gọi là **control channel** (kênh điều khiển), để **beacon** không gây nhiễu với việc truyền dữ liệu. Mỗi dải tần số có một **control channel** liên quan riêng. Nhớ lại rằng các trạm lân cận có các dải tần số không chồng chéo, điều này cũng có nghĩa là chúng có các **control channel** khác nhau (tránh nhiễu).
 
-When you register for a data plan, you receive an IMSI (International Mobile Subscriber Identity), which is a unique identifier associated with your subscription. This number is securely stored in hardware in a SIM card.
+Thiết bị của người dùng có thể nghe thấy nhiều **beacons**. Người dùng đo cường độ tín hiệu đến các trạm khác nhau và chọn trạm (thuộc nhà khai thác của mình) có tín hiệu tốt nhất.
 
-Note: This is why operators like Verizon give you a SIM card to insert into your phone. If you switch phones, but stay on the same plan, you just have to transfer the SIM card into your new phone, and now your new phone is associated with the same IMSI number. Or, if you switch plans, but use the same phone, you put a new SIM card in your phone, and now that phone is associated with a new IMSI number.
+<img width="300px" src="/assets/wireless/8-047-discovery.png" />
 
-The first 3 digits of the IMSI are the Mobile Country Code, identifying a country. The next 2-3 digits are the Mobile Network Code, representing your service provider (e.g. Verizon, AT&T). The remaining digits are the Mobile Subscriber Identification Number, which identifies a specific user within that service provider. The IMSI overall cannot exceed 15 digits.
+Có một vấn đề chúng ta phải giải quyết. Làm thế nào thiết bị của người dùng biết nên nghe **control channel** nào? Thiết bị cần phải dò đúng **control channel** để nhận được các **beacons**. Chúng ta có một **bootstrapping problem** (vấn đề mồi).
 
-<img width="600px" src="/assets/wireless/8-045-imsi.png">
+Có một vài giải pháp cho vấn đề này. Thiết bị có thể chỉ cần quét và thử một loạt tần số (chậm, nhưng đôi khi là lựa chọn duy nhất). Nhà khai thác có thể cung cấp cho thiết bị một danh sách các **control channel** được cấu hình sẵn trong quá trình **registration**. Thiết bị cũng có thể lưu vào bộ đệm các kênh đã sử dụng trước đó.
 
-Note that the IMSI is not the same as an IP address. If you pay for a year-long data plan, you keep the same IMSI all year. But, each time you attach and connect to the network, you could get a different IP address.
+Lưu ý rằng việc quét các trạm tiếp theo sau khi **discovery** là không cần thiết. Trong quá trình **handover**, trạm cũ sẽ cho người dùng biết chính xác tần số dữ liệu nào để sử dụng trên trạm mới. Đây là lý do tại sao **handover** (cỡ 0.01--0.1 giây) nhanh hơn nhiều so với việc quét trong quá trình **discovery** (cỡ 10--100 giây).
 
-There are two other identifiers used in cellular networks. They're distinct from the IMSI, and we won't cover them in a lot of detail. The IMEI (International Mobile Equipment Identity) uniquely identifies a physical device. The IMEI encodes the device manufacturer and model ("this is an iPhone 13"), and stays the same even if you change data plans. Or, if you have two phones covered by the same data plan, you'd have two IMEI numbers, but only a single IMSI.
+-----
 
-The other identifier is your phone number. Again, this is distinct from the IMSI or IMEI, and the digits represent different things (e.g. your area code). The phone network will need to associate your phone number with a specific IMSI to determine your phone plan.
+## Bước 2: Attachment
 
-After you register and receive an IMSI, the operator (e.g. Verizon) stores your IMSI and information about your plan in the database.
+1.  Khi một người dùng đã khám phá ra một trạm, nó sẽ gửi một **attach request** (yêu cầu gắn kết) đến trạm đó. Người dùng bao gồm **IMSI** của mình (ID thuê bao) trong yêu cầu.
+2.  Trạm sau đó phải gửi yêu cầu đến **mobility manager**, nơi thực sự xử lý yêu cầu.
+3.  Trình quản lý tra cứu **IMSI** trong **database** để biết chi tiết về gói dịch vụ của người dùng. Trình quản lý cũng thực hiện xác thực (chi tiết mã hóa bị bỏ qua) bằng cách sử dụng khóa bí mật được biết bởi thiết bị và trình quản lý (trong **database** của nó).
 
-<img width="600px" src="/assets/wireless/8-046-registration.png">
+Nếu xác thực thành công, chúng ta biết người dùng chính là người mà họ tự nhận. Nếu việc tra cứu **database** cũng cho thấy người dùng đủ điều kiện sử dụng dịch vụ, thì trình quản lý sẽ chấp thuận **attach request**.
 
-During registration, the user's device (SIM card) and the operator (database) also agree on a shared secret key. This will be useful when we do attachment.
+<img width="700px" src="/assets/wireless/8-048-attachment1.png" />
 
+4.  Sau khi **attach request** được chấp thuận, **mobility manager** bây giờ phải cấu hình **data plane** để cung cấp kết nối cho người dùng. Đầu tiên, trình quản lý gán một **IP address** cho thiết bị. Sau đó, trình quản lý cấu hình trạm, cho bộ điều khiển vô tuyến của trạm biết cần phân bổ bao nhiêu tài nguyên cho người dùng này. Trình quản lý cũng cấu hình trạm và các **router** để tạo ra một đường dẫn giữa thiết bị và Internet. Cuối cùng, trình quản lý khởi tạo các bộ đếm và bộ định hình để theo dõi việc sử dụng Internet của thiết bị.
 
-## Step 1: Discovery
+Sau khi thiết lập kết nối cho người dùng, trình quản lý kết thúc bằng cách ghi lại thông tin vị trí của người dùng trong **database**. Cụ thể, **database** ánh xạ **IMSI** của người dùng tới **IP address** của nó và đường dẫn mà nó đang sử dụng (trạm nào, cổng nào).
 
-How does the user device discover which towers are in range, and owned by the user's operator?
+<img width="700px" src="/assets/wireless/8-049-attachment2.png" />
 
-Each tower transmits periodic beacons (hello messages), telling everybody in range that the tower exists. The beacon message also includes the network operator (e.g. hello, I'm a Verizon tower), where the operator is identified by the 2-3 digit Mobile Network Code. Remember, the device's IMSI (on the SIM card) also has a Mobile Network Code, so the device can check: My SIM card says I'm in network 220, and this tower's beacon says it's in network 220, so I can use this tower.
+Lưu ý rằng toàn bộ quá trình **attachment** xảy ra trên các **control channel**. Chúng ta chưa gán bất kỳ tần số nào cho người dùng, vì vậy người dùng phải sử dụng các **control channel** chuyên dụng để giao tiếp.
 
-The beacon is transmitted on a specific frequency called the control channel, so that the beacon doesn't interfere with data transmissions. Each frequency range has its own associated control channel. Recall that neighboring towers have non-overlapping frequency ranges, which also means they have different control channels (avoids interference).
+<img width="700px" src="/assets/wireless/8-050-attachment3.png" />
 
-The user's device might hear many beacons. The user measures the signal strength to different towers, and picks the tower (belonging to its operator) with the best signal.
+-----
 
-<img width="300px" src="/assets/wireless/8-047-discovery.png">
+## Bước 3: Data Exchange
 
-There's one problem we have to solve. How does the user's device know which control channel to listen to? The device needs to tune in to the control channel in order to pick up the beacons. We have a bootstrapping problem.
+Tại thời điểm này, mạng được cấu hình để thiết bị có thể sử dụng **IP address** của mình để gửi và nhận tin nhắn.
 
-There are a few solutions to this problem. The device could just scan and try a bunch of frequencies (slow, but sometimes the only option). The operator might give the device a pre-configured list of control channels during registration. The device can also cache previously-used channels. 
+<img width="900px" src="/assets/wireless/8-051-exchange1.png" />
 
-Note that scanning for subsequent towers after discovery is not necessary. During handovers, the old tower will tell users exactly which data frequency to use on the new tower. This is why handovers (order of 0.01--0.1 seconds) are much faster than scanning during discovery (order of 10--100 seconds).
+Làm thế nào mạng di động (**tower**, **radio gateway**, **packet gateway**) biết cách chuyển tiếp các gói tin? Người dùng liên tục di chuyển, vì vậy nếu chúng ta chạy một thuật toán định tuyến truyền thống như vector khoảng cách, các tuyến đường sẽ không bao giờ hội tụ.
 
+Thay vào đó, trình quản lý sẽ tạo ra một đường dẫn giữa thiết bị và Internet bằng cách sử dụng **tunnels** (đường hầm). Hãy nhớ rằng, đường đi của gói tin là từ thiết bị, đến trạm, đến **radio gateway**, đến **packet gateway**.
 
-## Step 2: Attachment
+Về mặt khái niệm, để triển khai **tunnel**, chúng ta sẽ nói với trạm: Nếu bạn nhận được một gói tin từ người dùng, hãy gửi nó theo đường này (vào **tunnel** màu xanh). Ở phía bên kia của liên kết có dây, các gói tin sẽ thoát khỏi **tunnel** màu xanh và đến **radio gateway**. Sau đó, chúng ta sẽ nói với **radio gateway**: Nếu bạn nhận được một gói tin thoát ra khỏi **tunnel**, hãy gửi nó theo đường này (vào **tunnel** màu xanh lá). Các gói tin sau đó đi qua **tunnel** màu xanh lá và đến **packet gateway**, nơi có thể chuyển tiếp gói tin vào Internet.
 
-1. Once a user has discovered a tower, it sends an attach request to that tower. The user includes its IMSI (subscriber ID) in the request.
+<img width="900px" src="/assets/wireless/8-052-exchange2.png" />
 
-2. The tower must then send the request to the mobility manager, which actually processes the request.
+Các gói tin đến cũng đi qua các **tunnels**. Chúng ta nói với **packet gateway**: Nếu bạn nhận được một gói tin dành cho Người dùng A, hãy gửi nó vào **tunnel** màu xanh lá (hướng tới **radio gateway**). Chúng ta cũng nói với **radio gateway**: Nếu bạn nhận được một gói tin thoát ra khỏi **tunnel** màu xanh lá, hãy gửi nó vào **tunnel** màu xanh lam (hướng tới trạm).
 
-3. The manager looks up the IMSI in the database to learn the details about the user's service plan. The manager also performs authentication cryptographic details omitted) by using the secret key known by the device and the manager (in its database).
+Lưu ý rằng không có thành phần mạng nào đang chạy một giao thức định tuyến để tìm đường đi. Thay vào đó, trình quản lý đang chỉ cho các **router** cách chuyển tiếp các gói tin. Mỗi người dùng sẽ cần bộ **tunnels** của riêng mình, vì vậy mạng đang lưu trữ **per-user state** (trạng thái theo từng người dùng) (ví dụ: một mục trong bảng cho mỗi người dùng được kết nối).
 
-If the authentication succeeds, we know the user is who they say they are. If the database lookup also shows that the user is eligible for service, then the manager approves the attach request.
+Làm thế nào chúng ta thực sự triển khai các quy tắc này? Ví dụ, làm thế nào **radio gateway** biết khi nào một gói tin đến đang ra khỏi **tunnel** màu xanh? Chúng ta có thể sử dụng **encapsulation** (đóng gói). Khi đi vào một **tunnel**, chúng ta có thể thêm một tiêu đề mới, cho biết gói tin đang đi qua **tunnel** đó (ví dụ: "gói tin này đang đi qua **tunnel** màu xanh"). Ở đầu kia, khi gói tin thoát khỏi **tunnel**, cổng sẽ nhìn vào tiêu đề phụ và biết gói tin đến từ **tunnel** nào. Cổng sau đó có thể sử dụng thông tin này để quyết định nơi chuyển tiếp gói tin tiếp theo.
 
-<img width="700px" src="/assets/wireless/8-048-attachment1.png">
+<img width="900px" src="/assets/wireless/8-053-exchange3.png" />
 
-4. After the attach request is approved, the mobility manager now has to configure the data plane to give the user connectivity. First, the manager assigns an IP address to the device. Then, the the manager configures the tower, telling the tower radio controller how many resources to allocate for this user. The manager also configures the tower and the routers to create a path between the device and the Internet. Finally, the manager initializes counters and shapers to keep track of the device's Internet usage.
+Lưu ý rằng với **tunnels** và **encapsulation**, các **router** không bao giờ chuyển tiếp dựa trên IP của người dùng. Người dùng luôn di chuyển, vì vậy chúng ta không thể sử dụng IP của họ để xác định vị trí của họ. Thay vào đó, chúng ta phải sử dụng các **tunnels** được cấu hình sẵn này để quyết định nơi chuyển tiếp gói tin.
 
-After setting up the user's connectivity, the manager finishes by recording the user's location information in the database. Specifically, the database maps the user's IMSI to its IP address and the path it's using (which tower, which gateways).
+-----
 
-<img width="700px" src="/assets/wireless/8-049-attachment2.png">
+## Bước 4: Handover
 
-Note that the entire attachment process occurs over control channels. We haven't assigned any frequencies to the user yet, so the user has to use dedicated control channels to communicate.
+Điều gì xảy ra nếu người dùng di chuyển từ một trạm này sang một trạm khác? Hãy xem xét một giao thức (đơn giản hóa một chút). Chúng ta sẽ gọi các trạm là cũ và mới, và di chuyển từ trạm cũ sang trạm mới.
 
-<img width="700px" src="/assets/wireless/8-050-attachment3.png">
+<img width="900px" src="/assets/wireless/8-054-handover1.png" />
 
+1.  Thiết bị của bạn liên tục đo cường độ tín hiệu của nó tới trạm cũ và báo cáo cường độ đó cho trạm cũ. Tại một thời điểm nào đó, trạm cũ sẽ nói: Cường độ tín hiệu của bạn quá thấp. Đây là một số trạm lân cận (thuộc cùng một nhà khai thác) và các tần số **control channel** tương ứng của chúng. Bạn có thể đo cường độ tín hiệu của mình tới các trạm lân cận này không?
+2.  Thiết bị của bạn đo cường độ tín hiệu đến các trạm lân cận và báo cáo các giá trị đó cho trạm cũ. Trạm cũ sẽ chọn trạm mới tốt nhất, dựa trên bất kỳ chính sách nào mà nhà khai thác muốn.
+3.  Trạm cũ nói với trạm mới: Người dùng đang đến chỗ bạn. Điều này khiến trạm mới phân bổ một số tài nguyên tần số cho người dùng.
+4.  Trạm mới cho trạm cũ biết những tài nguyên tần số nào đã được phân bổ.
+5.  Trạm cũ nói với người dùng: Hãy kết nối với trạm mới, sử dụng các tần số này.
+6.  Trạm mới báo cáo cho **mobility manager**: Tôi là trạm mới cho người dùng. Trình quản lý cập nhật **database** của mình với vị trí mới của người dùng. Trình quản lý cũng cập nhật các **tunnels** để tạo ra một đường dẫn mới giữa người dùng và Internet (thông qua một trạm mới, và cũng có thể thông qua các **radio gateway** và **packet gateway** mới).
+7.  Cuối cùng, trạm mới thông báo cho trạm cũ rằng **handover** đã hoàn tất.
 
-## Step 3: Data Exchange
+Tại sao quá trình **handover** lại phức tạp đến vậy? Hãy nhớ rằng, chúng ta muốn cung cấp cho người dùng giao tiếp liền mạch, không bị gián đoạn khi họ di chuyển giữa các trạm. Điều này đòi hỏi sự hợp tác giữa người dùng, các trạm cũ và mới, **mobility manager**, và các cổng.
 
-At this point, the network is configured so that the device can use its IP address to send and receive messages.
+Giao tiếp liền mạch rất khó vì quá trình **handover** không phải là nguyên tử. Người dùng vẫn đang gửi và nhận dữ liệu trong khi **handover** đang diễn ra. Ví dụ, các máy chủ bên ngoài trả lời người dùng có thể đã gửi một loạt các gói tin đến trạm cũ. Trong quá trình chuyển giao, trạm cũ tiếp tục đệm bất kỳ dữ liệu nào nó nhận được cho người dùng đó. Sau khi chuyển giao, trạm cũ có thể gửi dữ liệu đã đệm đó đến trạm mới, nơi sẽ chuyển tiếp dữ liệu đó đến người dùng. Lưu ý rằng các mạng **TCP/IP** truyền thống không cần phải đệm dữ liệu như thế này. Loại đệm này là một tính năng mới được thêm vào cho các cuộc **handover** liền mạch khi người dùng di chuyển.
 
-<img width="900px" src="/assets/wireless/8-051-exchange1.png">
+Lưu ý rằng các quyết định trong quá trình **handover** này luôn được thực hiện bởi nhà khai thác. Thiết bị không được chọn trạm tiếp theo để sử dụng. Lợi ích của thiết kế này là nó cho phép nhà khai thác kiểm soát nhiều hơn. Ví dụ, nếu một trạm bị quá tải, nhà khai thác có thể cân bằng tải và gửi người dùng đến một trạm khác. Hoặc, nếu một số người dùng được ưu tiên hơn những người khác, nhà khai thác có thể gửi những người dùng ít được ưu tiên hơn đến các trạm kém hơn. Nhược điểm của thiết kế này là nó hơi chậm hơn và đòi hỏi nhiều lượt đi-về và phức tạp hơn.
 
-How does the cellular network (tower, radio gateway, tower gateway) know how to forward packets? Users are constantly moving, so if we ran a traditional routing algorithm like distance-vector, routes would never converge.
+Lưu ý rằng **IP address** của người dùng không thay đổi trong quá trình chuyển giao. Chúng ta chỉ cập nhật các **tunnels** để các gói tin dành cho **IP address** của người dùng đi qua một đường dẫn khác.
 
-Instead, the manager will create a path between the device and the Internet using tunnels. Remember, the packet's path is from the device, to the tower, to the radio gateway, to the packet gateway.
+**Handover** rất phức tạp và đòi hỏi phải cập nhật **per-user state** trong mạng. Nếu số lượng người dùng tăng lên, hoặc người dùng di chuyển rất nhanh, giao thức này sẽ gặp phải những thách thức về khả năng mở rộng. Tuy nhiên, mạng di động hiện đại hoạt động khá tốt ở quy mô lớn, bởi vì rất nhiều công sức đã được đổ vào việc tối ưu hóa các giao thức này. Đó là lý do tại sao các tài liệu đặc tả tiêu chuẩn thường dài hàng ngàn trang\!
 
-Conceptually, to implement the tunnel, we'll tell the tower: If you get a packet from the user, send it this way (into the blue tunnel). On the other side of the wired link, the packets will exit the blue tunnel and arrive at the radio gateway. We'll then tell the radio gateway: If you get a packet exiting the tunnel, send it this way (into the green tunnel). Packets then travel through the green tunnel and arrive at the packet gateway, who can forward the packet into the Internet.
-
-<img width="900px" src="/assets/wireless/8-052-exchange2.png">
-
-Incoming packets also travel through the tunnels. We tell the packet gateway: If you get a packet bound for User A, send it into the green tunnel (toward the radio gateway). We also tell the radio gateway: If you get a packet exiting the green tunnel, send it into the blue tunnel (toward the tower).
-
-Notice that none of the network components are running a routing protocol to find paths. Instead, the manager is telling the routers how to forward packets. Each user will need their own set of tunnels, so the network is storing per-user state (e.g. one table entry for each connected user).
-
-How do we actually implement these rules? For example, how does the radio gateway know when an incoming packet is coming out of the blue tunnel? We can use encapsulation. When entering a tunnel, we can add a new header, indicating that the packet is traveling through that tunnel (e.g. "this packet is traveling through the blue tunnel"). On the other end, when the packet exits the tunnel, the gateway looks at the extra header and knows which tunnel the packet came from. The gateway can then use this information to decide where to forward the packet next.
-
-<img width="900px" src="/assets/wireless/8-053-exchange3.png">
-
-Notice that with tunnels and encapsulation, the routers are never forwarding based on the user's IP. The user is always moving around, so we can't use their IP to determine their location. Instead, we have to use these pre-configured tunnels to decide where to forward the packet.
-
-
-## Step 4: Handover
-
-What happens if the user moves from one tower to another? Let's look at a (slightly simplified) protocol. We'll call the towers old and new, and move from the old tower to the new tower.
-
-<img width="900px" src="/assets/wireless/8-054-handover1.png">
-
-1. Your device is constantly measuring its signal strength to the old tower, and reporting that strength to the old tower. At some point, the old tower will say: Your signal strength is too low. Here are some nearby towers (owned by the same operator) and their corresponding control channel frequencies. Can you measure your signal strength to these nearby towers?
-
-2. Your device measures the signal strength to the nearby towers, and reports those values to the old tower. The old tower will pick the best new tower, based on whatever policy the operator wants.
-
-3. The old tower tells the new tower: The user is coming your way. This causes the new tower to allocate some frequency resources to the user.
-
-4. The new tower tells the old tower which frequency resources have been allocated.
-
-5. The old tower tells the user: Connect to the new tower, using these frequencies.
-
-6. The new tower reports to the mobility manager: I am the new tower for the user. The manager updates its database with the user's new location. The manager also updates the tunnels to create a new path between the user and the Internet (via a new tower, and also possibly via new radio and packet gateways).
-
-7. Finally, the new tower tells the old tower that handover is complete.
-
-Why was the handover process so complicated? Remember, we want to give the user seamless communication, with no interruption as they move between towers. This requires cooperation between the user, the old and new towers, the mobility manager, and the gateways.
-
-Seamless communication is difficult because the handover process is not atomic. The user is still sending and receiving data while the handover is ongoing. For example, outside servers replying to the user might have sent a bunch of incoming packets to the old tower. During the handoff, the old tower continues to buffer any data it receives for that user. After the handoff, the old tower can send that buffered data to the new tower, which forwards that data to the user. Notice that traditional TCP/IP networks didn't need to buffer data like this. This type of buffering is a new feature added for seamless handovers as the user moves around.
-
-Notice that the decisions in this handover process are always made by the operator. The device doesn't get to choose the next tower to use. The benefit of this design is, it gives the operator more control. For example, if a tower is overloaded, the operator can load-balance and send the user to a different tower. Or, if some users are prioritized over others, the operator can send less-prioritized users to worse towers. The drawback of this design is, it's a bit slower and requires more round-trips and more complexity.
-
-Notice that the user's IP address remains unchanged during the handoff. We just updated the tunnels so that packets destined for the user's IP go through a different path.
-
-Handovers are complicated and require updating the per-user state in the network. If the number of users increases, or users move around really quickly, this protocol encounters scaling challenges. And yet, the modern cellular network works pretty well at scale, because so much work has gone into optimizing these protocols. That's why the standards specifications are often thousands of pages long!
-
+-----
 
 ## Roaming
 
-Recall that a user can roam and connect to a different network if they're visiting another country (or any place where their own operator doesn't have coverage).
+Nhớ lại rằng một người dùng có thể **roaming** và kết nối với một mạng khác nếu họ đang đến thăm một quốc gia khác (hoặc bất kỳ nơi nào mà nhà khai thác của họ không có vùng phủ sóng).
 
-The connection process (discovery, attachment, handover) in a visiting network is generally pretty similar to connecting in the home network. The main difference is, the mobility manager in the visitor network must communicate back to the mobility manager in the home network.
+Quá trình kết nối (**discovery**, **attachment**, **handover**) trong một mạng khách nói chung khá tương tự như kết nối trong mạng chủ. Sự khác biệt chính là, **mobility manager** trong mạng khách phải giao tiếp trở lại với **mobility manager** trong mạng chủ.
 
-For example, the visitor needs to ask the home for help in authenticating the user (check if the user has paid for roaming). Also, the visitor needs to send tracking data back to the home network, so that the home network knows the user's location.
+Ví dụ, mạng khách cần yêu cầu mạng chủ giúp xác thực người dùng (kiểm tra xem người dùng đã trả tiền cho dịch vụ **roaming** chưa). Ngoài ra, mạng khách cần gửi dữ liệu theo dõi trở lại mạng chủ, để mạng chủ biết vị trí của người dùng.
 
-How does the visitor know where the home network is? Remember, during attachment, the device presents its IMSI, and the IMSI contains a Mobile Network Code which identifies the user's operator.
+Làm thế nào mạng khách biết mạng chủ ở đâu? Hãy nhớ rằng, trong quá trình **attachment**, thiết bị trình diện **IMSI** của nó, và **IMSI** chứa một **Mobile Network Code** xác định nhà khai thác của người dùng.
 
-There are two different approaches to set up tunnels between the user and the Internet.
+Có hai cách tiếp cận khác nhau để thiết lập các **tunnels** giữa người dùng và Internet.
 
-In the home routing approach, traffic is tunneled through the home network's packet gateway. This means that all packets must travel from the visiting network back to the home network, before getting forwarded to the wider Internet. This is beneficial because it lets the home network's packet gateway can track the user. One drawback is, if you're a USA-based user, you roam in Germany, and you want to access a website in Germany, your packet must travel from Germany, back to the USA gateway, and then back to Germany.
+Trong phương pháp **home routing** (định tuyến tại nhà), lưu lượng được tạo **tunnel** thông qua **packet gateway** của mạng chủ. Điều này có nghĩa là tất cả các gói tin phải đi từ mạng khách trở về mạng chủ, trước khi được chuyển tiếp đến mạng Internet rộng lớn hơn. Điều này có lợi vì nó cho phép **packet gateway** của mạng chủ có thể theo dõi người dùng. Một nhược điểm là, nếu bạn là người dùng có trụ sở tại Hoa Kỳ, bạn **roaming** ở Đức, và bạn muốn truy cập một trang web ở Đức, gói tin của bạn phải đi từ Đức, trở về cổng ở Hoa Kỳ, và sau đó quay trở lại Đức.
 
-<img width="900px" src="/assets/wireless/8-055-roaming1.png">
+<img width="900px" src="/assets/wireless/8-055-roaming1.png" />
 
-In the local breakout approach, traffic is tunneled through the visiting network's packet gateway. This can shorten the route between the user and the Internet, since packets don't have to travel all the way back to the home network first. However, this can make accounting for the user's usage more complicated, since the roaming network must now do the accounting and send the data back to the home network.
+Trong phương pháp **local breakout** (tách nhánh cục bộ), lưu lượng được tạo **tunnel** thông qua **packet gateway** của mạng khách. Điều này có thể rút ngắn tuyến đường giữa người dùng và Internet, vì các gói tin không phải đi hết quãng đường trở về mạng chủ trước. Tuy nhiên, điều này có thể làm cho việc tính toán mức sử dụng của người dùng trở nên phức tạp hơn, vì mạng **roaming** bây giờ phải thực hiện việc tính toán và gửi dữ liệu trở lại mạng chủ.
 
-<img width="900px" src="/assets/wireless/8-056-roaming2.png">
+<img width="900px" src="/assets/wireless/8-056-roaming2.png" />
 
+-----
 
-## Additional Operations
+## Các Hoạt động Bổ sung
 
-We've seen some of the key operations in cellular networks, but other operations exist as well.
+Chúng ta đã xem xét một số hoạt động chính trong các mạng di động, nhưng cũng có các hoạt động khác tồn tại.
 
-Lawful intercept is a legal requirement for all cellular operators. This allows a government with a search warrant to wiretap your connection and listen to the packets you're sending.
+**Lawful intercept** (Can thiệp hợp pháp) là một yêu cầu pháp lý đối với tất cả các nhà khai thác di động. Điều này cho phép một chính phủ có lệnh khám xét có thể nghe lén kết nối của bạn và nghe các gói tin bạn đang gửi.
 
-Stolen phone registries allow a user to report their phone as stolen. Then, if the thief tries to connect your stolen phone to the network, the operator (manager and database) notice that the phone is stolen, and can try to track down the phone. Here, the operator uses the IMEI (the ID number hard-coded into your phone) to identify the specific phone (regardless of the IMSI, the subscriber ID). Devices need to report their IMEI when they connect, allowing the operator to check if the phone is stolen.
+**Stolen phone registries** (Sổ đăng ký điện thoại bị đánh cắp) cho phép người dùng báo cáo điện thoại của họ bị đánh cắp. Sau đó, nếu kẻ trộm cố gắng kết nối điện thoại bị đánh cắp của bạn vào mạng, nhà khai thác (**mobility manager** và **database**) sẽ nhận thấy rằng điện thoại đã bị đánh cắp và có thể cố gắng truy tìm điện thoại. Ở đây, nhà khai thác sử dụng **IMEI** (số ID được mã hóa cứng vào điện thoại của bạn) để xác định chiếc điện thoại cụ thể (bất kể **IMSI**, ID thuê bao). Các thiết bị cần phải báo cáo **IMEI** của chúng khi kết nối, cho phép nhà khai thác kiểm tra xem điện thoại có bị đánh cắp hay không.
 
-These additional operations are possible because the operator has centralized control, keeping track of all the users and their locations.
+Những hoạt động bổ sung này là khả thi vì nhà khai thác có quyền kiểm soát tập trung, theo dõi tất cả người dùng và vị trí của họ.
 
+-----
 
-## Cellular Network Design Reflections
+## Suy ngẫm về Thiết kế Mạng Di động
 
-As we noted earlier, cellular networks have different fundamental goals and design choices, compared to the traditional Internet. For example, we saw that authentication and accounting are central goals of the cellular network, even though these were not goals in the traditional Internet. We also saw that allocation is based on reservations, and the network maintains per-user state that is dynamically changing.
+Như chúng ta đã lưu ý trước đó, các mạng di động có những mục tiêu và lựa chọn thiết kế cơ bản khác biệt so với Internet truyền thống. Ví dụ, chúng ta đã thấy rằng xác thực và tính toán cước là những mục tiêu trung tâm của mạng di động, mặc dù đây không phải là mục tiêu trong Internet truyền thống. Chúng ta cũng thấy rằng việc phân bổ dựa trên **reservations**, và mạng duy trì **per-user state** đang thay đổi một cách linh động.
 
-Using stateful reservation-based networks increased the complexity of our network. The various components had to constantly reconfigure tunnels as the user moved around.
+Việc sử dụng các mạng dựa trên **reservation** có trạng thái đã làm tăng sự phức tạp của mạng lưới của chúng ta. Các thành phần khác nhau phải liên tục cấu hình lại các **tunnels** khi người dùng di chuyển.
 
-Let's think about some possible alternate designs. Recall that handover was complicated because we wanted the user to keep the same IP address as they moved around. What if we instead changed the user's IP address on each handover? Now, the IP addresses actually reflect the user's location, and we could use traditional routing protocols again. However, higher-level protocols like TCP and HTTP will break. Remember, TCP relies on the two connecting users keep the same IP address.
+Hãy nghĩ về một số thiết kế thay thế khả thi. Nhớ lại rằng **handover** phức tạp vì chúng ta muốn người dùng giữ nguyên **IP address** khi họ di chuyển. Điều gì sẽ xảy ra nếu thay vào đó chúng ta thay đổi **IP address** của người dùng trong mỗi lần **handover**? Bây giờ, các **IP address** thực sự phản ánh vị trí của người dùng, và chúng ta có thể sử dụng lại các giao thức định tuyến truyền thống. Tuy nhiên, các giao thức ở tầng cao hơn như **TCP** và **HTTP** sẽ bị hỏng. Hãy nhớ rằng, **TCP** dựa vào việc hai người dùng kết nối giữ nguyên cùng một **IP address**.
 
-Using the same IP address increases complexity, but changing IP addresses breaks TCP. One possible solution is to use a different transport-level protocol that allows changing IP addresses, like QUIC (developed at Google). Then, even though the IP addresses are changing, we can use the flow label field in the IPv6 header to label all the packets in a flow.
+Việc sử dụng cùng một **IP address** làm tăng sự phức tạp, nhưng việc thay đổi **IP address** làm hỏng **TCP**. Một giải pháp khả thi là sử dụng một **transport-level protocol** (giao thức tầng vận chuyển) khác cho phép thay đổi **IP address**, như **QUIC** (được phát triển tại Google). Khi đó, mặc dù các **IP address** đang thay đổi, chúng ta có thể sử dụng trường **flow label** (nhãn luồng) trong tiêu đề **IPv6** để gắn nhãn cho tất cả các gói tin trong một luồng.

@@ -5,29 +5,37 @@ nav_order: 4
 layout: page-with-toc
 ---
 
-# Datacenter Addressing
 
-## Why are Datacenters Different?
+# **Địa chỉ hóa trong Datacenter** (Datacenter Addressing)
 
-In the previous section, we saw that we can modify distance-vector and link-state routing protocols to compute all paths through the datacenter network.
+## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)
 
-However, these protocols might scale poorly in datacenters. In distance-vector protocols, we have to make an announcement for every destination, which means that 100,000+ destinations have to be advertised. In link-state protocols, we have to flood advertisements along every link, which scales poorly in Clos networks with a huge number of links. Also, recall that datacenter topologies often use cheap commodity switches, which have limited memory and CPU resources (e.g. the forwarding table can't be too large).
+Trong phần trước, chúng ta đã thấy rằng có thể chỉnh sửa các giao thức định tuyến **distance-vector** (vectơ khoảng cách) và **link-state** (trạng thái liên kết) để tính toán tất cả các đường đi trong mạng **datacenter** (trung tâm dữ liệu).
 
-In general-purpose networks, we solved these scaling problems by introducing hierarchical IP addressing. Higher-level organizations (e.g. country-level) could allocate ranges of addresses to smaller organizations (e.g. universities). Datacenters don't have geographic and organizational hierarchies that we can use to organize addresses.
+Tuy nhiên, các giao thức này có thể **scale** (mở rộng) kém trong môi trường datacenter.  
+- Trong giao thức distance-vector, chúng ta phải tạo thông báo cho **mỗi đích** (destination), nghĩa là phải quảng bá hơn 100.000 đích.  
+- Trong giao thức link-state, chúng ta phải **flood** (phát tràn) các thông báo dọc theo mọi liên kết, điều này mở rộng kém trong các mạng **Clos** có số lượng liên kết khổng lồ.  
 
-However, in datacenters, we can exploit the fact that the operator controls the physical topology of the network, and assign addresses to servers based on where they're located in the building. We can also exploit the fact that the topology has some regular structure (e.g. we're probably organizing servers in rows, instead of randomly stuffing them in the building).
+Ngoài ra, hãy nhớ rằng các **topology** (kiến trúc liên kết) của datacenter thường sử dụng các **commodity switch** (switch thương mại giá rẻ), vốn có tài nguyên bộ nhớ và CPU hạn chế (ví dụ: **forwarding table** – bảng chuyển tiếp – không thể quá lớn).
 
+Trong các mạng đa dụng (general-purpose networks), chúng ta giải quyết các vấn đề mở rộng này bằng cách giới thiệu **hierarchical IP addressing** (địa chỉ IP phân cấp). Các tổ chức cấp cao hơn (ví dụ: cấp quốc gia) có thể phân bổ dải địa chỉ cho các tổ chức nhỏ hơn (ví dụ: trường đại học). Datacenter không có cấu trúc phân cấp địa lý hoặc tổ chức để áp dụng cách tổ chức địa chỉ này.
 
-## Topology-Aware Addressing
+Tuy nhiên, trong datacenter, chúng ta có thể tận dụng việc **operator** (nhà vận hành) kiểm soát **physical topology** (topology vật lý) của mạng, và gán địa chỉ cho **server** dựa trên vị trí của chúng trong tòa nhà. Chúng ta cũng có thể tận dụng việc topology có cấu trúc đều đặn (ví dụ: thường sắp xếp server thành hàng, thay vì đặt ngẫu nhiên trong tòa nhà).
+
+---
+
+## **Địa chỉ hóa nhận thức topology** (Topology-Aware Addressing)
 
 <img width="900px" src="/assets/datacenter/6-042-dc-addressing.png">
 
-In this particular topology, the racks are physically organized into separate pods in the building. One natural approach would be to allocate a range of addresses to each pod. Then, each pod can allocate sub-ranges to each rack in the pod. Finally, each rack can allocate an individual IP address to each server.
+Trong topology cụ thể này, các **rack** (tủ máy) được tổ chức vật lý thành các **pod** riêng biệt trong tòa nhà. Một cách tiếp cận tự nhiên là phân bổ một dải địa chỉ cho mỗi pod. Sau đó, mỗi pod có thể phân bổ các **sub-range** (dải con) cho từng rack trong pod. Cuối cùng, mỗi rack có thể phân bổ một địa chỉ IP riêng cho từng server.
 
-The operator knows how many servers are in each rack, and how many racks are in each pod, so we can use that information to allocate ranges of the appropriate size. For example, a rack could receive a /24 range, which gives that rack 256 addresses for its servers.
+Nhà vận hành biết số lượng server trong mỗi rack và số lượng rack trong mỗi pod, vì vậy chúng ta có thể dùng thông tin này để phân bổ dải địa chỉ với kích thước phù hợp. Ví dụ: một rack có thể nhận một dải `/24`, cung cấp cho rack đó 256 địa chỉ cho các server của mình.
 
-This allocation approach lets aggregate routes and store fewer entries in our forwarding table. For example, consider one of the spine routers at the top of the diagram. This router doesn't need to remember a path for every single server. Instead, the forwarding table only needs four entries, one for each pod. When a packet arrives, the router checks the first 16 bits to forward the packet to the appropriate pod.
+Cách phân bổ này cho phép **aggregate routes** (gộp tuyến) và lưu ít mục hơn trong bảng chuyển tiếp. Ví dụ: xét một **spine router** (router xương sống) ở phía trên cùng của sơ đồ. Router này không cần ghi nhớ đường đi đến từng server. Thay vào đó, bảng chuyển tiếp chỉ cần bốn mục, mỗi mục cho một pod. Khi một packet đến, router kiểm tra 16 bit đầu tiên để chuyển tiếp packet đến pod thích hợp.
 
-Route aggregation also results in more stability. If a host is added or removed inside a specific rack, the spine router doesn't need to know. As long as we maintain the same addressing scheme, the existing forwarding table is still correct without any changes. As a result, routing updates usually occur when links and switches fail, but not when hosts fail.
+**Route aggregation** (gộp tuyến) cũng mang lại sự ổn định cao hơn. Nếu một host được thêm hoặc gỡ bỏ trong một rack cụ thể, spine router không cần biết. Miễn là chúng ta duy trì cùng sơ đồ địa chỉ, bảng chuyển tiếp hiện tại vẫn đúng mà không cần thay đổi. Do đó, các bản cập nhật định tuyến thường chỉ xảy ra khi liên kết hoặc switch gặp sự cố, chứ không phải khi host gặp sự cố.
 
-Assigning addresses based on datacenter topology is good for scaling, but there are some limitations. In particular, if we move a server to a different location, we'd have to change its address.
+Việc gán địa chỉ dựa trên topology của datacenter rất tốt cho khả năng mở rộng, nhưng cũng có một số hạn chế. Đặc biệt, nếu chúng ta di chuyển một server sang vị trí khác, chúng ta sẽ phải thay đổi địa chỉ của nó.
+
+---

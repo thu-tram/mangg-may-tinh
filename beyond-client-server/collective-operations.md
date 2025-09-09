@@ -5,225 +5,246 @@ nav_order: 7
 layout: page-with-toc
 ---
 
-# Collective Operations
+# **Collective Operations** (Các thao tác tập thể)
 
-## Motivation: AI Training
+## **Động lực: AI Training** (Huấn luyện trí tuệ nhân tạo)
 
-As you've probably read in the news, AI (artificial intelligence) is a very active area of research. Modern AI systems require training models on huge amounts of data.
+Như bạn có thể đã đọc trên các bản tin, **AI (Artificial Intelligence – Trí tuệ nhân tạo)** là một lĩnh vực nghiên cứu rất sôi động. Các hệ thống AI hiện đại đòi hỏi phải huấn luyện mô hình trên một lượng dữ liệu khổng lồ.
 
-For these notes, we will completely ignore the details of how these models work. All you need to know is that we start with some untrained model: think of this as a big matrix filled with random numbers. Then, we use train the model using a huge amount of training data: think of this as running many matrix multiplication operations (i.e. multiplications and additions) with the training data and the model. Eventually, the output is a trained model: think of this like the big matrix from before, but now filled with useful numbers.
+Trong phạm vi ghi chú này, chúng ta sẽ hoàn toàn bỏ qua chi tiết về cách các mô hình này hoạt động. Tất cả những gì bạn cần biết là chúng ta bắt đầu với một mô hình chưa được huấn luyện: hãy hình dung nó như một ma trận lớn chứa đầy các số ngẫu nhiên. Sau đó, chúng ta huấn luyện mô hình này bằng một lượng dữ liệu huấn luyện khổng lồ: hãy hình dung quá trình này như việc thực hiện rất nhiều phép nhân ma trận (tức là các phép nhân và cộng) giữa dữ liệu huấn luyện và mô hình. Cuối cùng, đầu ra là một mô hình đã được huấn luyện: hãy hình dung nó như ma trận lớn ban đầu, nhưng giờ đây chứa đầy các con số hữu ích.
 
 <img width="900px" src="/assets/beyond-client-server/7-062-ai-model.png">
 
-In reality, AI training is far more complicated than this. For example, the training process is iterative: you'll run the model on some training data, and see how well you did. Then, you'll compute an error term based on the mistakes you made, and use that to update your model. We will not care about any of this. We'll just think of training as a black box that runs lots of matrix multiplications on very very big datasets.
+Trên thực tế, quá trình huấn luyện AI phức tạp hơn nhiều. Ví dụ, quá trình huấn luyện mang tính lặp (**iterative**): bạn sẽ chạy mô hình trên một tập dữ liệu huấn luyện, và xem kết quả đạt được. Sau đó, bạn tính toán một giá trị sai số (**error term**) dựa trên những lỗi đã mắc phải, và sử dụng nó để cập nhật mô hình. Chúng ta sẽ không quan tâm đến các chi tiết này. Ở đây, chúng ta chỉ coi quá trình huấn luyện như một “hộp đen” (**black box**) thực hiện rất nhiều phép nhân ma trận trên các bộ dữ liệu cực lớn.
 
+---
 
-## Distributed Training
+## **Distributed Training** (Huấn luyện phân tán)
 
-AI training jobs are far too large to be run serially on a single computer. If you ran the matrix multiplication by multiplying numbers together one at a time, your training job would never finish. Instead, we need to parallelize these jobs so that many operations (e.g. multiplications) are being run at the same time. There are many approaches to **distributed computing**, each of which parallelizes the job along a different dimension:
+Các tác vụ huấn luyện AI quá lớn để có thể chạy tuần tự trên một máy tính duy nhất. Nếu bạn thực hiện phép nhân ma trận bằng cách nhân từng số một, tác vụ huấn luyện sẽ không bao giờ hoàn thành. Thay vào đó, chúng ta cần **parallelize** (song song hóa) các tác vụ này để nhiều phép toán (ví dụ: phép nhân) được thực hiện đồng thời. Có nhiều cách tiếp cận **distributed computing** (tính toán phân tán), mỗi cách song song hóa công việc theo một chiều khác nhau:
 
-We could split up the training data so that each node is training on a different subset of the data.
+- Chúng ta có thể chia nhỏ dữ liệu huấn luyện để mỗi **node** (nút) huấn luyện trên một tập con dữ liệu khác nhau.  
+- Chúng ta có thể chia nhỏ chính mô hình, để mỗi node huấn luyện một tập con của mô hình.  
+- Chúng ta có thể **pipeline** (xâu chuỗi) các phép toán, để mỗi node thực hiện một tập con các phép toán. Ví dụ: nếu thao tác mong muốn là “cộng 5” rồi “bình phương số đó”, chúng ta có thể chia ra sao cho node của bạn thực hiện phép cộng, sau đó chuyển kết quả cho tôi để node của tôi thực hiện phép bình phương. Khi đó, mỗi mẩu dữ liệu sẽ đi qua node của bạn trước, rồi đến node của tôi, để hoàn thành toàn bộ thao tác.
 
-We could split up the model itself, so that each node is training a different subset of the model.
+Một lần nữa, chúng ta sẽ hoàn toàn bỏ qua chi tiết về cách công việc được phân chia. Chúng ta chỉ biết rằng có một tác vụ lớn, và nó đã được chia thành các tác vụ con nhỏ hơn.
 
-We could pipeline the operations, so that each node is running a different subset of the operations. For example, if the desired operation is "add 5" followed by "square the number," we could split this up so that your node do the addition, and then pass the result to me so that my node can do the squaring. Then, every piece of data passes through your node first, and then my node, to complete the overall operation.
+Điều quan trọng mà chúng ta quan tâm là cách các node này **synchronize** (đồng bộ) với nhau. Các node thường cần giao tiếp với nhau để đảm bảo trạng thái của chúng nhất quán. Ngoài ra, sau khi thực hiện một phép toán, có thể mỗi node sẽ giữ một phần của kết quả, và tất cả cần phối hợp để ghép các phần đó thành kết quả đầy đủ.
 
-Again, we will completely ignore the details of how the work is distributed. We have some large task, and it has been split up into smaller sub-tasks.
+Kết hợp hình dung về mô hình huấn luyện với hình dung về tính toán phân tán, chúng ta có một cái nhìn tổng quan ở mức cao về huấn luyện phân tán:
 
-One important thing that we do care about is how these nodes synchronize with each other. These nodes will often need to communicate with one another to ensure that their states are consistent. Also, after running some operation, it could be the case that each node has a piece of the output, and everyone needs to coordinate to combine those pieces into the full output.
-
-By combining our picture of the training model with our picture of distributed computing, we have a very high-level overview of what distributed training looks like:
-
-1. Split the task up into sub-tasks. Each node runs a sub-task.
+1. **Chia tác vụ thành các tác vụ con**. Mỗi node thực hiện một tác vụ con.
 
     <img width="900px" src="/assets/beyond-client-server/7-063-distributed-1.png">
 
-2. After every node finishes their sub-task, everyone exchanges a large amount of state.
+2. **Sau khi mọi node hoàn thành tác vụ con**, tất cả trao đổi một lượng lớn trạng thái.
 
     <img width="800px" src="/assets/beyond-client-server/7-064-distributed-2.png">
 
-3. Proceed to the next task, and repeat steps 1-2 for the next task.
+3. **Chuyển sang tác vụ tiếp theo**, và lặp lại bước 1–2 cho tác vụ tiếp theo.
 
     <img width="900px" src="/assets/beyond-client-server/7-065-distributed-3.png">
 
-Our focus is the data exchange in the second step, and how to make this data exchange efficient.
+Trọng tâm của chúng ta là **quá trình trao đổi dữ liệu ở bước thứ hai**, và cách làm cho quá trình trao đổi dữ liệu này hiệu quả hơn.
 
-Again, we don't care about exactly what data is being exchanged. Depending on how we distribute the work, and depending on the specific AI model we're building, the nature of the data we're exchanging can be slightly different. Our focus is on how that data is exchanged.
+Một lần nữa, chúng ta không quan tâm chính xác dữ liệu nào được trao đổi. Tùy thuộc vào cách phân chia công việc và tùy thuộc vào mô hình AI cụ thể mà chúng ta xây dựng, bản chất của dữ liệu trao đổi có thể hơi khác nhau. Điều chúng ta tập trung là **cách dữ liệu đó được trao đổi**.
+
+---
 
 
-## Distributed Training Infrastructure
 
-When we split up a training job amongst many nodes, what exactly is each node?
+## **Hạ tầng huấn luyện phân tán** (Distributed Training Infrastructure)
 
-Each node could be a computer running a standard CPU, but in reality, nodes are specialized GPUs (Graphics Processing Units). These are processing chips that are specially designed to run AI operations (e.g. matrix multiplication) very efficiently. Instead of GPUs, nodes could also be TPUs (Tensor Processing Units), which are AI-optimized chips developed by Google.
+Khi chúng ta chia nhỏ một tác vụ huấn luyện cho nhiều **node** (nút), thì chính xác mỗi node là gì?
 
-A single training job could be run on a few hundred nodes, or even tens of thousands of nodes, depending on the size and context of the job, and how powerful each node is.
+Mỗi node có thể là một máy tính chạy **CPU** tiêu chuẩn, nhưng trên thực tế, các node thường là **GPU (Graphics Processing Unit – Bộ xử lý đồ họa)** chuyên dụng. Đây là các chip xử lý được thiết kế đặc biệt để thực hiện các tác vụ AI (ví dụ: nhân ma trận) một cách rất hiệu quả. Thay vì GPU, các node cũng có thể là **TPU (Tensor Processing Unit)** – chip tối ưu hóa cho AI do Google phát triển.
 
-The GPUs are inter-connected in a datacenter-like network, which gives us the datacenter benefits that we've previously seen: The nodes are physically close to each other (e.g. in the same building). The nodes are organized in a structured topology (e.g. Clos network). The nodes are homogenous (all built the same), and the links have very high bandwidth.
+Một tác vụ huấn luyện có thể chạy trên vài trăm node, hoặc thậm chí hàng chục nghìn node, tùy thuộc vào kích thước, bối cảnh tác vụ và sức mạnh của từng node.
 
-If you look inside an AI training datacenter, you'll see servers organized into racks, just like in any other datacenter. However, unlike other datacenters we've seen so far, each server contains of one or more GPUs for AI computation. The server can also have a regular general-purpose CPU for miscellaneous operations, although the CPU is typically not that strong and is not doing the bulk of the computation work. All the GPUs on the server use the same NIC to exchange data with other servers.
+Các GPU được kết nối với nhau trong một mạng có cấu trúc giống **datacenter** (trung tâm dữ liệu), mang lại các lợi ích của datacenter mà chúng ta đã thấy trước đây:  
+- Các node nằm gần nhau về mặt vật lý (ví dụ: trong cùng một tòa nhà).  
+- Các node được tổ chức theo một topology có cấu trúc (ví dụ: **Clos network**).  
+- Các node đồng nhất (được xây dựng giống nhau).  
+- Các liên kết có băng thông rất cao.
+
+Nếu bạn nhìn vào bên trong một datacenter huấn luyện AI, bạn sẽ thấy các **server** (máy chủ) được tổ chức thành các **rack** (giá đỡ), giống như trong bất kỳ datacenter nào khác. Tuy nhiên, khác với các datacenter thông thường, mỗi server chứa một hoặc nhiều GPU để tính toán AI. Server cũng có thể có một CPU đa dụng thông thường cho các tác vụ phụ, mặc dù CPU này thường không mạnh và không đảm nhận phần lớn công việc tính toán. Tất cả GPU trên server sử dụng cùng một **NIC (Network Interface Card – card giao tiếp mạng)** để trao đổi dữ liệu với các server khác.
 
 <img width="900px" src="/assets/beyond-client-server/7-066-distributed-infra.png">
 
-Because each server has multiple GPUs, we have to slightly modify our network topology abstraction. As before, the servers are connected with switches and high-bandwidth links. However, we now also have to consider the possibility of two nodes on the same server talking to each other. Communication within the same server is extremely efficient compared to communication across servers, so we can model intra-server communication as a link with infinite bandwidth and zero latency.
+Vì mỗi server có nhiều GPU, chúng ta cần điều chỉnh một chút mô hình trừu tượng topology mạng. Giống như trước đây, các server được kết nối với nhau qua **switch** và các liên kết băng thông cao. Tuy nhiên, giờ đây chúng ta cũng phải xem xét khả năng hai node trên cùng một server giao tiếp với nhau. Giao tiếp trong cùng một server cực kỳ hiệu quả so với giao tiếp giữa các server, nên chúng ta có thể mô hình hóa liên kết nội bộ server như một liên kết có băng thông vô hạn và **latency** (độ trễ) bằng 0.
 
-Each GPU could have its own dedicated memory, and we can use techniques like RDMA to speed up transferring data between one GPU's memory and another GPU's memory.
+Mỗi GPU có thể có bộ nhớ riêng, và chúng ta có thể sử dụng các kỹ thuật như **RDMA (Remote Direct Memory Access)** để tăng tốc việc truyền dữ liệu giữa bộ nhớ của các GPU.
 
-There are many different topologies for inter-connection between racks, though for our purposes, we'll use a fat-tree Clos topology to connect the racks. Regardless of which topology you use, some pairs of GPUs will be closer (e.g. GPUs in the same server can communicate without using the network at all), other pairs of GPUs will be further away (e.g. GPUs on different servers, but in the same pod/rack, connected via a single switch), and other pairs of GPUs will be the furthest away (e.g. GPUs on different racks, connected via multiple hops). The closer pairs of GPUs can communicate with higher bandwidth and less latency, compared to the further pairs of GPUs. In summary, if you pick any pair of nodes, some pairs are better-connected than others.
+Có nhiều topology khác nhau để kết nối giữa các rack, nhưng trong phạm vi này, chúng ta sẽ sử dụng topology **fat-tree Clos** để kết nối các rack. Dù sử dụng topology nào, một số cặp GPU sẽ gần nhau hơn (ví dụ: GPU trong cùng một server có thể giao tiếp mà không cần qua mạng), một số cặp sẽ xa hơn (ví dụ: GPU trên các server khác nhau nhưng cùng rack, kết nối qua một switch), và một số cặp sẽ xa nhất (ví dụ: GPU trên các rack khác nhau, kết nối qua nhiều hop). Các cặp GPU gần nhau có thể giao tiếp với băng thông cao hơn và độ trễ thấp hơn so với các cặp xa nhau. Tóm lại, nếu chọn ngẫu nhiên một cặp node, sẽ có cặp được kết nối tốt hơn cặp khác.
 
 <img width="900px" src="/assets/beyond-client-server/7-067-clos-with-gpus.png">
 
-Other topologies exist as well. TPUs are built with a router directly on them, so it's possible to directly connect TPUs into a network without any switches at all. One common topology with TPUs is to inter-connect them in a 3D torus, which looks like a cube with the edges wrapping around. For example, if you reach the top of the cube and traverse an upwards link, you end up at the bottom of the cube. Or, if you reach the front of the cube and traverse a front-facing link, you end up at the back of the cube. Just like in the Clos topology, some pairs of nodes are closer (e.g. direct neighbors), while other pairs of nodes are further (e.g. multiple hops away).
+Ngoài ra còn có các topology khác. TPU được tích hợp sẵn **router** trên chip, nên có thể kết nối trực tiếp TPU vào mạng mà không cần switch. Một topology phổ biến với TPU là kết nối chúng thành **3D torus** (khối lập phương 3D có các cạnh nối vòng). Ví dụ: nếu bạn đi tới đỉnh của khối lập phương và tiếp tục theo liên kết hướng lên, bạn sẽ quay lại đáy khối; hoặc nếu bạn đi tới mặt trước và tiếp tục theo liên kết hướng ra trước, bạn sẽ quay lại mặt sau. Giống như topology Clos, một số cặp node sẽ gần nhau (ví dụ: hàng xóm trực tiếp), trong khi các cặp khác sẽ xa hơn (ví dụ: cách nhau nhiều hop).
 
 <img width="400px" src="/assets/beyond-client-server/7-068-2d-torus.png">
 
 <img width="600px" src="/assets/beyond-client-server/7-069-3d-torus.png">
 
+---
 
-## Collective Communication: Definition
+## **Collective Communication: Định nghĩa**
 
-Now that we know the task (distributed computing) and the infrastructure we're running the task on (datacenter-like network of GPUs/TPUs), we can formally define the problem we want to solve.
+Bây giờ, khi chúng ta đã biết tác vụ (**distributed computing – tính toán phân tán**) và hạ tầng để chạy tác vụ đó (mạng datacenter-like của GPU/TPU), chúng ta có thể chính thức định nghĩa vấn đề cần giải quyết.
 
-The textbook definition of collective communication is: A group of nodes that exchange data in a coordinated manner as part of a group computation. Informally, the idea is that many nodes work together to achieve a common goal, and the nodes have to exchange data during that process.
+**Định nghĩa trong sách giáo khoa** của **collective communication** (giao tiếp tập thể) là: Một nhóm node trao đổi dữ liệu theo cách phối hợp như một phần của tính toán nhóm. Nói một cách không chính thức, ý tưởng là nhiều node cùng làm việc để đạt một mục tiêu chung, và các node phải trao đổi dữ liệu trong quá trình đó.
 
-The ideas and terms behind collective communication were originally developed many decades ago in the context of supercomputers. The topic has once again become an active area of research thanks to recent advances in AI. Modern implementations of Collectives Communication Libraries include NCCL (Nvidia), MSCCL (Microsoft), TCCL (Thunder Research Group), and so on. The code for NCCL is available online if you're interested.
+Các ý tưởng và thuật ngữ về collective communication đã được phát triển từ nhiều thập kỷ trước trong bối cảnh **supercomputer** (siêu máy tính). Chủ đề này một lần nữa trở thành lĩnh vực nghiên cứu sôi động nhờ những tiến bộ gần đây trong AI. Các triển khai hiện đại của **Collectives Communication Libraries** bao gồm **NCCL** (Nvidia), **MSCCL** (Microsoft), **TCCL** (Thunder Research Group), v.v. Mã nguồn của NCCL có sẵn trực tuyến nếu bạn quan tâm.
 
-What makes collective communication different from everything we've seen so far? There are 3 main differences we'll look at.
+Điều gì khiến collective communication khác với những gì chúng ta đã thấy trước đây? Có 3 điểm khác biệt chính:
 
-**Highly structured communication:** So far, when we think about the network, we've abstracted away the data being exchanged. We don't know ahead of time who wants to communicate, and we build our networks so that any pair of hosts can communicate, at any time they want.
+**1. Giao tiếp có cấu trúc cao (Highly structured communication):**  
+Trước đây, khi nghĩ về mạng, chúng ta thường trừu tượng hóa dữ liệu được trao đổi. Chúng ta không biết trước ai sẽ giao tiếp với ai, và xây dựng mạng sao cho bất kỳ cặp host nào cũng có thể giao tiếp bất cứ lúc nào.
 
-By contrast, in collective communication, there is a very specific goal that the nodes want to achieve, and we know this goal ahead of time. This means that unlike in the general Internet, we have a very well-defined structure of what data is being exchanged through the network, and when that data needs to be exchanged. In other words, we have a tightly-scripted set of data exchanges and computations that all the nodes will work together to achieve.
+Ngược lại, trong collective communication, có một mục tiêu rất cụ thể mà các node muốn đạt được, và chúng ta biết mục tiêu này từ trước. Điều này có nghĩa là, không giống Internet chung, chúng ta có một cấu trúc rất rõ ràng về dữ liệu nào sẽ được trao đổi qua mạng, và khi nào dữ liệu đó cần được trao đổi. Nói cách khác, chúng ta có một kịch bản trao đổi dữ liệu và tính toán được lập trình chặt chẽ mà tất cả các node sẽ cùng phối hợp thực hiện.
 
-**Dedicated network infrastructure:** So far, we've built networks that can support multiple connections happening at the same time. Even within a datacenter network, multiple tenants could be sending data over the datacenter network at the same time.
+**2. Hạ tầng mạng chuyên dụng (Dedicated network infrastructure):**  
+Trước đây, chúng ta xây dựng mạng có thể hỗ trợ nhiều kết nối đồng thời. Ngay cả trong mạng datacenter, nhiều **tenant** (người thuê) có thể gửi dữ liệu qua mạng cùng lúc.
 
-By contrast, AI training jobs are so large that they are often run on dedicated infrastructure. The training job is the only job running on the network, and no other data is being sent over the network. This means that we can predict exactly how much bandwidth is being used at any given time.
+Ngược lại, các tác vụ huấn luyện AI thường rất lớn và thường chạy trên hạ tầng chuyên dụng. Tác vụ huấn luyện là tác vụ duy nhất chạy trên mạng, và không có dữ liệu nào khác được gửi qua mạng. Điều này có nghĩa là chúng ta có thể dự đoán chính xác lượng băng thông được sử dụng tại bất kỳ thời điểm nào.
 
-**Data is transformed as it's exchanged:** So far, when we think about sending data through the Internet (e.g. the HTTP/TCP/IP stack), our mental model is that the server has some data (e.g. a file), and they want to send a copy of that data to the user.
+**3. Dữ liệu được biến đổi khi trao đổi (Data is transformed as it's exchanged):**  
+Trước đây, khi nghĩ về việc gửi dữ liệu qua Internet (ví dụ: qua **HTTP/TCP/IP stack**), mô hình quen thuộc là máy chủ có một dữ liệu (ví dụ: một tệp) và muốn gửi một bản sao dữ liệu đó cho người dùng.
 
-By contrast, when running a collective operation, the data can be transformed as it is sent through the network. This is different from anything we've seen so far. The operations are usually fairly simple (e.g. computing sums), but it does mean the data sent by the sender(s) is not necessarily the same as the data received at the other end.
+Ngược lại, khi chạy một thao tác collective, dữ liệu có thể được biến đổi khi truyền qua mạng. Điều này khác với những gì chúng ta đã thấy. Các phép toán thường khá đơn giản (ví dụ: tính tổng), nhưng điều đó có nghĩa là dữ liệu do bên gửi gửi đi không nhất thiết giống dữ liệu mà bên nhận nhận được.
 
-We could design a coordinated communication schemes from scratch for every AI model we build, but this would be tedious and result in lots of repeated work. Instead, we'll define a set of basic communication patterns called **collectives**. Then, we can use these collectives as basic building blocks to design coordinated communication schemes for specific jobs. You can think of the basic collective operations as the API for distributed communication, e.g. the library functions available to the users. Then, the users can call these collective functions in various ways to achieve their specific goals.
+---
 
-It turns out that we only need a relatively small number of primitive collective operations, and most of the tasks in AI training can be broken down into these operations, and represented as various combinations of these operations.
+Chúng ta có thể thiết kế một sơ đồ giao tiếp phối hợp từ đầu cho mỗi mô hình AI, nhưng điều này sẽ tốn công và lặp lại nhiều công việc. Thay vào đó, chúng ta sẽ định nghĩa một tập hợp các mẫu giao tiếp cơ bản gọi là **collectives**. Sau đó, chúng ta có thể sử dụng các collectives này như các khối xây dựng cơ bản để thiết kế các sơ đồ giao tiếp phối hợp cho các tác vụ cụ thể. Bạn có thể coi các thao tác collective cơ bản như **API** cho giao tiếp phân tán, ví dụ: các hàm thư viện có sẵn cho người dùng. Người dùng có thể gọi các hàm collective này theo nhiều cách khác nhau để đạt mục tiêu cụ thể.
 
-Our focus will be on what these collectives are, and how they are implemented in the network. We won't discuss why AI training leads to these particular collective operations. The reason why we picked these particular operations as our basic building blocks has more to do with the nature of AI computation, which is beyond our scope.
+Thực tế cho thấy, chúng ta chỉ cần một số lượng tương đối nhỏ các thao tác collective nguyên thủy, và hầu hết các tác vụ trong huấn luyện AI có thể được phân rã thành các thao tác này, rồi biểu diễn dưới dạng nhiều cách kết hợp khác nhau của chúng.
 
+Trọng tâm của chúng ta sẽ là **các thao tác collective này là gì** và **chúng được triển khai như thế nào trong mạng**. Chúng ta sẽ không bàn về lý do tại sao huấn luyện AI lại dẫn đến những thao tác collective cụ thể này. Lý do chúng ta chọn những thao tác này làm khối xây dựng cơ bản liên quan nhiều hơn đến bản chất của tính toán AI, điều này nằm ngoài phạm vi của chúng ta.
 
-**Collective Operations: Setup**
+---
+## **Collective Operations: Setup** (Thiết lập các thao tác tập thể)
 
-We'll now define the 7 basic collective operations. We will define what the operations should do, by specifying an input (the data each node is holding before the operation), and a corresponding output (the data each node is holding after the operation). We are not specifying how the operation is implemented in the network (that will come later).
+Chúng ta sẽ định nghĩa 7 thao tác collective cơ bản. Chúng ta sẽ định nghĩa **chức năng** của các thao tác này bằng cách chỉ rõ **đầu vào** (dữ liệu mỗi node đang giữ trước khi thao tác diễn ra) và **đầu ra** tương ứng (dữ liệu mỗi node giữ sau khi thao tác hoàn tất). Ở đây, chúng ta **không** chỉ định cách thao tác được triển khai trong mạng (phần này sẽ được đề cập sau).
 
-**Input:** There are $$p$$ nodes. In our examples, we'll set $$p=4$$ but other values are fine too.
+**Đầu vào:** Có $$p$$ node. Trong các ví dụ, chúng ta đặt $$p=4$$, nhưng các giá trị khác cũng được.
 
-Each node has a $$p$$-element vector of data. For these examples, you can think of the data as an array of 4 integers. In practice, this data could be higher-dimensional as well, e.g. 4 rows of a matrix, or 4 equally-sized chunks of training data.
+Mỗi node có một vector dữ liệu gồm $$p$$ phần tử. Trong các ví dụ này, bạn có thể hình dung dữ liệu như một mảng gồm 4 số nguyên. Trong thực tế, dữ liệu này có thể có số chiều cao hơn, ví dụ: 4 hàng của một ma trận, hoặc 4 phần dữ liệu huấn luyện có kích thước bằng nhau.
 
-**Output:** The elements are moved around between nodes in some specified way. The output specifies what values go in which boxes as a result of this operation.
+**Đầu ra:** Các phần tử được di chuyển giữa các node theo một cách xác định trước. Đầu ra chỉ rõ giá trị nào sẽ nằm ở ô nào sau khi thao tác hoàn tất.
 
-Also, sometimes the elements can be aggregated (e.g. summed together). Again, the output specifies what computation(s) this specific operation does, if any, and which box(es) to put the computation result(s) in.
+Ngoài ra, đôi khi các phần tử có thể được **aggregate** (tổng hợp), ví dụ: cộng lại với nhau. Đầu ra cũng chỉ rõ phép tính nào (nếu có) được thực hiện trong thao tác này, và kết quả được đặt vào ô nào.
 
 <img width="900px" src="/assets/beyond-client-server/7-070-collective-setup.png">
 
-Before the collective operation occurs, some additional coordination needs to take place so that each node knows its own number and the total number of nodes (e.g. "You am node 1, and there are 4 nodes in total"). This additional coordination is beyond our scope, but you can imagine that some centralized scheduler or controller will distribute this information to the nodes and set up the job.
+Trước khi thao tác collective diễn ra, cần có một số bước **phối hợp bổ sung** để mỗi node biết số thứ tự của mình và tổng số node (ví dụ: “Bạn là node 1, và có tổng cộng 4 node”). Việc phối hợp bổ sung này nằm ngoài phạm vi của chúng ta, nhưng bạn có thể hình dung rằng một **scheduler** hoặc **controller** tập trung sẽ phân phát thông tin này tới các node và thiết lập tác vụ.
 
-To execute a collective operation, each node runs the exact same code, in parallel, at the same time. Everyone independently calls the same collective operation to start the operation, and when the operation completes, the output should match the operation definition. Ideally, the nodes have identical hardware resources, so that they all finish at the same time. If some nodes are slower than others, the operation is blocking, which means that we have to wait for everybody to finish the operation before we can proceed to the next task.
+Để thực thi một thao tác collective, mỗi node chạy **chính xác cùng một đoạn mã**, song song, tại cùng một thời điểm. Tất cả cùng gọi thao tác collective giống nhau để bắt đầu, và khi thao tác hoàn tất, đầu ra phải khớp với định nghĩa của thao tác. Lý tưởng nhất là các node có tài nguyên phần cứng giống nhau, để tất cả hoàn thành cùng lúc. Nếu một số node chậm hơn, thao tác sẽ ở trạng thái **blocking** (chặn), nghĩa là phải chờ tất cả hoàn thành trước khi chuyển sang tác vụ tiếp theo.
 
-In summary, collective operations are orchestrated by a controller that sets up the job. The operation is synchronized (everyone starts at the same time), homogenous (ideally everyone finishes at the same time), and blocking (must wait for everyone to finish before moving on).
+**Tóm lại**, các thao tác collective được điều phối bởi một controller thiết lập tác vụ. Thao tác này **đồng bộ** (mọi node bắt đầu cùng lúc), **đồng nhất** (lý tưởng là hoàn thành cùng lúc) và **blocking** (phải chờ tất cả hoàn thành trước khi tiếp tục).
 
-With the setup complete, we're now ready to see how the 7 collective operations are defined. The operations can be roughly separated into two categories: 4 of the operations are about redistribution (moving data around without transforming it), and 3 of the operations are about consolidation (aggregating many pieces of data into a single output).
+Với phần thiết lập đã xong, chúng ta sẵn sàng xem định nghĩa của 7 thao tác collective. Các thao tác này có thể chia thành 2 nhóm:  
+- 4 thao tác về **redistribution** (phân phối lại dữ liệu mà không biến đổi nó)  
+- 3 thao tác về **consolidation** (tổng hợp nhiều mảnh dữ liệu thành một đầu ra duy nhất).
 
+---
 
-**Operation: Broadcast**
+### **Operation: Broadcast**
 
-English description: Take the entire vector in a specified root node, and send a copy of that entire vector to every node.
+**Mô tả:** Lấy toàn bộ vector trong một **root node** (nút gốc) được chỉ định, và gửi một bản sao của toàn bộ vector đó tới mọi node.
 
 <img width="900px" src="/assets/beyond-client-server/7-071-broadcast.png">
 
-Note: This diagram is showing a Broadcast operation with Node 1 as the root node, but we could also do the operation with a different root node. The user running the Broadcast operation must specify the root node as one of the "arguments" to the operation.
+**Ghi chú:**  
+- Sơ đồ minh họa Broadcast với Node 1 là root, nhưng có thể chọn node khác làm root. Người dùng phải chỉ định root node như một “tham số” của thao tác.  
+- Vector đầu vào ở các node không phải root **không** được dùng để tạo đầu ra (giống như tham số hàm không được sử dụng).  
+- Vị trí lưu vector đầu vào và đầu ra không nhất thiết phải giống nhau. Nếu dùng cùng địa chỉ bộ nhớ, một số thao tác (như Broadcast) sẽ ghi đè dữ liệu đầu vào. Có thể dùng địa chỉ bộ nhớ khác để lưu đầu ra.
 
-Note: The input vectors in the non-root nodes are not used to create the output. You can think of them as arguments to a function that don't actually get used.
+---
 
-Note: Each node's input and output vector don't necessarily have to be stored in the same location. If you used the same memory address to hold both the input and output vector, then some operations (like Broadcast) would overwrite the input data with the output data. Alternatively, you could use a different memory address to hold the output vector.
+### **Operation: Scatter**
 
-
-**Operation: Scatter**
-
-English description: Take the entire vector in a specified root node. Send the $$i$$th element of this vector to the $$i$$th node.
+**Mô tả:** Lấy toàn bộ vector trong một root node được chỉ định. Gửi phần tử thứ $$i$$ của vector này tới node thứ $$i$$.
 
 <img width="900px" src="/assets/beyond-client-server/7-072-scatter.png">
 
-Note: Just like Broadcast operation, you can specify any of the nodes to be the root node. Also, just like the Broadcast operation, the input vectors for the non-root nodes are not used to create the output (think: unused arguments to the function).
+**Ghi chú:** Giống như Broadcast, có thể chỉ định bất kỳ node nào làm root. Vector đầu vào ở các node không phải root không được dùng để tạo đầu ra.
 
+---
 
-**Operation: Gather**
+### **Operation: Gather**
 
-English description: Build a new vector, where the $$i$$th element is defined as the $$i$$th element from the $$i$$th node. Send this vector to a specified root node.
+**Mô tả:** Tạo một vector mới, trong đó phần tử thứ $$i$$ được lấy từ phần tử thứ $$i$$ của node thứ $$i$$. Gửi vector này tới một root node được chỉ định.
 
 <img width="900px" src="/assets/beyond-client-server/7-073-gather.png">
 
-Note: In this operation, nothing is stored in the receive buffers of the non-root nodes.
+**Ghi chú:** Trong thao tác này, không có dữ liệu nào được lưu vào bộ đệm nhận của các node không phải root.
 
+---
 
-**Operation: AllGather**
+### **Operation: AllGather**
 
-English description: Build a new vector, where the $$i$$th element is defined as the $$i$$th element from the $$i$$th node. Send a copy of this new vector to every node.
+**Mô tả:** Tạo một vector mới, trong đó phần tử thứ $$i$$ được lấy từ phần tử thứ $$i$$ của node thứ $$i$$. Gửi một bản sao của vector này tới mọi node.
 
-Alternative description (equivalent to above): Node $$i$$ broadcasts its $$i$$th element, so that it becomes the $$i$$th element of every node's output vector.
+**Mô tả thay thế:** Node $$i$$ thực hiện Broadcast phần tử thứ $$i$$ của mình, để nó trở thành phần tử thứ $$i$$ trong vector đầu ra của mọi node.
 
 <img width="900px" src="/assets/beyond-client-server/7-074-allgather.png">
 
+---
 
-**Operation: Reduce**
+### **Operation: Reduce**
 
-English description: Compute the element-wise sum of all the vectors, and send the resulting sum vector to a specified root node.
+**Mô tả:** Tính tổng theo từng phần tử (**element-wise sum**) của tất cả các vector, và gửi vector tổng này tới một root node được chỉ định.
 
 <img width="900px" src="/assets/beyond-client-server/7-075-reduce.png">
 
-For these notes, we'll use summation as our reduction operation, but other reduction operations could exist. For example, we could swap out addition for multiplication in the Reduce operation (or ReduceScatter or AllReduce). Reduction operations are typically associative and commutative, which roughly means that you can do them in any order and still get the same result (e.g. addition is associative and commutative).
+**Ghi chú:** Trong phần này, chúng ta dùng phép cộng làm phép **reduction** (giảm dữ liệu), nhưng có thể thay bằng phép khác (ví dụ: nhân). Các phép reduction thường **associative** (kết hợp) và **commutative** (giao hoán), nghĩa là có thể thực hiện theo bất kỳ thứ tự nào mà vẫn cho kết quả giống nhau.
 
+---
 
-**Operation: AllReduce**
+### **Operation: AllReduce**
 
-English description: Compute the element-wise sum of all the vectors, and send a copy of the resulting sum vector to all nodes.
+**Mô tả:** Tính tổng theo từng phần tử của tất cả các vector, và gửi một bản sao của vector tổng này tới tất cả các node.
 
 <img width="900px" src="/assets/beyond-client-server/7-076-allreduce.png">
 
+---
 
-**Operation: ReduceScatter**
+### **Operation: ReduceScatter**
 
-English description: Compute the element-wise sum of all the vectors. Send the $$i$$th element of the sum vector to the $$i$$th node.
+**Mô tả:** Tính tổng theo từng phần tử của tất cả các vector. Gửi phần tử thứ $$i$$ của vector tổng tới node thứ $$i$$.
 
-Alternative description (equivalent to above): The $$i$$th element of each node is summed, and the resulting sum (scalar) is sent to node $$i$$.
+**Mô tả thay thế:** Phần tử thứ $$i$$ của mỗi node được cộng lại, và kết quả (một số vô hướng) được gửi tới node $$i$$.
 
 <img width="900px" src="/assets/beyond-client-server/7-077-reducescatter.png">
 
+---
 
-## Duals
+## **Duals** (Các cặp thao tác đối ngẫu)
 
-Some pairs of operations are **duals** of each other. Roughly speaking, this means that one operation is the reverse of the other operation. For example, in math, you could say that squaring and square root are duals of each other.
+Một số cặp thao tác là **dual** của nhau, nghĩa là một thao tác là “đảo ngược” của thao tác kia. Khi xét dual, chúng ta bỏ qua các phép reduction, chỉ quan tâm ô nào được ghi dữ liệu trong đầu ra.
 
-When checking if a pair of operations form a dual pair, we ignore any reduction computations. We only care about which boxes get written to in the output, regardless of what value is written to those boxes.
-
-Broadcast and Reduce are duals of each other. Broadcast reads from the 4 boxes in the root node, and writes to all 16 boxes in all nodes. Reduce does the reverse: It reads from all 16 boxes in all nodes, and writes to the 4 boxes in the root node.
+- **Broadcast** và **Reduce** là dual của nhau: Broadcast đọc từ 4 ô trong root node và ghi vào tất cả 16 ô của mọi node. Reduce làm ngược lại: đọc từ tất cả 16 ô và ghi vào 4 ô trong root node.
 
 <img width="900px" src="/assets/beyond-client-server/7-078-duals-1.png">
 
-Scatter and Gather are duals of each other. Scatter reads from the 4 boxes in the root node, and writes to to the $$i$$th box of the $$i$$th node (4 boxes in total). Gather does the reverse: It reads from the $$i$$th box in the $$i$$th node (4 boxes in total), and writes to the 4 boxes in the root node.
+- **Scatter** và **Gather** là dual của nhau: Scatter đọc từ 4 ô trong root node và ghi vào ô thứ $$i$$ của node $$i$$ (tổng 4 ô). Gather làm ngược lại.
 
 <img width="900px" src="/assets/beyond-client-server/7-079-duals-2.png">
 
-AllGather and ReduceScatter are duals of each other. AllGather reads from the $$i$$th box in the $$i$$th node (4 boxes in total), and writes to all 16 boxes in all nodes. ReduceScatter does the reverse: It reads from all 16 boxes in all nodes, and writes to the $$i$$th box of the $$i$$th node (4 boxes in total).
+- **AllGather** và **ReduceScatter** là dual của nhau: AllGather đọc từ ô thứ $$i$$ của node $$i$$ và ghi vào tất cả 16 ô. ReduceScatter làm ngược lại.
 
 <img width="900px" src="/assets/beyond-client-server/7-080-duals-3.png">
 
-AllReduce does not have a dual. Alternatively, you could view AllReduce as its own dual, since it reads from all 16 boxes and writes to all 16 boxes.
+- **AllReduce** không có dual, hoặc có thể coi nó là dual của chính nó.
 
-The idea of duals is useful when we start thinking about the implementations of these collectives. For a specific topology and routing scheme, a collective and its dual will have the same performance (e.g. same total bandwidth usage), since the total amount of data sent and received is the same in both the collective and its dual.
+Ý tưởng về dual hữu ích khi nghĩ về triển khai: với cùng topology và phương án định tuyến, một thao tác và dual của nó sẽ có hiệu năng giống nhau (ví dụ: cùng tổng băng thông sử dụng), vì tổng lượng dữ liệu gửi và nhận là như nhau.
 
+---
 
-## Compositing Operations
+## **Compositing Operations** (Kết hợp thao tác)
 
-Users can combine multiple operations to get their desired operation.
+Người dùng có thể kết hợp nhiều thao tác để tạo ra thao tác mong muốn.
 
-For example, AllReduce could equivalently be expressed as a ReduceScatter, followed by an AllGather.
+Ví dụ: AllReduce could equivalently be expressed as a ReduceScatter, followed by an AllGather.
+
 
 <img width="900px" src="/assets/beyond-client-server/7-081-composition.png">

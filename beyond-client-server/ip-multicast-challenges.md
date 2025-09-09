@@ -1,87 +1,92 @@
 ---
-title: IP Multicast Challenges
+title: Thách thức của IP Multicast
 parent: Beyond Client-Server
 nav_order: 5
 layout: page-with-toc
 ---
 
-# IP Multicast Challenges
+# **Thách thức của IP Multicast** (IP Multicast Challenges)
 
-## Inter-Domain Routing
+## **Định tuyến liên miền** (Inter-Domain Routing)
 
-The protocols we've described so far (IGMP, DVMRP, CBT) can be used for intra-domain multicast routing. However, they cannot easily be extended to inter-domain multicast routing.
+Các giao thức mà chúng ta đã mô tả trước đây (**IGMP**, **DVMRP**, **CBT**) có thể được sử dụng cho **intra-domain multicast routing** (định tuyến multicast trong nội miền). Tuy nhiên, chúng không thể dễ dàng mở rộng để hỗ trợ **inter-domain multicast routing** (định tuyến multicast liên miền).
 
-One major problem here is scalability. For example, if we used DVMRP at a global scale, then periodically, when the pruning state is deleted, packets will get flooded to the entire Internet, which isn't practical.
+Một vấn đề lớn ở đây là **scalability** (khả năng mở rộng). Ví dụ: nếu chúng ta sử dụng DVMRP ở quy mô toàn cầu, thì định kỳ, khi trạng thái **pruning** (cắt tỉa) bị xóa, các gói tin sẽ bị **flood** (phát tràn) ra toàn bộ Internet, điều này là không khả thi.
 
-Also, recall that inter-domain routing introduces the additional challenge of AS autonomy and privacy. For example, if we used CBT at a global scale, then the core router might be in a different network, and this requires you to trust somebody else to control the core router.
+Ngoài ra, hãy nhớ rằng định tuyến liên miền còn có thách thức về **AS autonomy** (tính tự chủ của hệ thống tự trị) và **privacy** (quyền riêng tư). Ví dụ: nếu chúng ta sử dụng CBT ở quy mô toàn cầu, thì **core router** (bộ định tuyến lõi) có thể nằm trong một mạng khác, và điều này yêu cầu bạn phải tin tưởng người khác kiểm soát core router đó.
 
-Inter-domain multicast routing is a hard problem, and much work has been done to develop solutions. For example, the CBT core selection problem could be solved by having multiple cores (one per network) that communicate. However, in practice, there has been very little adoption of inter-domain multicast routing.
+Định tuyến multicast liên miền là một vấn đề khó, và đã có nhiều nghiên cứu để phát triển giải pháp. Ví dụ: vấn đề chọn core trong CBT có thể được giải quyết bằng cách có nhiều core (mỗi mạng một core) và các core này giao tiếp với nhau. Tuy nhiên, trên thực tế, việc triển khai multicast liên miền rất ít được áp dụng.
 
+---
 
-## Charging
+## **Tính phí** (Charging)
 
-The IP multicast service model is fundamentally at odds with the business model that modern ISPs use. For example, consider this AS graph, where AS A and AS B are peers:
+Mô hình dịch vụ **IP multicast** về cơ bản mâu thuẫn với mô hình kinh doanh mà các **ISP** hiện đại sử dụng. Ví dụ: xét đồ thị AS dưới đây, trong đó AS A và AS B là **peers** (ngang hàng):
 
 <img width="400px" src="/assets/beyond-client-server/7-048-multicast-charging-1.png">
 
-As peers, AS A and AS B should be able to exchange equivalent amounts of traffic, but multicast makes it difficult to define what counts as equivalent traffic. As an example, suppose AS A sends a multicast packet to AS B. It's possible that AS B has many children who are part of the group. This means that AS B received one packet, but had to send out many packets. AS B used much more bandwidth here than AS A did. Does AS A need to pay some extra to AS B because of this? (It's an open question, with no clear answer.)
+Là peers, AS A và AS B nên trao đổi một lượng lưu lượng tương đương, nhưng multicast khiến việc định nghĩa “lưu lượng tương đương” trở nên khó khăn. Ví dụ: giả sử AS A gửi một gói multicast tới AS B. Có thể AS B có nhiều **children** (nút con) là thành viên của nhóm. Điều này có nghĩa là AS B nhận một gói, nhưng phải gửi ra nhiều gói. AS B đã sử dụng nhiều băng thông hơn AS A. Liệu AS A có cần trả thêm phí cho AS B vì điều này không? (Đây là một câu hỏi mở, chưa có câu trả lời rõ ràng.)
 
-As another example, consider this AS graph, where AS A is the provider and AS B is the customer:
+Ví dụ khác: xét đồ thị AS dưới đây, trong đó AS A là **provider** (nhà cung cấp) và AS B là **customer** (khách hàng):
 
 <img width="200px" src="/assets/beyond-client-server/7-049-multicast-charging-2.png">
 
-AS B is paying AS A for service. What if AS B sends a multicast packet, and AS A has to forward copies of that packet to many other destinations? Should AS A charge more for this packet compared to a unicast packet, and if so, how much more should AS A charge? (It's an open question, with no clear answer.)
+AS B trả tiền cho AS A để sử dụng dịch vụ. Nếu AS B gửi một gói multicast, và AS A phải chuyển tiếp nhiều bản sao của gói đó tới nhiều đích khác nhau, thì AS A có nên tính phí cao hơn so với một gói unicast không? Nếu có, thì nên tính thêm bao nhiêu? (Cũng là một câu hỏi mở, chưa có câu trả lời rõ ràng.)
 
-Designing a business model is made more difficult by the fact that the IP multicast model does not explicitly keep track of group size. If you wanted to charge users based on the size of the destination group, there's no clear way to determine the size of any given destination group. Your forwarding tables tell you about your parent and your children on different delivery trees, but the tables do not tell you how many end hosts will be receiving this packet in total.
+Việc thiết kế mô hình kinh doanh trở nên khó khăn hơn bởi vì mô hình IP multicast không theo dõi rõ ràng kích thước nhóm. Nếu muốn tính phí dựa trên kích thước nhóm đích, thì không có cách rõ ràng nào để xác định kích thước của một nhóm đích bất kỳ. **Forwarding table** (bảng chuyển tiếp) chỉ cho bạn biết về **parent** và **children** của bạn trên các cây phân phối khác nhau, nhưng không cho biết tổng số **end host** sẽ nhận gói tin này.
 
+---
 
-## Congestion Control
+## **Kiểm soát tắc nghẽn** (Congestion Control)
 
-Consider a source sending a multicast packet down the delivery tree, to many recipients. The source needs to pick a good sending rate to avoid overloading the network. What rate should the source pick?
+Xét một nguồn gửi gói multicast xuống **delivery tree** (cây phân phối) tới nhiều người nhận. Nguồn cần chọn một tốc độ gửi hợp lý để tránh quá tải mạng. Vậy tốc độ nào là phù hợp?
 
 <img width="800px" src="/assets/beyond-client-server/7-050-multicast-congestion.png">
 
-The traffic will travel along many different paths, and each path could have a different capacity. The source could send at 1 Mbps to avoid overloading any of the links, but this leave unused capacity along the other paths. On the other hand, the source could send at 100 Mbps to maximize performance, but this causes some links to be overloaded. There's no clear answer for what rate the source should pick.
+Lưu lượng sẽ đi qua nhiều đường khác nhau, và mỗi đường có thể có dung lượng khác nhau. Nguồn có thể gửi ở tốc độ 1 Mbps để tránh quá tải bất kỳ liên kết nào, nhưng điều này để lại dung lượng chưa sử dụng ở các đường khác. Ngược lại, nguồn có thể gửi ở tốc độ 100 Mbps để tối đa hóa hiệu năng, nhưng điều này sẽ làm một số liên kết bị quá tải. Không có câu trả lời rõ ràng cho tốc độ tối ưu.
 
-In practice, one possible solution is to define different groups depending on performance. For example, we could define four different multicast groups, where each group receives the same video feed, but with different video qualities. Then, any interested recipients can try joining different groups to see which one gives them the best performance.
+Trên thực tế, một giải pháp khả thi là định nghĩa các nhóm khác nhau tùy theo hiệu năng. Ví dụ: chúng ta có thể định nghĩa bốn nhóm multicast khác nhau, mỗi nhóm nhận cùng một luồng video nhưng với chất lượng khác nhau. Khi đó, người nhận có thể thử tham gia các nhóm khác nhau để xem nhóm nào cho hiệu năng tốt nhất.
 
+---
 
-## Reliability
+## **Độ tin cậy** (Reliability)
 
-Just like IP unicast, IP multicast is best-effort, which introduces some additional complexity. For example, you might send a packet, and it might reach some, but not all, group members.
+Giống như **IP unicast**, IP multicast là **best-effort** (nỗ lực tối đa nhưng không đảm bảo), điều này làm tăng độ phức tạp. Ví dụ: bạn có thể gửi một gói tin, và nó có thể đến một số, nhưng không phải tất cả, thành viên nhóm.
 
-We could try to add acks to solve this, but this is also potentially problematic. If the group has millions of members, a single sender won't be able to process millions of acks for every packet.
+Chúng ta có thể thử thêm **ack** (xác nhận) để giải quyết, nhưng điều này cũng có vấn đề. Nếu nhóm có hàng triệu thành viên, một nguồn gửi sẽ không thể xử lý hàng triệu ack cho mỗi gói tin.
 
-Another possible approach is to use negative acknowledgements (nacks), where a group member sends nothing if they receive a packet, and sends a nack if they don't receive a packet (e.g. their timer expires). Again, if the group has millions of members, a single sender could get overwhelmed.
+Một cách tiếp cận khác là sử dụng **negative acknowledgement** (**nack**), trong đó một thành viên nhóm không gửi gì nếu nhận được gói, và gửi nack nếu không nhận được (ví dụ: khi bộ đếm thời gian hết hạn). Tuy nhiên, nếu nhóm có hàng triệu thành viên, nguồn gửi có thể bị quá tải.
 
-In the nack approach, it's also not clear how to recover from failure. If someone didn't receive the packet, do we multicast the packet to the entire group again? This wastes bandwidth because some group members already received the packet and will be receiving a duplicate copy.
+Trong cách tiếp cận nack, cũng không rõ cách khôi phục sau lỗi. Nếu ai đó không nhận được gói, chúng ta có nên multicast lại gói đó cho toàn nhóm không? Điều này lãng phí băng thông vì một số thành viên đã nhận được và sẽ nhận bản sao trùng lặp.
 
-Another approach is to unicast the packet to just the group members who sent nacks. If many group members didn't receive the packet, this could be wasteful because we have to unicast many copies of the same packet. For example, consider the case where the very first link drops the packet, which means that none of the group members received the packet.
+Một cách khác là unicast gói tin chỉ tới những thành viên gửi nack. Nếu nhiều thành viên không nhận được gói, điều này cũng lãng phí vì phải unicast nhiều bản sao của cùng một gói. Ví dụ: nếu liên kết đầu tiên làm rơi gói, nghĩa là **không thành viên nào** nhận được gói.
 
-Which retransmission approach is better? It's not immediately clear, and it can depend on how many group members received the packet.
+Cách truyền lại nào tốt hơn? Không rõ ràng, và còn phụ thuộc vào số lượng thành viên nhận được gói.
 
-In practice, some modern IP multicast applications don't implement reliability at all. Or, they implement reliability by encoding some redundancy into the data stream (think: error-correcting codes) so that losses and corruptions can be corrected from the data itself, without the network's help.
+Trên thực tế, một số ứng dụng IP multicast hiện đại không triển khai độ tin cậy. Hoặc, họ triển khai bằng cách mã hóa thêm **redundancy** (dữ liệu dự phòng) vào luồng dữ liệu (ví dụ: **error-correcting codes** – mã sửa lỗi) để các lỗi và mất mát có thể được khôi phục từ chính dữ liệu, không cần sự hỗ trợ của mạng.
 
-Encoding redundancy does mean you need more bits to encode the same data. For example, if you want to send 5 packets' worth of data, you might send 10 packets, and encode the bits in such a way that any 5 of the packets can be used to reconstruct the original data.
+Việc mã hóa dự phòng đồng nghĩa với việc cần nhiều bit hơn để mã hóa cùng một lượng dữ liệu. Ví dụ: nếu muốn gửi dữ liệu tương đương 5 gói, bạn có thể gửi 10 gói, và mã hóa sao cho bất kỳ 5 gói nào cũng có thể khôi phục dữ liệu gốc.
 
+---
 
-## Security
+## **Bảo mật** (Security)
 
-Another limitation of IP multicast is the lack of access control. Anybody can join a group, and anybody can send messages to any group. If you want to enforce access control (e.g. only paid users can watch the sports game), you have to build that functionality separately.
+Một hạn chế khác của IP multicast là thiếu **access control** (kiểm soát truy cập). Bất kỳ ai cũng có thể tham gia một nhóm, và bất kỳ ai cũng có thể gửi thông điệp tới bất kỳ nhóm nào. Nếu muốn áp dụng kiểm soát truy cập (ví dụ: chỉ người dùng trả phí mới được xem trận đấu), bạn phải xây dựng chức năng này riêng.
 
-The lack of access control leads to security vulnerabilities. A malicious sender could flood packets to a specific multicast group, causing all members of that group to be overwhelmed. Note that this is more effective than the unicast alternative, where the malicious sender would have to flood packets to every member separately.
+Việc thiếu kiểm soát truy cập dẫn đến các lỗ hổng bảo mật. Một kẻ tấn công có thể flood gói tin tới một nhóm multicast cụ thể, khiến tất cả thành viên nhóm bị quá tải. Lưu ý rằng điều này hiệu quả hơn so với unicast, nơi kẻ tấn công phải flood gói tin tới từng thành viên riêng lẻ.
 
-Additional security measures like encryption are also difficult to implement. Suppose you encrypt multicast messages by giving every group member a shared secret key. What if someone leaves the group? If you keep using the same key, that user still knows the secret key and can read your messages. One approach is to switch to using a new key, but now you need a way to securely distribute this new key to the remaining group members.
+Các biện pháp bảo mật bổ sung như **encryption** (mã hóa) cũng khó triển khai. Giả sử bạn mã hóa thông điệp multicast bằng cách cung cấp cho mỗi thành viên nhóm một **shared secret key** (khóa bí mật chung). Nếu ai đó rời nhóm, nhưng bạn vẫn dùng cùng khóa, người đó vẫn có thể đọc thông điệp. Một cách là chuyển sang dùng khóa mới, nhưng khi đó bạn cần một cách để phân phối khóa mới này một cách an toàn tới các thành viên còn lại.
 
+---
 
-## IP Multicast in Practice
+## **IP Multicast trong thực tế** (IP Multicast in Practice)
 
-Because of all these challenges, IP multicast is mostly used today within a single domain, and not across different domains.
+Vì tất cả những thách thức trên, IP multicast ngày nay chủ yếu được sử dụng trong phạm vi một miền duy nhất, chứ không phải trong đủ các tên miền khác nhau.
 
-Some applications might still want group communication across multiple networks (e.g. multi-player gaming, video-conferencing). Instead of relying on IP multicasting, which doesn't support inter-network communication, many applications have implemented their own custom solutions for group communication.
+Một số ứng dụng vẫn có thể cần giao tiếp nhóm qua nhiều mạng (ví dụ: trò chơi đa người chơi, hội nghị truyền hình). Thay vì dựa vào IP multicasting, vốn không hỗ trợ giao tiếp giữa các mạng, nhiều ứng dụng đã triển khai các giải pháp tùy chỉnh riêng cho giao tiếp nhóm.
 
-For example, if the group is small enough, the application could implement a central relay server. Group communications are unicast to the central relay server, which then unicasts the message to the other group members.
+Ví dụ, nếu nhóm đủ nhỏ, ứng dụng có thể triển khai một máy chủ trung gian. Giao tiếp nhóm được truyền unicast đến máy chủ trung gian, sau đó máy chủ này truyền tin nhắn unicast đến các thành viên khác trong nhóm.
 
-Or, if the group is small enough, the naive unicast-based solution (send separate unicast packets to each group member) might work just fine.
+Hoặc, nếu nhóm đủ nhỏ, giải pháp unicast đơn giản (gửi các gói tin unicast riêng lẻ đến từng thành viên trong nhóm) có thể hoạt động tốt.
 
-If IP multicasting doesn't work across domains, and custom solutions require extra work to implement and scale up, how do modern applications handle group communications? One solution is to use overlay multicast, which is an alternative to IP multicast that implements network functionality at Layer 7 instead of Layer 3. We'll look at overlay multicasts next.
+Nếu IP multicast không hoạt động giữa các miền và các giải pháp tùy chỉnh yêu cầu công sức thêm để triển khai và mở rộng quy mô, các ứng dụng hiện đại xử lý giao tiếp nhóm như thế nào? Một giải pháp là sử dụng overlay multicast, một giải pháp thay thế cho IP multicast thực hiện chức năng mạng ở Lớp 7 thay vì Lớp 3. Chúng ta sẽ tìm hiểu về overlay multicast trong phần tiếp theo.

@@ -1,196 +1,206 @@
 ---
-title: Collective Implementations
+title: Triển khai Collective
 parent: Beyond Client-Server
 nav_order: 8
 layout: page-with-toc
 ---
 
-# Collective Implementations
+# **Triển khai Collective** (Collective Implementations)
 
-## Motivation: Implementing AllReduce
+## **Động lực: Triển khai AllReduce** (Motivation: Implementing AllReduce)
 
-Now that we have definitions of the 7 collectives, we can start thinking about how to implement them in a network. To implement a collective, there are two questions we need to answer: What topology do we use to connect the nodes? What data has to be exchanged between the nodes in order to efficiently complete the operation?
+Bây giờ, khi chúng ta đã có định nghĩa của 7 **collective** (tập hợp thao tác truyền thông tin giữa nhiều nút), chúng ta có thể bắt đầu suy nghĩ về cách triển khai chúng trong một mạng. Để triển khai một collective, có hai câu hỏi cần trả lời:  
+- Chúng ta sử dụng **topology** (kiến trúc kết nối) nào để kết nối các nút?  
+- Dữ liệu nào cần được trao đổi giữa các nút để hoàn thành thao tác một cách hiệu quả?
 
-Once we've decided on what topology to use and what data to exchange, we can then analyze the performance of our design. What was the total amount of network bandwidth we used? How long did it take for the operation to complete? Other performance metrics can also be focused, but we'll focus on these two for these notes.
+Khi đã quyết định topology sẽ dùng và dữ liệu cần trao đổi, chúng ta có thể phân tích hiệu năng của thiết kế. Tổng lượng **network bandwidth** (băng thông mạng) đã sử dụng là bao nhiêu? Thời gian để hoàn thành thao tác là bao lâu? Có thể tập trung vào các chỉ số hiệu năng khác, nhưng trong phần này, chúng ta sẽ tập trung vào hai chỉ số này.
 
-To measure performance, we'll define some variables. There are $$p$$ nodes in total. Each vector is $$D$$ bytes in total. This means that each vector element (i.e. each box in the diagram) is $$D/p$$ bytes.
+Để đo hiệu năng, chúng ta định nghĩa một số biến: Có tổng cộng $$p$$ nút. Mỗi vector có tổng cộng $$D$$ byte. Điều này có nghĩa là mỗi phần tử vector (mỗi ô trong hình minh họa) có kích thước $$D/p$$ byte.
 
-In this section, we'll set $$p=5$$ to make some of the demos more illustrative. Note that this also means that each vector is now 5 elements instead of 4 elements. (Side note: Remember that the vector represents arbitrary data, and we divide each vector into $$p$$ equally-sized sub-vectors, where $$p$$ is the total number of nodes. Increasing $$p$$ from 4 to 5 doesn't necessarily mean we have more data. It could just mean we split the same data into 5 chunks instead of 4 chunks.)
+Trong phần này, chúng ta đặt $$p=5$$ để một số ví dụ minh họa dễ hình dung hơn. Lưu ý rằng điều này cũng có nghĩa là mỗi vector bây giờ có 5 phần tử thay vì 4 phần tử. (Ghi chú: Hãy nhớ rằng vector đại diện cho dữ liệu bất kỳ, và chúng ta chia mỗi vector thành $$p$$ **sub-vector** (vector con) có kích thước bằng nhau, trong đó $$p$$ là tổng số nút. Việc tăng $$p$$ từ 4 lên 5 không nhất thiết nghĩa là có nhiều dữ liệu hơn, mà có thể chỉ là chia cùng một lượng dữ liệu thành 5 phần thay vì 4 phần.)
 
-In this section, we'll focus on implementing the AllReduce collective, although the ideas can be applied to the other collectives as well. Recall that AllReduce computes an element-wise sum of the vectors, and then sends the sum vector to all nodes.
+Trong phần này, chúng ta sẽ tập trung vào việc triển khai collective **AllReduce**, mặc dù các ý tưởng có thể áp dụng cho các collective khác. Nhắc lại rằng AllReduce tính tổng theo từng phần tử của các vector, sau đó gửi vector tổng này tới tất cả các nút.
 
 <img width="900px" src="/assets/beyond-client-server/7-082-allreduce-reminder.png">
 
+---
 
-## Approach 1: Full Mesh
+## **Cách tiếp cận 1: Full Mesh** (Approach 1: Full Mesh)
 
-The first topology we'll consider is a full-mesh, where every node has a direct link to every other node.
+Topology đầu tiên chúng ta xem xét là **full-mesh** (lưới đầy đủ), trong đó mỗi nút có một liên kết trực tiếp tới mọi nút khác.
 
 <img width="900px" src="/assets/beyond-client-server/7-083-mesh-1.png">
 
-With this topology, we can implement AllReduce with these steps: First, everyone sends their entire vector directly to every other node.
+Với topology này, chúng ta có thể triển khai AllReduce theo các bước:  
+1. Mỗi nút gửi toàn bộ vector của mình trực tiếp tới mọi nút khác.
 
 <img width="900px" src="/assets/beyond-client-server/7-084-mesh-2.png">
 
-Then, each node sums all the vectors it receives.
+2. Sau đó, mỗi nút cộng tất cả các vector mà nó nhận được.
 
 <img width="900px" src="/assets/beyond-client-server/7-085-mesh-3.png">
 
-How much bandwidth does this approach use? Each node needs to send its entire vector ($$D$$ bytes) to all $$p-1$$ other nodes, so each node sends $$D(p-1)$$ bytes. There are $$p$$ nodes in total, so the total data sent is $$Dp(p-1) = O(D \cdot p^2)$$ bytes.
+**Băng thông sử dụng:** Mỗi nút cần gửi toàn bộ vector ($$D$$ byte) của mình tới tất cả $$p-1$$ nút khác, nên mỗi nút gửi $$D(p-1)$$ byte. Có tổng cộng $$p$$ nút, nên tổng dữ liệu gửi là $$Dp(p-1) = O(D \cdot p^2)$$ byte.
 
-How much time does this approach take? It depends on the exact resource limits of the nodes and the links, but assuming no resource limits, all of the vector sending can happen at the same time, completing in a single time step. In other words, Node 1 sends data to all other nodes, using all 3 of its outgoing links simultaneously. At the same time, Node 2 can also send data to all other nodes, using all 3 of its outgoing links simultaneously. Assuming no resource limits, this approach takes a single time step to complete, where each node needs to send and receive $$2 \cdot D \cdot (p-1)$$ bytes per time step. (Each node sends $$D \cdot (p-1)$$ bytes and receives $$D \cdot (p-1)$$ bytes, and summing those up gives us the extra factor of 2.)
+**Thời gian thực hiện:** Phụ thuộc vào giới hạn tài nguyên của các nút và liên kết, nhưng giả sử không có giới hạn tài nguyên, tất cả việc gửi vector có thể diễn ra đồng thời, hoàn thành trong một bước thời gian (**time step**). Nói cách khác, Node 1 gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Cùng lúc đó, Node 2 cũng gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Giả sử không có giới hạn tài nguyên, cách tiếp cận này chỉ mất một time step để hoàn thành, trong đó mỗi nút cần gửi và nhận $$2 \cdot D \cdot (p-1)$$ byte mỗi time step (mỗi nút gửi $$D \cdot (p-1)$$ byte và nhận $$D \cdot (p-1)$$ byte, cộng lại thành hệ số 2).
 
+---
 
-## Approach 2: Reduce at One Node
+## **Cách tiếp cận 2: Reduce tại một nút** (Approach 2: Reduce at One Node)
 
-In the next topology, let's have a single topology do all the computation work:
+Trong topology tiếp theo, chúng ta để một nút duy nhất thực hiện toàn bộ công việc tính toán:
 
 <img width="900px" src="/assets/beyond-client-server/7-086-root-1.png">
 
-To run AllReduce: First, everybody (except Node 1) sends their vector to Node 1.
+Để chạy AllReduce:  
+1. Tất cả các nút (trừ Node 1) gửi vector của mình tới Node 1.
 
 <img width="800px" src="/assets/beyond-client-server/7-087-root-2.png">
 
-Then, Node 1 computes the sum, and sends the sum back to everybody.
+2. Node 1 tính tổng, và gửi vector tổng này trở lại cho tất cả các nút.
 
 <img width="900px" src="/assets/beyond-client-server/7-088-root-3.png">
 
-How much bandwidth does this approach use? Each node (except Node 1) needs to send its entire vector to Node 1, which means $$D$$ bytes are sent. There are $$p-1$$ nodes that need to send data, so the total data sent in the first step is $$D(p-1)$$ bytes.
+**Băng thông sử dụng:**  
+- Bước 1: Mỗi nút (trừ Node 1) cần gửi toàn bộ vector tới Node 1, tức là $$D$$ byte. Có $$p-1$$ nút gửi dữ liệu, nên tổng dữ liệu gửi trong bước này là $$D(p-1)$$ byte.  
+- Bước 2: Node 1 phải gửi vector tổng tới tất cả các nút khác. Vector tổng có kích thước $$D$$ byte, gửi tới $$p-1$$ nút, nên tổng dữ liệu gửi trong bước này cũng là $$D(p-1)$$ byte.
 
-Then, in the second step, Node 1 has to send the sum vector to everybody else. The sum vector is $$D$$ bytes, and it has to be sent to $$p-1$$ other nodes, so the total data sent in the second step is also $$D(p-1)$$ bytes.
+Tổng cộng, qua hai bước, chúng ta gửi $$2 \cdot D \cdot (p-1) = O(D \cdot p)$$ byte. Lưu ý rằng đây là cải thiện hệ số $$p$$ so với $$O(D \cdot p^2)$$ byte trong cách tiếp cận full-mesh.
 
-In total, across the two steps, we sent $$2 \cdot D \cdot (p-1) = O(D \cdot p)$$ bytes. Notice that this is a factor of $$p$$ better than the $$O(D \cdot p^2)$$ bytes sent in the full-mesh approach.
+**Thời gian thực hiện:** Giả sử không có giới hạn tài nguyên, tất cả các nút có thể gửi vector của mình tới Node 1 cùng lúc. Sau đó, chúng ta phải chờ Node 1 tính tổng. Khi tổng đã được tính, Node 1 có thể gửi vector tổng tới tất cả các nút khác cùng lúc. Tổng cộng, cách tiếp cận này mất 2 time step để hoàn thành, trong đó Node 1 phải gửi hoặc nhận $$D \cdot (p-1)$$ byte mỗi time step.
 
-How much time does this approach take? Again, it depends on the exact resource limits, but assuming no resource limits, everyone can send their vector to Node 1 at the same time. Then, we have to wait for Node 1 to compute the sum. After the sum is computed, Node 1 can send the sum back to everybody else at the same time. In total, this approach takes 2 time steps to complete, where Node 1 has to send or receive $$D \cdot (p-1)$$ bytes per time step.
+Chúng ta không đo chính xác độ dài của một time step ở đây, nhưng điểm so sánh chính là: với cách tiếp cận này, toàn bộ việc gửi ở bước 1 phải hoàn tất trước khi việc gửi ở bước 2 bắt đầu. Ngược lại, trong cách tiếp cận đầu tiên, toàn bộ dữ liệu có thể được gửi đồng thời.
 
-We aren't precisely measuring how long a "time step" is here, but the main point of comparison here is that with this approach, all the sending in the first step has to finish before sending in the second step can start. By contrast, in the first approach, all of the data sending could happen at the same time.
-
-One downside of this approach is that we have a single point of failure at Node 1. This approach is not commonly used in practice.
+**Nhược điểm:** Cách tiếp cận này tạo ra một **single point of failure** (điểm lỗi đơn) tại Node 1. Do đó, cách này không thường được sử dụng trong thực tế.
 
 
-## Approach 3: Tree-Based
 
-In the next topology, we'll build a binary tree. Remember that binary here means that each node has at most 2 children.
+## **Cách tiếp cận 3: Tree-Based** (Dựa trên cấu trúc cây)
+
+Trong topology tiếp theo, chúng ta sẽ xây dựng một **binary tree** (cây nhị phân). Ở đây, “binary” nghĩa là mỗi nút có tối đa 2 **child** (nút con).
 
 <img width="800px" src="/assets/beyond-client-server/7-089-tree-1.png">
 
-To run AllReduce: Starting from the leaf nodes at the bottom, each node sends its vector to its parent.
+Để chạy **AllReduce**: Bắt đầu từ các **leaf node** (nút lá) ở đáy cây, mỗi nút gửi vector của mình tới **parent** (nút cha).
 
 <img width="800px" src="/assets/beyond-client-server/7-090-tree-2.png">
 
-When you receive all of your children's vectors, you should sum them with your vector.
+Khi nhận được tất cả vector từ các child, bạn sẽ cộng chúng với vector của mình.
 
 <img width="800px" src="/assets/beyond-client-server/7-091-tree-3.png">
 
-Then, you should send this resulting sum vector to your parent.
+Sau đó, bạn gửi vector tổng này lên parent.
 
 <img width="700px" src="/assets/beyond-client-server/7-092-tree-4.png">
 
-After repeating this step up all the layers of the tree, the root should have computed the overall sum.
+Sau khi lặp lại bước này qua tất cả các tầng của cây, **root** (nút gốc) sẽ tính được tổng cuối cùng.
 
 <img width="700px" src="/assets/beyond-client-server/7-093-tree-5.png">
 
-Then, in the second step, the root sends the overall sum vector down the tree, to its children. When you receive the sum vector from your parent, you should send a copy of that sum vector to all your children.
+Tiếp theo, ở bước thứ hai, root gửi vector tổng này xuống cây, tới các child của nó. Khi nhận được vector tổng từ parent, bạn sẽ gửi một bản sao của vector tổng đó tới tất cả các child của mình.
 
 <img width="800px" src="/assets/beyond-client-server/7-094-tree-6.png">
 
 <img width="800px" src="/assets/beyond-client-server/7-095-tree-7.png">
 
-How much bandwidth does this approach use? In Step 1, each node receives up to 2 vectors from its children (recall: the tree is binary), and each node sends 1 vector to its parent. This gives us an upper-bound of $$3D$$ bytes per node, for a total of $$3D \cdot p$$ bytes in Step 1.
+**Băng thông sử dụng:**  
+- Bước 1: Mỗi nút nhận tối đa 2 vector từ các child (vì cây là nhị phân) và gửi 1 vector tới parent. Điều này cho giới hạn trên là $$3D$$ byte mỗi nút, tổng cộng $$3D \cdot p$$ byte trong Bước 1.  
+- Bước 2: Mỗi nút nhận 1 vector từ parent và gửi tối đa 2 vector tới các child. Giới hạn trên vẫn là $$3D$$ byte mỗi nút, tổng cộng $$3D \cdot p$$ byte trong Bước 2.
 
-Then, in the second step, each each node receives 1 vector from its parent, and sends up to 2 vectors to its children. Again, we get an upper-bound of $$3D$$ bytes per node, for a total of $$3D \cdot p$$ bytes in Step 2.
+Tổng cộng, qua hai bước, chúng ta gửi $$6 \cdot D \cdot p = O(D \cdot p)$$ byte. Đây là cải thiện hệ số $$p$$ so với **full-mesh**, và bằng với cách tiếp cận **reduce-at-one-node**.
 
-In total, across the two steps, we sent $$6 \cdot D \cdot p = O(D \cdot p)$$ bytes. This is a factor of $$p$$ better than the full-mesh, and the same as the reduce-at-one-node approach.
+**Thời gian thực hiện:** Bạn phải chờ nhận vector từ các child trước khi có thể gửi vector tổng (tổng vector của bạn và vector của các child) lên parent. Tổng cộng, cách tiếp cận này mất $$O(\log p)$$ **time step** để gửi vector lên cây, và thêm $$O(\log p)$$ time step để gửi vector tổng xuống cây, tức tổng cộng $$O(\log p)$$ time step. Mỗi nút phải gửi hoặc nhận tối đa $$3D$$ byte mỗi time step (ít hơn so với các cách tiếp cận khác). So sánh chính xác về thời gian cần thay thế giá trị $$D$$ và giới hạn tài nguyên mạng, nhưng nhìn chung, cách này cần nhiều time step hơn, song mỗi time step có thể hoàn thành nhanh hơn vì lượng dữ liệu truyền nhỏ hơn.
 
-How much time does this approach take? You have to wait to receive vectors from your children before you can send the sum (i.e. sum of your vector and your children's vectors) to your parent. In total, this approach takes $$O(\log p)$$ time steps to send vectors up the tree, and another $$O(\log p)$$ time steps to send the overall sum down the tree, for a total of $$O(\log p)$$ time steps. Each node has to send or receive $$3D$$ bytes per time step (note that this is fewer bytes per time step than the other approaches). An exact time comparison would require plugging in values for $$D$$ and the resource limits in the network, but roughly speaking, this approach requires more time steps, but each time step can probably complete faster since there's less data to transmit per time step.
+Lưu ý rằng chúng ta đã tận dụng phép **reduction** (giảm dữ liệu) trong triển khai này. Mỗi nút cộng vector của mình với vector của các child, nên chỉ cần gửi một vector tổng duy nhất lên parent. Trong cách tiếp cận ngây thơ hơn, mỗi nút sẽ gửi cả 3 vector (vector của mình và của 2 child) lên parent, nhưng ở đây chúng ta đã tiết kiệm băng thông.
 
-Notice that we took advantage of the reduction operation in this implementation. Each node sums up its vector and its children's vectors, so that it only has to send up a single sum vector to its parent. In a more naive approach, each node would have sent up 3 vectors to its parent (its own vector, and both of its children's vectors), but we took advantage of the reduction to save bandwidth.
+Nói chung, các collective dạng hợp nhất dữ liệu (**Reduce**, **ReduceScatter**, **AllReduce**) cho phép tối ưu triển khai. Trong Reduce và ReduceScatter, tổng lượng dữ liệu nhận thực tế nhỏ hơn lượng dữ liệu gửi, và chúng ta có thể tận dụng điều này. Ví dụ, nếu biết đầu ra là tổng của tất cả vector, và bạn nhận 2 vector, bạn có thể cộng chúng lại và gửi một vector tổng duy nhất, thay vì gửi riêng từng vector.
 
-More generally, the consolidation collectives (Reduce, ReduceScatter, AllReduce) give us an opportunity to optimize their implementation. In Reduce and ReduceScatter, the total amount of data received is actually less than the amount of data sent, and we can take advantage of that in our implementations. For example, if we know that the output is a sum of all vectors, and we receive two vectors, we can sum up the vectors and forward a single, summed vector, instead of forwarding the two vectors separately.
+---
 
+## **Cách tiếp cận 4: Ring-Based (Naive)** (Dựa trên vòng – Ngây thơ)
 
-## Approach 4: Ring-Based (Naive)
-
-In the last two approaches, we'll build a ring-shaped topology. Note that there's nothing special about the wrap-around link from Node 1 to Node 5, compared to the other links (i.e. the link being longer doesn't mean anything).
+Trong hai cách tiếp cận cuối, chúng ta sẽ xây dựng topology dạng **ring** (vòng). Lưu ý rằng liên kết vòng từ Node 1 tới Node 5 không có gì đặc biệt so với các liên kết khác (việc liên kết này dài hơn không mang ý nghĩa gì).
 
 <img width="900px" src="/assets/beyond-client-server/7-096-naive-ring-1.png">
 
-To run AllReduce naively: Node 5 starts by sending its vector left.
+Để chạy AllReduce theo cách ngây thơ: Node 5 bắt đầu bằng cách gửi vector của mình sang trái.
 
 <img width="900px" src="/assets/beyond-client-server/7-097-naive-ring-2.png">
 
-When you receive a vector from your neighbor to the right, you should sum it with your vector.
+Khi nhận vector từ **neighbor** (nút láng giềng) bên phải, bạn cộng nó với vector của mình.
 
 <img width="900px" src="/assets/beyond-client-server/7-098-naive-ring-3.png">
 
-Then, you should send this resulting sum vector to your left neighbor.
+Sau đó, bạn gửi vector tổng này sang **neighbor** bên trái.
 
 <img width="900px" src="/assets/beyond-client-server/7-099-naive-ring-4.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-100-naive-ring-5.png">
 
-Eventually, this process will work around the loop.
+Quá trình này sẽ tiếp tục quanh vòng.
 
 <img width="900px" src="/assets/beyond-client-server/7-101-naive-ring-6.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-102-naive-ring-7.png">
 
-To finish up, Node 1 will compute the overall sum.
+Cuối cùng, Node 1 sẽ tính được vector tổng cuối cùng.
 
 <img width="900px" src="/assets/beyond-client-server/7-103-naive-ring-8.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-104-naive-ring-9.png">
 
-Then, in the second step, we will send the overall sum around the loop so that everyone has a copy. Node 5 starts by sending the overall sum left. When you receive the overall sum vector from your neighbor to the right, you should send a copy of the sum vector to your left neighbor. Eventually, this process works around the loop, and everyone receives a copy of the overall sum.
+Sau đó, ở bước thứ hai, chúng ta gửi vector tổng này quanh vòng để mọi nút đều có bản sao. Node 5 bắt đầu bằng cách gửi vector tổng sang trái. Khi nhận vector tổng từ neighbor bên phải, bạn gửi một bản sao sang neighbor bên trái. Quá trình này tiếp tục quanh vòng cho đến khi mọi nút nhận được vector tổng.
 
 <img width="900px" src="/assets/beyond-client-server/7-105-naive-ring-10.png">
 
-How much bandwidth does this approach use? In Step 1, each node receives a vector from its right neighbor, and sends a vector to its left neighbor. This gives us an upper-bound of $$2D$$ bytes per node, for a total of $$2D \cdot p$$ bytes in Step 1.
+**Băng thông sử dụng:**  
+- Bước 1: Mỗi nút nhận 1 vector từ neighbor bên phải và gửi 1 vector sang neighbor bên trái. Giới hạn trên là $$2D$$ byte mỗi nút, tổng cộng $$2D \cdot p$$ byte.  
+- Bước 2: Mỗi nút lại nhận 1 vector và gửi 1 vector. Giới hạn trên vẫn là $$2D$$ byte mỗi nút, tổng cộng $$2D \cdot p$$ byte.
 
-In the second step, each node again receives 1 vector and sends 1 vector. Again, we get an upper-bound of $$2D$$ bytes per node, for a total of $$2D \cdot p$$ bytes in Step 2.
+Tổng cộng, qua hai bước, chúng ta gửi $$4 \cdot D \cdot p = O(D \cdot p)$$ byte.
 
-In total, across the two steps, we sent $$4 \cdot D \cdot p = O(D \cdot p)$$ bytes.
+**Thời gian thực hiện:** Bạn phải chờ nhận vector (từ bên trái) trước khi có thể gửi vector (sang bên phải). Tổng cộng, cách này mất $$p$$ time step để vòng lặp hoàn tất ở bước 1, và thêm $$p$$ time step để gửi vector tổng ở bước 2, tức tổng cộng $$2p = O(p)$$ time step. Mỗi nút phải gửi hoặc nhận tối đa $$2D$$ byte mỗi time step.
 
-How much time does this approach take? You have to wait to receive a vector (from your left) before you can send a vector (to your right). In total, this approach takes $$p$$ time steps to circle the loop in the first step, and another $$p$$ time steps to send the overall sum in a loop in the second loop, for a total of $$2p = O(p)$$ time steps. Each node has to send or receive up to $$2D$$ bytes per time step.
+Giống như topology dạng cây, so sánh thời gian chính xác cần thay thế giá trị $$D$$ và giới hạn tài nguyên mạng. Nhìn chung, so với hai cách tiếp cận đầu tiên, cách này cần nhiều time step hơn, nhưng mỗi time step có thể hoàn thành nhanh hơn vì lượng dữ liệu truyền nhỏ hơn.
 
-As in the tree-based topology, an exact time comparison would require plugging in values for $$D$$ and the resource limits in the network. Roughly speaking, compared to the first 2 approaches, this approach requires more time steps, but each time step can probably complete faster since there's less data to transmit per time step.
-
-Note: We chose Node 5 as the starting point, but other starting points would have also worked. Likewise, we could have also moved left-to-right in the loop, instead of right-to-left.
+**Lưu ý:** Chúng ta chọn Node 5 làm điểm bắt đầu, nhưng các điểm bắt đầu khác cũng có thể hoạt động. Tương tự, chúng ta có thể di chuyển theo chiều trái–phải thay vì phải–trái.
 
 
-## Approach 5: Ring-Based (Optimized)
+## **Cách tiếp cận 5: Ring-Based (Optimized)** (Dựa trên vòng – Tối ưu)
 
-The approaches we've seen so far will give us the right answer, but they create bursty workloads. In the naive ring-based approach, each node spends most of its time idling and doing nothing. At one point, you suddenly receive an entire vector, and you have to immediately add that vector to your own vector, and send the result to your left. Everyone else has to wait for you to finish this operation.
+Các cách tiếp cận trước đây đều cho ra kết quả đúng, nhưng tạo ra **bursty workload** (tải công việc dồn cục). Trong cách ring-based ngây thơ, mỗi nút dành phần lớn thời gian ở trạng thái chờ, không làm gì. Tại một thời điểm, bạn đột ngột nhận toàn bộ vector, phải ngay lập tức cộng vector đó với vector của mình, rồi gửi kết quả sang trái. Mọi nút khác phải chờ bạn hoàn thành thao tác này.
 
-To create a less bursty, more balanced workload, we can stagger the steps of the naive ring-based AllReduce. Sending your entire vector to the left at once creates a burst of work for your left neighbor. Instead, you can send your vector to the left incrementally, by sending one element per time step.
+Để tạo tải công việc ít dồn cục hơn và cân bằng hơn, chúng ta có thể **stagger** (xen kẽ) các bước của AllReduce dạng ring-based *ngây thơ* (naive ring-based AllReduce). Việc gửi toàn bộ vector sang trái cùng lúc sẽ khiến nó bị quá tải. Thay vào đó, bạn có thể gửi vector về bên trái theo từng lượt một, mỗi element một lần gửi.
 
 <img width="900px" src="/assets/beyond-client-server/7-106-optimized-ring-1.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-107-optimized-ring-2.png">
 
-When you receive a single element (from your left), you can add that element to your own corresponding element. You can then send out that resulting sum (still a single element) to your left.
+
+
+Khi bạn nhận được **một phần tử** (từ bên trái), bạn có thể cộng phần tử đó với phần tử tương ứng của mình. Sau đó, bạn gửi kết quả tổng này (vẫn chỉ là một phần tử) sang bên trái.
 
 <img width="900px" src="/assets/beyond-client-server/7-108-optimized-ring-3.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-109-optimized-ring-4.png">
 
-In addition to staggering the sending of each vector, notice that the starting points were also staggered. Instead of the starting point being Node 5 sending all of its elements, we now start by having the $$i$$th node send its $$i$$th element.
+Ngoài việc **stagger** (xen kẽ) việc gửi từng phần tử của vector, hãy chú ý rằng **điểm bắt đầu** cũng được sắp xếp xen kẽ. Thay vì điểm bắt đầu là Node 5 gửi tất cả các phần tử của nó, bây giờ chúng ta bắt đầu bằng cách để nút thứ $$i$$ gửi phần tử thứ $$i$$ của nó.
 
 <img width="900px" src="/assets/beyond-client-server/7-110-optimized-ring-5.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-111-optimized-ring-6.png">
 
-By staggering the operation along both of these dimensions (each node sends one element at a time, and each node starts at a different element), we can create a more balanced workload. At every time step, each node receives exactly one element from its right, computes one sum, and sends exactly one element to its left.
+Bằng cách xen kẽ thao tác theo cả hai chiều này (mỗi nút gửi một phần tử tại một thời điểm, và mỗi nút bắt đầu ở một phần tử khác nhau), chúng ta có thể tạo ra một **workload** (tải công việc) cân bằng hơn. Ở mỗi **time step**, mỗi nút nhận đúng một phần tử từ bên phải, tính một phép cộng, và gửi đúng một phần tử sang bên trái.
 
 <img width="900px" src="/assets/beyond-client-server/7-112-optimized-ring-7.png">
 
 <img width="900px" src="/assets/beyond-client-server/7-113-optimized-ring-8.png">
 
-If we repeat this $$p$$ times, then each element will have cycled all the way around the ring.
+Nếu chúng ta lặp lại quá trình này $$p$$ lần, thì mỗi phần tử sẽ đi hết một vòng quanh vòng tròn.
 
 <img width="900px" src="/assets/beyond-client-server/7-114-optimized-ring-9.png">
 
-However, not everyone knows all the elements of the sum vector, so we have to cycle around the ring one more time. Just like in the naive approach, in this second cycle, when you receive an element of the overall sum, you simply send a copy to your right.
+Tuy nhiên, không phải mọi nút đều biết tất cả các phần tử của vector tổng, vì vậy chúng ta phải chạy thêm một vòng nữa. Giống như trong cách tiếp cận **naive** (ngây thơ), ở vòng thứ hai này, khi bạn nhận được một phần tử của vector tổng, bạn chỉ cần gửi một bản sao sang bên phải.
 
 <img width="900px" src="/assets/beyond-client-server/7-115-optimized-ring-10.png">
 
@@ -200,58 +210,62 @@ However, not everyone knows all the elements of the sum vector, so we have to cy
 
 <img width="900px" src="/assets/beyond-client-server/7-118-optimized-ring-13.png">
 
-When watching this animated demo, try to focus on the two dimensions in which we are staggering the operations. If you focus on a single column, you'll notice that we send the elements one at a time, and we receive elements one at a time.
+Khi xem bản demo động này, hãy chú ý vào **hai chiều** mà chúng ta đang xen kẽ thao tác:  
+- Nếu bạn tập trung vào một **cột**, bạn sẽ thấy rằng chúng ta gửi từng phần tử một, và nhận từng phần tử một.  
+- Nếu bạn tập trung vào một **hàng**, bạn sẽ thấy rằng mỗi nút nhận tổng của tất cả các phần tử thứ $$i$$ cho đến thời điểm đó, cộng thêm phần tử thứ $$i$$ của mình, và gửi tổng mới sang trái. Vì thao tác này đi qua tất cả các nút, chúng ta biết rằng cuối cùng sẽ cộng được tất cả các phần tử thứ $$i$$ lại với nhau.
 
-Also, if you focus on a single row, you'll notice that every node receives the sum of all the $$i$$th elements so far, adds its own $$i$$th element, and sends the new sum left. Since this operation cycles through all the nodes, we know that we'll end up adding all the $$i$$th elements together.
+**Tóm lại**, **optimized ring-based AllReduce** thực hiện chính xác các thao tác giống như **naive ring-based AllReduce**. Điểm khác biệt duy nhất là chúng ta đã xen kẽ việc gửi và nhận vector, để giảm tính “dồn cục” (**burstiness**) của tải công việc tại mỗi nút.
 
-In summary, the optimized ring-based AllReduce does exactly the same operations as the naive ring-based AllReduce. The only difference is we have staggered the sending and receiving of vectors, to reduce the burstiness of the workload at each node.
+**Phân tích băng thông và thời gian** của optimized ring-based AllReduce giống với naive ring-based AllReduce:  
+- Mỗi nút nhận/gửi $$2D$$ byte ở bước đầu tiên, và thêm $$2D$$ byte ở bước thứ hai, tổng cộng $$4 \cdot D \cdot p = O(D \cdot p)$$ byte.  
+- Chúng ta vẫn cần $$O(p)$$ time step để hoàn thành hai vòng quanh vòng tròn.
 
-The bandwidth and time analysis of the optimized ring-based AllReduce is the same as the naive ring-based AllReduce. Each node receives/sends $$2D$$ bytes in the first step, and another $$2D$$ bytes in the second step, for a total of $$4 \cdot D \cdot p = O(D \cdot p)$$ bytes. We still need $$O(p)$$ time steps to make two cycles around the ring.
+Tuy nhiên, **băng thông trên mỗi time step** đã được cải thiện trong cách tối ưu. Trong cách naive, mỗi nút phải nhận và gửi toàn bộ vector trong một time step, tổng cộng $$2D$$ byte truyền trong một time step. Trong cách tối ưu, mỗi nút chỉ phải nhận và gửi **một phần tử** tại mỗi time step, tổng cộng $$2D/p$$ byte truyền trong một time step.
 
-However, the bandwidth per time step is has been improved in the optimized approach. In the naive approach, each node had to receive and send an entire vector of in a single time step, for a total of $$2D$$ bytes transmitted in a single time step. In the optimized approach, each node only has to receive and send a single element at each time step, for a total of $$2D/p$$ bytes transmitted in a single time step
+---
 
+## **Overlay và Underlay Topologies**
 
-## Overlay and Underlay Topologies
+Hãy nhớ rằng các thao tác collective này được định nghĩa sao cho **user** (ví dụ: chương trình huấn luyện AI) có thể chọn bất kỳ tập hợp $$p$$ host nào và yêu cầu chúng chạy một thao tác AllReduce. Khi user chọn $$p$$ host, rất có thể chúng không được kết nối sẵn theo topology vòng. Làm thế nào để triển khai AllReduce dạng vòng ngay cả khi các host không được kết nối vật lý theo topology vòng?
 
-Recall that these collective operations are defined such that the user (i.e. AI training program) can select any set of $$p$$ hosts, and ask them to run an AllReduce operation. When the user selects $$p$$ hosts, it's unlikely that they are already nicely connected in a ring topology. How can we implement the ring-based AllReduce, even if the hosts themselves aren't physically connected in the ring topology?
-
-The answer is to use overlays. We can draw virtual links to connect the hosts in a ring topology:
+Câu trả lời là sử dụng **overlay**. Chúng ta có thể vẽ các liên kết ảo để kết nối các host thành topology vòng:
 
 <img width="900px" src="/assets/beyond-client-server/7-119-ring-overlay-1.png">
 
-When Node D sends its vector to Node B, in the overlay perspective, Node D is sending the vector along a single (virtual) link to its direct neighbor. In the underlay perspective, this vector actually has to travel several hops before reaching its destination of Node B.
+Khi Node D gửi vector tới Node B, ở góc nhìn **overlay**, Node D đang gửi vector qua một liên kết ảo duy nhất tới neighbor trực tiếp của nó. Ở góc nhìn **underlay**, vector này thực tế phải đi qua nhiều **hop** (bước nhảy) trước khi đến đích là Node B.
 
-As we saw when we discussed overlay-based multicast, overlay performance depends on how well the overlay topology matches the underlay network. In the context of AI training, performance is especially important because we're transmitting huge amounts of data.
+Như đã thấy khi thảo luận về **overlay-based multicast**, hiệu năng của overlay phụ thuộc vào mức độ khớp giữa topology overlay và mạng underlay. Trong bối cảnh huấn luyện AI, hiệu năng đặc biệt quan trọng vì chúng ta đang truyền một lượng dữ liệu khổng lồ.
 
-To demonstrate why overlay topology matters, suppose that 4 nodes want to run an AllReduce operation. How do we number the nodes to achieve the best performance?
+Để minh họa tại sao topology overlay quan trọng, giả sử có 4 nút muốn chạy AllReduce. Làm thế nào để **đánh số** các nút nhằm đạt hiệu năng tốt nhất?
 
-First, note that any numbering of nodes will produce the correct AllReduce result. In other words, any of the nodes could be Node 1, and any of the nodes could be Node 2, and so on. (This is not true for all collective operations, but it is true for AllReduce.)
+Trước hết, lưu ý rằng **bất kỳ cách đánh số nào** cũng sẽ cho ra kết quả AllReduce đúng. Nói cách khác, bất kỳ nút nào cũng có thể là Node 1, Node 2, v.v. (Điều này không đúng với tất cả các thao tác collective, nhưng đúng với AllReduce.)
 
-Here are two possible numberings of the nodes:
+Dưới đây là hai cách đánh số nút:
 
 <img width="900px" src="/assets/beyond-client-server/7-120-ring-overlay-2.png">
 
-The first approach results in an average stretch of 3.5. In particular, notice that the C-to-D and B-to-A virtual links require traversing lots of links through the underlay network.
+Cách đầu tiên dẫn đến **average stretch** (độ giãn trung bình) là 3.5. Đặc biệt, hãy chú ý rằng các liên kết ảo C–D và B–A phải đi qua nhiều liên kết trong mạng underlay.
 
 <img width="900px" src="/assets/beyond-client-server/7-121-ring-overlay-3.png">
 
-By contrast, the second approach results in an average stretch of 2.5. This set of virtual links puts neighboring links in the ring closer to each other.
+Ngược lại, cách thứ hai dẫn đến average stretch là 2.5. Tập hợp các liên kết ảo này đặt các liên kết liền kề trong vòng gần nhau hơn.
 
 <img width="900px" src="/assets/beyond-client-server/7-122-ring-overlay-4.png">
 
-More generally, to optimize the performance of ring-based AllReduce, we would like adjacent nodes (e.g. Node $$i$$ and Node $$i+1$$) to be near each other in the network.
+Nói chung, để tối ưu hiệu năng của AllReduce dạng vòng, chúng ta muốn các nút liền kề (ví dụ: Node $$i$$ và Node $$i+1$$) gần nhau trong mạng.
 
-This diagram shows an arbitrary underlay network topology, but the same idea holds for the highly-structured datacenter-like topologies we use for AI training. Recall that in these datacenter-like topologies, some nodes have very high-performance connections (e.g. two GPUs on the same machine), while other nodes have worse-performing connections (e.g. two GPUs on different racks).
+Sơ đồ này minh họa một topology underlay bất kỳ, nhưng ý tưởng tương tự áp dụng cho các topology dạng **datacenter-like** (giống trung tâm dữ liệu) được sử dụng trong huấn luyện AI. Hãy nhớ rằng trong các topology này, một số nút có kết nối hiệu năng rất cao (ví dụ: hai GPU trên cùng một máy), trong khi các nút khác có kết nối kém hơn (ví dụ: hai GPU ở các rack khác nhau).
 
-AI training jobs are predictable, and the underlying topology is fixed and regular. This means that we have many opportunities to optimize the performance of our training job. For example, we can assign specific jobs to specific nodes, so that collective operations are performed on nearby nodes (e.g. all the nodes in the same rack). Finding ways to optimize AI training jobs is an active area of research.
+Các tác vụ huấn luyện AI có tính dự đoán, và topology cơ sở hạ tầng là cố định và có cấu trúc. Điều này có nghĩa là chúng ta có nhiều cơ hội để tối ưu hiệu năng của tác vụ huấn luyện. Ví dụ: chúng ta có thể gán các tác vụ cụ thể cho các nút cụ thể, sao cho các thao tác collective được thực hiện trên các nút gần nhau (ví dụ: tất cả các nút trong cùng một rack). Việc tìm cách tối ưu hóa các tác vụ huấn luyện AI là một lĩnh vực nghiên cứu đang rất sôi động.
 
+---
 
-## Layers of Abstraction
+## **Các lớp trừu tượng** (Layers of Abstraction)
 
-In summary, you can think about collective operations at three layer of operations:
+Tóm lại, bạn có thể hình dung các thao tác collective ở **ba lớp trừu tượng**:
 
-1. Definitions. At the highest layer of abstraction, we defined the operations by specifying the input and the expected output. The user only needs to understand these definitions to use the collectives. The user does not need to know how the operation is implemented.
+1. **Definitions** (Định nghĩa): Ở lớp trừu tượng cao nhất, chúng ta định nghĩa thao tác bằng cách chỉ rõ đầu vào và đầu ra mong đợi. User chỉ cần hiểu các định nghĩa này để sử dụng collective, mà không cần biết cách triển khai.
 
-2. Overlay. Going down one layer of abstraction, we can think about what data gets exchanged in the overlay topology. At this level, you can assume that the nodes are organized in a useful topology (e.g. tree or ring), and can send data along virtual links in that topology.
+2. **Overlay**: Giảm xuống một lớp trừu tượng, chúng ta xem xét dữ liệu được trao đổi trong the overlay topology. At this level, you can assume that the nodes are organized in a useful topology (e.g. tree or ring), and can send data along virtual links in that topology.
 
 3. Underlay. At the lowest level of abstraction, we think about how the virtual links (overlay) correspond to actual physical links in the underlay. When Node 5 sends a vector to Node 4, that vector actually has to be forwarded across several physical routers and links.

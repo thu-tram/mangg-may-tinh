@@ -5,87 +5,100 @@ nav_order: 6
 layout: page-with-toc
 ---
 
-# Links
+# **Links** (Liên kết)
 
-## Properties of Links
+## **Properties of Links** (Các đặc tính của liên kết)
 
-Now that we have a picture of how the layers of the Internet are built, let's focus on how a packet is sent across a link.
+Bây giờ khi chúng ta đã có bức tranh tổng thể về cách các tầng của Internet được xây dựng, hãy tập trung vào cách một **packet** (gói tin) được gửi qua một **link** (liên kết).
 
-There are three properties we can use to measure the performance of a link.
+Có ba đặc tính mà chúng ta có thể dùng để đo hiệu năng của một liên kết:
 
-The **bandwidth** of a link tells us how many bits we can send on the link per unit time. Intuitively, this is the speed of the link. If you think of a link as a pipe carrying water, the bandwidth is the width of the pipe. A wider pipe lets us feed more water into the pipe per second. We usually measure bandwidth in bits per second (e.g. 5 Gbps = 5 billion bits per second).
+- **Bandwidth** (băng thông) của một liên kết cho biết số bit có thể gửi qua liên kết trong một đơn vị thời gian. Hiểu một cách trực quan, đây là “tốc độ” của liên kết. Nếu coi liên kết như một ống dẫn nước, băng thông chính là độ rộng của ống. Ống càng rộng thì mỗi giây càng có thể dẫn nhiều nước hơn. Băng thông thường được đo bằng **bit per second** (bit mỗi giây), ví dụ: 5 Gbps = 5 tỷ bit mỗi giây.
 
-The **propagation delay** of a link tells us how long it takes for a bit to travel along the link. In the pipe analogy, this is the length of the link. A shorter pipe means that water spends less time in the pipe before arriving at the other end. Propagation delay is measured in time (e.g. nanoseconds, milliseconds).
+- **Propagation delay** (độ trễ lan truyền) của một liên kết cho biết thời gian để một bit di chuyển hết chiều dài liên kết. Trong phép so sánh ống nước, đây là chiều dài của ống. Ống càng ngắn thì nước càng mất ít thời gian để đến đầu bên kia. Độ trễ lan truyền được đo bằng đơn vị thời gian (ví dụ: nanosecond, millisecond).
 
-If we multiply the bandwidth and the propagation delay, we get the **bandwidth-delay product (BDP)**. Intuitively, this is the capacity of the link, or the number of bits that exist on the link at any given instant. In the pipe analogy, if we fill up the pipe and freeze time, the capacity of the pipe is how much water is in the pipe in that instant.
+- Nếu nhân băng thông với độ trễ lan truyền, ta được **Bandwidth-Delay Product (BDP)**. Hiểu đơn giản, đây là **capacity** (dung lượng) của liên kết, tức là số bit tồn tại trên liên kết tại một thời điểm. Trong phép so sánh ống nước, nếu ta làm đầy ống và “đóng băng” thời gian, dung lượng của ống chính là lượng nước có trong ống tại thời điểm đó.
 
 <img width="600px" src="/assets/intro/1-57-link-properties.png">
 
-Note: You might sometimes see the term **latency**. In the context of a link, the latency is its propagation delay, though this word can also be used in other contexts (e.g. the latency from end host to end host, across multiple links). Latency by itself is not formally defined, and is context-dependent.
+**Lưu ý:** Đôi khi bạn sẽ thấy thuật ngữ **latency** (độ trễ). Trong ngữ cảnh của một liên kết, latency chính là propagation delay, mặc dù từ này cũng được dùng trong các ngữ cảnh khác (ví dụ: độ trễ từ end host đến end host qua nhiều liên kết). Latency không có định nghĩa chính thức duy nhất và phụ thuộc vào ngữ cảnh.
 
+---
 
-## Timing Diagram
+## **Timing Diagram** (Biểu đồ thời gian)
 
-Suppose we have a link with bandwidth 1 Mbps = 1 million bits per second, and propagation delay of 1 ms = 0.001 seconds.
+Giả sử chúng ta có một liên kết với băng thông 1 Mbps = 1 triệu bit mỗi giây, và độ trễ lan truyền 1 ms = 0,001 giây.
 
-We want to send a 100 byte = 800 bit packet along this link. How long does it take to send this packet, from the time the first bit is sent, to the time the last bit is received?
+Chúng ta muốn gửi một packet 100 byte = 800 bit qua liên kết này. Mất bao lâu để gửi xong packet, tính từ lúc bit đầu tiên được gửi đến lúc bit cuối cùng được nhận?
 
-To answer this question, we can draw a timing diagram. The left bar is the sender, and the right bar is the recipient. Time starts at 0 and increases as we move down the diagram.
+Để trả lời, ta có thể vẽ một **timing diagram**. Cột bên trái là **sender** (bên gửi), cột bên phải là **recipient** (bên nhận). Thời gian bắt đầu từ 0 và tăng dần khi ta di chuyển xuống biểu đồ.
 
 <img width="300px" src="/assets/intro/1-58-timing1.png">
 
-Let's focus on the first bit. We can put 1,000,000 bits on the link per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to put a single bit on the link. At time 0.000001 seconds, the link has a single bit on it, at the sender end.
+Xét bit đầu tiên: Với băng thông 1.000.000 bit/giây, mất 1/1.000.000 = 0,000001 giây để đặt một bit lên liên kết. Tại thời điểm 0,000001 giây, liên kết có một bit ở đầu bên gửi.
 
-It then takes 0.001 seconds for this bit to travel across the link (propagation delay), so at time 0.000001 + 0.001 seconds, the very first bit arrives at the recipient.
+Bit này mất 0,001 giây để di chuyển hết liên kết (propagation delay), nên tại thời điểm 0,000001 + 0,001 giây, bit đầu tiên đến được bên nhận.
 
 <img width="900px" src="/assets/intro/1-59-timing2.png">
 
-Now let's think about the last bit. From before, it takes 0.000001 to put a bit on the link. We have 800 bits to send, so the last bit is placed on the link at time $$800 \cdot 0.000001 = 0.0008$$ seconds.
+Xét bit cuối cùng: Như trên, mất 0,000001 giây để đặt một bit lên liên kết. Có 800 bit cần gửi, nên bit cuối cùng được đặt lên liên kết tại thời điểm:
 
-It then takes 0.001 seconds for the last bit to travel across the link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at the recipient. This is the time when we can say the packet has arrived at the recipient.
+$$800 \cdot 0,000001 = 0,0008 \ \text{giây}$$
+
+Bit này cũng mất 0,001 giây để truyền, nên tại thời điểm 0,0008 + 0,001 giây, bit cuối cùng đến bên nhận. Đây là lúc ta nói packet đã đến nơi.
 
 <img width="900px" src="/assets/intro/1-60-timing3.png">
 
+---
 
-## Packet Delay
+## **Packet Delay** (Độ trễ gói tin)
 
-More generally, the **packet delay** is the time it takes for an entire packet to be sent, starting from the time the first bit is put on the wire, to the time the last bit is received at the other end. This delay is the sum of the transmission delay and the propagation delay.
+Tổng quát hơn, **packet delay** là thời gian để gửi toàn bộ một packet, tính từ lúc bit đầu tiên được đặt lên dây đến lúc bit cuối cùng được nhận ở đầu bên kia. Độ trễ này bằng tổng của **transmission delay** (độ trễ truyền) và **propagation delay**.
 
-The transmission delay tells us how long it takes to put the bits on the wire. In the example, this was $$800 \cdot (1/1{,}000{,}000)$$. In general, this is the packet size divided by the link bandwidth.
+- **Transmission delay**: thời gian để đặt tất cả bit của packet lên dây. Trong ví dụ, giá trị này là:
 
-Since the transmission delay is a function of bandwidth, we can calculate packet delay in terms of the two link properties of bandwidth and propagation delay.
+$$800 \cdot \frac{1}{1{,}000{,}000}$$
 
+Nói chung, transmission delay = kích thước packet / băng thông liên kết.
 
-## Bandwidth and Propagation Delay Tradeoffs
+Vì transmission delay phụ thuộc vào băng thông, ta có thể tính packet delay dựa trên hai đặc tính của liên kết: bandwidth và propagation delay.
 
-Consider two links:
+---
 
-Link 1 has bandwidth 10 Mbps and propagation delay 10 ms.
+## **Bandwidth và Propagation Delay: Sự đánh đổi** (Trade-offs)
 
-Link 2 has bandwidth 1 Mbps and propagation delay 1 ms.
+Xét hai liên kết:
 
-Which link is better? It depends on the packets you're sending.
+- **Link 1**: bandwidth 10 Mbps, propagation delay 10 ms.  
+- **Link 2**: bandwidth 1 Mbps, propagation delay 1 ms.
 
-Suppose we wanted to send a single 10-byte packet. For both links, the time it takes to put one packet on the wire is negligible, and the propagation delay is the dominant source of delay. Link 2 has the shorter propagation delay, so it's the better choice.
+Liên kết nào tốt hơn? Câu trả lời phụ thuộc vào packet bạn gửi.
 
-Suppose we instead wanted to send a single 10,000-byte packet. Now, the transmission delay is the dominant source of delay, and we prefer Link 1, which allows us to put the bytes on the wire faster (higher bandwidth). You could validate this intuition with formal packet delay calculations: Link 1 takes roughly 18 ms to send this packet, while Link 2 takes roughly 81 ms.
+- Nếu gửi một packet 10 byte: thời gian đặt packet lên dây là không đáng kể, propagation delay là yếu tố chính. Link 2 có propagation delay ngắn hơn, nên tốt hơn.
+- Nếu gửi một packet 10.000 byte: transmission delay là yếu tố chính, và ta chọn Link 1 vì băng thông cao hơn. Tính toán cho thấy: Link 1 mất khoảng 18 ms, Link 2 mất khoảng 81 ms.
 
-For a real-world example, consider a video call. If the video quality is poor, you probably have insufficient bandwidth (and shortening propagation delay won't help). By contrast, if there's a delay between the time you speak and the time the other person answers, the propagation delay is probably too long (and more bandwidth won't help).
+Ví dụ thực tế:  
+- Nếu chất lượng video call kém → có thể do bandwidth không đủ (giảm propagation delay không giúp).  
+- Nếu có độ trễ giữa lúc bạn nói và lúc người kia trả lời → có thể do propagation delay quá dài (tăng bandwidth không giúp).
 
+---
 
-## Pipe Diagram
+## **Pipe Diagram** (Biểu đồ ống)
 
-So far, we've been drawing timing diagrams to denote when network events happen (e.g. when the recipient gets the packet).
+Trước giờ, chúng ta vẽ timing diagram để biểu diễn thời điểm các sự kiện mạng xảy ra (ví dụ: khi bên nhận nhận được packet).
 
-Another way to view packets being sent across the network is to draw the bits on the link at a frozen moment in time. Both views convey the same information, but depending on the context, one view might be more useful than the other.
+Một cách khác để hình dung packet được gửi qua mạng là vẽ các bit trên liên kết tại một thời điểm “đóng băng”. Cả hai cách đều truyền tải cùng thông tin, nhưng tùy ngữ cảnh, một cách có thể hữu ích hơn.
 
-To draw the link, we can imagine the link is a pipe (similar to the water analogy) and draw the pipe as a rectangle, where the width is the propagation delay, and the height is the bandwidth. The area of the pipe is the capacity of the link.
+Để vẽ liên kết, ta tưởng tượng liên kết là một ống (giống phép so sánh nước) và vẽ ống dưới dạng hình chữ nhật:  
+- **Chiều rộng** = propagation delay.  
+- **Chiều cao** = bandwidth.  
+- **Diện tích** = capacity của liên kết.
 
 <img width="600px" src="/assets/intro/1-61-pipe1.png">
 
-Suppose we want to send a 50-byte packet across the link. In the pipe view, we can show a frozen moment in time with the packet being sent along the link.
+Giả sử ta muốn gửi một packet 50 byte qua liên kết. Trong biểu đồ ống, ta có thể minh họa một thời điểm đóng băng khi packet đang được gửi.
 
-The packet is arranged in a rectangle, where the height of the rectangle tells us how many bytes were placed on the wire in a single time step. At every time step, the packet slides right in the pipe. Eventually, the packet starts to exit the pipe, and at each time step, one column of the rectangle exits the pipe.
+Packet được biểu diễn dưới dạng hình chữ nhật, trong đó chiều cao cho biết số byte được đặt lên dây trong một đơn vị thời gian. Mỗi bước thời gian, packet trượt sang phải trong ống. Cuối cùng, packet bắt đầu thoát ra khỏi ống, và ở mỗi bước thời gian, một cột của hình chữ nhật rời khỏi ống.
 
 <img width="900px" src="/assets/intro/1-62-pipe2.png">
 
@@ -93,71 +106,78 @@ The packet is arranged in a rectangle, where the height of the rectangle tells u
 
 <img width="900px" src="/assets/intro/1-64-pipe4.png">
 
-Non-obvious fact: The packet transmission delay in the timing diagram corresponds to the width of the rectangle.
 
-To see why, suppose we have a link that can send 5 bits per second, and we have a 20-bit packet. In the timing diagram, there are 11 seconds between the time of the first and last bit being sent.
+
+
+Một sự thật không hiển nhiên: **Packet transmission delay** (độ trễ truyền gói tin) trong **timing diagram** (biểu đồ thời gian) tương ứng với **chiều rộng** của hình chữ nhật.
+
+Để thấy tại sao, giả sử chúng ta có một **link** (liên kết) có thể gửi 5 bit mỗi giây, và chúng ta có một packet 20 bit. Trong timing diagram, có 11 giây giữa thời điểm bit đầu tiên và bit cuối cùng được gửi.
 
 <img width="900px" src="/assets/intro/1-65-packet-delay-1.png">
 
-In the pipe diagram, every second, a column of 5 bits marches into the pipe. We need 4 columns to enter the pipe, which takes 4 seconds. This means the width of the packet in the pipe is 4 columns of packets = 4 seconds.
+Trong **pipe diagram** (biểu đồ ống), mỗi giây, một cột gồm 5 bit “bước” vào ống. Chúng ta cần 4 cột để đưa toàn bộ packet vào ống, mất 4 giây. Điều này có nghĩa là chiều rộng của packet trong ống là 4 cột = 4 giây.
 
 <img width="900px" src="/assets/intro/1-66-packet-delay-2.png">
 
-The pipe diagram lets us view the packet transmission time on the same axis as the propagation delay, and compare the two terms.
+Pipe diagram cho phép chúng ta quan sát **thời gian truyền packet** trên cùng một trục với **propagation delay** (độ trễ lan truyền) và so sánh hai giá trị này.
 
-Pipe diagrams can be useful for comparing different links. Let's look at the exact same packets traveling through three different links.
+Pipe diagram cũng hữu ích khi so sánh các liên kết khác nhau. Hãy xem cùng một packet di chuyển qua ba liên kết khác nhau.
 
 <img width="700px" src="/assets/intro/1-67-different-pipes.png">
 
-If we shorten the propagation delay, the pipe width gets shorter. The pipe height stays the same, and the shape of each rectangular packet is the same. (Remember, you can think of the packet height as the number of bits marching into the pipe at each time step, and the packet width as the time it takes to march all bits into the pipe.)
+Nếu chúng ta rút ngắn propagation delay, **chiều rộng** của ống ngắn lại. **Chiều cao** của ống giữ nguyên, và hình dạng của mỗi packet hình chữ nhật cũng giữ nguyên. (Hãy nhớ: chiều cao của packet = số bit được đưa vào ống mỗi đơn vị thời gian; chiều rộng của packet = thời gian để đưa toàn bộ bit vào ống.)
 
-Other observations here: The packet width staying the same means the transmission delay didn't change. Also, the area of the link decreased, which tells us that the link has less capacity.
+Quan sát khác: Chiều rộng packet giữ nguyên nghĩa là **transmission delay** (độ trễ truyền) không thay đổi. Ngoài ra, diện tích của liên kết giảm, cho thấy **capacity** (dung lượng) của liên kết giảm.
 
-When we increase the bandwidth, the pipe height gets taller, indicating that we can march more bits into the pipe per unit time.
+Khi tăng **bandwidth** (băng thông), chiều cao của ống tăng, cho thấy chúng ta có thể đưa nhiều bit vào ống hơn mỗi đơn vị thời gian.
 
-Notice that the shape of the packets also changed. The packets are now taller, because we can march more bits into the pipe per unit time. As a result, we finish feeding the packet into the pipe much faster, so the width of the packets (transmission delay) decreases.
+Lúc này, hình dạng packet cũng thay đổi: packet cao hơn vì mỗi đơn vị thời gian có thể đưa nhiều bit hơn vào ống. Kết quả là chúng ta hoàn tất việc đưa packet vào ống nhanh hơn, nên **chiều rộng** của packet (transmission delay) giảm.
 
+---
 
-## Overloaded Links
+## **Overloaded Links** (Liên kết quá tải)
 
 <img width="700px" src="/assets/intro/1-68-link1.png">
 
-Consider this picture of packets arriving at a switch. The switch needs to forward all the packets along the outgoing link. In this case, there's no problem, because the switch has enough capacity to process every packet as it arrives.
+Xem hình minh họa packet đến một **switch** (bộ chuyển mạch). Switch cần chuyển tiếp tất cả packet qua **outgoing link** (liên kết đầu ra). Trong trường hợp này, không có vấn đề gì vì switch có đủ khả năng xử lý mọi packet khi chúng đến.
 
 <img width="700px" src="/assets/intro/1-69-link2.png">
 
-What about in this picture?
+Còn trong hình này thì sao?
 
 <img width="700px" src="/assets/intro/1-70-transient1.png">
 
-In the long term, we have enough capacity to send all the outgoing packets, but at this very instant in time, we have two packets arriving simultaneously, and we can only send out one. This is called **transient overload**, and it's extremely common at switches in the Internet.
+Về lâu dài, chúng ta có đủ khả năng để gửi tất cả packet ra ngoài, nhưng tại một thời điểm cụ thể, có hai packet đến cùng lúc, và chúng ta chỉ có thể gửi một. Đây được gọi là **transient overload** (quá tải tạm thời), và nó cực kỳ phổ biến ở các switch trên Internet.
 
-To cope with transient overload, the switch maintains a queue of packets. If two packets arrive simultaneously, the switch queues one of them and sends out the other one.
+Để xử lý quá tải tạm thời, switch duy trì một **queue** (hàng đợi) packet. Nếu hai packet đến cùng lúc, switch sẽ đưa một packet vào hàng đợi và gửi packet còn lại.
 
 <img width="700px" src="/assets/intro/1-71-transient2.png">
 
-At any given time, the switch could choose to send a packet from one of the incoming links, or send a packet from the queue. This choice is determined by a **packet scheduling** algorithm, and there are lots of different designs that we'll look at.
+Tại bất kỳ thời điểm nào, switch có thể chọn gửi một packet từ một trong các **incoming link** (liên kết đầu vào), hoặc gửi một packet từ hàng đợi. Lựa chọn này được xác định bởi một **packet scheduling algorithm** (thuật toán lập lịch gói tin), và có rất nhiều thiết kế khác nhau mà chúng ta sẽ tìm hiểu.
 
 <img width="900px" src="/assets/intro/1-72-transient3.png">
 
-When there are no incoming packets, the switch can drain the queue and send out any queued packets. 
+Khi không có packet đến, switch có thể **drain** (xả) hàng đợi và gửi các packet đang chờ.
 
 <img width="900px" src="/assets/intro/1-73-transient4.png">
 
-This allows queues to help us absorb transient bursts.
+Điều này cho phép hàng đợi giúp hấp thụ các đợt bùng nổ tạm thời.
 
 <img width="700px" src="/assets/intro/1-74-transient5.png">
 
-What if the incoming links looked like this?
+Nhưng nếu các liên kết đầu vào trông như thế này thì sao?
 
 <img width="700px" src="/assets/intro/1-75-persistent.png">
 
-Now we have **persistent overload**. There just isn't enough capacity on the outgoing link to support the level of incoming traffic.
+Lúc này, chúng ta có **persistent overload** (quá tải kéo dài). Đơn giản là không đủ dung lượng trên liên kết đầu ra để đáp ứng mức lưu lượng đầu vào.
 
-We could fill the queue up, but that still isn't enough to support the incoming load. One way or another, the switch will drop packets.
+Chúng ta có thể làm đầy hàng đợi, nhưng điều đó vẫn không đủ để xử lý tải đầu vào. Dù thế nào, switch cũng sẽ phải **drop** (loại bỏ) packet.
 
-How do we account for persistent overload? Operators need to properly provision their links and switches. If they notice that a switch is frequently overloaded, they might decide to upgrade the link (which may require manual work).
+Làm thế nào để xử lý quá tải kéo dài? **Operator** (nhà vận hành) cần cấu hình hợp lý các liên kết và switch. Nếu họ nhận thấy một switch thường xuyên quá tải, họ có thể quyết định nâng cấp liên kết (có thể cần thao tác thủ công).
 
-One possible solution to overload is to have the router tell the senders to slow down. (We'll study this later when we look at congestion control.) Ultimately, there's not much we can do to solve overload, though, which is why the Internet is designed to only offer best-effort service.
+Một giải pháp khả thi là để **router** thông báo cho bên gửi giảm tốc độ gửi (chúng ta sẽ học khi tìm hiểu **congestion control** – kiểm soát tắc nghẽn). Tuy nhiên, nhìn chung, không có nhiều cách để giải quyết hoàn toàn quá tải, và đó là lý do Internet được thiết kế chỉ cung cấp dịch vụ **best-effort**.
 
-Now that we have a notion of queuing, we need to go back and update our packet delay formula. Now, packet delay is the sum of transmission delay, propagation delay, and queuing delay.
+Bây giờ khi đã có khái niệm về **queuing** (xếp hàng), chúng ta cần cập nhật công thức tính **packet delay**:  
+**Packet delay** = Transmission delay + Propagation delay + Queuing delay.
+
+---

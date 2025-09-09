@@ -5,64 +5,77 @@ nav_order: 2
 layout: page-with-toc
 ---
 
-# Congestion Control in Datacenters
-
-## Why are Datacenters Different?
-
-We've seen that datacenter networks have additional constraints (e.g. physically in one building, owned by one operator) compared to general-purpose networks. This can lead to special protocols that exploit these special characteristics of the network. In this section, we'll explore TCP congestion control algorithms that may not work on the general Internet, but are effective in datacenter contexts. This is an active area of research and development.
-
-First, we should answer: What makes the congestion control different in a datacenter?
-
-Recall that packet delay consists of transmission delay (time to signal the bits on the wire, determined by bandwidth), propagation delay (time for bits to travel across wire), and queuing delay.
-
-In datacenters, transmission delay is usually relatively small (remember, we have high-capacity 10 Gbps links). Propagation delay is also relatively small in datacenters (remember, all the servers are in the same building). As a result, in datacenters, queuing delay is often the dominant source of delay. By contrast, in the wide-area Internet, the propagation delay could be orders of magnitude larger (e.g. packets could have to travel across the country), and is a more common dominating source of delay.
-
-Recall that TCP congestion control deliberately fills up queues until packets get lost (we detect congestion by checking for loss). The TCP designers had not considered datacenter contexts, where queuing delay can have a much larger impact on performance.
-
-The problem of large queues is exacerbated in datacenters, because unlike in the wide-area Internet, most datacenter connections fall into one of two categories. Most connections are **mice**, which are short and latency-sensitive. For example, a web search query and the results page contain a very small amount of data, but we want to return the results to the user very quickly. By contrast, some connections are **elephants**, which are large and throughput-sensitive. For example, backing up data from one server to another server requires a long-running connection that sends a lot of data at high throughput.
-
-If we run TCP congestion control with these two types of connections, the elephants will increase their rates until the queues are all filled up. Now, any subsequent mice will be stuck in the queues, causing the mice to be delayed.
-
-In order to maximize performance for these specific types of connections, datacenter congestion control algorithms must avoid filling up queues. Many datacenter-specific solutions have been developed in recent years.
-
-For example, BBR was released by Google in 2016. In this approach, instead of detecting congestion by checking for loss (which requires queues to be full), we instead detect congestion by checking for packet delay.
 
 
-## DCTCP: Feedback from Routers
+# **Kiểm soát tắc nghẽn trong Datacenter** (Congestion Control in Datacenters)
 
-DCTCP (Datacenter TCP) was released in 2010 by Microsoft, and is now widely used (e.g. implemented in the Linux kernel).
+## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)
 
-Recall that the IP header has an ECN bit, and the router can enable this bit to indicate that it's congested. When the packet reaches the destination, the ack will also have the ECN bit set, and this tells the sender to slow down.
+Chúng ta đã thấy rằng mạng **datacenter** (trung tâm dữ liệu) có những ràng buộc bổ sung (ví dụ: nằm trong cùng một tòa nhà, thuộc sở hữu của một **operator** – nhà vận hành) so với các mạng đa dụng (**general-purpose networks**). Điều này có thể dẫn đến việc xuất hiện các **protocol** (giao thức) đặc thù, tận dụng các đặc điểm riêng của mạng. Trong phần này, chúng ta sẽ tìm hiểu các **TCP congestion control algorithm** (thuật toán kiểm soát tắc nghẽn TCP) có thể không hoạt động hiệu quả trên Internet nói chung, nhưng lại hiệu quả trong bối cảnh datacenter. Đây là một lĩnh vực nghiên cứu và phát triển đang rất sôi động.
 
-In DCTCP, routers will enable the ECN bit when the queue length exceeds some threshold. This allows senders to detect and adapt to congestion earlier (as the queue is filling up, before the queue gets totally full).
+Trước tiên, cần trả lời: Điều gì khiến kiểm soát tắc nghẽn trong datacenter khác biệt?
 
-In response to congestion, the sender reduces the rate in proportion to the number of packets with ECN markings. This allows the sender to adapt to congestion more gently. Instead of binary decision (congestion or no congestion), the sender can detect that some congestion might be happening, and slightly decrease the rate to compensate.
+Nhớ rằng **packet delay** (độ trễ gói tin) bao gồm:  
+- **Transmission delay** (độ trễ truyền): thời gian để phát tín hiệu bit lên đường truyền, phụ thuộc vào **bandwidth** (băng thông).  
+- **Propagation delay** (độ trễ lan truyền): thời gian để bit di chuyển qua đường truyền.  
+- **Queuing delay** (độ trễ hàng đợi).
 
-The ECN bit is not very effective in the wide-area Internet because not all routers support it. However, in a datacenter, the operator controls all the switches and can have them all toggle the ECN in a consistent way. In practice, implementing DCTCP at hosts and routers is a relatively small change.
+Trong datacenter, transmission delay thường rất nhỏ (vì có các liên kết tốc độ cao 10 Gbps). Propagation delay cũng nhỏ (vì tất cả server nằm trong cùng tòa nhà). Do đó, queuing delay thường là nguồn gây trễ chính. Ngược lại, trên Internet diện rộng (**wide-area Internet**), propagation delay có thể lớn hơn hàng bậc độ lớn (ví dụ: packet phải đi xuyên quốc gia) và thường là nguyên nhân chính gây trễ.
 
-To measure how DCTCP performs, we can measure **flow completion time (FCT)**, which measures the time between the first byte being sent and the last byte being received. As a benchmark, the ideal FCT is the completion time if we used an omniscient scheduler that had global knowledge of the entire network and all connections. The scheduler could then use that knowledge to optimally schedule flows and allocate bandwidth to flows.
+Nhớ rằng TCP congestion control cố tình làm đầy hàng đợi cho đến khi packet bị mất (phát hiện tắc nghẽn bằng cách kiểm tra mất gói). Các nhà thiết kế TCP ban đầu không tính đến bối cảnh datacenter, nơi queuing delay có thể ảnh hưởng lớn hơn nhiều đến hiệu năng.
+
+Vấn đề hàng đợi lớn càng nghiêm trọng hơn trong datacenter vì, khác với Internet diện rộng, hầu hết kết nối trong datacenter thuộc một trong hai loại:  
+- **Mice**: kết nối ngắn, nhạy cảm với độ trễ. Ví dụ: truy vấn tìm kiếm web và trang kết quả chỉ chứa lượng dữ liệu rất nhỏ, nhưng cần trả kết quả cho người dùng thật nhanh.  
+- **Elephants**: kết nối lớn, nhạy cảm với thông lượng (**throughput**). Ví dụ: sao lưu dữ liệu từ server này sang server khác cần kết nối dài, truyền lượng dữ liệu lớn với throughput cao.
+
+Nếu chạy TCP congestion control với cả hai loại kết nối này, các elephant sẽ tăng tốc độ cho đến khi hàng đợi đầy. Khi đó, các mice đến sau sẽ bị kẹt trong hàng đợi, gây trễ.
+
+Để tối ưu hiệu năng cho các loại kết nối này, thuật toán kiểm soát tắc nghẽn trong datacenter phải tránh làm đầy hàng đợi. Nhiều giải pháp đặc thù cho datacenter đã được phát triển trong những năm gần đây.
+
+Ví dụ: **BBR** được Google phát hành năm 2016. Thay vì phát hiện tắc nghẽn bằng cách kiểm tra mất gói (yêu cầu hàng đợi đầy), BBR phát hiện tắc nghẽn bằng cách kiểm tra **packet delay**.
+
+---
+
+## **DCTCP: Phản hồi từ Router** (DCTCP: Feedback from Routers)
+
+**DCTCP** (Datacenter TCP) được Microsoft phát hành năm 2010 và hiện được sử dụng rộng rãi (ví dụ: đã được triển khai trong **Linux kernel**).
+
+Nhớ rằng **IP header** có một **ECN bit** (Explicit Congestion Notification), và **router** có thể bật bit này để báo hiệu đang tắc nghẽn. Khi packet đến đích, **ACK** cũng sẽ có ECN bit được bật, báo cho bên gửi giảm tốc độ.
+
+Trong DCTCP, router sẽ bật ECN bit khi độ dài hàng đợi vượt quá một ngưỡng nhất định. Điều này cho phép bên gửi phát hiện và thích ứng với tắc nghẽn sớm hơn (khi hàng đợi đang đầy dần, trước khi đầy hoàn toàn).
+
+Khi phát hiện tắc nghẽn, bên gửi giảm tốc độ **tỷ lệ thuận** với số lượng packet có ECN bit được đánh dấu. Điều này giúp điều chỉnh tốc độ nhẹ nhàng hơn. Thay vì quyết định nhị phân (có hoặc không tắc nghẽn), bên gửi có thể nhận biết mức độ tắc nghẽn và giảm tốc độ một chút để bù.
+
+ECN bit không hiệu quả trên Internet diện rộng vì không phải tất cả router đều hỗ trợ. Tuy nhiên, trong datacenter, operator kiểm soát toàn bộ switch và có thể cấu hình chúng bật ECN một cách đồng bộ. Trên thực tế, triển khai DCTCP tại host và router chỉ cần thay đổi nhỏ.
+
+Để đo hiệu năng của DCTCP, ta có thể đo **Flow Completion Time (FCT)** – thời gian từ khi byte đầu tiên được gửi đến khi byte cuối cùng được nhận. Chuẩn lý tưởng là thời gian hoàn thành nếu dùng một **omniscient scheduler** (bộ lập lịch toàn tri) có kiến thức toàn cục về toàn bộ mạng và tất cả kết nối, để lập lịch và phân bổ băng thông tối ưu.
 
 <img width="500px" src="/assets/datacenter/6-031-fct-chart1.png">
 
-This graph shows the normalized FCT, which is a ratio of actual FCT to ideal FCT. This tells us how much worse we're doing, compared to the ideal congestion control algorithm. We can see that standard TCP congestion control performs 3x worse than ideal, and up to 10x worse than ideal if the load on the network is higher. By contrast, DCTCP performs significantly better than standard TCP congestion control. DCTCP connections are finishing much faster, with less queuing delay.
+Biểu đồ này cho thấy **normalized FCT** (FCT chuẩn hóa) – tỷ lệ giữa FCT thực tế và FCT lý tưởng. Nó cho biết chúng ta kém lý tưởng bao nhiêu. Có thể thấy TCP congestion control tiêu chuẩn kém hơn lý tưởng 3 lần, và kém tới 10 lần nếu tải mạng cao. Ngược lại, DCTCP hoạt động tốt hơn đáng kể, kết nối hoàn thành nhanh hơn nhiều với ít queuing delay hơn.
 
+---
 
-## pFabric: Packet Priorities
+## **pFabric: Ưu tiên gói tin** (Packet Priorities)
 
-We saw that the issue in datacenters is that mice can be trapped in queues behind elephants. What if we gave the mice some way to skip to the front of the queue so they could complete faster?
+Chúng ta đã thấy vấn đề trong datacenter là mice có thể bị kẹt sau elephant trong hàng đợi. Vậy nếu cho mice cách “vượt hàng” để hoàn thành nhanh hơn thì sao?
 
-To prioritize mice, we will assign a priority number to every packet. The priority is computed as the remaining flow size (number of unacknowledged bytes). Lower numbers have higher priority.
+Để ưu tiên mice, ta gán một **priority number** (số ưu tiên) cho mỗi packet. Số ưu tiên được tính dựa trên **remaining flow size** (kích thước luồng còn lại – số byte chưa được ACK). Số nhỏ hơn có ưu tiên cao hơn.
 
-With this system, mice packets will be high-priority (flow sizes are very low). Elephants will be low-priority, though the last few bytes in an elephant connection will be higher-priority. This has the effect of prioritizing connections that are almost-done (even if they're larger elephant connections).
+Với hệ thống này:  
+- Packet của mice sẽ có ưu tiên cao (flow size rất nhỏ).  
+- Elephant sẽ có ưu tiên thấp, nhưng vài byte cuối của kết nối elephant sẽ có ưu tiên cao hơn. Điều này giúp ưu tiên các kết nối gần hoàn tất (dù là elephant).
 
-To implement this idea, recall that IP packet headers have fields to indicate the priority of a packet. In pFabric, each packet carries a single priority number, and switches are modified so that they send the highest-priority packet. If the queue is full, the switch will drop the lowest-priority packet.
+Để triển khai, nhớ rằng **IP packet header** có trường chỉ định ưu tiên. Trong **pFabric**, mỗi packet mang một số ưu tiên, và switch được chỉnh sửa để gửi packet có ưu tiên cao nhất. Nếu hàng đợi đầy, switch sẽ drop packet có ưu tiên thấp nhất.
 
-With the priority system in place, senders can now safely transmit and retransmit packets at full line rate, without needing to adjust their rate for congestion control. Senders only need to reduce their rate in cases of extreme loss (e.g. timeout).
+Với hệ thống ưu tiên này, bên gửi có thể truyền và truyền lại packet ở **full line rate** (tốc độ tối đa của đường truyền) mà không cần điều chỉnh tốc độ vì tắc nghẽn. Chỉ khi mất gói nghiêm trọng (ví dụ: timeout) mới cần giảm tốc độ.
 
-If we look at the graph of FCTs again, we see that pFabric performance is even better than DCTCP, and is very close to ideal.
+Nếu xem lại biểu đồ FCT, ta thấy pFabric còn tốt hơn DCTCP và gần với lý tưởng.
 
 <img width="500px" src="/assets/datacenter/6-032-fct-chart2.png">
 
-Why does pFabric work so well? Elephants and mice travel together, and everybody is sending at full line rate, which ensures full utilization of the available bandwidth. We don't have to waste time on slow start. Also, we can avoid collapses because most of the packets in large elephants are low-priority. The priority system ensures that mice packets still get through the queue with low latency.
+Tại sao pFabric hoạt động tốt? Elephant và mice cùng truyền, mọi người đều gửi ở full line rate, đảm bảo tận dụng tối đa băng thông. Không mất thời gian cho **slow start**. Ngoài ra, tránh được sụp đổ vì hầu hết packet của elephant có ưu tiên thấp. Hệ thống ưu tiên đảm bảo packet của mice vẫn đi qua hàng đợi với độ trễ thấp.
 
-Implementing this system requires non-trivial changes at both switches and end hosts, and requires full control of both switches and end hosts. Switches need to implement a priority system, and senders need to replace their TCP implementation to send at full line rate. Still, pFabric is a good example of networks (switches) and end hosts cooperating to achieve good performance.
+Triển khai hệ thống này đòi hỏi thay đổi đáng kể ở cả switch và end host, và cần toàn quyền kiểm soát cả hai. Switch phải hỗ trợ hệ thống ưu tiên, và bên gửi phải thay thế TCP implementation để gửi ở full line rate. Dù vậy, pFabric là ví dụ điển hình về sự hợp tác giữa mạng (switch) và end host để đạt hiệu năng cao.
+
+---
