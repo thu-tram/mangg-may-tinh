@@ -1,73 +1,69 @@
-# Congestion Control Issues
+# Các vấn đề trong Điều khiển Tắc nghẽn (Congestion Control)
 
-## Confusing Corruption and Congestion
+## Nhầm lẫn giữa Hỏng gói tin (Corruption) và Tắc nghẽn (Congestion)
 
-TCP detects congestion by checking for packet loss, but congestion isn't the only reason packets would be lost. Packets could also be lost from congestion, and TCP cannot distinguish between loss due to corruption or congestion. If a packet is corrupted, TCP will still drop its rate, even if the network isn't congested.
+*TCP* phát hiện tắc nghẽn bằng cách kiểm tra tình trạng mất gói tin (*packet loss*), nhưng tắc nghẽn không phải là lý do duy nhất khiến gói tin bị mất. Gói tin cũng có thể bị mất do hỏng gói tin, và *TCP* không thể phân biệt được mất gói do hỏng hay do tắc nghẽn. Nếu một gói tin bị hỏng, *TCP* vẫn sẽ giảm tốc độ truyền, ngay cả khi mạng không bị tắc nghẽn.
 
-We can also see this in our equation, which related throughput to loss rate. The throughput and loss rate are inversely proportional, even for non-congestion losses. The equation can be helpful for estimating how a lossy link (e.g. a wireless link that frequently corrupts packets) would affect TCP.
+Chúng ta cũng có thể thấy điều này trong phương trình liên hệ giữa *throughput* (thông lượng) và tỷ lệ mất gói (*loss rate*). *Throughput* và *loss rate* tỉ lệ nghịch với nhau, ngay cả đối với các trường hợp mất gói không do tắc nghẽn. Phương trình này hữu ích để ước lượng tác động của một đường truyền kém ổn định (*lossy link*, ví dụ: đường truyền không dây thường xuyên làm hỏng gói tin) đối với *TCP*.
 
+## Kết nối ngắn (Short Connections)
 
-## Short Connections
+Hầu hết các kết nối *TCP* trong thực tế tồn tại rất ngắn. 50% số kết nối truyền ít hơn 1,5 KB dữ liệu, và 80% số kết nối truyền ít hơn 100 KB. Rất ít gói tin (có thể chỉ một gói) được gửi trong các kết nối này.
 
-Most TCP connections in real life are very short-lived. 50% of connections send fewer than 1.5 KB, and 80% of connections send less than 100 KB. Very few packets (maybe only one) are sent during these connections.
-
-Suppose we had a connection where the sender only had 3 packets to send. What would TCP congestion control do? We'd start with window size 1 and send the first packet. Then, we'd wait for the ack, increase the window size to 2, and send the remaining two packets. Then, we'd wait for two more acks, and finish.
+Giả sử chúng ta có một kết nối mà phía gửi chỉ có 3 gói tin cần gửi. *TCP congestion control* (điều khiển tắc nghẽn trong TCP) sẽ làm gì? Chúng ta bắt đầu với kích thước cửa sổ (*window size*) là 1 và gửi gói tin đầu tiên. Sau đó, chờ *ack* (thông báo xác nhận), tăng kích thước cửa sổ lên 2, và gửi hai gói tin còn lại. Tiếp theo, chờ thêm hai *ack* nữa, và hoàn tất.
 
 <img width="400px" src="../assets/transport/3-091-short-flow.png">
 
-This connection took two RTTs to send 3 packets, resulting in an incredibly low throughput (1.5 packets per RTT).
+Kết nối này mất hai *RTT* (Round-Trip Time – thời gian khứ hồi) để gửi 3 gói tin, dẫn đến *throughput* cực thấp (1,5 gói tin mỗi *RTT*).
 
-More generally, these short connections never leave the slow-start phase, and never reach their fair share of bandwidth. This causes short connections to suffer from unnecessarily long transfer times.
+Nói chung, các kết nối ngắn này không bao giờ thoát khỏi giai đoạn *slow-start* (khởi động chậm), và không bao giờ đạt được phần *bandwidth* (băng thông) công bằng của mình. Điều này khiến các kết nối ngắn phải chịu thời gian truyền tải dài không cần thiết.
 
-Another problem with short connections is handling loss. Recall that we detect loss when there are 3 duplicate acks, but in a short connection, we might not have enough packets to trigger these duplicate acks. For example, if we had 4 packets to send, and we lost the second packet, we'd never get 3 duplicate acks. Instead, we'd have to wait for the timeout to trigger. At typical real-world timeout values of roughly 500ms, this can also cause short connections to take unnecessarily long.
+Một vấn đề khác với kết nối ngắn là xử lý mất gói. Hãy nhớ rằng chúng ta phát hiện mất gói khi có 3 *duplicate acks* (gói xác nhận trùng lặp), nhưng trong một kết nối ngắn, có thể không đủ gói tin để kích hoạt 3 *duplicate acks*. Ví dụ, nếu chúng ta có 4 gói tin cần gửi, và mất gói thứ hai, chúng ta sẽ không bao giờ nhận được 3 *duplicate acks*. Thay vào đó, chúng ta phải chờ *timeout* (hết thời gian chờ) để kích hoạt. Với giá trị *timeout* thực tế khoảng 500ms, điều này cũng khiến kết nối ngắn mất nhiều thời gian hơn cần thiết.
 
-How can we fix both of these problems? One partial fix is to start with a higher initial window (e.g. 10 packets instead of 1). Now, connections with 10 or fewer packets can just send all the data at the start of the connection.
+Làm thế nào để khắc phục cả hai vấn đề này? Một giải pháp một phần là bắt đầu với *initial window* (cửa sổ khởi tạo) lớn hơn (ví dụ: 10 gói thay vì 1). Khi đó, các kết nối có 10 gói tin hoặc ít hơn có thể gửi toàn bộ dữ liệu ngay từ đầu kết nối.
 
+## TCP làm đầy hàng đợi (Queues)
 
-## TCP Fills Up Queues
+*TCP* phát hiện tắc nghẽn bằng cách dựa vào mất gói, và thuật toán *congestion control* cố tình tăng tốc độ truyền cho đến khi gây ra mất gói. Để gây ra mất gói, các hàng đợi (*queues*) phải đầy. Điều này có nghĩa là *TCP* tạo ra độ trễ xếp hàng (*queuing delay*) trên toàn mạng, và độ trễ này ảnh hưởng đến tất cả mọi người trong mạng.
 
-TCP detects congestion using loss, and the congestion control algorithm deliberately increases the rate until triggering loss. In order to trigger loss, queues need to fill up. This means that TCP introduces queuing delays throughout the network, and the delays affect everybody in the network.
+Giả sử chúng ta có một kết nối tải nặng truyền một tệp 10 GB, và sau đó, chúng ta bắt đầu một kết nối nhỏ chỉ truyền một gói tin. Cả hai kết nối chia sẻ cùng một đường truyền nghẽn cổ chai (*bottleneck link*). Kết nối tải nặng sẽ tăng tốc độ cho đến khi hàng đợi tại đường truyền nghẽn cổ chai đầy. Lúc này, khi kết nối nhỏ bắt đầu, nó sẽ phải chờ trong hàng đợi, phía sau các gói tin của kết nối tải nặng.
 
-Suppose we had one heavy-duty connection transferring a 10 GB file, and later, we start a small connection transferring a single packet. Both the connections share the same bottleneck link. The heavy-duty connection will increase its rate until the bottleneck link's queue fills up. Now, when the small connection starts, it is stuck waiting in the queue, behind the heavy-duty connection packets.
+Vấn đề này trở nên tồi tệ hơn nếu *router* giữ hàng đợi cực lớn. Việc *router* có bộ nhớ quá lớn cho hàng đợi dài được gọi là **bufferbloat**. Một ví dụ về *bufferbloat* xảy ra ở các *home router* (router gia đình), vốn có thể có hàng đợi rất lớn nhưng chỉ có rất ít kết nối (chỉ các kết nối trong nhà bạn) sử dụng hàng đợi đó. Khi đó, bất kỳ kết nối nào bạn tạo ra sẽ gây ra độ trễ xếp hàng lớn cho các kết nối khác.
 
-This problem is made worse if routers keep extremely large queues. Routers having excessive memory for long queues is called **bufferbloat**. An example of bufferbloat occurs in home routers, which might have a huge queue, but very few connections (only the ones in your home) using that queue. Now, any connections you make will cause large queuing delays for other connections.
-
-To avoid queues filling up, we could find a way to measure congestion that doesn't involve deliberately triggering losses. In particular, we could detect congestion when the RTT starts increasing, which indicates delay. This is the idea behind Google's recent BBR algorithm (2016). The sender learns its minimum RTT, and decreases its rate if it starts noticing the RTT exceeding the minimum.
+Để tránh việc hàng đợi bị đầy, chúng ta có thể tìm cách đo lường tắc nghẽn mà không cần cố tình gây mất gói. Cụ thể, chúng ta có thể phát hiện tắc nghẽn khi *RTT* bắt đầu tăng, điều này cho thấy có độ trễ. Đây là ý tưởng đằng sau thuật toán *BBR* của Google (2016). Phía gửi sẽ học được *RTT* tối thiểu của mình, và giảm tốc độ nếu nhận thấy *RTT* vượt quá giá trị tối thiểu.
 
 <img width="600px" src="../assets/transport/3-092-delay-based-taxonomy.png">
 
+## Gian lận (Cheating)
 
-## Cheating
+Không có gì bắt buộc phía gửi phải tuân theo thuật toán *TCP congestion control*. Phía gửi có thể gian lận để giành được phần *bandwidth* lớn hơn một cách không công bằng.
 
-There is nothing enforcing that senders have to follow the TCP congestion control algorithm. Senders could cheat to get an unfairly large share of the bandwidth.
-
-For example, a sender could increase the window faster (e.g. +2 every RTT, instead of +1). If we applied our graphical model to one cheating sender and one honest sender, AIMD updates would actually converge on a bad fairness line where the cheating sender gets twice the bandwidth of the honest sender.
+Ví dụ, một phía gửi có thể tăng kích thước cửa sổ nhanh hơn (ví dụ: +2 mỗi *RTT* thay vì +1). Nếu áp dụng mô hình đồ thị của chúng ta cho một phía gửi gian lận và một phía gửi trung thực, các cập nhật *AIMD* (Additive Increase Multiplicative Decrease – Tăng cộng, giảm nhân) sẽ hội tụ về một đường công bằng xấu, nơi phía gửi gian lận nhận gấp đôi *bandwidth* của phía gửi trung thực.
 
 <img width="600px" src="../assets/transport/3-093-cheating-aimd.png">
 
-Many other ways to modify the protocol also exist, such as starting with very large initial congestion window.
+Có nhiều cách khác để sửa đổi giao thức, chẳng hạn như bắt đầu với *initial congestion window* rất lớn.
 
-In practice, because TCP is implemented in the operating system, in order to cheat, the sender would have to modify the code in their operating system, which the vast majority of Internet users don't do.
+Trong thực tế, vì *TCP* được triển khai trong hệ điều hành (*operating system*), để gian lận, phía gửi sẽ phải sửa đổi mã trong hệ điều hành của mình, điều mà phần lớn người dùng Internet không làm.
 
-If a small number of senders abuse the system, those senders will get more bandwidth. If a large number of senders abuse the system (e.g. Microsoft releases a version of Windows that abuses TCP), the millions of Windows users are still competing with each other, and it's unlikely that anybody will end up with more bandwidth.
+Nếu chỉ một số ít phía gửi lạm dụng hệ thống, họ sẽ nhận được nhiều *bandwidth* hơn. Nếu một số lượng lớn phía gửi lạm dụng hệ thống (ví dụ: Microsoft phát hành một phiên bản Windows lạm dụng *TCP*), hàng triệu người dùng Windows vẫn sẽ cạnh tranh với nhau, và khó có khả năng ai đó sẽ nhận được nhiều *bandwidth* hơn.
 
-Another way to cheat, without modifying TCP, is to open many connections. TCP only ensures that each connection gets a fair share. If a cheating sender opened 10 connections and an honest sender opened 1, the cheating sender would get 10 times more bandwidth. Many applications intentionally open more connections to improve bandwidth.
+Một cách khác để gian lận, mà không cần sửa đổi *TCP*, là mở nhiều kết nối. *TCP* chỉ đảm bảo rằng mỗi kết nối nhận được phần công bằng. Nếu một phía gửi gian lận mở 10 kết nối và một phía gửi trung thực mở 1 kết nối, phía gian lận sẽ nhận được gấp 10 lần *bandwidth*. Nhiều ứng dụng cố tình mở nhiều kết nối để cải thiện *bandwidth*.
 
-If cheating is possible, why hasn't the Internet suffered another congestion collapse? It turns out, researchers don't really know the answer either. One possibility is: cheaters who modify the congestion control algorithm might get an unfair share of bandwidth, but if they're still following the principles of congestion control (e.g. reducing rate when loss occurs), then they aren't overwhelming the network. By contrast, in the original 1980s congestion collapse, senders kept re-sending packets at high rates, with no notion of adjusting rate.
+Nếu gian lận là có thể, tại sao Internet chưa gặp lại sự cố sụp đổ tắc nghẽn (*congestion collapse*)? Hóa ra, các nhà nghiên cứu cũng không thực sự biết câu trả lời. Một khả năng là: những kẻ gian lận sửa đổi thuật toán *congestion control* có thể nhận được phần *bandwidth* không công bằng, nhưng nếu họ vẫn tuân theo các nguyên tắc của *congestion control* (ví dụ: giảm tốc độ khi mất gói), thì họ không làm quá tải mạng. Ngược lại, trong sự cố *congestion collapse* những năm 1980, phía gửi liên tục gửi lại gói tin với tốc độ cao, mà không hề điều chỉnh tốc độ.
 
-If cheating is possible, how much cheating occurs in practice? Again, we don't really know. It's hard to measure cheating (e.g. you don't know the windows being used at every sender).
+Nếu gian lận là có thể, thì trên thực tế có bao nhiêu gian lận xảy ra? Một lần nữa, chúng ta không thực sự biết. Rất khó để đo lường gian lận (ví dụ: bạn không biết kích thước *window* mà mỗi phía gửi đang sử dụng).
 
+## Điều khiển tắc nghẽn (Congestion Control) và Độ tin cậy (Reliability) gắn chặt với nhau
 
-## Congestion Control and Reliability are Intertwined
+Các cơ chế điều khiển tắc nghẽn (*congestion control*) và độ tin cậy (*reliability*) được liên kết chặt chẽ. Như chúng ta đã thấy, *congestion control* được triển khai bằng cách lấy mã của phần đảm bảo *TCP reliability* và chỉnh sửa một vài dòng mã.
 
-The mechanisms for congestion control and reliability are tightly coupled. As we saw, congestion control was implemented by taking the code for TCP reliability and tweaking a few lines of code.
+Chúng ta cũng có thể thấy sự phụ thuộc này ngay trong thuật toán. *Window* được cập nhật dựa trên *acks* và *timeouts* vì mã của phần *reliability* được viết để phản ứng với các sự kiện đó. Chúng ta phát hiện mất gói bằng *duplicate acks* vì phần triển khai *reliability* sử dụng *cumulative acks* (xác nhận cộng dồn).
 
-We can also see this dependence in the algorithm itself. The window is updated on acks and timeouts because the reliability code was written to respond to those events. We detect loss with duplicate acks because the reliability implementation uses cumulative acks.
+Việc kết hợp *reliability* và *congestion control* là một lựa chọn thiết kế. Một lợi ích là *congestion control* chỉ cần một bản vá mã nhỏ và có thể triển khai rộng rãi để ứng phó với sự cố *congestion collapse* (sụp đổ tắc nghẽn) trong những năm 1980. Tuy nhiên, kể từ đó, việc kết hợp hai tính năng này đã làm phức tạp quá trình phát triển các thuật toán. Ví dụ, nếu chúng ta muốn thay đổi điều gì đó trong thuật toán *congestion control*, rất có thể chúng ta cũng phải thay đổi mã của phần *reliability*. Hoặc nếu muốn thay đổi phần triển khai *reliability* (ví dụ: chuyển từ *cumulative acks* sang *full-information acks*), chúng ta cũng phải cập nhật *congestion control*.
 
-Combining reliability and congestion control is a design choice. One benefit is that congestion control was a small code patch that could be widely deployed in response to the 1980s congestion collapse. However, since then, the combination of the two features has complicated evolution of our algorithms. For example, if we wanted to change something about our congestion control algorithm, we'd likely have to change the code for reliability as well. Or, if we wanted to change the reliability implementation (e.g. change from cumulative to full-information acks), we'd have to update congestion control as well.
+Từ góc độ thiết kế, đây là một thất bại về tính mô-đun (*modularity*), chứ không phải về phân lớp (*layering*). *Congestion control* và *reliability* đang hoạt động ở đúng lớp trừu tượng (*transport layer* – tầng vận chuyển). Tuy nhiên, bên trong tầng vận chuyển, chúng ta chưa tách biệt rõ ràng các chức năng khác nhau thành các phần mã riêng biệt.
 
-From a design perspective, this is a failure of modularity, not layering. Congestion control and reliability are operating at the correct layer of abstraction (transport layer). However, within the transport layer, we haven't cleanly separated different functionality into different parts of our code.
+Bởi vì *congestion control* phụ thuộc vào *reliability*, nên rất khó để đạt được *congestion control* mà không có *reliability*. Một số ứng dụng (ví dụ: *video streaming* – truyền phát video) có thể không muốn *reliability*, nhưng vẫn muốn *congestion control*. Tuy nhiên, hiện không có cách nào để tắt *reliability* và chỉ giữ lại *congestion control*.
 
-Because congestion control relies on reliability, it's hard to achieve congestion control without reliability. Some applications (e.g. video streaming) might not want reliability, but still want congestion control. But there's no way to disable reliability and keep only congestion control.
-
-Likewise, it's hard to achieve reliability without congestion control. For example, if we had a lightweight connection that sent one packet every 10 minutes, we probably don't need congestion control for this connection. But we can't easily disable congestion control for only some connections.
+Tương tự, cũng khó để đạt được *reliability* mà không có *congestion control*. Ví dụ, nếu chúng ta có một kết nối nhẹ chỉ gửi một gói tin mỗi 10 phút, có lẽ không cần *congestion control* cho kết nối này. Nhưng chúng ta cũng không thể dễ dàng tắt *congestion control* chỉ cho một số kết nối nhất định.

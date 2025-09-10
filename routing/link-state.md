@@ -1,149 +1,149 @@
-# Link-State Protocols
+# Giao thức Trạng thái Liên kết (Link-State Protocols)
 
-## Introduction to Link-State Protocols
+## Giới thiệu về Giao thức Link-State
 
-Recall that there are different classes of routing protocols, depending on their underlying algorithm. In the previous section, we saw the distance-vector class of protocols. In this section, we'll discuss **link-state**, another major class of protocols.
+Hãy nhớ lại rằng có nhiều lớp *routing protocol* khác nhau, tùy thuộc vào thuật toán cơ bản của chúng. Trong phần trước, chúng ta đã tìm hiểu về lớp giao thức *distance-vector*. Trong phần này, chúng ta sẽ thảo luận về ***link-state*** (trạng thái liên kết), một lớp giao thức chính khác.
 
-Recall that protocols can also be classified as exterior gateway protocols (operating between networks) and interior gateway protocols (operating within networks). Like distance-vector, link-state protocols are usually interior gateway protocols.
+Cũng hãy nhớ lại rằng các giao thức cũng có thể được phân loại thành *exterior gateway protocols* (giao thức cổng ngoại vi) (hoạt động giữa các mạng) và *interior gateway protocols* (giao thức cổng nội vi) (hoạt động bên trong các mạng). Giống như *distance-vector*, các giao thức *link-state* thường là *interior gateway protocols*.
 
-IS-IS (Intermediate System to Intermediate System) and OSPF (Open Shortest Path First) are two major examples of link-state protocols. Both are widely deployed today.
-
-
-## Link-State Overview
-
-Distance-vector performed a distributed, cooperative computation. Each node computes its own piece of the solution, based on results computed by its neighbors. The computation across all nodes collectively forms the full solution. Each node only needs local information from its neighbors in the computation (nodes don't know the full network graph).
-
-By contrast, link-state protocols perform a local computation. Each node computes the full solution independently and from scratch, without using any computation results from neighbors. However, to do this, each node needs global information from all parts of the network.
-
-Link-state protocols in one sentence: Every router learns the full network graph, and then runs shortest-paths on the graph to populate the forwarding table.
-
-There are two major steps that we have to implement. First, the router needs to somehow learn the full network graph, including the state of every link (up or down), the cost of every link, and the location of every destination.
-
-Then, the router needs to run some algorithm on that graph to learn how to forward packets to every destination.
-
-We'll think about the second step first (shortest paths), then think about the first step (learning the graph).
+*IS-IS* (Intermediate System to Intermediate System - Hệ thống trung gian đến Hệ thống trung gian) và *OSPF* (Open Shortest Path First - Ưu tiên đường đi ngắn nhất) là hai ví dụ chính về các giao thức *link-state*. Cả hai đều được triển khai rộng rãi ngày nay.
 
 
-## Computing Paths
+## Tổng quan về Link-State
 
-Once the router has a global view of the network, it can easily compute paths through the network using some shortest-path algorithm.
+*Distance-vector* thực hiện một phép tính phân tán, hợp tác. Mỗi nút tự tính toán phần giải pháp của riêng mình, dựa trên kết quả được tính toán bởi các láng giềng của nó. Phép tính trên tất cả các nút cùng nhau tạo thành giải pháp đầy đủ. Mỗi nút chỉ cần thông tin cục bộ từ các láng giềng của nó trong phép tính (các nút không biết toàn bộ *network graph* (đồ thị mạng)).
 
-In particular, the router should compute the shortest path to every destination. Then, for each destination, the router records the next hop along the shortest path, just like in distance-vector protocols. The rest of the path is not needed during forwarding.
+Ngược lại, các giao thức *link-state* thực hiện một phép tính cục bộ. Mỗi nút tự tính toán giải pháp đầy đủ một cách độc lập và từ đầu, mà không sử dụng bất kỳ kết quả tính toán nào từ các láng giềng. Tuy nhiên, để làm được điều này, mỗi nút cần thông tin toàn cục từ tất cả các phần của mạng.
 
-Many single-source shortest-path algorithms can be used in this step. For example, the Bellman-Ford algorithm (serial version, with none of the distance-vector changes) and Dijkstra's algorithm both efficiently compute the shortest path from a single source to all destinations. We could also consider alternate solutions like breadth-first search, or algorithms that can run in parallel.
+Giao thức *link-state* trong một câu: Mọi *router* tìm hiểu toàn bộ *network graph*, và sau đó chạy thuật toán tìm *shortest-paths* (đường đi ngắn nhất) trên đồ thị để điền vào *forwarding table*.
 
-One thing we have to be careful about is inconsistencies between routers.
+Có hai bước chính mà chúng ta phải thực hiện. Đầu tiên, *router* cần bằng cách nào đó tìm hiểu toàn bộ *network graph*, bao gồm trạng thái của mọi liên kết (hoạt động hay không), chi phí của mọi liên kết, và vị trí của mọi đích đến.
+
+Sau đó, *router* cần chạy một thuật toán nào đó trên đồ thị đó để tìm hiểu cách *forwarding* các gói tin đến mọi đích đến.
+
+Chúng ta sẽ suy nghĩ về bước thứ hai trước (*shortest-paths*), sau đó suy nghĩ về bước thứ nhất (tìm hiểu đồ thị).
+
+
+## Tính toán Đường đi (Computing Paths)
+
+Một khi *router* có cái nhìn toàn cục về mạng, nó có thể dễ dàng tính toán các đường đi qua mạng bằng một số *shortest-path algorithm* (thuật toán tìm đường đi ngắn nhất).
+
+Cụ thể, *router* nên tính toán đường đi ngắn nhất đến mọi đích. Sau đó, đối với mỗi đích, *router* ghi lại *next hop* dọc theo đường đi ngắn nhất, giống như trong các giao thức *distance-vector*. Phần còn lại của đường đi không cần thiết trong quá trình *forwarding*.
+
+Nhiều *shortest-path algorithm* từ một nguồn duy nhất có thể được sử dụng trong bước này. Ví dụ, *Bellman-Ford algorithm* (thuật toán Bellman-Ford) (phiên bản tuần tự, không có các thay đổi của *distance-vector*) và *Dijkstra's algorithm* (thuật toán Dijkstra) đều tính toán hiệu quả đường đi ngắn nhất từ một nguồn duy nhất đến tất cả các đích. Chúng ta cũng có thể xem xét các giải pháp thay thế như *breadth-first search* (tìm kiếm theo chiều rộng), hoặc các thuật toán có thể chạy song song.
+
+Một điều chúng ta phải cẩn thận là sự không nhất quán giữa các *router*.
 
 <img width="900px" src="../assets/routing/2-090-link-state-loop.png">
 
-Remember, every router is computing the shortest paths independently, and deciding on a next hop accordingly. Each router only controls its own next hop, and cannot influence what the next hop will do. 
+Hãy nhớ rằng, mọi *router* đều tính toán các đường đi ngắn nhất một cách độc lập, và quyết định một *next hop* tương ứng. Mỗi *router* chỉ kiểm soát *next hop* của chính nó, và không thể ảnh hưởng đến những gì *next hop* sẽ làm.
 
-For example, suppose R3 computes this shortest path to A, and decides to forward packets to R2. Then, R2 computes this shortest path to A, and decides to forward packets to R3. Both routers computed valid shortest paths, but their decisions resulted in a routing loop.
+Ví dụ, giả sử R3 tính toán đường đi ngắn nhất này đến A, và quyết định *forwarding* các gói tin đến R2. Sau đó, R2 tính toán đường đi ngắn nhất này đến A, và quyết định *forwarding* các gói tin đến R3. Cả hai *router* đều tính toán các đường đi ngắn nhất hợp lệ, nhưng quyết định của chúng đã dẫn đến một *routing loop* (vòng lặp định tuyến).
 
-To avoid this problem, we have to make sure that all routers are producing forwarding decisions that are compatible with each other. What are the requirements for all routers to produce compatible decisions?
+Để tránh vấn đề này, chúng ta phải đảm bảo rằng tất cả các *router* đang đưa ra các quyết định *forwarding* tương thích với nhau. Các yêu cầu để tất cả các *router* đưa ra các quyết định tương thích là gì?
 
-1. All routers have to agree on the network topology. Suppose a link failed, but only one router knows about it. Then different routers are computing paths on totally different graphs, and might produce inconsistent results.
+1. Tất cả các *router* phải đồng ý về *network topology* (cấu trúc liên kết mạng). Giả sử một liên kết bị lỗi, nhưng chỉ có một *router* biết về nó. Khi đó, các *router* khác nhau đang tính toán các đường đi trên các đồ thị hoàn toàn khác nhau, và có thể tạo ra các kết quả không nhất quán.
 
-2. All routers are finding least-cost paths through the path. If one router preferred more expensive paths for some reason, we would get inconsistent results.
+2. Tất cả các *router* đang tìm các đường đi chi phí thấp nhất qua đường đi. Nếu một *router* ưu tiên các đường đi đắt hơn vì một lý do nào đó, chúng ta sẽ nhận được kết quả không nhất quán.
 
-3. All costs are positive. Negative costs could produce negative-weight cycles.
+3. Tất cả các chi phí đều là số dương. Chi phí âm có thể tạo ra các chu trình có trọng số âm.
 
-4. All routers use the same tiebreaking rules. If we assumed shortest paths are unique, then the previous two conditions are sufficient to ensure everybody picks the same path. This condition additionally ensures that if there are multiple paths tied as the shortest, everyone chooses the same one.
+4. Tất cả các *router* sử dụng cùng một quy tắc phá vỡ thế hòa (tiebreaking rules). Nếu chúng ta giả định rằng các đường đi ngắn nhất là duy nhất, thì hai điều kiện trước đó là đủ để đảm bảo mọi người đều chọn cùng một đường đi. Điều kiện này còn đảm bảo thêm rằng nếu có nhiều đường đi có cùng chi phí ngắn nhất, mọi người đều chọn cùng một đường.
 
-With these four conditions, routers could use different shortest-path algorithms, and they would still all compute the same paths and produce compatible decisions. In practice, though, routers usually all use the same algorithm for simplicity.
+Với bốn điều kiện này, các *router* có thể sử dụng các *shortest-path algorithm* khác nhau, và chúng vẫn sẽ cùng tính toán ra các đường đi giống nhau và đưa ra các quyết định tương thích. Tuy nhiên, trên thực tế, các *router* thường sử dụng cùng một thuật toán để đơn giản.
 
 
-## Learning About Graph Topology
+## Tìm hiểu về Cấu trúc Liên kết Đồ thị (Learning About Graph Topology)
 
-How do routers learn about the full network graph? First, we need to learn who our neighbors are (both routers and destinations). Then, we need to distribute that information through the whole network. We also need routers to glue together all the information it receives into a graph topology.
+Làm thế nào các *router* tìm hiểu về toàn bộ *network graph*? Đầu tiên, chúng ta cần tìm hiểu ai là láng giềng của mình (cả *router* và đích đến). Sau đó, chúng ta cần phân phối thông tin đó ra toàn bộ mạng. Chúng ta cũng cần các *router* ghép nối tất cả thông tin mà nó nhận được thành một *network topology*.
 
-To discover neighbors, every router sends a hello message to all of its neighbors.
+Để khám phá các láng giềng, mọi *router* gửi một *hello message* (tin nhắn hello) đến tất cả các láng giềng của nó.
 
 <img width="600px" src="../assets/routing/2-091-hellos.png">
 
-For example, in this network, R2 sends to both of its neighbors: "Hello, I'm R2." Now, R1 knows that it's connected to R2, and R3 also knows that it's connected to R2. Similarly, R1 says hello to R2, so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also knows about R3.
+Ví dụ, trong mạng này, R2 gửi đến cả hai láng giềng của nó: "Xin chào, tôi là R2." Bây giờ, R1 biết rằng nó được kết nối với R2, và R3 cũng biết rằng nó được kết nối với R2. Tương tự, R1 gửi lời chào đến R2, vì vậy bây giờ R2 biết về R1. Tương tự, R3 gửi lời chào đến R2, vì vậy R2 cũng biết về R3.
 
-As a result, everybody now knows who their immediate neighbors are. Note that R1 does not know about R3, because R1 and R3 are not neighbors.
+Kết quả là, mọi người bây giờ đều biết ai là láng giềng ngay cạnh mình. Lưu ý rằng R1 không biết về R3, vì R1 và R3 không phải là láng giềng.
 
 <img width="900px" src="../assets/routing/2-092-after-hellos.png">
 
-We also want to know if links go down. To support this, we'll periodically re-send the hello message. If a neighbor stops saying hello (e.g. misses some number of hellos), we assume they disappeared.
+Chúng ta cũng muốn biết nếu các liên kết bị hỏng. Để hỗ trợ điều này, chúng ta sẽ định kỳ gửi lại *hello message*. Nếu một láng giềng ngừng gửi lời chào (ví dụ: bỏ lỡ một số lần gửi hello), chúng ta giả định rằng họ đã biến mất.
 
-Now that we know about our neighbors, we should announce that fact to everybody. To make a global announcement, we send the announcement to all of our neighbors. Also, if we ever receive an announcement, we should send it to all of our neighbors as well. This ensures that every message gets propagated throughout the network. This is known as **flooding** information across the network. If any information changes (e.g. a neighbor disappears), we should flood that information as well.
+Bây giờ chúng ta đã biết về các láng giềng của mình, chúng ta nên thông báo sự thật đó cho mọi người. Để đưa ra một thông báo toàn cục, chúng ta gửi thông báo đến tất cả các láng giềng của mình. Ngoài ra, nếu chúng ta nhận được một thông báo, chúng ta cũng nên gửi nó đến tất cả các láng giềng của mình. Điều này đảm bảo rằng mọi tin nhắn được lan truyền khắp mạng. Điều này được gọi là ***flooding*** (quảng bá) thông tin trên toàn mạng. Nếu có bất kỳ thông tin nào thay đổi (ví dụ: một láng giềng biến mất), chúng ta cũng nên *flooding* thông tin đó.
 
 <img width="800px" src="../assets/routing/2-093-flooding.png">
 
-We also need to make sure that messages don't get dropped. Otherwise, other routers might miss an update and compute paths on the wrong graph. To fix this problem, we use the same trick as we used in distance-vector, and periodically re-send the message. As long as the link is functioning, our message should get sent after enough tries.
+Chúng ta cũng cần đảm bảo rằng các tin nhắn không bị mất. Nếu không, các *router* khác có thể bỏ lỡ một bản cập nhật và tính toán các đường đi trên đồ thị sai. Để khắc phục vấn đề này, chúng ta sử dụng cùng một thủ thuật mà chúng ta đã sử dụng trong *distance-vector*, và định kỳ gửi lại tin nhắn. Miễn là liên kết hoạt động, tin nhắn của chúng ta sẽ được gửi đi sau đủ số lần thử.
 
 
-## Avoiding Infinite Flooding
+## Tránh Quảng bá Vô hạn (Avoiding Infinite Flooding)
 
-We have to be careful about how we flood announcements through the network.
+Chúng ta phải cẩn thận về cách chúng ta *flooding* các thông báo qua mạng.
 
 <img width="400px" src="../assets/routing/2-094-flood-problem1.png">
 
-R2 learns some information and announces it to its neighbor R3. When R3 receives this information, it makes an announcement to its neighbor R2. When R2 receives this information, it makes an announcement to its neighbor R3. These two routers are stuck making announcements to each other, wasting bandwidth, even though there's no new information.
+R2 biết được một số thông tin và thông báo cho láng giềng R3 của nó. Khi R3 nhận được thông tin này, nó lại thông báo cho láng giềng R2 của mình. Khi R2 nhận được thông tin này, nó lại thông báo cho láng giềng R3 của mình. Hai *router* này bị kẹt trong việc thông báo cho nhau, lãng phí *bandwidth*, mặc dù không có thông tin mới nào.
 
-Note that this is not the same as periodically re-sending messages for reliability. For reliability, we might re-send a message once every 5 seconds. In this infinite loop, the routers are receiving and re-sending duplicate announcements at maximum rate (e.g. millions of times per second).
+Lưu ý rằng điều này không giống như việc gửi lại tin nhắn định kỳ để đảm bảo độ tin cậy. Để đảm bảo độ tin cậy, chúng ta có thể gửi lại một tin nhắn 5 giây một lần. Trong vòng lặp vô hạn này, các *router* đang nhận và gửi lại các thông báo trùng lặp với tốc độ tối đa (ví dụ: hàng triệu lần mỗi giây).
 
-The problem is even worse if our network contains a loop:
+Vấn đề còn tồi tệ hơn nếu mạng của chúng ta chứa một *loop*:
 
 <img width="300px" src="../assets/routing/2-095-flood-problem2.png">
 
-Time step 1: R1 broadcasts to R2 and R3.
+Bước thời gian 1: R1 quảng bá đến R2 và R3.
 
-Time step 2: R2 broadcasts to R1 and R3. R3 broadcasts to R1 and R2.
+Bước thời gian 2: R2 quảng bá đến R1 và R3. R3 quảng bá đến R1 và R2.
 
-Time step 3: R1, R1, R2, and R3 all make broadcasts to (R2, R3), (R2, R3), (R1, R3), and (R1, R2) respectively. Note that R1 received two messages at time step 2, so it makes two broadcasts.
+Bước thời gian 3: R1, R1, R2, và R3 tất cả đều thực hiện quảng bá đến (R2, R3), (R2, R3), (R1, R3), và (R1, R2) tương ứng. Lưu ý rằng R1 đã nhận được hai tin nhắn ở bước thời gian 2, vì vậy nó thực hiện hai lần quảng bá.
 
-Time step 4: R1, R1, R2, R2, R2, R3, R3, R3 all make broadcasts to (R2, R3), (R2, R3), (R1, R3), (R1, R3), (R1, R3), (R1, R2), (R1, R2), (R1, R2), respectively.
+Bước thời gian 4: R1, R1, R2, R2, R2, R3, R3, R3 tất cả đều thực hiện quảng bá đến (R2, R3), (R2, R3), (R1, R3), (R1, R3), (R1, R3), (R1, R2), (R1, R2), (R1, R2), tương ứng.
 
-Time step 5: R1 makes 6 broadcasts, R2 makes 5 broadcasts, R3 makes 5 broadcasts.
+Bước thời gian 5: R1 thực hiện 6 lần quảng bá, R2 thực hiện 5 lần quảng bá, R3 thực hiện 5 lần quảng bá.
 
 <img width="900px" src="../assets/routing/2-096-flood-problem3.png">
 
-All the new information was learned at time step 1. But, everybody keeps re-sending the same information, and duplicate announcements multiply exponentially and eventually overwhelm the network.
+Tất cả thông tin mới đã được biết đến ở bước thời gian 1. Nhưng, mọi người vẫn tiếp tục gửi lại cùng một thông tin, và các thông báo trùng lặp nhân lên theo cấp số nhân và cuối cùng làm quá tải mạng.
 
-To fix this problem, we need to make sure that routers don't send the same information twice.
+Để khắc phục vấn đề này, chúng ta cần đảm bảo rằng các *router* không gửi cùng một thông tin hai lần.
 
-When we see a message for the first time, send that message to all neighbors, and write down that we've seen that message. (We have to write down this message anyway, since we're trying to use this information to build up the network graph.) Then, if we ever see that same message again, don't send it a second time.
+Khi chúng ta thấy một tin nhắn lần đầu tiên, hãy gửi tin nhắn đó đến tất cả các láng giềng, và ghi lại rằng chúng ta đã thấy tin nhắn đó. (Dù sao chúng ta cũng phải ghi lại tin nhắn này, vì chúng ta đang cố gắng sử dụng thông tin này để xây dựng *network graph*.) Sau đó, nếu chúng ta thấy lại cùng một tin nhắn đó, đừng gửi nó lần thứ hai.
 
-To uniquely identify a message, we can introduce a timestamp (or some other counter that's unique to every message).
+Để xác định duy nhất một tin nhắn, chúng ta có thể giới thiệu một *timestamp* (dấu thời gian) (hoặc một bộ đếm nào đó khác là duy nhất cho mỗi tin nhắn).
 
-Now, if we go back to the example from earlier:
+Bây giờ, nếu chúng ta quay lại ví dụ từ trước:
 
 <img width="500px" src="../assets/routing/2-097-flood-solution.png">
 
-Time step 1: R1 broadcasts to R2 and R3.
+Bước thời gian 1: R1 quảng bá đến R2 và R3.
 
-Time step 2: R2 broadcasts to R1 and R3. R3 broadcasts to R1 and R2.
+Bước thời gian 2: R2 quảng bá đến R1 và R3. R3 quảng bá đến R1 và R2.
 
-Time step 3: At this point, R1, R2, and R3 have all seen the message before, so they don't send it again. No further duplicate messages are sent.
+Bước thời gian 3: Tại thời điểm này, R1, R2, và R3 đều đã thấy tin nhắn này trước đó, vì vậy chúng không gửi lại nó. Không có thêm tin nhắn trùng lặp nào được gửi đi.
 
-Note that duplicate messages are still sometimes sent with this modification, but we've avoided duplicate messages being sent infinitely.
+Lưu ý rằng các tin nhắn trùng lặp đôi khi vẫn được gửi với sự sửa đổi này, nhưng chúng ta đã tránh được việc các tin nhắn trùng lặp được gửi đi vô hạn.
 
 
-## Convergence
+## Sự hội tụ (Convergence)
 
-Link-state converges on a valid least-cost routing state after every router learns the full network topology and computes its forwarding table accordingly. Convergence relies on every node using the same graph. After convergence, the routing state remains valid as long as the network topology doesn't change.
+*Link-state* *converges* (hội tụ) về một *routing state* *least-cost* hợp lệ sau khi mọi *router* tìm hiểu toàn bộ *network topology* và tính toán *forwarding table* của nó tương ứng. *Convergence* dựa trên việc mọi nút sử dụng cùng một đồ thị. Sau khi *convergence*, *routing state* vẫn hợp lệ miễn là *network topology* không thay đổi.
 
-As soon as the network topology changes, it can take some time for the network to converge again. We have to wait for the change to be detected (e.g. a link failure). Then, we have to wait for the new information to be propagated through the network, and for routers to re-compute forwarding table entries. While the network is converging, we might be in an invalid routing state, because some routers are using the old graph, while others are using the updated graph. The routing state could have dead-ends, loops, or paths that are not least-cost.
+Ngay khi *network topology* thay đổi, có thể mất một khoảng thời gian để mạng *converge* trở lại. Chúng ta phải đợi cho sự thay đổi được phát hiện (ví dụ: một liên kết bị lỗi). Sau đó, chúng ta phải đợi thông tin mới được lan truyền qua mạng, và để các *router* tính toán lại các mục trong *forwarding table*. Trong khi mạng đang *converging*, chúng ta có thể ở trong một *routing state* không hợp lệ, bởi vì một số *router* đang sử dụng đồ thị cũ, trong khi những *router* khác đang sử dụng đồ thị đã được cập nhật. *Routing state* có thể có các *dead-ends*, *loops*, hoặc các đường đi không phải là *least-cost*.
 
 <img width="800px" src="../assets/routing/2-098-link-state-converge.png">
 
-For example, suppose the R3-A link has failed. R3 knows about this, but the other routers do not. R3 will forward packets to R1. However, R1 will still forward packets to R3.
+Ví dụ, giả sử liên kết R3-A đã bị lỗi. R3 biết về điều này, nhưng các *router* khác thì không. R3 sẽ *forwarding* các gói tin đến R1. Tuy nhiên, R1 vẫn sẽ *forwarding* các gói tin đến R3.
 
-Much of the complexity in link-state protocols is in the small details. To ensure faster convergence and avoid invalid routing as much as possible, we can make minor optimizations and adjustments in the protocol.
+Phần lớn sự phức tạp trong các giao thức *link-state* nằm ở những chi tiết nhỏ. Để đảm bảo *convergence* nhanh hơn và tránh *routing* không hợp lệ càng nhiều càng tốt, chúng ta có thể thực hiện các tối ưu hóa và điều chỉnh nhỏ trong giao thức.
 
 
-## Link-State vs. Distance-Vector
+## Link-State so với Distance-Vector
 
-What are some pros and cons of link-state protocols compared to distance-vector protocols?
+Một số ưu và nhược điểm của các giao thức *link-state* so với các giao thức *distance-vector* là gì?
 
-In distance-vector, when we receive an announcement, we don't necessarily know all the details about the path we're accepting. We have to trust whatever our neighbor claims in the announcement. By contrast, in link-state, we know the full topology of the graph, so we know more about the paths that packets are taking.
+Trong *distance-vector*, khi chúng ta nhận được một thông báo, chúng ta không nhất thiết biết tất cả các chi tiết về đường đi mà chúng ta đang chấp nhận. Chúng ta phải tin vào bất cứ điều gì mà láng giềng của chúng ta tuyên bố trong thông báo. Ngược lại, trong *link-state*, chúng ta biết toàn bộ *topology* của đồ thị, vì vậy chúng ta biết nhiều hơn về các đường đi mà các gói tin đang đi.
 
-Depending on implementation, distance-vector could be slower to converge. If the network changes, we have to wait for our neighbor to recompute and readvertise a path, before we can update our forwarding table. Then, all of our neighbors have to wait for us, and so on. By contrast, in link-state, everybody can quickly flood the new information and recompute at the same time.
+Tùy thuộc vào việc triển khai, *distance-vector* có thể chậm hơn để *converge*. Nếu mạng thay đổi, chúng ta phải đợi láng giềng của mình tính toán lại và quảng cáo lại một đường đi, trước khi chúng ta có thể cập nhật *forwarding table* của mình. Sau đó, tất cả các láng giềng của chúng ta phải đợi chúng ta, và cứ thế tiếp tục. Ngược lại, trong *link-state*, mọi người có thể nhanh chóng *flooding* thông tin mới và tính toán lại cùng một lúc.
 
-Link-state protocols are good for small local networks, but don't scale well to the global Internet. In particular, link-state requires every router to know about the entire network. On the global Internet, operators might not want to reveal their network topology (e.g. where their routers are located, the bandwidth of their links) to competitors.
+Các giao thức *link-state* tốt cho các mạng cục bộ nhỏ, nhưng không mở rộng tốt cho Internet toàn cầu. Cụ thể, *link-state* yêu cầu mọi *router* phải biết về toàn bộ mạng. Trên Internet toàn cầu, các nhà khai thác có thể không muốn tiết lộ *network topology* của họ (ví dụ: vị trí của các *router* của họ, *bandwidth* của các liên kết của họ) cho các đối thủ cạnh tranh.
 
-In practice, most networks deploy a combination of distance-vector and link-state protocols.
+Trên thực tế, hầu hết các mạng đều triển khai một sự kết hợp của các giao thức *distance-vector* và *link-state*.

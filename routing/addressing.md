@@ -1,235 +1,235 @@
-# Addressing
+# Định địa chỉ (Addressing)
 
-## Scaling Routing
+## Mở rộng quy mô Định tuyến (Scaling Routing)
 
-So far, our forwarding table has one entry per destination. This won't scale to the entire Internet.
+Cho đến nay, *forwarding table* (bảng chuyển tiếp) của chúng ta có một mục cho mỗi đích đến. Điều này sẽ không thể mở rộng cho toàn bộ Internet.
 
-If we ran distance-vector on the entire Internet, we'd have to send an announcement for every host on the Internet. If we ran link-state on the entire Internet, every router would have to know the full Internet network graph. In both cases, if any host joins or leaves the Internet, we'd have to re-do computations to converge on a new routing state.
+Nếu chúng ta chạy giao thức *distance-vector* (vector khoảng cách) trên toàn bộ Internet, chúng ta sẽ phải gửi một thông báo cho mỗi máy chủ trên Internet. Nếu chúng ta chạy giao thức *link-state* (trạng thái liên kết) trên toàn bộ Internet, mỗi *router* (bộ định tuyến) sẽ phải biết toàn bộ đồ thị mạng Internet. Trong cả hai trường hợp, nếu bất kỳ máy chủ nào tham gia hoặc rời khỏi Internet, chúng ta sẽ phải thực hiện lại các phép tính để hội tụ về một trạng thái định tuyến mới.
 
-The trick to scale routing is how we address hosts. So far, we've called every host and router by some name (e.g. R1, R2, A, B), but in practice, we'll use a smarter addressing scheme.
+Bí quyết để mở rộng quy mô định tuyến nằm ở cách chúng ta định địa chỉ cho các máy chủ. Cho đến nay, chúng ta đã gọi mỗi máy chủ và *router* bằng một cái tên nào đó (ví dụ: R1, R2, A, B), nhưng trên thực tế, chúng ta sẽ sử dụng một lược đồ định địa chỉ thông minh hơn.
 
 <img width="750px" src="../assets/routing/2-099-scaling-routing.png">
 
 
-## IP Addressing
+## Định địa chỉ IP (IP Addressing)
 
-Recall that in our postal service analogy, we had different addressing schemes for different contexts. The mailman used a street address like 2551 Hearst Ave. The secretary inside the building used a room number like 413 Soda Hall. Addresses are assigned in some structured way. For example, all third-floor room number start with the digit 3, and all fourth-floor rooms number start with the digit 4.
+Hãy nhớ lại trong phép ví von về dịch vụ bưu chính, chúng ta đã có các lược đồ định địa chỉ khác nhau cho các bối cảnh khác nhau. Người đưa thư sử dụng địa chỉ đường phố như 2551 Hearst Ave. Người thư ký bên trong tòa nhà sử dụng số phòng như 413 Soda Hall. Địa chỉ được gán theo một cách có cấu trúc nào đó. Ví dụ, tất cả các số phòng ở tầng ba bắt đầu bằng chữ số 3, và tất cả các phòng ở tầng bốn bắt đầu bằng chữ số 4.
 
-Just like the postal system, the Internet uses different addressing schemes at each layer. In this section, we'll focus on IP addresses, which can be used for routing at Layer 3.
+Cũng giống như hệ thống bưu chính, Internet sử dụng các lược đồ định địa chỉ khác nhau ở mỗi lớp. Trong phần này, chúng ta sẽ tập trung vào *IP address* (địa chỉ IP), có thể được sử dụng để định tuyến ở Lớp 3.
 
-Every host on the network (e.g. your computer, Google's server) is assigned an IP address. For this section, you can assume every host has a unique IP address.
+Mỗi máy chủ trên mạng (ví dụ: máy tính của bạn, máy chủ của Google) được gán một *IP address*. Trong phần này, bạn có thể giả định rằng mỗi máy chủ có một *IP address* duy nhất.
 
-An **IP address** is a number that uniquely identifies a host. Just like the postal system, the number is chosen to contain some context about where the host is located.
+Một ***IP address*** là một con số định danh duy nhất cho một máy chủ. Giống như hệ thống bưu chính, con số này được chọn để chứa một số thông tin về nơi máy chủ được đặt.
 
-Note that IP addresses are not necessarily static. In the analogy, if you move to a different house, your address changes. Similarly, if your computer moves to a different location, it may be assigned a different IP address when it joins the network (and your old IP address will eventually expire).
+Lưu ý rằng *IP address* không nhất thiết phải tĩnh. Trong phép ví von, nếu bạn chuyển đến một ngôi nhà khác, địa chỉ của bạn sẽ thay đổi. Tương tự, nếu máy tính của bạn di chuyển đến một vị trí khác, nó có thể được gán một *IP address* khác khi tham gia vào mạng (và *IP address* cũ của bạn cuối cùng sẽ hết hạn).
 
-The length of an IP address depends on the version of IP being used. IPv4 addresses are 32 bits, and IPv6 addresses are 128 bits. The routing concepts are similar for both versions, but we'll use IPv4 when possible, because smaller addresses are easier to read.
+Độ dài của một *IP address* phụ thuộc vào phiên bản IP đang được sử dụng. Địa chỉ *IPv4* (Giao thức Internet phiên bản 4) dài 32 bit và địa chỉ *IPv6* (Giao thức Internet phiên bản 6) dài 128 bit. Các khái niệm định tuyến là tương tự cho cả hai phiên bản, nhưng chúng ta sẽ sử dụng *IPv4* khi có thể, vì địa chỉ nhỏ hơn dễ đọc hơn.
 
 
-## Hierarchical Addressing
+## Định địa chỉ Phân cấp (Hierarchical Addressing)
 
-Recall that the Internet is a network of networks. There are many local networks, and we add links between local networks to form the wider Internet. This gives us a natural hierarchy that we can use to organize our addressing scheme.
+Hãy nhớ lại rằng Internet là một mạng của các mạng. Có nhiều mạng cục bộ, và chúng ta thêm các liên kết giữa các mạng cục bộ để tạo thành Internet rộng lớn hơn. Điều này mang lại cho chúng ta một hệ thống phân cấp tự nhiên mà chúng ta có thể sử dụng để tổ chức lược đồ định địa chỉ của mình.
 
 <img width="900px" src="../assets/routing/2-100-address-intuition1.png">
 
-Here's an intuitive picture of addressing. We could assign a number to every network. Then, within network 3, we could assign host numbers 3.1, 3.2, 3.3, etc., and similar for hosts in the other networks.
+Đây là một hình dung trực quan về việc định địa chỉ. Chúng ta có thể gán một số cho mỗi mạng. Sau đó, trong mạng 3, chúng ta có thể gán các số máy chủ 3.1, 3.2, 3.3, v.v., và tương tự cho các máy chủ trong các mạng khác.
 
 <img width="900px" src="../assets/routing/2-101-address-intuition2.png">
 
-Now, consider the forwarding table in router R9. Before, we would have one entry for every host in network 1, and they would all have the same next hop of R6. With our hierarchical addressing, we could instead have a single entry for the entire local network, saying that all 1.* addresses (where the * represents any number) have a next hop of R6. We could also say that all 2.* addresses have a next hop of R8.
+Bây giờ, hãy xem xét *forwarding table* trong *router* R9. Trước đây, chúng ta sẽ có một mục cho mỗi máy chủ trong mạng 1, và tất cả chúng đều có cùng một chặng kế tiếp là R6. Với *hierarchical addressing* (định địa chỉ phân cấp) của chúng ta, thay vào đó, chúng ta có thể có một mục duy nhất cho toàn bộ mạng cục bộ, nói rằng tất cả các địa chỉ 1.* (trong đó * đại diện cho bất kỳ số nào) có chặng kế tiếp là R6. Chúng ta cũng có thể nói rằng tất cả các địa chỉ 2.* có chặng kế tiếp là R8.
 
-This hierarchical model, where we use wildcard matches to summarize routes, makes our forwarding tables smaller.
+Mô hình phân cấp này, nơi chúng ta sử dụng các ký tự đại diện để tóm tắt các tuyến đường, làm cho *forwarding table* của chúng ta nhỏ hơn.
 
-In addition, this model also makes our tables more stable.
+Ngoài ra, mô hình này cũng làm cho các bảng của chúng ta ổn định hơn.
 
 <img width="900px" src="../assets/routing/2-102-address-intuition3.png">
 
-If the topology inside network 1 changes, we don't need to update R9's forwarding table (or any other tables in other networks). In practice, changes within a local network (e.g. new host joins the network) happens much more often than changes between networks (e.g. new underground cable installed), so it's a good thing that local changes only affect local tables.
+Nếu cấu trúc liên kết bên trong mạng 1 thay đổi, chúng ta không cần cập nhật *forwarding table* của R9 (hoặc bất kỳ bảng nào khác trong các mạng khác). Trên thực tế, những thay đổi trong một mạng cục bộ (ví dụ: máy chủ mới tham gia mạng) xảy ra thường xuyên hơn nhiều so với những thay đổi giữa các mạng (ví dụ: lắp đặt cáp ngầm mới), vì vậy đây là một điều tốt khi các thay đổi cục bộ chỉ ảnh hưởng đến các bảng cục bộ.
 
-More generally, our addresses have two parts: a network ID,and a host ID. This allows inter-domain routing protocols to focus on the network ID to find routes between networks, and intra-domain routing protocols to focus on the host ID to find routes inside networks. This also makes our routing protocols more stable as the network changes. Inter-domain protocols don't care about changes inside networks, and intra-domain protocols don't care about changes in other networks.
+Tổng quát hơn, địa chỉ của chúng ta có hai phần: *network ID* (định danh mạng) và *host ID* (định danh máy chủ). Điều này cho phép các giao thức *inter-domain routing* (định tuyến liên miền) tập trung vào *network ID* để tìm các tuyến đường giữa các mạng, và các giao thức *intra-domain routing* (định tuyến nội miền) tập trung vào *host ID* để tìm các tuyến đường bên trong các mạng. Điều này cũng làm cho các giao thức định tuyến của chúng ta ổn định hơn khi mạng thay đổi. Giao thức *inter-domain routing* không quan tâm đến những thay đổi bên trong các mạng, và giao thức *intra-domain routing* không quan tâm đến những thay đổi trong các mạng khác.
 
 <img width="900px" src="../assets/routing/2-103-address-intuition4.png">
 
-Note that the forwarding table in R9 still needs entries for each individual host inside its own network (i.e. network 2).
+Lưu ý rằng *forwarding table* trong R9 vẫn cần các mục cho từng máy chủ riêng lẻ bên trong mạng của chính nó (tức là mạng 2).
 
-Similarly, R4, an internal router with no connections to other networks, needs both entries for individual hosts inside network 3, and aggregated entries for other networks (e.g. 2.* has a next hop of R9). The scale of a forwarding table depends on the number of internal hosts in the same network, plus the number of external networks.
+Tương tự, R4, một *router* nội bộ không có kết nối đến các mạng khác, cần cả hai mục cho các máy chủ riêng lẻ bên trong mạng 3 và các mục tổng hợp cho các mạng khác (ví dụ: 2.* có chặng kế tiếp là R9). Quy mô của một *forwarding table* phụ thuộc vào số lượng máy chủ nội bộ trong cùng một mạng, cộng với số lượng các mạng bên ngoài.
 
 
-## Default Routes
+## Tuyến đường Mặc định (Default Routes)
 
-We now know that our entries can represent entire ranges of addresses, instead of always representing a single address. We can extend this idea even further to improve scale.
+Bây giờ chúng ta đã biết rằng các mục của chúng ta có thể đại diện cho toàn bộ dải địa chỉ, thay vì luôn đại diện cho một địa chỉ duy nhất. Chúng ta có thể mở rộng ý tưởng này hơn nữa để cải thiện quy mô.
 
 <img width="900px" src="../assets/routing/2-104-aggregation1.png">
 
-Consider R4. It has an entry for every external network (1.\*, 3.\*, and 4.\*), all with the same next hop of R9. We could aggregate every external network into a single entry. We'll still have entries for every internal host (2.1, 2.2, etc.), but at the end, we'll say: For all other hosts not in the forwarding table, the next hop is R9.
+Hãy xem xét R4. Nó có một mục cho mỗi mạng bên ngoài (1.*, 3.*, và 4.*), tất cả đều có cùng một chặng kế tiếp là R9. Chúng ta có thể tổng hợp mọi mạng bên ngoài thành một mục duy nhất. Chúng ta vẫn sẽ có các mục cho mỗi máy chủ nội bộ (2.1, 2.2, v.v.), nhưng cuối cùng, chúng ta sẽ nói: Đối với tất cả các máy chủ khác không có trong *forwarding table*, chặng kế tiếp là R9.
 
 <img width="900px" src="../assets/routing/2-105-aggregation2.png">
 
-We can use more aggressive aggregation at R2. Again, all external networks have a next hop of R3. But, 2.1, 2.2, 2.3, 2.6, and 2.7 also have a next hop of R3. Therefore, the forwarding table only needs static entries for 2.4 and 2.5. Then, we can say, for all other hosts not in the forwarding table (including some internal and some external hosts), the next hop is R3.
+Chúng ta có thể sử dụng sự tổng hợp mạnh mẽ hơn tại R2. Một lần nữa, tất cả các mạng bên ngoài đều có chặng kế tiếp là R3. Nhưng, 2.1, 2.2, 2.3, 2.6, và 2.7 cũng có chặng kế tiếp là R3. Do đó, *forwarding table* chỉ cần các mục tĩnh cho 2.4 và 2.5. Sau đó, chúng ta có thể nói, đối với tất cả các máy chủ khác không có trong *forwarding table* (bao gồm một số máy chủ nội bộ và một số máy chủ bên ngoài), chặng kế tiếp là R3.
 
-To represent all hosts not in the table, we can use a wildcard *.* that matches everything. When forwarding toward a given destination, the router first checks specific hosts (e.g. 3.1) or ranges (e.g. 2.*) for matches. If the router can't find any matches, it will eventually match the *.* wildcard. This is called the **default route**.
+Để đại diện cho tất cả các máy chủ không có trong bảng, chúng ta có thể sử dụng ký tự đại diện *.* để khớp với mọi thứ. Khi chuyển tiếp đến một đích nhất định, *router* trước tiên sẽ kiểm tra các máy chủ cụ thể (ví dụ: 3.1) hoặc các dải (ví dụ: 2.*) để tìm kết quả khớp. Nếu *router* không thể tìm thấy bất kỳ kết quả khớp nào, cuối cùng nó sẽ khớp với ký tự đại diện *.*. Đây được gọi là ***default route*** (tuyến đường mặc định).
 
-Most hosts only have a single hard-coded default route. For example, host 2.4's forwarding table has a single entry, saying to send everything to R2. In practice, your home computer has a single entry, saying to send everything to your home router. This is why hosts don't need to participate in routing protocols.
+Hầu hết các máy chủ chỉ có một *default route* được mã hóa cứng duy nhất. Ví dụ, *forwarding table* của máy chủ 2.4 có một mục duy nhất, yêu cầu gửi mọi thứ đến R2. Trên thực tế, máy tính ở nhà của bạn có một mục duy nhất, yêu cầu gửi mọi thứ đến *router* tại nhà của bạn. Đây là lý do tại sao các máy chủ không cần tham gia vào các giao thức định tuyến.
 
 
-## Assigning Hierarchical IP Addresses: Early Internet
+## Gán địa chỉ IP Phân cấp: Thời kỳ đầu của Internet
 
-In order to get more scalable routing, we need to assign addresses in some hierarchical way. The addresses need to contain some information about their location (e.g. nearby hosts need to share some part of their address).
+Để có được định tuyến có khả năng mở rộng tốt hơn, chúng ta cần gán địa chỉ theo một cách phân cấp nào đó. Các địa chỉ cần chứa một số thông tin về vị trí của chúng (ví dụ: các máy chủ gần nhau cần chia sẻ một phần địa chỉ của chúng).
 
-In the early Internet, IPv4 addresses had an 8-bit network ID and a 24-bit host ID, just like in our intuitive version.
+Trong thời kỳ đầu của Internet, địa chỉ *IPv4* có *network ID* 8-bit và *host ID* 24-bit, giống như trong phiên bản trực quan của chúng ta.
 
 <img width="800px" src="../assets/routing/2-106-cidr1.png">
 
-For example, AT&T has network ID 12, Apple has network ID 17, and the US Department of Defense has 13 different network IDs.
+Ví dụ, AT&T có *network ID* 12, Apple có *network ID* 17, và Bộ Quốc phòng Hoa Kỳ có 13 *network ID* khác nhau.
 
-The 8-bit network ID means we can only assign 256 different network IDs, but in real life, there are way more than 256 organizations that might operate their own local network. Also, our 24-bit host ID means that every network gets 2\^24 = 16,777,216 addresses. A small network (e.g. a company with 10 employees) probably doesn't need 16 million addresses. As the Internet grew larger, a new approach to addressing was needed.
+*Network ID* 8-bit có nghĩa là chúng ta chỉ có thể gán 256 *network ID* khác nhau, nhưng trong thực tế, có nhiều hơn 256 tổ chức có thể vận hành mạng cục bộ của riêng họ. Ngoài ra, *host ID* 24-bit của chúng ta có nghĩa là mỗi mạng nhận được 2^24 = 16,777,216 địa chỉ. Một mạng nhỏ (ví dụ: một công ty có 10 nhân viên) có lẽ không cần 16 triệu địa chỉ. Khi Internet ngày càng lớn mạnh, một phương pháp định địa chỉ mới đã trở nên cần thiết.
 
 
-## Assigning Hierarchical IP Addresses: Classful Addressing
+## Gán địa chỉ IP Phân cấp: Định địa chỉ theo lớp (Classful Addressing)
 
-The first attempt to fix this was **classful addressing**, which allocates different network sizes based on need. In this approach, there are 3 classes of addresses, each with a different number of bits allocated to the network ID and host ID. The first 1-3 bits identify which class is being used.
+Nỗ lực đầu tiên để khắc phục điều này là ***classful addressing*** (định địa chỉ theo lớp), phương pháp này phân bổ các kích thước mạng khác nhau dựa trên nhu cầu. Trong phương pháp này, có 3 lớp địa chỉ, mỗi lớp có số bit khác nhau được phân bổ cho *network ID* và *host ID*. 1-3 bit đầu tiên xác định lớp nào đang được sử dụng.
 
 <img width="900px" src="../assets/routing/2-107-cidr2.png">
 
-Class A addresses start with leading bit 0. The next 7 bits are the network ID (128 networks), and the next 24 bits are the host ID (16 million hosts).
+Địa chỉ Lớp A (Class A) bắt đầu bằng bit 0. 7 bit tiếp theo là *network ID* (128 mạng), và 24 bit tiếp theo là *host ID* (16 triệu máy chủ).
 
-Class B addresses start with leading bits 10. The next 14 bits are the network ID (16,000 networks), and the next 16 bits are the host ID (65,000 hosts).
+Địa chỉ Lớp B (Class B) bắt đầu bằng các bit 10. 14 bit tiếp theo là *network ID* (16,000 mạng), và 16 bit tiếp theo là *host ID* (65,000 máy chủ).
 
-Class C addresses start with leading bits 110. The next 21 bits are the network ID (2 million networks), and the next 8 bits are the host ID (256 hosts).
+Địa chỉ Lớp C (Class C) bắt đầu bằng các bit 110. 21 bit tiếp theo là *network ID* (2 triệu mạng), và 8 bit tiếp theo là *host ID* (256 máy chủ).
 
-In this approach, we can now have 2 million + 16,000 + 128 different local networks. Larger organizations with more hosts could receive a Class A network, and smaller organizations could receive a Class B or Class C network. As before, within a single network, the leading class bit(s) and network ID bits are the same, and each host gets a different host ID.
+Trong phương pháp này, chúng ta giờ đây có thể có 2 triệu + 16,000 + 128 mạng cục bộ khác nhau. Các tổ chức lớn hơn với nhiều máy chủ hơn có thể nhận được một mạng Lớp A, và các tổ chức nhỏ hơn có thể nhận được một mạng Lớp B hoặc Lớp C. Như trước đây, trong một mạng duy nhất, (các) bit lớp đứng đầu và các bit *network ID* là giống nhau, và mỗi máy chủ nhận được một *host ID* khác nhau.
 
-One major problem with classful addressing is the size of each class. Class A (16 million hosts) is way too big for most organizations, and Class C (256 hosts) is way too small for most organizations. As a result, most networks need to be in Class B.
+Một vấn đề lớn với *classful addressing* là kích thước của mỗi lớp. Lớp A (16 triệu máy chủ) quá lớn đối với hầu hết các tổ chức, và Lớp C (256 máy chủ) quá nhỏ đối với hầu hết các tổ chức. Do đó, hầu hết các mạng cần phải thuộc Lớp B.
 
-Unfortunately, there are only 16,000 Class B network IDs, and by 1994, we were running out of Class B networks. Again, a new approach to addressing was needed.
+Thật không may, chỉ có 16,000 *network ID* Lớp B, và đến năm 1994, chúng ta đã cạn kiệt các mạng Lớp B. Một lần nữa, một phương pháp định địa chỉ mới đã trở nên cần thiết.
 
-Note: Classful addressing is now obsolete on the modern Internet.
+Lưu ý: *Classful addressing* hiện đã lỗi thời trên Internet hiện đại.
 
-Note: Technically, the number of hosts per network is off by 2, because the all-zeroes address and all-ones address are reserved for special purposes. For example, in Class C, there are actually 254 hosts per network, not 256.
-
-
-## Assigning Hierarchical IP Addresses: CIDR
-
-Our third approach to hierarchical addressing, and the one still used on the modern Internet, is **CIDR** (Classless Inter-Domain Routing). In CIDR, we still have variable-length network IDs, but instead of only 3 different network ID lengths (Class A, B, C), we make the number of fixed bits arbitrary.
-
-For example, consider the tiny company with 10 employees from earlier. In classful addressing, they would get a Class C network with 256 host addresses. If they only need 10 host addresses, we could allocate fewer addresses by giving them a longer network ID.
-
-If we allocated a 28-bit network ID, the host ID would be 4 bits long (16 possible addresses). If we allocated a 29-bit network ID, the host ID would be 3 bits long (8 possible addresses). We can't allocate exactly 10 addresses, but a 28-bit network ID would be sufficient for this company's purposes. There's a little bit of waste (6 unused addresses), but this is still way better than allocating 256 addresses.
-
-As another example, consider an organization that needs 450 host addresses. In classful addressing, Class C (256 addresses) isn't sufficient, so they would receive a Class B network with 65,000 host addresses, and most of the addresses would go unused. With arbitrary-length network IDs, we can assign a 23-bit network ID, which gives 9 bits for host addressing (512 addresses). This meets the organization's needs and wastes far fewer addresses.
+Lưu ý: Về mặt kỹ thuật, số lượng máy chủ trên mỗi mạng bị trừ đi 2, vì địa chỉ toàn số không và địa chỉ toàn số một được dành riêng cho các mục đích đặc biệt. Ví dụ, trong Lớp C, thực sự có 254 máy chủ trên mỗi mạng, không phải 256.
 
 
-## Multi-Layered Hierarchical Assignment
+## Gán địa chỉ IP Phân cấp: CIDR
 
-In real life, hierarchies can be multi-layered. For example, inside a network, an organization can choose to assign specific ranges of addresses to specific sub-organizations (e.g. departments in a company or university).
+Phương pháp thứ ba của chúng ta để định địa chỉ phân cấp, và là phương pháp vẫn được sử dụng trên Internet hiện đại, là ***CIDR*** (Classless Inter-Domain Routing - Định tuyến liên miền không lớp). Trong *CIDR*, chúng ta vẫn có các *network ID* có độ dài thay đổi, nhưng thay vì chỉ có 3 độ dài *network ID* khác nhau (Lớp A, B, C), chúng ta làm cho số lượng bit cố định trở nên tùy ý.
 
-In practice, we exploit real-life multi-layered organizational and geographical hierarchies to assign addresses. ICANN (Internet Corporation for Names and Numbers) is the global organization that owns all the IP addresses.
+Ví dụ, hãy xem xét công ty nhỏ với 10 nhân viên từ trước. Trong *classful addressing*, họ sẽ nhận được một mạng Lớp C với 256 địa chỉ máy chủ. Nếu họ chỉ cần 10 địa chỉ máy chủ, chúng ta có thể phân bổ ít địa chỉ hơn bằng cách cho họ một *network ID* dài hơn.
 
-ICANN gives out blocks of addresses to Regional Internet Registries (RIRs) representing specific countries or continents. For example, RIPE gets all addresses for the European Union, ARIN gets North American addresses, APNIC gets Asia/Pacific addresses, LACNIC gets South American addresses, and AFRINIC gets African addresses. Example: ICANN gives ARIN all addresses starting with 1101.
+Nếu chúng ta phân bổ một *network ID* 28-bit, *host ID* sẽ dài 4 bit (16 địa chỉ khả dụng). Nếu chúng ta phân bổ một *network ID* 29-bit, *host ID* sẽ dài 3 bit (8 địa chỉ khả dụng). Chúng ta không thể phân bổ chính xác 10 địa chỉ, nhưng một *network ID* 28-bit sẽ đủ cho mục đích của công ty này. Có một chút lãng phí (6 địa chỉ không sử dụng), nhưng điều này vẫn tốt hơn nhiều so với việc phân bổ 256 địa chỉ.
 
-Each RIR then gives out portions of their ranges to large organizations (e.g. companies, universities) or ISPs. These organizations or ISPs are called Local Internet Registries. Example: ARIN controls all addresses starting with 1101, and gives AT&T all addresses starting with 1101 11001.
+Một ví dụ khác, hãy xem xét một tổ chức cần 450 địa chỉ máy chủ. Trong *classful addressing*, Lớp C (256 địa chỉ) không đủ, vì vậy họ sẽ nhận được một mạng Lớp B với 65,000 địa chỉ máy chủ, và hầu hết các địa chỉ sẽ không được sử dụng. Với các *network ID* có độ dài tùy ý, chúng ta có thể gán một *network ID* 23-bit, điều này cho phép 9 bit để định địa chỉ máy chủ (512 địa chỉ). Điều này đáp ứng nhu cầu của tổ chức và lãng phí ít địa chỉ hơn rất nhiều.
 
-Finally, each local Internet registry assigns individual IPs to specific hosts. For additional hierarchy, local registries can also assign IP ranges to small organizations, and the small organizations can in turn assign individual IPs.
+
+## Gán Phân cấp Đa tầng (Multi-Layered Hierarchical Assignment)
+
+Trong thực tế, hệ thống phân cấp có thể có nhiều tầng. Ví dụ, bên trong một mạng, một tổ chức có thể chọn gán các dải địa chỉ cụ thể cho các tổ chức con cụ thể (ví dụ: các phòng ban trong một công ty hoặc trường đại học).
+
+Trên thực tế, chúng ta khai thác các hệ thống phân cấp về tổ chức và địa lý đa tầng trong đời thực để gán địa chỉ. *ICANN* (Internet Corporation for Names and Numbers - Tập đoàn Internet quản lý tên miền và số hiệu) là tổ chức toàn cầu sở hữu tất cả các địa chỉ IP.
+
+*ICANN* cấp các khối địa chỉ cho *Regional Internet Registries (RIRs)* (Các cơ quan đăng ký Internet khu vực) đại diện cho các quốc gia hoặc châu lục cụ thể. Ví dụ, RIPE nhận tất cả các địa chỉ cho Liên minh Châu Âu, ARIN nhận địa chỉ Bắc Mỹ, APNIC nhận địa chỉ Châu Á/Thái Bình Dương, LACNIC nhận địa chỉ Nam Mỹ, và AFRINIC nhận địa chỉ Châu Phi. Ví dụ: *ICANN* cấp cho ARIN tất cả các địa chỉ bắt đầu bằng 1101.
+
+Mỗi *RIR* sau đó cấp các phần trong dải của họ cho các tổ chức lớn (ví dụ: công ty, trường đại học) hoặc *ISPs* (Internet Service Providers - Nhà cung cấp dịch vụ Internet). Các tổ chức hoặc *ISP* này được gọi là *Local Internet Registries* (Các cơ quan đăng ký Internet địa phương). Ví dụ: ARIN kiểm soát tất cả các địa chỉ bắt đầu bằng 1101, và cấp cho AT&T tất cả các địa chỉ bắt đầu bằng 1101 11001.
+
+Cuối cùng, mỗi cơ quan đăng ký Internet địa phương gán các IP riêng lẻ cho các máy chủ cụ thể. Để có thêm hệ thống phân cấp, các cơ quan đăng ký địa phương cũng có thể gán các dải IP cho các tổ chức nhỏ, và các tổ chức nhỏ này đến lượt mình có thể gán các IP riêng lẻ.
 
 <img width="700px" src="../assets/routing/2-108-cidr3.png">
 
-At each level, the number of additional bits fixed is determined by the number of addresses to be allocated. For example, ARIN might want to give AT&T 8 million addresses, and computes that fixing 9 bits results in 8 million host addresses. ARIN had 4 bits fixed already, so it fixes another 5 bits and assigns AT&T all addresses starting with those 9 bits. AT&T might then give the prefix 1101 11001 110100010 to give 16,000 addresses to UC Berkeley. As we allocate addresses to sub-organizations, more bits are fixed, always keeping the fixed bits from parent organizations.
+Ở mỗi cấp, số lượng bit cố định bổ sung được xác định bởi số lượng địa chỉ cần được phân bổ. Ví dụ, ARIN có thể muốn cấp cho AT&T 8 triệu địa chỉ, và tính toán rằng việc cố định 9 bit sẽ cho ra 8 triệu địa chỉ máy chủ. ARIN đã có 4 bit được cố định sẵn, vì vậy nó cố định thêm 5 bit nữa và gán cho AT&T tất cả các địa chỉ bắt đầu bằng 9 bit đó. AT&T sau đó có thể cấp tiền tố 1101 11001 110100010 để cung cấp 16,000 địa chỉ cho UC Berkeley. Khi chúng ta phân bổ địa chỉ cho các tổ chức con, nhiều bit hơn được cố định, luôn giữ lại các bit cố định từ các tổ chức mẹ.
 
 
-## Writing IP Addresses
+## Viết địa chỉ IP (Writing IP Addresses)
 
-We could write IP addresses as a 32-bit sequence of 1s and 0s, or as a single big integer. In practice, for readability, we take each sequence of 8 bits and write it as an integer (between 0 and 255). For example, the IP address 00010001 00100010 10011110 00000101 can be written as 17.34.158.5. This is sometimes called a **dotted quad** representation.
+Chúng ta có thể viết địa chỉ IP dưới dạng một chuỗi 32-bit gồm các số 1 và 0, hoặc dưới dạng một số nguyên lớn duy nhất. Trên thực tế, để dễ đọc, chúng ta lấy mỗi chuỗi 8 bit và viết nó dưới dạng một số nguyên (từ 0 đến 255). Ví dụ, địa chỉ IP 00010001 00100010 10011110 00000101 có thể được viết là 17.34.158.5. Đôi khi, đây được gọi là biểu diễn *dotted quad* (bộ bốn dấu chấm).
 
-So far, we've been writing ranges of addresses as bits (e.g. all IPs starting with 1101). To write a range of addresses, we can use **slash notation**. We write the fixed prefix, then we write 0s for all remaining unfixed bits, and we convert the resulting 32-bit value into an dotted quad IP address. Then, after the slash, we write the number of fixed bits.
+Cho đến nay, chúng ta đã viết các dải địa chỉ dưới dạng bit (ví dụ: tất cả các IP bắt đầu bằng 1101). Để viết một dải địa chỉ, chúng ta có thể sử dụng *slash notation* (ký hiệu gạch chéo). Chúng ta viết tiền tố cố định, sau đó chúng ta viết các số 0 cho tất cả các bit không cố định còn lại, và chúng ta chuyển đổi giá trị 32-bit kết quả thành một địa chỉ IP dạng *dotted quad*. Sau đó, sau dấu gạch chéo, chúng ta viết số lượng bit cố định.
 
-For example, if the prefix is 11000000, we add zeros for all the unfixed bits to get 11000000 00000000 00000000 00000000. As a 32-bit address, this is 192.0.0.0. Then, because 8 bits were fixed, we write the range as 192.0.0.0/8.
+Ví dụ, nếu tiền tố là 11000000, chúng ta thêm các số không cho tất cả các bit không cố định để có được 11000000 00000000 00000000 00000000. Dưới dạng địa chỉ 32-bit, đây là 192.0.0.0. Sau đó, vì có 8 bit được cố định, chúng ta viết dải địa chỉ là 192.0.0.0/8.
 
-To write an individual address as a range, we could write something like 192.168.1.1/32, which indicates that all 32 bits are fixed. Also, the default route *.* can be written as 0.0.0.0/0.
+Để viết một địa chỉ riêng lẻ dưới dạng một dải, chúng ta có thể viết một cái gì đó như 192.168.1.1/32, điều này chỉ ra rằng tất cả 32 bit đều được cố định. Ngoài ra, *default route* *.* có thể được viết là 0.0.0.0/0.
 
-Slash notation can sometimes look a little confusing because we're using arbitrary 8-bit divisions and writing numbers in decimal. For example, the 8-bit prefix 11000000 and the 12-bit prefix 11000000 0000 would be written as 192.0.0.0/8 and 192.0.0.0/12 (same IP address representing different ranges). As another example, if I owned the 4-bit prefix 1100, I could assign the 5-bit prefix 11001. As ranges, these are written as 192.0.0.0/4 and 200.0.0.0/5. At first glance, it's not clear that the second range is actually a subset of the first one, and we'd have to write out the bits to confirm.
+*Slash notation* đôi khi có thể trông hơi khó hiểu vì chúng ta đang sử dụng các phép chia 8-bit tùy ý và viết các số ở dạng thập phân. Ví dụ, tiền tố 8-bit 11000000 và tiền tố 12-bit 11000000 0000 sẽ được viết là 192.0.0.0/8 và 192.0.0.0/12 (cùng một địa chỉ IP đại diện cho các dải khác nhau). Một ví dụ khác, nếu tôi sở hữu tiền tố 4-bit 1100, tôi có thể gán tiền tố 5-bit 11001. Dưới dạng dải, chúng được viết là 192.0.0.0/4 và 200.0.0.0/5. Thoạt nhìn, không rõ ràng rằng dải thứ hai thực sự là một tập hợp con của dải thứ nhất, và chúng ta sẽ phải viết ra các bit để xác nhận.
 
-An alternative to the slash (e.g. /16) in the slash notation is a **netmask**. Just like the number after the slash, the netmask tells us how which bits are fixed. To write a netmask, we write 1s for all fixed bits and 0 for all unfixed bits, and convert the result into a dotted quad. For example, if we had the range 192.168.1.0/29, we could write 29 ones (fixed bits) and 3 zeros (unfixed bits). 11111111 11111111 11111111 11111000 as a dotted quad is 255.255.255.248. The range in netmask notation is 192.168.1.0, with netmask 255.255.255.248 (replaced the slash with a netmask).
+Một phương án thay thế cho dấu gạch chéo (ví dụ: /16) trong *slash notation* là *netmask* (mặt nạ mạng). Giống như con số sau dấu gạch chéo, *netmask* cho chúng ta biết những bit nào được cố định. Để viết một *netmask*, chúng ta viết các số 1 cho tất cả các bit cố định và số 0 cho tất cả các bit không cố định, và chuyển đổi kết quả thành dạng *dotted quad*. Ví dụ, nếu chúng ta có dải 192.168.1.0/29, chúng ta có thể viết 29 số một (bit cố định) và 3 số không (bit không cố định). 11111111 11111111 11111111 11111000 dưới dạng *dotted quad* là 255.255.255.248. Dải địa chỉ trong ký hiệu *netmask* là 192.168.1.0, với *netmask* 255.255.255.248 (thay thế dấu gạch chéo bằng một *netmask*).
 
-In these notes, we'll usually use slash notations because they're more convenient to read. In practice, netmasks can be useful because given a specific IP address, if you perform a bitwise AND between the IP address and the netmask, all the host bits will get zeroed out, and only the network bits will remain.
+Trong các ghi chú này, chúng ta sẽ thường sử dụng *slash notation* vì chúng tiện lợi hơn để đọc. Trên thực tế, *netmask* có thể hữu ích vì với một địa chỉ IP cụ thể, nếu bạn thực hiện phép toán AND bit giữa địa chỉ IP và *netmask*, tất cả các bit của máy chủ sẽ bị xóa về không, và chỉ còn lại các bit của mạng.
 
 
-## Aggregating Routes with CIDR
+## Tổng hợp các tuyến đường với CIDR (Aggregating Routes with CIDR)
 
-In our original model with a network ID and host ID, we could aggregate all hosts inside the same network into a single route in the forwarding table (e.g. 2.* for everything in network 2).
+Trong mô hình ban đầu của chúng ta với *network ID* và *host ID*, chúng ta có thể tổng hợp tất cả các máy chủ trong cùng một mạng thành một tuyến đường duy nhất trong *forwarding table* (ví dụ: 2.* cho mọi thứ trong mạng 2).
 
-Multi-layered hierarchical addressing means that we can also aggregate multiple networks into a single route.
+*Hierarchical addressing* đa tầng có nghĩa là chúng ta cũng có thể tổng hợp nhiều mạng thành một tuyến đường duy nhất.
 
 <img width="900px" src="../assets/routing/2-109-aggregation1.png">
 
-Consider this diagram of networks. In our original model, R6 needs a separate forwarding entry for AT&T, UCB, and Stanford.
+Hãy xem xét sơ đồ mạng này. Trong mô hình ban đầu của chúng ta, R6 cần một mục chuyển tiếp riêng cho AT&T, UCB, và Stanford.
 
 <img width="900px" src="../assets/routing/2-110-aggregation2.png">
 
-However, if we used hierarchical addressing, then UCB's range (4.12.0.0/16) and Stanford's range (4.29.0.0/16) are both subsets of AT&T's range (4.0.0.0/8). This could happen if AT&T allocated those ranges to its subordinate customers UCB and Stanford.
+Tuy nhiên, nếu chúng ta sử dụng *hierarchical addressing*, thì dải của UCB (4.12.0.0/16) và dải của Stanford (4.29.0.0/16) đều là tập hợp con của dải của AT&T (4.0.0.0/8). Điều này có thể xảy ra nếu AT&T phân bổ các dải đó cho các khách hàng cấp dưới của mình là UCB và Stanford.
 
-Now, R6 only needs a single entry for AT&T, UCB, and Stanford. We've aggregated the two smaller ranges into the wider range that they both belong to.
+Bây giờ, R6 chỉ cần một mục duy nhất cho AT&T, UCB, và Stanford. Chúng ta đã tổng hợp hai dải nhỏ hơn thành dải rộng hơn mà cả hai đều thuộc về.
 
 
-## Multi-Homing
+## Đa kết nối (Multi-Homing)
 
-Aggregating ranges doesn't always work. Suppose we added a link from R6 directly to Stanford.
+Việc tổng hợp các dải không phải lúc nào cũng hoạt động. Giả sử chúng ta thêm một liên kết từ R6 trực tiếp đến Stanford.
 
 <img width="900px" src="../assets/routing/2-111-aggregation3.png">
 
-Our aggregated route says that all packets to AT&T (and its subordinates) have a next hop of R2. We need to add an additional entry saying that Stanford has a next hop of R7.
+Tuyến đường tổng hợp của chúng ta nói rằng tất cả các gói tin đến AT&T (và các cấp dưới của nó) có chặng kế tiếp là R2. Chúng ta cần thêm một mục bổ sung nói rằng Stanford có chặng kế tiếp là R7.
 
-Notice that our forwarding table now has ranges that overlap. A destination could match multiple ranges. To pick a route, we'll run **longest prefix matching**, which means we'll use the most specific range that matches our destination IP address. For example, if we had a packet destined for a UCM host, we would use the UCM-specific entry because it has the longer 19-bit prefix. Even though the 9-bit AT&T entry also matches the destination, its prefix is shorter, so we don't use this route.
+Lưu ý rằng *forwarding table* của chúng ta bây giờ có các dải chồng chéo lên nhau. Một đích đến có thể khớp với nhiều dải. Để chọn một tuyến đường, chúng ta sẽ chạy ***longest prefix matching*** (khớp tiền tố dài nhất), có nghĩa là chúng ta sẽ sử dụng dải cụ thể nhất khớp với địa chỉ IP đích của chúng ta. Ví dụ, nếu chúng ta có một gói tin đến một máy chủ UCM, chúng ta sẽ sử dụng mục dành riêng cho UCM vì nó có tiền tố 19-bit dài hơn. Mặc dù mục AT&T 9-bit cũng khớp với đích, tiền tố của nó ngắn hơn, vì vậy chúng ta không sử dụng tuyến đường này.
 
-If instead we had a packet destined for a UCB host, we can't use the Stanford-specific entry, because the 16-bit prefix won't match the UCB host. But we can still use the 8-bit AT&T entry, which will match the destination.
+Nếu thay vào đó chúng ta có một gói tin đến một máy chủ UCB, chúng ta không thể sử dụng mục dành riêng cho Stanford, vì tiền tố 16-bit sẽ không khớp với máy chủ UCB. Nhưng chúng ta vẫn có thể sử dụng mục AT&T 8-bit, nó sẽ khớp với đích.
 
 
-## Brief History of IPv6
+## Lịch sử tóm tắt của IPv6 (Brief History of IPv6)
 
-IPv4 addresses are 32 bits, which means we have roughly 4 billion addresses available. Is this enough?
+Địa chỉ *IPv4* dài 32 bit, có nghĩa là chúng ta có khoảng 4 tỷ địa chỉ khả dụng. Điều này có đủ không?
 
 <img width="900px" src="../assets/routing/2-112-ipv6-1.png">
 
-This graph plots the number of remaining unallocated IP addresses (y-axis) for each regional registry over time. 
+Biểu đồ này thể hiện số lượng địa chỉ IP chưa được phân bổ còn lại (trục y) cho mỗi cơ quan đăng ký khu vực theo thời gian.
 
-By 2017, everybody had less than one /8 block (i.e. less than 2\^24 = 16 million addresses) available. Each regional registry held a spare /8 block of addresses just in case, but by 2017, everybody had to start using their spare supply of addresses. By 2021, even the spare supply of addresses was running out.
+Đến năm 2017, tất cả mọi người đều có ít hơn một khối /8 (tức là ít hơn 2^24 = 16 triệu địa chỉ) khả dụng. Mỗi cơ quan đăng ký khu vực giữ lại một khối địa chỉ /8 dự phòng phòng trường hợp cần thiết, nhưng đến năm 2017, tất cả mọi người đã phải bắt đầu sử dụng nguồn cung cấp địa chỉ dự phòng của mình. Đến năm 2021, ngay cả nguồn cung cấp địa chỉ dự phòng cũng sắp cạn kiệt.
 
-Fun fact: In February 2011, there was an in-person ceremony when the final /8 block was allocated. There was even a special paper certificate issued.
+Một sự thật thú vị: Vào tháng 2 năm 2011, đã có một buổi lễ trực tiếp khi khối /8 cuối cùng được phân bổ. Thậm chí còn có một giấy chứng nhận đặc biệt được cấp.
 
-As the Internet grew, we started to realize that we would eventually run out of addresses. Luckily, this was realized early on, and IPv6 was developed in 1998 as a response to IP address exhaustion.
+Khi Internet phát triển, chúng ta bắt đầu nhận ra rằng cuối cùng chúng ta sẽ hết địa chỉ. May mắn thay, điều này đã được nhận ra từ sớm, và *IPv6* đã được phát triển vào năm 1998 như một giải pháp cho sự cạn kiệt địa chỉ IP.
 
-Fundamentally, IPv6 addressing structure is the same as IPv4. There are some minor implementation changes needed for IPv6, though they aren't relevant here.
+Về cơ bản, cấu trúc định địa chỉ *IPv6* giống như *IPv4*. Có một số thay đổi nhỏ về triển khai cần thiết cho *IPv6*, mặc dù chúng không liên quan ở đây.
 
-The main new feature in IPv6 is longer addresses. IPv6 addresses are 128 bits long, which means there are roughly $$3.4 \times 10^{38}$$ possible addresses. This is an astronomically big number, so we'll never run out. The universe is $$10^{21}$$ seconds old, so we could assign an address to every second and still have only used 0.000000000000001% of all available addresses.
+Tính năng mới chính trong *IPv6* là địa chỉ dài hơn. Địa chỉ *IPv6* dài 128 bit, có nghĩa là có khoảng $$3.4 \times 10^{38}$$ địa chỉ khả dụng. Đây là một con số khổng lồ về mặt thiên văn học, vì vậy chúng ta sẽ không bao giờ cạn kiệt. Vũ trụ đã tồn tại $$10^{21}$$ giây, vì vậy chúng ta có thể gán một địa chỉ cho mỗi giây và vẫn chỉ sử dụng 0.000000000000001% tổng số địa chỉ khả dụng.
 
 <img width="900px" src="../assets/routing/2-113-ipv6-2.png">
 
-IPv6 was developed in the 1990s, but was not immediately adopted by all computers. Even in 2010, basically nobody used IPv6. As of 2024, IPv6 is used by around 45% of end users, and most of these users are located in developed countries with wider Internet adoption. The main reason why IPv6 is becoming more widely-adopted is because we're running out of IPv4 addresses.
+*IPv6* được phát triển vào những năm 1990, nhưng không được tất cả các máy tính chấp nhận ngay lập tức. Ngay cả trong năm 2010, về cơ bản không ai sử dụng *IPv6*. Kể từ năm 2024, *IPv6* được sử dụng bởi khoảng 45% người dùng cuối, và hầu hết những người dùng này đều ở các quốc gia phát triển với việc áp dụng Internet rộng rãi hơn. Lý do chính tại sao *IPv6* đang được áp dụng rộng rãi hơn là vì chúng ta đang cạn kiệt địa chỉ *IPv4*.
 
-Why is IPv6 adoption so slow? Users, servers, and Internet operators have to upgrade their software and hardware (e.g. routers, links, device drivers on computers) to support IPv6. Routers now need two forwarding tables, one with IPv4 addresses and one with IPv6 addresses.
+Tại sao việc áp dụng *IPv6* lại chậm như vậy? Người dùng, máy chủ, và các nhà khai thác Internet phải nâng cấp phần mềm và phần cứng của họ (ví dụ: *router*, liên kết, trình điều khiển thiết bị trên máy tính) để hỗ trợ *IPv6*. Các *router* giờ đây cần hai *forwarding table*, một với địa chỉ *IPv4* và một với địa chỉ *IPv6*.
 
-IPv6 upgrades have to be backwards-compatible. If a server only had an IPv6 address, users on older computers that only support IPv4 can't use this server. IPv4 and IPv6 are essentially separate addressing systems, and there's no way to convert between IPv4 and IPv6 addresses. As of 2024, many computers still don't support IPv6, so many services need to support both IPv4 and IPv6.
+Việc nâng cấp *IPv6* phải tương thích ngược. Nếu một máy chủ chỉ có địa chỉ *IPv6*, người dùng trên các máy tính cũ chỉ hỗ trợ *IPv4* không thể sử dụng máy chủ này. *IPv4* và *IPv6* về cơ bản là các hệ thống định địa chỉ riêng biệt, và không có cách nào để chuyển đổi giữa địa chỉ *IPv4* và *IPv6*. Kể từ năm 2024, nhiều máy tính vẫn không hỗ trợ *IPv6*, vì vậy nhiều dịch vụ cần phải hỗ trợ cả *IPv4* và *IPv6*.
 
-Computers that do support both IPv4 and IPv6 also have to think about which one to use. Is one better than the other? In practice, IPv6 is faster, but many other implementation details could affect your choice.
+Các máy tính hỗ trợ cả *IPv4* và *IPv6* cũng phải suy nghĩ về việc nên sử dụng cái nào. Liệu cái này có tốt hơn cái kia không? Trên thực tế, *IPv6* nhanh hơn, nhưng nhiều chi tiết triển khai khác có thể ảnh hưởng đến sự lựa chọn của bạn.
 
 
-## IPv6 Address Notation
+## Ký hiệu địa chỉ IPv6 (IPv6 Address Notation)
 
-IPv6 addresses are usually written in hexadecimal instead of decimal. For example:
+Địa chỉ *IPv6* thường được viết dưới dạng thập lục phân thay vì thập phân. Ví dụ:
 
 2001:0D08:CAFE:BEEF:DEAD:1234:5678:9012
 
-is an IPv6 address (32 hex digits = 128 bits). We add colons in between every 4 hex digits (16 bits) for readability.
+là một địa chỉ *IPv6* (32 chữ số thập lục phân = 128 bit). Chúng ta thêm dấu hai chấm vào giữa mỗi 4 chữ số thập lục phân (16 bit) để dễ đọc.
 
-For readability, we can omit leading zeros within a 4-digit block. For example:
+Để dễ đọc, chúng ta có thể bỏ qua các số không đứng đầu trong một khối 4 chữ số. Ví dụ:
 
 2001:0DB8:0000:0000:0000:0000:0000:0001
 
-can be shortened to 2001:DB8:0:0:0:0:0:1.
+có thể được rút ngắn thành 2001:DB8:0:0:0:0:0:1.
 
-For readability, we can also omit a long string of zeroes, e.g. 2001:DB8::1. The double colon says to fill in all missing 4-digit blocks with 0000. This can only be done once per address. (Omitting two ranges creates ambiguity, because we don't know how many zeroes go in each range.)
+Để dễ đọc, chúng ta cũng có thể bỏ qua một chuỗi dài các số không, ví dụ: 2001:DB8::1. Dấu hai chấm kép cho biết hãy điền tất cả các khối 4 chữ số còn thiếu bằng 0000. Điều này chỉ có thể được thực hiện một lần cho mỗi địa chỉ. (Việc bỏ qua hai dải sẽ tạo ra sự mơ hồ, vì chúng ta không biết có bao nhiêu số không trong mỗi dải.)
 
-Slash notation can still be used in IPv6. An individual address has /128 (all bits fixed). A 32-bit prefix might look like 2001:0DB8::/32.
+*Slash notation* vẫn có thể được sử dụng trong *IPv6*. Một địa chỉ riêng lẻ có /128 (tất cả các bit đều cố định). Một tiền tố 32-bit có thể trông giống như 2001:0DB8::/32.
 
-Because the address space is so large, in IPv6, you could fix the network ID to be 64 bits and the host ID to be 64 bits, and still never run out of network IDs or host IDs. In fact, special protocols exist where networks and hosts can pick their own 64-bit network ID and host ID (and check that no one else is using it), without an organization needing to allocate specific IDs.
+Bởi vì không gian địa chỉ rất lớn, trong *IPv6*, bạn có thể cố định *network ID* là 64 bit và *host ID* là 64 bit, và vẫn không bao giờ hết *network ID* hoặc *host ID*. Trên thực tế, có các giao thức đặc biệt tồn tại nơi các mạng và máy chủ có thể tự chọn *network ID* 64-bit và *host ID* 64-bit của riêng mình (và kiểm tra xem không có ai khác đang sử dụng nó), mà không cần một tổ chức phải phân bổ các ID cụ thể.
 
-In practice, regional registries typically allocate 32-bit prefixes to ISPs, and ISPs typically allocate 48-bit prefixes to organizations. The organization can then allocate 64-bit prefixes to smaller sub-networks. In IPv6, we usually don't see prefixes longer than /64. Even the smallest sub-networks inside an organization have a 64-bit prefix, and 64 bits for addressing specific hosts. Using these standardized prefix sizes allows prefixes to be more informative. For example, in IPv6, it's not clear what a /19 prefix represents, but in IPv6, we know a /32 prefix typically represents an ISP. TODO double check this
+Trên thực tế, các cơ quan đăng ký khu vực thường phân bổ các tiền tố 32-bit cho các *ISP*, và các *ISP* thường phân bổ các tiền tố 48-bit cho các tổ chức. Tổ chức sau đó có thể phân bổ các tiền tố 64-bit cho các mạng con nhỏ hơn. Trong *IPv6*, chúng ta thường không thấy các tiền tố dài hơn /64. Ngay cả các mạng con nhỏ nhất bên trong một tổ chức cũng có một tiền tố 64-bit, và 64 bit để định địa chỉ cho các máy chủ cụ thể. Việc sử dụng các kích thước tiền tố được tiêu chuẩn hóa này cho phép các tiền tố cung cấp nhiều thông tin hơn. Ví dụ, trong *IPv4*, không rõ ràng một tiền tố /19 đại diện cho cái gì, nhưng trong *IPv6*, chúng ta biết một tiền tố /32 thường đại diện cho một *ISP*.

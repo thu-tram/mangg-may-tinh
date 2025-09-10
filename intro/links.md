@@ -1,8 +1,8 @@
-# **Links** (Liên kết)
+# **Links**
 
-## **Properties of Links** (Các đặc tính của liên kết)
+## **Properties of Links** (Các đặc tính của links)
 
-Bây giờ khi chúng ta đã có bức tranh tổng thể về cách các tầng của Internet được xây dựng, hãy tập trung vào cách một **packet** (gói tin) được gửi qua một **link** (liên kết).
+Bây giờ khi chúng ta đã có bức tranh tổng thể về cách các tầng của Internet được xây dựng, hãy tập trung vào cách một **packet** (gói tin) được gửi qua một **link**.
 
 Có ba đặc tính mà chúng ta có thể dùng để đo hiệu năng của một liên kết:
 

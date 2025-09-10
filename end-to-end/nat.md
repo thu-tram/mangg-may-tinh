@@ -1,121 +1,117 @@
-# NAT: Network Address Translation
+# NAT: *Network Address Translation* (Chuyển đổi địa chỉ mạng)
 
-## Motivation: IPv4 Address Exhaustion
+## Động cơ: Cạn kiệt địa chỉ *IPv4*
 
-Recall that we only have $$2^{32}$$ different IPv4 addresses, which is not enough to address every host on the Internet. We've already seen that IPv6 is a robust solution to IPv4 address exhaustion, but IPv6 adoption has been fairly slow.
+Hãy nhớ rằng chúng ta chỉ có $$2^{32}$$ địa chỉ *IPv4* khác nhau, con số này không đủ để gán cho mọi *host* (máy chủ/máy trạm) trên Internet. Chúng ta đã thấy rằng *IPv6* là một giải pháp mạnh mẽ cho vấn đề cạn kiệt địa chỉ *IPv4*, nhưng việc triển khai *IPv6* diễn ra khá chậm.
 
-In the meantime, to conserve addresses, recall that IANA allocated special RFC 1918 ranges of private IP addresses, which can be used by any networks that don't require Internet addresses: 192.168.0.0/16, 10.0.0.0/8, and 172.16.0.0/12. It turns out that these addresses are often used in your home network as well, so that your own personal device doesn't need a unique IP address. But, you do need Internet access, so how can you use a private IP address?
+Trong thời gian chờ đợi, để tiết kiệm địa chỉ, *IANA* đã phân bổ các dải địa chỉ IP riêng (*private IP addresses*) theo chuẩn RFC 1918, có thể được sử dụng bởi bất kỳ mạng nào không yêu cầu địa chỉ Internet công cộng: 192.168.0.0/16, 10.0.0.0/8 và 172.16.0.0/12. Thực tế, các địa chỉ này thường được dùng trong mạng gia đình, giúp thiết bị cá nhân của bạn không cần một địa chỉ IP công cộng duy nhất. Tuy nhiên, bạn vẫn cần truy cập Internet, vậy làm thế nào để sử dụng địa chỉ IP riêng?
 
+## NAT: Khái niệm
 
-## NAT: Conceptual
+Trong *NAT*, mục tiêu là sử dụng một địa chỉ IP công cộng duy nhất để đại diện cho nhiều *host* trong mạng nội bộ. Mấu chốt là *gateway router* (bộ định tuyến cổng) sẽ chuyển đổi địa chỉ IP riêng thành địa chỉ công cộng trước khi gửi gói tin ra ngoài. Sau đó, *router* sẽ chuyển đổi địa chỉ công cộng trở lại thành địa chỉ riêng cho các gói tin phản hồi đi vào.
 
-In NAT, the goal is to use a single public IP address to represent many hosts in the local network. The trick is to have the gateway router convert private IP addresses into the single public address before sending out messages. Then, the router converts the public address back into a private address for incoming replies.
-
-Alice, Bob, and Chuck are all working for Joe's Tire Shop. They have private IP addresses A, B, and C, which cannot be used on the wide Internet, because they're not unique. Instead, everyone in Joe's Tire Shop must share a single public IP address, which is the only unique, publicly-understandable IP address they have.
+Alice, Bob và Chuck cùng làm việc tại tiệm lốp xe của Joe. Họ có các địa chỉ IP riêng A, B và C, vốn không thể sử dụng trực tiếp trên Internet vì không duy nhất. Thay vào đó, tất cả mọi người trong tiệm phải chia sẻ một địa chỉ IP công cộng duy nhất – đây là địa chỉ duy nhất và hợp lệ trên Internet mà họ có.
 
 <img width="900px" src="../assets/end-to-end/5-056-nat1.png">
 
-Alice wants to send a message to an external public server with public IP address S. She sends a packet that says "From: A, To: S." If we sent this packet naively, S would be unable to send replies, because A is a private IP address.
+Alice muốn gửi một thông điệp đến máy chủ công cộng bên ngoài có địa chỉ IP công cộng S. Cô gửi một *packet* (gói tin) với thông tin: "From: A, To: S". Nếu gửi gói tin này trực tiếp, S sẽ không thể phản hồi vì A là địa chỉ IP riêng.
 
 <img width="900px" src="../assets/end-to-end/5-057-nat2.png">
 
-Instead, when the packet reaches the gateway router, it rewrites the header to say "From: R1, To: S." The router also makes a note: If I get any replies from S, they should go to A.
+Thay vào đó, khi gói tin đến *gateway router*, nó sẽ ghi lại tiêu đề thành "From: R1, To: S". *Router* cũng ghi chú: Nếu nhận được phản hồi từ S, hãy gửi cho A.
 
 <img width="900px" src="../assets/end-to-end/5-058-nat3.png">
 
-Now, when S gets a packet, it can send replies to the public address R1: "From: S, To: R1." When R1, the gateway router, receives the reply, it checks its note, and rewrites the header to say "From: S, To: A." Then, the packet gets sent back to A.
+Khi S nhận được gói tin, nó sẽ phản hồi đến địa chỉ công cộng R1: "From: S, To: R1". Khi R1 nhận được phản hồi, nó kiểm tra ghi chú và sửa tiêu đề thành "From: S, To: A", rồi gửi gói tin về cho A.
 
 <img width="900px" src="../assets/end-to-end/5-059-nat4.png">
 
-Now, Alice, Bob, and Chuck can all send outgoing packets. When the router receives a packet, it must remember a mapping between the external destination and the internal sender. ("B just sent a packet to N, so any replies from N should be sent back to B.")
+Nhờ vậy, Alice, Bob và Chuck đều có thể gửi gói tin ra ngoài. Khi *router* nhận gói tin, nó phải ghi nhớ ánh xạ giữa đích bên ngoài và nguồn bên trong ("B vừa gửi gói tin đến N, nên mọi phản hồi từ N phải gửi lại cho B").
 
-One problem arises if Alice and Bob both want to talk to S.
+Vấn đề phát sinh nếu Alice và Bob cùng muốn giao tiếp với S.
 
 <img width="900px" src="../assets/end-to-end/5-060-nat5.png">
 
-We now have ambiguity if a reply arrives from S. Should the router send this reply to A or B?
+Khi phản hồi từ S đến, *router* sẽ không biết nên gửi cho A hay B.
 
 <img width="900px" src="../assets/end-to-end/5-061-nat6.png">
 
-We can solve this problem by using logical ports, from Layer 4. Alice's connection says: "From: A, Port 50000, To: S, Port 80." The router rewrites this to say "From: R1, Port 50000, To: S, Port 80," just like before. The note now says, if I get any replies from S, Port 80, to R1, Port 50000, it should go to A.
+Chúng ta có thể giải quyết bằng cách sử dụng *logical ports* (cổng logic) từ *Layer 4*. Kết nối của Alice: "From: A, Port 50000, To: S, Port 80". *Router* chuyển thành "From: R1, Port 50000, To: S, Port 80" và ghi chú: nếu nhận phản hồi từ S, Port 80, đến R1, Port 50000 thì gửi cho A.
 
 <img width="900px" src="../assets/end-to-end/5-062-nat7.png">
 
-Bob could create a separate connection that says: "From B, Port 60000, To: S, Port 80." The router rewrites this to say "From: R1, Port 60000, To: S, Port 80," just like before. The note for this connection says, if I get any replies from S, Port 80 to R1, Port 60000, it should to go B.
+Bob có thể tạo kết nối riêng: "From: B, Port 60000, To: S, Port 80". *Router* chuyển thành "From: R1, Port 60000, To: S, Port 80" và ghi chú: nếu nhận phản hồi từ S, Port 80, đến R1, Port 60000 thì gửi cho B.
 
 <img width="900px" src="../assets/end-to-end/5-063-nat8.png">
 
-More generally, the router is now keeping track of connections using the 5-tuple of source IP, destination IP, protocol, source port, and destination port. When the router receives an outgoing packet, it changes the private source IP to the public source IP, and makes a note of the 5-tuple. Then, when the router receives an incoming packet, it looks up which connection the packet belongs to, and sends the packet to the appropriate client (with their private IP).
+Nói chung, *router* sẽ theo dõi kết nối bằng bộ 5 thông tin (*5-tuple*): địa chỉ IP nguồn, địa chỉ IP đích, giao thức, *source port* (cổng nguồn) và *destination port* (cổng đích). Khi nhận gói tin đi ra, *router* đổi IP nguồn riêng thành IP nguồn công cộng và lưu bộ 5-tuple. Khi nhận gói tin đi vào, *router* tra bảng để tìm kết nối tương ứng và gửi đến *client* phù hợp (với IP riêng của họ).
 
 <img width="900px" src="../assets/end-to-end/5-064-nat9.png">
 
+## Thay đổi số cổng của *Client*
 
-## Rewriting Client Port Numbers
-
-We have one last issue: What if, instead of Port 50000 and Port 60000, Alice and Bob both chose the same port number (e.g. Port 50000)?
+Vấn đề cuối cùng: nếu Alice và Bob cùng chọn cùng một số cổng (ví dụ Port 50000)?
 
 <img width="900px" src="../assets/end-to-end/5-065-nat10.png">
 
-Now, the router remembers two connections: (A Port 50000 to S Port 80), and (B Port 50000 to S Port 80). If the router receives an incoming packet "From: S, Port 80, To: R1 Port 50000," it's ambiguous whether this packet was from A or B's connection.
+Khi đó, *router* sẽ lưu hai kết nối: (A Port 50000 → S Port 80) và (B Port 50000 → S Port 80). Nếu nhận gói tin "From: S, Port 80, To: R1, Port 50000", sẽ không rõ gói tin thuộc kết nối của A hay B.
 
 <img width="900px" src="../assets/end-to-end/5-066-nat11.png">
 
-The last fix we have to make is to also allow the router to rewrite the port number. When Bob sends "From: B, Port 50000, To: S, Port 80," the router realizes that someone else already has a connection using Port 50000, to S Port 80. Therefore, the router makes up a "fake" port number for Bob (let's use 60000) and rewrites both the source IP and source port to get: "From: R1, Port 60000, To: S, Port 80."
+Giải pháp là cho phép *router* thay đổi cả số cổng. Khi Bob gửi "From: B, Port 50000, To: S, Port 80", *router* nhận thấy Port 50000 đã được dùng cho kết nối đến S Port 80, nên tạo một *fake port* (cổng giả) cho Bob, ví dụ 60000, và chuyển thành "From: R1, Port 60000, To: S, Port 80".
 
-As before, the router remembers the active connection (A Port 50000 to S Port 80), but for Bob, the router additionally notes the fake port number: (B Port 50000, faked as 60000, to S Port 80).
+*Router* lưu: (B Port 50000, giả thành 60000, → S Port 80).
 
 <img width="900px" src="../assets/end-to-end/5-067-nat12.png">
 
-Now, if the router receives an incoming packet "From: S, Port 80, To: R1, Port 50000," this must be for Alice. By contrast, an incoming packet like "From: S, Port 80, To: R1, Port 60000," with the fake port number, this must be for Bob.
+Khi nhận gói tin "From: S, Port 80, To: R1, Port 50000" → của Alice; còn "From: S, Port 80, To: R1, Port 60000" → của Bob.
 
 <img width="900px" src="../assets/end-to-end/5-068-nat13.png">
 
-Note that Bob has no idea that the router is changing his port number. When the router forwards this packet back to Bob, the fake port number must be changed back to the original port number. "From: S, Port 80, To: R1, Port 60000" must be rewritten as "From: S, Port 80, To: R1, Port 60000." More generally, none of the private clients should need to know or care about their packets getting rewritten. The router should be giving all of them the illusion that they're sending and receiving packets from their private IP address and whatever ports they choose.
+Bob không hề biết *router* đã đổi số cổng. Khi *router* gửi lại gói tin cho Bob, nó đổi cổng giả về cổng gốc.
 
+## NAT: Triển khai
 
-## NAT: Implementation
-
-When a home router connects to the ISP for the first time, it can run DHCP to receive an IP address. (Earlier, we talked about hosts running DHCP, but routers can also run DHCP.) The ISP's DHCP server replies and allocates a single IP address to the home router. This is the single public address that all the hosts in this router's home network will be sharing.
+Khi *home router* (router gia đình) kết nối *ISP* lần đầu, nó có thể chạy *DHCP* để nhận địa chỉ IP công cộng. *ISP* cấp một địa chỉ IP duy nhất cho *home router*, và tất cả thiết bị trong mạng gia đình sẽ chia sẻ địa chỉ này.
 
 <img width="800px" src="../assets/end-to-end/5-069-nat-dhcp.png">
 
-There are several different modes of NAT. The one we just saw is called **Port Address Translation (PAT)**, and it gives us the ability to introduce the fake port numbers that we saw. The PAT mode requires routers to be aware of Layer 4 protocols, so that they can parse the packets, keep track of connections, and rewrite headers.
+Chế độ NAT vừa mô tả gọi là **Port Address Translation (PAT)** – cho phép tạo *fake port*. PAT yêu cầu *router* hiểu *Layer 4* để phân tích gói tin, theo dõi kết nối và sửa tiêu đề.
 
-PAT is the most complex and widely-used mode of NAT, but simpler modes of NAT also exist for one-to-one address translation. If every host actually had their own IP address, but they sent packets from private addresses, the router could just do a one-to-one translation, mapping 10.0.0.1 (private) to 42.0.2.1 (public), and 10.0.0.2 (private) to 42.0.2.2 (public), and so on. This simpler mode wouldn't let us conserve IP addresses by hiding multiple hosts behind a single public address, but it can still be useful in other situations.
+PAT là chế độ NAT phức tạp và phổ biến nhất, nhưng cũng có chế độ NAT đơn giản hơn cho ánh xạ một-một. Ví dụ: 10.0.0.1 (riêng) ↔ 42.0.2.1 (công cộng).
 
 <img width="400px" src="../assets/end-to-end/5-070-simpler-nat.png">
 
+## NAT được dùng ở đâu?
 
-## Where is NAT Used?
+NAT làm tăng độ phức tạp của *packet forwarding* (chuyển tiếp gói tin) vì *router* phải phân tích cả tiêu đề *Layer 4*, sửa tiêu đề *Layer 3* và *Layer 4*, và duy trì bảng trạng thái kết nối. Điều này tiêu tốn CPU và bộ nhớ.
 
-NAT increases the complexity of packet forwarding for the router. The router must now be able to parse the Layer 4 header, in addition to the Layer 3 header. Also, the router must be able to rewrite the Layer 3 and Layer 4 headers. Finally, the router must maintain a connection state table to keep track of all the flows passing through the router. All this functionality increases the number of CPU cycles needed to forward each packet, and also increases the amount of memory needed on the router per flow.
+Vì vậy, NAT thường được triển khai ở rìa mạng (*edge*), ví dụ trên *home router* (router gia đình), để giới hạn số lượng luồng (*flow*) đi qua router. Chạy NAT trên router gia đình là hợp lý vì thường không có quá nhiều thiết bị trong nhà gửi kết nối ra ngoài. Ngược lại, chạy NAT trên các *datacenter router* (router trung tâm dữ liệu) hiệu năng cao sẽ là ý tưởng tồi.
 
-Because NAT increases router complexity, it is performed as close to the edge of the network as possible, in order to limit the number of flows passing through the router. Running NAT on your home router is a good idea, since there aren't too many devices in your home that will send connections through the home router. By contrast, running NAT on a high-performance datacenter router would be a bad idea.
+Trong thực tế, NAT quy mô nhỏ được sử dụng trong hầu hết các mạng cá nhân (gia đình/văn phòng) cho *IPv4*, ngay cả ngày nay. Khi địa chỉ *IPv4* cạn kiệt, các *ISP* (nhà cung cấp dịch vụ Internet) không thể cấp một địa chỉ công cộng cho mỗi khách hàng (tức mỗi router gia đình). Kết quả là, chính mạng của ISP cũng phải chạy một phiên bản NAT phức tạp hơn gọi là **Carrier Grade NAT (CGNAT)**. Phiên bản này được triển khai sâu hơn trong mạng và yêu cầu router theo dõi nhiều kết nối hơn rất nhiều.
 
-In practice, small-scale NAT is used in almost every personal (home/office) network for IPv4, even today. As IPv4 addresses ran out, ISPs were unable to give one public address to each customer (i.e. each home router). As a result, the ISP network itself also had to run a more complex version of NAT called Carrier Grade NAT (CGNAT). This version of NAT is deployed deeper in the network, and requires routers to keep track of many more connections.
-
-Note that we generally don't use NAT for IPv6, because there are enough IPv6 addresses to assign a unique public one to every computer in the world.
+Lưu ý rằng chúng ta thường không dùng NAT cho *IPv6*, vì *IPv6* có đủ địa chỉ để gán một địa chỉ công cộng duy nhất cho mọi máy tính trên thế giới.
 
 
-## Inbound Connections
+## Kết nối đến (*Inbound Connections*)
 
-So far, we've assumed that connections are always initiated by the client with the private IP address. In other words, the first packet is always outgoing, from client to server. This is consistent with how most home networks operate. When you load a website in your browser, you're the client initiating the connection. It's generally not the case that others are trying to connect to you.
+Cho đến giờ, chúng ta giả định rằng các kết nối luôn được khởi tạo từ phía *client* (máy khách) có địa chỉ IP riêng. Nói cách khác, gói tin đầu tiên luôn đi ra ngoài, từ *client* đến *server*. Điều này phù hợp với cách hầu hết các mạng gia đình hoạt động: khi bạn tải một trang web, bạn là bên khởi tạo kết nối. Thông thường, không ai từ bên ngoài cố gắng kết nối đến bạn.
 
-But, what if you were running a server, and you did want people from the outside world to be able to initiate connections to this server? Users from the outside can't send packets to a private IP address. They could try to send packets to the router's IP address, but if the router gets a packet like "From: outside user, To: R1, Port 28," the router has no idea which of the private clients to forward this packet to. This is the very first packet of a new connection, so the router's table has no information about this connection yet.
+Nhưng nếu bạn đang chạy một *server* và muốn người bên ngoài có thể khởi tạo kết nối đến *server* này thì sao? Người dùng bên ngoài không thể gửi gói tin trực tiếp đến địa chỉ IP riêng. Họ có thể gửi đến địa chỉ IP công cộng của router, nhưng nếu router nhận được gói tin như "From: outside user, To: R1, Port 28", router sẽ không biết phải chuyển tiếp đến *client* riêng nào. Đây là gói tin đầu tiên của một kết nối mới, nên bảng NAT của router chưa có thông tin về kết nối này.
 
 <img width="900px" src="../assets/end-to-end/5-071-inbound-nat.png">
 
-To allow inbound connections, routers performing NAT need a **port mapping table**. Alice, who is inside the network and only has a private IP address, tells the router: I'm going to run a new server, and listen for requests on Port 28. Now, if the router sees some packet from an outside user to R1, Port 28, the router knows to forward this packet to Alice.
+Để cho phép kết nối đến, router chạy NAT cần có **port mapping table** (bảng ánh xạ cổng). Ví dụ, Alice (bên trong mạng, chỉ có IP riêng) thông báo cho router: "Tôi sẽ chạy một *server* mới và lắng nghe trên Port 28". Khi đó, nếu router thấy gói tin từ bên ngoài gửi đến R1, Port 28, nó sẽ biết cần chuyển tiếp gói tin này cho Alice.
 
-Entries in this port mapping table may need to be specified manually (e.g. Alice manually configuring the router). Dynamic protocols such as UPnP (Universal Plug-n-Play) and NAT-PMP (NAT Port Mapping Protocol) allow for dynamic configuration of open ports. These protocols are sometimes used by applications like online gaming, where inbound connections are needed.
+Các mục trong bảng ánh xạ cổng có thể cần cấu hình thủ công (ví dụ: Alice cấu hình router bằng tay). Các giao thức động như *UPnP* (*Universal Plug-n-Play*) và *NAT-PMP* (*NAT Port Mapping Protocol*) cho phép cấu hình cổng mở một cách tự động. Các giao thức này đôi khi được dùng bởi ứng dụng như trò chơi trực tuyến, nơi cần kết nối đến từ bên ngoài.
 
 
-## Security Implications of NAT
+## Tác động bảo mật của NAT (*Security Implications of NAT*)
 
-NAT breaks the end-to-end principle. So far, we've said that with Layer 3, anybody on the Internet can reach anyone else. However, because NAT doesn't allow inbound connections by default, users in a home network, who only have a private IP address and are sharing a public IP address, cannot be reached automatically. They'd need to configure the router before they can accept inbound packets.
+NAT phá vỡ *End-to-end Principle* (nguyên tắc đầu-cuối). Trước đây, với *Layer 3*, bất kỳ ai trên Internet cũng có thể kết nối đến bất kỳ ai khác. Tuy nhiên, vì NAT không cho phép kết nối đến theo mặc định, người dùng trong mạng gia đình (chỉ có IP riêng và chia sẻ IP công cộng) sẽ không thể được truy cập trực tiếp. Họ phải cấu hình router trước khi có thể nhận gói tin đến.
 
-NAT has the property that it doesn't allow inbound connections by default. This could be viewed as a security feature, though it's more of a side effect than an intentional design feature. NAT causes inbound connections to be blocked by default, which might be useful for stopping attackers from trying to connect to hosts inside the network. This behavior is actually pretty similar to firewalls (see UC Berkeley CS 161 notes for more information), which also often block inbound connections by default. That said, this is mostly a coincidence, so NAT isn't really implementing a principled security policy, and shouldn't be thought of as a bulletproof defense.
+NAT có đặc điểm là chặn kết nối đến theo mặc định. Điều này có thể được xem như một tính năng bảo mật, dù thực chất chỉ là hệ quả phụ chứ không phải mục tiêu thiết kế. NAT khiến các kết nối đến bị chặn, điều này có thể hữu ích để ngăn kẻ tấn công kết nối vào các *host* bên trong mạng. Hành vi này khá giống với *firewall* (tường lửa), vốn cũng thường chặn kết nối đến theo mặc định. Tuy nhiên, đây chỉ là sự trùng hợp, nên NAT không thực sự thực thi một chính sách bảo mật có nguyên tắc, và không nên được coi là một biện pháp phòng thủ tuyệt đối.
 
-NAT also has the side effect that it can help preserve client privacy. Again, this isn't really an intentional security feature. Because the router rewrites the client's IP address, when the server receives a packet, it doesn't know the original sender's identity (could be Alice, Bob, or Chuck).
+NAT cũng có tác dụng phụ là giúp bảo vệ quyền riêng tư của *client*. Một lần nữa, đây không phải là tính năng bảo mật được thiết kế chủ đích. Vì router thay đổi địa chỉ IP của *client*, khi *server* nhận gói tin, nó không biết chính xác ai là người gửi ban đầu (có thể là Alice, Bob hoặc Chuck).
 
-By contrast, if we didn't use NAT, the server can learn the exact identity of the sender. Also, if we didn't use NAT and we used IPv6, the server might be able to learn the exact computer the sender is using, since IPv6 addresses are sometimes auto-configured using the MAC address (copying MAC address bits into the IP address). If we were using IPv6 and still wanted client privacy, some alternate solutions like IPv6 temporary/privacy addresses do exist.
+Ngược lại, nếu không dùng NAT, *server* có thể biết chính xác danh tính của người gửi. Ngoài ra, nếu không dùng NAT và dùng *IPv6*, *server* thậm chí có thể biết chính xác máy tính mà người gửi đang dùng, vì địa chỉ *IPv6* đôi khi được tự động cấu hình dựa trên địa chỉ MAC (chép một phần địa chỉ MAC vào địa chỉ IP). Nếu dùng *IPv6* và vẫn muốn bảo vệ quyền riêng tư của *client*, có thể dùng các giải pháp khác như *IPv6 temporary/privacy addresses* (địa chỉ tạm thời/riêng tư).

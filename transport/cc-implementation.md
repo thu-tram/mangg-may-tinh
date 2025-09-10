@@ -1,7 +1,3 @@
-Chắc chắn rồi. Tôi sẽ tiếp tục dịch phần tiếp theo của giáo trình, duy trì sự nhất quán với các thuật ngữ đã được định nghĩa ở các phần trước và chỉ giới thiệu các thuật ngữ mới khi chúng xuất hiện lần đầu tiên.
-
------
-
 # Triển khai Kiểm soát Tắc nghẽn
 
 ## Tóm tắt lại: Các Cửa sổ TCP

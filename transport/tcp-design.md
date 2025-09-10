@@ -1,288 +1,288 @@
-# TCP Design
+# Thiết kế TCP (TCP Design)
 
-## Reliably Delivering a Single Packet
+## Gửi một Gói tin Duy nhất một cách Đáng tin cậy (Reliably Delivering a Single Packet)
 
-The time it takes for a packet to travel from sender to receiver is the **one-way delay**. The time it takes for a packet to travel from sender to receiver, plus the time for a reply packet to travel from receiver to sender, is the **round-trip time (RTT)**.
+Thời gian để một gói tin di chuyển từ người gửi đến người nhận là **one-way delay** (độ trễ một chiều). Thời gian để một gói tin di chuyển từ người gửi đến người nhận, cộng với thời gian để một gói tin trả lời di chuyển từ người nhận đến người gửi, là **round-trip time (RTT)** (thời gian trọn vòng).
 
 <img width="800px" src="../assets/transport/3-008-tcpdemo1.png">
 
-Let's build intuition by designing a simplified protocol for reliably sending a single packet.
+Hãy xây dựng trực giác bằng cách thiết kế một giao thức đơn giản hóa để gửi một gói tin duy nhất một cách đáng tin cậy.
 
-The sender tries to send a packet. How does the sender know if the packet was successfully received?
+Người gửi cố gắng gửi một gói tin. Làm thế nào người gửi biết được gói tin đã được nhận thành công hay chưa?
 
 <img width="800px" src="../assets/transport/3-009-tcpdemo2.png">
 
-The receiver can send an **acknowledgment (ack)** message, confirming that the packet was received.
+Người nhận có thể gửi một tin nhắn **acknowledgment (ack)** (tin báo nhận), xác nhận rằng gói tin đã được nhận.
 
-What happens if the packet gets dropped?
+Điều gì xảy ra nếu gói tin bị mất?
 
-We can re-send the packet if it's dropped. How do we know when to re-send the packet?
+Chúng ta có thể gửi lại gói tin nếu nó bị mất. Làm thế nào chúng ta biết khi nào cần gửi lại gói tin?
 
 <img width="600px" src="../assets/transport/3-010-tcpdemo3.png">
 
-The sender can maintain a timer. When the timer expires, we can re-send the packet.
+Người gửi có thể duy trì một bộ đếm thời gian. Khi bộ đếm thời gian hết hạn, chúng ta có thể gửi lại gói tin.
 
-When the sender receives an ack, the sender can cancel the timer and does not need to re-send the packet.
+Khi người gửi nhận được một ack, người gửi có thể hủy bộ đếm thời gian và không cần phải gửi lại gói tin.
 
-What happens if the ack is dropped?
+Điều gì xảy ra nếu ack bị mất?
 
 <img width="600px" src="../assets/transport/3-011-tcpdemo4.png">
 
-The protocol still works without modification. The sender will time out (no ack received) and re-send the packet until the ack is successfully sent. In this case, the destination received two copies of the same packet, but that's okay. The destination can notice the duplicate and discard it.
+Giao thức vẫn hoạt động mà không cần sửa đổi. Người gửi sẽ hết thời gian chờ (không nhận được ack) và gửi lại gói tin cho đến khi ack được gửi thành công. Trong trường hợp này, đích đến đã nhận được hai bản sao của cùng một gói tin, nhưng điều đó không sao cả. Đích đến có thể nhận thấy bản sao trùng lặp và loại bỏ nó.
 
-How should the timer be set? If the timer is too long, the packet might take longer than needed to be sent. If the timer is too short, the packet might be re-sent when it didn't need to be. Getting the timer wrong can affect our efficiency goals.
+Bộ đếm thời gian nên được đặt như thế nào? Nếu bộ đếm thời gian quá dài, gói tin có thể mất nhiều thời gian hơn cần thiết để được gửi đi. Nếu bộ đếm thời gian quá ngắn, gói tin có thể được gửi lại khi không cần thiết. Việc đặt sai bộ đếm thời gian có thể ảnh hưởng đến các mục tiêu hiệu quả của chúng ta.
 
-A good timer length would be the round-trip time. This is when the sender expects to receive the ack, so if an ack hasn't arrived by then, the sender should re-send the packet at that time.
+Một khoảng thời gian tốt cho bộ đếm sẽ là round-trip time. Đây là lúc người gửi mong đợi nhận được ack, vì vậy nếu ack chưa đến vào thời điểm đó, người gửi nên gửi lại gói tin.
 
-In practice, estimating RTT can be difficult. RTTs can vary depending on what path the packet takes through the network, and even along a specific path, the RTT can be affected by the load and congestion along that path.
+Trên thực tế, việc ước tính RTT có thể khó khăn. RTT có thể thay đổi tùy thuộc vào đường đi mà gói tin đi qua mạng, và ngay cả trên một đường đi cụ thể, RTT có thể bị ảnh hưởng bởi tải và tắc nghẽn trên đường đi đó.
 
-One way to estimate RTT is to measure the time between sending a packet and receiving an ack for that packet. We can get an estimated RTT measurement from every packet sent, and apply some algorithm (e.g. exponential moving average) to combine these measurements into one RTT estimate. Our algorithm would also have to account for messages being re-sent (variance in the measurements).
+Một cách để ước tính RTT là đo thời gian giữa việc gửi một gói tin và nhận được ack cho gói tin đó. Chúng ta có thể nhận được một phép đo RTT ước tính từ mỗi gói tin được gửi, và áp dụng một thuật toán nào đó (ví dụ: trung bình động hàm mũ) để kết hợp các phép đo này thành một ước tính RTT. Thuật toán của chúng ta cũng sẽ phải tính đến việc các tin nhắn được gửi lại (sự biến thiên trong các phép đo).
 
-In practice, operators usually err on the side of setting the timer to be longer. If the timer is too short, and timeouts are constantly happening, your connection is probably behaving poorly (constantly re-sending packets).
+Trên thực tế, các nhà khai thác thường có xu hướng đặt bộ đếm thời gian dài hơn. Nếu bộ đếm thời gian quá ngắn, và việc hết thời gian chờ liên tục xảy ra, kết nối của bạn có lẽ đang hoạt động kém (liên tục gửi lại các gói tin).
 
-What if the bits are corrupted?
+Điều gì sẽ xảy ra nếu các bit bị hỏng?
 
 <img width="600px" src="../assets/transport/3-012-tcpdemo5.png">
 
-We can add a checksum in the transport layer header (different from the IP layer checksum). When the receiver sees a corrupt packet, it can do two things: Either the receiver can explicitly re-send a **negative acknowledgement (nack)**, telling the sender to re-send the packet.
+Chúng ta có thể thêm một checksum (tổng kiểm) trong phần đầu của lớp vận chuyển (khác với checksum của lớp IP). Khi người nhận thấy một gói tin bị hỏng, nó có thể làm hai việc: Hoặc người nhận có thể gửi lại một cách tường minh một **negative acknowledgement (nack)** (tin báo nhận tiêu cực), yêu cầu người gửi gửi lại gói tin.
 
-Or, the receiver can drop the corrupt packet and do nothing (don't send an ack or nack). Then, the sender will time out and re-send the packet.
+Hoặc, người nhận có thể bỏ gói tin bị hỏng và không làm gì cả (không gửi ack hay nack). Sau đó, người gửi sẽ hết thời gian chờ và gửi lại gói tin.
 
 <img width="600px" src="../assets/transport/3-013-tcpdemo6.png">
 
-Both approaches (nack or wait for timeout) work, though TCP uses the latter (wait for timeout) and does not implement nacks.
+Cả hai cách tiếp cận (nack hoặc chờ hết thời gian) đều hoạt động, mặc dù TCP sử dụng cách thứ hai (chờ hết thời gian) và không triển khai nack.
 
-What if the packets are delayed?
+Điều gì sẽ xảy ra nếu các gói tin bị trễ?
 
 <img width="500px" src="../assets/transport/3-014-tcpdemo7.png">
 
-No modifications are needed. If the delay is very long, the sender might time out before the ack arrives. The sender will re-send the packet (so the recipient might get two duplicates), and the sender might get two acks, but that's okay.
+Không cần sửa đổi gì. Nếu độ trễ rất dài, người gửi có thể hết thời gian chờ trước khi ack đến. Người gửi sẽ gửi lại gói tin (vì vậy người nhận có thể nhận được hai bản sao), và người gửi có thể nhận được hai ack, nhưng điều đó không sao cả.
 
-What if the sender sends one packet, but it's duplicated in the network, and the recipient receives two copies?
+Điều gì sẽ xảy ra nếu người gửi gửi một gói tin, nhưng nó bị nhân đôi trong mạng, và người nhận nhận được hai bản sao?
 
 <img width="500px" src="../assets/transport/3-015-tcpdemo8.png">
 
-No modifications are needed. The recipient would send two acks, but both the sender and the recipient can safely handle duplicates.
+Không cần sửa đổi gì. Người nhận sẽ gửi hai ack, nhưng cả người gửi và người nhận đều có thể xử lý các bản sao một cách an toàn.
 
-Note: From this simplified protocol, we can see that sometimes the recipient receives two copies of the packet. If a specific link was implementing a reliability protocol, the recipient side of the link might receive two copies. Normally, the duplicate would get dropped and only one packet would be forwarded to the destination. But, if the router crashes and restarts in between the two copies arriving, the router might forward both copies to the destination.
+Lưu ý: Từ giao thức đơn giản hóa này, chúng ta có thể thấy rằng đôi khi người nhận nhận được hai bản sao của gói tin. Nếu một liên kết cụ thể đang triển khai một giao thức đảm bảo độ tin cậy, phía nhận của liên kết có thể nhận được hai bản sao. Thông thường, bản sao sẽ bị loại bỏ và chỉ một gói tin được chuyển tiếp đến đích. Nhưng, nếu router bị treo và khởi động lại trong khoảng thời gian giữa hai bản sao đến, router có thể chuyển tiếp cả hai bản sao đến đích.
 
-In summary, the single-packet reliability protocol is:
+Tóm lại, giao thức đảm bảo độ tin cậy cho một gói tin duy nhất là:
 
-If you are the sender: Send the packet, and set a timer. If no ack arrives before the timer goes off, re-send the packet and reset the timer. Stop and cancel the timer when the ack arrives.
+Nếu bạn là người gửi: Gửi gói tin, và đặt một bộ đếm thời gian. Nếu không có ack nào đến trước khi bộ đếm thời gian kết thúc, hãy gửi lại gói tin và đặt lại bộ đếm thời gian. Dừng và hủy bộ đếm thời gian khi ack đến.
 
-If you are the recipient: If you receive the uncorrupted packet, send an ack. (You might send multiple acks if you receive the packet multiple times.)
+Nếu bạn là người nhận: Nếu bạn nhận được gói tin không bị hỏng, hãy gửi một ack. (Bạn có thể gửi nhiều ack nếu bạn nhận được gói tin nhiều lần.)
 
-The core ideas in this example will apply to later protocols as well: checksums (for corruption), acknowledgements, re-sending packets, and timeouts.
+Các ý tưởng cốt lõi trong ví dụ này cũng sẽ được áp dụng cho các giao thức sau này: checksum (để chống lỗi), acknowledgements, gửi lại gói tin, và hết thời gian chờ.
 
-Note that this protocol guarantees at-least-once delivery, since duplicates may exist.
+Lưu ý rằng giao thức này đảm bảo việc gửi ít nhất một lần, vì có thể tồn tại các bản sao.
 
 
-## Reliably Delivering Multiple Packets
+## Gửi Nhiều Gói tin một cách Đáng tin cậy (Reliably Delivering Multiple Packets)
 
-How would this protocol be extended to multiple packets?
+Giao thức này sẽ được mở rộng cho nhiều gói tin như thế nào?
 
 <img width="500px" src="../assets/transport/3-016-tcpdemo9.png">
 
-We could follow the same transmission rules (re-send when timer expires) for every single packet. To distinguish packets, we can attach a unique **sequence number** to every packet. Each ack will be related to a specific packet. Sequence numbers can also help us reorder packets if they arrive out of order.
+Chúng ta có thể tuân theo các quy tắc truyền tin tương tự (gửi lại khi hết thời gian chờ) cho mỗi gói tin. Để phân biệt các gói tin, chúng ta có thể đính kèm một **sequence number** (số thứ tự) duy nhất cho mỗi gói tin. Mỗi ack sẽ liên quan đến một gói tin cụ thể. Sequence numbers cũng có thể giúp chúng ta sắp xếp lại các gói tin nếu chúng đến không đúng thứ tự.
 
-When does the sender send each packet? The simplest approach is the **stop and wait** protocol, where the sender waits for packet i to be acknowledged before sending packet i+1. This will correctly provide reliability, but it is very slow. Each packet takes at least one RTT to be sent (more if a packet is dropped or corrupted).
+Người gửi sẽ gửi mỗi gói tin khi nào? Cách tiếp cận đơn giản nhất là giao thức **stop and wait** (dừng và chờ), trong đó người gửi đợi gói tin i được xác nhận trước khi gửi gói tin i+1. Điều này sẽ cung cấp độ tin cậy một cách chính xác, nhưng rất chậm. Mỗi gói tin mất ít nhất một RTT để được gửi đi (nhiều hơn nếu một gói tin bị mất hoặc bị hỏng).
 
 <img width="600px" src="../assets/transport/3-017-tcpdemo10.png">
 
-This protocol might work in smaller settings where efficiency is less of  a concern, but this is too slow for the Internet. How can we make this faster?
+Giao thức này có thể hoạt động trong các môi trường nhỏ hơn nơi hiệu quả ít được quan tâm hơn, nhưng điều này quá chậm đối với Internet. Làm thế nào chúng ta có thể làm cho nó nhanh hơn?
 
 <img width="600px" src="../assets/transport/3-018-tcpdemo11.png">
 
-We can send packets in parallel. More specifically, we can send more packets while waiting for acks to arrive. When a packet is sent, but its corresponding ack has not been received, we call that packet **in flight**.
+Chúng ta có thể gửi các gói tin song song. Cụ thể hơn, chúng ta có thể gửi nhiều gói tin hơn trong khi chờ ack đến. Khi một gói tin được gửi đi, nhưng ack tương ứng của nó chưa được nhận, chúng ta gọi gói tin đó là **in flight** (đang trên đường truyền).
 
-The simplest approach would be to send all packets immediately, but this could overwhelm the network (e.g. the link to your computer might have a limited bandwidth).
+Cách tiếp cận đơn giản nhất là gửi tất cả các gói tin ngay lập tức, nhưng điều này có thể làm quá tải mạng (ví dụ: liên kết đến máy tính của bạn có thể có bandwidth hạn chế).
 
 
-## Window-Based Algorithms
+## Thuật toán dựa trên Cửa sổ (Window-Based Algorithms)
 
-Sending packets one at a time is too slow, but sending all packets at once overwhelms the network. To account for this, we will set a limit W and say that only W packets can be in flight at any given time. This is the key idea behind **window-based protocols**, where W is the size of the window.
+Gửi từng gói tin một thì quá chậm, nhưng gửi tất cả các gói tin cùng một lúc sẽ làm quá tải mạng. Để giải quyết vấn đề này, chúng ta sẽ đặt một giới hạn W và nói rằng chỉ có thể có W gói tin in flight tại bất kỳ thời điểm nào. Đây là ý tưởng chính đằng sau **window-based protocols** (các giao thức dựa trên cửa sổ), trong đó W là kích thước của cửa sổ.
 
-If W is the maximum number of in-flight packets, then the sender can start by sending W packets. When an ack arrives, we send the next packet in line.
+Nếu W là số lượng gói tin in flight tối đa, thì người gửi có thể bắt đầu bằng cách gửi W gói tin. Khi một ack đến, chúng ta gửi gói tin tiếp theo trong hàng đợi.
 
 <img width="500px" src="../assets/transport/3-019-window1.png">
 
-How should W be selected?
+W nên được chọn như thế nào?
 
-We want to fully use our available network capacity ("fill the pipe"). If W is too low, we are not using all of the bandwidth available to us.
+Chúng ta muốn sử dụng hết công suất mạng hiện có của mình ("lấp đầy đường ống"). Nếu W quá thấp, chúng ta không sử dụng hết bandwidth có sẵn cho mình.
 
-However, we don't want to overload links, since other people may be using that link (congestion control). We also don't want to overload the receiver, who needs to receive and process all the packets from the sender (flow control).
+Tuy nhiên, chúng ta không muốn làm quá tải các liên kết, vì những người khác cũng có thể đang sử dụng liên kết đó (congestion control (kiểm soát tắc nghẽn)). Chúng ta cũng không muốn làm quá tải người nhận, người cần nhận và xử lý tất cả các gói tin từ người gửi (flow control (kiểm soát luồng)).
 
 
-## Window Size: Filling the Pipe
+## Kích thước Cửa sổ: Lấp đầy Đường ống (Window Size: Filling the Pipe)
 
-Let's focus on just the first RTT, from the time the first packet is sent, to the time the first ack arrives. Suppose this time is 5 seconds (not a realistic number, just for example). Also, suppose that the outgoing link allows the sender to send 10 packets per second (also not a realistic number). In total, during this first RTT time, the sender should be able to send 50 packets in total. Therefore, 50 would be a reasonable window size, so that the sender is always sending packets and never sitting idle.
+Hãy tập trung vào RTT đầu tiên, từ thời điểm gói tin đầu tiên được gửi, đến thời điểm ack đầu tiên đến. Giả sử thời gian này là 5 giây (không phải là một con số thực tế, chỉ để làm ví dụ). Cũng giả sử rằng liên kết đi ra cho phép người gửi gửi 10 gói tin mỗi giây (cũng không phải là một con số thực tế). Tổng cộng, trong khoảng thời gian RTT đầu tiên này, người gửi sẽ có thể gửi tổng cộng 50 gói tin. Do đó, 50 sẽ là một kích thước cửa sổ hợp lý, để người gửi luôn gửi các gói tin và không bao giờ ở trạng thái nhàn rỗi.
 
-If we set W to be lower than 50, then the sender would finish sending all the initial packets before the first ack arrives. Then, the sender would be forced to sit idling while waiting for acks to arrive, and some network bandwidth would be wasted. More generally, we want the sender to be sending packets during the entire RTT.
+Nếu chúng ta đặt W thấp hơn 50, thì người gửi sẽ gửi xong tất cả các gói tin ban đầu trước khi ack đầu tiên đến. Sau đó, người gửi sẽ buộc phải ngồi nhàn rỗi trong khi chờ ack đến, và một phần bandwidth của mạng sẽ bị lãng phí. Tổng quát hơn, chúng ta muốn người gửi gửi các gói tin trong toàn bộ RTT.
 
 <img width="600px" src="../assets/transport/3-020-window2.png">
 
-In this example, W is 4. But, after sending 4 packets, the sender is idling and wasting bandwidth while waiting for the first ack to arrive.
+Trong ví dụ này, W là 4. Nhưng, sau khi gửi 4 gói tin, người gửi đang nhàn rỗi và lãng phí bandwidth trong khi chờ ack đầu tiên đến.
 
 <img width="600px" src="../assets/transport/3-021-window3.png">
 
-In this example, W is increased so that the sender is constantly sending packets. As the first ack arrives, the sender is just about to reach the limit of W packets in flight, and is able to immediately continue sending packets as more acks arrive.
+Trong ví dụ này, W được tăng lên để người gửi liên tục gửi các gói tin. Khi ack đầu tiên đến, người gửi sắp đạt đến giới hạn W gói tin in flight, và có thể ngay lập tức tiếp tục gửi các gói tin khi nhiều ack hơn đến.
 
-The route to the destination might have multiple links, with different capacities. Let B be the minimum (bottleneck) link bandwidth along the path. We shouldn't send packets faster than B, to avoid overloading the link. We also don't want to send packets any slower than B (i.e. we want to be using the rate B at all times).
+Đường đi đến đích có thể có nhiều liên kết, với các dung lượng khác nhau. Gọi B là bandwidth của liên kết tối thiểu (bottleneck - nút cổ chai) trên đường đi. Chúng ta không nên gửi các gói tin nhanh hơn B, để tránh làm quá tải liên kết. Chúng ta cũng không muốn gửi các gói tin chậm hơn B (tức là chúng ta muốn sử dụng tốc độ B mọi lúc).
 
-Also, suppose that R is the round-trip time between sender and recipient. We can multiply R times B to get the total number of packets that can be sent during the RTT. (We can send B packets per second, for R seconds.) This tells us the window size, in packets.
+Ngoài ra, giả sử R là round-trip time giữa người gửi và người nhận. Chúng ta có thể nhân R với B để có được tổng số gói tin có thể được gửi trong RTT. (Chúng ta có thể gửi B gói tin mỗi giây, trong R giây.) Điều này cho chúng ta biết kích thước cửa sổ, tính bằng gói tin.
 
-In reality, B is measured in bits per second, not in packets per second. When we multiply R times B, we get the number of bits that can be sent during the RTT. (B bits per second, for R seconds.) This tells us the window size, in bytes. In total, we can write:
+Trong thực tế, B được đo bằng bit trên giây, không phải gói tin trên giây. Khi chúng ta nhân R với B, chúng ta nhận được số bit có thể được gửi trong RTT. (B bit mỗi giây, trong R giây.) Điều này cho chúng ta biết kích thước cửa sổ, tính bằng byte. Tổng cộng, chúng ta có thể viết:
 
-W times packet size = R times B
+Kích thước cửa sổ W * kích thước gói tin = R * B
 
-The left-hand-side tells us the number of bytes sent during the window (W packets, times number of bytes per packet), and the right-hand-side tells us the number of bytes that can be sent during the RTT.
+Vế bên trái cho chúng ta biết số byte được gửi trong cửa sổ (W gói tin, nhân với số byte mỗi gói tin), và vế bên phải cho chúng ta biết số byte có thể được gửi trong RTT.
 
-For a concrete example, we can set RTT = 1 second, and B = 8 Mbits/second. Then, R times B is 8 Mbits, or 1 megabyte, or 1,000,000 bytes.
+Để có một ví dụ cụ thể, chúng ta có thể đặt RTT = 1 giây, và B = 8 Mbits/giây. Khi đó, R nhân B là 8 Mbits, hoặc 1 megabyte, hoặc 1,000,000 byte.
 
-If our packet size is 100 bytes, then we want W = 10,000 packets, so that we are fully using the bandwidth and sending 1,000,000 bytes during the RTT.
+Nếu kích thước gói tin của chúng ta là 100 byte, thì chúng ta muốn W = 10,000 gói tin, để chúng ta sử dụng hết bandwidth và gửi 1,000,000 byte trong RTT.
 
 <img width="900px" src="../assets/transport/3-022-window4.png">
 
 <img width="900px" src="../assets/transport/3-023-window5.png">
 
-We can also draw the window size in terms of the link itself. In this picture, we are showing the outgoing and incoming directions of a specific link. As the sender pushes packets through the link at maximum capacity, the first ack will arrive immediately after the 6th packet is sent. Therefore, our window size should be 6.
+Chúng ta cũng có thể vẽ kích thước cửa sổ theo chính liên kết đó. Trong hình này, chúng ta đang hiển thị hướng đi ra và hướng đi vào của một liên kết cụ thể. Khi người gửi đẩy các gói tin qua liên kết với công suất tối đa, ack đầu tiên sẽ đến ngay sau khi gói tin thứ 6 được gửi. Do đó, kích thước cửa sổ của chúng ta nên là 6.
 
-Note that the window size is not 3. When packet 6 is sent, 3 packets are being sent, but there are 3 more packets whose acks have not arrived, so there are a total of 6 packets in flight.
+Lưu ý rằng kích thước cửa sổ không phải là 3. Khi gói tin 6 được gửi, 3 gói tin đang được gửi, nhưng có thêm 3 gói tin nữa mà ack của chúng chưa đến, vì vậy có tổng cộng 6 gói tin in flight.
 
-If we set the window size to 3, the outgoing pipe would have been unused while the acks for 1, 2, 3 are in flight.
+Nếu chúng ta đặt kích thước cửa sổ là 3, đường ống đi ra sẽ không được sử dụng trong khi các ack cho 1, 2, 3 đang in flight.
 
 <img width="900px" src="../assets/transport/3-024-window6.png">
 
-Note that the acks don't fill up the entire incoming pipe because the packets don't contain any actual data besides acknowledging receipt of a packet.
+Lưu ý rằng các ack không lấp đầy toàn bộ đường ống đi vào vì các gói tin không chứa bất kỳ dữ liệu thực tế nào ngoài việc xác nhận đã nhận được một gói tin.
 
 
-## Window Size: Flow Control
+## Kích thước Cửa sổ: Kiểm soát Luồng (Window Size: Flow Control)
 
-Consider the transport layer protocol in the recipient's operating system. The recipient might receive packets out-of-order, but the bytestream abstraction requires that packets are delivered in-order. This means that the transport layer implementation must hold on to the out-of-order packets by **buffering** them (keeping them in memory) until it's their turn to be delivered.
+Hãy xem xét giao thức lớp vận chuyển trong hệ điều hành của người nhận. Người nhận có thể nhận các gói tin không đúng thứ tự, nhưng trừu tượng hóa bytestream (luồng byte) yêu cầu các gói tin phải được giao theo đúng thứ tự. Điều này có nghĩa là việc triển khai lớp vận chuyển phải giữ lại các gói tin không đúng thứ tự bằng cách **buffering** (đệm) chúng (giữ chúng trong bộ nhớ) cho đến khi đến lượt chúng được giao.
 
-For example, suppose the recipient has received and processed packets 1 and 2. Then, the recipient sees packets 4 and 5. The transport layer implementation cannot deliver 4 and 5 to the application yet. Instead, we have to wait for packet 3 to arrive, and in the meantime, we have to keep packets 4 and 5 stored in the transport layer implementation's memory.
+Ví dụ, giả sử người nhận đã nhận và xử lý các gói tin 1 và 2. Sau đó, người nhận thấy các gói tin 4 và 5. Việc triển khai lớp vận chuyển chưa thể giao 4 và 5 cho ứng dụng. Thay vào đó, chúng ta phải đợi gói tin 3 đến, và trong thời gian chờ đợi, chúng ta phải giữ các gói tin 4 và 5 được lưu trữ trong bộ nhớ của việc triển khai lớp vận chuyển.
 
 <img width="900px" src="../assets/transport/3-025-buffer1.png">
 
-However, memory is not unlimited, and the recipient's buffer size for storing out-of-order packets is finite. The recipient has to store every out-of-order packet in memory until the missing packets in between arrive. If the connection has a lot of packet loss and reordering, the recipient might run out of memory.
+Tuy nhiên, bộ nhớ không phải là vô hạn, và kích thước bộ đệm của người nhận để lưu trữ các gói tin không đúng thứ tự là hữu hạn. Người nhận phải lưu trữ mọi gói tin không đúng thứ tự trong bộ nhớ cho đến khi các gói tin bị thiếu ở giữa đến. Nếu kết nối có nhiều mất mát và sắp xếp lại gói tin, người nhận có thể hết bộ nhớ.
 
-**Flow control** ensures that the recipient's buffer does not run out of memory. To achieve this, we have the recipient tell the sender how much space is left in the buffer. The amount of space left in the recipient buffer is called the **advertised window**. In the acknowledgment, the recipient says "I have received these packets, and I have X bytes of space left to hold packets."
+**Flow control** đảm bảo rằng bộ đệm của người nhận không bị hết bộ nhớ. Để đạt được điều này, chúng ta để người nhận thông báo cho người gửi biết còn bao nhiêu dung lượng trống trong bộ đệm. Lượng dung lượng trống còn lại trong bộ đệm của người nhận được gọi là **advertised window** (cửa sổ được quảng bá). Trong acknowledgment, người nhận nói "Tôi đã nhận được các gói tin này, và tôi còn lại X byte dung lượng để chứa các gói tin."
 
 <img width="900px" src="../assets/transport/3-026-buffer2.png">
 
-When the sender learns about the advertised window, the sender adjusts its window accordingly. Specifically, the number of packets in flight cannot exceed the recipient's advertised window. If the recipient says "my buffer has enough space for 5 packets," the sender must set the window to be at most 5 packets (even if the bandwidth might allow for more packets to be in flight).
+Khi người gửi biết về advertised window, người gửi sẽ điều chỉnh cửa sổ của mình cho phù hợp. Cụ thể, số lượng gói tin in flight không thể vượt quá advertised window của người nhận. Nếu người nhận nói "bộ đệm của tôi có đủ dung lượng cho 5 gói tin," người gửi phải đặt cửa sổ tối đa là 5 gói tin (ngay cả khi bandwidth có thể cho phép nhiều gói tin hơn in flight).
 
 
-## Window Size: Congestion Control
+## Kích thước Cửa sổ: Kiểm soát Tắc nghẽn (Window Size: Congestion Control)
 
-Recall that in order to make the most use of bandwidth, the sender sets the window size to fully consume the bottleneck link bandwidth. For example, if the bottleneck link has bandwidth of 1Gbps, we will set the window size such that the sender is constantly sending data at 1Gbps for the entirety of the RTT (no idling).
+Hãy nhớ lại rằng để tận dụng tối đa bandwidth, người gửi đặt kích thước cửa sổ để tiêu thụ hoàn toàn bandwidth của liên kết bottleneck. Ví dụ, nếu liên kết bottleneck có bandwidth là 1Gbps, chúng ta sẽ đặt kích thước cửa sổ sao cho người gửi liên tục gửi dữ liệu ở tốc độ 1Gbps trong toàn bộ RTT (không nhàn rỗi).
 
-In practice, it's unlikely that the 1Gbps link is only being used by a single connection. Other connections could also be using the capacity along that link. Instead of consuming the entire bandwidth on that link, the sender should only consume its own share of that bandwidth capacity.
+Trên thực tế, không có khả năng liên kết 1Gbps chỉ được sử dụng bởi một kết nối duy nhất. Các kết nối khác cũng có thể đang sử dụng dung lượng trên liên kết đó. Thay vì tiêu thụ toàn bộ bandwidth trên liên kết đó, người gửi chỉ nên tiêu thụ phần bandwidth của riêng mình trong dung lượng đó.
 
 <img width="600px" src="../assets/transport/3-027-cc.png">
 
-But, what share of the bandwidth goes to each connection?
+Nhưng, phần bandwidth nào sẽ thuộc về mỗi kết nối?
 
-Suppose we had two connections using 400MBps and 250MBps, respectively. If another connection then tries to use that same link, maybe the sender's share is the remaining 350MBps. But another argument is that the bandwidth is not being shared fairly, so perhaps everybody should adjust to use 333MBps.
+Giả sử chúng ta có hai kết nối đang sử dụng lần lượt là 400MBps và 250MBps. Nếu một kết nối khác sau đó cố gắng sử dụng cùng một liên kết đó, có lẽ phần của người gửi là 350MBps còn lại. Nhưng một lập luận khác là bandwidth không được chia sẻ một cách công bằng, vì vậy có lẽ mọi người nên điều chỉnh để sử dụng 333MBps.
 
-Determining and computing the exact amount of bandwidth that each connection gets to use is the goal of congestion control. Algorithms for congestion control are its own entire topic (covered in the next section). For now, we'll abstract away congestion control and say that as part of the transport layer, the sender is implementing a congestion control algorithm, whose job is to dynamically compute the sender's share of the bottleneck link on the connection.
+Xác định và tính toán lượng bandwidth chính xác mà mỗi kết nối được phép sử dụng là mục tiêu của congestion control. Các thuật toán cho congestion control là một chủ đề hoàn toàn riêng (sẽ được đề cập trong phần tiếp theo). Bây giờ, chúng ta sẽ trừu tượng hóa congestion control và nói rằng như một phần của lớp vận chuyển, người gửi đang triển khai một thuật toán congestion control, có nhiệm vụ tính toán động phần của người gửi trên liên kết bottleneck của kết nối.
 
-The result of running the algorithm is the sender's congestion window (cwnd). For now, all you need to know is that the algorithm outputs this number, which represents a bandwidth that maximizes performance, without overloading a link, while fairly sharing bandwidth with other connections.
+Kết quả của việc chạy thuật toán là congestion window (cwnd) (cửa sổ tắc nghẽn) của người gửi. Bây giờ, tất cả những gì bạn cần biết là thuật toán sẽ đưa ra con số này, đại diện cho một bandwidth tối đa hóa hiệu suất, không làm quá tải một liên kết, trong khi chia sẻ bandwidth một cách công bằng với các kết nối khác.
 
-We now know how to set the window to achieve our three goals from earlier. To fully utilize network capacity, we will set the window size according to the RTT and the bottleneck link bandwidth. 
+Bây giờ chúng ta đã biết cách đặt cửa sổ để đạt được ba mục tiêu của mình từ trước. Để tận dụng hết công suất mạng, chúng ta sẽ đặt kích thước cửa sổ theo RTT và bandwidth của liên kết bottleneck.
 
-To avoid overloading the receiver, we will limit the window size according to the recipient's advertised window. To avoid overloading links, we will limit the window size according to the sender's congestion window (some number outputted by the sender running a congestion control algorithm).
+Để tránh làm quá tải người nhận, chúng ta sẽ giới hạn kích thước cửa sổ theo advertised window của người nhận. Để tránh làm quá tải các liên kết, chúng ta sẽ giới hạn kích thước cửa sổ theo congestion window của người gửi (một con số được đưa ra bởi người gửi chạy một thuật toán congestion control).
 
-In order to meet all three goals, we'll set the window size to the minimum of all three values. In practice, note that the congestion window (third goal) is always less than or equal to the window size from fully using bandwidth (first goal). If there's no congestion, we'd be fully using all of the bottleneck bandwidth, so the two numbers would be equal. In most cases, congestion will force us to use less than all of the bottleneck bandwidth, so the third number would be less than the first number. There is no case where the congestion window bandwidth would be greater than the bottleneck bandwidth.
+Để đáp ứng cả ba mục tiêu, chúng ta sẽ đặt kích thước cửa sổ bằng giá trị nhỏ nhất trong cả ba giá trị. Trên thực tế, lưu ý rằng congestion window (mục tiêu thứ ba) luôn nhỏ hơn hoặc bằng kích thước cửa sổ từ việc sử dụng hết bandwidth (mục tiêu đầu tiên). Nếu không có tắc nghẽn, chúng ta sẽ sử dụng hết bandwidth của bottleneck, vì vậy hai con số sẽ bằng nhau. Trong hầu hết các trường hợp, tắc nghẽn sẽ buộc chúng ta phải sử dụng ít hơn toàn bộ bandwidth của bottleneck, vì vậy con số thứ ba sẽ nhỏ hơn con số đầu tiên. Không có trường hợp nào bandwidth của congestion window lớn hơn bandwidth của bottleneck.
 
-Also, in practice, it's difficult to discover the bottleneck bandwidth. The sender would have to somehow traverse the network topology and learn about each link's bandwidth. Because the first number is hard to learn, and is always greater than or equal to the third number, we can set our window size to the minimum of the latter two numbers (ignoring the first number). The window size is the minimum of the sender's congestion window, and the receiver's advertised window.
+Ngoài ra, trên thực tế, rất khó để khám phá ra bandwidth của bottleneck. Người gửi sẽ phải bằng cách nào đó đi qua network topology và tìm hiểu về bandwidth của mỗi liên kết. Bởi vì con số đầu tiên khó tìm hiểu, và luôn lớn hơn hoặc bằng con số thứ ba, chúng ta có thể đặt kích thước cửa sổ của mình bằng giá trị nhỏ nhất của hai con số sau (bỏ qua con số đầu tiên). Kích thước cửa sổ là giá trị nhỏ nhất của congestion window của người gửi và advertised window của người nhận.
 
 
-## Smarter Acknowledgments
+## Các tin báo nhận Thông minh hơn (Smarter Acknowledgments)
 
-So far, every ack packet corresponds to a single packet. Can we do better than acknowledging one packet at a time? What are some issues with acknowledging one packet at a time?
+Cho đến nay, mỗi gói tin ack tương ứng với một gói tin duy nhất. Chúng ta có thể làm tốt hơn việc xác nhận từng gói tin một không? Một số vấn đề với việc xác nhận từng gói tin một là gì?
 
 <img width="600px" src="../assets/transport/3-028-ack1.png">
 
-In this example, one of the acks is dropped, even though the recipient successfully received all 4 packets. This would force the sender to re-send packet 2, even though this re-sending was unnecessary.
+Trong ví dụ này, một trong các ack bị mất, mặc dù người nhận đã nhận thành công tất cả 4 gói tin. Điều này sẽ buộc người gửi phải gửi lại gói tin 2, mặc dù việc gửi lại này là không cần thiết.
 
-Instead of sending an acknowledgement for a specific packet, each time we send an acknowledgement, we can actually list every packet we have received. This is called a **full information ack**.
+Thay vì gửi một acknowledgment cho một gói tin cụ thể, mỗi lần chúng ta gửi một acknowledgment, chúng ta thực sự có thể liệt kê mọi gói tin mà chúng ta đã nhận được. Điều này được gọi là **full information ack** (tin báo nhận đầy đủ thông tin).
 
 <img width="600px" src="../assets/transport/3-029-ack2.png">
 
-In this example, the acks now say: "I received 1," and "I received 1 and 2", and "I received 1, 2, 3", and "I received 1, 2, 3, 4."
+Trong ví dụ này, các ack bây giờ nói: "Tôi đã nhận 1," và "Tôi đã nhận 1 và 2", và "Tôi đã nhận 1, 2, 3", và "Tôi đã nhận 1, 2, 3, 4."
 
-Even though the second ack was dropped, the third and fourth acks help the sender confirm that packet 2 was received, and packet 2 no longer needs to be re-sent.
+Mặc dù ack thứ hai đã bị mất, ack thứ ba và thứ tư giúp người gửi xác nhận rằng gói tin 2 đã được nhận, và gói tin 2 không cần phải được gửi lại nữa.
 
-As more packets are sent, the list of all packets received is going to get very long. Full information acks can abbreviate this information by saying: "I have received all packets up to #12. Also, I received #14 and #15." Formally, we give the highest cumulative ack (all packets less than or equal to this number have been received), plus a list of any additional packets received.
+Khi nhiều gói tin hơn được gửi, danh sách tất cả các gói tin đã nhận sẽ trở nên rất dài. Full information acks có thể viết tắt thông tin này bằng cách nói: "Tôi đã nhận tất cả các gói tin cho đến #12. Ngoài ra, tôi đã nhận #14 và #15." Về mặt hình thức, chúng ta cung cấp ack tích lũy cao nhất (tất cả các gói tin nhỏ hơn hoặc bằng số này đã được nhận), cộng với danh sách bất kỳ gói tin bổ sung nào đã nhận được.
 
-Even with this abbreviation, full information acks can get long. For example, if all even-numbered packets are dropped, then the highest cumulative ack will always be 1 (we can only say all packets up to 1 have been received, since 2 is dropped). The rest of the received packets will have to be in a list like [1, 3, 5, 7, 9, ...] which can get very long.
+Ngay cả với việc viết tắt này, full information acks có thể trở nên dài. Ví dụ, nếu tất cả các gói tin có số thứ tự chẵn bị mất, thì ack tích lũy cao nhất sẽ luôn là 1 (chúng ta chỉ có thể nói tất cả các gói tin cho đến 1 đã được nhận, vì 2 bị mất). Phần còn lại của các gói tin đã nhận sẽ phải nằm trong một danh sách như [1, 3, 5, 7, 9, ...] có thể trở nên rất dài.
 
 <img width="600px" src="../assets/transport/3-030-ack3.png">
 
-A compromise between individual acks (every ack drop forces re-sending) and full information acks (acks can get long) is **cumulative acks**, where we provide only the highest cumulative ack, and discard the additional list. Formally, the ack encodes the highest sequence number for which all previous packets have been received.
+Một sự thỏa hiệp giữa các ack riêng lẻ (mỗi lần mất ack buộc phải gửi lại) và full information acks (ack có thể trở nên dài) là **cumulative acks** (tin báo nhận tích lũy), trong đó chúng ta chỉ cung cấp ack tích lũy cao nhất, và loại bỏ danh sách bổ sung. Về mặt hình thức, ack mã hóa sequence number cao nhất mà tất cả các gói tin trước đó đã được nhận.
 
 <img width="900px" src="../assets/transport/3-031-ack4.png">
 
-In this example, where even-numbered packets are dropped, every cumulative ack would say: "I received all packets up to and including 1." Even though 3 and 5 were received, the cumulative ack will not encode this information, because it only confirms receipts of consecutive packets starting from 1.
+Trong ví dụ này, nơi các gói tin có số thứ tự chẵn bị mất, mỗi cumulative ack sẽ nói: "Tôi đã nhận tất cả các gói tin cho đến và bao gồm 1." Mặc dù 3 và 5 đã được nhận, cumulative ack sẽ không mã hóa thông tin này, bởi vì nó chỉ xác nhận việc nhận các gói tin liên tiếp bắt đầu từ 1.
 
-Cumulative acks no longer have scaling issues (we're always sending one number, not a list of numbers). However, they can be more ambiguous, as in the case above. The sender sees three acknowledgements all saying "I received everything up to and including 1," and can deduce that 3 packets were received (packet 1, and two other packets), but cannot deduce what those other two packets are.
+Cumulative acks không còn có vấn đề về khả năng mở rộng (chúng ta luôn gửi một số, không phải một danh sách các số). Tuy nhiên, chúng có thể mơ hồ hơn, như trong trường hợp trên. Người gửi thấy ba acknowledgements đều nói "Tôi đã nhận mọi thứ cho đến và bao gồm 1," và có thể suy ra rằng 3 gói tin đã được nhận (gói tin 1, và hai gói tin khác), nhưng không thể suy ra hai gói tin khác đó là gì.
 
 
-## Detecting Loss Early
+## Phát hiện Mất mát Sớm (Detecting Loss Early)
 
-Can we do better than waiting for timeouts, and use other information that we receive to detect loss earlier and re-send packets sooner? For example, in our individual ack model, if we receive acks for packets 1, 3, 4, 5, 6, we might deduce that packet 2 is lost and re-send it, even before packet 2's timer expires.
+Chúng ta có thể làm tốt hơn việc chờ hết thời gian chờ, và sử dụng các thông tin khác mà chúng ta nhận được để phát hiện mất mát sớm hơn và gửi lại các gói tin sớm hơn không? Ví dụ, trong mô hình ack riêng lẻ của chúng ta, nếu chúng ta nhận được ack cho các gói tin 1, 3, 4, 5, 6, chúng ta có thể suy ra rằng gói tin 2 bị mất và gửi lại nó, ngay cả trước khi bộ đếm thời gian của gói tin 2 hết hạn.
 
-More formally, we can set a value K (not related to the window), and say that if K subsequent packets are acked after the missing packet, we'll consider the packet lost (even if the timer hasn't expired). For example, if K=3, we're waiting on packet 5's ack, and we get acks for 6, 7, and 8, then we can consider packet 5 lost.
+Một cách chính thức hơn, chúng ta có thể đặt một giá trị K (không liên quan đến cửa sổ), và nói rằng nếu K gói tin tiếp theo được xác nhận sau gói tin bị thiếu, chúng ta sẽ coi gói tin đó là bị mất (ngay cả khi bộ đếm thời gian chưa hết hạn). Ví dụ, nếu K=3, chúng ta đang chờ ack của gói tin 5, và chúng ta nhận được ack cho 6, 7, và 8, thì chúng ta có thể coi gói tin 5 là bị mất.
 
 <img width="900px" src="../assets/transport/3-032-fast-retransmit1.png">
 
-In practice, detecting loss from subsequent acks is much faster than waiting for a timeout. If our timeout is calculated from the RTT, it could be on the order of seconds. On the other hand, modern bandwidths can allow for acks to arrive once every few microseconds.
+Trên thực tế, việc phát hiện mất mát từ các ack tiếp theo nhanh hơn nhiều so với việc chờ hết thời gian chờ. Nếu thời gian chờ của chúng ta được tính từ RTT, nó có thể lên đến hàng giây. Mặt khác, bandwidth hiện đại có thể cho phép các ack đến vài micro giây một lần.
 
-This strategy for detecting loss looks different depending on our strategy for sending acks. The above examples assume that we're sending individual acks, but what about the other two ack models?
+Chiến lược phát hiện mất mát này trông khác nhau tùy thuộc vào chiến lược gửi ack của chúng ta. Các ví dụ trên giả định rằng chúng ta đang gửi các ack riêng lẻ, nhưng còn hai mô hình ack kia thì sao?
 
-If we use full-information acks, the strategy is pretty similar, and the acks will actually show the missing packet more clearly.
+Nếu chúng ta sử dụng full-information acks, chiến lược khá giống nhau, và các ack thực sự sẽ cho thấy gói tin bị thiếu một cách rõ ràng hơn.
 
 <img width="900px" src="../assets/transport/3-033-fast-retransmit2.png">
 
-If packet 5 is lost, the acks might say "up to 4", then "up to 4, plus 6", then "up to 4, plus 6, 7", then "up to 4, plus 6, 7, 8." At this point, if K=3, then K packets after 5 have been acked, so we can declare that packet 5 is lost.
+Nếu gói tin 5 bị mất, các ack có thể nói "cho đến 4", sau đó "cho đến 4, cộng với 6", sau đó "cho đến 4, cộng với 6, 7", sau đó "cho đến 4, cộng với 6, 7, 8." Tại thời điểm này, nếu K=3, thì K gói tin sau 5 đã được xác nhận, vì vậy chúng ta có thể tuyên bố rằng gói tin 5 bị mất.
 
-If we use cumulative acks, this strategy can be more ambiguous. If packet 5 is lost, then the acks might say "up to 4" (acking 4), "up to 4" (acking 6), "up to 4" (acking 7), "up to 4" (acking 8). The sender is seeing **duplicate acks** because of the gap in consecutive packets. If K=3, then we can declare packet 5 lost after receiving 3 duplicate packets (corresponding to 3 more packets acked after the gap), for a total of 4 duplicates.
+Nếu chúng ta sử dụng cumulative acks, chiến lược này có thể mơ hồ hơn. Nếu gói tin 5 bị mất, thì các ack có thể nói "cho đến 4" (xác nhận 4), "cho đến 4" (xác nhận 6), "cho đến 4" (xác nhận 7), "cho đến 4" (xác nhận 8). Người gửi đang thấy **duplicate acks** (tin báo nhận trùng lặp) vì có khoảng trống trong các gói tin liên tiếp. Nếu K=3, thì chúng ta có thể tuyên bố gói tin 5 bị mất sau khi nhận được 3 gói tin trùng lặp (tương ứng với 3 gói tin nữa được xác nhận sau khoảng trống), tổng cộng là 4 bản sao.
 
 <img width="900px" src="../assets/transport/3-034-fast-retransmit3.png">
 
-When we had individual and full-information acks, we could clearly see which packet needed to be re-sent. There was one packet missing the ack (and K subesquent acks arriving). However, the decision for which packet to re-send is more ambiguous with cumulative acks, especially when multiple packets are lost.
+Khi chúng ta có các ack riêng lẻ và full-information, chúng ta có thể thấy rõ gói tin nào cần được gửi lại. Có một gói tin bị thiếu ack (và K ack tiếp theo đến). Tuy nhiên, quyết định gửi lại gói tin nào sẽ mơ hồ hơn với cumulative acks, đặc biệt là khi nhiều gói tin bị mất.
 
-As an example, consider a sender with window size W=6, and K=3. So far, packets 1 and 2 have been acked, and packets 3-8 are in flight. Suppose packets 3 and 5 have been dropped. Let's first walk through this example with individual ACKs.
+Làm ví dụ, hãy xem xét một người gửi có kích thước cửa sổ W=6, và K=3. Cho đến nay, các gói tin 1 và 2 đã được xác nhận, và các gói tin 3-8 đang in flight. Giả sử các gói tin 3 và 5 đã bị mất. Trước tiên, hãy xem qua ví dụ này với các ACK riêng lẻ.
 
-4 arrives, and the recipient sends an ack for 4. The sender can now send 9.
+4 đến, và người nhận gửi một ack cho 4. Người gửi bây giờ có thể gửi 9.
 
-6 arrives, and the recipient sends an ack for 6. The sender can now send 10.
+6 đến, và người nhận gửi một ack cho 6. Người gửi bây giờ có thể gửi 10.
 
-7 arrives, and the recipient sends an ack for 7. The sender can now send 11.
+7 đến, và người nhận gửi một ack cho 7. Người gửi bây giờ có thể gửi 11.
 
-At this point, the sender notices that K=3 packets after packet 3 (namely 4, 6, and 7) have been acked. The sender can declare 3 lost, and re-send 3 as well.
+Tại thời điểm này, người gửi nhận thấy rằng K=3 gói tin sau gói tin 3 (cụ thể là 4, 6, và 7) đã được xác nhận. Người gửi có thể tuyên bố 3 bị mất, và gửi lại 3.
 
-Note that even though the sender re-sent 3 and sent 11 as a response to the ack for 7, there are still a total of 6 packets in flight with this re-sending, so the window is not violated. This is because 3 was already one of the in-flight packets when we re-sent it.
+Lưu ý rằng mặc dù người gửi đã gửi lại 3 và gửi 11 để phản hồi ack cho 7, vẫn có tổng cộng 6 gói tin in flight với việc gửi lại này, vì vậy cửa sổ không bị vi phạm. Điều này là do 3 đã là một trong những gói tin in flight khi chúng ta gửi lại nó.
 
-8 arrives, and the recipient sends an ack for 8. The sender can now send 12.
+8 đến, và người nhận gửi một ack cho 8. Người gửi bây giờ có thể gửi 12.
 
-Also, the sender notices that K=3 packets after packet 5 (namely 6, 7, and 8) have been acked, so the sender can re-send 5 as well.
+Ngoài ra, người gửi nhận thấy rằng K=3 gói tin sau gói tin 5 (cụ thể là 6, 7, và 8) đã được xác nhận, vì vậy người gửi cũng có thể gửi lại 5.
 
-9 arrives, and the recipient sends an ack for 9. The sender can now send 13.
+9 đến, và người nhận gửi một ack cho 9. Người gửi bây giờ có thể gửi 13.
 
-Now, let's redo this example with cumulative ACKs.
+Bây giờ, hãy làm lại ví dụ này với các ACK tích lũy.
 
-4 arrives, and the recipient sends an ack for 4, which says "ack everything up to 2." At this point, the sender knows a packet must have arrived, but does not know that it's 4. Still, the sender can send 9 next. Note that the window is not violated, because even though the sender seemingly has 7 un-acked packets, one of them did get acked by the duplicate "ack everything up to 2," so there are only 6 packets in flight.
+4 đến, và người nhận gửi một ack cho 4, trong đó nói "ack mọi thứ cho đến 2." Tại thời điểm này, người gửi biết một gói tin phải đã đến, nhưng không biết đó là 4. Tuy nhiên, người gửi vẫn có thể gửi 9 tiếp theo. Lưu ý rằng cửa sổ không bị vi phạm, bởi vì mặc dù người gửi dường như có 7 gói tin chưa được xác nhận, một trong số chúng đã được xác nhận bởi duplicate "ack mọi thứ cho đến 2," vì vậy chỉ có 6 gói tin in flight.
 
-6 arrives, and the recipient sends an ack for 6, which still says "ack everything up to 2." Again, the sender deduces that another packet arrived, and can send 10 next.
+6 đến, và người nhận gửi một ack cho 6, trong đó vẫn nói "ack mọi thứ cho đến 2." Một lần nữa, người gửi suy ra rằng một gói tin khác đã đến, và có thể gửi 10 tiếp theo.
 
-7 arrives, and the recipient sends an ack for 7, which still says "ack everything up to 2." The sender deduces that another packet arrived, and can send 10.
+7 đến, và người nhận gửi một ack cho 7, trong đó vẫn nói "ack mọi thứ cho đến 2." Người gửi suy ra rằng một gói tin khác đã đến, và có thể gửi 10.
 
-At this point, the sender notices that "ack everything up to 2" has arrived 3 duplicate times (in addition to the initial ack for 2). The next un-acked packet is 3, so the sender will re-send 3.
+Tại thời điểm này, người gửi nhận thấy rằng "ack mọi thứ cho đến 2" đã đến 3 lần trùng lặp (ngoài ack ban đầu cho 2). Gói tin chưa được xác nhận tiếp theo là 3, vì vậy người gửi sẽ gửi lại 3.
 
-This is when things get ambiguous. When 8, 9, and 10 arrive at the recipient, the sender will receive three more copies of "ack everything up to 2." (We're assuming the recipient hasn't received 3 yet, since it was re-sent after 9 and 10).
+Đây là lúc mọi thứ trở nên mơ hồ. Khi 8, 9, và 10 đến người nhận, người gửi sẽ nhận được thêm ba bản sao của "ack mọi thứ cho đến 2." (Chúng ta đang giả định người nhận chưa nhận được 3, vì nó được gửi lại sau 9 và 10).
 
-The sender can now send 12, 13, and 14, since three more acks have arrived, but which packet should be re-sent next? Should the sender re-send 3, 4, 5, or something else?
+Người gửi bây giờ có thể gửi 12, 13, và 14, vì ba ack nữa đã đến, nhưng gói tin nào nên được gửi lại tiếp theo? Người gửi nên gửi lại 3, 4, 5, hay một cái gì đó khác?
 
-This example shows that cumulative acks don't always indicate exactly which packets were received. However, the number of acks (possibly including duplicates) can be used to determine how many packets were received (without knowing exactly which packets were received), which allows us to keep sending according to the window size. However, ambiguity arises when we receive too many duplicate acks and cannot tell which packet to re-send.
+Ví dụ này cho thấy rằng cumulative acks không phải lúc nào cũng chỉ ra chính xác những gói tin nào đã được nhận. Tuy nhiên, số lượng ack (có thể bao gồm cả các bản sao) có thể được sử dụng để xác định có bao nhiêu gói tin đã được nhận (mà không biết chính xác những gói tin nào đã được nhận), điều này cho phép chúng ta tiếp tục gửi theo kích thước cửa sổ. Tuy nhiên, sự mơ hồ phát sinh khi chúng ta nhận được quá nhiều duplicate acks và không thể biết gói tin nào cần gửi lại.

@@ -1,40 +1,40 @@
-# TLS: Secure Bytestreams
+# TLS: Luồng byte an toàn (*Secure Bytestreams*)
 
-## Secure Bytestreams
+## Luồng byte an toàn (*Secure Bytestreams*)
 
-TCP by itself is insecure against network attackers. Someone on the network (e.g. a malicious router, an attacker sniffing packets on a wire) could read or even modify your TCP packets while they're in transit.
+*TCP* (*Transmission Control Protocol* – Giao thức điều khiển truyền) tự thân nó không an toàn trước các kẻ tấn công trên mạng. Một ai đó trong mạng (ví dụ: một *router* độc hại, hoặc kẻ tấn công nghe lén gói tin trên đường truyền) có thể đọc hoặc thậm chí sửa đổi các gói tin *TCP* của bạn khi chúng đang được truyền.
 
-Also, with TCP, you might connect to an attacker instead of the real server. Suppose you want to connect to a bank website, and you do a DNS lookup for *www.bank.com*. The attacker (e.g. someone who hacked into the resolver or a router) changes the DNS response so that it maps *www.bank.com* to the attacker's IP address, 6.6.6.6. Now, when you form a TCP connection to the bank website, you're talking to the attacker. You might end up sending your bank password to the attacker!
+Ngoài ra, với *TCP*, bạn có thể kết nối tới kẻ tấn công thay vì máy chủ thật. Giả sử bạn muốn kết nối tới trang web ngân hàng, và bạn thực hiện tra cứu *DNS* (*Domain Name System* – Hệ thống tên miền) cho *www.bank.com*. Kẻ tấn công (ví dụ: ai đó đã xâm nhập vào bộ phân giải *DNS resolver* hoặc một *router*) thay đổi phản hồi *DNS* để ánh xạ *www.bank.com* tới địa chỉ IP của kẻ tấn công, 6.6.6.6. Bây giờ, khi bạn thiết lập kết nối *TCP* tới trang web ngân hàng, bạn thực chất đang nói chuyện với kẻ tấn công. Bạn có thể sẽ gửi mật khẩu ngân hàng của mình cho hắn!
 
-To address these security issues, we add a new protocol, **Transport Layer Security (TLS)**, on top of TCP.
+Để giải quyết các vấn đề bảo mật này, chúng ta thêm một giao thức mới, **Transport Layer Security (TLS)** (Bảo mật tầng vận chuyển), chạy trên *TCP*.
 
-TLS can be thought of as a Layer 4.5 protocol, sitting in between TCP and application protocols like HTTP. (We use a weird number like 4.5 because the obsolete Layers 5 and 6 have nothing to do with security.) TLS relies on the bytestream abstraction of TCP, so it doesn't think about individual packets or packet loss/reordering. TLS provides the exact same bytestream abstraction to applications as TCP does, but the bytestream is now secure against network attackers. This is why HTTP and HTTPS are semantically identical protocols. The only difference is that HTTPS runs over the secure bytestream of TLS-over-TCP, while HTTP runs over raw TCP with no TLS.
+*TLS* có thể được xem như một giao thức tầng 4.5, nằm giữa *TCP* và các giao thức ứng dụng như *HTTP*. (Chúng ta dùng số “lạ” 4.5 vì các tầng 5 và 6 đã lỗi thời và không liên quan đến bảo mật.) *TLS* dựa trên trừu tượng hóa luồng byte (*bytestream abstraction*) của *TCP*, nên nó không quan tâm đến từng gói tin riêng lẻ hoặc việc mất/sắp xếp lại gói tin. *TLS* cung cấp cho ứng dụng cùng một trừu tượng hóa luồng byte như *TCP*, nhưng luồng byte này giờ đã an toàn trước các kẻ tấn công mạng. Đây là lý do tại sao *HTTP* và *HTTPS* về mặt ngữ nghĩa là các giao thức giống hệt nhau. Điểm khác biệt duy nhất là *HTTPS* chạy trên luồng byte an toàn của *TLS-over-TCP*, trong khi *HTTP* chạy trên *TCP* thuần túy không có *TLS*.
 
 <img width="400px" src="../assets/end-to-end/5-072-layer45.png">
 
-To distinguish between HTTPS and HTTP, we use Port 80 for HTTP connections, and Port 443 for HTTPS connections. Servers can force users to use HTTPS by replying to all Port 80 requests with a redirect to use Port 443 instead.
+Để phân biệt giữa *HTTPS* và *HTTP*, chúng ta dùng Port 80 cho kết nối *HTTP*, và Port 443 cho kết nối *HTTPS*. Máy chủ có thể buộc người dùng sử dụng *HTTPS* bằng cách trả lời tất cả yêu cầu ở Port 80 bằng một lệnh chuyển hướng (*redirect*) sang Port 443.
 
 
-## TLS Handshake
+## Bắt tay TLS (*TLS Handshake*)
 
-At a high level, TLS uses cryptography to encrypt messages sent over the bytestream. TLS also uses other cryptographic protocols (message authentication codes) to prevent attackers from changing messages as they're sent over the network.
+Ở mức khái quát, *TLS* sử dụng mật mã học (*cryptography*) để mã hóa các thông điệp được gửi qua luồng byte. *TLS* cũng sử dụng các giao thức mật mã khác (*message authentication codes* – mã xác thực thông điệp) để ngăn kẻ tấn công thay đổi thông điệp khi chúng được gửi qua mạng.
 
-In order to encrypt traffic, TLS must start with an additional handshake to exchange keys and verify the identity of the server (e.g. real bank, not someone impersonating the bank).
+Để mã hóa lưu lượng, *TLS* phải bắt đầu bằng một quá trình bắt tay bổ sung (*handshake*) để trao đổi khóa và xác minh danh tính của máy chủ (ví dụ: ngân hàng thật, chứ không phải kẻ giả mạo ngân hàng).
 
-Because TLS is built on top of TCP, the TCP three-way handshake first proceeds as normal. This creates an (insecure) bytestream, allowing all future messages, including the TLS handshake, to proceed without thinking about individual packets.
+Vì *TLS* được xây dựng trên *TCP*, nên quá trình bắt tay ba bước của *TCP* (*TCP three-way handshake*) diễn ra trước như bình thường. Điều này tạo ra một luồng byte (chưa an toàn), cho phép tất cả các thông điệp tiếp theo, bao gồm cả bắt tay *TLS*, được truyền mà không cần quan tâm đến từng gói tin riêng lẻ.
 
-The TLS handshake can now proceed:
+Quá trình bắt tay *TLS* diễn ra như sau:
 
 <img width="400px" src="../assets/end-to-end/5-073-tls-handshake.png">
 
-1. The client and server exchange hellos. The hellos contain random numbers, which ensures that every handshake results in different secret keys. (It would be bad if we used the same key every time, and attackers hacked us and learned that key.) The hellos also allow the client and server to agree on specific cryptographic protocols to use. The client's hello lists all cryptographic schemes the client supports, and the server's hello picks one to use.
+1. **Client** và **server** trao đổi thông điệp *hello*. Các thông điệp *hello* chứa các số ngẫu nhiên, đảm bảo rằng mỗi lần bắt tay sẽ tạo ra các khóa bí mật khác nhau. (Sẽ rất nguy hiểm nếu chúng ta dùng cùng một khóa mỗi lần, và kẻ tấn công đánh cắp được khóa đó.) Các thông điệp *hello* cũng cho phép *client* và *server* thống nhất về các giao thức mật mã cụ thể sẽ sử dụng. *Client hello* liệt kê tất cả các thuật toán mật mã mà *client* hỗ trợ, và *server hello* chọn một thuật toán để sử dụng.
 
-2. The server sends a certificate of authenticity. This will allow the client to verify that it's talking to the real server, and not an impersonator. There's a bit of complexity in how the client actually verifies this certificate, which we won't discuss here.
+2. **Server** gửi một chứng chỉ xác thực (*certificate of authenticity*). Điều này cho phép *client* xác minh rằng nó đang giao tiếp với máy chủ thật, chứ không phải kẻ giả mạo. Cách *client* thực sự xác minh chứng chỉ này có một số chi tiết phức tạp, nhưng chúng ta sẽ không bàn sâu ở đây.
 
-3. The client and server derive a secret that only the two of them know. Since the bytestream is still insecure at this point, they'll need a cryptographic protocol that enables sharing a secret over an insecure channel. We won't discuss the details here, but if you're familiar with RSA public-key encryption (e.g. from CS 70 at UC Berkeley), that's one possible cryptographic scheme to use here. The client encrypts a secret with the server's public key and sends it to the server. Only the server knows the corresponding private key and is able to decrypt the message and learn the secret.
+3. **Client** và **server** tạo ra một bí mật (*secret*) mà chỉ hai bên biết. Vì luồng byte ở thời điểm này vẫn chưa an toàn, họ cần một giao thức mật mã cho phép chia sẻ bí mật qua kênh không an toàn. Chúng ta sẽ không đi sâu vào chi tiết, nhưng nếu bạn quen với mã hóa khóa công khai *RSA* (ví dụ: từ môn CS 70 tại UC Berkeley), thì đây là một thuật toán mật mã có thể dùng. *Client* mã hóa bí mật bằng khóa công khai của *server* và gửi nó cho *server*. Chỉ *server* mới biết khóa riêng tương ứng và có thể giải mã thông điệp để biết bí mật.
 
-4. The client and server derive secret keys based on the shared secret and the random values from the hellos. Using the secret ensures that attackers can't learn the secret keys. Using the random values ensures that we derive a different key every time. This derivation is done locally and independently by both the client and server. The secret keys are never actually sent across the network, so the attacker has no chance to learn them.
+4. **Client** và **server** tạo ra các khóa bí mật (*secret keys*) dựa trên bí mật đã chia sẻ và các giá trị ngẫu nhiên từ thông điệp *hello*. Việc sử dụng bí mật đảm bảo rằng kẻ tấn công không thể biết được các khóa bí mật. Việc sử dụng giá trị ngẫu nhiên đảm bảo rằng mỗi lần bắt tay sẽ tạo ra một khóa khác nhau. Quá trình tạo khóa này được thực hiện cục bộ và độc lập bởi cả *client* và *server*. Các khóa bí mật này không bao giờ được gửi qua mạng, nên kẻ tấn công không có cơ hội biết được chúng.
 
-5. The client and server exchange some acknowledgements to confirm that they derived the same secrets, and nobody tampered with the messages sent over the network so far (since the bytestream is still insecure).
+5. **Client** và **server** trao đổi một số thông điệp xác nhận (*acknowledgements*) để đảm bảo rằng họ đã tạo ra cùng một bí mật, và không ai đã can thiệp vào các thông điệp được gửi qua mạng cho đến thời điểm này (vì luồng byte vẫn chưa an toàn).
 
-At this point, the handshake is complete, and all future messages are encrypted with the secret key (message authentication codes are also used to prevent tampering). We have now established a secure bytestream on top of the TCP connection, and applications can exchange data on top of our secure bytestream.
+Tại thời điểm này, quá trình bắt tay đã hoàn tất, và tất cả các thông điệp sau đó sẽ được mã hóa bằng khóa bí mật (các mã xác thực thông điệp cũng được sử dụng để ngăn việc giả mạo). Chúng ta đã thiết lập một luồng byte an toàn trên kết nối *TCP*, và các ứng dụng có thể trao đổi dữ liệu trên luồng byte an toàn này.

@@ -1,210 +1,210 @@
-# Routing States
+# Trạng thái Định tuyến (Routing States)
 
-## Bad Routing Strategies
+## Các chiến lược Định tuyến Tồi (Bad Routing Strategies)
 
-So far, we've defined the routing problem as this: When a router receives a packet, how does the router know where to forward the packet such that it will eventually arrive at the final destination?
+Cho đến nay, chúng ta đã định nghĩa bài toán định tuyến như sau: Khi một router nhận được một gói tin, làm thế nào để router biết được nơi để chuyển tiếp gói tin đó sao cho nó cuối cùng sẽ đến được đích cuối cùng?
 
 <img width="600px" src="../assets/routing/2-013-forwarding.png">
 
-Once we find an algorithm (a routing protocol) to solve this problem, we can apply that algorithm to generate an answer, which we'll call a **routing state**. You can think of a routing state as a set of rules that each router uses to forward packets it receives. What does a routing state look like, and how can we check if a given routing state is valid or good?
+Một khi chúng ta tìm thấy một thuật toán (một routing protocol (giao thức định tuyến)) để giải quyết vấn đề này, chúng ta có thể áp dụng thuật toán đó để tạo ra một câu trả lời, mà chúng ta sẽ gọi là **routing state** (trạng thái định tuyến). Bạn có thể nghĩ về một routing state như một tập hợp các quy tắc mà mỗi router sử dụng để chuyển tiếp các gói tin mà nó nhận được. Một routing state trông như thế nào, và làm thế nào chúng ta có thể kiểm tra xem một routing state cho trước có hợp lệ hay tốt không?
 
-To start, we could consider some bad strategies for generating routing states. One possible routing strategy is: The router forwards the packet to a randomly-selected neighbor. Intuitively, we can already see that routing states generated this way probably won't be valid. If we use this strategy, we can't be sure that packets will reach their final destination.
+Để bắt đầu, chúng ta có thể xem xét một số chiến lược tồi để tạo ra các routing state. Một chiến lược định tuyến khả thi là: Router chuyển tiếp gói tin đến một láng giềng được chọn ngẫu nhiên. Về mặt trực quan, chúng ta đã có thể thấy rằng các routing state được tạo ra theo cách này có lẽ sẽ không hợp lệ. Nếu chúng ta sử dụng chiến lược này, chúng ta không thể chắc chắn rằng các gói tin sẽ đến được đích cuối cùng của chúng.
 
-Another possible bad strategy is: The router forwards a copy of the packet to every single one of its neighbors. Intuitively, this might be valid, in the sense that copies of the packet will eventually spread across the entire network and probably reach the destination. However, this strategy is inefficient, because it wastes a lot of bandwidth forwarding the packet to routers that were not needed to send the packet to its final destination.
+Một chiến lược tồi khả thi khác là: Router chuyển tiếp một bản sao của gói tin đến tất cả các láng giềng của nó. Về mặt trực quan, điều này có thể hợp lệ, theo nghĩa là các bản sao của gói tin cuối cùng sẽ lan truyền khắp toàn bộ mạng và có thể đến được đích. Tuy nhiên, chiến lược này không hiệu quả, vì nó lãng phí rất nhiều bandwidth (băng thông) để chuyển tiếp gói tin đến các router không cần thiết để gửi gói tin đến đích cuối cùng của nó.
 
-We can intuitively see that these two strategies are bad, but to analyze smarter routing protocols, we'll need to formally define what a routing state looks like. Then, we'll need to formalize what makes a routing state valid, and what makes a routing state good.
+Chúng ta có thể thấy một cách trực quan rằng hai chiến lược này là tồi, nhưng để phân tích các routing protocol thông minh hơn, chúng ta sẽ cần phải định nghĩa một cách chính thức một routing state trông như thế nào. Sau đó, chúng ta sẽ cần phải chính thức hóa điều gì làm cho một routing state hợp lệ, và điều gì làm cho một routing state tốt.
 
 
-## Forwarding Tables
+## Bảng Chuyển tiếp (Forwarding Tables)
 
-In our model of the network, each router has some number of outgoing links connecting it to adjacent routers and hosts. In other words, in the underlying graph, each router node has some number of neighbors, connected to the router by an edge.
+Trong mô hình mạng của chúng ta, mỗi router có một số liên kết đi ra kết nối nó với các router và máy chủ liền kề. Nói cách khác, trong đồ thị cơ bản, mỗi nút router có một số láng giềng, được kết nối với router bằng một cạnh.
 
-When the router receives a packet, with its final destination in the metadata, the router needs to decide which of the adjacent routers or hosts the packet should be forwarded to. The next intermediate router that the packet will be forwarded to is called the **next hop**.
+Khi router nhận được một gói tin, với đích cuối cùng của nó trong siêu dữ liệu, router cần quyết định gói tin nên được chuyển tiếp đến router hoặc máy chủ liền kề nào. Router trung gian tiếp theo mà gói tin sẽ được chuyển tiếp đến được gọi là **next hop** (chặng kế tiếp).
 
 <img width="700px" src="../assets/routing/2-014-nexthop.png">
 
-For example, consider this network. If R2 receives a packet whose final destination is B, the natural corresponding next hop would be R3. The possible choices of next hop are R1, R3, and R4 (the three routers adjacent to R2), and R3 is the next hop that sends the packet closer to B.
+Ví dụ, hãy xem xét mạng này. Nếu R2 nhận được một gói tin có đích cuối cùng là B, next hop tự nhiên tương ứng sẽ là R3. Các lựa chọn next hop có thể là R1, R3 và R4 (ba router liền kề với R2), và R3 là next hop gửi gói tin đến gần B hơn.
 
-If R2 instead receives a packet whose final destination is A, then the natural corresponding next hop would be R1 instead.
+Nếu R2 thay vào đó nhận được một gói tin có đích cuối cùng là A, thì next hop tự nhiên tương ứng sẽ là R1.
 
-For each possible final destination, we can write down the corresponding next hop to forward the packet closer to that destination. The result is called a **forwarding table**.
+Đối với mỗi đích cuối cùng có thể, chúng ta có thể viết ra next hop tương ứng để chuyển tiếp gói tin đến gần đích đó hơn. Kết quả được gọi là **forwarding table** (bảng chuyển tiếp).
 
 <img width="850px" src="../assets/routing/2-015-forwarding-table.png">
 
-Note that the in the mapping of destination to next hop, a next hop can be used more than once. For example, in R2's forwarding table, packets destined for B and packets destined for C will both be forwarded to R3.
+Lưu ý rằng trong việc ánh xạ từ đích đến next hop, một next hop có thể được sử dụng nhiều lần. Ví dụ, trong forwarding table của R2, các gói tin đến B và các gói tin đến C đều sẽ được chuyển tiếp đến R3.
 
-By writing down the forwarding table for each intermediate router, we now have a full routing state for the network. In other words, given a packet with some final destination, we know exactly how each router will forward that packet.
+Bằng cách viết ra forwarding table cho mỗi router trung gian, chúng ta hiện có một routing state đầy đủ cho mạng. Nói cách khác, với một gói tin có một đích cuối cùng nào đó, chúng ta biết chính xác cách mỗi router sẽ chuyển tiếp gói tin đó.
 
-In the physical world, instead of mapping destinations to next hops, routers will often map destinations to **physical ports**, where each physical port corresponds to a link. In the graph model, we would now be mapping each destination to an edge, instead of mapping each destination to a neighboring node. In the physical world, you can think of this as a router having several outgoing wires, where each wire is connected to another router. Instead of writing down neighboring routers in the forwarding table, the router instead writes down which wire a packet should be sent along.
+Trong thế giới thực, thay vì ánh xạ các đích đến các next hop, các router thường sẽ ánh xạ các đích đến các **physical ports** (cổng vật lý), trong đó mỗi cổng vật lý tương ứng với một liên kết. Trong mô hình đồ thị, bây giờ chúng ta sẽ ánh xạ mỗi đích đến một cạnh, thay vì ánh xạ mỗi đích đến một nút láng giềng. Trong thế giới thực, bạn có thể nghĩ về điều này như một router có nhiều dây đi ra, trong đó mỗi dây được kết nối với một router khác. Thay vì viết ra các router láng giềng trong forwarding table, router thay vào đó viết ra dây nào mà một gói tin nên được gửi đi.
 
 <img width="550px" src="../assets/routing/2-016-ports.png">
 
-This is a subtle distinction, and it reflects the fact that the router doesn't really care about the identity of the neighboring router. The only decision the router needs to make is to send the packet along one of the wires, regardless of who the wire is connected to. In these notes, we'll draw forwarding tables as mapping destinations to next hops (instead of physical ports), for simplicity.
+Đây là một sự khác biệt tinh tế, và nó phản ánh thực tế rằng router không thực sự quan tâm đến danh tính của router láng giềng. Quyết định duy nhất mà router cần đưa ra là gửi gói tin đi theo một trong các dây, bất kể dây đó được kết nối với ai. Trong các ghi chú này, chúng ta sẽ vẽ các forwarding table dưới dạng ánh xạ các đích đến các next hop (thay vì các cổng vật lý), để đơn giản.
 
-## Destination-Based Forwarding
+## Chuyển tiếp Dựa trên Đích đến (Destination-Based Forwarding)
 
-A consequence of using a forwarding table is that given a packet, the decision of where to forward the packet depends only on the destination field of the packet. In other words, if a router receives many different packets, all with the same destination, they will all be routed to the same next hop (assuming the forwarding table stays unchanged). Since each destination is only mapped to a single next hop, there's no way for two packets with the same destination to be forwarded to different routers. This approach is called **destination-based forwarding** or **destination-based routing**.
+Một hệ quả của việc sử dụng forwarding table là với một gói tin cho trước, quyết định về nơi chuyển tiếp gói tin chỉ phụ thuộc vào trường đích của gói tin. Nói cách khác, nếu một router nhận được nhiều gói tin khác nhau, tất cả đều có cùng một đích, chúng sẽ đều được định tuyến đến cùng một next hop (giả sử forwarding table không thay đổi). Vì mỗi đích chỉ được ánh xạ đến một next hop duy nhất, không có cách nào để hai gói tin có cùng một đích được chuyển tiếp đến các router khác nhau. Cách tiếp cận này được gọi là **destination-based forwarding** (chuyển tiếp dựa trên đích đến) hoặc **destination-based routing** (định tuyến dựa trên đích đến).
 
-Destination-based routing is the most common approach to routing, and it's what's used in the modern Internet. In theory, other approaches could exist where additional metadata is used to make forwarding decision, but these are usually only used in limited applications (e.g. inside a particular local network).
+Destination-based routing là cách tiếp cận phổ biến nhất để định tuyến, và đó là những gì được sử dụng trong Internet hiện đại. Về lý thuyết, các cách tiếp cận khác có thể tồn tại, nơi siêu dữ liệu bổ sung được sử dụng để đưa ra quyết định chuyển tiếp, nhưng chúng thường chỉ được sử dụng trong các ứng dụng hạn chế (ví dụ: bên trong một mạng cục bộ cụ thể).
 
-In later units, when we consider data center topologies, we might consider destination-based forwarding approaches where there might be more than one next hop for a specific destination. In this unit, we'll assume that each destination is mapped to only one next hop.
+Trong các đơn vị sau, khi chúng ta xem xét các cấu trúc liên kết trung tâm dữ liệu, chúng ta có thể xem xét các phương pháp destination-based forwarding nơi có thể có nhiều hơn một next hop cho một đích cụ thể. Trong đơn vị này, chúng ta sẽ giả định rằng mỗi đích chỉ được ánh xạ đến một next hop duy nhất.
 
-## Routing vs. Forwarding
+## Định tuyến và Chuyển tiếp (Routing vs. Forwarding)
 
-Now that we've introduced the idea of a forwarding table, we need to make a distinction between the process of creating the forwarding table, and the process of using the forwarding table.
+Bây giờ chúng ta đã giới thiệu ý tưởng về forwarding table, chúng ta cần phân biệt giữa quá trình tạo ra forwarding table và quá trình sử dụng forwarding table.
 
-**Routing** is the process of routers communicating with each other to determine how to populate their forwarding tables.
+**Routing** (Định tuyến) là quá trình các router giao tiếp với nhau để xác định cách điền vào forwarding table của chúng.
 
-**Forwarding** is the process of receiving a packet, looking up its appropriate next hop in the table, and sending the packet to the appropriate neighbor.
+**Forwarding** (Chuyển tiếp) là quá trình nhận một gói tin, tra cứu next hop thích hợp của nó trong bảng, và gửi gói tin đến láng giềng thích hợp.
 
-Forwarding is not the same as routing. When forwarding packets, routers use the existing forwarding table, with no knowledge of how that table was generated.
+Forwarding không giống như Routing. Khi Forwarding các gói tin, các router sử dụng forwarding table hiện có, mà không cần biết bảng đó được tạo ra như thế nào.
 
-Forwarding is a local process. When a router is forwarding packets, the router doesn't need to know the full network topology. The router also doesn't care about where the packet goes after it's been forwarded to the next hop. The router only needs to know about the arriving packet, and its own forwarding table.
+Forwarding là một quy trình cục bộ. Khi một router đang Forwarding các gói tin, router không cần biết toàn bộ cấu trúc liên kết mạng. Router cũng không quan tâm đến việc gói tin đi đâu sau khi nó đã được chuyển tiếp đến next hop. Router chỉ cần biết về gói tin đến và forwarding table của chính nó.
 
-By contrast, routing is a global process. In order to fill out the forwarding tables, we will need to learn something about the global topology of the network.
+Ngược lại, Routing là một quy trình toàn cục. Để điền vào các forwarding table, chúng ta sẽ cần tìm hiểu một cái gì đó về cấu trúc liên kết toàn cục của mạng.
 
 <img width="950px" src="../assets/routing/2-017-forwarding-routing.png">
 
-For example, in when filling in R2's forwarding table, we had to somehow learn that destination B is associated with R3, even though host B is not directly connected to R2. During routing, each router will need to know about non-local destinations as well.
+Ví dụ, khi điền vào forwarding table của R2, chúng ta đã phải bằng cách nào đó biết được rằng đích B được liên kết với R3, mặc dù máy chủ B không được kết nối trực tiếp với R2. Trong quá trình Routing, mỗi router cũng sẽ cần biết về các đích không thuộc cục bộ.
 
-## Routing State Validity is Global
+## Tính hợp lệ của Trạng thái Định tuyến là Toàn cục (Routing State Validity is Global)
 
-Recall that a routing state consists of a forwarding table for each router, which collectively tells us how packets will travel through the network. Given a routing state, how can we tell if the routing state is correct or incorrect?
+Hãy nhớ lại rằng một routing state bao gồm một forwarding table cho mỗi router, chúng cùng nhau cho chúng ta biết cách các gói tin sẽ di chuyển qua mạng. Với một routing state cho trước, làm thế nào chúng ta có thể biết được routing state đó là đúng hay sai?
 
-First, we need to formally define **routing state validity** to determine whether a routing state is valid (though this term may not be widely used outside CS 168 at UC Berkeley). The main requirement for validity is: the routing state needs to produce forwarding decisions that ensure that packets actually reach their destination.
+Đầu tiên, chúng ta cần định nghĩa chính thức **routing state validity** (tính hợp lệ của trạng thái định tuyến) để xác định xem một routing state có hợp lệ hay không (mặc dù thuật ngữ này có thể không được sử dụng rộng rãi ngoài khóa học CS 168 tại UC Berkeley). Yêu cầu chính đối với tính hợp lệ là: routing state cần tạo ra các quyết định chuyển tiếp đảm bảo rằng các gói tin thực sự đến được đích của chúng.
 
-Note that validity must be evaluated in the global context, not a local context. Looking at local routing state, such as a single router's forwarding table, cannot tell us whether a routing state is valid. For example, in a router R2's local forwarding table, we might see that the next hop for destination A is router R3, but we have no way to decide if this is valid. Will forwarding packets to R3 help packets reach destination A? There's no way to tell from just the forwarding table.
+Lưu ý rằng tính hợp lệ phải được đánh giá trong bối cảnh toàn cục, không phải bối cảnh cục bộ. Việc xem xét routing state cục bộ, chẳng hạn như forwarding table của một router duy nhất, không thể cho chúng ta biết liệu một routing state có hợp lệ hay không. Ví dụ, trong forwarding table cục bộ của router R2, chúng ta có thể thấy rằng next hop cho đích A là router R3, nhưng chúng ta không có cách nào để quyết định xem điều này có hợp lệ hay không. Liệu việc chuyển tiếp các gói tin đến R3 có giúp các gói tin đến được đích A không? Không có cách nào để biết chỉ từ forwarding table.
 
 <img width="800px" src="../assets/routing/2-018-validity-local.png">
 
-Instead, we need to consider the global routing state, which consists of the collection of all the forwarding tables in all of the routers.
+Thay vào đó, chúng ta cần xem xét routing state toàn cục, bao gồm tập hợp tất cả các forwarding table trong tất cả các router.
 
 <img width="950px" src="../assets/routing/2-019-validity-global.png">
 
-## Routing State Validity Definition
+## Định nghĩa Tính hợp lệ của Trạng thái Định tuyến (Routing State Validity Definition)
 
-Now, we can define a formal condition that we can use to check whether or not packets will reach their destination for a given routing state.
+Bây giờ, chúng ta có thể định nghĩa một điều kiện chính thức mà chúng ta có thể sử dụng để kiểm tra xem các gói tin có đến được đích của chúng hay không đối với một routing state cho trước.
 
-A global routing state is valid if and only if, for any destination,  packets do not get stuck in dead ends or loops.
+Một routing state toàn cục là hợp lệ khi và chỉ khi, đối với bất kỳ đích nào, các gói tin không bị kẹt trong các ngõ cụt hoặc vòng lặp.
 
-A **dead end** occurs if a packet arrives at a router, but the router doesn't know how to forward the packet to its destination, so the packet is not forwarded. This might occur if the router's forwarding table doesn't contain an entry for the packet's destination.
+Một **dead end** (ngõ cụt) xảy ra nếu một gói tin đến một router, nhưng router không biết cách chuyển tiếp gói tin đến đích của nó, vì vậy gói tin không được chuyển tiếp. Điều này có thể xảy ra nếu forwarding table của router không chứa một mục cho đích của gói tin.
 
-Note that the dead end condition only applies to the intermediate routers, and not the end hosts. When a packet reaches the destination end host, there's no need for the end host to forward the packet any further, so we won't consider end hosts in the dead end condition.
+Lưu ý rằng điều kiện dead end chỉ áp dụng cho các router trung gian, chứ không phải các máy chủ cuối. Khi một gói tin đến máy chủ cuối đích, không cần thiết máy chủ cuối phải chuyển tiếp gói tin đi xa hơn, vì vậy chúng ta sẽ không xem xét các máy chủ cuối trong điều kiện dead end.
 
 <img width="950px" src="../assets/routing/2-020-dead-end.png">
 
-A **loop** occurs if a packet is sent in a cycle around the same of nodes. Note that because we're using destination-based forwarding, where the next hop only depends on the destination, once a packet enters a loop, it will be trapped in the loop forever. When the packet arrives at the router the first time, or the 10th time, or the 500th time, it will be forwarded the exact same way (since the final destination is the same). Since this applies to every router on the loop, the packet will be stuck in the loop forever.
+Một **loop** (vòng lặp) xảy ra nếu một gói tin được gửi theo một chu kỳ xung quanh cùng một nhóm các nút. Lưu ý rằng vì chúng ta đang sử dụng destination-based forwarding, nơi next hop chỉ phụ thuộc vào đích, một khi một gói tin đi vào một loop, nó sẽ bị kẹt trong loop đó mãi mãi. Khi gói tin đến router lần đầu tiên, hoặc lần thứ 10, hoặc lần thứ 500, nó sẽ được chuyển tiếp theo cùng một cách chính xác (vì đích cuối cùng là như nhau). Vì điều này áp dụng cho mọi router trên loop, gói tin sẽ bị kẹt trong loop mãi mãi.
 
 <img width="850px" src="../assets/routing/2-021-loop.png">
 
-This condition (no dead ends, no loops) is both necessary and sufficient for a route to be valid. Let's check both directions of this logical implication.
+Điều kiện này (không có dead ends, không có loops) là cần và đủ để một tuyến đường là hợp lệ. Hãy kiểm tra cả hai chiều của mệnh đề logic này.
 
-No dead ends and no loops is a necessary condition for validity. In other words, a state is valid only if there are no dead ends and no loops.
+Không có dead ends và không có loops là một điều kiện cần cho tính hợp lệ. Nói cách khác, một trạng thái là hợp lệ chỉ khi không có dead ends và không có loops.
 
-Proof: If there's a dead end, the packet won't reach the destination. The packet will reach the dead end and not be forwarded.
+Chứng minh: Nếu có một dead end, gói tin sẽ không đến được đích. Gói tin sẽ đến dead end và không được chuyển tiếp.
 
-If there are loops, the packet won't reach the destination. The packet will be trapped in the loop forever (because of destination-based forwarding, described earlier). Also, note that the final destination can't be part of the loop, since the destination won't forward the packet. Therefore, a packet trapped in the loop won't reach the destination.
+Nếu có loops, gói tin sẽ không đến được đích. Gói tin sẽ bị kẹt trong loop mãi mãi (vì destination-based forwarding, được mô tả trước đó). Ngoài ra, lưu ý rằng đích cuối cùng không thể là một phần của loop, vì đích sẽ không chuyển tiếp gói tin. Do đó, một gói tin bị kẹt trong loop sẽ không đến được đích.
 
-Now, let's check the other direction. If there are no loops and no dead ends, then the state is valid.
+Bây giờ, hãy kiểm tra chiều ngược lại. Nếu không có loops và không có dead ends, thì trạng thái đó là hợp lệ.
 
-Proof: Assume that the routing state has no loops or dead ends. A packet won't reach the same node twice (because there are no loops). Also, the packet won't stop before reaching the destination (because there are no dead ends). Therefore, the packet must keep wandering through the network, reaching different nodes. There are only a finite number of unique nodes to visit, so the packet must eventually reach the destination. Therefore, the routing state must be valid.
+Chứng minh: Giả sử rằng routing state không có loops hoặc dead ends. Một gói tin sẽ không đến cùng một nút hai lần (vì không có loops). Ngoài ra, gói tin sẽ không dừng lại trước khi đến đích (vì không có dead ends). Do đó, gói tin phải tiếp tục đi qua mạng, đến các nút khác nhau. Chỉ có một số lượng hữu hạn các nút duy nhất để ghé thăm, vì vậy gói tin cuối cùng phải đến được đích. Do đó, routing state phải hợp lệ.
 
-## Directed Delivery Trees
+## Cây Phân phối Có hướng (Directed Delivery Trees)
 
-Now that we have a formal definition for routing state validity, we can ask: given a global routing state, how can we check if it's valid?
+Bây giờ chúng ta đã có một định nghĩa chính thức cho routing state validity, chúng ta có thể hỏi: với một routing state toàn cục cho trước, làm thế nào chúng ta có thể kiểm tra xem nó có hợp lệ không?
 
-To simplify the problem, let's start by considering only a single destination end host, ignoring all other end hosts. In each router, we can look up this destination to get the corresponding next hop, which tells us how each router will forward packets meant for this destination.
+Để đơn giản hóa vấn đề, hãy bắt đầu bằng cách chỉ xem xét một máy chủ cuối đích duy nhất, bỏ qua tất cả các máy chủ cuối khác. Trong mỗi router, chúng ta có thể tra cứu đích này để lấy next hop tương ứng, điều này cho chúng ta biết cách mỗi router sẽ chuyển tiếp các gói tin dành cho đích này.
 
-We can represent the next hop at each router (for this single destination) as an arrow, which shows us all the possible paths that this packet might take to reach the single destination.
+Chúng ta có thể biểu diễn next hop tại mỗi router (cho đích duy nhất này) dưới dạng một mũi tên, cho chúng ta thấy tất cả các đường đi có thể mà gói tin này có thể đi để đến đích duy nhất.
 
 <img width="800px" src="../assets/routing/2-022-delivery-tree.png">
 
-In the resulting graph, each node will only have one outgoing arrow. This reflects our assumption that in each router's forwarding table, there is only one next hop corresponding to a destination.
+Trong đồ thị kết quả, mỗi nút sẽ chỉ có một mũi tên đi ra. Điều này phản ánh giả định của chúng ta rằng trong forwarding table của mỗi router, chỉ có một next hop tương ứng với một đích.
 
-Notice that in the resulting graph, once two paths meet, they never split. In other words, even if there are multiple incoming arrows (paths) to a node, since there is only one outgoing arrow, those paths will now converge into a single path. This reflects our destination-based forwarding approach, because each router only uses the final destination to decide how to forward a packet. The router does not care how the packet arrived at the router in the first place.
+Lưu ý rằng trong đồ thị kết quả, một khi hai đường đi gặp nhau, chúng không bao giờ tách ra. Nói cách khác, ngay cả khi có nhiều mũi tên (đường đi) đến một nút, vì chỉ có một mũi tên đi ra, các đường đi đó bây giờ sẽ hội tụ thành một đường đi duy nhất. Điều này phản ánh phương pháp destination-based forwarding của chúng ta, bởi vì mỗi router chỉ sử dụng đích cuối cùng để quyết định cách chuyển tiếp một gói tin. Router không quan tâm gói tin đã đến router bằng cách nào ngay từ đầu.
 
 <img width="900px" src="../assets/routing/2-023-no-diverging.png">
 
-The arrows we've drawn form a set of paths that a packet can take to reach the single destination. This set of paths is called a **directed delivery tree**.
+Các mũi tên mà chúng ta đã vẽ tạo thành một tập hợp các đường đi mà một gói tin có thể đi để đến đích duy nhất. Tập hợp các đường đi này được gọi là **directed delivery tree** (cây phân phối có hướng).
 
-In graph terms, the arrows in a valid delivery tree must form an **oriented spanning tree**, rooted at the destination. Recall that a spanning tree is a set of edges in the graph that touch every node and form a tree. We want the delivery tree to be a tree, since there should be no cycles (packets can't travel in loops). We want the delivery tree to be spanning (touch every node), because we want to be able to reach the destination from everywhere. The delivery tree is oriented because the edges have arrows, which tells us which direction to forward the packet.
+Về mặt thuật ngữ đồ thị, các mũi tên trong một directed delivery tree hợp lệ phải tạo thành một **oriented spanning tree** (cây khung có hướng), có gốc tại đích. Hãy nhớ lại rằng một cây khung là một tập hợp các cạnh trong đồ thị chạm vào mọi nút và tạo thành một cây. Chúng ta muốn directed delivery tree là một cây, vì không nên có chu trình (các gói tin không thể đi theo vòng lặp). Chúng ta muốn directed delivery tree là cây khung (chạm vào mọi nút), bởi vì chúng ta muốn có thể đến đích từ mọi nơi. Directed delivery tree có hướng vì các cạnh có mũi tên, cho chúng ta biết hướng để chuyển tiếp gói tin.
 
-All edges in a valid delivery tree should point toward the destination. In other words, starting from any node, following the arrows should always result in reaching the destination.
+Tất cả các cạnh trong một directed delivery tree hợp lệ phải hướng về phía đích. Nói cách khác, bắt đầu từ bất kỳ nút nào, đi theo các mũi tên phải luôn luôn dẫn đến việc đến được đích.
 
-## Verifying Routing State Validity
+## Xác minh Tính hợp lệ của Trạng thái Định tuyến (Verifying Routing State Validity)
 
-As before, let's consider only a single destination end host, ignoring all other end hosts.
+Như trước đây, hãy chỉ xem xét một máy chủ cuối đích duy nhất, bỏ qua tất cả các máy chủ cuối khác.
 
-Example: Even though there are multiple end hosts here, let's only consider end host A.
+Ví dụ: Mặc dù có nhiều máy chủ cuối ở đây, hãy chỉ xem xét máy chủ cuối A.
 
 <img width="800px" src="../assets/routing/2-024-validity1.png">
 
-Using the forwarding tables at each router, we will draw the arrows into the network to form the directed delivery tree for this single destination. Formally, for each router (node in the graph), we will draw a single outgoing arrow from that node.
+Sử dụng các forwarding table tại mỗi router, chúng ta sẽ vẽ các mũi tên vào mạng để tạo thành directed delivery tree cho đích duy nhất này. Về mặt chính thức, đối với mỗi router (nút trong đồ thị), chúng ta sẽ vẽ một mũi tên đi ra duy nhất từ nút đó.
 
-Example: Using the forwarding tables (not shown), we can draw one outgoing arrow per router.
+Ví dụ: Sử dụng các forwarding table (không hiển thị), chúng ta có thể vẽ một mũi tên đi ra cho mỗi router.
 
 <img width="800px" src="../assets/routing/2-025-validity2.png">
 
-For simplicity, at this point we can delete all the links without arrows on them. These links without arrows will never be used to send packets to the single destination, since they are not on the delivery tree.
+Để đơn giản, tại thời điểm này, chúng ta có thể xóa tất cả các liên kết không có mũi tên trên chúng. Các liên kết không có mũi tên này sẽ không bao giờ được sử dụng để gửi gói tin đến đích duy nhất, vì chúng không nằm trên directed delivery tree.
 
-Example: We can delete all the links without arrows.
+Ví dụ: Chúng ta có thể xóa tất cả các liên kết không có mũi tên.
 
 <img width="800px" src="../assets/routing/2-026-validity3.png">
 
-If the remaining graph is a valid directed delivery tree (spanning tree, all arrows pointing toward destination), then we can say that the routing state is valid for this single destination.
+Nếu đồ thị còn lại là một directed delivery tree hợp lệ (cây khung, tất cả các mũi tên đều hướng về đích), thì chúng ta có thể nói rằng routing state là hợp lệ cho đích duy nhất này.
 
-In the above example, the residual graph is indeed a valid spanning tree converging at A, so we can say this routing state is valid for A.
+Trong ví dụ trên, đồ thị còn lại thực sự là một cây khung hợp lệ hội tụ tại A, vì vậy chúng ta có thể nói routing state này là hợp lệ cho A.
 
-Here are some examples of invalid routing states:
+Dưới đây là một số ví dụ về các routing state không hợp lệ:
 
 <img width="800px" src="../assets/routing/2-027-dead-end.png">
 
-This state is invalid. Intuitively, there is a dead end router. A packet bound for A could get sent to this router, and this router would discard the packet without forwarding it. Formally, the remaining graph is not a spanning tree, because the edges are not all connected (there are two disconnected components, which is not allowed in a tree).
+Trạng thái này không hợp lệ. Về mặt trực quan, có một router dead end. Một gói tin hướng đến A có thể được gửi đến router này, và router này sẽ loại bỏ gói tin mà không chuyển tiếp nó. Về mặt chính thức, đồ thị còn lại không phải là một cây khung, bởi vì các cạnh không được kết nối với nhau (có hai thành phần không liên thông, điều này không được phép trong một cây).
 
 <img width="800px" src="../assets/routing/2-028-loop.png">
 
-This state is also invalid. Intuitively, there is a loop that the packet could get stuck in. Formally, the remaining graph is not a spanning tree, because the edges are disconnected, and there is a cycle.
+Trạng thái này cũng không hợp lệ. Về mặt trực quan, có một loop mà gói tin có thể bị kẹt trong đó. Về mặt chính thức, đồ thị còn lại không phải là một cây khung, bởi vì các cạnh không liên thông, và có một chu trình.
 
-We can repeat this process, once for every different end host (isolating a different end host each time). If the routing state is valid for all destinations, then we can say that the routing state is valid, and will always deliver packets to their correct destinations.
+Chúng ta có thể lặp lại quá trình này, một lần cho mỗi máy chủ cuối khác nhau (cô lập một máy chủ cuối khác nhau mỗi lần). Nếu routing state là hợp lệ cho tất cả các đích, thì chúng ta có thể nói rằng routing state là hợp lệ, và sẽ luôn chuyển giao các gói tin đến đúng đích của chúng.
 
-## Least-Cost Routing
+## Định tuyến Chi phí Thấp nhất (Least-Cost Routing)
 
-Now that we have a definition of what makes a routing state valid (routes have no loops and dead ends), we can additionally define what makes a routing state good. It's possible that a network has multiple valid routing states, and we want some metric that can help us determine whether one route is better than another.
+Bây giờ chúng ta đã có một định nghĩa về điều gì làm cho một routing state hợp lệ (các tuyến đường không có loops và dead ends), chúng ta có thể định nghĩa thêm điều gì làm cho một routing state tốt. Có thể một mạng có nhiều routing state hợp lệ, và chúng ta muốn có một số liệu có thể giúp chúng ta xác định xem một tuyến đường có tốt hơn tuyến đường khác hay không.
 
-**Least-cost routing** is a common approach for measuring whether a route is good. In least-cost routing, we assign a numeric cost to every link, and look for routes that minimize the cost. In other words, we want routes that result in packets traveling along the lowest-cost paths to their destinations.
+**Least-cost routing** (định tuyến chi phí thấp nhất) là một cách tiếp cận phổ biến để đo lường xem một tuyến đường có tốt hay không. Trong least-cost routing, chúng ta gán một chi phí bằng số cho mọi liên kết, và tìm kiếm các tuyến đường giảm thiểu chi phí. Nói cách khác, chúng ta muốn các tuyến đường dẫn đến việc các gói tin di chuyển dọc theo các đường đi có chi phí thấp nhất đến đích của chúng.
 
 <img width="600px" src="../assets/routing/2-029-costs.png">
 
-There are many different costs we could consider assigning to links. The cost could depend on the price of building the link, the propagation delay, the physical distance of the link, the unreliability, the bandwidth, among other factors. For example, we could assign costs based on the quality of the link (bandwidth and propagation delay), such that the lowest-cost path prefers higher-quality links.
+Có nhiều chi phí khác nhau mà chúng ta có thể xem xét gán cho các liên kết. Chi phí có thể phụ thuộc vào giá xây dựng liên kết, độ trễ lan truyền, khoảng cách vật lý của liên kết, độ không tin cậy, bandwidth, cùng nhiều yếu tố khác. Ví dụ, chúng ta có thể gán chi phí dựa trên chất lượng của liên kết (bandwidth và độ trễ lan truyền), sao cho đường đi chi phí thấp nhất ưu tiên các liên kết chất lượng cao hơn.
 
-By allowing operators to set link costs arbitrarily, we give the operator the ability to optimize the network for their specific needs. The costs we assign depend on the operator's goals for the network. If we had a 400 Gbps link with 20 ms propagation delay, and a 10 Gbps link with 5 ms propagation delay, which one is lower-cost? It depends on if we're optimizing for bandwidth, propagation delay, some combination, or something else entirely.
+Bằng cách cho phép các nhà khai thác đặt chi phí liên kết một cách tùy ý, chúng ta trao cho nhà khai thác khả năng tối ưu hóa mạng cho các nhu cầu cụ thể của họ. Chi phí chúng ta gán phụ thuộc vào mục tiêu của nhà khai thác đối với mạng. Nếu chúng ta có một liên kết 400 Gbps với độ trễ lan truyền 20 ms, và một liên kết 10 Gbps với độ trễ lan truyền 5 ms, cái nào có chi phí thấp hơn? Điều đó phụ thuộc vào việc chúng ta đang tối ưu hóa cho bandwidth, độ trễ lan truyền, một sự kết hợp nào đó, hay một thứ gì đó hoàn toàn khác.
 
-If we assign a cost of 1 to every link, then the least-cost path is the path that travels along the fewest links. We sometimes call this minimizing the **hop count**. In these notes, if the edges of a graph are not labeled with a cost, you can assume all the edges have cost 1,
+Nếu chúng ta gán chi phí là 1 cho mọi liên kết, thì đường đi chi phí thấp nhất là đường đi di chuyển qua ít liên kết nhất. Đôi khi chúng ta gọi đây là việc giảm thiểu **hop count** (số bước nhảy). Trong các ghi chú này, nếu các cạnh của một đồ thị không được dán nhãn với một chi phí, bạn có thể giả định tất cả các cạnh có chi phí là 1.
 
-The operator of a network can decide how to assign costs to each link. The operator might manually assign costs. Or, the operator could have the network automatically configure the costs, although this may not work with some metrics that can't be automatically measured (e.g. the network has no idea about the financial cost to build the link).
+Nhà khai thác của một mạng có thể quyết định cách gán chi phí cho mỗi liên kết. Nhà khai thác có thể gán chi phí thủ công. Hoặc, nhà khai thác có thể để mạng tự động cấu hình chi phí, mặc dù điều này có thể không hoạt động với một số số liệu không thể đo lường tự động (ví dụ: mạng không biết gì về chi phí tài chính để xây dựng liên kết).
 
-When designing a routing protocol, we can abstract away how the costs were assigned. From the routing protocol's perspective, somebody else (e.g. the network operator) has already assigned the costs, based on something that they consider important. The algorithm takes in the costs as an input, and computes the least-cost paths, regardless of what the costs actually represent.
+Khi thiết kế một routing protocol, chúng ta có thể trừu tượng hóa cách các chi phí được gán. Từ quan điểm của routing protocol, một ai đó khác (ví dụ: nhà khai thác mạng) đã gán các chi phí, dựa trên một cái gì đó mà họ cho là quan trọng. Thuật toán nhận các chi phí làm đầu vào, và tính toán các đường đi chi phí thấp nhất, bất kể các chi phí thực sự đại diện cho điều gì.
 
 <img width="950px" src="../assets/routing/2-030-least-cost.png">
 
-Note that costs are local to each router. A router knows about the cost of its own outgoing links, but there is no way for the router to automatically know the costs of all links. This is consistent with the constraint we mentioned earlier, where routers don't have a global view of the entire network's topology.
+Lưu ý rằng chi phí là cục bộ đối với mỗi router. Một router biết về chi phí của các liên kết đi ra của chính nó, nhưng không có cách nào để router tự động biết chi phí của tất cả các liên kết. Điều này phù hợp với ràng buộc mà chúng ta đã đề cập trước đó, nơi các router không có cái nhìn toàn cục về toàn bộ cấu trúc liên kết của mạng.
 
-For simplicity, routing protocols make some assumptions about how the costs are defined.
+Để đơn giản, các routing protocol đưa ra một số giả định về cách các chi phí được định nghĩa.
 
-We'll assume that costs are always positive integers. This is consistent with many common real-life metrics, such as length of a link or monetary cost of a link. If we're trying to minimize the total physical distance traveled by a packet, a negative link cost doesn't make sense. You can't travel along a link and decrease the total distance traveled. This assumption will help simplify our protocols later, since we won't have to worry about edge cases like negative-weight loops (where the least-cost solution would be to travel around the loop forever).
+Chúng ta sẽ giả định rằng chi phí luôn là số nguyên dương. Điều này phù hợp với nhiều số liệu phổ biến trong đời thực, chẳng hạn như chiều dài của một liên kết hoặc chi phí tiền tệ của một liên kết. Nếu chúng ta đang cố gắng giảm thiểu tổng khoảng cách vật lý mà một gói tin di chuyển, một chi phí liên kết âm không có ý nghĩa. Bạn không thể di chuyển dọc theo một liên kết và giảm tổng khoảng cách đã đi. Giả định này sẽ giúp đơn giản hóa các giao thức của chúng ta sau này, vì chúng ta sẽ không phải lo lắng về các trường hợp biên như các vòng lặp có trọng số âm (nơi giải pháp chi phí thấp nhất sẽ là đi vòng quanh vòng lặp mãi mãi).
 
-We'll assume that costs are symmetrical. The cost from A to B is the same as the cost from B to A. This reflects the diagrams we'll draw, where an edge is labeled with a single symmetric cost. In theory, it's possible to have asymmetric link costs, but this is not done in practice, and would lead to more complicated routing protocols.
+Chúng ta sẽ giả định rằng chi phí là đối xứng. Chi phí từ A đến B giống như chi phí từ B đến A. Điều này phản ánh các sơ đồ chúng ta sẽ vẽ, trong đó một cạnh được dán nhãn với một chi phí đối xứng duy nhất. Về lý thuyết, có thể có chi phí liên kết bất đối xứng, nhưng điều này không được thực hiện trong thực tế, và sẽ dẫn đến các routing protocol phức tạp hơn.
 
-With these assumptions, our definition of good routes (least-cost) is consistent with our definition of valid routes. In particular, a least-cost route won't have any loops, because costs are positive (traversing the loop would only increase the cost).
+Với những giả định này, định nghĩa của chúng ta về các tuyến đường tốt (chi phí thấp nhất) phù hợp với định nghĩa của chúng ta về các tuyến đường hợp lệ. Cụ thể, một tuyến đường chi phí thấp nhất sẽ không có bất kỳ loops nào, bởi vì chi phí là dương (việc đi qua loop sẽ chỉ làm tăng chi phí).
 
-## Static Routing
+## Định tuyến Tĩnh (Static Routing)
 
-One possible way to generate routes is to have the network operator manually populate the forwarding table. This is known as **static routing**.
+Một cách khả thi để tạo ra các tuyến đường là để nhà khai thác mạng điền vào forwarding table một cách thủ công. Điều này được gọi là **static routing** (định tuyến tĩnh).
 
-Static routing by itself isn't practical (e.g. not scalable, prone to human error), but even with a routing protocol implemented, some routes still need to be manually created by operators. You can think of these manual routes as the "trivial" or "base case" routes, from which the routing protocol generates more complex routes.
+Bản thân static routing không thực tế (ví dụ: không thể mở rộng, dễ bị lỗi do con người), nhưng ngay cả khi đã triển khai một routing protocol, một số tuyến đường vẫn cần được các nhà khai thác tạo ra thủ công. Bạn có thể nghĩ về những tuyến đường thủ công này như những tuyến đường "tầm thường" hoặc "trường hợp cơ sở", từ đó routing protocol tạo ra các tuyến đường phức tạp hơn.
 
-If we're directly connected to another machine that we want to route packets to, we can manually configure a route to forward packets to that other machine. These routes are called **direct routes** or **connected routes**. For example, your home router is connected to your personal computer with a link, so your home router can add an entry in the forwarding table corresponding to your computer. This entry is added by telling the router about the connection, and is not added from running any routing protocol.
+Nếu chúng ta được kết nối trực tiếp với một máy khác mà chúng ta muốn định tuyến các gói tin đến, chúng ta có thể cấu hình thủ công một tuyến đường để chuyển tiếp các gói tin đến máy đó. Những tuyến đường này được gọi là **direct routes** (tuyến đường trực tiếp) hoặc **connected routes** (tuyến đường kết nối). Ví dụ, router nhà bạn được kết nối với máy tính cá nhân của bạn bằng một liên kết, vì vậy router nhà bạn có thể thêm một mục trong forwarding table tương ứng với máy tính của bạn. Mục này được thêm vào bằng cách thông báo cho router về kết nối, và không được thêm vào từ việc chạy bất kỳ routing protocol nào.
 
 <img width="800px" src="../assets/routing/2-031-static.png">
 
-It is also possible to use static routing to hard-code entries for destinations in the forwarding table, even if we aren't directly connected to that destination. This can be useful if there's a route that never changes, and we want that route to always stay in our forwarding table, regardless of what the routing protocol is doing.
+Cũng có thể sử dụng static routing để mã hóa cứng các mục cho các đích trong forwarding table, ngay cả khi chúng ta không được kết nối trực tiếp với đích đó. Điều này có thể hữu ích nếu có một tuyến đường không bao giờ thay đổi, và chúng ta muốn tuyến đường đó luôn ở trong forwarding table của mình, bất kể routing protocol đang làm gì.

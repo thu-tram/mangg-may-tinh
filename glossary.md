@@ -1,413 +1,407 @@
+# Bảng chú giải thuật ngữ
 
-
-
-
-
-# Glossary
-
-This glossary is adapted from [past offerings of CS 168](https://sp24.cs168.io/glossary).
+Bảng chú giải này được chuyển thể từ [các khóa học CS 168 trước đây](https://sp24.cs168.io/glossary).
 
 <table>
         <thead>
-          <th>Term</th>
-          <th>Definition</th>
+          <th>Thuật ngữ</th>
+          <th>Định nghĩa</th>
         </thead>
         <tbody><tr>
             <td>ACK</td>
-            <td align="left"><p>TCP packet with ACK flag set, that indicates data has been received.</p>
+            <td align="left"><p>Một <code>packet</code> <code>TCP</code> với <code>ACK flag</code> (cờ báo nhận) được bật, cho biết dữ liệu đã được nhận.</p>
 </td>
           </tr><tr>
             <td>ARP</td>
-            <td align="left"><p>Address Resolution Protocol. The protocol that allows devices to map MAC addresses to IP addresses. A device will send out (broadcast) an ARP <strong>Request</strong> message, to find out the MAC address corresponding to the IP Address. The device that is being queried will respond (unicast) with an ARP <strong>Response</strong> message. Mappings between MAC addresses and IP addresses are stored in the ARP table, which serves as a cache. Entries in the ARP table will time out (soft state).</p>
+            <td align="left"><p><code>Address Resolution Protocol</code> (Giao thức Phân giải Địa chỉ). Giao thức cho phép các thiết bị ánh xạ <code>MAC address</code> (địa chỉ MAC) tới <code>IP address</code> (địa chỉ IP). Một thiết bị sẽ gửi ra (<code>broadcast</code> (quảng bá)) một thông điệp <strong>Request</strong> <code>ARP</code>, để tìm ra <code>MAC address</code> tương ứng với <code>IP Address</code>. Thiết bị được truy vấn sẽ trả lời (<code>unicast</code> (đơn bá)) bằng một thông điệp <strong>Response</strong> <code>ARP</code>. Các ánh xạ giữa <code>MAC address</code> và <code>IP address</code> được lưu trữ trong <code>ARP table</code> (bảng ARP), hoạt động như một <code>cache</code> (bộ đệm). Các mục trong <code>ARP table</code> sẽ hết hạn (<code>soft state</code> (trạng thái mềm)).</p>
 </td>
           </tr><tr>
             <td>Autonomous System</td>
-            <td align="left"><p>A network or set of networks that are all managed and supervised by a single entity or organization. A single ISP is often a single AS; however, some ISPs partition their network into multiple ASes. Each AS is assigned a number, which is used in BGP to identify paths.</p>
+            <td align="left"><p>Một <code>network</code> (mạng) hoặc tập hợp các <code>network</code> được quản lý và giám sát bởi một thực thể hoặc tổ chức duy nhất. Một <code>ISP</code> thường là một <code>AS</code> (viết tắt của Autonomous System) duy nhất; tuy nhiên, một số <code>ISP</code> phân chia mạng của họ thành nhiều <code>AS</code>. Mỗi <code>AS</code> được gán một số hiệu, được sử dụng trong <code>BGP</code> (Border Gateway Protocol - Giao thức Cổng Biên giới) để xác định các đường đi.</p>
 </td>
           </tr><tr>
             <td>AXE</td>
-            <td align="left"><p>A proposed alternative to STP, where loops are prevented without the need for a spanning tree (by using duplicate suppression instead). Source of some of the finest poetry the world has ever seen.</p>
+            <td align="left"><p>Một giải pháp thay thế được đề xuất cho <code>STP</code>, trong đó các vòng lặp được ngăn chặn mà không cần đến <code>spanning tree</code> (cây bao trùm) (thay vào đó sử dụng cơ chế loại bỏ trùng lặp). Nguồn gốc của một số bài thơ hay nhất mà thế giới từng thấy.</p>
 </td>
           </tr><tr>
             <td>Bad things that can happen to packets</td>
-            <td align="left"><p>Lost, corrupted, reordered, delayed, duplicated.</p>
+            <td align="left"><p>Những điều tồi tệ có thể xảy ra với <code>packet</code>: Bị mất, bị hỏng, bị sắp xếp sai thứ tự, bị trễ, bị trùng lặp.</p>
 </td>
           </tr><tr>
             <td>Bandwidth-Delay Product</td>
-            <td align="left"><p>This is the quantity (bandwidth)*(propagation delay) which represents the number of bits needed to “fill the pipe” (i.e., the number of bits that would have been sent but not yet received if the sender was sending at the bandwidth of the link).</p>
+            <td align="left"><p>Đây là đại lượng (<code>bandwidth</code>) * (<code>propagation delay</code> (độ trễ lan truyền)) biểu thị số lượng bit cần thiết để "lấp đầy đường ống" (tức là số lượng bit đã được gửi đi nhưng chưa nhận được nếu bên gửi đang gửi với <code>bandwidth</code> của <code>link</code>).</p>
 </td>
           </tr><tr>
             <td>Bellman Ford Equation</td>
-            <td align="left"><p>Equation that says your shortest distance to a destination is the minimum of your cost to a neighbour plus that neighbour’s distance to the link, for all neighbours. Or, more concretely, Node u’s cost to a given destination v is then: d(u,v) = min(nbrs w) [c(u,w) + d(w,v)]</p>
+            <td align="left"><p>Phương trình nói rằng khoảng cách ngắn nhất của bạn đến một đích là giá trị nhỏ nhất của chi phí đến một nút láng giềng cộng với khoảng cách từ láng giềng đó đến <code>link</code>, xét trên tất cả các láng giềng. Hay cụ thể hơn, chi phí của nút u đến một đích v cho trước là: d(u,v) = min(với mọi láng giềng w) [c(u,w) + d(w,v)]</p>
 </td>
           </tr><tr>
             <td>Best Effort</td>
-            <td align="left"><p>On-demand delivery where the system provides no performance guarantees other than the system will try its best.</p>
+            <td align="left"><p><code>Best Effort</code> (Nỗ lực tối đa). Việc phân phối theo yêu cầu trong đó hệ thống không cung cấp đảm bảo về hiệu suất nào khác ngoài việc hệ thống sẽ cố gắng hết sức.</p>
 </td>
           </tr><tr>
             <td>Border Router</td>
-            <td align="left"><p>Routers that are connected to routers in another network.</p>
+            <td align="left"><p>Các <code>router</code> được kết nối với các <code>router</code> trong một <code>network</code> khác.</p>
 </td>
           </tr><tr>
             <td>Checksum</td>
-            <td align="left"><p>This is used to detect corruption, and is a number computed over some portion of the packet (which depends on which protocol).</p>
+            <td align="left"><p><code>Checksum</code> (Tổng kiểm) được sử dụng để phát hiện lỗi hỏng dữ liệu, và là một con số được tính toán trên một phần nào đó của <code>packet</code> (tùy thuộc vào giao thức cụ thể).</p>
 </td>
           </tr><tr>
             <td>CIDR</td>
-            <td align="left"><p>Short for Classless Interdomain Routing. Couples IP address with a network mask to determine which bits are the network bits. Far more flexible than the original IP addressing scheme, or classful addressing.</p>
+            <td align="left"><p>Viết tắt của <code>Classless Interdomain Routing</code> (Định tuyến liên miền không lớp). Kết hợp một <code>IP address</code> với một <code>network mask</code> (mặt nạ mạng) để xác định các bit nào là bit mạng. Linh hoạt hơn nhiều so với lược đồ địa chỉ IP ban đầu, hay <code>classful addressing</code> (địa chỉ hóa theo lớp).</p>
 </td>
           </tr><tr>
             <td>Circuit Switching</td>
-            <td align="left"><p>Method of data transfer in which an end system reserves BW along a path - sets up a circuit - for communication. No need for packets.</p>
+            <td align="left"><p><code>Circuit Switching</code> (Chuyển mạch kênh). Phương thức truyền dữ liệu trong đó một hệ thống đầu cuối đặt trước <code>bandwidth</code> dọc theo một đường đi - thiết lập một mạch (circuit) - để liên lạc. Không cần đến <code>packet</code>.</p>
 </td>
           </tr><tr>
             <td>Classful Addressing</td>
-            <td align="left"><p>A scheme for determining the network and host bits of an IP address. There are three classes (that we deal with): <strong>Class A</strong> addresses start with 0, and use the first 8 bits to identify the network. The last 24 bits identify the host. <strong>Class B</strong> addresses start with 10, and use the first 16 bits to identify the network. The last 16 bits identify the host. <strong>Class C</strong> addresses start with 110, and use the first 24 bits to identify the network. The last 8 bits identify the host.”</p>
+            <td align="left"><p><code>Classful Addressing</code> (Địa chỉ hóa theo lớp). Một lược đồ để xác định các bit mạng và bit <code>host</code> của một <code>IP address</code>. Có ba lớp (mà chúng ta đề cập): Địa chỉ <strong>Lớp A</strong> bắt đầu bằng 0, và sử dụng 8 bit đầu tiên để xác định mạng. 24 bit cuối xác định <code>host</code>. Địa chỉ <strong>Lớp B</strong> bắt đầu bằng 10, và sử dụng 16 bit đầu tiên để xác định mạng. 16 bit cuối xác định <code>host</code>. Địa chỉ <strong>Lớp C</strong> bắt đầu bằng 110, và sử dụng 24 bit đầu tiên để xác định mạng. 8 bit cuối xác định <code>host</code>.”</p>
 </td>
           </tr><tr>
             <td>Control Plane</td>
-            <td align="left"><p>This refers to the network mechanisms used to compute routing tables and other forwarding information.</p>
+            <td align="left"><p><code>Control Plane</code> (Mặt phẳng điều khiển). Đề cập đến các cơ chế mạng được sử dụng để tính toán <code>routing table</code> (bảng định tuyến) và các thông tin chuyển tiếp khác.</p>
 </td>
           </tr><tr>
             <td>Convergence</td>
-            <td align="left"><p>We say that an algorithm has converged once all parties have up-to-date information and, barring a change in the topology of the network, all subsequent “updates” sent and received don’t affect the routing state.</p>
+            <td align="left"><p><code>Convergence</code> (Sự hội tụ). Chúng ta nói rằng một thuật toán đã hội tụ khi tất cả các bên đều có thông tin cập nhật và, trừ khi có sự thay đổi trong cấu trúc liên kết của mạng, tất cả các "cập nhật" tiếp theo được gửi và nhận không ảnh hưởng đến trạng thái định tuyến.</p>
 </td>
           </tr><tr>
             <td>Core/Backbone Router</td>
-            <td align="left"><p>Routers that are connected to other internal routers.</p>
+            <td align="left"><p><code>Router</code> lõi/xương sống. Các <code>router</code> được kết nối với các <code>router</code> nội bộ khác.</p>
 </td>
           </tr><tr>
             <td>Cost Table</td>
-            <td align="left"><p>Data structure on routers that contains the set of costs to all neighbors.</p>
+            <td align="left"><p><code>Cost Table</code> (Bảng chi phí). Cấu trúc dữ liệu trên các <code>router</code> chứa tập hợp chi phí đến tất cả các nút láng giềng.</p>
 </td>
           </tr><tr>
             <td>Count-to-Infinity Problem</td>
-            <td align="left"><p>The name for a certain type of routing loop that can occur due to the asynchronous nature of information propogation using Distance Vector. Usually caused by a link going down, a router, originally using a broken path to a certain destination, believes their neighbour has a valid path to said destination and adopts this path without knowing that it contains as subset of its original broken path. Both neighbours repeatedly receive updates from each other, adopting this broken path.</p>
+            <td align="left"><p><code>Count-to-Infinity Problem</code> (Vấn đề đếm đến vô cực). Tên của một loại <code>routing loop</code> (vòng lặp định tuyến) có thể xảy ra do bản chất không đồng bộ của việc lan truyền thông tin bằng <code>Distance Vector</code> (Vector khoảng cách). Thường gây ra bởi một <code>link</code> bị hỏng, một <code>router</code>, ban đầu sử dụng một đường đi bị hỏng đến một đích nhất định, lại tin rằng láng giềng của nó có một đường đi hợp lệ đến đích đó và sử dụng đường đi này mà không biết rằng nó chứa một phần của đường đi bị hỏng ban đầu của chính nó. Cả hai láng giềng liên tục nhận cập nhật từ nhau, tiếp tục sử dụng đường đi bị hỏng này.</p>
 </td>
           </tr><tr>
             <td>Cumulative ACK</td>
-            <td align="left"><p>ACK means “I have received all packets (or bytes) up until this one”.</p>
+            <td align="left"><p><code>Cumulative ACK</code> (ACK tích lũy). <code>ACK</code> có nghĩa là "Tôi đã nhận được tất cả các <code>packet</code> (hoặc byte) cho đến <code>packet</code> này".</p>
 </td>
           </tr><tr>
             <td>Data Plane</td>
-            <td align="left"><p>This refers to the network mechanisms used to forward data.</p>
+            <td align="left"><p><code>Data Plane</code> (Mặt phẳng dữ liệu). Đề cập đến các cơ chế mạng được sử dụng để chuyển tiếp dữ liệu.</p>
 </td>
           </tr><tr>
             <td>Datacenters</td>
-            <td align="left"><p>Massive collections of machines.</p>
+            <td align="left"><p><code>Datacenter</code> (Trung tâm dữ liệu). Các tập hợp máy móc khổng lồ.</p>
 </td>
           </tr><tr>
             <td>David Clark</td>
-            <td align="left"><p>The unsung hero of the Internet. He was the chief architect and authored the end-to-end principle.</p>
+            <td align="left"><p>Người hùng thầm lặng của Internet. Ông là kiến trúc sư trưởng và là tác giả của <code>end-to-end principle</code> (nguyên tắc đầu cuối-đến-đầu cuối).</p>
 </td>
           </tr><tr>
             <td>Dead End</td>
-            <td align="left"><p>When a packet arrives at a router or switch but the forwarding decision does not yield an outgoing port, forcing the packet to be dropped.</p>
+            <td align="left"><p><code>Dead End</code> (Ngõ cụt). Khi một <code>packet</code> đến một <code>router</code> hoặc <code>switch</code> (bộ chuyển mạch) nhưng quyết định chuyển tiếp không dẫn đến một cổng ra nào, buộc <code>packet</code> phải bị loại bỏ.</p>
 </td>
           </tr><tr>
             <td>Destination-Based Routing</td>
-            <td align="left"><p>Routing that only depends on the destination. Paths from two difference sources to same destination must coincide once they overlap.</p>
+            <td align="left"><p><code>Destination-Based Routing</code> (Định tuyến dựa trên đích). Định tuyến chỉ phụ thuộc vào đích đến. Các đường đi từ hai nguồn khác nhau đến cùng một đích phải trùng nhau một khi chúng giao nhau.</p>
 </td>
           </tr><tr>
             <td>DHCP</td>
-            <td align="left"><p>Dynamic Host Configuration Protocol. The protocol that provides a host with its IP address upon connecting to a network. When a host connects to a new network, it sends a DHCP <strong>Discovery</strong> message to notify the DHCP server(s) that it needs an IP address. The server sends an <strong>Offer</strong> message, containing an offered IP address, a subnet mask, the IP address of the first-hop router, and a lease time. The host will send a <strong>Request</strong>, corresponding to the offer it would like to accept. The server responds with an <strong>Acknowledgement/Acceptance</strong> message. All DHCP messages are broadcasted.</p>
+            <td align="left"><p><code>Dynamic Host Configuration Protocol</code> (Giao thức Cấu hình Host Động). Giao thức cung cấp cho một <code>host</code> địa chỉ IP của nó khi kết nối vào một <code>network</code>. Khi một <code>host</code> kết nối vào một <code>network</code> mới, nó sẽ gửi một thông điệp <strong>Discovery</strong> <code>DHCP</code> để thông báo cho (các) máy chủ <code>DHCP</code> rằng nó cần một <code>IP address</code>. Máy chủ gửi một thông điệp <strong>Offer</strong>, chứa một <code>IP address</code> được đề xuất, một <code>subnet mask</code> (mặt nạ mạng con), <code>IP address</code> của <code>router</code> chặng đầu tiên, và một thời gian thuê (lease time). <code>Host</code> sẽ gửi một thông điệp <strong>Request</strong>, tương ứng với đề nghị mà nó muốn chấp nhận. Máy chủ trả lời bằng một thông điệp <strong>Acknowledgement/Acceptance</strong>. Tất cả các thông điệp <code>DHCP</code> đều được <code>broadcast</code>.</p>
 </td>
           </tr><tr>
             <td>Distance Vector Routing</td>
-            <td align="left"><p>Distance vector routing is a scalable and distributed routing algorithm in which each router keeps a “vector” of distances as well the next-hop router to each destination. Each node floods its vector shortest distances to its neighbors and upon receiving a vector each router uses Bellman-Ford to update its own vector.</p>
+            <td align="left"><p><code>Distance Vector Routing</code> (Định tuyến theo Vector Khoảng cách). Là một thuật toán định tuyến phân tán và có khả năng mở rộng, trong đó mỗi <code>router</code> lưu giữ một "vector" các khoảng cách cũng như <code>router</code> chặng tiếp theo đến mỗi đích. Mỗi nút sẽ gửi tràn (flood) vector khoảng cách ngắn nhất của nó cho các láng giềng và khi nhận được một vector, mỗi <code>router</code> sử dụng thuật toán Bellman-Ford để cập nhật vector của chính mình.</p>
 </td>
           </tr><tr>
             <td>DNS</td>
-            <td align="left"><p>Domain Name Service, a system which associates names with addresses and is commonly used to look up the address of a host given a name.</p>
+            <td align="left"><p><code>Domain Name Service</code> (Dịch vụ Tên miền), một hệ thống liên kết tên với địa chỉ và thường được sử dụng để tra cứu địa chỉ của một <code>host</code> khi biết tên.</p>
 </td>
           </tr><tr>
             <td>Dotted-quad notation</td>
-            <td align="left"><p>A notation that writes down IPv4 addresses as 4 numbers, one number per byte. For example, 12.34.158.5</p>
+            <td align="left"><p><code>Dotted-quad notation</code> (Ký hiệu bộ bốn dấu chấm). Một ký hiệu viết các địa chỉ IPv4 dưới dạng 4 con số, mỗi số cho một byte. Ví dụ, 12.34.158.5</p>
 </td>
           </tr><tr>
             <td>Duplicate ACKs</td>
-            <td align="left"><p>A stream of cumulative ACKs that acknowledge the same received data multiple times: a sign of an isolated packet loss, because these additional ACKs show that data is still being received.</p>
+            <td align="left"><p><code>Duplicate ACKs</code> (Các ACK trùng lặp). Một chuỗi các <code>cumulative ACK</code> xác nhận cùng một dữ liệu đã nhận nhiều lần: một dấu hiệu của việc mất một <code>packet</code> riêng lẻ, bởi vì các <code>ACK</code> bổ sung này cho thấy dữ liệu vẫn đang được nhận.</p>
 </td>
           </tr><tr>
             <td>Edge Router</td>
-            <td align="left"><p>Routers to which end hosts are attached.</p>
+            <td align="left"><p><code>Edge Router</code> (Router biên). Các <code>router</code> mà các <code>host</code> đầu cuối được gắn vào.</p>
 </td>
           </tr><tr>
             <td>End to End Principle</td>
-            <td align="left"><p>Helps determine whether or not something should be implemented in the network, or only in the end hosts. This class presented three interpretations: <strong>Only-if-necessary</strong>: If a function can be implemented by the hosts, don’t implement it in the network. <strong>Only-if-sufficient</strong>: Only implement a function at this level if it can be completely implemented at this level and you can relieve burden from the hosts. <strong>Only-if-useful</strong>: Implement a function in the network if it can improve the performance of the funciton without burdening applications that don’t require it.</p>
+            <td align="left"><p><code>End to End Principle</code> (Nguyên tắc Đầu cuối-đến-Đầu cuối). Giúp xác định xem một chức năng nào đó nên được triển khai trong mạng, hay chỉ trong các <code>host</code> đầu cuối. Lớp học này đã trình bày ba cách diễn giải: <strong>Only-if-necessary</strong> (Chỉ khi cần thiết): Nếu một chức năng có thể được triển khai bởi các <code>host</code>, đừng triển khai nó trong mạng. <strong>Only-if-sufficient</strong> (Chỉ khi đủ): Chỉ triển khai một chức năng ở cấp độ này nếu nó có thể được triển khai hoàn toàn ở cấp độ này và bạn có thể giảm bớt gánh nặng cho các <code>host</code>. <strong>Only-if-useful</strong> (Chỉ khi hữu ích): Triển khai một chức năng trong mạng nếu nó có thể cải thiện hiệu suất của chức năng đó mà không gây gánh nặng cho các ứng dụng không yêu cầu nó.</p>
 </td>
           </tr><tr>
             <td>Enterprises</td>
-            <td align="left"><p>Companies and universities.</p>
+            <td align="left"><p>Doanh nghiệp và trường đại học.</p>
 </td>
           </tr><tr>
             <td>Fate Sharing</td>
-            <td align="left"><p>Store state in the entities that rely on that state, such that that entity will not be affected by other failures.</p>
+            <td align="left"><p><code>Fate Sharing</code> (Chia sẻ số phận). Lưu trữ trạng thái trong các thực thể dựa vào trạng thái đó, sao cho thực thể đó sẽ không bị ảnh hưởng bởi các lỗi khác.</p>
 </td>
           </tr><tr>
             <td>First-hop router</td>
-            <td align="left"><p>The router that a host sends a packet to when it wants to send that packet to a destination outside its L2 network.</p>
+            <td align="left"><p><code>First-hop router</code> (Router chặng đầu tiên). <code>Router</code> mà một <code>host</code> gửi <code>packet</code> đến khi nó muốn gửi <code>packet</code> đó đến một đích bên ngoài mạng L2 của nó.</p>
 </td>
           </tr><tr>
             <td>Flooding</td>
-            <td align="left"><p>In this class, we use flooding to refer to the act of sending a packet out all ports (excepting the incoming port) in a single switch.</p>
+            <td align="left"><p><code>Flooding</code> (Gửi tràn). Trong lớp học này, chúng ta sử dụng thuật ngữ này để chỉ hành động gửi một <code>packet</code> ra tất cả các cổng (trừ cổng đến) trong một <code>switch</code> duy nhất.</p>
 </td>
           </tr><tr>
             <td>Flow</td>
-            <td align="left"><p>A stream of packets between two processes.</p>
+            <td align="left"><p><code>Flow</code> (Luồng). Một dòng các <code>packet</code> giữa hai tiến trình.</p>
 </td>
           </tr><tr>
             <td>Forwarding</td>
-            <td align="left"><p>Sending a packet towards its destination. This is done by reading the address from the packet’s header, searching the routing state for the correct output port, and sending the packet out that port. This is a local process within a router, done in the data plane, and it must be done quickly.</p>
+            <td align="left"><p><code>Forwarding</code> (Chuyển tiếp). Gửi một <code>packet</code> về phía đích của nó. Điều này được thực hiện bằng cách đọc địa chỉ từ phần <code>header</code> (tiêu đề) của <code>packet</code>, tìm kiếm trong trạng thái định tuyến để tìm cổng ra chính xác, và gửi <code>packet</code> ra cổng đó. Đây là một quy trình cục bộ bên trong một <code>router</code>, được thực hiện trong <code>data plane</code>, và nó phải được thực hiện nhanh chóng.</p>
 </td>
           </tr><tr>
             <td>Forwarding Entry</td>
-            <td align="left"><p>An entry in the forwarding table that maps an address or set of addresses to an outgoing port.</p>
+            <td align="left"><p><code>Forwarding Entry</code> (Mục chuyển tiếp). Một mục trong <code>forwarding table</code> (bảng chuyển tiếp) ánh xạ một địa chỉ hoặc một tập hợp các địa chỉ đến một cổng ra.</p>
 </td>
           </tr><tr>
             <td>Forwarding Table</td>
-            <td align="left"><p>A table the router computes for itself to guide its forwarding decisions. The forwarding table is computer using the information in the peer and cost tables.</p>
+            <td align="left"><p><code>Forwarding Table</code> (Bảng chuyển tiếp). Một bảng mà <code>router</code> tự tính toán để hướng dẫn các quyết định chuyển tiếp của nó. <code>Forwarding table</code> được tính toán bằng cách sử dụng thông tin trong các bảng láng giềng và bảng chi phí.</p>
 </td>
           </tr><tr>
             <td>Fragmentation</td>
-            <td align="left"><p>Dividing a packet into smaller packets to fit the maximum transmission unit (MTU) of a link.</p>
+            <td align="left"><p><code>Fragmentation</code> (Phân mảnh). Chia một <code>packet</code> thành các <code>packet</code> nhỏ hơn để phù hợp với <code>maximum transmission unit</code> (MTU) (đơn vị truyền dẫn tối đa) của một <code>link</code>.</p>
 </td>
           </tr><tr>
             <td>Full-information ACK</td>
-            <td align="left"><p>An ACK that describes all data received so far, and can take the form “I have received all packets up until this one, plus these additional ones”.</p>
+            <td align="left"><p><code>Full-information ACK</code> (ACK đầy đủ thông tin). Một <code>ACK</code> mô tả tất cả dữ liệu đã nhận được cho đến nay, và có thể có dạng "Tôi đã nhận được tất cả các <code>packet</code> cho đến <code>packet</code> này, cộng với những <code>packet</code> bổ sung này".</p>
 </td>
           </tr><tr>
             <td>Hard State</td>
-            <td align="left"><p>Systems in “hard state” do not time out their information – they assume once they have been given some knowledge, it remains true and valid until explicitly told otherwise.</p>
+            <td align="left"><p><code>Hard State</code> (Trạng thái cứng). Các hệ thống ở "trạng thái cứng" không làm hết hạn thông tin của chúng – chúng giả định một khi đã được cung cấp một kiến thức nào đó, nó vẫn đúng và hợp lệ cho đến khi được thông báo rõ ràng là khác đi.</p>
 </td>
           </tr><tr>
             <td>Host bits</td>
-            <td align="left"><p>The part of the IP address that identifies the host inside its network.</p>
+            <td align="left"><p><code>Host bits</code> (Các bit host). Phần của <code>IP address</code> xác định <code>host</code> bên trong mạng của nó.</p>
 </td>
           </tr><tr>
             <td>Host/End System</td>
-            <td align="left"><p>End-points of a network. These entities are responsible for the generation of data packets that are then routed across the network.</p>
+            <td align="left"><p><code>Host</code>/<code>End System</code> (Hệ thống đầu cuối). Các điểm cuối của một <code>network</code>. Các thực thể này chịu trách nhiệm tạo ra các <code>packet</code> dữ liệu sau đó được định tuyến qua mạng.</p>
 </td>
           </tr><tr>
             <td>Individual ACK</td>
-            <td align="left"><p>An ACK that means “I received this single, specific packet”.</p>
+            <td align="left"><p><code>Individual ACK</code> (ACK riêng lẻ). Một <code>ACK</code> có nghĩa là "Tôi đã nhận được <code>packet</code> đơn lẻ, cụ thể này".</p>
 </td>
           </tr><tr>
             <td>Internet</td>
-            <td align="left"><p>The core network infrastructure that links all connected computing devices.</p>
+            <td align="left"><p><code>Internet</code>. Cơ sở hạ tầng mạng cốt lõi kết nối tất cả các thiết bị máy tính được kết nối.</p>
 </td>
           </tr><tr>
             <td>IP Address</td>
-            <td align="left"><p>The addressing scheme used in layer 3.</p>
+            <td align="left"><p><code>IP Address</code> (Địa chỉ IP). Lược đồ địa chỉ được sử dụng ở tầng 3.</p>
 </td>
           </tr><tr>
             <td>IPv4</td>
-            <td align="left"><p>Version 4 of the IP protocol.</p>
+            <td align="left"><p><code>IPv4</code>. Phiên bản 4 của giao thức IP.</p>
 </td>
           </tr><tr>
             <td>ISP (Internet Service Provider)/ISP Network</td>
-            <td align="left"><p>A network of packet switches and communication links providing network access to end systems.</p>
+            <td align="left"><p><code>ISP</code> (Nhà cung cấp Dịch vụ Internet)/Mạng <code>ISP</code>. Một <code>network</code> gồm các <code>packet switch</code> (bộ chuyển mạch gói) và các <code>link</code> truyền thông cung cấp quyền truy cập mạng cho các hệ thống đầu cuối.</p>
 </td>
           </tr><tr>
             <td>LAN</td>
-            <td align="left"><p>Local area network, an L2 network that spans a small geographical area, for example a house.</p>
+            <td align="left"><p><code>LAN</code> (Local area network - Mạng cục bộ), một mạng L2 trải rộng trên một khu vực địa lý nhỏ, ví dụ như một ngôi nhà.</p>
 </td>
           </tr><tr>
             <td>Layering</td>
-            <td align="left"><p>Generally, layering is splitting a complex system into separate levels that build upon/depend on each other. In the Internet context, this refers to a specific set of layers (physical = L1, datalink = L2, internetworking = L3, transport = L4) that only interact with the layers directly above or below.</p>
+            <td align="left"><p><code>Layering</code> (Phân tầng). Nói chung, phân tầng là việc chia một hệ thống phức tạp thành các cấp độ riêng biệt xây dựng/phụ thuộc lẫn nhau. Trong bối cảnh Internet, điều này đề cập đến một tập hợp các tầng cụ thể (physical = L1, datalink = L2, internetworking = L3, transport = L4) chỉ tương tác với các tầng ngay trên hoặc dưới nó.</p>
 </td>
           </tr><tr>
             <td>Layers</td>
-            <td align="left"><p><strong>Application</strong> (Network support for apps). 4: <strong>Transport</strong> (Reliable/Unreliable end-to-end delivery). 3: <strong>Network</strong> (Global best-effort delivery). 2: <strong>Datalink</strong> (local best-effort delivery). 1: <strong>Physical</strong> (bits being transmitted over some medium).</p>
+            <td align="left"><p><strong>Application</strong> (Hỗ trợ mạng cho các ứng dụng). 4: <strong>Transport</strong> (Phân phối đầu cuối-đến-đầu cuối đáng tin cậy/không đáng tin cậy). 3: <strong>Network</strong> (Phân phối toàn cục theo kiểu nỗ lực tối đa). 2: <strong>Datalink</strong> (Phân phối cục bộ theo kiểu nỗ lực tối đa). 1: <strong>Physical</strong> (Các bit được truyền qua một môi trường nào đó).</p>
 </td>
           </tr><tr>
             <td>Learning Switches</td>
-            <td align="left"><p>Typically used at L2 in combination with the spanning tree protocol. Learning switches maintain a forwarding table mapping destination to output link. They learn from the “source” field of a packet. When a packet comes in, the switch checks if the destination is in it’s table. If it is, it forwards the packet down that link. If it isn’t, it floods the packet.</p>
+            <td align="left"><p><code>Learning Switches</code> (Switch học). Thường được sử dụng ở L2 kết hợp với <code>spanning tree protocol</code> (giao thức cây bao trùm). Các <code>learning switch</code> duy trì một <code>forwarding table</code> ánh xạ đích đến liên kết đầu ra. Chúng học từ trường "source" (nguồn) của một <code>packet</code>. Khi một <code>packet</code> đến, <code>switch</code> kiểm tra xem đích có trong bảng của nó không. Nếu có, nó sẽ chuyển tiếp <code>packet</code> xuống <code>link</code> đó. Nếu không, nó sẽ gửi tràn <code>packet</code>.</p>
 </td>
           </tr><tr>
             <td>Linecard</td>
-            <td align="left"><p>Piece of hardware (in a router) that receives/sends packets. They update various fields (checksum, TTL, etc.) and select outgoing port.</p>
+            <td align="left"><p><code>Linecard</code>. Một phần cứng (trong một <code>router</code>) nhận/gửi <code>packet</code>. Chúng cập nhật các trường khác nhau (<code>checksum</code>, <code>TTL</code>, v.v.) và chọn cổng ra.</p>
 </td>
           </tr><tr>
             <td>Link</td>
-            <td align="left"><p>The physical pieces of infrastructure that connects routers.</p>
+            <td align="left"><p><code>Link</code> (Liên kết). Các phần cơ sở hạ tầng vật lý kết nối các <code>router</code>.</p>
 </td>
           </tr><tr>
             <td>Link-State Routing</td>
-            <td align="left"><p>In Link-State routing, each router sends (using a protocol-specific broadcast mechanism) its link state to all other routers in the network. This way, every router learns the entire network graph. Then, every router computes the least-cost paths from themselves to all other nodes using any valid algorithm (for example, Dijkstra’s).</p>
+            <td align="left"><p><code>Link-State Routing</code> (Định tuyến theo Trạng thái Liên kết). Trong <code>Link-State routing</code>, mỗi <code>router</code> gửi (sử dụng một cơ chế <code>broadcast</code> đặc thù của giao thức) trạng thái <code>link</code> của nó đến tất cả các <code>router</code> khác trong mạng. Bằng cách này, mọi <code>router</code> đều biết toàn bộ <code>network graph</code>. Sau đó, mọi <code>router</code> tính toán các đường đi có chi phí thấp nhất từ chính nó đến tất cả các nút khác bằng bất kỳ thuật toán hợp lệ nào (ví dụ, thuật toán Dijkstra).</p>
 </td>
           </tr><tr>
             <td>Loop</td>
-            <td align="left"><p>When a packet cycles around the same set of nodes forever.</p>
+            <td align="left"><p><code>Loop</code> (Vòng lặp). Khi một <code>packet</code> quay vòng quanh cùng một tập hợp các nút mãi mãi.</p>
 </td>
           </tr><tr>
             <td>LPM</td>
-            <td align="left"><p>Longest-prefix-match: When an IP Address matches multiple prefixes, select the longest match (Think of traversing the prefix tree until the address ‘falls off’).</p>
+            <td align="left"><p><code>LPM</code> (Longest-prefix-match - Trùng khớp tiền tố dài nhất): Khi một <code>IP Address</code> trùng khớp với nhiều tiền tố, hãy chọn tiền tố trùng khớp dài nhất (Hãy tưởng tượng việc duyệt qua cây tiền tố cho đến khi địa chỉ 'rơi ra ngoài').</p>
 </td>
           </tr><tr>
             <td>MAC Address</td>
-            <td align="left"><p>Used for L2 routing, a MAC Address is a 48 bit number burned into the network interface of hosts and routers. The MAC address is encoded in the physical hardware stored in Read-Only memory, making it a permanent identifier.</p>
+            <td align="left"><p>Được sử dụng cho định tuyến L2, <code>MAC Address</code> (Địa chỉ MAC) là một số 48 bit được ghi cứng vào giao diện mạng của các <code>host</code> và <code>router</code>. <code>MAC address</code> được mã hóa trong phần cứng vật lý lưu trữ trong bộ nhớ chỉ đọc (Read-Only memory), làm cho nó trở thành một định danh vĩnh viễn.</p>
 </td>
           </tr><tr>
             <td>Maximum Transmission Unit (MTU)</td>
-            <td align="left"><p>The largest number of bits a link can transfer as a single unit, the largest packet size that can be sent across a link.</p>
+            <td align="left"><p><code>Maximum Transmission Unit</code> (MTU) (Đơn vị Truyền dẫn Tối đa). Số lượng bit lớn nhất mà một <code>link</code> có thể truyền như một đơn vị duy nhất, kích thước <code>packet</code> lớn nhất có thể được gửi qua một <code>link</code>.</p>
 </td>
           </tr><tr>
             <td>Modularity</td>
-            <td align="left"><p>Decomposing a problem into tasks or abstractions. Leads to the design principles of layering.</p>
+            <td align="left"><p><code>Modularity</code> (Tính mô-đun). Phân rã một vấn đề thành các tác vụ hoặc các khái niệm trừu tượng. Dẫn đến các nguyên tắc thiết kế của việc phân tầng.</p>
 </td>
           </tr><tr>
             <td>Multihoming</td>
-            <td align="left"><p>Connecting one host to multiple, disparate networks, so that if one parent network goes offline, the host is still accessible. Prevents aggregation.</p>
+            <td align="left"><p><code>Multihoming</code>. Kết nối một <code>host</code> với nhiều mạng khác nhau, để nếu một mạng cha bị ngoại tuyến, <code>host</code> vẫn có thể truy cập được. Ngăn chặn việc tổng hợp (aggregation).</p>
 </td>
           </tr><tr>
             <td>NACK</td>
-            <td align="left"><p>“Non-acknowledgement” message – “I did not receive this data [that I was expecting to]”.</p>
+            <td align="left"><p><code>NACK</code> (“Non-acknowledgement” - thông điệp không báo nhận) – “Tôi đã không nhận được dữ liệu này [mà tôi đang mong đợi]”.</p>
 </td>
           </tr><tr>
             <td>Network</td>
-            <td align="left"><p>When used informally, this refers to a system composing of end systems, routers/switches, and links that is able to transfer data between hosts (e.g. Berkeley’s campus network). When used formally, it refers to a set of network elements that share the same network address in IPv4, and is often used synonymously with subnet.</p>
+            <td align="left"><p><code>Network</code> (Mạng). Khi được sử dụng không chính thức, thuật ngữ này đề cập đến một hệ thống bao gồm các hệ thống đầu cuối, <code>router</code>/<code>switch</code>, và các <code>link</code> có khả năng truyền dữ liệu giữa các <code>host</code> (ví dụ: mạng khuôn viên của Berkeley). Khi được sử dụng chính thức, nó đề cập đến một tập hợp các phần tử mạng chia sẻ cùng một địa chỉ mạng trong IPv4, và thường được sử dụng đồng nghĩa với <code>subnet</code> (mạng con).</p>
 </td>
           </tr><tr>
             <td>Network Address</td>
-            <td align="left"><p>The component of an IP address that refers to the network (or subnet), rather than the host.</p>
+            <td align="left"><p><code>Network Address</code> (Địa chỉ mạng). Thành phần của một <code>IP address</code> đề cập đến mạng (hoặc <code>subnet</code>), thay vì <code>host</code>.</p>
 </td>
           </tr><tr>
             <td>Network bits</td>
-            <td align="left"><p>The part of the IP address that identifies the network the host is on.</p>
+            <td align="left"><p><code>Network bits</code> (Các bit mạng). Phần của <code>IP address</code> xác định mạng mà <code>host</code> đang ở trên đó.</p>
 </td>
           </tr><tr>
             <td>Network mask</td>
-            <td align="left"><p>An IP-address-like string of bits used to identify the network portion of an IP Address. Made up of some set number of 1s (one per network address bit), followed by all 0s.</p>
+            <td align="left"><p><code>Network mask</code> (Mặt nạ mạng). Một chuỗi bit giống như <code>IP-address</code> được sử dụng để xác định phần mạng của một <code>IP Address</code>. Bao gồm một số lượng nhất định các bit 1 (một bit cho mỗi bit địa chỉ mạng), theo sau là tất cả các bit 0.</p>
 </td>
           </tr><tr>
             <td>Network Name</td>
-            <td align="left"><p>The name of a host (Something human-friendly).</p>
+            <td align="left"><p><code>Network Name</code> (Tên mạng). Tên của một <code>host</code> (Thứ gì đó thân thiện với con người).</p>
 </td>
           </tr><tr>
             <td>Network Stack</td>
-            <td align="left"><p>The networking software on the host, it replicates some functionality found at the routers and also adds additional functionality (e.g. Sockets, TCP header, etc).</p>
+            <td align="left"><p><code>Network Stack</code> (Chồng giao thức mạng). Phần mềm mạng trên <code>host</code>, nó sao chép một số chức năng có ở các <code>router</code> và cũng bổ sung thêm chức năng (ví dụ: <code>Socket</code>, <code>header</code> <code>TCP</code>, v.v.).</p>
 </td>
           </tr><tr>
             <td>Packet</td>
-            <td align="left"><p>Bags of bits. Consists of: <strong>Header</strong> with meaningful information for network and network stack to make decisions. <strong>Body</strong> containing a payload. Ex. A file, imagine, an application header, etc.</p>
+            <td align="left"><p><code>Packet</code> (Gói tin). Các túi bit. Bao gồm: <strong>Header</strong> (Tiêu đề) với thông tin có ý nghĩa để mạng và <code>network stack</code> đưa ra quyết định. <strong>Body</strong> (Thân) chứa một <code>payload</code> (dữ liệu tải). Ví dụ: Một tệp tin, hình ảnh, một <code>header</code> ứng dụng, v.v.</p>
 </td>
           </tr><tr>
             <td>Packet Switching</td>
-            <td align="left"><p>Method of data transfer in which data is segmented into packets and routers/switches service each packet they receive independently by inspecting its header.</p>
+            <td align="left"><p><code>Packet Switching</code> (Chuyển mạch gói). Phương thức truyền dữ liệu trong đó dữ liệu được phân đoạn thành các <code>packet</code> và các <code>router</code>/<code>switch</code> phục vụ từng <code>packet</code> mà chúng nhận được một cách độc lập bằng cách kiểm tra <code>header</code> của nó.</p>
 </td>
           </tr><tr>
             <td>Path Vector Routing</td>
-            <td align="left"><p>Similar to distance vector routing, but when advertising to neighbors, instead of sending them your shortest distance, you send them your paths to destinations.</p>
+            <td align="left"><p><code>Path Vector Routing</code> (Định tuyến theo Vector Đường đi). Tương tự như <code>distance vector routing</code>, nhưng khi quảng bá cho các láng giềng, thay vì gửi cho họ khoảng cách ngắn nhất của bạn, bạn gửi cho họ các đường đi của bạn đến các đích.</p>
 </td>
           </tr><tr>
             <td>Payload</td>
-            <td align="left"><p>Data carried in packet.</p>
+            <td align="left"><p><code>Payload</code> (Dữ liệu tải). Dữ liệu được mang trong <code>packet</code>.</p>
 </td>
           </tr><tr>
             <td>Peer Table</td>
-            <td align="left"><p>Data structure on routers that contains copies of the information each of the router’s “peers” or “neighbours” sent them.</p>
+            <td align="left"><p><code>Peer Table</code> (Bảng ngang hàng). Cấu trúc dữ liệu trên các <code>router</code> chứa các bản sao thông tin mà mỗi "peer" (ngang hàng) hoặc "neighbour" (láng giềng) của <code>router</code> đã gửi cho chúng.</p>
 </td>
           </tr><tr>
             <td>Poison Reverse</td>
-            <td align="left"><p>Method attempting to mitigate the count to infinity problem by not advertising the ability to reach a destination (i.e. advertising a distance of infinity) to a neighbour you use on the path to said destination. For example, router A creates a temporary copy of its vector to send to router C that advertises a distance of infinity for all destinations in which router A uses link AC.</p>
+            <td align="left"><p><code>Poison Reverse</code>. Một phương pháp cố gắng giảm thiểu vấn đề đếm đến vô cực bằng cách không quảng bá khả năng đến một đích (tức là quảng bá một khoảng cách là vô cực) đến một láng giềng mà bạn sử dụng trên đường đi đến đích nói trên. Ví dụ, <code>router</code> A tạo một bản sao tạm thời của vector của nó để gửi đến <code>router</code> C, trong đó quảng bá một khoảng cách là vô cực cho tất cả các đích mà <code>router</code> A sử dụng <code>link</code> AC.</p>
 </td>
           </tr><tr>
             <td>Port (Logical)</td>
-            <td align="left"><p>A number that an OS assigns to a socket that is used to identify the socket.</p>
+            <td align="left"><p><code>Port</code> (Cổng logic). Một con số mà hệ điều hành gán cho một <code>socket</code> được sử dụng để xác định <code>socket</code> đó.</p>
 </td>
           </tr><tr>
             <td>Port (Router)</td>
-            <td align="left"><p>The physical port which connects a router to another router through a link.</p>
+            <td align="left"><p><code>Port</code> (Cổng vật lý). Cổng vật lý kết nối một <code>router</code> với một <code>router</code> khác thông qua một <code>link</code>.</p>
 </td>
           </tr><tr>
             <td>Prefix Aggregation</td>
-            <td align="left"><p>Combining routing table entries into one entry by using a common prefix (i.e. combining 101 and 100 to 10*).</p>
+            <td align="left"><p><code>Prefix Aggregation</code> (Tổng hợp Tiền tố). Kết hợp các mục trong bảng định tuyến thành một mục bằng cách sử dụng một tiền tố chung (tức là kết hợp 101 và 100 thành 10*).</p>
 </td>
           </tr><tr>
             <td>Prefix Tree</td>
-            <td align="left"><p>Binary tree that represents matching bits in IP address lookup (how the lookup table is traversed).</p>
+            <td align="left"><p><code>Prefix Tree</code> (Cây tiền tố). Cây nhị phân biểu diễn các bit trùng khớp trong việc tra cứu <code>IP address</code> (cách bảng tra cứu được duyệt).</p>
 </td>
           </tr><tr>
             <td>Reliability (see Robustness)</td>
-            <td align="left"><p>Two interpretations: 1) The network recovers from failures quickly, allowing two, non-partitioned endpoints to communicate. 2) Network failures do not interfere with endpoint semantics.</p>
+            <td align="left"><p><code>Reliability</code> (Độ tin cậy) (xem <code>Robustness</code>). Có hai cách diễn giải: 1) Mạng phục hồi sau sự cố một cách nhanh chóng, cho phép hai điểm cuối không bị phân tách có thể giao tiếp. 2) Lỗi mạng không can thiệp vào ngữ nghĩa của điểm cuối.</p>
 </td>
           </tr><tr>
             <td>Reliable Delivery</td>
-            <td align="left"><p>Building a reliable transport service on top of best-effort delivery.</p>
+            <td align="left"><p><code>Reliable Delivery</code> (Phân phối đáng tin cậy). Xây dựng một dịch vụ vận chuyển đáng tin cậy trên nền tảng phân phối theo kiểu nỗ lực tối đa.</p>
 </td>
           </tr><tr>
             <td>Reliable Transport</td>
-            <td align="left"><p>A transport mechanism is “reliable” if and only if (a) it resends all dropped or corrupted packets, and (b) it attempts to make progress.</p>
+            <td align="left"><p><code>Reliable Transport</code> (Vận chuyển đáng tin cậy). Một cơ chế vận chuyển là "đáng tin cậy" nếu và chỉ nếu (a) nó gửi lại tất cả các <code>packet</code> bị mất hoặc bị hỏng, và (b) nó cố gắng tạo ra sự tiến triển.</p>
 </td>
           </tr><tr>
             <td>Resource Accountability</td>
-            <td align="left"><p>The ability to know who is using what resources (bandwidth) so that you can hold them accountable to it. A failure in Internet architecture.</p>
+            <td align="left"><p><code>Resource Accountability</code> (Trách nhiệm giải trình tài nguyên). Khả năng biết ai đang sử dụng tài nguyên nào (<code>bandwidth</code>) để bạn có thể yêu cầu họ chịu trách nhiệm về nó. Một thất bại trong kiến trúc Internet.</p>
 </td>
           </tr><tr>
             <td>Robustness (see Reliability)</td>
-            <td align="left"><p>As long as the network is not partitioned, two hosts should be able to communicate enventually, AND failures should never interfere with application semantics.</p>
+            <td align="left"><p><code>Robustness</code> (Tính bền vững) (xem <code>Reliability</code>). Miễn là mạng không bị phân vùng, hai <code>host</code> phải có thể giao tiếp được với nhau cuối cùng, VÀ các lỗi không bao giờ được can thiệp vào ngữ nghĩa của ứng dụng.</p>
 </td>
           </tr><tr>
             <td>Route Aggregation</td>
-            <td align="left"><p>Instead of having one forwarding entry per host, have one entry per set of hosts with the same prefix that all go out the same port.</p>
+            <td align="left"><p><code>Route Aggregation</code> (Tổng hợp định tuyến). Thay vì có một mục chuyển tiếp cho mỗi <code>host</code>, hãy có một mục cho mỗi tập hợp các <code>host</code> có cùng tiền tố và tất cả đều đi ra cùng một cổng.</p>
 </td>
           </tr><tr>
             <td>Route Poisoning</td>
-            <td align="left"><p>Procedure to mitigate network inconsistencies that says when a link goes down between A and B, router B should advertise to all its neighbours that it no longer has a link to router A (i.e. B advertises a distance of infinity), in order to signify that it can no longer reach A.</p>
+            <td align="left"><p><code>Route Poisoning</code>. Thủ tục để giảm thiểu sự không nhất quán của mạng, quy định rằng khi một <code>link</code> giữa A và B bị hỏng, <code>router</code> B nên quảng bá cho tất cả các láng giềng của nó rằng nó không còn <code>link</code> đến <code>router</code> A (tức là B quảng bá một khoảng cách là vô cực), để báo hiệu rằng nó không còn có thể đến được A.</p>
 </td>
           </tr><tr>
             <td>Routing</td>
-            <td align="left"><p>Guiding packets from source to destination (can be done in many ways - see link-state, distance vector, spanning tree, etc). This is inherently a global process, so it must scale. This is done in the control plane, and may be done slowly.</p>
+            <td align="left"><p><code>Routing</code> (Định tuyến). Hướng dẫn các <code>packet</code> từ nguồn đến đích (có thể được thực hiện theo nhiều cách - xem <code>link-state</code>, <code>distance vector</code>, <code>spanning tree</code>, v.v.). Đây vốn là một quá trình toàn cục, vì vậy nó phải có khả năng mở rộng. Điều này được thực hiện trong <code>control plane</code>, và có thể được thực hiện một cách chậm rãi.</p>
 </td>
           </tr><tr>
             <td>Routing Table</td>
-            <td align="left"><p>This is similar to the Forwarding Table, but can refer to all the information a router (including from other peers) rather than just the best forwarding entries.</p>
+            <td align="left"><p><code>Routing Table</code> (Bảng định tuyến). Tương tự như <code>Forwarding Table</code>, nhưng có thể đề cập đến tất cả thông tin mà một <code>router</code> có (bao gồm cả từ các peer khác) thay vì chỉ là các mục chuyển tiếp tốt nhất.</p>
 </td>
           </tr><tr>
             <td>Slash notation</td>
-            <td align="left"><p>Notation for taking about a subnet. Looks like 1.2.0.0/10 where the first 10 bits of 1.2.0.0 are the subnet prefix.</p>
+            <td align="left"><p><code>Slash notation</code> (Ký hiệu gạch chéo). Ký hiệu để nói về một <code>subnet</code>. Trông giống như 1.2.0.0/10 trong đó 10 bit đầu tiên của 1.2.0.0 là tiền tố <code>subnet</code>.</p>
 </td>
           </tr><tr>
             <td>Sliding window</td>
-            <td align="left"><p>A finite number of un-acked packets allowed to be in flight (for efficiency purposes) before we stop sending more.</p>
+            <td align="left"><p><code>Sliding window</code> (Cửa sổ trượt). Một số lượng hữu hạn các <code>packet</code> chưa được xác nhận (un-acked) được phép tồn tại trên đường truyền (vì mục đích hiệu quả) trước khi chúng ta ngừng gửi thêm.</p>
 </td>
           </tr><tr>
             <td>Socket</td>
-            <td align="left"><p>An OS mechanism used to connect a process to the networking stack.</p>
+            <td align="left"><p><code>Socket</code>. Một cơ chế của hệ điều hành được sử dụng để kết nối một tiến trình với <code>network stack</code>.</p>
 </td>
           </tr><tr>
             <td>Soft State</td>
-            <td align="left"><p>The concept of allowing your stored knowledge to “time out”, under the assumption that it may have changed/no longer be valid/etc. Systems that operate under soft state will periodically “forget” what they know and need to “re-learn” it – by requesting the information again, waiting for new messages and information, etc. DHCP offers having a ‘lease time’, cached ARP entries timing out, and the periodic messages in Distance-Vector Routing are all examples of soft-state.</p>
+            <td align="left"><p><code>Soft State</code> (Trạng thái mềm). Khái niệm cho phép kiến thức được lưu trữ của bạn "hết hạn", với giả định rằng nó có thể đã thay đổi/không còn hợp lệ/v.v. Các hệ thống hoạt động theo <code>soft state</code> sẽ định kỳ "quên" những gì chúng biết và cần phải "học lại" nó – bằng cách yêu cầu lại thông tin, chờ đợi các thông điệp và thông tin mới, v.v. Các đề nghị <code>DHCP</code> có 'thời gian thuê', các mục <code>ARP</code> được lưu trong <code>cache</code> hết hạn, và các thông điệp định kỳ trong <code>Distance-Vector Routing</code> đều là những ví dụ về <code>soft-state</code>.</p>
 </td>
           </tr><tr>
             <td>Spanning Tree Protocol</td>
-            <td align="left"><p>A distributed protocol in which switches send messages of the format (Y, d, X) from node X proposing Y as the root and advertising a distance of d to Y. This protocol identifies the node with the lowest ID and builds a spanning tree with that node as the root.</p>
+            <td align="left"><p><code>Spanning Tree Protocol</code> (STP) (Giao thức Cây bao trùm). Một giao thức phân tán trong đó các <code>switch</code> gửi các thông điệp có định dạng (Y, d, X) từ nút X đề xuất Y làm gốc và quảng bá một khoảng cách là d đến Y. Giao thức này xác định nút có ID thấp nhất và xây dựng một <code>spanning tree</code> với nút đó làm gốc.</p>
 </td>
           </tr><tr>
             <td>Split Horizon</td>
-            <td align="left"><p>Split horizon provides the same functionality as poison reverse, but expresses the information differently.  Split Horizon is used in the context of full updates, and the router does not advertise any route to destination X to the neighbor it uses to reach destination X.</p>
+            <td align="left"><p><code>Split Horizon</code>. Cung cấp chức năng tương tự như <code>poison reverse</code>, nhưng thể hiện thông tin theo cách khác. <code>Split Horizon</code> được sử dụng trong bối cảnh cập nhật đầy đủ, và <code>router</code> không quảng bá bất kỳ tuyến đường nào đến đích X cho láng giềng mà nó sử dụng để đến đích X.</p>
 </td>
           </tr><tr>
             <td>Statistical Multiplexing</td>
-            <td align="left"><p>Summing the maximum rate of flows is greater than combining the flows and finding the maximum.</p>
+            <td align="left"><p><code>Statistical Multiplexing</code> (Ghép kênh thống kê). Tổng tốc độ tối đa của các luồng lớn hơn việc kết hợp các luồng và tìm tốc độ tối đa.</p>
 </td>
           </tr><tr>
             <td>Subnet</td>
-            <td align="left"><p>In this class we use this term to refer to a portion of a network that is connected by L2 and shares the same network address.</p>
+            <td align="left"><p><code>Subnet</code> (Mạng con). Trong lớp học này, chúng ta sử dụng thuật ngữ này để chỉ một phần của mạng được kết nối bằng L2 và chia sẻ cùng một địa chỉ mạng.</p>
 </td>
           </tr><tr>
             <td>Time to Live (TTL)</td>
-            <td align="left"><p>In IP, this refers to the number of hops a packet can travel before being dropped, which is useful in preventing loops. More generally, TTL refers to the time until something expires (such as a cached entry).</p>
+            <td align="left"><p><code>Time to Live</code> (TTL) (Thời gian sống). Trong IP, điều này đề cập đến số lượng chặng (hop) mà một <code>packet</code> có thể di chuyển trước khi bị loại bỏ, điều này hữu ích trong việc ngăn chặn các vòng lặp. Nói chung hơn, <code>TTL</code> đề cập đến thời gian cho đến khi một cái gì đó hết hạn (chẳng hạn như một mục được lưu trong <code>cache</code>).</p>
 </td>
           </tr><tr>
             <td>Valid Routing State</td>
-            <td align="left"><p>A routing state is valid if an only if there are no loops and no deadends (assuming no packet replication). If there is packet replication, then this changes to saying at least one replica does not hit a deadend.</p>
+            <td align="left"><p><code>Valid Routing State</code> (Trạng thái định tuyến hợp lệ). Một trạng thái định tuyến là hợp lệ nếu và chỉ nếu không có vòng lặp và không có ngõ cụt (giả sử không có sự nhân bản <code>packet</code>). Nếu có sự nhân bản <code>packet</code>, thì điều này thay đổi thành việc ít nhất một bản sao không gặp ngõ cụt.</p>
 </td>
           </tr><tr>
             <td>WAN</td>
-            <td align="left"><p>This can refer to any L3 network (i.e., not just a local area network), or to networks that span large geographic distances (i.e., not a datacenter).</p>
+            <td align="left"><p><code>WAN</code> (Wide Area Network - Mạng diện rộng). Thuật ngữ này có thể đề cập đến bất kỳ mạng L3 nào (tức là không chỉ là một mạng cục bộ), hoặc đến các mạng trải rộng trên các khoảng cách địa lý lớn (tức là không phải là một trung tâm dữ liệu).</p>
 </td>
           </tr></tbody>
     </table>
-

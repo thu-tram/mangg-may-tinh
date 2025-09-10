@@ -1,133 +1,131 @@
-# Model for Intra-Domain Routing
+# Mô hình Định tuyến Nội miền (Intra-Domain Routing)
 
-## Modeling the Network as a Graph
+## Mô hình hóa Mạng dưới dạng Đồ thị
 
-Let's create a simplified model of the Internet to help us formally define the routing problem.
+Hãy cùng xây dựng một mô hình đơn giản hóa của Internet để giúp chúng ta định nghĩa bài toán định tuyến một cách chính xác.
 
-Recall from the previous unit that we can think of the Internet as a set of machines, connected together with a set of links, where each link connects two of the machines on the network.
+Nhớ lại từ chương trước rằng chúng ta có thể hình dung Internet như một tập hợp các máy tính, được kết nối với nhau thông qua một tập hợp các liên kết (*link*), trong đó mỗi liên kết kết nối hai máy tính trong mạng.
 
 <img width="900px" src="../assets/routing/2-002-network-of-networks.png">
 
-We can represent the network topology as a graph, where each node represents a machine, and each edge between two nodes represents a link between two machines.
+Chúng ta có thể biểu diễn cấu trúc mạng dưới dạng một đồ thị, trong đó mỗi nút (*node*) đại diện cho một máy tính, và mỗi cạnh (*edge*) giữa hai nút đại diện cho một liên kết giữa hai máy tính.
 
-Historically, sometimes links could connect more than two machines, but in modern networks, links essentially always connect exactly two machines.
+Trong lịch sử, đôi khi các liên kết có thể kết nối nhiều hơn hai máy tính, nhưng trong các mạng hiện đại, liên kết gần như luôn kết nối chính xác hai máy tính.
 
-## Full Mesh Network Topology
+## Cấu trúc Mạng Full Mesh
 
-Suppose we have two machines, A and B. If the two machines want to exchange messages, we could add a link between them.
+Giả sử chúng ta có hai máy tính, A và B. Nếu hai máy này muốn trao đổi thông điệp, chúng ta có thể thêm một liên kết giữa chúng.
 
-But what if we had five machines instead of two? One possible approach is to create a link between every pair of machines, such that every machine is connected to every other machine. This is sometimes called a full mesh topology.
+Nhưng nếu chúng ta có năm máy tính thay vì hai thì sao? Một cách tiếp cận khả thi là tạo liên kết giữa mọi cặp máy tính, sao cho mỗi máy được kết nối với tất cả các máy còn lại. Cấu trúc này đôi khi được gọi là **full mesh topology** (*cấu trúc mạng lưới đầy đủ*).
 
 <img width="300px" src="../assets/routing/2-005-mesh.png">
 
-What are some drawbacks of this approach?
+Vậy những hạn chế của cách tiếp cận này là gì?
 
-This approach doesn't scale well. If we tried to scale this to the size of the modern Internet, we'd need a wire connecting every pair of computers in the world. When a new computer joins the network, we'd have create new links between that computer and every other computer in the world.
+Cách tiếp cận này không mở rộng tốt. Nếu chúng ta cố gắng mở rộng nó ra quy mô của Internet hiện đại, chúng ta sẽ cần một dây kết nối giữa mọi cặp máy tính trên thế giới. Khi một máy tính mới tham gia mạng, chúng ta sẽ phải tạo các liên kết mới giữa máy đó và mọi máy tính khác trên thế giới.
 
-Although it can't scale to the entire Internet, there are still some benefits to a a full mesh topology in smaller settings. In particular, having links between every pair of machines gives us a lot of bandwidth on the network. Every machine has a dedicated link to all other machines, and each pair of machines can use the full bandwidth on their dedicated link.
+Mặc dù không thể mở rộng ra toàn bộ Internet, nhưng cấu trúc full mesh vẫn có một số lợi ích trong các môi trường nhỏ hơn. Cụ thể, việc có liên kết giữa mọi cặp máy tính mang lại rất nhiều **bandwidth** (*băng thông*) cho mạng. Mỗi máy có một liên kết riêng đến tất cả các máy khác, và mỗi cặp máy có thể sử dụng toàn bộ băng thông trên liên kết riêng của họ.
 
-In general, there is no guarantee that each machine has a direct link to all other links. In other words, there is no guarantee that the underlying graph is fully-connected.
+Nói chung, không có gì đảm bảo rằng mỗi máy có liên kết trực tiếp đến tất cả các máy khác. Nói cách khác, không có gì đảm bảo rằng đồ thị cơ bản là đồ thị liên thông hoàn toàn.
 
-## Single-Link Network Topology
+## Cấu trúc Mạng Một Liên kết
 
-In addition to the full mesh topology, there are other ways in which we can deploy links to connect up multiple machines. For example, we could use a single link to connect up all five machines:
+Ngoài cấu trúc full mesh, còn có những cách khác để triển khai liên kết nhằm kết nối nhiều máy tính. Ví dụ, chúng ta có thể sử dụng một liên kết duy nhất để kết nối cả năm máy tính:
 
 <img width="300px" src="../assets/routing/2-006-single-link.png">
 
-(Here, we're temporarily breaking the assumption that a link connects only two machines, by considering a link that connects more than two machines.)
+(Tại đây, chúng ta tạm thời phá vỡ giả định rằng một liên kết chỉ kết nối hai máy tính, bằng cách xem xét một liên kết kết nối nhiều hơn hai máy.)
 
-This approach would scale better than the full mesh topology. For example, if a new computer joined the network, instead of creating five new links between the new computer and the five existing computers, we can just extend the existing wire to the new computer.
+Cách tiếp cận này mở rộng tốt hơn so với cấu trúc full mesh. Ví dụ, nếu một máy tính mới tham gia mạng, thay vì tạo năm liên kết mới giữa máy tính mới và năm máy tính hiện có, chúng ta chỉ cần mở rộng dây hiện có đến máy tính mới.
 
-However, this approach is more limited in the amount of bandwidth available to the machines. In particular, there is only a single link, and all five machines need to share the bandwidth on this link.
+Tuy nhiên, cách tiếp cận này bị giới hạn hơn về lượng băng thông có sẵn cho các máy. Cụ thể, chỉ có một liên kết duy nhất, và cả năm máy phải chia sẻ băng thông trên liên kết này.
 
-In order to create more sophisticated network topologies, we will need to introduce the idea of a router.
+Để tạo ra các cấu trúc mạng phức tạp hơn, chúng ta cần giới thiệu khái niệm **router** (*bộ định tuyến*).
 
-## Routers and Hosts
+## Router và Host
 
-In our simplified model, we'll classify every machine as being one of two types.
+Trong mô hình đơn giản hóa của chúng ta, mỗi máy tính sẽ được phân loại thành một trong hai loại.
 
-**End hosts** are machines connecting to the Internet to send and receive data. Examples of end hosts include applications on your own personal computer, such as your web browser. Web servers, such as a Google web server receiving Google search queries and sending back search results, are also end hosts. These machines send outgoing packets to other destinations, and could be the final destination for incoming packets. However, these machines usually do not receive and forward intermediate packets (i.e. packets with some different final destination).
+**End hosts** (*máy chủ đầu cuối*) là các máy tính kết nối với Internet để gửi và nhận dữ liệu. Ví dụ về end host bao gồm các ứng dụng trên máy tính cá nhân của bạn, như trình duyệt web. Các máy chủ web, chẳng hạn như máy chủ của Google nhận truy vấn tìm kiếm và gửi lại kết quả, cũng là end host. Những máy này gửi các gói tin (*packet*) ra ngoài đến các đích khác, và có thể là đích cuối cùng của các gói tin đến. Tuy nhiên, chúng thường không nhận và chuyển tiếp các gói tin trung gian (tức là các gói tin có đích cuối khác).
 
-**Routers**, by contrast, are machines connected to the Internet responsible for receiving and forwarding intermediate packets closer to their final destination. For example, consider the router installed in your home network, or routers living in a data center building somewhere. These machines usually do not create and send new packets of their own, and they usually are not the final destination for packets. For example, in your daily Internet use, you might want to send packets to a Google web server to perform a search, but you probably don't need to send a message directly to your home router or a data center. Those routers will help you forward your packet toward Google, but they are not the final destination of your packet.
+**Router**, ngược lại, là các máy tính kết nối với Internet có nhiệm vụ nhận và chuyển tiếp các gói tin trung gian đến gần hơn với đích cuối của chúng. Ví dụ, hãy xem xét router được lắp đặt trong mạng gia đình của bạn, hoặc các router trong một trung tâm dữ liệu nào đó. Những máy này thường không tự tạo và gửi các gói tin mới, và thường không phải là đích cuối của các gói tin. Ví dụ, trong quá trình sử dụng Internet hàng ngày, bạn có thể muốn gửi gói tin đến máy chủ web của Google để thực hiện tìm kiếm, nhưng bạn có lẽ không cần gửi thông điệp trực tiếp đến router gia đình hoặc router trong trung tâm dữ liệu. Những router đó sẽ giúp bạn chuyển tiếp gói tin đến Google, nhưng không phải là đích cuối của gói tin.
 
 <img width="900px" src="../assets/routing/2-007-host-router.png">
 
-Depending on the network design, routers could be legal destinations, but in this unit, we'll ignore routers as destinations. However, do note that routers potentially can be sources and send new packets of their own.
+Tùy thuộc vào thiết kế mạng, router có thể là đích hợp lệ, nhưng trong chương này, chúng ta sẽ bỏ qua việc coi router là đích. Tuy nhiên, cần lưu ý rằng router vẫn có thể là nguồn và gửi các gói tin mới của riêng mình.
 
-Routers are sometimes also called switches. There are historical differences between routers and switches, but nowadays, the terms are used interchangeably. In these notes, we'll use "router" when possible.
+Router đôi khi cũng được gọi là **switch** (*bộ chuyển mạch*). Có sự khác biệt lịch sử giữa router và switch, nhưng ngày nay, hai thuật ngữ này thường được sử dụng thay thế cho nhau. Trong tài liệu này, chúng ta sẽ sử dụng "router" khi có thể.
 
-In our graph model of the Internet, routers appear as intermediate nodes that are usually connected to multiple neighbors. End hosts appear as nodes that are usually connected to one or more routers. In practice, these assumptions aren't always true.
+Trong mô hình đồ thị của Internet, router xuất hiện như các nút trung gian thường được kết nối với nhiều nút lân cận. End host xuất hiện như các nút thường được kết nối với một hoặc nhiều router. Trong thực tế, các giả định này không phải lúc nào cũng đúng.
 
-In these notes, when possible, we'll always draw routers as squares and end hosts as circles. In practice, sometimes routers are represented by other symbols. For example, this is a common router symbol used in network diagrams:
+Trong tài liệu này, khi có thể, chúng ta sẽ luôn vẽ router dưới dạng hình vuông và end host dưới dạng hình tròn. Trong thực tế, đôi khi router được biểu diễn bằng các biểu tượng khác. Ví dụ, đây là một biểu tượng router phổ biến được sử dụng trong sơ đồ mạng:
 
 <img width="100px" src="../assets/routing/2-008-router-icon.png">
 
-## Network Topologies with Routers
+## Cấu trúc Mạng với Router
 
-Now that we have routers in addition to end hosts, we can create more complicated network topologies like this:
+Giờ đây, khi chúng ta có thêm router bên cạnh các end host, chúng ta có thể tạo ra các cấu trúc mạng phức tạp hơn như sau:
 
 <img width="400px" src="../assets/routing/2-009-router-topology.png">
 
-This topology lets us combine the benefits of the full-mesh and single-link topologies. In particular, this topology uses fewer links than the full mesh topology from earlier. Also, this topology has more bandwidth than the single link topology from earlier.
+Cấu trúc này cho phép chúng ta kết hợp các lợi ích của cấu trúc full mesh và cấu trúc một liên kết. Cụ thể, cấu trúc này sử dụng ít liên kết hơn so với cấu trúc full mesh trước đó. Đồng thời, nó có nhiều băng thông hơn so với cấu trúc một liên kết.
 
-This topology is also more robust to failure. If a link goes down, the packet can take a different path through the network and still reach its destination.
+Cấu trúc này cũng có khả năng chống lỗi tốt hơn. Nếu một liên kết bị hỏng, gói tin có thể đi theo một đường khác trong mạng và vẫn đến được đích.
 
 <img width="900px" src="../assets/routing/2-010-different-path.png">
 
+## End Host trong Định tuyến
 
-## End Hosts in Routing
+Lưu ý rằng end host thường không tham gia vào các giao thức định tuyến, vì chúng không chuyển tiếp các gói tin trung gian. Thay vào đó, end host thường được kết nối với một router duy nhất thông qua một liên kết duy nhất. Theo mặc định, end host sẽ gửi tất cả thông điệp ra ngoài đến router, và router sẽ xác định cách gửi gói tin đến đích cuối. Chiến lược gửi mọi thứ đến router này đôi khi được gọi là **default route** (*định tuyến mặc định*) của end host.
 
-Note that end hosts generally do not participate in routing protocols, since they don't forward intermediate packets. Instead, end hosts are often connected to a single router with a single link. By default, the end host sends all outgoing messages to the router, which will figure out how to send the packet to its final destination. This strategy of sending everything to the router is sometimes called the **default route** of the end host.
+Khi thiết kế các giao thức định tuyến, chúng ta thường bỏ qua end host, ngoại trừ khi chúng là đích đến (vì router cần biết cách đến các đích khác nhau).
 
-When designing routing protocols, we often ignore end hosts, except as destinations (since the routers need to figure out how to reach different destinations).
+## Gói tin (Packet)
 
+Nhớ lại từ chương trước rằng khi một ứng dụng muốn gửi dữ liệu qua Internet, ứng dụng sẽ tạo ra một **packet** (*gói tin*) chứa dữ liệu. Khi gói tin được chuyển xuống các giao thức tầng thấp hơn, các phần tiêu đề (*header*) bổ sung sẽ được bọc quanh gói tin để cung cấp thông tin metadata giúp gói tin đến được đích.
 
-## Packets
+Trong chương định tuyến này, chúng ta sẽ xem xét một mô hình đơn giản hóa, trong đó mỗi gói tin có một phần tiêu đề chứa metadata, và một phần payload chứa dữ liệu ở tầng ứng dụng. Chúng ta sẽ bỏ qua các tiêu đề lồng nhau và nhiều tầng trong thời điểm này.
 
-Recall from the previous unit that when an application wants to send data over the Internet, the application creates a packet containing the data. As the packet is passed to lower-layer protocols, additional headers are wrapped around the packet with metadata to help the packet reach its destination.
+Các giao thức định tuyến không quan tâm đến dữ liệu ở tầng ứng dụng. Không quan trọng người dùng đang cố gắng gửi một hình ảnh, một trang HTML, hay một tệp âm thanh; từ góc nhìn của **routing** (*định tuyến*), chúng ta chỉ có một chuỗi các số 1 và 0, và cần một giao thức để gửi những bit đó đến đúng đích.
 
-In the routing unit, we'll consider a simplified model where each packet has a header with metadata, and a payload with the application-level data. We'll ignore nested headers and multiple layers for now.
-
-Routing protocols are not concerned with the application-level data. It doesn't matter whether the user is trying to send an image, or an HTML webpage, or an audio file; from the perspective of routing, we have a sequence of 1s and 0s, and we need a protocol to send those bits to their destination.
-
-In the header, the main metadata field we're concerned with is the destination address. This tells us the final destination of the packet. When a router receives a packet, the router reads the metadata field in the header to determine how to send the packet towards its final destination. The problem of figuring out where to send the packet is the key problem we'll need to solve in routing.
+Trong phần tiêu đề (*header*) của gói tin, trường metadata chính mà chúng ta quan tâm là **địa chỉ đích** (*destination address*). Trường này cho biết đích cuối cùng của gói tin. Khi một **router** (*bộ định tuyến*) nhận được gói tin, nó sẽ đọc trường metadata trong tiêu đề để xác định cách gửi gói tin đến gần hơn với đích cuối. Bài toán xác định nơi cần gửi gói tin chính là vấn đề cốt lõi mà chúng ta cần giải quyết trong định tuyến.
 
 <img width="200px" src="../assets/routing/2-011-header.png">
 
-## Addressing
+## Định địa chỉ (Addressing)
 
-How do we write down the destination of the packet in the packet header? We'll need some way of addressing each machine on the network. In other words, we need a protocol that assigns an address to each machine on the network.
+Làm thế nào để chúng ta ghi lại địa chỉ đích của gói tin trong phần tiêu đề? Chúng ta cần một cách để định địa chỉ cho từng máy trong mạng. Nói cách khác, chúng ta cần một giao thức để gán địa chỉ cho mỗi máy trong mạng.
 
-Later in this unit, we'll discuss scalable approaches to addressing. For now, let's assign each machine a unique label (e.g. we could label three routers X, Y, and Z), and treat those labels as the addresses for each router. This will allow us to think about the routing problem and the addressing problem separately.
+Ở phần sau của chương này, chúng ta sẽ thảo luận về các cách tiếp cận có khả năng mở rộng để định địa chỉ. Còn hiện tại, hãy gán cho mỗi máy một nhãn duy nhất (ví dụ: chúng ta có thể gán nhãn cho ba router là X, Y và Z), và coi các nhãn đó là địa chỉ của từng router. Cách làm này cho phép chúng ta tách biệt bài toán định tuyến và bài toán định địa chỉ.
 
-At this point, we can define the routing problem: When a router receives a packet, how does the router know where to forward the packet such that it will eventually arrive at the final destination?
+Tại thời điểm này, chúng ta có thể định nghĩa bài toán định tuyến: Khi một router nhận được một gói tin, làm thế nào để router biết phải chuyển tiếp gói tin đến đâu để nó cuối cùng đến được đích cuối?
 
-## Network Topologies Change
+## Cấu trúc Mạng Thay đổi
 
-At this point, we have defined the routing problem, but there are still a few more practical considerations that make the routing problem difficult.
+Tại thời điểm này, chúng ta đã định nghĩa được bài toán định tuyến, nhưng vẫn còn một số yếu tố thực tế khiến bài toán này trở nên phức tạp.
 
-If the Internet could be drawn as a fixed, constant graph that never changes, then perhaps we could solve the routing problem by simply looking at the graph and computing paths through the graph.
+Nếu Internet có thể được vẽ dưới dạng một đồ thị cố định, không thay đổi, thì có lẽ chúng ta có thể giải bài toán định tuyến bằng cách đơn giản là nhìn vào đồ thị và tính toán các đường đi trong đó.
 
-However, the network topology is constantly changing. For example, links might fail at unpredictable times. Now, packets must be sent along a different route in order to reach the destination.
+Tuy nhiên, cấu trúc mạng liên tục thay đổi. Ví dụ, các liên kết có thể bị hỏng vào những thời điểm không thể dự đoán. Khi đó, gói tin phải được gửi theo một tuyến đường khác để đến được đích.
 
-New links might also be added, creating additional paths that can be considered during routing.
+Các liên kết mới cũng có thể được thêm vào, tạo ra các đường đi bổ sung có thể được xem xét trong quá trình định tuyến.
 
-The routing protocols we design need to be robust to these changing network topologies.
+Do đó, các giao thức định tuyến mà chúng ta thiết kế cần phải có khả năng chống chịu với sự thay đổi của cấu trúc mạng.
 
-## Routing Protocols are Distributed
+## Giao thức Định tuyến là Giao thức Phân tán
 
-If the network changes, perhaps we could solve the routing problem by updating our graph and then computing paths through the new graph.
+Nếu mạng thay đổi, có lẽ chúng ta có thể giải bài toán định tuyến bằng cách cập nhật đồ thị và tính toán lại các đường đi trong đồ thị mới.
 
-Another problem that makes routing difficult is that routers don't inherently have a global, birds-eye view of the entire network. For example, if a link somewhere else in the network fails, there's no way for all routers to automatically know this. We will have to somehow propagate that information about the new network topology to the routers as part of our routing protocol.
+Một vấn đề khác khiến định tuyến trở nên khó khăn là các router không có cái nhìn toàn cục về toàn bộ mạng. Ví dụ, nếu một liên kết ở đâu đó trong mạng bị hỏng, không có cách nào để tất cả các router tự động biết được điều đó. Chúng ta sẽ phải truyền thông tin về cấu trúc mạng mới đến các router như một phần của giao thức định tuyến.
 
 <img width="900px" src="../assets/routing/2-012-non-global.png">
 
-This leads to routing protocols often being distributed protocols. Instead of a single central mastermind computing all the answers, each router must compute its own part of the answer (possibly without full knowledge of the network topology). Collectively, the answers computed by each router must form a global answer to the routing problem that allows packets to reach their end destination.
+Điều này dẫn đến việc các giao thức định tuyến thường là **distributed protocols** (*giao thức phân tán*). Thay vì có một trung tâm tính toán duy nhất đưa ra tất cả các câu trả lời, mỗi router phải tự tính toán phần của mình (có thể là không có đầy đủ thông tin về toàn bộ mạng). Tập hợp các câu trả lời được tính toán bởi từng router phải tạo thành một lời giải toàn cục cho bài toán định tuyến, cho phép các gói tin đến được đích cuối của chúng.
 
-The distributed nature of routing protocols also means that we have to account for individual routers failing. If there was a single computer that was solving the problem, and that computer crashed and forgot the answer, we could simply make the computer re-compute the entire answer from scratch. However, in a distributed protocol, if one router crashes and forgets its part of the answer, our protocol will need to a way to help this one router recover from failure and re-learn its part of the answer.
+Tính chất phân tán của các giao thức định tuyến cũng có nghĩa là chúng ta phải tính đến khả năng từng router bị lỗi. Nếu có một máy tính duy nhất giải bài toán, và máy đó bị lỗi và quên mất lời giải, chúng ta có thể đơn giản yêu cầu máy tính đó tính toán lại toàn bộ lời giải từ đầu. Tuy nhiên, trong một giao thức phân tán, nếu một router bị lỗi và quên mất phần lời giải của nó, giao thức của chúng ta cần có cách giúp router đó phục hồi sau lỗi và học lại phần lời giải của mình.
 
-## Links are Best-Effort
+## Liên kết là Nỗ lực Tốt nhất (Best-Effort)
 
-Recall from the previous unit that protocols at Layer 3 and below are best-effort. In other words, when a packet is sent over a link, there is no guarantee that the packet reaches the destination. The link might drop the packet.
+Nhớ lại từ chương trước rằng các giao thức ở tầng 3 trở xuống là **best-effort** (*nỗ lực tốt nhất*). Nói cách khác, khi một gói tin được gửi qua một liên kết, không có gì đảm bảo rằng gói tin sẽ đến được đích. Liên kết có thể làm rơi gói tin.
 
-When designing routing protocols, we'll need to account for this problem as well.
+Khi thiết kế các giao thức định tuyến, chúng ta cũng cần tính đến vấn đề này.

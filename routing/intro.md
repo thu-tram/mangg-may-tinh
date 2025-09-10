@@ -1,39 +1,39 @@
-# Introduction to Routing
+# Giới thiệu về Định tuyến (Routing)
 
-## What is Routing?
+## Định tuyến (Routing) là gì?
 
-Suppose that machine A and machine B are both connected to the Internet. Machine A wants to send a message to machine B, but the two machines are not directly connected to each other. How does machine A know where to send the message, so that the message will eventually reach machine B? What path will the message take through the network to reach its destination of machine B? In this unit, we'll be studying **routing** to answer these questions.
+Giả sử máy A và máy B đều được kết nối với Internet. Máy A muốn gửi một thông điệp đến máy B, nhưng hai máy này không được kết nối trực tiếp với nhau. Vậy làm thế nào để máy A biết phải gửi thông điệp đến đâu để thông điệp đó cuối cùng sẽ đến được máy B? Thông điệp sẽ đi theo con đường nào trong mạng để đến được đích là máy B? Trong chương này, chúng ta sẽ nghiên cứu về **routing** (*định tuyến*) để trả lời những câu hỏi này.
 
 <img width="600px" src="../assets/routing/2-001-intro-pic.png">
 
-First, we'll devise a model of the Internet so that we can pose routing as a well-defined problem. We'll also see what answers to the routing problem look like, and what makes an answer valid and good.
+Trước tiên, chúng ta sẽ xây dựng một mô hình của Internet để có thể đặt bài toán định tuyến một cách rõ ràng. Chúng ta cũng sẽ xem xét các câu trả lời cho bài toán định tuyến trông như thế nào, và điều gì khiến một câu trả lời trở nên hợp lệ và tốt.
 
-Next, we'll look at several different types of routing protocols that can be implemented to help generate answers to the routing problem. We'll also see how addressing protocols can be used to make our routing protocols scalable to the entire Internet.
+Tiếp theo, chúng ta sẽ tìm hiểu một số loại giao thức định tuyến khác nhau có thể được triển khai để tạo ra lời giải cho bài toán định tuyến. Chúng ta cũng sẽ xem cách các giao thức định địa chỉ có thể được sử dụng để giúp giao thức định tuyến mở rộng quy mô ra toàn bộ Internet.
 
-Finally, we'll take a brief look at the real-life hardware we use to implement these routing protocols.
+Cuối cùng, chúng ta sẽ điểm qua một số phần cứng thực tế được sử dụng để triển khai các giao thức định tuyến này.
 
-## Inter-Domain and Intra-Domain Routing
+## Định tuyến Liên miền và Nội miền
 
-One possible strategy for routing is to build a model of the Internet that includes every single machine in the world, and design a single giant routing protocol that will allow us to send packets anywhere in the world. However, this is infeasible in practice because of the scale of the Internet.
+Một chiến lược khả thi cho việc định tuyến là xây dựng một mô hình Internet bao gồm mọi máy tính trên thế giới, và thiết kế một giao thức định tuyến khổng lồ duy nhất cho phép chúng ta gửi các gói tin (*packet*) đến bất kỳ đâu trên thế giới. Tuy nhiên, điều này không khả thi trong thực tế do quy mô quá lớn của Internet.
 
-Instead, we'll take advantage of the fact that the Internet is a network of networks. In other words, the Internet consists of many local networks. Each local network implements its own routing protocol that specifies how to send packets within just that local network. Then, we can connect up all those local networks and implement a routing protocol across all the local networks, specifying how to send packets between different local networks.
+Thay vào đó, chúng ta sẽ tận dụng thực tế rằng Internet là một mạng của các mạng (*network of networks*). Nói cách khác, Internet bao gồm nhiều mạng cục bộ. Mỗi mạng cục bộ triển khai giao thức định tuyến riêng của mình, quy định cách gửi các gói tin trong phạm vi mạng cục bộ đó. Sau đó, chúng ta có thể kết nối tất cả các mạng cục bộ này lại với nhau và triển khai một giao thức định tuyến trên toàn bộ các mạng cục bộ, quy định cách gửi các gói tin giữa các mạng cục bộ khác nhau.
 
 <img width="900px" src="../assets/routing/2-002-network-of-networks.png">
 
-Local networks are not identical. For example, they might differ in size: Some networks might have more machines than others. Or, the machines might be spread out over a wider physical area (e.g. the entire UC Berkeley campus), or a smaller area (e.g. your home). Networks can also differ in the bandwidth they need to support, the allowable failure rate, the number of support staff available, the age of the infrastructure, the amount of money available to build and support it, and so on.
+Các mạng cục bộ không giống nhau. Ví dụ, chúng có thể khác nhau về kích thước: Một số mạng có thể có nhiều máy hơn các mạng khác. Hoặc, các máy có thể được phân bố trên một khu vực địa lý rộng hơn (ví dụ: toàn bộ khuôn viên Đại học UC Berkeley), hoặc một khu vực nhỏ hơn (ví dụ: nhà bạn). Các mạng cũng có thể khác nhau về băng thông (*bandwidth*) cần hỗ trợ, tỷ lệ lỗi cho phép, số lượng nhân viên kỹ thuật hỗ trợ, độ tuổi của hạ tầng, ngân sách xây dựng và vận hành, v.v.
 
-Because each network has its own structure and requirements, different local networks might choose to use different routing protocols. A strategy for routing packets might be effective on one network, but not another one.
+Vì mỗi mạng có cấu trúc và yêu cầu riêng, các mạng cục bộ khác nhau có thể lựa chọn sử dụng các giao thức định tuyến khác nhau. Một chiến lược định tuyến có thể hiệu quả trên một mạng, nhưng không hiệu quả trên mạng khác.
 
-With the network of networks model, we can let individual local networks choose a routing strategy for packets within their network. Each operator can choose the protocol that works best for them. The protocols for routing packets within a local network are called **intra-domain** routing protocols, or **interior gateway protocols (IGPs)**. Real-world examples include OSPF (Open Shortest Path First) and IS-IS (Intermediate System to Intermediate System).
+Với mô hình mạng của các mạng, chúng ta có thể để từng mạng cục bộ lựa chọn chiến lược định tuyến phù hợp cho các gói tin trong mạng của họ. Mỗi nhà vận hành có thể chọn giao thức phù hợp nhất với họ. Các giao thức định tuyến gói tin trong một mạng cục bộ được gọi là **intra-domain** routing protocols (*giao thức định tuyến nội miền*), hay **interior gateway protocols (IGPs)** (*giao thức cổng nội bộ*). Các ví dụ thực tế bao gồm OSPF (*Open Shortest Path First – Tìm đường ngắn nhất mở*) và IS-IS (*Intermediate System to Intermediate System – Hệ thống trung gian đến hệ thống trung gian*).
 
 <img width="900px" src="../assets/routing/2-003-intradomain.png">
 
-By contrast, protocols for routing packets across different networks are called **inter-domain** routing protocols, or **exterior gateway protocols (EGPs)**. In order to support sending packets across different local networks, every network needs to agree to use the same protocol for routing packets between each other. If different networks used different inter-domain protocols, there's no guarantee that that the entire Internet could be connected in a consistent way. What if one operator only implemented Protocol X, and another operator only implemented Protocol Y? It's not clear how these two local networks would be able to exchange messages.
+Ngược lại, các giao thức định tuyến gói tin giữa các mạng khác nhau được gọi là **inter-domain** routing protocols (*giao thức định tuyến liên miền*), hay **exterior gateway protocols (EGPs)** (*giao thức cổng bên ngoài*). Để hỗ trợ việc gửi gói tin giữa các mạng cục bộ khác nhau, mọi mạng cần đồng thuận sử dụng cùng một giao thức để định tuyến gói tin giữa nhau. Nếu các mạng khác nhau sử dụng các giao thức liên miền khác nhau, thì không có gì đảm bảo rằng toàn bộ Internet có thể được kết nối một cách nhất quán. Giả sử một nhà vận hành chỉ triển khai giao thức X, còn nhà vận hành khác chỉ triển khai giao thức Y? Không rõ hai mạng cục bộ này sẽ trao đổi thông điệp như thế nào.
 
-Because every network must agree to use the same inter-domain protocol, there is only one protocol implemented at scale on the Internet, namely BGP (Border Gateway Protocol).
+Vì mọi mạng phải đồng thuận sử dụng cùng một giao thức liên miền, nên chỉ có một giao thức được triển khai ở quy mô toàn Internet, đó là BGP (*Border Gateway Protocol – Giao thức cổng biên*).
 
 <img width="900px" src="../assets/routing/2-004-interdomain.png">
 
-This model of interior and exterior gateway protocols is convenient for intuition, but in practice, there is not always a clear distinction between them. For example, BGP is sometimes also used inside a local network, in addition to between different networks.
+Mô hình phân chia giữa giao thức cổng nội bộ và cổng bên ngoài này rất thuận tiện để hình dung, nhưng trong thực tế, không phải lúc nào cũng có sự phân biệt rõ ràng giữa chúng. Ví dụ, BGP đôi khi cũng được sử dụng bên trong một mạng cục bộ, ngoài việc sử dụng giữa các mạng khác nhau.
 
-Regardless of whether a protocol is deployed internally within a network, or externally between all networks, we can additionally classify the routing protocol by looking at what the underlying algorithm is doing. In particular, we'll study distance-vector protocols, link-state protocols, and path-vector protocols (more about each type later).
+Bất kể giao thức được triển khai nội bộ trong một mạng hay bên ngoài giữa các mạng, chúng ta cũng có thể phân loại giao thức định tuyến bằng cách xem xét thuật toán cơ bản mà nó sử dụng. Cụ thể, chúng ta sẽ nghiên cứu các giao thức kiểu vector khoảng cách (*distance-vector*), trạng thái liên kết (*link-state*), và vector đường đi (*path-vector*) (sẽ tìm hiểu chi tiết từng loại sau).

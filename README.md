@@ -1,34 +1,18 @@
+# Mạng máy tính: Kiến trúc và giao thức
 
-
-
-
-
-# Introduction to the Internet: Architecture and Protocols
-
-Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà lười quá nên chưa chỉnh hết thôi....
+Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, ChatGPT, MS Copilot, Grok, AIStudio...), nhưng mà vẫn chưa soát hết.
 
 ## Mục lục
-Để chuyển đổi mục lục thành định dạng Markdown, bạn có thể sử dụng các tiêu đề và danh sách. Dưới đây là mục lục của bạn đã được định dạng lại, kèm theo đường dẫn liên kết đến các tệp tương ứng.
-
-
-## Mục lục
-
-### Home
-
-- [Home](index.md)
 
 ### Introduction
-
-- [Introduction to the Internet](intro/intro.md)
-- [Layers of the Internet](intro/layers.md)
+- [Giới thiệu về Internet](intro/intro.md)
+- [Các Layer của Internet](intro/layers.md)
 - [Headers](intro/headers.md)
-- [Network Architecture](intro/architecture.md)
+- [Kiến trúc mạng](intro/architecture.md)
 - [Designing Resource Sharing](intro/sharing-resources.md)
 - [Links](intro/links.md)
 
-
 ### Routing
-
 - [Introduction to Routing](routing/intro.md)
 - [Model for Intra-Domain Routing](routing/model.md)
 - [Routing States](routing/solutions.md)
@@ -41,9 +25,7 @@ Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà
 - [BGP Implementation and Issues](routing/bgp-implementation.md)
 - [IP Header](routing/ip-header.md)
 
-
 ### Transport
-
 - [Transport Layer Principles](transport/reliability.md)
 - [TCP Design](transport/tcp-design.md)
 - [TCP Implementation](transport/tcp-implementation.md)
@@ -54,15 +36,11 @@ Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà
 - [Congestion Control Issues](transport/cc-issues.md)
 - [Router-Assisted Congestion Control](transport/router-based-cc.md)
 
-
 ### Applications
-
 - [DNS](applications/dns.md)
 - [HTTP](applications/http.md)
 
-
 ### End-to-End
-
 - [Ethernet](end-to-end/ethernet.md)
 - [Layer 2 Routing (STP)](end-to-end/l2-routing.md)
 - [ARP: Connecting Layers 2 and 3](end-to-end/arp.md)
@@ -71,9 +49,7 @@ Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà
 - [TLS: Secure Bytestreams](end-to-end/tls.md)
 - [End-to-End Connectivity](end-to-end/end-to-end.md)
 
-
 ### Datacenters
-
 - [Topologies](datacenter/topology.md)
 - [Congestion Control](datacenter/datacenter-cc.md)
 - [Routing](datacenter/datacenter-routing.md)
@@ -82,9 +58,7 @@ Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà
 - [Software-Defined Networking](datacenter/sdn.md)
 - [Host Networking](datacenter/host-networking.md)
 
-
 ### Beyond Client-Server
-
 - [Multicast](beyond-client-server/intro.md)
 - [IP Multicast](beyond-client-server/ip-multicast-service-model.md)
 - [DVMRP](beyond-client-server/dvmrp.md)
@@ -94,15 +68,11 @@ Bản dịch Tiếng Việt đang dịch được tương đối rồi nhé, mà
 - [Collective Operations](beyond-client-server/collective-operations.md)
 - [Collective Implementations](beyond-client-server/collective-implementations.md)
 
-
 ### Wireless
-
 - [Wireless Links](wireless/wireless-links.md)
 - [Cellular](wireless/cellular.md)
 
-
 ### Glossary
-
 - [Glossary](glossary.md)
 
 

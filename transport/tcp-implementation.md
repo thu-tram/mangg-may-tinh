@@ -1,196 +1,193 @@
-# TCP Implementation
+# Triển khai TCP (TCP Implementation)
 
-## TCP Segments
+## Phân đoạn TCP (TCP Segments)
 
-So far, we've been talking about TCP conceptually, in terms of individual packets being sent. But the application doesn't provide us with pre-made packets that we can directly send into the Layer 3 network. The application is relying on a bytestream abstraction, and is instead sending us a continuous stream of bytes. In order to fully implement TCP, we'll need to rethink all of our previous ideas (e.g. sequence numbers, window size, etc.) in terms of bytes, not packets. (You should still be able to reason about the design choices in terms of both bytes or packets, though.)
+Cho đến nay, chúng ta đã nói về TCP một cách khái niệm, dưới dạng các gói tin riêng lẻ được gửi đi. Nhưng ứng dụng không cung cấp cho chúng ta các gói tin được tạo sẵn để chúng ta có thể gửi trực tiếp vào mạng Lớp 3. Ứng dụng đang dựa vào một trừu tượng hóa bytestream, và thay vào đó đang gửi cho chúng ta một luồng byte liên tục. Để triển khai đầy đủ TCP, chúng ta sẽ cần phải suy nghĩ lại tất cả các ý tưởng trước đây của mình (ví dụ: sequence numbers, kích thước cửa sổ, v.v.) dưới dạng byte, chứ không phải gói tin. (Tuy nhiên, bạn vẫn nên có khả năng lý giải về các lựa chọn thiết kế dưới cả hai góc độ byte hoặc gói tin.)
 
 <img width="900px" src="../assets/transport/3-035-segment1.png">
 
-In order to form packets out of bytes in the bytestream, we'll introduce a unit of data called a **TCP segment**. The TCP implementation at the sender will collect bytes from the bytestream, one by one, and place those bytes into a TCP segment. When the TCP segment is full (reaches a fixed maximum segment size), we send that TCP segment, and then start a new TCP segment.
+Để tạo thành các gói tin từ các byte trong bytestream, chúng ta sẽ giới thiệu một đơn vị dữ liệu được gọi là **TCP segment** (phân đoạn TCP). Việc triển khai TCP ở phía người gửi sẽ thu thập các byte từ bytestream, từng byte một, và đặt các byte đó vào một TCP segment. Khi TCP segment đầy (đạt đến một kích thước phân đoạn tối đa cố định), chúng ta gửi TCP segment đó, và sau đó bắt đầu một TCP segment mới.
 
-Sometimes, the sender wants to send less data than the maximum segment size. In that case, we wouldn't want the TCP segment to be waiting forever for more bytes that never come. To fix this, we'll start a timer every time we start filling a new empty segment. If the timer expires, we'll send the TCP segment, even if it is not full yet.
+Đôi khi, người gửi muốn gửi ít dữ liệu hơn kích thước phân đoạn tối đa. Trong trường hợp đó, chúng ta sẽ không muốn TCP segment phải chờ đợi mãi mãi để có thêm các byte không bao giờ đến. Để khắc phục điều này, chúng ta sẽ bắt đầu một bộ đếm thời gian mỗi khi chúng ta bắt đầu điền vào một phân đoạn trống mới. Nếu bộ đếm thời gian hết hạn, chúng ta sẽ gửi TCP segment, ngay cả khi nó chưa đầy.
 
 <img width="900px" src="../assets/transport/3-036-segment2.png">
 
-Before sending the data in a TCP segment, the sender's TCP implementation will add a TCP header with relevant metadata (e.g. sequence number, port numbers). Then, the segment and header are passed down to the IP layer, which will attach an IP header and send the packet through the network.
+Trước khi gửi dữ liệu trong một TCP segment, việc triển khai TCP của người gửi sẽ thêm một TCP header (phần đầu TCP) với các siêu dữ liệu liên quan (ví dụ: sequence number, số cổng). Sau đó, phân đoạn và phần đầu được chuyển xuống IP layer (lớp IP), lớp này sẽ đính kèm một IP header (phần đầu IP) và gửi gói tin qua mạng.
 
-The TCP segment, with a TCP header and IP header on top, is sometimes called a **TCP/IP packet**. Equivalently, this is an IP packet whose payload consists of a TCP header and data.
+TCP segment, với một TCP header và IP header ở trên, đôi khi được gọi là **TCP/IP packet** (gói tin TCP/IP). Tương đương, đây là một gói tin IP có phần tải (payload) bao gồm một TCP header và dữ liệu.
 
 <img width="600px" src="../assets/transport/3-037-segment3.png">
 
-How should the **maximum segment size (MSS)** be set? Recall that the size of an IP packet is limited by the maximum transmission unit (MTU) along each link. However, the IP packet must also contain the IP and TCP header, so the TCP maximum segment size is going to be slightly smaller than the IP maximum transmission unit. Specifically:
+**Maximum segment size (MSS)** (kích thước phân đoạn tối đa) nên được đặt như thế nào? Hãy nhớ lại rằng kích thước của một gói tin IP bị giới hạn bởi maximum transmission unit (MTU) (đơn vị truyền tải tối đa) dọc theo mỗi liên kết. Tuy nhiên, gói tin IP cũng phải chứa IP header và TCP header, vì vậy maximum segment size của TCP sẽ nhỏ hơn một chút so với maximum transmission unit của IP. Cụ thể:
 
-MSS (TCP segment limit) = MTU (IP packet limit) - IP header size - TCP header size
+MSS (giới hạn TCP segment) = MTU (giới hạn gói tin IP) - kích thước IP header - kích thước TCP header
 
+## Số Thứ tự (Sequence Numbers)
 
-## Sequence Numbers
+Cho đến nay, chúng ta đã gán nhãn cho mỗi gói tin bằng một con số, để người nhận có thể nhận các gói tin theo đúng thứ tự.
 
-So far, we've been labeling each packet with a number, so that the recipient can receive packets in the correct order.
+Trên thực tế, thay vì đánh số các phân đoạn riêng lẻ, chúng ta gán một số cho mỗi byte trong bytestream. TCP header của mỗi phân đoạn sẽ chứa một **sequence number** tương ứng với số của byte đầu tiên trong phân đoạn đó. Người nhận vẫn có thể sử dụng sequence numbers để xác định vị trí của mỗi phân đoạn trong bytestream, và lắp ráp lại các phân đoạn theo đúng thứ tự.
 
-In practice, instead of numbering individual segments, we assign a number to every byte in the bytestream. Each segment's header will contain a **sequence number** corresponding to the number of the first byte in that segment. The recipient can still use sequence numbers to figure out where each segment fits in the bytestream, and reassemble the segments in the correct order.
-
-Each bytestream starts with an **initial sequence number (ISN)**. The sender chooses an ISN and labels the first byte with number ISN+1, the next byte with number ISN+2, the next byte with ISN+3, and so on.
+Mỗi bytestream bắt đầu với một **initial sequence number (ISN)** (số thứ tự ban đầu). Người gửi chọn một ISN và gán nhãn cho byte đầu tiên với số ISN+1, byte tiếp theo với số ISN+2, byte tiếp theo với ISN+3, và cứ thế tiếp tục.
 
 <img width="900px" src="../assets/transport/3-038-seq-num1.png">
 
-Since we're now numbering bytes instead of packets, acknowledgement numbers will also now be in terms of bytes, not packets. Specifically, the acknowledgement number says, I have received all bytes up to, but not including, this number. Equivalently, the acknowledgement number represents the next byte it expects to receive (but has not received yet). Note that TCP is using the cumulative ack model (as opposed to full-information acks or individual byte acks).
+Vì bây giờ chúng ta đang đánh số các byte thay vì các gói tin, số acknowledgement bây giờ cũng sẽ được tính theo byte, chứ không phải gói tin. Cụ thể, số acknowledgement cho biết, tôi đã nhận được tất cả các byte cho đến, nhưng không bao gồm, con số này. Tương đương, số acknowledgement đại diện cho byte tiếp theo mà nó mong đợi nhận được (nhưng chưa nhận được). Lưu ý rằng TCP đang sử dụng mô hình cumulative ack (thay vì full-information acks hoặc ack cho từng byte riêng lẻ).
 
-As an example, suppose the ISN has randomly been chosen to be 50. Then the first few bytes have numbers 51, 52, 53, etc. A specific TCP segment might contain the bytes 140 to 219, inclusive. The sequence number of this segment is 140 (representing the first byte in the segment). If the recipient has received everything so far, the recipient can acknowledge this segment by sending an ack number of 220, which is the next byte that has not been received yet.
+Làm ví dụ, giả sử ISN đã được chọn ngẫu nhiên là 50. Khi đó, một vài byte đầu tiên có các số 51, 52, 53, v.v. Một TCP segment cụ thể có thể chứa các byte từ 140 đến 219, bao gồm cả hai. Sequence number của phân đoạn này là 140 (đại diện cho byte đầu tiên trong phân đoạn). Nếu người nhận đã nhận được mọi thứ cho đến nay, người nhận có thể xác nhận phân đoạn này bằng cách gửi một số ack là 220, là byte tiếp theo chưa được nhận.
 
 <img width="900px" src="../assets/transport/3-039-seq-num2.png">
 
-More generally, suppose we have a packet where the first byte has sequence number X, and the packet has B bytes. This packet has the bytes X, X+1, X+2, ..., X+B-1. If this packet (and all prior data) is received, the ack will acknowledge X+B (the next expected byte). If this packet is not received, or this packet is received but some prior packet was not received, then the ack will acknowledge some smaller number (because TCP uses cumulative acks).
+Tổng quát hơn, giả sử chúng ta có một gói tin trong đó byte đầu tiên có sequence number là X, và gói tin có B byte. Gói tin này có các byte X, X+1, X+2, ..., X+B-1. Nếu gói tin này (và tất cả dữ liệu trước đó) được nhận, ack sẽ xác nhận X+B (byte tiếp theo được mong đợi). Nếu gói tin này không được nhận, hoặc gói tin này được nhận nhưng một số gói tin trước đó không được nhận, thì ack sẽ xác nhận một số nhỏ hơn (bởi vì TCP sử dụng cumulative acks).
 
-More generally, suppose we had many packets, all B bytes long. The ISN is X, and the window size is 1 (stop-and-wait protocol, only one packet or ack being sent at once). Assume that no packets are dropped. Then, the sequence and ack numbers would proceed as follows: The first packet has sequence number X. The first ack has ack number X+B. The second packet has sequence number X+B. The second ack has ack number X+2B. The third packet has sequence number X+2B, and so on. In particular, note that when there's no loss, the ack number corresponds to the next packet's sequence number.
+Tổng quát hơn nữa, giả sử chúng ta có nhiều gói tin, tất cả đều dài B byte. ISN là X, và kích thước cửa sổ là 1 (giao thức stop-and-wait, chỉ có một gói tin hoặc ack được gửi tại một thời điểm). Giả sử không có gói tin nào bị mất. Khi đó, các sequence number và số ack sẽ tiến hành như sau: Gói tin đầu tiên có sequence number X. Ack đầu tiên có số ack là X+B. Gói tin thứ hai có sequence number là X+B. Ack thứ hai có số ack là X+2B. Gói tin thứ ba có sequence number là X+2B, và cứ thế tiếp tục. Cụ thể, lưu ý rằng khi không có mất mát, số ack tương ứng với sequence number của gói tin tiếp theo.
 
 <img width="500px" src="../assets/transport/3-040-seq-num3.png">
 
-Historically, the ISN was chosen to be random because the designers were concerned about ambiguous sequence numbers if all bytestreams started numbering at 0. Specifically, suppose a TCP connection sends some data starting at ISN 0, and then the sender crashes. If the sender restarts a new connection, and the ISN starts at 0 again, the recipient might get confused if it sees a packet with sequence number 0. Is this packet from the first connection before the crash, or the second connection after the crash?
+Trong lịch sử, ISN được chọn là ngẫu nhiên vì các nhà thiết kế lo ngại về các sequence number không rõ ràng nếu tất cả các bytestream đều bắt đầu đánh số từ 0. Cụ thể, giả sử một kết nối TCP gửi một số dữ liệu bắt đầu từ ISN 0, và sau đó người gửi bị treo. Nếu người gửi khởi động lại một kết nối mới, và ISN lại bắt đầu từ 0, người nhận có thể bị nhầm lẫn nếu thấy một gói tin có sequence number là 0. Gói tin này là từ kết nối đầu tiên trước khi bị treo, hay kết nối thứ hai sau khi bị treo?
 
-In practice, the ISN is chosen to be random for security reasons. If the ISN is chosen in a predictable way, attackers can deduce the ISN and send spoofed packets that look like they're coming from the sender. When the ISN is chosen randomly, it's harder for the attacker to deduce the ISN and send spoofed packets.
+Trên thực tế, ISN được chọn là ngẫu nhiên vì lý do bảo mật. Nếu ISN được chọn một cách có thể dự đoán được, những kẻ tấn công có thể suy ra ISN và gửi các gói tin giả mạo trông giống như chúng đến từ người gửi. Khi ISN được chọn ngẫu nhiên, kẻ tấn công khó suy ra ISN và gửi các gói tin giả mạo hơn.
 
+## Trạng thái của TCP (TCP State)
 
-## TCP State
+Trong TCP, cả người gửi và người nhận đều cần duy trì trạng thái. Trạng thái được duy trì tại các máy chủ cuối triển khai TCP, chứ không phải trong mạng.
 
-In TCP, both the sender and recipient need to maintain state. The state is maintained at the end hosts implementing TCP, not in the network.
+Người gửi phải nhớ những byte nào đã được gửi nhưng chưa được xác nhận. Người gửi cũng phải theo dõi các bộ đếm thời gian khác nhau, ví dụ: một bộ đếm thời gian cho việc khi nào gửi một phân đoạn chưa đầy, và một bộ đếm thời gian cho việc khi nào gửi lại các byte.
 
-The sender has to remember which bytes have been sent but not acknowledged yet. The sender also has to keep track of various timers, e.g. a timer for when to send a less-than-full segment, and a timer for when to resend bytes.
+Người nhận phải nhớ các byte không theo thứ tự mà chưa thể được giao cho ứng dụng.
 
-The recipient has to remember the out-of-order bytes that can't be delivered to the application yet.
+Bởi vì TCP yêu cầu lưu trữ trạng thái, mỗi bytestream được gọi là một **connection** (kết nối) hoặc **session** (phiên), và TCP là một giao thức hướng kết nối. Không giống như Lớp 3, nơi mọi gói tin có thể được xem xét riêng biệt, TCP yêu cầu cả hai bên phải thiết lập một connection và khởi tạo trạng thái trước khi có thể gửi dữ liệu. TCP cũng cần một cơ chế để hủy các connection để giải phóng bộ nhớ được phân bổ cho trạng thái trên cả hai máy chủ cuối.
 
-Because TCP requires storing state, each bytestream is called a **connection** or **session**, and TCP is a connection-oriented protocol. Unlike Layer 3, where every packet could be considered separately, TCP requires both parties to establish a connection and initialize state before data can be sent. TCP also needs a mechanism to tear down connections to free up the memory allocated for state on both end hosts.
+## TCP là Duplex toàn phần
 
+Cho đến nay, chúng ta đã xem TCP như một bytestream từ một máy chủ cuối (người gửi) đến máy chủ cuối kia (người nhận). Trên thực tế, hai máy chủ cuối thường muốn gửi tin nhắn theo cả hai hướng.
 
-## TCP is Full Duplex
-
-So far, we've seen TCP as a bytestream from one end host (the sender) to the other end host (recipient). In practice, the two end hosts often want to send messages in both directions.
-
-To support sending messages in both directions, TCP connections are **full duplex**. Instead of designating one sender and one recipient, both end hosts in the connection can send and receive data simultaneously, in the same connection.
+Để hỗ trợ gửi tin nhắn theo cả hai hướng, các connection TCP là **full duplex** (song công toàn phần). Thay vì chỉ định một người gửi và một người nhận, cả hai máy chủ cuối trong connection có thể gửi và nhận dữ liệu đồng thời, trong cùng một connection.
 
 <img width="900px" src="../assets/transport/3-041-duplex.png">
 
-To support sending data in both directions, each TCP connection has two bytestreams: one containing data from A to B, and the other containing data from B to A. Each packet can contain both data and acknowledgement information. The sequence number would correspond to the sender's bytestream (the bytes I am sending), and the acknowledgement number would correspond to the recipient's bytestream (the bytes I received from you).
+Để hỗ trợ gửi dữ liệu theo cả hai hướng, mỗi connection TCP có hai bytestream: một chứa dữ liệu từ A đến B, và cái còn lại chứa dữ liệu từ B đến A. Mỗi gói tin có thể chứa cả dữ liệu và thông tin acknowledgement. Sequence number sẽ tương ứng với bytestream của người gửi (các byte tôi đang gửi), và số acknowledgement sẽ tương ứng với bytestream của người nhận (các byte tôi đã nhận từ bạn).
 
 
 ## TCP Handshake
 
-Recall that TCP is connection-oriented, so connections must be explicitly created and destroyed. Also, recall that bytestreams start at a randomly-selected initial sequence number (ISN), and that each TCP connection is full-duplex (two bytestreams, one in each direction). When we create a new connection, we need both sides to agree on two starting ISNs (one per direction).
+Hãy nhớ lại rằng TCP là hướng kết nối, vì vậy các connection phải được tạo và hủy một cách tường minh. Cũng hãy nhớ lại rằng các bytestream bắt đầu tại một initial sequence number (ISN) được chọn ngẫu nhiên, và mỗi connection TCP là full-duplex (hai bytestream, một theo mỗi hướng). Khi chúng ta tạo một connection mới, chúng ta cần cả hai bên đồng ý về hai ISN khởi đầu (một cho mỗi hướng).
 
-To establish a TCP connection, the two hosts perform a **three-way handshake** to agree on the ISNs in each direction.
+Để thiết lập một connection TCP, hai máy chủ thực hiện một **three-way handshake** (bắt tay ba bước) để đồng ý về các ISN ở mỗi hướng.
 
 <img width="500px" src="../assets/transport/3-042-handshake.png">
 
-The first packet (from A to B) is the **SYN** message. This message contains A's ISN (data from A to B will start counting at this ISN), in the sequence number.
+Gói tin đầu tiên (từ A đến B) là tin nhắn **SYN** (tin nhắn SYN). Tin nhắn này chứa ISN của A (dữ liệu từ A đến B sẽ bắt đầu đếm từ ISN này), trong sequence number.
 
-The second packet (from B to A) is the **SYN-ACK** message. This message contains B's ISN (data from B to A will start counting at this ISN), in the sequence number. This message also acknowledges that B has received of A's ISN, in the ack number.
+Gói tin thứ hai (từ B đến A) là tin nhắn **SYN-ACK** (tin nhắn SYN-ACK). Tin nhắn này chứa ISN của B (dữ liệu từ B đến A sẽ bắt đầu đếm từ ISN này), trong sequence number. Tin nhắn này cũng xác nhận rằng B đã nhận được ISN của A, trong số ack.
 
-The third packet (from A to B again) is the **ACK** message. This message acknowledges that A has received B's ISN, in the ack number.
+Gói tin thứ ba (lại từ A đến B) là tin nhắn **ACK** (tin nhắn ACK). Tin nhắn này xác nhận rằng A đã nhận được ISN của B, trong số ack.
 
-This handshake is why bytestreams start counting at ISN+1. When I send an ISN, the ack is ISN+1, indicating that the ISN was received, and the next (first) byte expected is ISN+1.
+Cái handshake này là lý do tại sao các bytestream bắt đầu đếm từ ISN+1. Khi tôi gửi một ISN, ack là ISN+1, cho biết rằng ISN đã được nhận, và byte (đầu tiên) tiếp theo được mong đợi là ISN+1.
 
-After the three-way handshake concludes, B can start sending data.
+Sau khi three-way handshake kết thúc, B có thể bắt đầu gửi dữ liệu.
 
 
-## Ending Connections
+## Kết thúc Kết nối (Ending Connections)
 
-There are two ways to end a connection.
+Có hai cách để kết thúc một connection.
 
-In normal cases, when I am done sending messages, I can send a special FIN packet, which says: I will not send any more data, but I will continue to receive data if you have any more to send. At this point, the connection is half-closed. This packet will be acked, just like any other packet.
+Trong trường hợp bình thường, khi tôi gửi xong tin nhắn, tôi có thể gửi một FIN packet (gói tin FIN) đặc biệt, có nội dung: Tôi sẽ không gửi thêm bất kỳ dữ liệu nào nữa, nhưng tôi sẽ tiếp tục nhận dữ liệu nếu bạn còn gì để gửi. Tại thời điểm này, connection được đóng một nửa. Gói tin này sẽ được xác nhận, giống như bất kỳ gói tin nào khác.
 
-Eventually, the other side will also finish sending data and send a FIN packet. When this FIN packet is acked, the connection is closed.
+Cuối cùng, phía bên kia cũng sẽ gửi xong dữ liệu và gửi một FIN packet. Khi FIN packet này được xác nhận, connection sẽ được đóng.
 
 <img width="500px" src="../assets/transport/3-043-fin.png">
 
-Sometimes, we have to terminate a connection abruptly, without the agreement of the other side. To unilaterally end a connection, I can send a special RST packet, which says: I will not send or receive any more data. This packet does not have to be acked, and I can tear down my connection as soon as I send this data.
+Đôi khi, chúng ta phải chấm dứt một connection một cách đột ngột, mà không có sự đồng ý của phía bên kia. Để đơn phương kết thúc một connection, tôi có thể gửi một RST packet (gói tin RST) đặc biệt, có nội dung: Tôi sẽ không gửi hoặc nhận thêm bất kỳ dữ liệu nào nữa. Gói tin này không cần phải được xác nhận, và tôi có thể hủy connection của mình ngay khi tôi gửi dữ liệu này.
 
-RST packets are often used when a host encounters an error and is unable to continue sending or receiving packets. Note that any in-flight data is lost if a RST occurs and the end host crashes and loses its state.
+Các RST packet thường được sử dụng khi một máy chủ gặp lỗi và không thể tiếp tục gửi hoặc nhận các gói tin. Lưu ý rằng bất kỳ dữ liệu nào đang in-flight sẽ bị mất nếu một RST xảy ra và máy chủ cuối bị treo và mất trạng thái của nó.
 
-If I sent a RST, and someone continues sending me data, if I am able, I will continue to send copies of the RST packet to repeatedly try and terminate the connection.
+Nếu tôi đã gửi một RST, và ai đó tiếp tục gửi dữ liệu cho tôi, nếu có thể, tôi sẽ tiếp tục gửi các bản sao của RST packet để liên tục cố gắng chấm dứt connection.
 
-RST packets can also be used by attackers to censor connections. An attacker can spoof and inject a RST packet, which causes the entire connection to terminate.
+Các RST packet cũng có thể được những kẻ tấn công sử dụng để kiểm duyệt các connection. Một kẻ tấn công có thể giả mạo và tiêm một RST packet, điều này khiến toàn bộ connection bị chấm dứt.
 
 <img width="500px" src="../assets/transport/3-044-rst.png">
 
-The full TCP state diagram is quite complicated, with many intermediate states in the process of opening or closing a connection. Examples of intermediate states include: I have sent a SYN, and am waiting for a SYN-ACK. Or, I have received a FIN, sent my FIN, but am waiting for my FIN to be acked. Most TCP connections spend most of their time in the Established state, where the connection has started (but not ended), and data is being exchanged back-and-forth. You don't need to understand this full state diagram for these notes.
+Sơ đồ trạng thái TCP đầy đủ khá phức tạp, với nhiều trạng thái trung gian trong quá trình mở hoặc đóng một connection. Ví dụ về các trạng thái trung gian bao gồm: Tôi đã gửi một SYN, và đang chờ một SYN-ACK. Hoặc, tôi đã nhận một FIN, đã gửi FIN của mình, nhưng đang chờ FIN của mình được xác nhận. Hầu hết các connection TCP dành phần lớn thời gian của chúng ở trạng thái Established (Đã thiết lập), nơi connection đã bắt đầu (nhưng chưa kết thúc), và dữ liệu đang được trao đổi qua lại. Bạn không cần phải hiểu toàn bộ sơ đồ trạng thái này cho các ghi chú này.
 
 <img width="900px" src="../assets/transport/3-045-state-diagram.png">
 
-In the simplified state diagram, we start in the closed state (no connection in progress). To start a connection, we send a SYN. Eventually, we receive a SYN-ACK and reply with an ACK, moving to an established connection. When we're done sending data, we send a FIN, and receive an ACK. Eventually, we receive a FIN, and the connection is closed again.
+Trong sơ đồ trạng thái đơn giản hóa, chúng ta bắt đầu ở trạng thái đóng (không có connection nào đang diễn ra). Để bắt đầu một connection, chúng ta gửi một SYN. Cuối cùng, chúng ta nhận được một SYN-ACK và trả lời bằng một ACK, chuyển sang một connection đã được thiết lập. Khi chúng ta gửi xong dữ liệu, chúng ta gửi một FIN, và nhận một ACK. Cuối cùng, chúng ta nhận được một FIN, và connection lại được đóng.
 
 <img width="900px" src="../assets/transport/3-046-simplified-state.png">
 
 
-## Piggybacking
+## Gửi ké (Piggybacking)
 
-Because TCP is full duplex, it's possible for a packet to both acknowledge some data and send new data.
+Bởi vì TCP là full duplex, có thể một gói tin vừa xác nhận một số dữ liệu vừa gửi dữ liệu mới.
 
-When the recipient gets a packet, if it has no data to send, the recipient has two choices. The recipient could either immediately send the ack, with no data to send. Or, the recipient could wait until it has some data to send, and then send the ack with the new data. This latter approach is called **piggybacking**.
+Khi người nhận nhận được một gói tin, nếu nó không có dữ liệu để gửi, người nhận có hai lựa chọn. Người nhận có thể gửi ngay ack, mà không có dữ liệu để gửi. Hoặc, người nhận có thể đợi cho đến khi có dữ liệu để gửi, và sau đó gửi ack cùng với dữ liệu mới. Cách tiếp cận thứ hai này được gọi là **piggybacking** (gửi ké).
 
-In practice, one reason we might not piggyback is because TCP is implemented in the operating system, separate from the application.
+Trên thực tế, một lý do chúng ta có thể không piggybacking là vì TCP được triển khai trong hệ điều hành, tách biệt với ứng dụng.
 
-Consider the operating system, which has no idea what the application code is doing. When the operating system receives a packet, it doesn't know when the sender will have more data to send (or if the sender will ever have more data to send), so it might be stuck waiting a long time before it's able to piggyback the ack with some new data.
+Hãy xem xét hệ điều hành, không biết ứng dụng đang làm gì. Khi hệ điều hành nhận được một gói tin, nó không biết khi nào người gửi sẽ có thêm dữ liệu để gửi (hoặc liệu người gửi có bao giờ có thêm dữ liệu để gửi hay không), vì vậy nó có thể bị kẹt trong việc chờ đợi một thời gian dài trước khi có thể piggybacking ack với một số dữ liệu mới.
 
-On the other side, consider the application, which has no idea what the operating system is doing. The application is running on the bytestream abstraction, and isn't thinking about packets at all, so it has no way to think about piggybacking at all.
+Ở phía bên kia, hãy xem xét ứng dụng, không biết hệ điều hành đang làm gì. Ứng dụng đang chạy trên trừu tượng hóa bytestream, và hoàn toàn không nghĩ về các gói tin, vì vậy nó không có cách nào để nghĩ về piggybacking.
 
-Piggybacking is further complicated by the fact that the operating system isn't running every program simultaneously. Thinking back to a computer architecture course (like CS 61C at UC Berkeley), the CPU is constantly switching between different processes on your computer, depending on what needs attention. It would be pretty silly if, every time a TCP packet arrived, the CPU interrupted what it was doing to pass that packet to the application, and gave the application some time to respond. Instead, when a TCP packet arrives, the operating system might send out the ack, before the application gets a chance to piggyback new data on the ack.
+Piggybacking còn phức tạp hơn bởi thực tế là hệ điều hành không chạy mọi chương trình đồng thời. Nhớ lại một khóa học kiến trúc máy tính (như CS 61C tại UC Berkeley), CPU liên tục chuyển đổi giữa các tiến trình khác nhau trên máy tính của bạn, tùy thuộc vào những gì cần chú ý. Sẽ khá ngớ ngẩn nếu, mỗi khi một gói tin TCP đến, CPU ngắt những gì nó đang làm để chuyển gói tin đó cho ứng dụng, và cho ứng dụng một chút thời gian để phản hồi. Thay vào đó, khi một gói tin TCP đến, hệ điều hành có thể gửi đi ack, trước khi ứng dụng có cơ hội piggybacking dữ liệu mới trên ack.
 
-One case where data is always piggybacked is the SYN-ACK packet in the handshake. In addition to the ack, we're piggybacking our own initial sequence number. This doesn't have the problem discussed above, since the TCP handshake is entirely performed by the operating system. (The application isn't thinking about SYN or SYN-ACK packets at all.)
+Một trường hợp mà dữ liệu luôn được piggybacked là gói tin SYN-ACK trong handshake. Ngoài ack, chúng ta đang piggybacking initial sequence number của chính mình. Điều này không có vấn đề đã thảo luận ở trên, vì TCP handshake hoàn toàn được thực hiện bởi hệ điều hành. (Ứng dụng hoàn toàn không nghĩ về các gói tin SYN hoặc SYN-ACK.)
 
 
 ## Sliding Window
 
-When we discussed packets, we defined the window as the number of packets that could be in flight at any given time. Now that we're implementing TCP in terms of bytes, we'll define the **sliding window** as the maximum number of contiguous bytes that can be in flight at any given time.
+Khi chúng ta thảo luận về các gói tin, chúng ta đã định nghĩa cửa sổ là số lượng gói tin có thể in flight tại bất kỳ thời điểm nào. Bây giờ chúng ta đang triển khai TCP dưới dạng byte, chúng ta sẽ định nghĩa **sliding window** (cửa sổ trượt) là số lượng byte liên tục tối đa có thể in flight tại bất kỳ thời điểm nào.
 
-The restriction of the in-flight bytes being contiguous is different from before. Our packet-based window definition allowed for non-contiguous packets (e.g. 5, 7, 8) to be in-flight. However, the bytes in flight are required to be consecutive, with no gaps. This requirement creates a window (range of bytes) in the byte stream.
+Việc hạn chế các byte in flight phải liên tục là khác so với trước đây. Định nghĩa cửa sổ dựa trên gói tin của chúng ta cho phép các gói tin không liên tục (ví dụ: 5, 7, 8) được in-flight. Tuy nhiên, các byte in flight được yêu cầu phải liên tiếp, không có khoảng trống. Yêu cầu này tạo ra một cửa sổ (phạm vi các byte) trong luồng byte.
 
-The left side of the window is the first unacknowledged byte (as determined by the ack number from the recipient). Starting at this byte, the next W bytes, up to the right side of the window, can be in-flight.
+Bên trái của cửa sổ là byte đầu tiên chưa được xác nhận (được xác định bởi số ack từ người nhận). Bắt đầu từ byte này, W byte tiếp theo, cho đến bên phải của cửa sổ, có thể in-flight.
 
 <img width="900px" src="../assets/transport/3-047-window1.png">
 
-Note that even if some of the intermediate bytes in this window were acknowledged, we still cannot send more bytes beyond the window. The only way we can send more bytes is if the window slides to the right, i.e. when the ack number increases (bytes on the left side of the window are acknowledged).
+Lưu ý rằng ngay cả khi một số byte trung gian trong cửa sổ này đã được xác nhận, chúng ta vẫn không thể gửi thêm byte nào ngoài cửa sổ. Cách duy nhất chúng ta có thể gửi thêm byte là nếu cửa sổ trượt sang phải, tức là khi số ack tăng lên (các byte ở bên trái của cửa sổ được xác nhận).
 
 <img width="900px" src="../assets/transport/3-048-window2.png">
 
-Recall that the window size (which determines the right edge of the window) is limited by flow control and congestion control. In the case of flow control, the window size is decided by the window advertised by the recipient. The recipient decides the advertised window based on the amount of buffer space available on the receiver end.
+Hãy nhớ lại rằng kích thước cửa sổ (xác định cạnh phải của cửa sổ) bị giới hạn bởi flow control và congestion control. Trong trường hợp flow control, kích thước cửa sổ được quyết định bởi cửa sổ được quảng bá bởi người nhận. Người nhận quyết định advertised window dựa trên lượng không gian bộ đệm có sẵn ở phía người nhận.
 
 
-## Detecting Loss and Re-Sending Data
+## Phát hiện mất mát và hửi lại Dữ liệu (Detecting Loss and Re-Sending Data)
 
-There are two conditions for data to be re-sent. Only one condition (not both) needs to be true to trigger a re-send.
+Có hai điều kiện để dữ liệu được gửi lại. Chỉ cần một điều kiện (không phải cả hai) là đúng để kích hoạt việc gửi lại.
 
 <img width="900px" src="../assets/transport/3-049-window3.png">
 
-The first trigger for retransmission is a timer (data not acknowledged after some time). In packet-based TCP, every packet had a timer, and when the timer expired without that packet being acked, we would re-send that packet.
+Tác nhân kích hoạt đầu tiên cho việc truyền lại là một bộ đếm thời gian (dữ liệu không được xác nhận sau một khoảng thời gian). Trong TCP dựa trên gói tin, mỗi gói tin có một bộ đếm thời gian, và khi bộ đếm thời gian hết hạn mà gói tin đó chưa được xác nhận, chúng ta sẽ gửi lại gói tin đó.
 
-In byte-based TCP, instead of one timer per byte or per packet, we will only have a single timer, corresponding to the first unacknowledged byte (left side of the window). If the timer expires, we will re-send the left-most unacknowledged segment. Recall that the timer length is based on the RTT, and the RTT is estimated using measurements of the time between sending data and receiving an ack. Also, recall that the timer is reset every time a new ack arrives (and the window changes).
+Trong TCP dựa trên byte, thay vì một bộ đếm thời gian cho mỗi byte hoặc mỗi gói tin, chúng ta sẽ chỉ có một bộ đếm thời gian duy nhất, tương ứng với byte đầu tiên chưa được xác nhận (bên trái của cửa sổ). Nếu bộ đếm thời gian hết hạn, chúng ta sẽ gửi lại phân đoạn chưa được xác nhận ở ngoài cùng bên trái. Hãy nhớ lại rằng độ dài bộ đếm thời gian dựa trên RTT, và RTT được ước tính bằng cách sử dụng các phép đo thời gian giữa việc gửi dữ liệu và nhận ack. Cũng hãy nhớ lại rằng bộ đếm thời gian được đặt lại mỗi khi một ack mới đến (và cửa sổ thay đổi).
 
-The second trigger for retransmission is assuming that data is lost when we receive acks for subsequent packets. In packet-based TCP with cumulative acks (which is what TCP uses), we would re-send a packet if we received K duplicate acks (K=3 is common), which indicated that three subsequent packets were acknowledged.
+Tác nhân kích hoạt thứ hai cho việc truyền lại là giả định rằng dữ liệu bị mất khi chúng ta nhận được ack cho các gói tin tiếp theo. Trong TCP dựa trên gói tin với cumulative acks (là những gì TCP sử dụng), chúng ta sẽ gửi lại một gói tin nếu chúng ta nhận được K duplicate acks (K=3 là phổ biến), điều này cho thấy rằng ba gói tin tiếp theo đã được xác nhận.
 
-In byte-based TCP, if we receive K duplicate acks, we will re-send the left-most unacknowledged segment.
+Trong TCP dựa trên byte, nếu chúng ta nhận được K duplicate acks, chúng ta sẽ gửi lại phân đoạn chưa được xác nhận ở ngoài cùng bên trái.
 
 
 ## TCP Header
 
 <img width="800px" src="../assets/transport/3-050-tcp-header.png">
 
-The TCP header has 16-bit source and destination ports.
+TCP header có các source and destination ports (cổng nguồn và cổng đích) 16-bit.
 
-The TCP header has a 32-bit sequence number (byte offset of the first byte in this packet), and a 32-bit acknowledgement number (highest contiguous sequence number received, plus one).
+TCP header có một sequence number 32-bit (độ lệch byte của byte đầu tiên trong gói tin này), và một số acknowledgement 32-bit (số thứ tự liên tục cao nhất đã nhận, cộng một).
 
-The TCP header has a checksum over the entire data (not just the header), to detect corrupt data.
+TCP header có một checksum trên toàn bộ dữ liệu (không chỉ phần đầu), để phát hiện dữ liệu bị hỏng.
 
-The TCP header has the advertised window, which is used to support flow control and congestion control.
+TCP header có advertised window, được sử dụng để hỗ trợ flow control và congestion control.
 
-The header length specifies the number of 4-byte words in the TCP header. Assuming there are no additional options, this length is 5.
+Header length (độ dài phần đầu) chỉ định số lượng từ 4-byte trong TCP header. Giả sử không có tùy chọn bổ sung nào, độ dài này là 5.
 
-The flags are a sequence of bits that can be set to 1 or 0. When a bit is set to 1, the corresponding flag is enabled. Everybody understands the semantics of the header, so they know which bits correspond to which flags. There are four relevant flags for these notes.
+Các flags (cờ) là một chuỗi các bit có thể được đặt thành 1 hoặc 0. Khi một bit được đặt thành 1, cờ tương ứng được bật. Mọi người đều hiểu ngữ nghĩa của phần đầu, vì vậy họ biết bit nào tương ứng với cờ nào. Có bốn cờ liên quan cho các ghi chú này.
 
-The SYN (synchronize) flag is turned on when the host is sending its ISN. This flag is usually only enabled in the first two messages of the three-way handshake.
+Cờ SYN (synchronize - đồng bộ hóa) được bật khi máy chủ đang gửi ISN của nó. Cờ này thường chỉ được bật trong hai tin nhắn đầu tiên của three-way handshake.
 
-The ACK (acknowledge) flag is turned on when the acknowledgment number is relevant and being used to ack data. If I want to send data, but didn't receive any data that needs to be acked, I can turn this flag off, which tells the other host to ignore the ack number.
+Cờ ACK (acknowledge - xác nhận) được bật khi số acknowledgement có liên quan và đang được sử dụng để xác nhận dữ liệu. Nếu tôi muốn gửi dữ liệu, nhưng không nhận được bất kỳ dữ liệu nào cần được xác nhận, tôi có thể tắt cờ này, điều này cho máy chủ khác biết để bỏ qua số ack.
 
-There are 6 reserved bits after the header length that are always set to 0. You can safely ignore these.
+Có 6 bit dành riêng sau header length luôn được đặt thành 0. Bạn có thể bỏ qua chúng một cách an toàn.
 
-The urgent pointer can be used to mark certain bytes as urgent, which tells the recipient to send this data to the application as soon as possible. This is a historical field that we won't cover any further.
+Urgent pointer (con trỏ khẩn) có thể được sử dụng để đánh dấu một số byte là khẩn cấp, điều này cho người nhận biết để gửi dữ liệu này đến ứng dụng càng sớm càng tốt. Đây là một trường lịch sử mà chúng ta sẽ không đề cập thêm.
 
-The TCP header can have additional options appended to the end (which would make the header longer), but we'll ignore options for this class. For example, if you wanted to implement full-information acks, there is an option called selective acknowledgements (SACK) that can be added to the header.
+TCP header có thể có các tùy chọn bổ sung được nối vào cuối (điều này sẽ làm cho phần đầu dài hơn), nhưng chúng ta sẽ bỏ qua các tùy chọn cho lớp học này. Ví dụ, nếu bạn muốn triển khai full-information acks, có một tùy chọn gọi là selective acknowledgements (SACK) (tin báo nhận chọn lọc) có thể được thêm vào phần đầu.

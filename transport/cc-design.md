@@ -1,223 +1,215 @@
-# Congestion Control Design
+# Thiết kế Kiểm soát Tắc nghẽn (CC Design)
 
-## Host-Based Algorithm Sketch
+## Phác thảo Thuật toán dựa trên Máy chủ
 
-Most host-based algorithms follow the same general approach, and the differences arise in three key choice points.
+Hầu hết các thuật toán dựa trên máy chủ đều tuân theo cùng một phương pháp chung, và sự khác biệt nảy sinh ở ba điểm lựa chọn chính.
 
-Each source independently runs the following logic repeatedly, in a loop: Try sending at a rate R for some period of time. Then, ask: Did I experience congestion in this time period? If yes, then reduce R. If no, then increase R.
+Mỗi nguồn chạy độc lập logic sau đây một cách lặp đi lặp lại trong một vòng lặp: Thử gửi ở một rate (tốc độ) R trong một khoảng thời gian nào đó. Sau đó, tự hỏi: Liệu tôi có gặp phải congestion (sự tắc nghẽn) trong khoảng thời gian này không? Nếu có, thì giảm R. Nếu không, thì tăng R.
 
-One missing piece is: what rate do we initially start sending at? We'll need some way to pick the initial rate R.
+Một mảnh ghép còn thiếu là: chúng ta bắt đầu gửi ở rate ban đầu nào? Chúng ta sẽ cần một cách nào đó để chọn rate ban đầu R.
 
-The three key choice points are: How do we pick the initial rate? How do we detect congestion? By how much should we increase and decrease each time?
+Ba điểm lựa chọn chính là: Làm thế nào để chúng ta chọn rate ban đầu? Làm thế nào để chúng ta phát hiện congestion? Chúng ta nên tăng và giảm bao nhiêu mỗi lần?
 
+## Phát hiện Tắc nghẽn
 
-## Detecting Congestion
+Làm thế nào người gửi phát hiện ra nếu mạng bị tắc nghẽn? Có hai cách tiếp cận phổ biến.
 
-How does the sender detect if the network is congested? There are two common approaches.
+Người gửi có thể kiểm tra packet loss (mất gói tin). Đây là phương pháp thường được TCP sử dụng. Cách tiếp cận này tốt vì tín hiệu là rõ ràng. Mỗi packet hoặc được đánh dấu là bị mất (timeout (hết thời gian chờ) hoặc duplicate ack (ack trùng lặp)), hoặc không bị mất. Ngoài ra, TCP đã phát hiện các packet bị mất để gửi lại chúng, vì vậy chúng ta không cần phải triển khai lại điều này từ đầu.
 
-The sender could check for packet loss. This is the approach commonly used by TCP. This approach is good because the signal is unambiguous. Every packet is either marked as lost (timeout or duplicate ack), or not lost. Also, TCP already detects lost packets in order to re-send them, so we don't need to re-implement this from scratch.
+Cách tiếp cận này có thể không tốt vì đôi khi, packet loss là do corruption (lỗi dữ liệu) (checksum không hợp lệ), chứ không phải do congestion. Trên thực tế, TCP bị nhầm lẫn và hoạt động kém khi một liên kết không bị tắc nghẽn, nhưng thường xuyên làm hỏng các packet. Ngoài ra, TCP có thể bị nhầm lẫn bởi các packet bị reordered (sắp xếp lại thứ tự). Một packet đến muộn có thể bị coi nhầm là đã mất.
 
-This approach can be bad because sometimes, packet loss is due to corruption (bad checksum), not congestion. In fact, TCP gets confused and behaves poorly when a link is not congested, but frequently corrupts packets. Also, TCP could be confused by packets being reordered. A packet arriving late could be mistakenly considered lost.
+Một nhược điểm quan trọng khác của cách tiếp cận này là, chúng ta phát hiện congestion muộn. Vào thời điểm các packet bắt đầu bị loại bỏ, hàng đợi của router đã đầy và các packet đang bị trễ.
 
-Another key downside to this approach is, we detect congestion late. By the time packets are being dropped, router queues are already full and packets are being delayed.
+Thay vì kiểm tra packet loss, người gửi có thể phát hiện congestion bằng cách kiểm tra packet delay (độ trễ gói tin). Người gửi có thể đo thời gian giữa việc gửi một packet và nhận được ack cho packet đó. Nếu người gửi nhận thấy rằng độ trễ đang tăng lên, đó có thể là một dấu hiệu của congestion.
 
-Instead of checking for packet loss, the sender could instead detect congestion by checking packet delay. The sender can measure the time between sending a packet and receiving an ack for that packet. If the sender notices that the delay is increasing, that could be a sign of congestion.
-
-Historically, accurately measuring delay has been considered difficult. Packet delay can vary depending on queue size and other traffic. For many years, packet delay was not widely deployed, though in recent years, Google's BBR protocol (2016) has shown that delay-based algorithms is possible, and some services (e.g. Google services) have adopted delay-based algorithms.
+Trong lịch sử, việc đo lường độ trễ một cách chính xác được coi là khó khăn. Packet delay có thể thay đổi tùy thuộc vào kích thước hàng đợi và lưu lượng khác. Trong nhiều năm, phương pháp dựa trên độ trễ không được triển khai rộng rãi, mặc dù trong những năm gần đây, giao thức BBR của Google (2016) đã cho thấy rằng các thuật toán dựa trên độ trễ là khả thi, và một số dịch vụ (ví dụ: các dịch vụ của Google) đã áp dụng các thuật toán dựa trên độ trễ.
 
 <img width="600px" src="../assets/transport/3-059-taxonomy2.png">
 
+## Khám phá Tốc độ ban đầu
 
-## Discovering Initial Rate
+Khi một kết nối mới bắt đầu, chúng ta phải tìm ra một rate ban đầu để gửi các packet. Chúng ta có thể tìm ra một rate ban đầu bằng cách sử dụng một quy trình khám phá, trong đó chúng ta thử một vài rate khác nhau để có được ước tính về bandwidth khả dụng.
 
-When a connection first starts out, we have to figure out an initial rate for sending packets. We can learn an initial rate using a discovery process, where we try a few different rates to get a estimate of the available bandwidth.
+Chúng ta muốn quy trình khám phá này phải an toàn, vì vậy chúng ta nên bắt đầu với các rate chậm. Chúng ta không muốn ngay lập tức làm ngập mạng với các packet.
 
-We want this discovery process to be safe, so we should start with slow rates. We don't want to immediately flood the network with packets.
+Đồng thời, chúng ta muốn quy trình khám phá nhanh chóng tìm ra bandwidth khả dụng, vì lý do hiệu quả. Để đạt được điều này, chúng ta sẽ nhanh chóng tăng rate trong mỗi lần thử tiếp theo. Nếu quá trình khám phá mất nhiều thời gian, chúng ta đã lãng phí thời gian mà lẽ ra có thể dành để gửi các packet ở rate tối ưu. Ví dụ, giả sử chúng ta cộng thêm 0.5 Mbps vào rate mỗi 100ms, cho đến khi chúng ta phát hiện congestion (mất mát). Nếu bandwidth khả dụng là 1 Mbps, giai đoạn khám phá sẽ mất 2 lần lặp = 200 ms. Tuy nhiên, nếu bandwidth khả dụng là 1 Gbps = 1000 Mbps, thì giai đoạn khám phá sẽ mất 2000 lần lặp = 200 giây trước khi chúng ta tăng tốc đến một rate tốt, điều này quá dài. Internet có rất nhiều tốc độ liên kết khác nhau, vì vậy cả hai khả năng đều có thể xảy ra trong thực tế.
 
-At the same time, we want the discovery process to quickly discover the available bandwidth, for efficiency. To achieve this, we will quickly increase the rate on each subsequent try. If the discovery process takes a long time, we've wasted time that we could have spent sending packets at the optimal rate. As an example, suppose we add 0.5 Mbps to the rate every 100ms, until we detect congestion (loss). If the available bandwidth is 1 Mbps, the discovery phase would take 2 iterations = 200 ms. However, if the available bandwidth is 1 Gbps = 1000 Mbps, then the discovery phase would take 2000 iterations = 200 seconds before we ramp up to a good rate, which is far too long. The Internet has a wide variety of link speeds, so both possibilities could occur in real life.
-
-In order to support a slow start but a fast ramp-up, we'll increase the bandwidth by a multiplicative factor each time (instead of an additive factor). This solution is called **slow start**, though this is arguably an unintuitive name. In slow start, we start with a small rate that will almost always be much less than the actual bandwidth. Then, we increase the rate exponentially (e.g. doubling the rate each time) until we encounter loss. A safe rate to use is the one just before we encounter loss (we don't want to use a rate where we experienced loss). Formally, if loss occurs at rate R, then the safe rate is R/2.
+Để hỗ trợ việc bắt đầu chậm nhưng tăng tốc nhanh, chúng ta sẽ tăng bandwidth theo một hệ số nhân mỗi lần (thay vì một hệ số cộng). Giải pháp này được gọi là **slow start (khởi động chậm)**, mặc dù đây có thể là một cái tên không trực quan. Trong slow start, chúng ta bắt đầu với một rate nhỏ mà gần như luôn luôn nhỏ hơn nhiều so với bandwidth thực tế. Sau đó, chúng ta tăng rate theo cấp số nhân (ví dụ: nhân đôi rate mỗi lần) cho đến khi gặp phải packet loss. Một rate an toàn để sử dụng là rate ngay trước khi chúng ta gặp packet loss (chúng ta không muốn sử dụng một rate mà chúng ta đã gặp packet loss). Về mặt hình thức, nếu packet loss xảy ra ở rate R, thì rate an toàn là R/2.
 
 <img width="700px" src="../assets/transport/3-060-slow-start.png">
 
+## Điều chỉnh: Phản ứng với Tắc nghẽn
 
-## Adjustments: Reacting to Congestion
+Hãy nhớ lại rằng sau giai đoạn khám phá, chúng ta sẽ liên tục điều chỉnh bandwidth, vì bản thân mạng đang thay đổi, và bandwidth khả dụng không phải là hằng số.
 
-Recall that after the discovery phase, we will be constantly adjusting the bandwidth, because the network itself is changing, and the available bandwidth is not constant.
+Điểm lựa chọn cuối cùng là quyết định chúng ta nên giảm bandwidth bao nhiêu nếu phát hiện congestion, và tăng bandwidth bao nhiêu nếu không phát hiện congestion.
 
-The final choice point is deciding how much we should decrease the bandwidth if congestion is detected, and how much we should increase the bandwidth if no congestion is detected.
+Quyết định của chúng ta sẽ xác định tốc độ một máy chủ thích ứng với những thay đổi về bandwidth khả dụng, điều này lại quyết định hiệu quả tiêu thụ bandwidth. Nếu chúng ta mất nhiều thời gian để thích ứng với những thay đổi và tìm ra một rate tốt, chúng ta sẽ dành nhiều thời gian hoạt động ở bandwidth dưới mức tối ưu, điều này không hiệu quả. Sự thích ứng chậm cũng có thể dẫn đến các vấn đề về tính công bằng. Ví dụ, nếu tôi đang sử dụng toàn bộ bandwidth của một liên kết, và một kết nối khác được mở, tôi cần phải nhanh chóng thích ứng và giảm bandwidth của mình để chia sẻ liên kết.
 
-Our decision will determine how quickly a host adapts to changes in the available bandwidth, which in turn determines how effectively bandwidth is consumed. If we took a long time to adapt to changes and find a good rate, we would spend a lot of time operating at sub-optimal bandwidth, which is inefficient. Slow adaptation can also lead to fairness issues. For example, if I'm using a link's entire bandwidth, and another connection is opened, I need to quickly adapt and decrease my bandwidth in order to share the link.
+Hãy nhớ lại rằng các mục tiêu chính của chúng ta trong một thuật toán kiểm soát tắc nghẽn là efficiency (hiệu quả) (sử dụng tất cả bandwidth khả dụng) và fairness (tính công bằng) (các kết nối chia sẻ bandwidth một cách bình đẳng). Chúng ta sẽ cần chọn các quy tắc tăng và giảm để đạt được cả hai mục tiêu này.
 
-Recall that our main goals in a congestion control algorithm are efficiency (use all available bandwidth) and fairness (connections share bandwidth equally). We will need to choose increase and decrease rules that achieve both of these goals.
+Chúng ta có thể chọn những quy tắc nào? Ở cấp độ cao, chúng ta có thể phản ứng nhanh hoặc chậm. Cụ thể hơn, những thay đổi nhanh là theo cấp số nhân, ví dụ: nhân đôi hoặc chia đôi rate trong mỗi lần lặp. Những thay đổi chậm là theo cấp số cộng, ví dụ: cộng 1 vào rate hoặc trừ 1 khỏi rate trong mỗi lần lặp. Những tùy chọn này tạo ra bốn phương án khả thi:
 
-What rules can we choose from? At a high level, we can either react quickly or slowly. More specifically, fast changes are multiplicative, e.g. doubling or halving the rate on each iteration. Slow changes are additive, e.g. adding 1 to the rate or subtracting 1 from the rate on each iteration. These options create four possible alternatives:
+**AIAD**: additive increase (tăng tuyến tính), additive decrease (giảm tuyến tính)
 
-**AIAD**: additive increase, additive decrease
+**AIMD**: additive increase, multiplicative decrease (giảm theo cấp số nhân)
 
-**AIMD**: additive increase, multiplicative decrease
-
-**MIAD**: multiplicative increase, additive decrease
+**MIAD**: multiplicative increase (tăng theo cấp số nhân), additive decrease
 
 **MIMD**: multiplicative increase, multiplicative increase
 
-Of these four alternatives, it turns out that AIMD (slow increase, fast decrease) is the best for achieving efficiency and fairness.
+Trong bốn phương án này, hóa ra AIMD (tăng chậm, giảm nhanh) là tốt nhất để đạt được efficiency và fairness.
 
-Intuitively, AIMD is a reasonable choice because sending too much is worse than sending too little. When our rate is too high, we cause congestion, and packets get dropped. When our rate is too low, we aren't using all the bandwidth, but at least we aren't causing congestion.
+Về mặt trực quan, AIMD là một lựa chọn hợp lý vì gửi quá nhiều còn tệ hơn gửi quá ít. Khi rate của chúng ta quá cao, chúng ta gây ra congestion, và các packet bị loại bỏ. Khi rate của chúng ta quá thấp, chúng ta không sử dụng hết bandwidth, nhưng ít nhất chúng ta không gây ra congestion.
 
-AIMD leads to the behavior where we slowly increase the rate when there's no congestion, creeping up to the maximal bandwidth. Then, as soon as we exceed maximal bandwidth and detect congestion, we rapidly decrease. This way, we spend most of our time with the rate too low (preferable), and when the rate is too high (not preferable), we quickly decrease to avoid congestion.
+AIMD dẫn đến hành vi mà chúng ta từ từ tăng rate khi không có congestion, dần dần tiến đến bandwidth tối đa. Sau đó, ngay khi chúng ta vượt quá bandwidth tối đa và phát hiện congestion, chúng ta nhanh chóng giảm xuống. Bằng cách này, chúng ta dành phần lớn thời gian với rate quá thấp (được ưu tiên hơn), và khi rate quá cao (không được ưu tiên), chúng ta nhanh chóng giảm để tránh congestion.
 
 <img width="700px" src="../assets/transport/3-061-sawtooth.png">
 
+## Điều chỉnh: Mô hình
 
-## Adjustments: Model
+Tại sao AIMD là lựa chọn tốt nhất để đạt được efficiency và fairness? Hãy thực hiện một phân tích chi tiết hơn.
 
-Why is AIMD the best choice for achieving efficiency and fairness? Let's do a more detailed analysis.
+Đầu tiên, hãy lưu ý rằng cả bốn tùy chọn đều làm khá tốt trong việc đạt được efficiency. Bằng cách tăng khi chúng ta ở dưới rate tối ưu (không bị tắc nghẽn), và giảm khi chúng ta ở trên rate tối ưu (bị tắc nghẽn), rate của chúng ta sẽ luôn dao động quanh rate tối ưu trong dài hạn.
 
-First, notice that all four options do a pretty good job at achieving efficiency. By increasing when we're below the optimal rate (not congested), and decreasing when we're above the optimal rate (congested), our rate should always be hovering around the optimal rate in the long run.
+Tuy nhiên, hóa ra trong bốn tùy chọn này, AIMD là tùy chọn duy nhất dẫn đến fairness. Để hiểu tại sao, hãy xem xét một mô hình đơn giản trong đó có hai kết nối đi qua một liên kết duy nhất có capacity (dung lượng) C. Hai kết nối đang gửi ở các rate X1 và X2, tương ứng. Chúng ta biết rằng nếu X1+X2 lớn hơn C, mạng bị tắc nghẽn, và nếu X1+X2 nhỏ hơn C, thì mạng đang bị underloaded (sử dụng dưới tải).
 
-However, it turns out that of these four options, AIMD is the only option that leads to fairness. To see why, let's consider a simple model where there are two connections going over a single link of capacity C. The two connections are sending at rates X1 and X2, respectively. We know that if X1+X2 is greater than C, the network is congested, and if X1+X2 is less than C, then the network is underloaded.
+Để đạt được efficiency, chúng ta muốn liên kết được sử dụng hết, tức là X1+X2 = C. Để đạt được fairness, chúng ta muốn X1 = X2, để cả hai kết nối đều chia sẻ capacity một cách bình đẳng.
 
-To achieve efficiency, we want the link to be fully utilized, i.e. X1+X2 = C. To achieve fairness, we want X1 = X2, so that both connections are sharing the capacity equally.
+Để hình dung không gian các khả năng, hãy xem xét một biểu đồ 2D, trong đó trục x là X1 (rate của người dùng 1), và trục y là X2 (rate của người dùng 2). Mỗi điểm trên biểu đồ này đại diện cho một kịch bản khả thi trong đó mỗi người dùng đang gửi ở một rate cụ thể.
 
-To visualize the space of possibilities, consider a 2D plot, where the x-axis is X1 (user 1's rate), and the y-axis is X2 (user 2's rate). Every point on this plot represents a possible scenario where each user is sending at a specific rate.
-
-Suppose C=1. To achieve maximum efficiency, we want X1+X2 = 1. We can plot this line on the graph. Every point along this line is using the full available bandwidth.
+Giả sử C=1. Để đạt được efficiency tối đa, chúng ta muốn X1+X2 = 1. Chúng ta có thể vẽ đường thẳng này trên đồ thị. Mọi điểm dọc theo đường thẳng này đều đang sử dụng toàn bộ bandwidth khả dụng.
 
 <img width="500px" src="../assets/transport/3-062-graph1.png">
 
-We know that the network is congested when X1+X2 is greater than 1. On the plot, this inequality is the half-plane above the line. We also know that the network is underused when X1+X2 is less than 1, which is represented by the half-plane below the line. This means that all points above the line represent a congested state, and all points below the line represent an underused state.
+Chúng ta biết rằng mạng bị tắc nghẽn khi X1+X2 lớn hơn 1. Trên biểu đồ, bất đẳng thức này là nửa mặt phẳng phía trên đường thẳng. Chúng ta cũng biết rằng mạng đang được sử dụng dưới mức khi X1+X2 nhỏ hơn 1, được biểu thị bằng nửa mặt phẳng bên dưới đường thẳng. Điều này có nghĩa là tất cả các điểm phía trên đường thẳng đại diện cho trạng thái tắc nghẽn, và tất cả các điểm bên dưới đường thẳng đại diện cho trạng thái sử dụng dưới mức.
 
 <img width="500px" src="../assets/transport/3-063-graph2.png">
 
-To achieve fairness, we want X1 = X2. We can also plot this line. Every point along this line represents a fair state, where both users are using the same amount of bandwidth. Any point not along this line is unfair.
+Để đạt được fairness, chúng ta muốn X1 = X2. Chúng ta cũng có thể vẽ đường thẳng này. Mọi điểm dọc theo đường thẳng này đại diện cho một trạng thái công bằng, trong đó cả hai người dùng đang sử dụng cùng một lượng bandwidth. Bất kỳ điểm nào không nằm trên đường này là không công bằng.
 
-The ideal state occurs at the intersection of the two lines, when X1 = X2 = 0.5. This point falls on both lines, so it is both fair and efficient.
+Trạng thái lý tưởng xảy ra tại giao điểm của hai đường thẳng, khi X1 = X2 = 0.5. Điểm này nằm trên cả hai đường thẳng, vì vậy nó vừa công bằng vừa hiệu quả.
 
-The point (0.2, 0.5) is inefficient, because we are only using 0.7 bandwidth. Graphically, we are below the efficiency line. The point (0.7, 0.5) is congested and therefore above the efficiency line. The point (0.7, 0.3) is efficient (on the efficiency line), but is not fair (not on the fairness line).
+Điểm (0.2, 0.5) là không hiệu quả, vì chúng ta chỉ đang sử dụng 0.7 bandwidth. Về mặt đồ thị, chúng ta đang ở dưới đường hiệu quả. Điểm (0.7, 0.5) bị tắc nghẽn và do đó ở trên đường hiệu quả. Điểm (0.7, 0.3) là hiệu quả (nằm trên đường hiệu quả), nhưng không công bằng (không nằm trên đường công bằng).
 
 <img width="500px" src="../assets/transport/3-064-graph3.png">
 
-Recall that in our dynamic adjustment algorithm, every sender is independently running the same algorithm to determine their own rate. This means that if the two users detect underuse, both will increase their rate in the same way (additive or multiplicative, depending on our choice of rule). Similarly, if the two users detect congestion, both will decrease their rate in the same way.
+Hãy nhớ lại rằng trong thuật toán điều chỉnh động của chúng ta, mỗi người gửi đều chạy độc lập cùng một thuật toán để xác định rate của riêng mình. Điều này có nghĩa là nếu hai người dùng phát hiện việc sử dụng dưới mức, cả hai sẽ tăng rate của họ theo cùng một cách (cộng hoặc nhân, tùy thuộc vào lựa chọn quy tắc của chúng ta). Tương tự, nếu hai người dùng phát hiện congestion, cả hai sẽ giảm rate của họ theo cùng một cách.
 
-What happens if both users additively increase or decrease their rate? If both users increase their rate by adding b, the state (x1, x2) would become (x1+b, x2+b). If both users decrease their rate by subtracting a, the state (x1, x2) would become (x1-a, x2-a).
+Điều gì xảy ra nếu cả hai người dùng tăng hoặc giảm rate của họ theo phép cộng? Nếu cả hai người dùng tăng rate của họ bằng cách cộng thêm b, trạng thái (x1, x2) sẽ trở thành (x1+b, x2+b). Nếu cả hai người dùng giảm rate của họ bằng cách trừ đi a, trạng thái (x1, x2) sẽ trở thành (x1-a, x2-a).
 
-On the graph, if we make an additive change, the point representing our state moves along a line with a slope of 1.
+Trên đồ thị, nếu chúng ta thực hiện một thay đổi cộng, điểm đại diện cho trạng thái của chúng ta sẽ di chuyển dọc theo một đường thẳng có độ dốc là 1.
 
 <img width="500px" src="../assets/transport/3-065-graph4.png">
 
-What happens if both users multiplicatively increase or decrease their rate? Multiplying by c transforms (x1, x2) to (cx1, cx2), and dividing by d transforms (x1, x2) to (x1/d, x2/d).
+Điều gì xảy ra nếu cả hai người dùng tăng hoặc giảm rate của họ theo phép nhân? Nhân với c biến (x1, x2) thành (cx1, cx2), và chia cho d biến (x1, x2) thành (x1/d, x2/d).
 
-On the graph, if we make a multiplicative change, the point representing our state moves along a line with slope x2/x1. Equivalently, this is the line connecting (x1, x2) to the origin (0, 0).
+Trên đồ thị, nếu chúng ta thực hiện một thay đổi nhân, điểm đại diện cho trạng thái của chúng ta sẽ di chuyển dọc theo một đường thẳng có độ dốc x2/x1. Tương đương, đây là đường thẳng nối (x1, x2) với gốc tọa độ (0, 0).
 
 <img width="500px" src="../assets/transport/3-066-graph5.png">
 
-Now, we can apply this model to each of the four increase/decrease options, and see if they cause the point to approach, or move away from, the fairness line. Our goal is for the point to approach the fairness line as we adjust the rates.
+Bây giờ, chúng ta có thể áp dụng mô hình này cho từng tùy chọn tăng/giảm trong bốn tùy chọn, và xem liệu chúng có khiến điểm tiến đến, hay di chuyển ra xa, đường công bằng hay không. Mục tiêu của chúng ta là điểm tiến đến đường công bằng khi chúng ta điều chỉnh rate.
 
+## Điều chỉnh: Động học AIAD
 
-## Adjustments: AIAD Dynamics
+Hãy xem xét việc cộng 1 cho mỗi lần tăng, và trừ 2 cho mỗi lần giảm. Giả sử chúng ta có capacity là C = 5. Thì từ một điểm xuất phát cho trước, điểm của chúng ta sẽ di chuyển như sau:
 
-Consider adding 1 on each increase, and subtracting 2 on each decrease. Suppose we have capacity of C = 5. Then from a given starting point, our point would move as follows:
+X1 = 1, X2 = 3 (điểm bắt đầu, 4 nhỏ hơn 5, tăng)
 
-X1 = 1, X2 = 3 (starting point, 4 less than 5, increase)
+X1 = 2, X2 = 4 (6 lớn hơn 5, giảm)
 
-X1 = 2, X2 = 4 (6 more than 5, decrease)
-
-X1 = 0, X2 = 2 (2 less than 5, increase)
+X1 = 0, X2 = 2 (2 nhỏ hơn 5, tăng)
 
 X1 = 1, X2 = 3
 
-We've returned to where we started! Our initial allocation was not fair, and after a few iterations, we returned to the same unfair allocation.
+Chúng ta đã quay trở lại nơi chúng ta bắt đầu! Phân bổ ban đầu của chúng ta không công bằng, và sau một vài lần lặp, chúng ta đã quay trở lại cùng một phân bổ không công bằng.
 
-In fact, if we look at the difference between X1 and X2 (fair gap is 0), the gap is the same (2) in every iteration. The iterations don't make our allocation any more or less fair.
+Trên thực tế, nếu chúng ta nhìn vào sự khác biệt giữa X1 và X2 (khoảng cách công bằng là 0), khoảng cách này là như nhau (2) trong mỗi lần lặp. Các lần lặp không làm cho phân bổ của chúng ta công bằng hơn hay kém công bằng hơn.
 
-We can see this behavior graphically. From a given starting point, if we increase and decrease additively, we will always move along a line of slope 1, never getting any closer to the fairness line.
+Chúng ta có thể thấy hành vi này trên đồ thị. Từ một điểm xuất phát cho trước, nếu chúng ta tăng và giảm theo phép cộng, chúng ta sẽ luôn di chuyển dọc theo một đường thẳng có độ dốc là 1, không bao giờ tiến gần hơn đến đường công bằng.
 
 <img width="500px" src="../assets/transport/3-067-aiad.png">
 
-Do note, though, that our point oscillates around the efficiency line, as desired. All four options will have this behavior.
+Tuy nhiên, hãy lưu ý rằng điểm của chúng ta dao động quanh đường hiệu quả, như mong muốn. Tất cả bốn tùy chọn sẽ có hành vi này.
 
-We can also see this behavior algebraically. Suppose X1 and X2 are 5 apart (unfair allocation). If we add the same number to X1 and X2, the resulting X1' and X2' are still 5 apart (equally unfair). The same happens if we subtract the same number from both X1 and X2.
+Chúng ta cũng có thể thấy hành vi này về mặt đại số. Giả sử X1 và X2 cách nhau 5 đơn vị (phân bổ không công bằng). Nếu chúng ta cộng cùng một số vào X1 và X2, kết quả X1' và X2' vẫn cách nhau 5 đơn vị (cũng không công bằng). Điều tương tự cũng xảy ra nếu chúng ta trừ cùng một số khỏi cả X1 và X2.
 
-In summary, there is no way to close the fairness gap in this approach. If the allocation is initially unfair, it will stay unfair.
+Tóm lại, không có cách nào để thu hẹp khoảng cách công bằng trong cách tiếp cận này. Nếu phân bổ ban đầu không công bằng, nó sẽ vẫn không công bằng.
 
-You might ask: What if we increased X1 by more (e.g. +2), and X2 by less (e.g. +1)? Remember, our decentralized approach means that everybody is running the same algorithm. Practically, we also have no way for a host to know how much it should add relative to other hosts.
+Bạn có thể hỏi: Điều gì sẽ xảy ra nếu chúng ta tăng X1 nhiều hơn (ví dụ: +2), và X2 ít hơn (ví dụ: +1)? Hãy nhớ rằng, cách tiếp cận phi tập trung của chúng ta có nghĩa là mọi người đều đang chạy cùng một thuật toán. Về mặt thực tế, chúng ta cũng không có cách nào để một máy chủ biết nó nên cộng thêm bao nhiêu so với các máy chủ khác.
 
+## Điều chỉnh: Động học MIMD
 
-## Adjustments: MIMD Dynamics
+Hãy xem xét việc tăng bằng cách nhân đôi, và giảm bằng cách chia cho 4. Một lần nữa, capacity là C = 5. Từ một điểm xuất phát cho trước, một vài lần lặp đầu tiên sẽ là:
 
-Consider increasing by doubling, and decreasing by dividing by 4. Again, the capacity is C = 5. From a given starting point, the first few iterations would be:
+X1 = 0.5, X2 = 1 (1.5 nhỏ hơn 5, tăng)
 
-X1 = 0.5, X2 = 1 (1.5 less than 5, increase)
+X1 = 1, X2 = 2 (3 nhỏ hơn 5, tăng)
 
-X1 = 1, X2 = 2 (3 less than 5, increase)
-
-X1 = 2, X2 = 4 (6 more than 5, decrease)
+X1 = 2, X2 = 4 (6 lớn hơn 5, giảm)
 
 X1 = 0.5, X2 = 1
 
-Again, we've returned to where we started, with no improvement in fairness!
+Một lần nữa, chúng ta đã quay trở lại nơi chúng ta bắt đầu, không có sự cải thiện nào về fairness!
 
-We can see this behavior on the plot. When we multiplicatively increase or decrease the rate, we are moving along the line between the point and the origin, and we are never getting any closer to the fairness line.
+Chúng ta có thể thấy hành vi này trên biểu đồ. Khi chúng ta tăng hoặc giảm rate theo phép nhân, chúng ta đang di chuyển dọc theo đường thẳng giữa điểm đó và gốc tọa độ, và chúng ta không bao giờ tiến gần hơn đến đường công bằng.
 
 <img width="500px" src="../assets/transport/3-068-mimd.png">
 
-Algebraically, consider the ratio between X2 and X1, i.e. X2/X1 (fair ratio would be 1). In the example above, the ratio is always 2, i.e. X2 always has twice the bandwidth of X1. This ratio stays the same even if we multiply or divide both X1 and X2 by constant factor. Our adjustments don't get us closer to a fair ratio of 1.
+Về mặt đại số, hãy xem xét tỷ lệ giữa X2 và X1, tức là X2/X1 (tỷ lệ công bằng sẽ là 1). Trong ví dụ trên, tỷ lệ luôn là 2, tức là X2 luôn có bandwidth gấp đôi X1. Tỷ lệ này không đổi ngay cả khi chúng ta nhân hoặc chia cả X1 và X2 cho một hệ số không đổi. Các điều chỉnh của chúng ta không đưa chúng ta đến gần hơn với tỷ lệ công bằng là 1.
 
+## Điều chỉnh: Động học MIAD
 
-## Adjustments: MIAD Dynamics
+Cái này phức tạp hơn một chút. Hãy xem xét việc tăng bằng cách nhân đôi, và giảm bằng cách trừ đi 1. Với C = 5, một vài lần lặp đầu tiên là:
 
-This one is a little trickier. Consider increasing by doubling, and decreasing by subtracting 1. With C = 5, the first few iterations are:
+X1 = 1, X2 = 3 (4 nhỏ hơn 5, tăng)
 
-X1 = 1, X2 = 3 (4 less than 5, increase)
+X1 = 2, X2 = 6 (8 lớn hơn 5, giảm)
 
-X1 = 2, X2 = 6 (8 more than 5, decrease)
+X1 = 1, X2 = 5 (6 lớn hơn 5, giảm)
 
-X1 = 1, X2 = 5 (6 more than 5, decrease)
-
-X1 = 0, X2 = 4 (4 less than 5, increase)
+X1 = 0, X2 = 4 (4 nhỏ hơn 5, tăng)
 
 X1 = 0, X2 = 8
 
-At this point, X1 has zero bandwidth. Every time we increase by doubling, X1 will still have zero bandwidth. We have actually created the most unfair situation, where X2 has all the bandwidth, and X1 has none.
+Tại thời điểm này, X1 có bandwidth bằng không. Mỗi lần chúng ta tăng bằng cách nhân đôi, X1 vẫn sẽ có bandwidth bằng không. Chúng ta thực sự đã tạo ra tình huống không công bằng nhất, trong đó X2 có tất cả bandwidth, và X1 không có gì.
 
-More generally, if you start with an unfair allocation, MIAD will make the allocation even more unfair, eventually reaching a point where one person has all the bandwidth, and the other person has zero.
+Nói chung, nếu bạn bắt đầu với một phân bổ không công bằng, MIAD sẽ làm cho phân bổ đó trở nên không công bằng hơn nữa, cuối cùng đạt đến một điểm mà một người có tất cả bandwidth, và người kia có không.
 
-To see this algebraically, consider the gaps between X1 and X2. When we increase by doubling, the size of the gap also doubles, from (X2 - X1) to (2 X2 - 2 X1) = 2(X2 - X1). But, when we subtract 1 from both X1 and X2, the gap stays the same. The gap either increases or stays the same, and given enough iterations of increasing and decreasing, the gap will reach maximal unfairness (one person has zero bandwidth forever).
+Để thấy điều này về mặt đại số, hãy xem xét khoảng cách giữa X1 và X2. Khi chúng ta tăng bằng cách nhân đôi, kích thước của khoảng cách cũng tăng gấp đôi, từ (X2 - X1) thành (2 X2 - 2 X1) = 2(X2 - X1). Nhưng, khi chúng ta trừ 1 khỏi cả X1 và X2, khoảng cách vẫn giữ nguyên. Khoảng cách hoặc tăng lên hoặc giữ nguyên, và với đủ các lần lặp tăng và giảm, khoảng cách sẽ đạt đến mức độ không công bằng tối đa (một người có bandwidth bằng không mãi mãi).
 
+## Điều chỉnh: Động học AIMD
 
-## Adjustments: AIMD Dynamics
+Cuối cùng, hãy xem xét việc tăng bằng cách cộng 1, và giảm bằng cách chia đôi. Với C = 5, một vài lần lặp đầu tiên là:
 
-Finally, consider increasing by adding 1, and decreasing by halving. With C = 5, the first few iterations are:
+X1 = 1, X2 = 2 (3 nhỏ hơn 5, tăng)
 
-X1 = 1, X2 = 2 (3 less than 5, increase)
+X1 = 2, X2 = 3 (5 không lớn hơn 5, tăng)
 
-X1 = 2, X2 = 3 (5 not more than 5, increase)
+X1 = 3, X2 = 4 (7 lớn hơn 5, giảm)
 
-X1 = 3, X2 = 4 (7 more than 5, decrease)
+X1 = 1.5, X2 = 2 (3.5 nhỏ hơn 5, tăng)
 
-X1 = 1.5, X2 = 2 (3.5 less than 5, increase)
+X1 = 2.5, X2 = 3 (5.5 lớn hơn 5, giảm)
 
-X1 = 2.5, X2 = 3 (5.5 more than 5, decrease)
+X1 = 1.25, X2 = 1.5 (2.75 nhỏ hơn 5, tăng)
 
-X1 = 1.25, X2 = 1.5 (2.75 less than 5, increase)
+X1 = 2.25, X2 = 2.5 (4.75 nhỏ hơn 5, tăng)
 
-X1 = 2.25, X2 = 2.5 (4.75 less than 5, increase)
+X1 = 3.25, X2 = 3.5 (6.75 lớn hơn 5, giảm)
 
-X1 = 3.25, X2 = 3.5 (6.75 more than 5, decrease)
-
-X1 = 1.625, X2 = 1.75 (less than 5, increase)
+X1 = 1.625, X2 = 1.75 (nhỏ hơn 5, tăng)
 
 X2 = 2.625, X2 = 2.75
 
-We can see that X1 and X2 are getting closer together, and in fact, they're approaching the fair allocation of X1 = X2 = 2.5.
+Chúng ta có thể thấy rằng X1 và X2 đang tiến lại gần nhau hơn, và trên thực tế, chúng đang tiến đến phân bổ công bằng X1 = X2 = 2.5.
 
-Algebraically, we can see that the gap between X1 and X2 is decreasing. Specifically, when we add a constant to both numbers, the gap stays the same. But, when we halve both numbers, the gap also halves, from (X1 - X2) to (X1 / 2 - X2 / 2) = (X1 - X2) / 2. As we alternate increasing and decreasing, the gap will keep halving and approaching 0.
+Về mặt đại số, chúng ta có thể thấy rằng khoảng cách giữa X1 và X2 đang giảm. Cụ thể, khi chúng ta cộng một hằng số vào cả hai số, khoảng cách vẫn giữ nguyên. Nhưng, khi chúng ta chia đôi cả hai số, khoảng cách cũng giảm đi một nửa, từ (X1 - X2) thành (X1 / 2 - X2 / 2) = (X1 - X2) / 2. Khi chúng ta xen kẽ việc tăng và giảm, khoảng cách sẽ tiếp tục giảm đi một nửa và tiến đến 0.
 
 <img width="500px" src="../assets/transport/3-069-aimd.png">
 
-We can see this graphically as well. When we multiplicatively decrease, we are moving along the line through the origin. This line is angled toward the fairness line, and moving downwards along this line means we're approaching the fairness line. As before, additive increases don't get us any closer to the fairness line, since we're moving along a line with slope 1 (parallel to fairness line). But the key realization is that adding don't move us any further, either. Our only two operations are moving closer, or not getting closer or further away. After many iterations, our point will slowly move closer toward the fairness line.
+Chúng ta cũng có thể thấy điều này trên đồ thị. Khi chúng ta giảm theo phép nhân, chúng ta đang di chuyển dọc theo đường thẳng qua gốc tọa độ. Đường thẳng này nghiêng về phía đường công bằng, và việc di chuyển xuống dưới dọc theo đường này có nghĩa là chúng ta đang tiến đến đường công bằng. Như trước đây, việc tăng theo phép cộng không đưa chúng ta đến gần đường công bằng hơn, vì chúng ta đang di chuyển dọc theo một đường thẳng có độ dốc là 1 (song song với đường công bằng). Nhưng nhận thức quan trọng là việc cộng không làm chúng ta đi xa hơn. Hai hoạt động duy nhất của chúng ta là tiến lại gần hơn, hoặc không tiến gần hơn hay xa hơn. Sau nhiều lần lặp, điểm của chúng ta sẽ từ từ di chuyển đến gần đường công bằng hơn.
 
-In summary: AIAD and MIMD retain unfairness, and make no improvements toward fairness. MIAD increases unfairness, and AIMD converges toward fairness.
+Tóm lại: AIAD và MIMD giữ nguyên sự không công bằng, và không có cải thiện nào về fairness. MIAD làm tăng sự không công bằng, và AIMD hội tụ về fairness.
 
 <img width="800px" src="../assets/transport/3-070-aimd-sawtooth.png">

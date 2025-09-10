@@ -1,123 +1,119 @@
-# Congestion Control Principles
+# Các Nguyên tắc Kiểm soát Tắc nghẽn
 
-## Congestion is Harmful
+## Tắc nghẽn Gây hại
 
-Recall that if many packets arrive at a router at the same time (e.g. bursty traffic), and the router needs to send both packets over the same link, then the router will send one packet and put the other packets in a queue (to be sent later).
+Hãy nhớ lại rằng nếu nhiều packet (gói tin) đến một router (bộ định tuyến) cùng một lúc (ví dụ: bursty traffic (lưu lượng truy cập dồn dập)), và router đó cần gửi tất cả các packet qua cùng một link, thì router sẽ gửi một packet và đặt các packet còn lại vào một queue (hàng đợi) (để được gửi sau).
 
 <img width="800px" src="../assets/transport/3-051-congestion1.png">
 
-More generally, if the input rate of packets exceeds the output rate that the link can sustain, the router will be unable to keep up with the pace of incoming packets. This router is **congested**, and needs to keep packets in a queue while they wait their turn to be sent. The queue can cause packets to be delayed. If the queue itself gets too full and packets are still incoming, then packets can get dropped.
+Tổng quát hơn, nếu tốc độ packet đầu vào vượt quá tốc độ đầu ra mà link có thể duy trì, router sẽ không thể theo kịp tốc độ của các packet đến. Router này đang bị congested (bị tắc nghẽn), và cần phải giữ các packet trong một queue trong khi chúng chờ đến lượt được gửi. Queue có thể gây ra packet delay (độ trễ gói tin). Nếu chính queue trở nên quá đầy mà các packet vẫn tiếp tục đến, thì các packet có thể bị dropped (bị loại bỏ/rớt).
 
 <img width="500px" src="../assets/transport/3-052-congestion2.png">
 
-This graph shows the performance of a queueing system with bursty arrivals. The dotted line represents the link's capacity (maximum load). As we increase the load, packets get more delayed.
+Biểu đồ này cho thấy hiệu suất của một hệ thống hàng đợi với lượng truy cập đến dồn dập. Đường đứt nét biểu thị dung lượng (tải tối đa) của link. Khi chúng ta tăng load (tải), các packet sẽ bị trễ nhiều hơn.
 
-When arrivals are bursty, we can't realistically use the maximum capacity of the link. We have to find an appropriate performance trade-off between load and packet delay.
+Khi lượng truy cập đến là bursty traffic, chúng ta không thể thực tế sử dụng hết dung lượng tối đa của link. Chúng ta phải tìm một sự cân bằng hiệu suất phù hợp giữa load và packet delay.
 
-Notice that the graph starts sloping upwards even before we reach the dotted line. This means that the queueing is already delaying packets, even if nothing is dropped. By the time we reach maximum utilization and start losing packets, we are already incurring very large packet delays from the queue.
+Lưu ý rằng biểu đồ bắt đầu dốc lên ngay cả trước khi chúng ta chạm đến đường đứt nét. Điều này có nghĩa là queue đã làm trễ các packet, ngay cả khi chưa có packet nào bị dropped. Vào thời điểm chúng ta đạt đến mức utilization (mức độ sử dụng) tối đa và bắt đầu mất packet, chúng ta đã phải gánh chịu độ trễ packet rất lớn từ queue.
 
+## Lược sử về Tắc nghẽn
 
-## Brief History of Congestion
+Vào những năm 1980, TCP (Transmission Control Protocol - Giao thức Điều khiển Truyền vận) không triển khai bất kỳ cơ chế kiểm soát tắc nghẽn nào. Tốc độ gửi chỉ bị giới hạn bởi flow control (điều khiển luồng) (dung lượng bộ đệm của người nhận).
 
-In the 1980s, TCP did not implement any congestion control. The sending rate was only limited by flow control (recipient buffer capacity).
+Nếu các packet bị dropped, bên gửi sẽ gửi lại các bản sao của packet đó nhiều lần, với cùng tốc độ nhanh, cho đến khi packet đến nơi. Một cách tiếp cận thông minh hơn là giảm tốc độ để tránh packet bị dropped và giảm số lượng bản sao làm tắc nghẽn mạng, nhưng các triển khai TCP thời kỳ đầu đã không làm điều này.
 
-If packets were dropped, the sender would re-send copies of the packet repeatedly, at the same fast rate, until the packet arrived. A smarter approach would be to slow down to avoid packets being dropped and reduce the copies clogging up the network, but early TCP implementations did not do this.
+Vào tháng 10 năm 1986, Internet bắt đầu hứng chịu một loạt các sự kiện congestion collapse (sụp đổ do tắc nghẽn), khi dung lượng của Internet giảm đáng kể. Một link giữa UC Berkeley và Lawrence Berkeley Lab (hai địa điểm cách nhau khoảng 400 yard) đã chứng kiến throughput (thông lượng) của nó giảm từ 32 Kbps = 32.000 bps xuống còn 40 bps.
 
-In October 1986, the Internet started to suffer from a series of congestion collapses, where the capacity of the Internet significantly decreased. One link between UC Berkeley to Lawrence Berkeley Lab (two sites roughly 400 yards away) had its throughput drop from 32 Kbps = 32,000 bps to 40 bps. 
+Michael Karels (sinh viên đại học UC Berkeley) và Van Jacobson (nhà nghiên cứu tại Lawrence Berkeley Lab) đang làm việc trên chồng giao thức mạng trong hệ thống Unix Berkeley (một operating system (hệ điều hành) có ảnh hưởng thời kỳ đầu), và họ nhận ra rằng mạng có hàng ngàn bản sao của cùng một packet, bởi vì mọi người đều đang cố gắng gửi lại các packet bị dropped.
 
-Michael Karels (UC Berkeley undergraduate) and Van Jacobson (Lawrence Berkeley Lab researcher) were working on the networking stack in the Berkeley Unix system (influential early operating system), and they realized that the network had thousands of copies of the same packet, because everybody was trying to re-send packets that were being dropped.
+Karels và Jacobson đã phát triển một thuật toán để khắc phục sự cố, thuật toán này đã phát triển thành thuật toán kiểm soát tắc nghẽn TCP hiện đại. Giải pháp của họ là một sửa đổi đối với chính TCP, trong đó window size (kích thước cửa sổ) (quyết định tốc độ gửi packet) được điều chỉnh linh hoạt để phản ứng với việc mất packet.
 
-Karels and Jacobson developed an algorithm for fixing the problem, which evolved into the modern TCP congestion control algorithm. Their fix was a modification to TCP itself, where the window size (which dictates the rate of sending packets) is dynamically adjusted in response to packet loss.
+Bởi vì giải pháp của họ là một sửa đổi logic của TCP (hãy nhớ lại, TCP được triển khai trong operating system), không cần phải nâng cấp router hay các ứng dụng.
 
-Because their solution was a modification to the logic of TCP (recall, TCP is implemented in the operating system), no upgrades to routers or applications were needed.
+Kiểm soát tắc nghẽn TCP là một trong nhiều ví dụ về thiết kế Internet mang tính đặc thù (ad-hoc). Bản vá của Karels và Jacobson chỉ là vài dòng mã bổ sung trong việc triển khai TCP của hệ điều hành BSD. Bản vá đã hoạt động hiệu quả, vì vậy nó nhanh chóng được chấp nhận. Kể từ đó, chủ đề kiểm soát tắc nghẽn đã được nghiên cứu rộng rãi và một số cải tiến đã được thực hiện, nhưng cuối cùng, những ý tưởng cốt lõi trong bản vá ban đầu vẫn tồn tại cho đến ngày nay. Internet đã không còn xảy ra congestion collapse kể từ đó, vì vậy giải pháp ban đầu đã đứng vững trước thử thách của thời gian.
 
-TCP congestion control is one of many examples of Internet design being ad-hoc. Karels and Jacobson's patch was only several lines of extra code in the BSD operating system's implementation of TCP. The patch worked, so it was quickly adopted. Since then, the topic of congestion control has been extensively researched and several improvements have been made, but ultimately, the core ideas in the original patch persist to this day. The Internet has not had a congestion collapse since then, so the original fix has withstood the test of time.
+## Tại sao Kiểm soát Tắc nghẽn lại Khó?
 
-
-## Why is Congestion Control Hard?
-
-To get a sense of why congestion control is a difficult problem, consider the following network graph. At what rate should host A send traffic?
+Để có cảm nhận về lý do tại sao kiểm soát tắc nghẽn là một vấn đề khó khăn, hãy xem xét network graph (đồ thị mạng) sau đây. Host (thiết bị đầu cuối) A nên gửi lưu lượng với tốc độ nào?
 
 <img width="700px" src="../assets/transport/3-053-congestion3.png">
 
-It depends on the destination, so A can't just come up with one fixed rate for all destinations. For example, if A is communicating with C, then A could send packets at 10 Gbps.
+Điều đó phụ thuộc vào đích đến, vì vậy A không thể chỉ đưa ra một tốc độ cố định cho tất cả các đích. Ví dụ, nếu A đang giao tiếp với C, thì A có thể gửi packet ở tốc độ 10 Gbps.
 
-What if A is communicating with F instead? The bottleneck link (least capacity) along this path is 2Gbps, so A should probably send packets at 2 Gbps.
+Nếu A đang giao tiếp với F thì sao? Bottleneck link (liên kết thắt cổ chai) (dung lượng thấp nhất) trên đường đi này là 2Gbps, vì vậy A có lẽ nên gửi packet ở tốc độ 2 Gbps.
 
 <img width="700px" src="../assets/transport/3-054-congestion4.png">
 
-What if A is communicating with E?
+Nếu A đang giao tiếp với E thì sao?
 
-It depends on what path the traffic is taking between A and E. If the traffic is taking the bottom path through R3, then A could send packets at 10 Gbps. But if the traffic is taking the top path through R2, then A can now only send packets at 1 Gbps.
+Điều đó phụ thuộc vào đường đi mà lưu lượng đang di chuyển giữa A và E. Nếu lưu lượng đang đi theo đường dưới qua R3, thì A có thể gửi packet ở tốc độ 10 Gbps. Nhưng nếu lưu lượng đang đi theo đường trên qua R2, thì A bây giờ chỉ có thể gửi packet ở tốc độ 1 Gbps.
 
 <img width="700px" src="../assets/transport/3-055-congestion5.png">
 
-One takeaway so far is that our congestion control algorithm will need to somehow learn about the bandwidths and bottlenecks along the path that the packet is taking.
+Một điểm có thể rút ra cho đến nay là thuật toán kiểm soát tắc nghẽn của chúng ta sẽ cần phải tìm hiểu bằng cách nào đó về bandwidth (băng thông) và các bottleneck link trên đường đi mà packet đang di chuyển.
 
-Also, recall that the network graph changes over time as new links are added or links go down. This means that it's not enough to learn about paths a single time. Our algorithm will need to be adaptive to changes in network topology.
+Ngoài ra, hãy nhớ lại rằng network graph thay đổi theo thời gian khi các link mới được thêm vào hoặc các link bị hỏng. Điều này có nghĩa là việc tìm hiểu về các đường đi một lần là không đủ. Thuật toán của chúng ta cần phải thích ứng với những thay đổi trong cấu trúc liên kết mạng.
 
-So far, we've assumed that A is the only host sending traffic on the network, and A can use the full capacity of every link. But what if other connections are also using bandwidth?
+Cho đến nay, chúng ta đã giả định rằng A là host duy nhất gửi lưu lượng trên mạng và A có thể sử dụng toàn bộ dung lượng của mọi link. Nhưng nếu các connection (kết nối) khác cũng đang sử dụng bandwidth thì sao?
 
 <img width="700px" src="../assets/transport/3-056-congestion6.png">
 
-In this example, A and F have a connection, and B and E have a connection. The two connections seem like they should be totally separate (different senders, different recipients), but in fact, their paths share a link in the network.
+Trong ví dụ này, A và F có một connection, và B và E có một connection. Hai connection này có vẻ hoàn toàn tách biệt (người gửi khác nhau, người nhận khác nhau), nhưng thực tế, đường đi của chúng chia sẻ chung một link trong mạng.
 
-If we want the two connections to share the capacity on this link fairly, maybe A and B should each send at 1 Gbps.
+Nếu chúng ta muốn hai connection này chia sẻ dung lượng trên link này một cách công bằng, có lẽ A và B mỗi bên nên gửi ở tốc độ 1 Gbps.
 
-What if a new connection starts between G and D? Should A change its rate of 1 Gbps? (No formal algorithm yet, just think about using bandwidth in a way that seems reasonable.)
+Điều gì sẽ xảy ra nếu một connection mới bắt đầu giữa G và D? A có nên thay đổi tốc độ 1 Gbps của mình không? (Chưa có thuật toán chính thức, chỉ cần suy nghĩ về việc sử dụng bandwidth một cách hợp lý.)
 
 <img width="700px" src="../assets/transport/3-057-congestion7.png">
 
-First, notice that the G-D and B-E connections are sharing a link. This means that these two connections have to slow their rate down to 0.5 Gbps.
+Đầu tiên, hãy lưu ý rằng các connection G-D và B-E đang chia sẻ chung một link. Điều này có nghĩa là hai connection này phải giảm tốc độ xuống còn 0.5 Gbps.
 
-Now, if we look back at the 2 Gbps link that A-F and B-E had in common, B-E is only using 0.5 Gbps on this link. This means that A could increase its rate to 1.5 Gbps.
+Bây giờ, nếu chúng ta nhìn lại link 2 Gbps mà A-F và B-E có chung, B-E chỉ đang sử dụng 0.5 Gbps trên link này. Điều này có nghĩa là A có thể tăng tốc độ của mình lên 1.5 Gbps.
 
-What happened here? The G-D connection was created, and its path has no links in common with the A-F connection. And yet, this seemingly unrelated connection caused the A-F connection's rate to increase. Connections can indirectly affect other connections, even if those two connections don't share any links in common!
+Chuyện gì đã xảy ra ở đây? Connection G-D được tạo ra, và đường đi của nó không có link nào chung với connection A-F. Tuy nhiên, connection tưởng chừng như không liên quan này lại khiến tốc độ của connection A-F tăng lên. Các connection có thể gián tiếp ảnh hưởng đến các connection khác, ngay cả khi hai connection đó không chia sẻ chung bất kỳ link nào!
 
-In summary: When the sender is trying to determine a rate for sending packets, it has to consider: The destination, the path to that destination, the connections sharing links along that path, and the connections sharing links with those connections (indirect competition), and so on. Congestion control is a hard problem because all the connections in the network are dependent on each other to determine their optimal sending rate.
+Tóm lại: Khi bên gửi đang cố gắng xác định tốc độ gửi packet, nó phải xem xét: Đích đến, đường đi đến đích đó, các connection chia sẻ link trên đường đi đó, và các connection chia sẻ link với những connection đó (cạnh tranh gián tiếp), và cứ thế tiếp diễn. Kiểm soát tắc nghẽn là một vấn đề khó khăn vì tất cả các connection trong mạng đều phụ thuộc lẫn nhau để xác định tốc độ gửi tối ưu của chúng.
 
-More fundamentally, congestion control is a resource allocation problem. Bandwidth is a limited resource, each connection wants a certain amount of that resource, and we need to decide how much bandwidth to allocate to each connection.
+Về cơ bản hơn, kiểm soát tắc nghẽn là một bài toán resource allocation (phân bổ tài nguyên). Bandwidth là một tài nguyên có hạn, mỗi connection muốn một lượng tài nguyên nhất định, và chúng ta cần quyết định phân bổ bao nhiêu bandwidth cho mỗi connection.
 
-Resource allocation is a classic problem in computer science. (Examples include CPU scheduling and memory allocation algorithms.) However, unlike some resource allocation problems, a change in one connection's allocation can have a global impact across all other connections. Also, allocations have to change every time a connection is created or destroyed. As a result, congestion control is more complex than the traditional resource allocation problem, and in fact, we don't even have a formal model to define the problem.
+Resource allocation là một bài toán kinh điển trong khoa học máy tính. (Ví dụ bao gồm các thuật toán lập lịch CPU và phân bổ bộ nhớ.) Tuy nhiên, không giống như một số bài toán resource allocation, sự thay đổi trong việc phân bổ của một connection có thể có tác động toàn cục đến tất cả các connection khác. Ngoài ra, việc phân bổ phải thay đổi mỗi khi một connection được tạo hoặc hủy. Do đó, kiểm soát tắc nghẽn phức tạp hơn bài toán resource allocation truyền thống, và trên thực tế, chúng ta thậm chí không có một mô hình chính thức để định nghĩa bài toán.
 
-Unlike a traditional resource allocation problem, where the algorithm knows about the resource (e.g. CPU time) and the jobs (e.g. processes) ahead of time, there is no global mastermind that can see the entire network to allocate resources. Our solution has to be decentralized, where every sender decides its own allocation (even though everyone's decisions are highly inter-dependent).
+Không giống như một bài toán resource allocation truyền thống, nơi thuật toán biết trước về tài nguyên (ví dụ: thời gian CPU) và các công việc (ví dụ: các tiến trình), không có một bộ não trung tâm nào có thể nhìn thấy toàn bộ mạng để phân bổ tài nguyên. Giải pháp của chúng ta phải là decentralized (phân tán), nơi mỗi người gửi tự quyết định việc phân bổ của mình (mặc dù các quyết định của mọi người phụ thuộc rất nhiều vào nhau).
 
+## Các Mục tiêu cho một Thuật toán Kiểm soát Tắc nghẽn Tốt
 
-## Goals for a Good Congestion Control Algorithm
+Từ góc độ resource allocation, có ba mục tiêu chúng ta muốn đạt được từ một thuật toán kiểm soát tắc nghẽn tốt.
 
-From a resource allocation perspective, there are three goals we want out of a good congestion control algorithm.
+Chúng ta muốn việc resource allocation phải efficient (hiệu quả). Các link không nên bị quá tải, và phải có packet delay và mất mát packet ở mức tối thiểu. Ngoài ra, các link nên được tận dụng càng nhiều càng tốt.
 
-We'd like the resource allocation to be efficient. Links should not be overloaded, and there should be minimal packet delay and loss. Also, links should be utilized as much as possible.
+Chúng ta cũng muốn việc resource allocation phải fair (công bằng) giữa các connection. Chúng ta sẽ định nghĩa chính thức khái niệm công bằng sau, nhưng nói một cách gần đúng, mỗi connection nên chia sẻ một phần bằng nhau của dung lượng có sẵn.
 
-We'd also like the resource allocation to be fair between connections. We'll formalize the definition of fair later, but roughly speaking, every connection should share an equal portion of the available capacity.
+Chúng ta muốn một giải pháp đạt được sự cân bằng tốt giữa các mục tiêu này. Có thể tối ưu hóa một mục tiêu bằng cách hy sinh các mục tiêu khác, nhưng điều đó dẫn đến các giải pháp tồi. Ví dụ, chúng ta có thể đảm bảo utilization link tối đa bằng cách để mọi người gửi packet cực nhanh (giải pháp tồi, gây tắc nghẽn). Hoặc, chúng ta có thể đảm bảo mất packet tối thiểu bằng cách để mọi người gửi packet cực chậm (giải pháp tồi, không tận dụng hết dung lượng).
 
-We want a solution that achieves a good trade-off between these goals. It would be possible to optimize one goal at the expense of the others, but that leads to bad solutions. For example, we could ensure maximal link utilization by having everyone send packets extremely quickly (bad solution, causes congestion). Or, we could ensure minimal packet loss by making everybody send packets extremely slowly (bad solution, not utilizing capacity).
+Từ góc độ hệ thống thực tế hơn, giải pháp mà chúng ta đưa ra cần phải scalable (có khả năng mở rộng) và decentralized. Giải pháp của chúng ta cũng phải có khả năng thích ứng với những thay đổi trong mạng (ví dụ: cấu trúc liên kết thay đổi, các connection được tạo và hủy).
 
-From a more practical systems perspective, the solution we come up with needs to be scalable and decentralized. Our solution should also be able to adapt to changes in the network (e.g. changing topology, connections being created and destroyed).
+## Không gian Thiết kế của các Giải pháp
 
+Như chúng ta đã thấy trước đó, Karels và Jacobson đã sửa lỗi kiểm soát tắc nghẽn TCP bằng cách vá lại việc triển khai TCP trong operating system. Nhưng, nếu chúng ta có thể quay lại và thiết kế lại Internet từ đầu, những thiết kế khả thi nào khác cho kiểm soát tắc nghẽn tồn tại?
 
-## Design Space of Solutions
+Một thiết kế thay thế khả thi là dựa trên reservations (dành riêng/đặt trước). Người gửi có thể yêu cầu bandwidth trước, và sau đó giải phóng bandwidth đó sau khi connection kết thúc. Như đã thảo luận trước đó, việc duy trì một reservation trên toàn bộ mạng đi kèm với nhiều khó khăn kỹ thuật. Cách tiếp cận này cũng có vấn đề vì nó giả định rằng người gửi biết trước mình cần bao nhiêu bandwidth, điều này không nhất thiết phải đúng.
 
-As we saw earlier, Karels and Jacobson fixed TCP congestion control by patching the TCP implementation in the operating system. But, if we could go back and re-design the Internet from scratch, what other possible designs for congestion control exist?
+Một thiết kế thay thế khác là dựa trên pricing (định giá). Tương tự như vậy, hãy xem xét các làn đường thu phí nhanh trên đường cao tốc (các làn đường dành riêng chỉ dành cho những người lái xe trả phí). Giá để sử dụng làn đường thu phí nhanh phụ thuộc vào mức độ tắc nghẽn của đường cao tốc. Khi đường cao tốc có rất ít xe, việc sử dụng làn thu phí rất rẻ, và khi có lưu lượng giao thông đông đúc, việc sử dụng làn thu phí sẽ đắt hơn. Một hình thức pricing tắc nghẽn khác xảy ra trong vé máy bay, giá sẽ cao hơn vào những thời điểm bận rộn hơn (ví dụ: ngày lễ).
 
-One possible alternate design is based on reservations. The sender could request bandwidth ahead of time, and then free up that bandwidth after the connection is over. As discussed earlier, maintaining a reservation across the entire network comes with many technical difficulties. This approach is also problematic because it assumes that the sender knows what bandwidth it needs ahead of time, which isn't necessarily true.
+Để áp dụng pricing tắc nghẽn cho Internet, ISP (Internet Service Provider - Nhà cung cấp dịch vụ Internet) của bạn có thể thêm một nút trong trình duyệt web cho phép tốc độ Internet cao hơn với một khoản phí bổ sung, và khoản phí này có thể thay đổi tùy thuộc vào mức độ tắc nghẽn của Internet. Sau đó, các router có thể ưu tiên gửi packet từ những người dùng trả nhiều tiền hơn, và drop các packet từ những người dùng không trả tiền. Đã có nghiên cứu về pricing tắc nghẽn trên Internet, và các nhà kinh tế đôi khi cho rằng nếu bandwidth là một mặt hàng khan hiếm, thì cấu trúc thị trường sẽ dẫn đến một giải pháp tối ưu. Pricing tắc nghẽn chưa được triển khai rộng rãi, vì nó đòi hỏi một mô hình kinh doanh nào đó kết nối việc thanh toán với tình trạng tắc nghẽn.
 
-Another alternate design is based on pricing. As an analogy, consider express toll lanes on the highway (dedicated lanes only available to drivers who pay). The price to use the express toll lane depends on how congested the highway is. When the highway has very few cars, using the toll lane is very cheap, and when there is heavy traffic, using the toll lane is more expensive. Another form of congestion pricing occurs in airplane tickets, which cost more during busier times (e.g. holidays).
+Tất cả các thuật toán kiểm soát tắc nghẽn hiện đại (bao gồm cả những thuật toán chúng ta sẽ nghiên cứu) đều dựa trên dynamic adjustment (điều chỉnh động). Các host tự động tìm hiểu mức độ tắc nghẽn hiện tại và điều chỉnh tốc độ gửi của chúng cho phù hợp. Trong thực tế, dynamic adjustment là một giải pháp thiết thực vì nó có thể được tổng quát hóa một cách dễ dàng. Cách tiếp cận này không giả định bất kỳ mô hình kinh doanh nào (cần thiết cho pricing), và không giả định bất cứ điều gì về việc người dùng biết trước bandwidth họ cần (cần thiết cho reservations).
 
-To apply congestion pricing to the Internet, your ISP could add a button in your web browser that enables higher Internet speeds for an extra fee, and the fee could change depending on how congested the Internet is. Then, routers can prioritize sending packets from users who are paying more, and drop packets from users who are not paying. Research exists on congestion pricing on the Internet, and economists sometimes claim that if bandwidth is a scarce commodity, then a market structure will lead to an optimal solution. Congestion pricing has not been widely deployed, because it requires some form of business model connecting payments to congestion.
+Dynamic adjustment đòi hỏi ý thức công dân tốt. TCP cần mọi người trên mạng làm việc cùng nhau để chia sẻ tài nguyên một cách công bằng. Ví dụ, khi một connection mới bắt đầu sử dụng các link, các connection khác cần phải giảm tốc độ và chia sẻ bandwidth.
 
-All modern congestion control algorithms (including the ones we'll study) are based on dynamic adjustment. Hosts dynamically learn the current level of congestion, and adjust their sending rate accordingly. In practice, dynamic adjustment is a practical solution because it can be easily generalized. This approach doesn't assume any business model (needed for pricing), and doesn't assume anything about users knowing the bandwidth they need ahead of time (needed for reservations).
+Trong cách tiếp cận dynamic adjustment, có hai lớp giải pháp chính. Trong các thuật toán kiểm soát tắc nghẽn host-based (dựa trên host), người gửi giám sát hiệu suất và điều chỉnh tốc độ của mình cho phù hợp. Các thuật toán này được triển khai hoàn toàn tại người gửi, và không có sự hỗ trợ đặc biệt nào từ các router. Việc sửa đổi TCP là một thuật toán host-based, và được triển khai rộng rãi ngày nay.
 
-Dynamic adjustment does require good citizenship. TCP needs everybody on the network to work together to share the resources fairly. For example, when a new connection starts using links, other connections need to slow down and share the bandwidth. 
+Trong các thuật toán kiểm soát tắc nghẽn router-assisted (có sự hỗ trợ từ router), các router sẽ gửi thông tin rõ ràng về tắc nghẽn trở lại cho người gửi, để giúp người gửi điều chỉnh tốc độ của mình. Tắc nghẽn xảy ra tại các router, vì vậy các router ở một vị trí tốt để cung cấp thông tin về tắc nghẽn. Các thuật toán router-assisted đã được triển khai trong những năm gần đây, đặc biệt là trong các trung tâm dữ liệu.
 
-Within the dynamic adjustment approach, there are two broad classes of solutions. In **host-based** congestion control algorithms, the sender is monitoring the performance and adjusting its rate accordingly. These algorithms are implemented entirely at the sender, and there is no special support from routers. The modification to TCP is a host-based algorithm, and is widely deployed today.
+Một số thuật toán router-assisted gửi rất ít thông tin, ví dụ: một bit duy nhất cho biết có tắc nghẽn, trong khi các thuật toán khác gửi thông tin chi tiết hơn, ví dụ: tốc độ chính xác mà người gửi nên sử dụng.
 
-In **router-assisted** congested control algorithms, routers will explicitly send information about congestion back to the sender, to help the sender adjust its rate. Congestion happens at routers, so routers are in a good position to offer information about congestion. Router-assisted algorithms have been deployed in recent years, especially in datacenters.
-
-Some router-assisted algorithms send very little information, e.g. a single bit indicating congestion, while other algorithms send more detailed information, e.g. the exact rate the sender should use.
-
-Note that in both cases, routers are signaling congestion back to the sender. In router-assisted algorithms, the router is explicitly sending a message about its level of congestion. By contrast, in host-based algorithms, the sender does not receive explicit feedback from the routers. Instead, the sender uses implicit clues from the router (e.g. packets getting dropped or delayed) to deduce that the router is congested.
+Lưu ý rằng trong cả hai trường hợp, các router đều đang báo hiệu tắc nghẽn trở lại cho người gửi. Trong các thuật toán router-assisted, router đang gửi một thông điệp rõ ràng về mức độ tắc nghẽn của nó. Ngược lại, trong các thuật toán host-based, người gửi không nhận được phản hồi rõ ràng từ các router. Thay vào đó, người gửi sử dụng các manh mối ngầm từ router (ví dụ: packet bị dropped hoặc bị trễ) để suy luận rằng router đang bị congested.
 
 <img width="600px" src="../assets/transport/3-058-taxonomy.png">
 
-In this taxonomy of congestion control approaches, we'll focus on the dynamic adjustment approach, and within the space of dynamic adjustment solutions, we'll focus on host-based solutions.
+Trong sơ đồ phân loại các phương pháp kiểm soát tắc nghẽn này, chúng ta sẽ tập trung vào phương pháp dynamic adjustment, và trong không gian các giải pháp dynamic adjustment, chúng ta sẽ tập trung vào các giải pháp host-based.

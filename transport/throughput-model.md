@@ -1,54 +1,55 @@
-# TCP Throughput Model
+# Mô hình Thông lượng TCP (*TCP Throughput Model*)
 
-## Modeling Assumptions
+## Các giả định mô hình hóa
 
-In the previous sections, we developed an algorithm for congestion control. This algorithm told us how to adjust rate in response to congestion, but it didn't actually tell us what that rate is.
+Trong các phần trước, chúng ta đã xây dựng một thuật toán điều khiển tắc nghẽn (*congestion control*). Thuật toán này cho chúng ta biết cách điều chỉnh tốc độ truyền dữ liệu khi gặp tắc nghẽn, nhưng nó không thực sự cho biết tốc độ đó là bao nhiêu.
 
-In this section, we'll develop a model for estimating the throughput of a TCP connection along a specific path. Specifically, we want a simple equation that gives us throughput as a function of a path's RTT and loss rate. This equation can allow operators and customers to estimate the rate of a TCP connection.
+Trong phần này, chúng ta sẽ xây dựng một mô hình để ước lượng **throughput** (*thông lượng*) của một kết nối TCP trên một tuyến đường cụ thể. Cụ thể, chúng ta muốn có một phương trình đơn giản thể hiện thông lượng dưới dạng hàm của **RTT** (*Round-Trip Time – thời gian khứ hồi*) và **loss rate** (*tỷ lệ mất gói*). Phương trình này cho phép các nhà vận hành và khách hàng ước lượng tốc độ của một kết nối TCP.
 
-To simplify our model, we'll make a few assumptions: There is a single TCP connection. We'll ignore the slow-start phase. We'll assume the RTT is some fixed number.
+Để đơn giản hóa mô hình, chúng ta sẽ đưa ra một vài giả định: Chỉ có một kết nối TCP duy nhất. Chúng ta bỏ qua giai đoạn khởi động chậm (*slow-start*). Chúng ta giả định RTT là một hằng số cố định.
 
-When the window size reaches the maximum bottleneck bandwidth $$W_\text{max}$$ (some constant), we'll assume we get exactly one packet loss. Since we only lose one packet, our loss will be detected by duplicate acks (no timeouts).
+Khi kích thước cửa sổ truyền đạt đến giới hạn băng thông cổ chai cực đại $$W_\text{max}$$ (một hằng số), chúng ta giả định sẽ xảy ra đúng một lần mất gói. Vì chỉ mất một gói tin, nên việc mất gói sẽ được phát hiện thông qua các **duplicate ACKs** (*ACK trùng lặp*), không phải qua timeout.
 
+## Thông lượng theo Kích thước Cửa sổ
 
-## Throughput in Terms of Window Size
+Trong mô hình đơn giản này, chúng ta phát hiện mất gói khi kích thước cửa sổ đạt $$W_\text{max}$$, và sau đó cửa sổ bị giảm xuống còn $$\frac{1}{2} W_\text{max}$$.
 
-In this simplified model, we detect loss when the window size reaches $$W_\text{max}$$, and our window size changes to $$\frac{1}{2} W_\text{max}$$ as a result.
+Sau đó, với mỗi RTT tiếp theo, kích thước cửa sổ sẽ tăng thêm 1: $$\frac{1}{2} W_\text{max} + 1$$, rồi $$\frac{1}{2} W_\text{max} + 2$$, rồi $$\frac{1}{2} W_\text{max} + 3$$, v.v. Cuối cùng, cửa sổ sẽ đạt lại $$W_\text{max}$$ và bị giảm một nửa, quá trình này sẽ lặp lại.
 
-Then, for each subsequent RTT, our window size will increase by 1: $$\frac{1}{2} W_\text{max} + 1$$, then $$\frac{1}{2} W_\text{max} + 2$$, then $$\frac{1}{2} W_\text{max} + 3$$, etc. Eventually, the window size will reach $$W_\text{max}$$ again and be halved, and this process will repeat.
-
-Starting at $$\frac{1}{2} W_\text{max}$$ and reaching $$W_\text{max}$$ takes $$\frac{1}{2} W_\text{max}$$ RTTs (adding 1 per iteration, and each iteration is one RTT). This also tells us that there are $$\frac{1}{2} W_\text{max}$$ RTTs between each loss.
+Bắt đầu từ $$\frac{1}{2} W_\text{max}$$ và tăng lên đến $$W_\text{max}$$ mất $$\frac{1}{2} W_\text{max}$$ RTT (mỗi lần tăng 1, mỗi lần là một RTT). Điều này cũng cho thấy có $$\frac{1}{2} W_\text{max}$$ RTT giữa mỗi lần mất gói.
 
 <img width="900px" src="../assets/transport/3-088-equation1.png">
 
-Within each RTT, the average window size is $$\frac{3}{4} W_\text{max}$$ (right in between $$\frac{1}{2} W_\text{max}$$ and $$W_\text{max}$$).
+Trong mỗi RTT, kích thước cửa sổ trung bình là $$\frac{3}{4} W_\text{max}$$ (nằm giữa $$\frac{1}{2} W_\text{max}$$ và $$W_\text{max}$$).
 
-This window size is measured in packets (since we were adding 1 packet per iteration). Each packet can contain $$\text{MSS}$$ bytes (maximum segment size), so the average window size in bytes is $$\frac{3}{4} W_\text{max} \times \text{MSS}$$.
+Kích thước cửa sổ được đo bằng số gói tin (vì mỗi lần tăng là thêm 1 gói). Mỗi gói tin có thể chứa $$\text{MSS}$$ byte (*Maximum Segment Size – kích thước đoạn tối đa*), nên kích thước cửa sổ trung bình tính theo byte là $$\frac{3}{4} W_\text{max} \times \text{MSS}$$.
 
-The window size tells us how much data we can send in each RTT. Thus, to compute the rate, we divide window size (data) by RTT (time) to get an average rate of $$\frac{3}{4} W_\text{max} \times \frac{\text{MSS}}{\text{RTT}}$$.
+Kích thước cửa sổ cho biết lượng dữ liệu có thể gửi trong mỗi RTT. Do đó, để tính tốc độ truyền, ta chia kích thước cửa sổ (dữ liệu) cho RTT (thời gian), thu được tốc độ trung bình là $$\frac{3}{4} W_\text{max} \times \frac{\text{MSS}}{\text{RTT}}$$.
 
+## Thông lượng theo Tỷ lệ Mất gói
 
-## Throughput in Terms of Loss Rate
+Phương trình thông lượng hiện tại là:  
+$$\frac{3}{4} W_\text{max} \times \frac{\text{MSS}}{\text{RTT}}$$.
 
-Our equation for throughput so far is: $$\frac{3}{4} W_\text{max} \times \frac{\text{MSS}}{\text{RTT}}$$.
+Nhưng mục tiêu của chúng ta là biểu diễn thông lượng theo RTT và tỷ lệ mất gói $$p$$. Vì vậy, ta cần biểu diễn $$W_\text{max}$$ theo $$p$$.
 
-But our goal is to express throughput in terms of RTT and loss rate (denoted $$p$$). So, we now need to express $$W_\text{max}$$ in terms of the loss rate $$p$$.
+Từ trước, ta đã suy ra rằng một gói tin bị mất sau mỗi $$\frac{1}{2} W_\text{max}$$ RTT. Đây là thời gian cần thiết để tăng cửa sổ từ $$\frac{1}{2} W_\text{max}$$ lên $$W_\text{max}$$ và gặp lại mất gói.
 
-From earlier, we deduced that a packet is lost once every $$\frac{1}{2} W_\text{max}$$ RTTs. This was the time it took after a drop to climb back up to $$W_\text{max}$$ and encounter another drop.
-
-So, to determine the loss rate, we just need to figure out how many packets are sent in $$\frac{1}{2} W_\text{max}$$ RTTs.
+Vậy để xác định tỷ lệ mất gói, ta cần biết có bao nhiêu gói tin được gửi trong $$\frac{1}{2} W_\text{max}$$ RTT.
 
 <img width="900px" src="../assets/transport/3-089-equation2.png">
 
-Graphically, the number of packets sent is the area of this shape (rate times time), or equivalently, the area under the curve (the curve shows rate, and we want integral of rate).
+Về mặt đồ họa, số gói tin gửi được là diện tích của hình này (tốc độ × thời gian), hay chính là diện tích dưới đường cong (đường cong biểu diễn tốc độ, và ta cần tích phân của tốc độ).
 
-We know from earlier that the average window size is $$\frac{3}{4} W_\text{max}$$, so this is the number of packets sent per RTT. Therefore, across $$\frac{1}{2} W_\text{max}$$ RTTs, we expect to send $$(\frac{1}{2} W_\text{max}) \times \frac{3}{4} W_\text{max} = \frac{3}{8} W_\text{max}^2$$ packets.
+Ta đã biết kích thước cửa sổ trung bình là $$\frac{3}{4} W_\text{max}$$, tức là số gói tin gửi mỗi RTT. Vậy trong $$\frac{1}{2} W_\text{max}$$ RTT, ta gửi được:  
+$$(\frac{1}{2} W_\text{max}) \times \frac{3}{4} W_\text{max} = \frac{3}{8} W_\text{max}^2$$ gói tin.
 
-Now that we know the number of packets sent between losses, we know that the loss rate is one lost packet, divided by the number of packets sent between losses. (For example, if we send 100 packets between losses, the loss rate is roughly 1/100).
+Giờ ta biết số gói tin gửi giữa các lần mất gói, nên tỷ lệ mất gói là một gói bị mất chia cho số gói gửi giữa các lần mất. (Ví dụ: nếu gửi 100 gói giữa các lần mất, thì tỷ lệ mất gói là khoảng 1/100).
 
-Therefore, our loss rate is $$p = 1 / (\frac{3}{8} W_\text{max}^2) = \frac{8}{3W_\text{max}^2}$$.
+Vậy tỷ lệ mất gói là:  
+$$p = \frac{1}{\frac{3}{8} W_\text{max}^2} = \frac{8}{3W_\text{max}^2}$$.
 
-Now, we have a relation between $$W_\text{max}$$ and $$p$$, so we just need to do algebra to isolate $$W_\text{max}$$ in terms of $$p$$.
+Giờ ta có mối quan hệ giữa $$W_\text{max}$$ và $$p$$, ta chỉ cần biến đổi đại số để biểu diễn $$W_\text{max}$$ theo $$p$$:
 
 $$\begin{align*}
     p &= \frac{8}{3W_\text{max}^2} \\
@@ -57,7 +58,7 @@ $$\begin{align*}
     W_\text{max} &= \frac{2\sqrt{2}}{\sqrt{3p}}
 \end{align*}$$
 
-Now, we can do some more algebra to take our throughput equation from earlier and replace $$W_\text{max}$$ with $$p$$:
+Giờ ta thay $$W_\text{max}$$ vào phương trình thông lượng ban đầu:
 
 $$\begin{align*}
     \text{throughput} &= \frac{3}{4} W_\text{max} \times \frac{\text{MSS}}{\text{RTT}} \\
@@ -65,28 +66,18 @@ $$\begin{align*}
     &= \sqrt{\frac{3}{2}} \times \frac{\text{MSS}}{\text{RTT}\sqrt{p}}
 \end{align*}$$
 
+## Ý nghĩa của Phương trình
 
-## Implications of Equation
+Giờ ta có phương trình thông lượng biểu diễn theo RTT và tỷ lệ mất gói. Nó cho ta biết điều gì?
 
-We now have an equation for throughput, expressed in terms of RTT and loss rate. What does it tell us?
+Thông lượng tỷ lệ nghịch với căn bậc hai của tỷ lệ mất gói. Trực giác cho thấy nếu tỷ lệ mất gói cao hơn, thì thông lượng thấp hơn. Điều này hợp lý, vì mất nhiều gói hơn khiến cửa sổ bị giảm một nửa thường xuyên hơn.
 
-Throughput is inversely proportional to the square root of the loss rate. Intuitively, if the loss rate is higher, then the throughput is lower. This makes sense, because losing more packets means that the window size gets halved more often.
+Thông lượng cũng tỷ lệ nghịch với RTT. Trực giác cho thấy nếu RTT thấp hơn, thì thông lượng cao hơn. Điều này hợp lý, vì cửa sổ tăng mỗi khi nhận được ACK, và RTT thấp giúp nhận ACK nhanh hơn.
 
-Throughput is inversely proportional to RTT. Intuitively, if the RTT is lower, then the throughput is higher. This makes sense, because the window size increases every time we receive an ack, and a lower RTT means we get more acks more often.
-
-This relationship between RTT and throughput can be a problem if we have multiple connections with different RTTs.
+Mối quan hệ giữa RTT và thông lượng có thể gây vấn đề nếu có nhiều kết nối với RTT khác nhau.
 
 <img width="600px" src="../assets/transport/3-090-multi-flow.png">
 
-The connection with the lower RTT is going to be receiving acks more quickly, which means this connection also increases its window size and sends packets faster. In this case, it turns out the lower-RTT connection gets twice as much bandwidth as the higher-RTT connection.
+Kết nối có RTT thấp hơn sẽ nhận ACK nhanh hơn, đồng nghĩa với việc tăng cửa sổ nhanh hơn và gửi gói nhanh hơn. Trong trường hợp này, kết nối có RTT thấp hơn sẽ chiếm gấp đôi băng thông so với kết nối có RTT cao hơn.
 
-Fundamentally, TCP is unfair when RTTs are heterogeneous (not the same). A shorter RTT improves propagation time, but it also helps TCP ramp up its rate faster. We accept this as a feature of TCP, and there's nothing we do about this in practice.
-
-
-## Rate-Based Congestion Control
-
-Our congestion control protocol results in choppy throughput. As seen in the graph, the rate repeatedly swings between W/2 and W. Some applications don't like the constantly-changing rate, and would prefer to send data at a steady rate (e.g. streaming applications).
-
-One possible solution for these applications is **equation-based** or **rate-based congestion control**, which abandons the rules for dynamically adjusting the rate, and instead simply follows the equation. To send data at a smooth rate, you can measure RTT and loss rate, plug them into the throughput equation, and constantly send at the calculated rate. This solution also maintains fairness (doesn't hog bandwidth), because the equation ensures that we consume no more bandwidth than TCP would in a similar setting. (See RFC 5348 for more details.)
-
-Formally, alternative implementations (including rate-based congestion control, and others) are considered **TCP-friendly** if they co-exist well with TCP by reducing their rate when necessary. TCP-friendly alternative algorithms lead to fair bandwidth sharing, even when some hosts run TCP and others run alternative algorithms.
+Về bản chất, TCP là "không công bằng" khi RTT không đồng đều. RTT ngắn giúp cải thiện thời gian lan truyền, nhưng cũng giúp TCP tăng tốc độ nhanh hơn. Chúng ta chấp nhận điều này như một đặc điểm của TCP, và không có biện pháp xử lý trong thực tế.

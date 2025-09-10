@@ -1,6 +1,5 @@
 Chắc chắn rồi. Tôi sẽ tiếp tục dịch phần tiếp theo của giáo trình bạn đã cung cấp, tuân thủ nghiêm ngặt các quy tắc đã được thiết lập. Dưới đây là bản dịch cho tệp *arp.md*.
-
------
+--
 
 # ARP: Kết nối Lớp 2 và Lớp 3
 

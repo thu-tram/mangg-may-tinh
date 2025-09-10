@@ -1,127 +1,123 @@
 # IP Header
 
-## IP Header Design Goals
+## Mục tiêu thiết kế IP Header
 
-Recall that a protocol like IP consists of syntax and semantics. The syntax determines what fields are in the IP header, and the semantics determine how those fields are processed.
+Hãy nhớ lại rằng một giao thức như *IP* (Giao thức Internet) bao gồm *syntax* (cú pháp) và *semantics* (ngữ nghĩa). *syntax* xác định các trường có trong *IP header* (phần đầu IP), và *semantics* xác định cách các trường đó được xử lý.
 
-Also, recall that the IP packet consists of a header and payload. The header contains relevant metadata that the IP protocol can process. The payload contains any data that will be passed up to higher-layer protocols, and is not parsed by the IP protocol.
+Cũng hãy nhớ lại rằng *packet* *IP* bao gồm một *header* (phần đầu) và *payload* (phần dữ liệu). *header* chứa siêu dữ liệu liên quan mà giao thức *IP* có thể xử lý. *payload* chứa bất kỳ dữ liệu nào sẽ được chuyển lên các giao thức lớp cao hơn, và không được giao thức *IP* phân tích.
 
-Finally, recall that headers are added as we move down the stack, and stripped away as we pass packets up the stack. IP headers are processed at both end hosts, and at every intermediate router.
+Cuối cùng, hãy nhớ lại rằng các *header* được thêm vào khi chúng ta đi xuống chồng giao thức, và được bóc đi khi chúng ta chuyển các *packet* lên trên chồng giao thức. *IP header* được xử lý ở cả các *end hosts* (máy chủ đầu cuối) và ở mọi *Router* trung gian.
 
-The IP header should be as small as possible. Every packet sent across the Internet need the IP header attached, so increasing the IP header size, even by one byte, would significantly increase the total amount of bandwidth across the Internet.
+*IP header* nên càng nhỏ càng tốt. Mỗi *packet* được gửi qua Internet đều cần đính kèm *IP header*, vì vậy việc tăng kích thước *IP header*, dù chỉ một byte, sẽ làm tăng đáng kể tổng lượng *bandwidth* trên toàn Internet.
 
-The IP header should be as simple as possible. Every router and end host has to process IP packets as they're sent and received, so a header that's complicated to process would slow the entire Internet down. Ideally, we'd like the header to be processed purely in hardware, so we can't assume we have access to general-purpose CPU operations when processing this header.
+*IP header* nên càng đơn giản càng tốt. Mọi *Router* và *end host* đều phải xử lý các *packet* *IP* khi chúng được gửi và nhận, vì vậy một *header* phức tạp để xử lý sẽ làm chậm toàn bộ Internet. Lý tưởng nhất, chúng ta muốn *header* được xử lý hoàn toàn bằng phần cứng, vì vậy chúng ta không thể giả định rằng chúng ta có quyền truy cập vào các hoạt động *CPU* đa dụng khi xử lý *header* này.
 
+## Các trường của IP Header
 
-## IP Header Fields
+Một giao thức *IP* cần phải làm bốn việc:
 
-An IP protocol needs to do four things:
+Mọi người (các *end host*, *Router*) cần có khả năng **phân tích** *packet* và hiểu các bit có ý nghĩa gì. Để hỗ trợ điều này, *header* sẽ bao gồm ***IP version* (phiên bản IP)** (giá trị 4-bit), ***header length* (độ dài phần đầu)** (giá trị 4-bit, được đo bằng các từ 4-byte, cần thiết vì độ dài *IP header* không cố định), và ***packet length* (độ dài gói tin)** (giá trị 16-bit, được đo bằng byte).
 
-Everybody (end hosts, routers) need to be able to **parse** the packet and understand what the bits mean. To support this, the header will include the **IP version** (4-bit value), the **header length** (4-bit value, measured in 4-byte words, required because the IP header length is not fixed), and the **packet length** (16-bit value, measured in bytes).
+Các *Router* (không phải *end host*) cần **chuyển tiếp** *packet* đến *Router* tiếp theo. Để hỗ trợ điều này, *header* sẽ bao gồm ***destination IP address* (địa chỉ IP đích)** (giá trị 32-bit).
 
-Routers (not end hosts) need to **forward** the packet to the next router. To support this, the header will include the **destination IP address** (32-bit value).
-
-End hosts (not routers) need to **pass the packet up** to higher layers. To support this, the header will include a **protocol number** (8-bit value), which tells us which Layer 4 protocol (TCP or UDP) should be used to process the payload. For example, a protocol number of 6 says to use the TCP protocol to read the remaining payload (reading the first bits of the payload as the TCP header, and so on). A protocol number of 17 corresponds to the UDP protocol.
+Các *end host* (không phải *Router*) cần **chuyển *packet* lên** các lớp cao hơn. Để hỗ trợ điều này, *header* sẽ bao gồm một ***protocol number* (số hiệu giao thức)** (giá trị 8-bit), cho chúng ta biết giao thức Lớp 4 nào (*TCP* (Giao thức Điều khiển Truyền vận) hoặc *UDP* (Giao thức Gói Dữ liệu Người dùng)) nên được sử dụng để xử lý *payload*. Ví dụ, *protocol number* là 6 có nghĩa là sử dụng giao thức *TCP* để đọc *payload* còn lại (đọc các bit đầu tiên của *payload* là *header* *TCP*, v.v.). *protocol number* là 17 tương ứng với giao thức *UDP*.
 
 <img width="800px" src="../assets/routing/2-197-demultiplex.png">
 
-End hosts and routers need to be able to **send replies** back to the source. To support this, the header will include the **source IP address** (32-bit value).
+Các *end host* và *Router* cần có khả năng **gửi các gói tin trả lời** lại cho nguồn. Để hỗ trợ điều này, *header* sẽ bao gồm ***source IP address* (địa chỉ IP nguồn)** (giá trị 32-bit).
 
+## Xử lý lỗi IP
 
-## IP Error Handling
+Các *end host* và *Router* cũng cần có khả năng **chỉ định các vấn đề hoặc các trường hợp đặc biệt** trong trường hợp một *packet* cần xử lý bổ sung.
 
-End hosts and routers also need to be able to **specify problems or special cases** in case a packet needs additional handling.
+Các *packet* *IP* có thể bị kẹt trong các vòng lặp (ví dụ: nếu *routing protocol* chưa hội tụ). Một lựa chọn khả dĩ là để *packet* lặp vô hạn cho đến khi các tuyến đường hội tụ, nhưng việc chuyển tiếp *packet* diễn ra ở quy mô nano giây, và sự hội tụ định tuyến diễn ra ở quy mô mili giây hoặc giây. Việc để *packet* lặp cho đến khi các tuyến đường hội tụ có thể mất nhiều thời gian và lãng phí rất nhiều *bandwidth*. Để ngăn chặn vòng lặp vô hạn, *IP header* có một ***time to live (TTL)*** (giá trị 8-bit), được giảm đi ở mỗi chặng. Nếu *TTL* về 0, *packet* sẽ bị loại bỏ, và một thông báo lỗi được gửi lại cho nguồn. (Thông báo lỗi là yêu cầu của đặc tả *IP*, mặc dù không phải lúc nào cũng được gửi trong thực tế.)
 
-IP packets can be stuck in loops (e.g. if the routing protocol hasn't converged yet). One possible option is to let the packet loop indefinitely until routes converge, but packet forwarding happens on nanosecond scale, and routing convergence happens on the millisecond or second scale. Letting the packet loop until routes converge can take a long time and waste a lot of bandwidth. To prevent indefinite looping, the IP header has a **time to live (TTL)** (8-bit value), which is decremented at each hop. If the TTL reaches 0, the packet is discarded, and an error message is sent back to the source. (The error message is required by the IP specification, though is not always sent in practice.)
+Các *packet* *IP* có thể bị hỏng (ví dụ: các bit trên đường truyền có thể bị hỏng do các quá trình điện). Để phát hiện lỗi, *IP header* chứa một ***checksum* (tổng kiểm tra)** (giá trị 16-bit), và loại bỏ các *packet* nếu *checksum* không chính xác.
 
-IP packets can be corrupted (e.g. bits on the wire can be corrupted from electrical processes). To detect corruption, the IP header contains a **checksum** (16-bit value), and discards packets if the checksum is incorrect.
+Lưu ý rằng *IP checksum* chỉ được tính toán trên *IP header*. *checksum* chỉ có thể phát hiện lỗi trong *IP header*, không phải lỗi trong *IP payload*. Điều này phản ánh ***end-to-end principle* (nguyên tắc đầu cuối-đầu cuối)**, trong đó chúng ta bắt buộc rằng *payload* được kiểm tra bởi *end host*, chứ không phải bởi các *Router* trung gian.
 
-Note that the IP checksum is only computed over the IP header. The checksum can only detect errors in the IP header, not errors in the IP payload. This reflects the end-to-end principle, where we enforce that the payload is checked by the end host, not the intermediate routers.
+*IP checksum* được cập nhật tại mỗi *Router*, vì *TTL* thay đổi, và *checksum* phải được tính toán lại. Một thiết kế thay thế khả thi là loại trừ *TTL* trong *checksum*, để tiết kiệm cho các *Router* công việc bổ sung.
 
-The IP checksum is updated at every router, because the TTL changes, and the checksum has to be re-computed. One possible alternative design is to exclude the TTL in the checksum, to save routers the extra work.
+Các *packet* *IP* có thể quá lớn đối với một liên kết cụ thể. Mỗi liên kết có một ***maximum transmission unit (MTU)* (đơn vị truyền tải tối đa)**, chỉ ra kích thước *packet* lớn nhất (tính bằng byte) mà liên kết đó có thể mang theo như một đơn vị. Ví dụ, liên kết có thể có bộ nhớ hạn chế để ghi nhớ một *packet* trong khi nó gửi các bit đi trên đường truyền.
 
-IP packets could be too large for a specific link. Each link has a **maximum transmission unit (MTU)**, indicating the largest packet size (in bytes) that link can carry as one unit. For example, the link might have limited memory for remembering a packet while it sends the bits along the wire.
-
-The end host doesn't know which links will be carrying the packet, so the end host might sent a packet that's too large for one of the links. To solve this, a router can perform **fragmentation**, splitting the packet into multiple fragments, which the router on the other end of the link must reassemble to recover the original packet. The identification (16-bit), flags (3-bit), and offset (13-bit) fields in the header are used to implement fragmentation.
+*end host* không biết liên kết nào sẽ mang *packet*, vì vậy *end host* có thể gửi một *packet* quá lớn đối với một trong các liên kết. Để giải quyết vấn đề này, một *Router* có thể thực hiện ***fragmentation* (phân mảnh)**, chia *packet* thành nhiều mảnh nhỏ, mà *Router* ở đầu kia của liên kết phải tập hợp lại để phục hồi *packet* ban đầu. Các trường *identification* (định danh) (16-bit), *flags* (cờ) (3-bit), và *offset* (độ lệch) (13-bit) trong *header* được sử dụng để triển khai *fragmentation*.
 
 <img width="900px" src="../assets/routing/2-198-fragment.png">
 
-Fragmentation is achievable in hardware (e.g. a router can quickly fragment packets without punting the packet for special handling), but it introduces extra overhead. The modern Internet avoids fragmentation whenever possible. For example, we try to standardize the MTU as much as possible (a modern standard is 1500 bytes).
+*Fragmentation* có thể thực hiện được trong phần cứng (ví dụ: một *Router* có thể nhanh chóng phân mảnh các *packet* mà không cần "punt" *packet* để xử lý đặc biệt), nhưng nó gây ra thêm chi phí. Internet hiện đại tránh *fragmentation* bất cứ khi nào có thể. Ví dụ, chúng ta cố gắng chuẩn hóa *MTU* càng nhiều càng tốt (một tiêu chuẩn hiện đại là 1500 byte).
 
-The early designers of IP did not fully embrace best-effort design, and thought it might be useful to allow applications to send packets of different types based on the application's needs. To implement this, the IP header has **Type of Service (ToS)** bits (8-bit value), which can be used to request different forms of packet delivery. For example, some packets can be marked as delay-sensitive or high-priority. Over the years, these bits have been redefined to represent different protocols, and ToS no longer exists in its original form. Instead, these bits now represent some notion of priority. Examples of protocols using these bits are Differentiated Services Code Point (DSCP), which defines certain classes of traffic, and Explicit Congestion Notification (ECN), which will help with traffic congestion (discussed later).
+Các nhà thiết kế ban đầu của *IP* đã không hoàn toàn đi theo thiết kế nỗ lực tối đa (best-effort), và nghĩ rằng có thể hữu ích nếu cho phép các ứng dụng gửi các loại *packet* khác nhau dựa trên nhu cầu của ứng dụng. Để thực hiện điều này, *IP header* có các bit ***Type of Service (ToS)* (Loại dịch vụ)** (giá trị 8-bit), có thể được sử dụng để yêu cầu các hình thức phân phối *packet* khác nhau. Ví dụ, một số *packet* có thể được đánh dấu là nhạy cảm với độ trễ hoặc ưu tiên cao. Qua nhiều năm, các bit này đã được định nghĩa lại để đại diện cho các giao thức khác nhau, và *ToS* không còn tồn tại ở dạng ban đầu. Thay vào đó, các bit này bây giờ đại diện cho một khái niệm nào đó về mức độ ưu tiên. Ví dụ về các giao thức sử dụng các bit này là *Differentiated Services Code Point (DSCP)* (Điểm mã Dịch vụ Phân biệt), định nghĩa các loại lưu lượng nhất định, và *Explicit Congestion Notification (ECN)* (Thông báo Tắc nghẽn Tường minh), sẽ giúp xử lý tắc nghẽn lưu lượng (sẽ được thảo luận sau).
 
-In the original IP design, additional **option bits** can be added to the IP header to request more advanced processing on the packet. For example, the sender can request routers to record the route that the packet is taking (e.g. for diagnostics). The sender could include a source route in the packet header and force the packet to travel a certain route. The packet header could also include a timestamp. In modern implementations, these options are almost always disabled, because they lead to unnecessarily complicated implementations that increase the packet processing overhead. For example, these options force the IP header to be variable-length, which is harder to process than a fixed-length header.
+Trong thiết kế *IP* ban đầu, các ***option bits* (các bit tùy chọn)** bổ sung có thể được thêm vào *IP header* để yêu cầu xử lý nâng cao hơn trên *packet*. Ví dụ, người gửi có thể yêu cầu các *Router* ghi lại tuyến đường mà *packet* đang đi (ví dụ: để chẩn đoán). Người gửi có thể bao gồm một tuyến đường nguồn trong *header* của *packet* và buộc *packet* phải đi theo một tuyến đường nhất định. *header* của *packet* cũng có thể bao gồm một dấu thời gian. Trong các triển khai hiện đại, các tùy chọn này hầu như luôn bị vô hiệu hóa, vì chúng dẫn đến các triển khai phức tạp không cần thiết làm tăng chi phí xử lý *packet*. Ví dụ, các tùy chọn này buộc *IP header* phải có độ dài thay đổi, điều này khó xử lý hơn một *header* có độ dài cố định.
 
 <img width="900px" src="../assets/routing/2-199-ip-header.png">
 
+## Các thay đổi trong Header IPv6
 
-## IPv6 Header Changes
+*IPv6* (Giao thức Internet phiên bản 6) được thúc đẩy bởi lo ngại rằng cuối cùng chúng ta sẽ hết địa chỉ *IPv4* (Giao thức Internet phiên bản 4) 32-bit. *IPv6* **mở rộng địa chỉ** để địa chỉ dài 128 bit. Số lượng địa chỉ *IPv6* khả dụng là cực lớn (hãy nghĩ đến: số lượng nguyên tử trong vũ trụ), vì vậy chúng ta gần như chắc chắn sẽ không bao giờ hết địa chỉ *IPv6*.
 
-IPv6 was motivated by the concern that we would eventually run out of 32-bit IPv4 addresses. IPv6 **expanded addresses** so that addresses are 128 bits long. The number of possible IPv6 addresses is astronomically large (think: number of atoms in the universe), so we will almost certainly never run out of IPv6 addresses.
+Các nhà thiết kế *IPv6* đã nhân cơ hội này để dọn dẹp và hiện đại hóa *IP header*, loại bỏ và cập nhật các trường đã lỗi thời. Ban đầu, *IPv6* được dự định là một giao thức tham vọng hơn với nhiều tính năng địa chỉ mới, nhưng hầu hết các tính năng này chưa bao giờ được hiện thực hóa. Trong thực tế, ngoài việc "dọn dẹp mùa xuân" loại bỏ các tính năng lỗi thời này, không có nhiều thay đổi đáng kể đối với giao thức so với *IPv4*, vì vậy kết quả là một giao thức *IP* thanh lịch hơn, không có nhiều thay đổi tham vọng.
 
-The designers of IPv6 took the opportunity to clean up and modernize the IP header, removing and updating fields that are outdated. Originally, IPv6 was intended to be a more ambitious protocol with many new addressing features, but most of these features were never realized. In practice, besides this "spring cleaning" removal of outdated features, there weren't many significant changes to the protocol from IPv4, so the result is a more elegant IP protocol, without many ambitious changes.
+Lưu ý: Trong trường hợp bạn tò mò, *IPv5* (Giao thức Internet phiên bản 5) đã được công bố vào năm 1990 (trước *IPv6* vào năm 1998). Nó là một giao thức thử nghiệm chưa bao giờ được triển khai rộng rãi.
 
-Note: In case you're curious, IPv5 was published in 1990 (before IPv6 in 1998). It was an experimental protocol that was never widely implemented.
+*IPv6* **loại bỏ *checksum*** trong *header* của *packet* *IP*. Lập luận ủng hộ việc bao gồm *checksum* là: nếu một *packet* bị hỏng và không được phát hiện, *packet* hỏng đó tiếp tục được gửi đi, lãng phí *bandwidth*. Việc bao gồm *checksum* đảm bảo rằng *packet* bị loại bỏ và *bandwidth* không bị lãng phí cho một *packet* bị hỏng. Trong thời hiện đại, *bandwidth* ít bị tắc nghẽn hơn, vì vậy *checksum* không còn cần thiết nữa, và không ảnh hưởng lớn đến hiệu suất nếu một số *packet* bị hỏng được gửi đi hết mạng.
 
-IPv6 **eliminates checksums** in the IP packet header. The argument in favor of including a checksum is: if a packet is corrupted and is not detected, the corrupt packet continues being sent, wasting bandwidth. Including the checksum ensures that the packet is dropped and bandwidth is not wasted on a corrupt packet. In modern times, bandwidth is less of a bottleneck, so the checksum is no longer necessary, and it's not a huge performance impact if some corrupt packets are sent all the way through the network.
+*IPv6* **loại bỏ *fragmentation***. Nếu một *packet* *IPv6* quá lớn đối với một liên kết cụ thể, *Router* sẽ loại bỏ *packet* và gửi một thông báo lỗi trở lại nguồn với kích thước *packet* tối đa cho phép (*MTU*). Người gửi ban đầu chịu trách nhiệm chia dữ liệu thành các *packet* nhỏ hơn và gửi lại các *packet* nhỏ hơn đó. Các *end host* (ví dụ: máy tính cá nhân của bạn) xử lý ít *packet* hơn các *Router* (ví dụ: trong các trung tâm dữ liệu), vì vậy việc chuyển khối lượng công việc *fragmentation* từ các *Router* sang các *end host* cải thiện khả năng mở rộng tổng thể của Internet.
 
-IPv6 **eliminates fragmentation**. If an IPv6 packet is too large for a specific link, the router will drop the packet and send an error message back to the source with the maximum allowable packet size (MTU). The original sender is responsible for splitting up the data into smaller packets and re-sending those smaller packets. End hosts (e.g. your personal computer) process fewer packets than routers (e.g. in data centers), so transferring the workload of fragmentation from routers to end hosts improves the overall scalability of the Internet.
+*IPv6* thay thế phần tùy chọn có độ dài thay đổi bằng một triển khai đã được sửa đổi của trường giao thức. Trong *IPv4*, các tùy chọn có vấn đề vì chúng tạo ra các *header* có độ dài thay đổi, khó phân tích hơn. Trong *IPv6*, *header* có độ dài cố định. Điều này cũng có nghĩa là trường ***header length*** có thể được loại bỏ.
 
-IPv6 replaces the variable-length options section with a modified implementation of the protocol field. In IPv4, options were problematic because they created variable-length headers, which are harder to parse. In IPv6, the header is fixed in length. This also means that the **header length** field can be eliminated.
-
-In order to continue supporting options, IPv6 generalizes the protocol field to allow the IP packet to be passed up for special processing before reaching Layer 4. (Recall, the protocol header in IPv4 is set to either 7 or 19, to indicate which Layer 4 protocol processes the packet next.) The field is renamed from protocol to **next header** in IPv6.
+Để tiếp tục hỗ trợ các tùy chọn, *IPv6* tổng quát hóa trường giao thức để cho phép *packet* *IP* được chuyển lên để xử lý đặc biệt trước khi đến Lớp 4. (Hãy nhớ lại, *header* giao thức trong *IPv4* được đặt thành 7 hoặc 19, để chỉ ra giao thức Lớp 4 nào sẽ xử lý *packet* tiếp theo.) Trường này được đổi tên từ protocol thành ***next header* (phần đầu tiếp theo)** trong *IPv6*.
 
 <img width="800px" src="../assets/routing/2-200-next-header.png">
 
-If you want an additional protocol to process the IP packet, you can put that protocol's corresponding number in the next header field. The designers and users of these extra protocols need to agree on which numbers correspond to which protocols, and a standards body organization needs to manage these numbers. Then, the payload can be passed to the additional protocol, which can read an additional header (after the Layer 3 IPv6 header, but before the Layer 4 header) and perform additional processing, before passing the remaining payload to Layer 4.
+Nếu bạn muốn một giao thức bổ sung xử lý *packet* *IP*, bạn có thể đặt số tương ứng của giao thức đó vào trường *next header*. Các nhà thiết kế và người dùng của các giao thức bổ sung này cần phải đồng ý về việc số nào tương ứng với giao thức nào, và một tổ chức tiêu chuẩn cần quản lý các số này. Sau đó, *payload* có thể được chuyển đến giao thức bổ sung, giao thức này có thể đọc một *header* bổ sung (sau *header* *IPv6* Lớp 3, nhưng trước *header* Lớp 4) và thực hiện xử lý bổ sung, trước khi chuyển *payload* còn lại đến Lớp 4.
 
-If the packet has no additional options, then the next header field is the same as the old protocol field, allowing the IP packet to be directly passed up to a Layer 4 protocol with no further processing.
+Nếu *packet* không có tùy chọn bổ sung nào, thì trường *next header* giống như trường protocol cũ, cho phép *packet* *IP* được chuyển trực tiếp lên một giao thức Lớp 4 mà không cần xử lý thêm.
 
-The idea of next headers can be generalized to allow multiple protocols to process the packet after IPv6, but before Layer 4. For example, IPv6 could have a next header for special processing. Then, the special processing protocol's header can also contain a next header field, which either specifies a Layer 4 protocol, or yet another special processing protocol. This approach is future-proof, because it supports future protocols that haven't been invented yet. Those future protocols can be added in this next-header approach, without breaking IPv6 or requiring an update to IPv6.
+Ý tưởng về các *next header* có thể được tổng quát hóa để cho phép nhiều giao thức xử lý *packet* sau *IPv6*, nhưng trước Lớp 4. Ví dụ, *IPv6* có thể có một *next header* để xử lý đặc biệt. Sau đó, *header* của giao thức xử lý đặc biệt cũng có thể chứa một trường *next header*, chỉ định một giao thức Lớp 4, hoặc một giao thức xử lý đặc biệt khác nữa. Cách tiếp cận này có khả năng tương thích với tương lai, vì nó hỗ trợ các giao thức trong tương lai chưa được phát minh. Các giao thức trong tương lai đó có thể được thêm vào theo cách tiếp cận *next-header* này, mà không làm hỏng *IPv6* hoặc yêu cầu cập nhật *IPv6*.
 
-IPv6 adds a **flow label** field to the header. At layer 3, packets are sent independently (how one packet is sent doesn't affect other packets), but in practice, it's common for many packets to be related in some way. For example, in a video stream between two hosts, there can be many packets being sent between the same two applications. Layer 3 is supposed to treat these packets separately, but in practice, routers have added more advanced systems called **middleboxes** (e.g. firewalls, intrusion detection systems) that might care about the fact that these packets are part of the same flow, or connection. For example, a firewall might need to read multiple packets from a connection to decide whether that connection should be allowed or blocked. When all packets are sent independently, these middleboxes have to guess whether two packets are related or not (e.g. it notices packets with the same source/destination IP address). IPv6 adds an explicit way to denote that multiple packets are related.
+*IPv6* thêm một trường ***flow label* (nhãn luồng)** vào *header*. Ở lớp 3, các *packet* được gửi độc lập (cách một *packet* được gửi không ảnh hưởng đến các *packet* khác), nhưng trong thực tế, thường có nhiều *packet* liên quan đến nhau theo một cách nào đó. Ví dụ, trong một luồng video giữa hai máy chủ, có thể có nhiều *packet* được gửi giữa hai ứng dụng giống nhau. Lớp 3 được cho là sẽ xử lý các *packet* này một cách riêng biệt, nhưng trong thực tế, các *Router* đã thêm các hệ thống tiên tiến hơn gọi là ***middleboxes* (các hộp trung gian)** (ví dụ: *firewalls* (tường lửa), *intrusion detection systems* (hệ thống phát hiện xâm nhập)) có thể quan tâm đến việc các *packet* này là một phần của cùng một luồng, hoặc kết nối. Ví dụ, một *firewall* có thể cần đọc nhiều *packet* từ một kết nối để quyết định xem kết nối đó có nên được cho phép hay chặn. Khi tất cả các *packet* được gửi độc lập, các *middlebox* này phải đoán xem hai *packet* có liên quan đến nhau hay không (ví dụ: nó nhận thấy các *packet* có cùng địa chỉ IP nguồn/đích). *IPv6* thêm một cách tường minh để biểu thị rằng nhiều *packet* có liên quan đến nhau.
 
 <img width="900px" src="../assets/routing/2-201-ipv6-header.png">
 
-The version number is unchanged between IPv4 and IPv6. The packet length is unchanged (though renamed from Total Length to Payload Length). TTL is renamed to Hop Limit, though the functionality is unchanged.
+Số phiên bản không thay đổi giữa *IPv4* và *IPv6*. Độ dài *packet* không thay đổi (mặc dù được đổi tên từ Total Length thành Payload Length). *TTL* được đổi tên thành *Hop Limit* (Giới hạn Chặng), mặc dù chức năng không thay đổi.
 
-The Type of Service bits are renamed to Traffic Class, and can still be used to implement some notion of packet priority.
+Các bit *Type of Service* được đổi tên thành *Traffic Class* (Lớp Lưu lượng), và vẫn có thể được sử dụng để thực hiện một số khái niệm về ưu tiên *packet*.
 
-In general, IPv6 embraces the end-to-end principle and asks the end host to do the work (fragmentation, verifying checksum and re-sending corrupt packets) when possible. Some fields, like the hop limit or TTL, are fundamentally an IP-level problem, and can't be implemented by end hosts. (How would the end host help with a packet looping through the network?)
+Nói chung, *IPv6* đi theo *end-to-end principle* và yêu cầu *end host* thực hiện công việc (phân mảnh, xác minh *checksum* và gửi lại các *packet* bị hỏng) khi có thể. Một số trường, như *hop limit* hoặc *TTL*, về cơ bản là một vấn đề ở cấp độ *IP*, và không thể được thực hiện bởi các *end host*. (*end host* sẽ giúp xử lý một *packet* đang lặp trong mạng như thế nào?)
 
-IPv6 also tries to simplify the header (removing variable-length options), while still allowing extensibility for future improvements (next-header approach, flow label).
+*IPv6* cũng cố gắng đơn giản hóa *header* (loại bỏ các tùy chọn có độ dài thay đổi), trong khi vẫn cho phép khả năng mở rộng cho các cải tiến trong tương lai (cách tiếp cận *next-header*, *flow label*).
 
+## Bảo mật IP Header
 
-## IP Header Security
+*IP* không có bất kỳ cơ chế bảo mật tích hợp nào để chống lại những kẻ tấn công. Kẻ tấn công có thể gửi một *packet* với địa chỉ IP nguồn không chính xác, cho phép kẻ tấn công mạo danh người khác. Điều này có thể khiến máy chủ bị mạo danh bị đổ lỗi oan cho một *packet*. Hoặc, nếu kẻ tấn công gửi một *packet* giả mạo, gói tin trả lời có thể được gửi đến máy chủ bị mạo danh. Việc nói dối về địa chỉ nguồn được gọi là ***IP spoofing* (giả mạo IP)**.
 
-IP does not have any built-in security against attackers. An attacker could send a packet with an incorrect source IP address, allowing the attacker to impersonate somebody else. This might cause the impersonated host to be wrongly blamed for a packet. Or, if the attacker sends a spoofed packet, the reply may be sent to the impersonated host. Lying about the source address is known as **IP spoofing**.
+*IP spoofing* có thể được sử dụng cho các cuộc ***denial-of-service (DoS) attacks* (tấn công từ chối dịch vụ)**. Một cuộc tấn công DoS có thể được sử dụng để làm quá tải một máy chủ và khiến nó bị sập bằng cách làm ngập máy chủ với các *packet*. Nếu tất cả các *packet* đến từ cùng một người gửi, máy chủ có thể ngăn chặn cuộc tấn công bằng cách bỏ qua các *packet* từ địa chỉ IP của kẻ tấn công. Tuy nhiên, nếu kẻ tấn công nói dối về địa chỉ IP nguồn, máy chủ sẽ khó phân biệt hơn giữa lưu lượng của kẻ tấn công và lưu lượng hợp pháp.
 
-IP spoofing can be used for denial-of-service (DoS) attacks. A DoS attack can be used to overwhelm a server and cause it to crash by flooding the server with packets. If all the packets came from the same sender, the server could stop the attack by ignoring packets from the attacker's IP address. However, if the attacker lies about the source IP address, the server has a harder time distinguishing attacker traffic from legitimate traffic.
+Các cuộc tấn công tinh vi hơn liên quan đến giả mạo tồn tại, mặc dù chúng ta sẽ không đề cập chi tiết trong lớp học này (xem ghi chú của CS 161 tại UC Berkeley để biết thêm chi tiết).
 
-More sophisticated attacks involving spoofing exist, though we won't cover them in detail in this class (see the UC Berkeley CS 161 notes for more details).
+Trường *ToS* trong *IP header* cho phép người gửi đặt mức độ ưu tiên cho các *packet* của họ. Nếu chúng ta cho phép mọi người tự đặt mức độ ưu tiên, những người dùng độc hại có thể đặt mức độ ưu tiên cao hơn và lừa mạng ưu tiên lưu lượng của kẻ tấn công.
 
-The ToS field in the IP header allows the sender to set a priority on their packets. If we allow everybody to set their own priority, malicious users can set higher priorities and trick the network into prioritizing attacker traffic.
+Nếu mạng tính phí bổ sung cho lưu lượng ưu tiên cao, kẻ tấn công có thể gửi một *packet* ưu tiên cao giả mạo, và máy chủ bị mạo danh sẽ phải trả tiền cho lưu lượng của kẻ tấn công.
 
-If the network charges an extra fee for high-priority traffic, the attacker could send a spoofed high-priority packet, and the impersonated host would have to pay for the attacker's traffic.
+Thiết kế Internet ban đầu không ngăn chặn các cuộc tấn công này, mặc dù các *ISP* (nhà cung cấp dịch vụ Internet) hiện đại đã triển khai các biện pháp bảo mật bổ sung để giảm thiểu các cuộc tấn công ở lớp *IP*. Trong Internet hiện đại, các *ISP* không cho phép các *end host* đặt trường *ToS*, và nhiều *ISP* có các công cụ để phát hiện và chặn các *packet* giả mạo.
 
-The original Internet design did not stop these attacks, though modern ISPs (Internet service providers) have implemented additional security measures to mitigate IP layer attacks. In the modern Internet, ISPs don't allow end hosts to set the ToS field, and many ISPs have tools to detect and block spoofed packets.
+Trong *IPv4*, kẻ tấn công có thể cố tình gửi các *packet* lớn, buộc các *Router* phải thực hiện thêm công việc phân mảnh các *packet* đó. Hoặc, kẻ tấn công có thể cố tình thêm các tùy chọn bổ sung, buộc các *Router* phải xử lý các tùy chọn bổ sung đó. Điều này có thể được sử dụng để thực hiện các cuộc tấn công DoS và làm quá tải khả năng xử lý của một *Router*.
 
-In IPv4, attackers could intentionally send large packets, forcing routers to perform extra work fragmenting those packets. Or, attackers could intentionally add extra options, forcing routers to process those extra options. This could be used to perform DoS attacks and overwhelm a router's processing capacity.
-
-The TTL field can be exploited to learn about the network topology. You could send a packet with TTL 1. The packet will expire at the first hop, and the first router will send you an error message, allowing you to learn the identity of the first router.
+Trường *TTL* có thể bị khai thác để tìm hiểu về cấu trúc liên kết mạng. Bạn có thể gửi một *packet* với *TTL* là 1. *packet* sẽ hết hạn ở chặng đầu tiên, và *Router* đầu tiên sẽ gửi cho bạn một thông báo lỗi, cho phép bạn biết được danh tính của *Router* đầu tiên.
 
 <img width="600px" src="../assets/routing/2-202-traceroute1.png">
 
-Then, you can send a packet with TTL 2, which will expire at the second hop. The second router will send you an error message, allowing you to also discover the second router.
+Sau đó, bạn có thể gửi một *packet* với *TTL* là 2, nó sẽ hết hạn ở chặng thứ hai. *Router* thứ hai sẽ gửi cho bạn một thông báo lỗi, cho phép bạn cũng khám phá ra *Router* thứ hai.
 
 <img width="600px" src="../assets/routing/2-203-traceroute2.png">
 
-By repeating this with TTL 3, TTL 4, and so on, you can discover all the routers on your path. This attack is known as **traceroute**, though others argue that it's not an attack and is useful for diagnostics.
+Bằng cách lặp lại điều này với *TTL* là 3, *TTL* là 4, v.v., bạn có thể khám phá tất cả các *Router* trên đường đi của mình. Cuộc tấn công này được gọi là ***traceroute* (công cụ theo dõi đường đi)**, mặc dù những người khác cho rằng nó không phải là một cuộc tấn công và hữu ích cho việc chẩn đoán.
 
 <img width="600px" src="../assets/routing/2-204-traceroute3.png">
 
-Repeating this attack on different sources and destinations allows you to learn more of the network topology. Some routers do not send an error message when the TTL is exceeded, which might limit this exploit.
+Việc lặp lại cuộc tấn công này trên các nguồn và đích khác nhau cho phép bạn tìm hiểu thêm về cấu trúc liên kết mạng. Một số *Router* không gửi thông báo lỗi khi *TTL* bị vượt quá, điều này có thể hạn chế việc khai thác này.
 
-An attacker could theoretically tamper with the protocol or checksum field, but this would likely cause the packet to be dropped because of an invalid protocol or checksum, so practical attacks with these two fields don't really exist.
+Về mặt lý thuyết, kẻ tấn công có thể giả mạo trường giao thức hoặc *checksum*, nhưng điều này có khả năng khiến *packet* bị loại bỏ vì giao thức hoặc *checksum* không hợp lệ, vì vậy các cuộc tấn công thực tế với hai trường này không thực sự tồn tại.
 
-<img width="800px" src="../assets/routing/2-205-attacks.png">
+<img width-="800px" src="../assets/routing/2-205-attacks.png">

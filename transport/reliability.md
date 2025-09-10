@@ -1,87 +1,96 @@
-# Transport Layer Principles
+# Nguyên lý của Tầng Vận chuyển (*Transport Layer Principles*)
 
-## Reliability Abstraction and Goals
+## Trừu tượng hóa và Mục tiêu của Độ tin cậy (*Reliability Abstraction and Goals*)
 
-Many applications require reliability. For example, when sending a file over the Internet, we want the recipient to receive the same bytes in the same order as what the sender sent.
+Nhiều ứng dụng yêu cầu độ tin cậy (*reliability*). Ví dụ, khi gửi một tệp qua Internet, chúng ta muốn bên nhận nhận được đúng các byte theo đúng thứ tự mà bên gửi đã gửi.
 
-However, Layer 3 only provided unreliable, best-effort packet delivery. Packets can be lost (dropped), corrupted, and reordered (order of packets sent doesn't match order of packets received). Packets can be delayed (e.g. a packet could stuck in a queue waiting to cross a link).
+Tuy nhiên, *Layer 3* (tầng 3) chỉ cung cấp dịch vụ truyền gói tin (*packet*) không đáng tin cậy, theo cơ chế *best-effort* (nỗ lực tối đa nhưng không đảm bảo). Gói tin có thể bị mất (*dropped*), bị hỏng (*corrupted*), và bị thay đổi thứ tự (thứ tự gói tin gửi không khớp với thứ tự gói tin nhận). Gói tin cũng có thể bị trễ (ví dụ: bị kẹt trong hàng đợi chờ qua một liên kết).
 
-In rare cases, packets can even be duplicated, where the sender sends one packet but the recipient receives multiple copies of that packet. This usually happens if a router along the path encounters an error of some sort. In practice, this error is very rare.
+Trong một số trường hợp hiếm, gói tin thậm chí có thể bị nhân bản (*duplicated*), khi bên gửi chỉ gửi một gói tin nhưng bên nhận lại nhận được nhiều bản sao của gói đó. Điều này thường xảy ra nếu một *router* trên đường truyền gặp lỗi nào đó. Trên thực tế, lỗi này rất hiếm.
 
-Fun fact: Vern Paxson, UC Berkeley faculty, was one of the first people to discover and report packets being duplicated at the link layer.
+Thông tin thú vị: Vern Paxson, giảng viên tại UC Berkeley, là một trong những người đầu tiên phát hiện và báo cáo hiện tượng gói tin bị nhân bản ở tầng liên kết (*link layer*).
 
-We will use Layer 4 (the transport layer) to bridge this gap by developing protocols that rely on the best-effort packet abstraction supported by the network, and provide a reliable abstraction that application developers can use.
+Chúng ta sẽ sử dụng *Layer 4* (tầng vận chuyển – *transport layer*) để lấp đầy khoảng trống này bằng cách phát triển các giao thức dựa trên trừu tượng hóa truyền gói tin *best-effort* do mạng cung cấp, và cung cấp một trừu tượng hóa đáng tin cậy mà lập trình viên ứng dụng có thể sử dụng.
 
-For practical reasons (discussed elsewhere), reliability is implemented at the end hosts, not at intermediate routers. Also, reliability is implemented in the operating system for convenience, so that applications don't need to all re-implement their own reliability.
+Vì lý do thực tiễn (được thảo luận ở phần khác), độ tin cậy được triển khai tại các *end host* (máy đầu cuối), không phải tại các *router* trung gian. Ngoài ra, độ tin cậy được triển khai trong hệ điều hành (*operating system*) để thuận tiện, giúp các ứng dụng không phải tự triển khai lại cơ chế này.
 
-<img width="900px" src="../assets/transport/3-007-reliability-at-end-hosts.png">
+<img width="900px" src="/assets/transport/3-007-reliability-at-end-hosts.png">
 
-We will formalize reliability by defining **at-least-once delivery**. In this model, the destination must receive every packet, without corruption, at least once, but may receive multiple duplicate copies of a packet. The transport layer will use the best-effort delivery to provide at-least-once delivery. Then, using at-least-once delivery, our protocol can remove duplicates and provide exactly-once delivery to the applications.
+Chúng ta sẽ chính thức hóa khái niệm độ tin cậy bằng cách định nghĩa **at-least-once delivery** (giao hàng ít nhất một lần). Trong mô hình này, đích đến phải nhận được mọi gói tin, không bị hỏng, ít nhất một lần, nhưng có thể nhận nhiều bản sao của cùng một gói. *Transport layer* sẽ sử dụng truyền *best-effort* để cung cấp *at-least-once delivery*. Sau đó, dựa trên *at-least-once delivery*, giao thức của chúng ta có thể loại bỏ các bản sao và cung cấp *exactly-once delivery* (giao hàng chính xác một lần) cho ứng dụng.
 
-Note that reliable delivery does not guarantee that packets will be sent. A computer not connected to the network cannot send data to the destination, no matter what reliability protocol we use. Reliability protocols are allowed to give up and fail to send a packet, but the failure must be reported to the application. The protocol cannot falsely claim to have successfully delivered a packet.
+Lưu ý rằng truyền tin đáng tin cậy không đảm bảo rằng gói tin sẽ được gửi đi. Một máy tính không kết nối mạng thì không thể gửi dữ liệu đến đích, bất kể chúng ta dùng giao thức độ tin cậy nào. Các giao thức độ tin cậy được phép từ bỏ và không gửi một gói tin, nhưng lỗi này phải được báo cho ứng dụng. Giao thức không được phép báo sai rằng đã gửi thành công một gói tin.
 
-Our protocol should also be efficient. More specifically, our protocol should deliver data as quickly as possible, and our protocol should minimize bandwidth use and avoid sending packets unnecessarily. For example, we could guarantee that packets arrive by re-sending every packet hundreds of times, but this would violate our requirement of using bandwidth efficiently.
+Giao thức của chúng ta cũng cần hiệu quả. Cụ thể hơn, giao thức nên truyền dữ liệu nhanh nhất có thể, đồng thời giảm thiểu việc sử dụng *bandwidth* (băng thông) và tránh gửi gói tin không cần thiết. Ví dụ, chúng ta có thể đảm bảo gói tin đến nơi bằng cách gửi lại mỗi gói hàng trăm lần, nhưng điều này sẽ vi phạm yêu cầu sử dụng *bandwidth* hiệu quả.
+
+## Mục tiêu của Tầng Vận chuyển (*Transport Layer Goals*)
+
+Tại *transport layer*, mục tiêu của chúng ta là cung cấp cho ứng dụng một trừu tượng hóa tiện lợi, giúp lập trình viên dễ dàng hơn. *Transport layer* cho phép lập trình viên nghĩ theo khái niệm kết nối (*connection*), thay vì từng gói tin riêng lẻ được gửi qua mạng. Lý tưởng nhất, lập trình viên không cần quan tâm đến các chi tiết mạng cấp thấp như chia nhỏ dữ liệu dài thành gói tin, gửi lại gói tin bị mất, *timeout* (hết thời gian chờ), v.v.
+
+*Reliability* chỉ là một trong nhiều mục tiêu mà chúng ta muốn đạt được ở *transport layer*.
+
+*Transport layer* triển khai **demultiplexing** (tách luồng) giữa các tiến trình khác nhau tại *end host*, bằng cách sử dụng số *port* (cổng) để liên kết mỗi luồng (*flow* hoặc *connection*) với một tiến trình khác nhau trên *end host*.
+
+*Transport layer* cũng triển khai *flow control* (điều khiển luồng) và *congestion control* (điều khiển tắc nghẽn), giúp giới hạn tốc độ gửi gói tin để tránh làm quá tải bộ nhận và mạng.
+
+## Tách luồng bằng *Port* (*Demultiplexing with Ports*)
+
+Giả sử máy tính cá nhân của tôi có hai ứng dụng cùng kết nối đến một máy chủ. Khi các gói tin đến máy tính của tôi, chúng có cùng địa chỉ *IP* nguồn (máy chủ) và cùng địa chỉ *IP* đích (máy tính của tôi). Làm sao tôi biết gói tin nào dành cho ứng dụng nào?
+
+<img width="900px" src="/assets/transport/3-001-demultiplex.png">
+
+Để phân biệt, hay **demultiplex**, gói tin nào dành cho ứng dụng nào, *transport layer* thêm vào tiêu đề một **port number** (số cổng), dùng để xác định một ứng dụng cụ thể trên *end host*.
+
+<img width="900px" src="/assets/transport/3-002-ports.png">
+
+Khi *transport layer* nhận một gói tin, nó có thể dùng số *port* để quyết định ứng dụng tầng cao nào sẽ nhận phần dữ liệu (*payload*). Vì *transport layer* được triển khai trong *operating system*, các *port* (đôi khi gọi là **logical ports** – cổng logic) là điểm kết nối nơi ứng dụng liên kết với ngăn xếp mạng (*network stack*) của hệ điều hành. Ứng dụng biết số *port* của mình, và hệ điều hành biết số *port* của tất cả ứng dụng, nhờ đó dữ liệu được truyền chính xác giữa ứng dụng và hệ điều hành (không bị lẫn với dữ liệu của ứng dụng khác).
+
+<img width="800px" src="/assets/transport/3-003-port-attachment.png">
+
+Số *port* dài 16 bit. Internet hiện đại thường sử dụng mô hình *client-server* (máy khách – máy chủ), trong đó *client* truy cập dịch vụ và *server* cung cấp dịch vụ. *Server* thường lắng nghe yêu cầu trên các *well-known ports* (cổng nổi tiếng, số từ 0–1023). *Client* biết các cổng này và có thể truy cập để yêu cầu dịch vụ. Ví dụ, các giao thức tầng ứng dụng với cổng nổi tiếng gồm *HTTP* (cổng 80) và *SSH* (cổng 22).
+
+Ngược lại, *client* có thể chọn số *port* ngẫu nhiên (thường từ 1024–65535). Các số *port* này có thể được chọn ngẫu nhiên vì *client* là bên khởi tạo kết nối, và không ai cần *client* có số *port* cố định (vì *client* không cung cấp dịch vụ). Số *port* của *client* là **ephemeral** (tạm thời), vì có thể bỏ sau khi kết nối kết thúc.
+
+## Trừu tượng hóa luồng byte (*Bytestream Abstraction*)
+
+Việc triển khai *reliability* (độ tin cậy) ở *transport layer* (tầng vận chuyển) có nghĩa là lập trình viên ứng dụng không còn phải nghĩ đến từng *packet* (gói tin) kích thước giới hạn được gửi qua mạng. Thay vào đó, lập trình viên có thể nghĩ theo khái niệm **reliable in-order bytestream** (luồng byte đáng tin cậy, đúng thứ tự).  
+
+Phía gửi có một luồng byte không giới hạn độ dài và cung cấp luồng này cho *transport layer*. Sau đó, phía nhận sẽ nhận được chính xác cùng luồng byte đó, theo đúng thứ tự, không mất byte nào. Bạn có thể hình dung *bytestream* như một đường ống: phía gửi đưa từng byte vào một đầu ống, và các byte đó xuất hiện ở đầu kia của ống theo đúng thứ tự.  
+
+Phía gửi và phía nhận không cần quan tâm đến việc gửi lại các *packet* bị mất hay xử lý *packet* đến sai thứ tự, vì giao thức *transport layer* sẽ đảm nhiệm điều đó cho lập trình viên.
+
+<img width="900px" src="/assets/transport/3-004-bytestream.png">
+
+## *UDP* và *Datagram*
+
+Đôi khi, ứng dụng không cần *reliability*. Ví dụ, hãy xem xét một cảm biến đo áp suất nước trong nhà bạn. Cảm biến này gửi một bản ghi (thông điệp nhỏ, kích thước cố định, gồm thời gian và áp suất nước) đến công ty cấp nước mỗi phút.  
+
+Hệ thống này có thể không cần các *packet* đến đúng thứ tự (ví dụ: nếu bản ghi đã bao gồm dấu thời gian), và cũng có thể không cần khả năng chia nhỏ thông điệp dài thành nhiều *packet* (mỗi bản ghi vốn đã nhỏ). Hệ thống thậm chí có thể không cần *reliability*, miễn là phần lớn bản ghi đến được công ty cấp nước.  
+
+Các ứng dụng không cần *reliability* có thể sử dụng **UDP** (*User Datagram Protocol* – Giao thức gói tin người dùng) thay vì *TCP* ở *transport layer*. *UDP* không cung cấp đảm bảo *reliability*. Nếu ứng dụng cần một *packet* đến nơi, ứng dụng phải tự xử lý việc gửi lại (vì *transport layer* sẽ không gửi lại).  
+
+Thông điệp trong *UDP* bị giới hạn trong một *packet*. Nếu ứng dụng muốn gửi thông điệp lớn hơn, ứng dụng phải tự chia nhỏ và ghép lại. Lưu ý rằng *UDP* vẫn sử dụng khái niệm *port* để *demultiplexing* (tách luồng).
+
+<img width="900px" src="/assets/transport/3-005-datagram.png">
+
+Ở *transport layer*, bạn có thể chọn dùng *UDP* hoặc *TCP* tùy nhu cầu, nhưng không thể dùng cả hai cùng lúc. *UDP* và *TCP* là các giao thức *transport layer* tiêu chuẩn trên Internet hiện đại.
+
+<img width="300px" src="/assets/transport/3-006-tcp-features.png">
 
 
-## Transport Layer Goals
+## Các thiết kế *Reliability* khác (*Other Reliability Designs*)
 
-At the transport layer, our goal is to provide applications with a convenient abstraction that makes developers' lives easier. The transport layer allows application developers to think in terms of connections, instead of individual packets being sent across the network. Ideally, the developers shouldn't need to think about the low-level network details like splitting long data into packets, re-sending dropped packets, timeouts, etc.
+*TCP* ban đầu được triển khai bởi Vint Cerf và Bob Kahn khi họ còn là sinh viên tại UCLA. Sau này, họ đã nhận Giải thưởng Turing, Huân chương Tự do của Tổng thống, v.v. cho công trình của mình.  
 
-Reliability is just one of several goals we might want to achieve at the transport layer.
+Điều đáng chú ý là thiết kế ban đầu của *TCP* khá giống với những gì đang được sử dụng trong thực tế ngày nay và đã đứng vững trước thử thách của thời gian. Các ý tưởng cốt lõi của *TCP* rất đơn giản, thiết kế thanh thoát (dù không hoàn hảo). Tuy nhiên, việc triển khai có thể phức tạp để làm đúng, và rủi ro cao vì gần như toàn bộ Internet hiện đại chạy trên *TCP*.  
 
-The transport layer implements **demultiplexing** between different processes at the end host, by introducing port numbers that can be used to associate each flow (connection) with a different process on the end host.
+Kể từ khi ra đời, nhiều thành phần riêng lẻ của *TCP* đã được cải tiến (ví dụ: thuật toán ước lượng bộ định thời tốt hơn, cơ chế *acknowledgement* thông minh hơn, lựa chọn *ISN* tốt hơn, *congestion control* thông minh hơn), nhưng các quyết định kiến trúc và trừu tượng hóa cốt lõi (luồng byte theo kết nối, cửa sổ truyền) vẫn giữ nguyên.
 
-The transport layer also implements flow control and congestion control, which will help limit the rate of packets being sent in order to avoid overloading the receiver and the network, respectively.
+*TCP* là giao thức *reliability* tiêu chuẩn trên Internet, nhưng vẫn tồn tại các cách tiếp cận hoàn toàn khác.  
 
+Ví dụ, phía gửi có thể tận dụng ý tưởng **redundancy** (dư thừa – như trong mã sửa lỗi (*error-correcting codes*) hoặc *RAID*) để gửi dữ liệu đáng tin cậy hơn. Thay vì gửi nguyên dữ liệu, phía gửi mã hóa dữ liệu thành nhiều *packet* hơn, với phần dư thừa được chèn vào mỗi *packet*.  
 
-## Demultiplexing with Ports
+Ví dụ: người dùng có 10 *packet*, và một thuật toán có thể mã hóa dữ liệu đó thành 20 *packet*. Thuật toán có thể đảm bảo rằng chỉ cần nhận được bất kỳ 15 trong số 20 *packet*, dữ liệu gốc gồm 10 *packet* có thể được khôi phục.
 
-Suppose that my personal computer has two applications that are both talking to the same server. When packets arrive at my personal computer, they have the same source IP address (server), and the same destination IP address (my computer). How can I tell which packets are meant for which application?
+Một cách mô tả chính xác hơn: thuật toán mã hóa nhận vào *k* *packet*, mã hóa thành *n* *packet* (với *n* > *k*), sao cho dữ liệu gốc có thể được khôi phục nếu nhận được bất kỳ *k'* *packet* nào (với *k'* > *k* nhưng *k'* < *n*).
 
-<img width="900px" src="../assets/transport/3-001-demultiplex.png">
-
-In order to distinguish, or **demultiplex**, which packets are meant for which application, the transport layer header includes an additional **port number**, which can be used to identify a specific application on an end host.
-
-<img width="900px" src="../assets/transport/3-002-ports.png">
-
-When the transport layer receives a packet, it can use the port number to decide which higher-layer application the payload should be sent to. Because the transport layer is implemented in the operating system, these ports (sometimes called **logical ports**) are the attachment point where the application connects to the operating system's network stack. The application knows its own port number, and the operating system knows the port numbers for all the applications, and the matching number is how data is unambiguously transferred between the application and operating system (without getting mixed up with data from other applications).
-
-<img width="800px" src="../assets/transport/3-003-port-attachment.png">
-
-Port numbers are 16 bits long. The modern Internet commonly uses the client-server design, where clients access services, and servers provide those services. Servers usually listen for requests on well-known ports (port numbers 0-1023). Clients know these ports and can access them to request services. For example, application-level protocols with well-known port numbers include HTTP (port 80) and SSH (port 22).
-
-By contrast, clients can select their own random port numbers (usually port numbers 1024-65535). These port numbers can be randomly-chosen, since the client is the one initiating the connection, and nobody is relying on the client having a fixed port number (the client isn't providing services). Client port numbers are **ephemeral** (temporary), because the port number can be abandoned after the connection is over, and does not need to be permanent.
-
-
-## Bytestream Abstraction
-
-Implementing reliability at the transport layer means that the application developer no longer needs to think in terms of individual limited-size packets being sent across the network. Instead, the developer can think in terms of a **reliable in-order bytestream**. The sender has a stream of bytes with no length limit, and provides this stream to the transport layer. Then, the recipient receives the exact same stream of bytes, in the same order, with no bytes lost. You can think of a bytestream as a pipe, where the sender inserts bytes, one by one, into the pipe, and those same bytes appear, one by one, on the recipient's end of the pipe. The sender and recipient don't need to think about re-sending lost packets or packets arriving out of order, because the transport layer protocol will implement that for the developer.
-
-<img width="900px" src="../assets/transport/3-004-bytestream.png">
-
-
-## UDP and Datagrams
-
-Sometimes, applications don't need reliability. For example, consider a sensor that reads the water pressure in your home. The sensor sends a reading (small, fixed-size message with the time and water pressure) to the utility company every minute. This system might not need packets to arrive in order (e.g. if the readings already include timestamps), and might not need the ability to split long messages into packets (every reading is small). The system might not even need reliability, as long as most of the readings arrive at the utility company.
-
-Applications that don't need reliability can use **UDP** (User Datagram Protocol) instead of TCP at the transport layer. UDP does not provide reliability guarantees. If the application needs a packet to arrive, the application must handle re-sending packets on its own (the transport layer will not re-send packets). Messages in UDP are limited to a single packet. If the application wants to send larger messages, the application is responsible for breaking up and reassembling those messages. Note that UDP still implements the notion of ports for demultiplexing, though.
-
-<img width="900px" src="../assets/transport/3-005-datagram.png">
-
-At the transport layer, you can choose to use either UDP and TCP depending on your needs, but you can't choose to use both. UDP and TCP are the standard transport layer protocols in the modern Internet.
-
-<img width="300px" src="../assets/transport/3-006-tcp-features.png">
-
-## Other Reliability Designs
-
-TCP was initially implemented by Vint Cerf and Bob Kahn, while they were students at UCLA. They have since been given the Turing Award, Presidential Medal of Freedom, etc. for their work. It's pretty remarkable that the initial TCP design is pretty similar to what is used in practice today, and has stood the test of time. The core ideas of TCP are quite simple, and the design is quite elegant (though not perfect). However, the implementation can be tricky to get right, and the stakes are high, since almost the entire modern Internet runs on TCP.
-
-Since its initial creation, many individual pieces of TCP have evolved (e.g. better algorithms for estimating timers, smarter acknowledgements, smarter ISN selection, congestion control), but the core architectural decisions and abstractions (connection-oriented bytestreams, windows) have remained the same.
-
-TCP is the standard reliability protocol on the Internet, but other fundamentally different approaches exist.
-
-For example, the sender could exploit the idea of redundancy (as seen in error-correcting codes or RAID) to send data more reliably. Instead of sending the user data as-is, the sender encodes the data into more packets with redundancy intentionally built into each packet. For example, the user might have 10 packets, and an algorithm might encode that data into 20 packets. The algorithm might guarantee that as long as any 15 of the 20 packets are received, then the original 10 packets of data can be reconstructed.
-
-More formally, an encoding algorithm might take k packets, encode them as n packets (where n is greater than k), such that the original k packets can be recovered as long as any k' of the packets are received (where k' is greater than k but less than n).
-
-Coding schemes are a deep topic with many algorithms (e.g. fountain codes, raptor codes), though we will not discuss them any further. They can be seen in practice in video streaming platforms.
+Các sơ đồ mã hóa (*coding schemes*) là một chủ đề sâu rộng với nhiều thuật toán (ví dụ: *fountain codes*, *raptor codes*), dù ở đây chúng ta sẽ không đi sâu. Chúng có thể được ứng dụng thực tế trong các nền tảng truyền phát video (*video streaming*).

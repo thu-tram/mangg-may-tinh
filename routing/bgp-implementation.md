@@ -1,229 +1,224 @@
-# BGP Implementation and Issues
+# Triển khai (Implementation) và các vấn đề của BGP
 
-## Border and Interior Routers
+## Router Biên và Router Nội bộ
 
-At this point, we have an intuitive picture of how BGP works between ASes. In this section, we'll show how BGP is actually implemented at the router level. In doing so, we will also show how BGP interacts with the intra-domain routing protocols from earlier.
+Đến thời điểm này, chúng ta đã có một hình dung trực quan về cách *BGP* (Giao thức Cổng Biên giới - Border Gateway Protocol) hoạt động giữa các *AS* (Hệ tự trị - Autonomous System). Trong phần này, chúng ta sẽ xem cách *BGP* thực sự được triển khai ở cấp độ *Router*. Khi làm như vậy, chúng ta cũng sẽ chỉ ra cách *BGP* tương tác với các *routing protocol* nội miền đã học trước đó.
 
-So far, our model of inter-domain routing has treated an entire AS as a single entity, importing and exporting paths.
+Cho đến nay, mô hình định tuyến liên miền của chúng ta đã coi toàn bộ một *AS* như một thực thể duy nhất, nhập và xuất các đường đi.
 
 <img width="900px" src="../assets/routing/2-165-combining1.png">
 
-However, in reality, the AS contains many routers (and hosts) connected by links.
+Tuy nhiên, trên thực tế, *AS* chứa nhiều *Router* (và các máy chủ) được kết nối bởi các liên kết.
 
 <img width="900px" src="../assets/routing/2-166-combining2.png">
 
-In order to actually implement BGP, we need all the routers inside the AS to work cooperatively to act as a single node.
+Để thực sự triển khai *BGP*, chúng ta cần tất cả các *Router* bên trong *AS* hoạt động hợp tác để đóng vai trò như một nút duy nhất.
 
-Within an AS, we will classify all routers into two types. **Border routers** have at least one link to a router in a different AS. **Interior routers** only have links to other routers within the same AS.
+Trong một *AS*, chúng ta sẽ phân loại tất cả các *Router* thành hai loại. ***Border routers* (Router biên)** có ít nhất một liên kết đến một *Router* trong một *AS* khác. ***Interior routers* (Router nội bộ)** chỉ có liên kết đến các *Router* khác trong cùng một *AS*.
 
 <img width="900px" src="../assets/routing/2-167-borders.png">
 
-Only the border routers need to advertise routes to other ASes. Sometimes, we call the routers advertising BGP routes **BGP speakers**. The BGP speakers need to understand the semantics and syntax of the BGP protocol (how to read and create a BGP announcement, what to do when receiving an announcement, and so on).
+Chỉ có *border routers* cần quảng bá các tuyến đường đến các *AS* khác. Đôi khi, chúng ta gọi các *Router* quảng bá các tuyến *BGP* là ***BGP speakers* (các bộ phát BGP)**. Các *BGP speakers* cần hiểu ngữ nghĩa và cú pháp của giao thức *BGP* (cách đọc và tạo một thông báo *BGP*, phải làm gì khi nhận được một thông báo, v.v.).
 
+## Các phiên BGP Ngoài và BGP Nội bộ
 
-## External and Internal BGP Sessions
-
-A **BGP session** consists of two routers exchanging information between each other.
+Một ***BGP session* (phiên BGP)** bao gồm hai *Router* trao đổi thông tin với nhau.
 
 <img width="900px" src="../assets/routing/2-168-bgp1.png">
 
-An **external BGP (eBGP) session** is between two routers from different ASes. eBGP sessions can be used to exchange announcements between different ASes and learn about routes to other ASes. Only border routers participate in eBGP sessions (since eBGP requires talking to a different AS).
+Một ***external BGP (eBGP) session* (phiên BGP ngoại)** là giữa hai *Router* từ các *AS* khác nhau. Các *eBGP session* có thể được sử dụng để trao đổi các thông báo giữa các *AS* khác nhau và tìm hiểu về các tuyến đường đến các *AS* khác. Chỉ có *border routers* tham gia vào các *eBGP session* (vì *eBGP* yêu cầu giao tiếp với một *AS* khác).
 
 <img width="900px" src="../assets/routing/2-169-bgp2.png">
 
-By contrast, an **internal BGP (iBGP) session** is between two routers in the same AS (not necessarily directly connected by a link). More specifically, if a border router learns about a new route, it can use iBGP to distribute that new route to the other routers in the AS. This allows all the routers in the AS to coordinate and act together as one entity. Both border and internal routers participate in iBGP sessions.
+Ngược lại, một ***internal BGP (iBGP) session* (phiên BGP nội)** là giữa hai *Router* trong cùng một *AS* (không nhất thiết phải kết nối trực tiếp bằng một liên kết). Cụ thể hơn, nếu một *border router* biết về một tuyến đường mới, nó có thể sử dụng *iBGP* để phân phối tuyến đường mới đó đến các *Router* khác trong *AS*. Điều này cho phép tất cả các *Router* trong *AS* phối hợp và hoạt động cùng nhau như một thực thể. Cả *border router* và *internal router* đều tham gia vào các *iBGP session*.
 
 <img width="900px" src="../assets/routing/2-170-bgp3.png">
 
-eBGP and iBGP sessions are different from **interior gateway protocols (IGP)**. These are the intra-domain routing protocols (e.g. distance-vector, link-state) that are deployed within an AS to route packets inside the AS.
+Các *eBGP session* và *iBGP session* khác với ***interior gateway protocols (IGP)* (các giao thức cổng nội bộ)**. Đây là các *routing protocol* nội miền (ví dụ: *distance-vector*, *link-state*) được triển khai trong một *AS* để định tuyến các *packet* bên trong *AS*.
 
 <img width="900px" src="../assets/routing/2-171-bgp4.png">
 
-It's easy to confuse iBGP and IGP. Both exchange messages within the same AS. However, iBGP is part of an inter-domain protocol, helping routers learn about paths to other ASes. IGP is an intra-domain protocol, helping routers learn about paths to destinations in the same AS.
+Rất dễ nhầm lẫn giữa *iBGP* và *IGP*. Cả hai đều trao đổi thông điệp trong cùng một *AS*. Tuy nhiên, *iBGP* là một phần của giao thức liên miền, giúp các *Router* tìm hiểu về các đường đi đến các *AS* khác. *IGP* là một giao thức nội miền, giúp các *Router* tìm hiểu về các đường đi đến các đích trong cùng một *AS*.
 
 <img width="900px" src="../assets/routing/2-172-bgp5.png">
 
-eBGP, iBGP, and IGP work together to establish routes from any one router to any other router in the Internet (even if the routers are in different ASes).
+*eBGP*, *iBGP*, và *IGP* làm việc cùng nhau để thiết lập các tuyến đường từ bất kỳ *Router* nào đến bất kỳ *Router* nào khác trên Internet (ngay cả khi các *Router* ở trong các *AS* khác nhau).
 
-First, each AS runs IGP to learn least-cost paths between any two routers inside the same AS.
+Đầu tiên, mỗi *AS* chạy *IGP* để tìm hiểu các đường đi có chi phí thấp nhất giữa hai *Router* bất kỳ bên trong cùng một *AS*.
 
 <img width="900px" src="../assets/routing/2-173-bgp6.png">
 
-Next, the ASes run eBGP, advertising routes to each other to learn about routes to other ASes.
+Tiếp theo, các *AS* chạy *eBGP*, quảng bá các tuyến đường cho nhau để tìm hiểu về các tuyến đường đến các *AS* khác.
 
 <img width="900px" src="../assets/routing/2-174-bgp7.png">
 
-Finally, the ASes run iBGP, so that a router that has learned about an external route can distribute that route to all the other routers in the same AS.
+Cuối cùng, các *AS* chạy *iBGP*, để một *Router* đã biết về một tuyến đường bên ngoài có thể phân phối tuyến đường đó đến tất cả các *Router* khác trong cùng *AS*.
 
 <img width="900px" src="../assets/routing/2-175-bgp8.png">
 
-The routes learned from eBGP, iBGP, and IGP can be used to send packets anywhere in the Internet. If the destination is within the same AS (same IP prefix), we can use the routes learned from IGP to forward the packet. If the destination is in a different AS (different IP prefix), we can think back to iBGP, which told us about any external routes discovered by anybody in my AS. Using the iBGP results, we can figure out which border router is on that external route. Then, we can use IGP to forward the packet to the correct border router (who will then forward the packet to the next AS).
+Các tuyến đường học được từ *eBGP*, *iBGP*, và *IGP* có thể được sử dụng để gửi *packet* đến bất kỳ đâu trên Internet. Nếu đích nằm trong cùng một *AS* (cùng tiền tố IP), chúng ta có thể sử dụng các tuyến đường học được từ *IGP* để chuyển tiếp *packet*. Nếu đích ở một *AS* khác (tiền tố IP khác), chúng ta có thể nghĩ lại về *iBGP*, thứ đã cho chúng ta biết về bất kỳ tuyến đường bên ngoài nào được phát hiện bởi bất kỳ ai trong *AS* của tôi. Sử dụng kết quả của *iBGP*, chúng ta có thể tìm ra *border router* nào nằm trên tuyến đường bên ngoài đó. Sau đó, chúng ta có thể sử dụng *IGP* để chuyển tiếp *packet* đến đúng *border router* (sau đó nó sẽ chuyển tiếp *packet* đến *AS* tiếp theo).
 
 <img width="900px" src="../assets/routing/2-176-bgp9.png">
 
-As a concrete example, let's say E wants to send packets to Z. First, every router in E's AS runs IGP, learning all the internal routes. Next, some router in AS#5 advertises a route to Z using eBGP. At this point, only G knows that it can reach Z. Finally, G tells all routers in its own AS that it can reach Z, using iBGP.
+Ví dụ cụ thể, giả sử E muốn gửi *packet* đến Z. Đầu tiên, mọi *Router* trong *AS* của E chạy *IGP*, học tất cả các tuyến đường nội bộ. Tiếp theo, một *Router* nào đó trong AS#5 quảng bá một tuyến đường đến Z bằng *eBGP*. Tại thời điểm này, chỉ có G biết rằng nó có thể đến được Z. Cuối cùng, G thông báo cho tất cả các *Router* trong *AS* của mình rằng nó có thể đến được Z, bằng cách sử dụng *iBGP*.
 
-E has heard from iBGP that G, a router in the same AS, can reach Z. Using the IGP routes, E can send the packet to G (forwarding to F first). Then, G can use the route learned in eBGP to send the packet to Z.
+E đã nghe từ *iBGP* rằng G, một *Router* trong cùng *AS*, có thể đến được Z. Sử dụng các tuyến đường *IGP*, E có thể gửi *packet* đến G (chuyển tiếp đến F trước). Sau đó, G có thể sử dụng tuyến đường đã học trong *eBGP* để gửi *packet* đến Z.
 
-The border router who advertises a route to an external destination is sometimes called the **egress router** for that destination. This is the router who can help your packet exit the local network and move to other networks closer to the destination. In the example above, G is the egress router for destination Z.
+*border router* quảng bá một tuyến đường đến một đích bên ngoài đôi khi được gọi là ***egress router* (router đầu ra)** cho đích đó. Đây là *Router* có thể giúp *packet* của bạn thoát khỏi mạng cục bộ và di chuyển đến các mạng khác gần đích hơn. Trong ví dụ trên, G là *egress router* cho đích Z.
 
-A consequence of these protocols is that every router has two forwarding tables. One is a table mapping all internal destinations (same AS) to a next hop, populated with information from IGP. The other is a table mapping all external destinations to an egress router (who knows a route to the external destination), populated with information from eBGP.
+Một hệ quả của các giao thức này là mọi *Router* đều có hai *forwarding table*. Một bảng là ánh xạ tất cả các đích nội bộ (cùng *AS*) tới một chặng tiếp theo, được điền thông tin từ *IGP*. Bảng còn lại là ánh xạ tất cả các đích bên ngoài tới một *egress router* (nơi biết một tuyến đường đến đích bên ngoài), được điền thông tin từ *eBGP*.
 
 <img width="900px" src="../assets/routing/2-177-bgp10.png">
 
-Note that in the eBGP table, the egress router is not necessarily a next hop. The egress router might be several local hops away, but we use IGP to reach that egress router.
+Lưu ý rằng trong bảng *eBGP*, *egress router* không nhất thiết là một chặng tiếp theo. *egress router* có thể cách xa vài chặng cục bộ, nhưng chúng ta sử dụng *IGP* để đến được *egress router* đó.
 
 <img width="900px" src="../assets/routing/2-178-bgp11.png">
 
-We've seen how eBGP (path-vector, advertising routes) and IGP (distance-vector or link-state) are implemented as algorithms. How is iBGP implemented? When a border router installs a new route to a destination, it has to inform the other routers in the AS. One simple solution is to have the border router directly tell every other router in the AS.
+Chúng ta đã thấy cách *eBGP* (path-vector, quảng bá tuyến đường) và *IGP* (distance-vector hoặc link-state) được triển khai dưới dạng thuật toán. *iBGP* được triển khai như thế nào? Khi một *border router* cài đặt một tuyến đường mới đến một đích, nó phải thông báo cho các *Router* khác trong *AS*. Một giải pháp đơn giản là để *border router* trực tiếp thông báo cho mọi *Router* khác trong *AS*.
 
 <img width="900px" src="../assets/routing/2-179-bgp12.png">
 
-This solution is relatively simple, though it requires every border router to have an iBGP session with every other router. In a network with B border routers and N routers total, this protocol would require BN iBGP connections, and might scale poorly as local networks get larger.
+Giải pháp này tương đối đơn giản, mặc dù nó yêu cầu mọi *border router* phải có một *iBGP session* với mọi *Router* khác. Trong một mạng có B *border router* và tổng cộng N *Router*, giao thức này sẽ yêu cầu BN kết nối *iBGP*, và có thể không mở rộng tốt khi các mạng cục bộ lớn hơn.
 
-Note: In reality, there are other ways to combine inter-domain and intra-domain routers. You can look up "route reflectors" if you're interested, though they won't be covered in this class.
+Lưu ý: Trong thực tế, có những cách khác để kết hợp các *router* liên miền và nội miền. Bạn có thể tìm hiểu về "route reflectors" nếu bạn quan tâm, mặc dù chúng sẽ không được đề cập trong lớp học này.
 
+## Nhiều liên kết giữa các AS: Định tuyến Khoai tây nóng
 
-## Multiple Links Between ASes: Hot Potato Routing
+Cho đến nay, trong biểu đồ *AS* của chúng ta, chúng ta đã thể hiện hai *AS* có một liên kết (cạnh) duy nhất giữa chúng nếu chúng được kết nối. Trong thực tế, vì một *AS* thực sự bao gồm nhiều *Router*, hai *AS* có thể được kết nối bởi nhiều liên kết.
 
-So far, in our AS graph, we've shown two ASes having a single link (edge) between them if they are connected. In practice, because an AS actually consists of many routers, it's possible for two ASes to be connected by multiple links.
-
-In practice, it can be useful to have multiple links between large ASes. For example, Verizon and AT&T are very large ASes with infrastructure across the entire United States. Suppose there was only one link between the two ASes on the west coast. If a Verizon router in the east coast and an AT&T router in the east coast wanted to communicate, the packet would have to travel across the country on Verizon's network, traverse the link into AT&T's network, and then travel back across the country to the destination.
+Trong thực tế, việc có nhiều liên kết giữa các *AS* lớn có thể hữu ích. Ví dụ, Verizon và AT&T là những *AS* rất lớn với cơ sở hạ tầng trên toàn nước Mỹ. Giả sử chỉ có một liên kết giữa hai *AS* ở bờ Tây. Nếu một *Router* của Verizon ở bờ Đông và một *Router* của AT&T ở bờ Đông muốn liên lạc, *packet* sẽ phải đi xuyên quốc gia trên mạng của Verizon, đi qua liên kết vào mạng của AT&T, và sau đó đi ngược lại xuyên quốc gia đến đích.
 
 <img width="800px" src="../assets/routing/2-180-multilink1.png">
 
-Multiple links between two ASes also means that there can be multiple paths between two routers that pass through the same ASes. At the AS level, both of these paths go through the same ASes, and our earlier model made no distinction between them. However, in our more detailed model, both paths need to be exported, and a preferred route has to be imported.
+Nhiều liên kết giữa hai *AS* cũng có nghĩa là có thể có nhiều đường đi giữa hai *Router* đi qua cùng các *AS*. Ở cấp độ *AS*, cả hai đường đi này đều đi qua cùng các *AS*, và mô hình trước đó của chúng ta không phân biệt giữa chúng. Tuy nhiên, trong mô hình chi tiết hơn của chúng ta, cả hai đường đi cần được xuất ra, và một tuyến đường ưu tiên phải được nhập vào.
 
 <img width="800px" src="../assets/routing/2-181-multilink2.png">
 
-If there are two routes, which route does the importing AS prefer?
+Nếu có hai tuyến đường, *AS* nhập sẽ ưu tiên tuyến đường nào?
 
 <img width="800px" src="../assets/routing/2-182-multilink3.png">
 
-Bandwidth costs money, so I would prefer if this traffic traveled as far as possible on infrastructure owned and paid for by other people, and traveled as little as possible on my own infrastructure. Therefore, the orange path is preferred.
+*Bandwidth* tốn tiền, vì vậy tôi sẽ ưu tiên nếu lưu lượng này đi càng xa càng tốt trên cơ sở hạ tầng do người khác sở hữu và chi trả, và đi càng ít càng tốt trên cơ sở hạ tầng của riêng tôi. Do đó, đường màu cam được ưu tiên.
 
-More formally, the importing AS receives two announcements: one from the west router, and one from the east router.
+Chính thức hơn, *AS* nhập nhận được hai thông báo: một từ *router* phía Tây, và một từ *router* phía Đông.
 
-<img width="800px" src="../assets/routing/2-183-multilink4.png">
+<img width="900px" src="../assets/routing/2-183-multilink4.png">
 
-Using iBGP, every router inside the AS sees both announcements. One says, the egress router is the west router, and the other says, the egress router is the east router. Every router has to decide which announcement to import.
+Sử dụng *iBGP*, mọi *Router* bên trong *AS* đều thấy cả hai thông báo. Một thông báo nói rằng, *egress router* là *router* phía Tây, và thông báo còn lại nói rằng, *egress router* là *router* phía Đông. Mọi *Router* phải quyết định nên nhập thông báo nào.
 
-<img width="800px" src="../assets/routing/2-184-multilink5.png">
+<img width="900px" src="../assets/routing/2-184-multilink5.png">
 
-Let's focus on router E. Using IGP, this router can figure out the distance to the west egress router (F), and the distance to the east egress router (I). Since the west egress router (F) is closer, routing packets via the west egress router (F) will use up less of this AS's bandwidth. Therefore, this router will import the path via the west egress router (F). Another router, like one closer to the east egress router (I), might decide to import a different path.
+Hãy tập trung vào *Router* E. Sử dụng *IGP*, *Router* này có thể tìm ra khoảng cách đến *egress router* phía Tây (F), và khoảng cách đến *egress router* phía Đông (I). Vì *egress router* phía Tây (F) gần hơn, việc định tuyến *packet* qua *egress router* phía Tây (F) sẽ sử dụng ít *bandwidth* của *AS* này hơn. Do đó, *Router* này sẽ nhập đường đi qua *egress router* phía Tây (F). Một *Router* khác, chẳng hạn như một *Router* gần *egress router* phía Đông (I) hơn, có thể quyết định nhập một đường đi khác.
 
-<img width="800px" src="../assets/routing/2-185-multilink6.png">
+<img width="900px" src="../assets/routing/2-185-multilink6.png">
 
-This strategy of selecting the nearest egress router is sometimes called **hot potato routing**. We want the packet to leave our AS as soon as possible, and start traveling over somebody else's links as soon as possible.
+Chiến lược chọn *egress router* gần nhất này đôi khi được gọi là ***hot potato routing* (định tuyến khoai tây nóng)**. Chúng ta muốn *packet* rời khỏi *AS* của mình càng sớm càng tốt, và bắt đầu di chuyển trên các liên kết của người khác càng sớm càng tốt.
 
+## Nhiều liên kết giữa các Router: MED
 
-## Multiple Links Between Routers: MED
-
-What if a router is equally close to both possible egress routers?
+Điều gì sẽ xảy ra nếu một *Router* cách đều cả hai *egress router* có thể có?
 
 <img width="800px" src="../assets/routing/2-186-med1.png">
 
-In order to tiebreak, the exporting AS can announce a preference for one route over the other.
+Để phá vỡ thế cân bằng, *AS* xuất có thể thông báo ưu tiên cho một tuyến đường hơn tuyến đường kia.
 
-Which route does the exporting AS prefer? Again, since bandwidth costs money, the exporting AS prefers the pink path, which uses less of its bandwidth. In the announcement of the pink path, the exporting AS can additionally say "I prefer if you used this path," and in the announcement of the orange path, the exporting AS can additionally say "I prefer if you avoided this path."
+*AS* xuất ưu tiên tuyến đường nào? Một lần nữa, vì *bandwidth* tốn tiền, *AS* xuất ưu tiên đường màu hồng, vì nó sử dụng ít *bandwidth* của mình hơn. Trong thông báo của đường màu hồng, *AS* xuất có thể nói thêm "Tôi ưu tiên nếu bạn sử dụng đường này," và trong thông báo của đường màu cam, *AS* xuất có thể nói thêm "Tôi ưu tiên nếu bạn tránh đường này."
 
 <img width="900px" src="../assets/routing/2-187-med2.png">
 
-Now, the router that is equally close to both egress routers can see this extra information in the iBGP announcement.
+Bây giờ, *Router* cách đều cả hai *egress router* có thể thấy thông tin bổ sung này trong thông báo *iBGP*.
 
 <img width="900px" src="../assets/routing/2-188-med3.png">
 
-Using this extra information, the router can select the egress router on the pink path, since the exporting AS preferred this path.
+Sử dụng thông tin bổ sung này, *Router* có thể chọn *egress router* trên đường màu hồng, vì *AS* xuất đã ưu tiên đường này.
 
 <img width="800px" src="../assets/routing/2-189-med4.png">
 
-This additional information in the exporting announcement is called the **Multi-Exit Discriminator (MED)**. From the perspective of the exporter, it indicates my preferred router for entering my network. From the perspective of the importer, it indicates the other AS's preferred router for exiting my network and entering the other AS's network.
+Thông tin bổ sung này trong thông báo xuất được gọi là ***Multi-Exit Discriminator (MED)* (Bộ phân biệt đa lối ra)**. Từ góc độ của bên xuất, nó chỉ ra *Router* ưu tiên của tôi để vào mạng của tôi. Từ góc độ của bên nhập, nó chỉ ra *Router* ưu tiên của *AS* khác để thoát khỏi mạng của tôi và vào mạng của *AS* kia.
 
-Another way to interpret the MED is, the distance to the destination, via this router. The exporter can say, "the west coast router is 3 hops away from the destination," and "the east coast router is 12 hops away from the destination." Lower MED numbers are preferred, since the exporter wants to use as little of its own bandwidth as possible. The exporter would rather use 3 of its own links, instead of 12 of its own links.
+Một cách khác để diễn giải *MED* là, khoảng cách đến đích, thông qua *Router* này. Bên xuất có thể nói, " *router* bờ Tây cách đích 3 chặng," và " *router* bờ Đông cách đích 12 chặng." Các số *MED* thấp hơn được ưu tiên, vì bên xuất muốn sử dụng càng ít *bandwidth* của mình càng tốt. Bên xuất thà sử dụng 3 liên kết của mình, thay vì 12 liên kết của mình.
 
+## Ưu tiên Chính sách Nhập
 
-## Import Policy Priority
+Mô hình chi tiết hơn của chúng ta, nơi hai *AS* có thể được kết nối bằng nhiều liên kết, có nghĩa là bây giờ chúng ta có thêm các quy tắc chính sách nhập, ngoài các quy tắc Gao-Rexford. Khi bạn nhận được nhiều thông báo cho cùng một đích, hãy chọn một đường đi dựa trên các quy tắc phá vỡ thế cân bằng này, theo thứ tự sau:
 
-Our more detailed model, where two ASes can be connected with multiple links, means that we now have additional import policy rules, in addition to the Gao-Rexford rules. When you receive multiple announcements for the same destination, select a path based on these tiebreaking rules, in this order:
-
-1. Use the **Gao-Rexford rules**. Select the path advertised by a customer, over the path advertised by a peer, over the path advertised by a provider.
-2. If multiple paths have the same Gao-Rexford priority (e.g. two paths from customers), select the **shorter path** (the path passing through fewer ASes).
-3. If multiple paths have the same length, select the path with the **closer egress router** (using IGP to find distance to each egress router).
-4. If multiple paths have the same distance to egress router, select the path with the **lower MED** (where MED is included in the advertisement).
-5. If multiple paths have the same MED, **tiebreak arbitrarily** (e.g. pick the router with the lower IP address).
+1.  Sử dụng ***Gao-Rexford rules* (các quy tắc Gao-Rexford)**. Chọn đường đi được quảng bá bởi một khách hàng, hơn đường đi được quảng bá bởi một đối tác ngang hàng, hơn đường đi được quảng bá bởi một nhà cung cấp.
+2.  Nếu nhiều đường đi có cùng mức độ ưu tiên Gao-Rexford (ví dụ: hai đường đi từ khách hàng), hãy chọn **đường đi ngắn hơn** (đường đi qua ít *AS* hơn).
+3.  Nếu nhiều đường đi có cùng độ dài, hãy chọn đường đi có ***egress router* gần hơn** (sử dụng *IGP* để tìm khoảng cách đến mỗi *egress router*).
+4.  Nếu nhiều đường đi có cùng khoảng cách đến *egress router*, hãy chọn đường đi có ***MED* thấp hơn** (trong đó *MED* được bao gồm trong quảng bá).
+5.  Nếu nhiều đường đi có cùng *MED*, **phá vỡ thế cân bằng một cách tùy ý** (ví dụ: chọn *Router* có địa chỉ IP thấp hơn).
 
 <img width="900px" src="../assets/routing/2-190-med5.png">
 
-Notice that closest egress router (hot potato routing) and MED are often contradictory. Every AS prefers to minimize their own bandwidth usage, and wants the packet to be carried on other ASes' bandwidth.
+Lưu ý rằng *egress router* gần nhất (*hot potato routing*) và *MED* thường mâu thuẫn với nhau. Mọi *AS* đều muốn giảm thiểu việc sử dụng *bandwidth* của mình, và muốn *packet* được vận chuyển trên *bandwidth* của các *AS* khác.
 
-As the exporting AS, I want the packet to enter my AS as close to the destination as possible. This means I want the importing AS to carry the packet really far (long path to egress).
+Với tư cách là *AS* xuất, tôi muốn *packet* vào *AS* của mình càng gần đích càng tốt. Điều này có nghĩa là tôi muốn *AS* nhập mang *packet* đi rất xa (đường dài đến *egress router*).
 
 <img width="900px" src="../assets/routing/2-191-med6.png">
 
-By contrast, as the importing AS, I want to carry the packet as little as possible (short path to egress). This means I want the packet to enter the other AS as far from the destination as possible (force the other AS to do all the work).
+Ngược lại, với tư cách là *AS* nhập, tôi muốn mang *packet* đi càng ít càng tốt (đường ngắn đến *egress router*). Điều này có nghĩa là tôi muốn *packet* vào *AS* kia càng xa đích càng tốt (buộc *AS* kia phải làm tất cả công việc).
 
 <img width="900px" src="../assets/routing/2-192-med7.png">
 
-One consequence of this contradiction is that paths through the Internet are often asymmetric. If two hosts are sending packets back and forth, the path in one direction might be different from the path in the other direction.
+Một hệ quả của sự mâu thuẫn này là các đường đi qua Internet thường không đối xứng. Nếu hai máy chủ đang gửi *packet* qua lại, đường đi theo một hướng có thể khác với đường đi theo hướng ngược lại.
 
 <img width="800px" src="../assets/routing/2-193-med8.png">
 
-In this example, for eastbound packets, A picks the west egress router and forces B to carry the traffic most of the way. In the other (westbound) direction, B picks the east egress router, and forces A to carry the traffic most of the way.
+Trong ví dụ này, đối với các *packet* đi về phía Đông, A chọn *egress router* phía Tây và buộc B phải mang lưu lượng đi gần hết quãng đường. Ở chiều ngược lại (về phía Tây), B chọn *egress router* phía Đông, và buộc A phải mang lưu lượng đi gần hết quãng đường.
 
-Fundamentally, BGP allows this behavior because every AS is granted the autonomy to set their own policy (here, that policy is hot potato routing).
+Về cơ bản, *BGP* cho phép hành vi này vì mọi *AS* đều được cấp quyền tự chủ để đặt chính sách của riêng mình (ở đây, chính sách đó là *hot potato routing*).
 
-In practice, sometimes ASes will try and implement more clever strategies to trick other ASes into carrying the packet further. Or, an AS with better bandwidth might agree to carry your traffic further for you, if you pay a premium fee.
+Trong thực tế, đôi khi các *AS* sẽ cố gắng thực hiện các chiến lược thông minh hơn để lừa các *AS* khác mang *packet* đi xa hơn. Hoặc, một *AS* có *bandwidth* tốt hơn có thể đồng ý mang lưu lượng của bạn đi xa hơn, nếu bạn trả một khoản phí cao cấp.
 
+## Các loại thông điệp BGP và Thuộc tính tuyến đường
 
-## BGP Message Types and Route Attributes
+Hãy nhớ lại rằng một giao thức phải xác định cú pháp và ngữ nghĩa. Cụ thể, *BGP* phải xác định cấu trúc của các thông điệp được gửi và nhận. *BGP* cũng phải xác định một *Router* nên làm gì khi nhận được một thông điệp.
 
-Recall that a protocol must specify syntax and semantics. Specifically, BGP must specify the structure of messages being sent and received. BGP must also specify what a router should do when it receives a message.
+Có bốn loại thông điệp *BGP* khác nhau. Thông điệp Open có thể được sử dụng để bắt đầu một phiên giữa hai *Router* để giao tiếp với nhau. Thông điệp KeepAlive có thể được sử dụng để xác nhận rằng một phiên vẫn đang mở, ngay cả khi các thông điệp không được gửi gần đây. Thông điệp Notification có thể được sử dụng để xử lý lỗi. Chúng ta sẽ không mô tả ba loại thông điệp đầu tiên này một cách chi tiết hơn.
 
-There are four different BGP message types. Open messages can be used to start a session between two routers to communicate with each other. KeepAlive messages can be used to confirm that a session is still open, even if messages haven't been sent recently. Notification messages can be used to process errors. We won't describe these first three message types in any further detail.
+Chúng ta sẽ tập trung vào loại thông điệp thứ tư và thú vị nhất, Update. Các thông điệp này được sử dụng để thông báo các tuyến đường mới, thay đổi các tuyến đường hiện có, hoặc xóa các tuyến đường không còn hoạt động.
 
-We'll focus on the fourth and most interesting message type, Update. These messages are used to announce new routes, change existing routes, or delete routes that are no longer active.
+Thông điệp Update chứa một đích, được biểu thị bằng một tiền tố IP. Thông điệp cũng chứa ***route attributes* (thuộc tính tuyến đường)**, có thể được sử dụng để mã hóa bất kỳ thông tin hữu ích nào tương ứng với tiền tố IP đó. Các *route attributes* là một tập hợp các cặp tên-giá trị, trong đó tên cho biết loại thuộc tính, và giá trị cho biết giá trị của thuộc tính đó. Một ví dụ về các thuộc tính không liên quan đến mạng có thể là: color=red, shape=triangle. Tên thuộc tính là color và shape, và chúng tương ứng với các giá trị red và triangle.
 
-The Update message contains a destination, represented as an IP prefix. The message also contains **route attributes**, which can be used to encode any useful information corresponding to that IP prefix. The route attributes are a set of name-value pairs, where the name indicates the type of attribute, and the value indicates the value of that attribute. A non-networking example of attributes might be: color=red, shape=triangle. The attribute names are color and shape, and they correspond to values of red and triangle, respectively.
+Một số thuộc tính là cục bộ cho một *AS*, và chỉ được trao đổi trong các thông điệp *iBGP*. Các thuộc tính khác là toàn cục, và có thể được gửi trong các quảng bá *eBGP*.
 
-Some attributes are local to an AS, and are only exchanged in iBGP messages. Other attributes are global, and can be sent in eBGP advertisements.
+Có nhiều thuộc tính *BGP*, nhưng chúng ta sẽ tập trung vào ba thuộc tính quan trọng, được sử dụng để mã hóa các quy tắc phá vỡ thế cân bằng khác nhau để nhập đường đi.
 
-There are many BGP attributes, but we'll focus on three important ones, which are used to encode the different tiebreakers for importing paths.
-
-The **LOCAL PREFERENCE** attribute encodes the Gao-Rexford import rules (top priority tiebreaker) inside a specific AS. An AS can assign a higher value to more preferred routes (e.g. from customers), and a lower value to less preferred routes (e.g. from providers). This attribute is local, and only carried in iBGP messages. This attribute is not sent to other ASes in eBGP announcements, because other ASes don't need to know about this AS's preferences.
+Thuộc tính ***LOCAL PREFERENCE* (Ưu tiên Cục bộ)** mã hóa các quy tắc nhập Gao-Rexford (quy tắc phá vỡ thế cân bằng ưu tiên hàng đầu) bên trong một *AS* cụ thể. Một *AS* có thể gán một giá trị cao hơn cho các tuyến đường được ưu tiên hơn (ví dụ: từ khách hàng), và một giá trị thấp hơn cho các tuyến đường ít được ưu tiên hơn (ví dụ: từ các nhà cung cấp). Thuộc tính này là cục bộ, và chỉ được mang trong các thông điệp *iBGP*. Thuộc tính này không được gửi đến các *AS* khác trong các thông báo *eBGP*, vì các *AS* khác không cần biết về các ưu tiên của *AS* này.
 
 <img width="900px" src="../assets/routing/2-194-attribute1.png">
 
-As an example, suppose router E receives an eBGP announcement from AS#7, and router A knows that AS#7 is a customer. Then, in the iBGP message, router E can set a local preference value of 3000 (high number). Now, every other router in the same AS knows that router E can reach the destination it's announcing, via the path in the *ASPATH* attribute, with a local preference of 3000.
+Ví dụ, giả sử *Router* E nhận được một thông báo *eBGP* từ AS#7, và *Router* A biết rằng AS#7 là một khách hàng. Sau đó, trong thông điệp *iBGP*, *Router* E có thể đặt giá trị *local preference* là 3000 (số cao). Bây giờ, mọi *Router* khác trong cùng *AS* đều biết rằng *Router* E có thể đến được đích mà nó đang thông báo, thông qua đường đi trong thuộc tính *ASPATH*, với *local preference* là 3000.
 
-By contrast, if router D receives an eBGP announcement from AS#79, and this AS is a peer, then in the iBGP message, router D can set a lower local preference value of 1000 and then distribute this path (with lower local preference) to the other routers in the AS.
+Ngược lại, nếu *Router* D nhận được một thông báo *eBGP* từ AS#79, và *AS* này là một đối tác ngang hàng, thì trong thông điệp *iBGP*, *Router* D có thể đặt giá trị *local preference* thấp hơn là 1000 và sau đó phân phối đường đi này (với *local preference* thấp hơn) đến các *Router* khác trong *AS*.
 
-The local preference numbers are arbitrary, and only their relative ranking is important. In the example above, the numbers could have been 300 and 100 instead of 3000 and 1000, and the behavior would be the same. The local preference numbers are often set manually by operators.
+Các số *local preference* là tùy ý, và chỉ có thứ hạng tương đối của chúng là quan trọng. Trong ví dụ trên, các số có thể là 300 và 100 thay vì 3000 và 1000, và hành vi sẽ giống nhau. Các số *local preference* thường được các nhà khai thác đặt thủ công.
 
-The **ASPATH** attribute contains a list of ASes along the route being advertised (in reverse order). This attribute is global, and can be sent in eBGP announcements.
+Thuộc tính ***ASPATH* (Đường đi AS)** chứa một danh sách các *AS* dọc theo tuyến đường đang được quảng bá (theo thứ tự ngược lại). Thuộc tính này là toàn cục, và có thể được gửi trong các thông báo *eBGP*.
 
 <img width="800px" src="../assets/routing/2-195-attribute2.png">
 
-As an example, an announcement would have IP prefix of the destination (128.112.0.0/16), and an ASPATH attribute of [3, 72, 25].
+Ví dụ, một thông báo sẽ có tiền tố IP của đích (128.112.0.0/16), và một thuộc tính *ASPATH* là.
 
-The *ASPATH* is the second priority tiebreaker when importing paths. If two announcements have the same local preference (e.g. both are from customers), then we'll select the shorter path. *ASPATH* tells us the length of each path, measured by the number of ASes the path goes through.
+*ASPATH* là quy tắc phá vỡ thế cân bằng ưu tiên thứ hai khi nhập đường đi. Nếu hai thông báo có cùng *local preference* (ví dụ: cả hai đều từ khách hàng), thì chúng ta sẽ chọn đường đi ngắn hơn. *ASPATH* cho chúng ta biết độ dài của mỗi đường đi, được đo bằng số lượng *AS* mà đường đi đó đi qua.
 
-If the local preference and path length are tied, the third priority tiebreaker is the IGP cost to the egress router. This cost is stored in the router's local forwarding table (e.g. a local distance-vector protocol would store the cost to every other router in the same AS).
+Nếu *local preference* và độ dài đường đi bằng nhau, quy tắc phá vỡ thế cân bằng ưu tiên thứ ba là chi phí *IGP* đến *egress router*. Chi phí này được lưu trữ trong *forwarding table* cục bộ của *Router* (ví dụ: một giao thức distance-vector cục bộ sẽ lưu trữ chi phí đến mọi *Router* khác trong cùng *AS*).
 
-The **MED** attribute encodes the preferences of the exporting AS. Equivalently, this attribute represents the distance from the exporting router to the destination (lower numbers are preferred).
+Thuộc tính ***MED*** mã hóa các ưu tiên của *AS* xuất. Tương đương, thuộc tính này đại diện cho khoảng cách từ *Router* xuất đến đích (số thấp hơn được ưu tiên).
 
 <img width="900px" src="../assets/routing/2-196-attribute3.png">
 
-For example, if there are two links between these two ASes, both border routers from the exporting AS will announce a path. The *ASPATH* and destination are the same, since the path of ASes to the destination is the same in both cases. However, the west router will include a lower *MED* attribute number, than the east router. This says: when possible, please route packets for the destination through my west router (lower number), because this router is closer to the destination.
+Ví dụ, nếu có hai liên kết giữa hai *AS* này, cả hai *border router* từ *AS* xuất sẽ thông báo một đường đi. *ASPATH* và đích là giống nhau, vì đường đi của các *AS* đến đích là giống nhau trong cả hai trường hợp. Tuy nhiên, *router* phía Tây sẽ bao gồm một số thuộc tính *MED* thấp hơn, so với *router* phía Đông. Điều này nói rằng: khi có thể, vui lòng định tuyến các *packet* cho đích thông qua *router* phía Tây của tôi (số thấp hơn), vì *router* này gần đích hơn.
 
-If the local preference, path length, and distance to egress router are all tied, the fourth priority tiebreaker is the MED number inside each announcement.
+Nếu *local preference*, độ dài đường đi, và khoảng cách đến *egress router* đều bằng nhau, quy tắc phá vỡ thế cân bằng ưu tiên thứ tư là số *MED* bên trong mỗi thông báo.
 
+## Các vấn đề với BGP
 
-## Issues with BGP
+*BGP* không có đảm bảo bảo mật tích hợp. Một *AS* độc hại có thể nói dối và quảng bá một tuyến đường đến một đích, ngay cả khi *AS* đó không thể đến được đích đó. Một *AS* độc hại cũng có thể quảng bá một tuyến đường rất rẻ đến một đích, ngay cả khi tuyến đường rẻ đó thực sự không tồn tại. Điều này có thể khuyến khích các *AS* khác định tuyến *packet* qua *AS* độc hại, nơi kẻ tấn công có thể xóa hoặc sửa đổi các *packet* đi qua *AS* độc hại. Các cuộc tấn công này được gọi là ***prefix hijacking* (chiếm đoạt tiền tố)**. Hiện có nghiên cứu tích cực về việc sử dụng mật mã để bảo mật *BGP*, mặc dù các giao thức như vậy chưa được triển khai rộng rãi.
 
-BGP has no built-in security guarantees. A malicious AS could lie and advertise a route to a destination, even if the AS cannot reach that destination. A malicious AS could also advertise a very cheap route to a destination, even if that cheap route doesn't actually exist. This could encourage other ASes to route packets through the malicious AS, where the attacker could delete or modify packets passing through the malicious AS. These attacks are called **prefix hijacking**. There is active research on using cryptography to secure BGP, though such protocols are not widely deployed.
+*BGP* ưu tiên chính sách hơn là chi phí thấp nhất khi chọn đường đi. Ngoài ra, vì *BGP* đo độ dài đường đi bằng số lượng *AS*, độ dài đường đi có thể gây hiểu nhầm (ví dụ: một *AS* có thể chứa 2 *Router* hoặc 200 *Router* dọc theo đường đi đang được quảng bá). Điều này có thể dẫn đến các vấn đề trong đó các *packet* không phải lúc nào cũng đi theo đường có chi phí thấp nhất, và rất khó để lý giải về hiệu suất trên Internet. Một số người có thể phân loại đây là các vấn đề, mặc dù chúng có thể là một sự đánh đổi thiết kế có chủ ý. Các nhà thiết kế *BGP* đã đưa ra một lựa chọn thiết kế có ý thức để ưu tiên chính sách và che giấu cấu trúc liên kết nội bộ của một *AS*, đổi lại là hiệu suất.
 
-BGP prioritizes policy over least-cost when selecting paths. Also, because BGP measures path length in terms of the number of ASes, the path length can be misleading (e.g. one AS could contain 2 routers or 200 routers along the path being advertised). This can lead to issues where packets don't always take least-cost paths, and it's difficult to reason about performance on the Internet. Some might classify these as issues, though they may be more of an intentional design trade-off. The designers of BGP made a conscious design choice to prioritize policy and hide the internal topology of an AS, at the expense of performance.
+*BGP* phức tạp để triển khai. Có nhiều chi tiết triển khai tinh vi mà chúng ta không đề cập đến. Ngay cả trong các chủ đề chúng ta đã đề cập, một số cấu hình nhất định như *local preference* hoặc số *MED* phải được nhà khai thác đặt thủ công, và các cấu hình không chính xác có thể dẫn đến các đường đi không chính xác lan truyền qua mạng. Cấu hình sai *BGP* thường có thể dẫn đến sự cố mất mạng Internet, và có nghiên cứu tích cực về các công cụ để xác minh rằng *BGP* được cấu hình đúng.
 
-BGP is complicated to implement. There are many subtle implementation details that we didn't cover. Even in the topics we covered, certain configurations like local preference or MED numbers have to be manually set by the operator, and incorrect configurations could lead to incorrect paths spreading through the network. BGP misconfigurations can often lead to Internet outages, and there is active research on tools to verify that BGP is properly configured.
-
-BGP requires certain assumptions (everybody is following the Gao-Rexford rules, AS graph forms a hierarchy, no provider-customer cycles) in order to guarantee reachability and convergence. If these assumptions don't hold (e.g. an AS chooses its own policy that violates Gao-Rexford), BGP can produce unstable behavior, where routes never converge, or cycles and dead-ends appear.
+*BGP* yêu cầu một số giả định nhất định (mọi người đều tuân theo các quy tắc Gao-Rexford, biểu đồ *AS* tạo thành một hệ thống phân cấp, không có chu trình nhà cung cấp-khách hàng) để đảm bảo khả năng tiếp cận và hội tụ. Nếu các giả định này không được đáp ứng (ví dụ: một *AS* chọn chính sách riêng vi phạm Gao-Rexford), *BGP* có thể tạo ra hành vi không ổn định, trong đó các tuyến đường không bao giờ hội tụ, hoặc các chu trình và ngõ cụt xuất hiện.
+ END OF TRANSLATED FILE ---
