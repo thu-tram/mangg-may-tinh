@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # TCP Throughput Model
 
 ## Modeling Assumptions

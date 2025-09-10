@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Border Gateway Protocol (BGP)
 
 ## Brief History of BGP

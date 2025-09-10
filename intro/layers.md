@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Layers of the Internet
 
 Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:

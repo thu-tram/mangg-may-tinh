@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Core-Based Trees (CBT)** – Cây dựa trên lõi
 
 ## **Định nghĩa CBT (CBT Definition)**

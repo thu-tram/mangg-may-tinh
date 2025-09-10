@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Router Hardware
 
 ## What Do Routers Do?

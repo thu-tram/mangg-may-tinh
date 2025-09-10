@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Host Networking** (Mạng tại máy chủ)
 
 ## **Host Networking là gì?** (What is Host Networking?)
@@ -161,7 +154,7 @@ Trong abstraction RDMA, NIC đọc tệp từ bộ nhớ và gửi đi, **không
 
 <img width="300px" src="../assets/datacenter/6-093-queue1.png">
 
-Mỗi phần tử trong queue được gọi là **Work Queue Element (WQE)** (phần tử hàng đợi công việc). Một WQE cho phép ứng dụng mô tả công việc cần thực hiện. Ví dụ, WQE trong receive queue có thể nói: “Lấy 100 MB bắt đầu từ địa chỉ `0xffff1234` trên server từ xa, và ghi chúng vào địa chỉ `0xffff7890` trong bộ nhớ cục bộ của tôi.” Trong mã nguồn, WQE là một **struct** chứa các chỉ dẫn này, ví dụ: một **pointer** (con trỏ) tới nơi sẽ ghi dữ liệu nhận được.
+Mỗi phần tử trong queue được gọi là **Work Queue Element (WQE)** (phần tử hàng đợi công việc). Một WQE cho phép ứng dụng mô tả công việc cần thực hiện. Ví dụ, WQE trong receive queue có thể nói: “Lấy 100 MB bắt đầu từ địa chỉ *0xffff1234* trên server từ xa, và ghi chúng vào địa chỉ *0xffff7890* trong bộ nhớ cục bộ của tôi.” Trong mã nguồn, WQE là một **struct** chứa các chỉ dẫn này, ví dụ: một **pointer** (con trỏ) tới nơi sẽ ghi dữ liệu nhận được.
 
 <img width="400px" src="../assets/datacenter/6-094-queue2.png">
 

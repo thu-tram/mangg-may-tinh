@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 # **Headers** (Tiêu đề gói tin)
 
 ## **Tại sao chúng ta cần Headers?** (Why Do We Need Headers?)
@@ -92,7 +85,7 @@ Trước đó, chúng ta đã nói rằng **header** (tiêu đề gói tin) cầ
 
 Khi xem xét chi tiết các tầng khác nhau, chúng ta sẽ thấy mỗi tầng có một **addressing scheme** (cơ chế địa chỉ hóa) riêng. Nếu bạn muốn gửi thư trong tòa nhà Soda Hall, bạn có thể ghi địa chỉ đích là “413 Soda Hall”, và những người trong tòa nhà sẽ biết cách chuyển thư. Ngược lại, nếu muốn gửi thư tới New York, bạn phải ghi đầy đủ địa chỉ đường phố, ví dụ: “123 Main Street, New York, NY”.
 
-Tương tự, các tầng khác nhau trong Internet có các cơ chế địa chỉ hóa phù hợp nhất cho tầng đó. Ví dụ: đôi khi một host được gọi bằng **tên dễ đọc với con người** (human-readable name), như `www.google.com`. Lúc khác, cùng host đó được gọi bằng **địa chỉ IP** (ví dụ: `74.124.56.2`), là dạng máy có thể đọc được, trong đó con số này mã hóa thông tin về vị trí của server (và có thể thay đổi nếu server di chuyển). Lại có lúc, cùng host đó được gọi bằng **địa chỉ MAC** phần cứng, vốn không bao giờ thay đổi.
+Tương tự, các tầng khác nhau trong Internet có các cơ chế địa chỉ hóa phù hợp nhất cho tầng đó. Ví dụ: đôi khi một host được gọi bằng **tên dễ đọc với con người** (human-readable name), như *www.google.com*. Lúc khác, cùng host đó được gọi bằng **địa chỉ IP** (ví dụ: *74.124.56.2*), là dạng máy có thể đọc được, trong đó con số này mã hóa thông tin về vị trí của server (và có thể thay đổi nếu server di chuyển). Lại có lúc, cùng host đó được gọi bằng **địa chỉ MAC** phần cứng, vốn không bao giờ thay đổi.
 
 <img width="700px" src="../assets/intro/1-18-naming.png">
 

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Kết nối Không dây (Wireless Links)
 
 ## Giới thiệu về Công nghệ Không dây (Wireless Technologies)

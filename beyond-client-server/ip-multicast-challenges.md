@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Thách thức của IP Multicast** (IP Multicast Challenges)
 
 ## **Định tuyến liên miền** (Inter-Domain Routing)

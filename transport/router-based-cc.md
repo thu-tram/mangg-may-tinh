@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Router-Assisted Congestion Control
 
 ## Congestion Control with Routers

@@ -1,12 +1,5 @@
 
 
-
-
-
-
-
-
-
 # **Kiểm soát tắc nghẽn trong Datacenter** (Congestion Control in Datacenters)
 
 ## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)

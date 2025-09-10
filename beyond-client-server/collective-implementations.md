@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Triển khai Collective** (Collective Implementations)
 
 ## **Động lực: Triển khai AllReduce** (Motivation: Implementing AllReduce)

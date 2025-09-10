@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # HTTP
 
 ## Lược sử HTTP (Brief History of HTTP)
@@ -36,7 +29,7 @@ Thông điệp yêu cầu HTTP được định dạng ở dạng văn bản thu
 Thông điệp kết thúc bằng một ký tự xuống dòng (thực tế là **CRLF** – Carriage Return Line Feed), bạn có thể hình dung như việc nhấn phím Enter sau khi gõ yêu cầu HTTP trong terminal.
 
 - **Version**: chỉ định phiên bản HTTP đang sử dụng, ví dụ: HTTP/0.9, HTTP/1.0, HTTP/1.1, v.v.
-- **URL**: xác định tài nguyên trên server. Bạn có thể hình dung URL như đường dẫn tệp mà bạn muốn lấy từ server từ xa. Ví dụ: trong URL `http://cs168.io/assets/lectures/lecture1.pdf`, chúng ta đang yêu cầu tệp `lecture1.pdf` trong thư mục `assets/lectures` trên server `cs168.io`. (Server không bắt buộc phải hoạt động theo cách này, nhưng đây là một cách hình dung hữu ích).
+- **URL**: xác định tài nguyên trên server. Bạn có thể hình dung URL như đường dẫn tệp mà bạn muốn lấy từ server từ xa. Ví dụ: trong URL *http://cs168.io/assets/lectures/lecture1.pdf*, chúng ta đang yêu cầu tệp *lecture1.pdf* trong thư mục *assets/lectures* trên server *cs168.io*. (Server không bắt buộc phải hoạt động theo cách này, nhưng đây là một cách hình dung hữu ích).
 - **Method**: xác định hành động mà người dùng muốn thực hiện. Ban đầu, HTTP chỉ có một phương thức là **GET**, cho phép client lấy một trang cụ thể (được chỉ định bởi URL) từ server.
 
 Sau này, HTTP được mở rộng thêm các phương thức khác. Đáng chú ý là **POST**, cho phép client gửi dữ liệu tới server. Ví dụ: khi người dùng điền vào một biểu mẫu và nhấn Submit, dữ liệu sẽ được gửi tới server trong một yêu cầu POST.
@@ -45,7 +38,7 @@ Một số phương thức ít dùng hơn gồm:
 - **HEAD**: chỉ lấy phần header (metadata) của phản hồi, không lấy nội dung.  
 - **PUT, CONNECT, DELETE, OPTIONS, PATCH, TRACE**: mở rộng HTTP thành giao thức cho phép người dùng tương tác và thay đổi nội dung trên server, thay vì chỉ lấy nội dung như thiết kế ban đầu.  
 
-Lưu ý: Với các phương thức như POST, chúng ta vẫn phải cung cấp URL để chỉ định cách diễn giải dữ liệu gửi đi. Ví dụ: trên trang web ngân hàng, gửi tên tới `/send-money` sẽ khác với gửi cùng tên đó tới `/request-money`.
+Lưu ý: Với các phương thức như POST, chúng ta vẫn phải cung cấp URL để chỉ định cách diễn giải dữ liệu gửi đi. Ví dụ: trên trang web ngân hàng, gửi tên tới */send-money* sẽ khác với gửi cùng tên đó tới */request-money*.
 
 - Với **GET request**, nội dung yêu cầu thường rỗng, vì chúng ta chỉ yêu cầu một trang từ server.  
 - Với **POST request**, nội dung yêu cầu chứa dữ liệu mà chúng ta muốn gửi tới server.
@@ -64,21 +57,21 @@ Các mã trạng thái được phân loại theo giá trị số:
 
 - **100** = Thông tin (**Informational responses**).
 - **200** = Thành công (**Successful responses**).  
-  - `200 OK`: yêu cầu thành công (ý nghĩa cụ thể phụ thuộc vào phương thức và ứng dụng).  
-  - `201 Created`: yêu cầu thành công và một tài nguyên mới đã được tạo (thường thấy trong POST hoặc PUT).
+  - *200 OK*: yêu cầu thành công (ý nghĩa cụ thể phụ thuộc vào phương thức và ứng dụng).  
+  - *201 Created*: yêu cầu thành công và một tài nguyên mới đã được tạo (thường thấy trong POST hoặc PUT).
 - **300** = Chuyển hướng (**Redirection messages**).  
-  - `301 Moved Permanently`: tài nguyên đã được chuyển vĩnh viễn.  
-  - `302 Found`: tài nguyên được chuyển tạm thời.  
+  - *301 Moved Permanently*: tài nguyên đã được chuyển vĩnh viễn.  
+  - *302 Found*: tài nguyên được chuyển tạm thời.  
   Trong các trường hợp này, phản hồi thường kèm thông tin bổ sung về vị trí mới của tài nguyên (ví dụ: URL khác).
 - **400** = Lỗi từ phía client (**Client errors**).  
-  - `401 Unauthorized`: client chưa được phép truy cập nội dung, nhưng có thể truy cập nếu xác thực (login).  
-  - `403 Forbidden`: client đã xác thực, server biết danh tính nhưng vẫn không cho phép truy cập.
+  - *401 Unauthorized*: client chưa được phép truy cập nội dung, nhưng có thể truy cập nếu xác thực (login).  
+  - *403 Forbidden*: client đã xác thực, server biết danh tính nhưng vẫn không cho phép truy cập.
 - **500** = Lỗi từ phía server (**Server errors**).  
-  - `500 Internal Server Error`, `503 Service Unavailable` là phổ biến. Client hầu như không thể làm gì ngoài thử lại sau.
+  - *500 Internal Server Error*, *503 Service Unavailable* là phổ biến. Client hầu như không thể làm gì ngoài thử lại sau.
 
-Một số mã lỗi rất quen thuộc như `404 Not Found` (không tìm thấy tệp) và `503 Service Unavailable` (dịch vụ không khả dụng).
+Một số mã lỗi rất quen thuộc như *404 Not Found* (không tìm thấy tệp) và *503 Service Unavailable* (dịch vụ không khả dụng).
 
-Đôi khi, việc chọn mã trạng thái phù hợp có thể không rõ ràng. Ví dụ: nếu gửi yêu cầu HTTP phiên bản 0.9 tới Google, mã phù hợp có thể là `505 HTTP Version Not Supported`, nhưng Google lại trả về `400 Bad Request`. Thông thường, mục tiêu là trả về mã lỗi thuộc đúng nhóm (ví dụ: 400 hoặc 500) để kích hoạt hành vi xử lý phù hợp từ phía client.
+Đôi khi, việc chọn mã trạng thái phù hợp có thể không rõ ràng. Ví dụ: nếu gửi yêu cầu HTTP phiên bản 0.9 tới Google, mã phù hợp có thể là *505 HTTP Version Not Supported*, nhưng Google lại trả về *400 Bad Request*. Thông thường, mục tiêu là trả về mã lỗi thuộc đúng nhóm (ví dụ: 400 hoặc 500) để kích hoạt hành vi xử lý phù hợp từ phía client.
 
 ## **HTTP Headers**
 
@@ -108,29 +101,29 @@ Một số header là **representation header**, được sử dụng trong cả
 
 Trong terminal, bạn có thể gõ:
 
-```
+***
 telnet google.com 80
-```
+***
 
 để kết nối tới **Port 80** (HTTP) trên server của Google. Terminal sau đó sẽ cho phép bạn gõ một yêu cầu HTTP thô, kèm header, như:
 
-```
+***
 GET / HTTP/1.1
 User-Agent: robjs
-```
+***
 
 Đây là một GET request cho trang gốc trên server, chạy trên HTTP phiên bản 1.1. **User-Agent header** cho biết loại client mà chúng ta đang sử dụng.
 
 Tương tự, phản hồi cũng ở dạng văn bản dễ đọc:
 
-```
+***
 HTTP/1.1 200 OK
 Date: Sat, 16 Mar 2024 18:33:08 GMT
 Content-Type: text/html; charset=ISO-8859-1
 <!doctype html><html lang="en"><head><meta content="Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for." name="description">...
-```
+***
 
-Dòng `HTTP/1.1 200 OK` cho chúng ta biết phiên bản và mã trạng thái (200) cùng thông điệp tương ứng (OK). Có hai header đi kèm: ngày tạo phản hồi và loại nội dung. Sau đó, phần nội dung chứa HTML thô của trang web. Nếu mở HTML này trong trình duyệt, nó sẽ hiển thị như một trang web thực sự.
+Dòng *HTTP/1.1 200 OK* cho chúng ta biết phiên bản và mã trạng thái (200) cùng thông điệp tương ứng (OK). Có hai header đi kèm: ngày tạo phản hồi và loại nội dung. Sau đó, phần nội dung chứa HTML thô của trang web. Nếu mở HTML này trong trình duyệt, nó sẽ hiển thị như một trang web thực sự.
 
 <img width="800px" src="../assets/applications/4-14-httpexample1.png">
 
@@ -138,7 +131,7 @@ Dòng `HTTP/1.1 200 OK` cho chúng ta biết phiên bản và mã trạng thái 
 
 Dưới đây là một số ví dụ khác. Lưu ý rằng phần nội dung trống trong GET request, nhưng chứa dữ liệu trong POST và PUT request. Ngược lại, phản hồi của POST và PUT không có nội dung, nhưng phản hồi của GET thì có.
 
-Mã trạng thái và header cung cấp metadata hữu ích về yêu cầu. Ví dụ: mã trạng thái `201 Created` cho biết tệp mà chúng ta gửi đã được lưu thành công trên server. Header cho biết vị trí trên server nơi tệp được lưu (và chúng ta có thể dùng vị trí đó để tải lại tệp sau này).
+Mã trạng thái và header cung cấp metadata hữu ích về yêu cầu. Ví dụ: mã trạng thái *201 Created* cho biết tệp mà chúng ta gửi đã được lưu thành công trên server. Header cho biết vị trí trên server nơi tệp được lưu (và chúng ta có thể dùng vị trí đó để tải lại tệp sau này).
 
 
 
@@ -158,7 +151,7 @@ Hãy nhớ rằng HTTP chạy trên TCP. Trong trường hợp đơn giản, m�
 
 <img width="900px" src="../assets/applications/4-17-pipeline.png">
 
-Một nhược điểm của tối ưu hóa này là server giờ phải giữ nhiều kết nối mở đồng thời hơn. Server cần có cơ chế **timeout** (hết thời gian chờ) cho các kết nối. Nếu server bị quá tải với các kết nối mở, client có thể gặp lỗi như `503 Service Unavailable`. Kẻ tấn công có thể lợi dụng điều này để thực hiện **denial-of-service attack** (tấn công từ chối dịch vụ).
+Một nhược điểm của tối ưu hóa này là server giờ phải giữ nhiều kết nối mở đồng thời hơn. Server cần có cơ chế **timeout** (hết thời gian chờ) cho các kết nối. Nếu server bị quá tải với các kết nối mở, client có thể gặp lỗi như *503 Service Unavailable*. Kẻ tấn công có thể lợi dụng điều này để thực hiện **denial-of-service attack** (tấn công từ chối dịch vụ).
 
 
 
@@ -190,7 +183,7 @@ Có ba loại HTTP cache:
 
 <img width="900px" src="../assets/applications/4-21-managedcache.png">
 
-  Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ `static.youtube.com` thay vì `www.youtube.com`).
+  Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ *static.youtube.com* thay vì *www.youtube.com*).
 
 
 
@@ -224,17 +217,17 @@ Thuận lợi là các tài nguyên lớn như hình ảnh và video thường l
 
 **Cache-Control header** chỉ định loại cache nào được phép lưu dữ liệu và thời gian lưu. Ví dụ: nếu tài nguyên là động và thay đổi theo từng người dùng nhưng giữ nguyên theo thời gian cho một người dùng cụ thể, server có thể trả về:
 
-```
+***
 Cache-Control: private, max-age=86400
-```
+***
 
 Điều này nghĩa là nội dung chỉ được lưu trong cache cục bộ của người dùng (không lưu trong proxy/managed cache chia sẻ) và có thể lưu trong 1 ngày (86400 giây).
 
 Một số dữ liệu không thể cache (ví dụ: nội dung động thay đổi thường xuyên). Khi đó, server có thể đặt:
 
-```
+***
 Cache-Control: no-store
-```
+***
 
 để báo rằng client và proxy không được cache nội dung.
 
@@ -324,7 +317,7 @@ Một vấn đề của cách tiếp cận dựa trên DNS là thiếu tính chi
 
 <img width="800px" src="../assets/applications/4-27-dns-loadbalance.png">
 
-Một cách tiếp cận mạnh mẽ hơn anycast hoặc DNS là **application-level mapping** (ánh xạ ở tầng ứng dụng). Khi origin server nhận một yêu cầu HTTP, các liên kết trong phản hồi có thể trỏ tới các máy chủ khác nhau (ví dụ: `static1.google.com` hoặc `static2.google.com`, hai máy chủ ở các vị trí khác nhau), tùy thuộc vào nơi yêu cầu xuất phát. Hoặc, origin server có thể trả về mã trạng thái HTTP 300-level để chuyển hướng người dùng tới máy chủ phù hợp.
+Một cách tiếp cận mạnh mẽ hơn anycast hoặc DNS là **application-level mapping** (ánh xạ ở tầng ứng dụng). Khi origin server nhận một yêu cầu HTTP, các liên kết trong phản hồi có thể trỏ tới các máy chủ khác nhau (ví dụ: *static1.google.com* hoặc *static2.google.com*, hai máy chủ ở các vị trí khác nhau), tùy thuộc vào nơi yêu cầu xuất phát. Hoặc, origin server có thể trả về mã trạng thái HTTP 300-level để chuyển hướng người dùng tới máy chủ phù hợp.
 
 Cách tiếp cận ở tầng ứng dụng này không gặp vấn đề về granularity như DNS, vì ứng dụng có thể thấy địa chỉ của client trong yêu cầu HTTP. Nó cũng không gặp vấn đề của anycast, vì các máy chủ có thể có địa chỉ IP khác nhau.
 

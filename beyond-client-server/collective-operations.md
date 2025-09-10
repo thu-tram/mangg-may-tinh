@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Collective Operations** (Các thao tác tập thể)
 
 ## **Động lực: AI Training** (Huấn luyện trí tuệ nhân tạo)

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Congestion Control Principles
 
 ## Congestion is Harmful

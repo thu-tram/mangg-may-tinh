@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Congestion Control Issues
 
 ## Confusing Corruption and Congestion

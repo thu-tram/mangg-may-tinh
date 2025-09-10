@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Congestion Control Design
 
 ## Host-Based Algorithm Sketch

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Addressing
 
 ## Scaling Routing

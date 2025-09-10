@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Introduction to Routing
 
 ## What is Routing?

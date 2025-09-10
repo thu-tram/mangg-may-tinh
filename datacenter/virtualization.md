@@ -1,115 +1,104 @@
+# Virtualization and Encapsulation (Ảo hóa và Đóng gói)
 
+## Hạn chế của Datacenter vật lý
 
+Các *Datacenters* (trung tâm dữ liệu) được tổ chức một cách cố định và có cấu trúc. Các *servers* (máy chủ) giống hệt nhau được tổ chức thành các *racks* (giá đỡ), và các *racks* được sắp xếp theo một *topology* (topo) cố định nào đó. Cách tiếp cận này có một số lợi ích. Ví dụ, nó cho chúng ta một cách tự nhiên để gán *hierarchical addresses* (địa chỉ phân cấp).
 
+Tuy nhiên, khi chúng ta xem xét cách các ứng dụng được lưu trữ trên *datacenters*, việc tổ chức cố định của *datacenters* có một số nhược điểm. Giả sử Google giới thiệu một dịch vụ mới mà họ muốn lưu trữ trong một *datacenter* hiện có. Nếu chúng ta đặt ứng dụng đó trực tiếp lên một *physical server* (máy chủ vật lý), ai đó sẽ phải cài đặt vật lý một *server* mới, với *IP address* (địa chỉ IP) riêng, cho ứng dụng này. Nếu dịch vụ mở rộng, có thể cần phải cài đặt thêm nhiều *servers* hơn. Nếu *server* bị hỏng, chúng ta sẽ phải đợi ai đó sửa chữa nó. Vấn đề chính ở đây là việc thay đổi cơ sở hạ tầng vật lý rất khó khăn, nhưng chúng ta thường muốn thêm các *hosts* (máy chủ) mới, mở rộng quy mô các *hosts* hiện có, và di chuyển *hosts* một cách nhanh chóng và thường xuyên.
 
+Việc đặt các ứng dụng trên các *physical servers* cũng gây ra các vấn đề về khả năng mở rộng. Giả sử dịch vụ mới của Google rất nhẹ, nhưng cần một *server* chuyên dụng (ví dụ: vì lý do bảo mật). Chúng ta sẽ phải gán toàn bộ một *physical server* cho dịch vụ nhẹ này, và hầu hết năng lực tính toán của *server* sẽ không được sử dụng.
 
-
-
-# Virtualization and Encapsulation
-
-## Physical Datacenter Limitations
-
-Datacenters are organized in a fixed and structured way. Identical servers are organized into racks, and racks arranged in some fixed topology. This approach has some benefits. For example, it gives us a natural way to assign hierarchical addresses.
-
-However, when we consider how applications are hosted on datacenters, the fixed organization of datacenters has some downsides. Suppose Google introduced a new service that they want to host in an existing datacenter. If we placed that application directly on a physical server, someone would have to physically install a new server, with its own IP address, for this application. If the service expands, more servers might need to be installed. If the server goes down, we'd have to wait for somebody to fix it. The key problem here is that changing physical infrastructure is hard, but we often want to add new hosts, scale up existing hosts, and move hosts quickly and frequently.
-
-Placing applications on physical servers also introduces scaling issues. Suppose Google's new service is very lightweight, but needs a dedicated server (e.g. for security reasons). We'd have to assign an entire physical server to this lightweight service, and most of the server's computing capacity would be unused.
-
-This approach also has routing issues. Suppose we wanted to move the service to a different part of the datacenter building (e.g. because part of the building is undergoing maintenance). First, someone would have to physically move the server in the building. Also, in our hierarchical address model, we would need to assign this service a new IP address corresponding to its new physical location. Ideally, the application would prefer to keep the same address, regardless of its datacenter location.
+Cách tiếp cận này cũng có các vấn đề về định tuyến. Giả sử chúng ta muốn di chuyển dịch vụ đến một phần khác của tòa nhà *datacenter* (ví dụ: vì một phần của tòa nhà đang được bảo trì). Đầu tiên, ai đó sẽ phải di chuyển vật lý *server* trong tòa nhà. Ngoài ra, trong mô hình *hierarchical address* của chúng ta, chúng ta sẽ cần gán cho dịch vụ này một *IP address* mới tương ứng với vị trí vật lý mới của nó. Lý tưởng nhất, ứng dụng sẽ muốn giữ nguyên địa chỉ, bất kể vị trí của nó trong *datacenter*.
 
 <img width="900px" src="../assets/datacenter/6-043-dc-address-scaling.png">
 
+## Virtualization (Ảo hóa)
 
-## Virtualization
+Chúng ta có thể sử dụng *virtualization* để giải quyết những vấn đề này và mang lại cho các ứng dụng sự linh hoạt hơn, trong khi vẫn duy trì cấu trúc vật lý cứng nhắc của *datacenter*. ***Virtualization*** cho phép chúng ta chạy một hoặc nhiều *virtual servers* (máy chủ ảo) bên trong một *physical server*.
 
-We can use virtualization to solve these problems and give applications more flexibility, while maintaining the rigid physical structure of the datacenter. **Virtualization** allows us to run one or more virtual servers inside a physical server.
+*Virtual server* mang lại cho các ứng dụng ảo giác rằng chúng đang chạy trên một máy vật lý chuyên dụng. Tuy nhiên, trên thực tế, nhiều *virtual servers* có thể đang chạy trên cùng một máy. Khi ứng dụng cố gắng tương tác với phần cứng (ví dụ: đĩa, *network card* (card mạng)), nó thực sự đang tương tác với một ***hypervisor* (trình quản lý máy ảo)** trong phần mềm. *Hypervisor* cung cấp cho mỗi ứng dụng ảo cùng một giao diện mà phần cứng thực sự sẽ có. Bản thân *hypervisor* chạy trên phần cứng vật lý thực tế, và có thể chuyển tiếp các yêu cầu của ứng dụng (ví dụ: ghi đĩa, gửi gói tin mạng) đến cấp độ phần cứng.
 
-The virtual server gives applications the illusion that they are running on a dedicated physical machine. However, in reality, multiple virtual servers might be running on the same machine. When the application tries to interact with hardware (e.g. disk, network card), it is actually interacting with a **hypervisor** in software. The hypervisor presents each virtual application with the same interface that real hardware would. The hypervisor itself runs on actual physical hardware, and can forward application requests (e.g. disk write, network packet send) to the hardware level.
-
-With virtualization, if we have a new application, we can ask a hypervisor to start up a new virtual machine for this application. The hypervisor runs in software, so there's no need to install any new server in the physical datacenter. Similarly, we can move hosts to a different physical machine, entirely in software.
+Với *virtualization*, nếu chúng ta có một ứng dụng mới, chúng ta có thể yêu cầu một *hypervisor* khởi động một *virtual machine* (máy ảo) mới cho ứng dụng này. *Hypervisor* chạy trong phần mềm, vì vậy không cần phải cài đặt bất kỳ *server* mới nào trong *datacenter* vật lý. Tương tự, chúng ta có thể di chuyển *hosts* đến một máy vật lý khác, hoàn toàn bằng phần mềm.
 
 <img width="900px" src="../assets/datacenter/6-044-vm.png">
 
-Virtualization allows multiple applications to share a physical server. The applications can be separated from each other, and can be managed by different people. This lets us use the compute resources in the datacenter more efficiently. This also allows us to have more hosts in the datacenter. For example, a single rack with 40 servers could have more than 40 end hosts.
+*Virtualization* cho phép nhiều ứng dụng chia sẻ một *physical server*. Các ứng dụng có thể được tách biệt với nhau, và có thể được quản lý bởi những người khác nhau. Điều này cho phép chúng ta sử dụng các tài nguyên tính toán trong *datacenter* hiệu quả hơn. Điều này cũng cho phép chúng ta có nhiều *hosts* hơn trong *datacenter*. Ví dụ, một *rack* duy nhất với 40 *servers* có thể có nhiều hơn 40 *end hosts* (máy chủ đầu cuối).
 
+## Virtual Switches (Bộ chuyển mạch ảo)
 
-## Virtual Switches
+*Physical server* có một *network card* và một *IP address* duy nhất, nhưng chúng ta cần mang lại cho mỗi *virtual machine* ảo giác rằng nó có *network card* và địa chỉ chuyên dụng của riêng mình. Ngoài ra, các *switches* (bộ chuyển mạch) giờ đây có thể có nhiều *virtual machines* kết nối với một *port* (cổng) vật lý duy nhất.
 
-The physical server has a single network card and a single IP address, but we need to give each virtual machine the illusion that it has its own dedicated network card and address. Also, switches might now have multiple virtual machines connected to a single physical port.
-
-In order to manage multiple network connections on the same physical machine, the server needs a **virtual switch**. This virtual switch runs in software on the server (it's not a physical router), and performs the same operations as a real switch (e.g. forwarding packets). Each virtual machine is connected to the virtual switch, and the virtual switch is connected to the rest of the network.
+Để quản lý nhiều kết nối mạng trên cùng một máy vật lý, *server* cần một ***virtual switch***. *Virtual switch* này chạy trong phần mềm trên *server* (nó không phải là một *router* vật lý), và thực hiện các hoạt động tương tự như một *switch* thực sự (ví dụ: chuyển tiếp gói tin). Mỗi *virtual machine* được kết nối với *virtual switch*, và *virtual switch* được kết nối với phần còn lại của mạng.
 
 <img width="500px" src="../assets/datacenter/6-045-virtual-switch.png">
 
-Note: Switches usually run on dedicated hardware to maximize efficiency. Virtual switches can be run in software on a general-purpose CPU because they only need to support a few virtual machines (lower capacity than what switches usually handle).
+Lưu ý: Các *switches* thường chạy trên phần cứng chuyên dụng để tối đa hóa hiệu quả. Các *virtual switches* có thể chạy trong phần mềm trên một *CPU* (đơn vị xử lý trung tâm) đa dụng vì chúng chỉ cần hỗ trợ một vài *virtual machines* (dung lượng thấp hơn so với những gì các *switches* thường xử lý).
 
+## Underlay and Overlay Network (Mạng lớp nền và Mạng lớp phủ)
 
-## Underlay and Overlay Network
+Với *virtualization*, chúng ta giờ đây có các *virtual hosts* (máy chủ ảo) chạy trên các *physical servers*. Không giống như *physical servers*, *virtual hosts* có thể được tạo, tắt và thay đổi nhanh chóng.
 
-With virtualization, we now have virtual hosts running on top of physical servers. Unlike physical servers, virtual hosts can be created, shut down, and changed rapidly.
+Các *virtual machines* không nhất thiết phải sử dụng cùng một sơ đồ địa chỉ như các *physical servers*. Các *IP addresses* của *physical server* được xác định bởi *topo* *datacenter* vật lý (ví dụ: pods, racks). Ngược lại, các *IP addresses* của *virtual machine* thường được xác định bởi một hệ thống phân cấp thực tế nào đó (ví dụ: quốc gia, tổ chức). Đặc biệt, các *virtual hosts* trên một *physical server* duy nhất không nhất thiết phải có cùng *IP prefixes* (tiền tố IP), vì vậy chúng ta không thể sử dụng các thủ thuật tổng hợp tương tự để mở rộng quy mô.
 
-Virtual machines don't necessarily use the same addressing scheme as the physical servers. Physical server IP addresses are defined by the physical datacenter topology (e.g. pods, racks). By contrast, virtual machine IP addresses are usually defined by some real-life hierarchy (e.g. countries, organizations). In particular, the virtual hosts on a single physical server don't necessarily all have the same IP prefixes, so we can't use the same aggregation tricks to scale up.
+Nếu chúng ta cố gắng mở rộng một cách ngây thơ các sơ đồ định tuyến của mình để hỗ trợ các *virtual machines*, các *forwarding tables* (bảng chuyển tiếp) của chúng ta sẽ trở nên rất lớn, rất nhanh. Trước đây, chúng ta có thể tổng hợp bằng cách nói: "tất cả các *servers* trong pod màu xanh có cùng *IP prefix*, và tất cả chúng đều có *next hop* (chặng kế tiếp) là R2." Bây giờ, các *servers* trong pod màu xanh đó có thể chứa hàng trăm *virtual hosts*, tất cả đều có các *IP addresses* khác nhau (không có tiền tố chung). Chúng ta sẽ cần một mục chuyển tiếp riêng cho mỗi *virtual host*. Ngoài ra, nếu một *virtual host* di chuyển đến một máy vật lý khác (giữ nguyên *IP address*), giao thức định tuyến sẽ phải khám phá lại các đường đi đến *virtual host* này. Liệu chúng ta có thể tìm ra cách để tránh việc mở rộng *datacenter* để hỗ trợ mọi địa chỉ *VM* không?
 
-If we tried to naively extend our routing schemes to support virtual machines, our forwarding tables would become very large, very quickly. Previously, we could aggregate by saying: "all servers in the blue pod have the same IP prefix, and they all have a next hop of R2." Now, the servers in that blue pod could contain hundreds of virtual hosts, all with different IP addresses (no common prefix). We would need a separate forwarding entry for every virtual host. Also, if a virtual host moves to a different physical machine (keeping the same IP address), the routing protocol would have to re-discover paths to this virtual host. Can we find a way to avoid scaling the datacenter to support every VM address?
+Vấn đề chính ở đây là chúng ta hiện có hai hệ thống địa chỉ khác nhau, một cho *virtual hosts*, và một cho *physical hosts*. Cả hai sơ đồ địa chỉ đều hoạt động ở *IP layer* (lớp IP), nhưng trong *IP layer*, hiện có hai lớp con trừu tượng mà chúng ta cần phải suy nghĩ đến.
 
-The key problem here is that we now have two different addressing systems, one for virtual hosts, and one for physical hosts. Both addressing schemes work at the IP layer, but within the IP layer, there are now two sub-layers of abstraction that we need to think about.
+***Underlay network* (mạng lớp nền)** xử lý việc định tuyến giữa các máy vật lý. *Underlay network* chứa cơ sở hạ tầng *datacenter* như *top-of-rack switches* (bộ chuyển mạch đỉnh giá) và *spine switches* (bộ chuyển mạch trục). *Underlay network* có khả năng mở rộng tốt vì chúng ta xác định các *hierarchical addresses* sử dụng *topo* *datacenter* vật lý.
 
-The **underlay network** handles routing between physical machines. The underlay network contains datacenter infrastructure like top-of-rack switches and spine switches. The underlay network scales well because we define hierarchical addresses using the physical datacenter topology.
-
-The **overlay network** exists on top of the physical topology (underlay), and it only thinks about routing between virtual machines. In practice, each virtual machine usually only needs to communicate with a few other virtual machines in the network. As a result, the overlay network scales well because a virtual machine does not need to know about every single other virtual machine.
+***Overlay network* (mạng lớp phủ)** tồn tại trên *topo* vật lý (*underlay*), và nó chỉ suy nghĩ về việc định tuyến giữa các *virtual machines*. Trên thực tế, mỗi *virtual machine* thường chỉ cần giao tiếp với một vài *virtual machines* khác trong mạng. Do đó, *overlay network* có khả năng mở rộng tốt vì một *virtual machine* không cần phải biết về mọi *virtual machine* khác.
 
 <img width="900px" src="../assets/datacenter/6-046-virtual1.png">
 
-Ideally, we'd like the two layers to think about addressing separately. The underlay network should not need to know about virtual host addresses (otherwise, it would scale poorly). Similarly, the overlay network should not need to know about every physical server in the datacenter (each VM only needs to know about a few other VMs).
+Lý tưởng nhất, chúng ta muốn hai lớp này suy nghĩ về việc đánh địa chỉ một cách riêng biệt. *Underlay network* không cần phải biết về các địa chỉ *virtual host* (nếu không, nó sẽ mở rộng kém). Tương tự, *overlay network* không cần phải biết về mọi *physical server* trong *datacenter* (mỗi *VM* chỉ cần biết về một vài *VMs* khác).
 
-If we didn't tell the underlay network about virtual host addresses, then if a datacenter switch gets a packet with a virtual IP as the destination, it would look in its forwarding table, not find any virtual IPs, and drop this packet. We need some way to bridge the gap between the overlay (thinking virtually) and the underlay (thinking physically).
+Nếu chúng ta không cho *underlay network* biết về các địa chỉ *virtual host*, thì nếu một *datacenter switch* nhận được một *packet* (gói tin) với một IP ảo làm đích, nó sẽ tìm trong *forwarding table* của mình, không tìm thấy IP ảo nào, và loại bỏ *packet* này. Chúng ta cần một cách nào đó để kết nối khoảng cách giữa *overlay* (suy nghĩ theo hướng ảo) và *underlay* (suy nghĩ theo hướng vật lý).
 
+## Encapsulation (Đóng gói)
 
-## Encapsulation
+Để hợp nhất các lớp *overlay* và *underlay*, chúng ta có thể sử dụng các chiến lược tương tự với phân lớp và các *headers* (tiêu đề) mà chúng ta đã sử dụng khi thiết kế Internet\!
 
-To unify the overlay and underlay layers, we can use the same strategies with layering and headers that we used when we designed the Internet!
+Cho đến nay, chúng ta đã coi IP là một lớp duy nhất, và mỗi *packet* có một *IP header* duy nhất, hiểu hệ thống địa chỉ IP.
 
-So far, we've treated IP as a single layer, and every packet has a single IP header, which understands the IP addressing system.
-
-Now that we have two IP sub-layers with two different IP addressing systems, we could introduce an additional header into the packet. For example, we could have two IP headers, where one header understands the overlay network, and the other header understands the underlay network. Or, we could use the original IP header for the underlay network, and introduce a new type of header (different from IP) for the overlay network.
+Bây giờ chúng ta có hai lớp con IP với hai hệ thống địa chỉ IP khác nhau, chúng ta có thể giới thiệu một *header* bổ sung vào *packet*. Ví dụ, chúng ta có thể có hai *IP headers*, trong đó một *header* hiểu *overlay network*, và *header* kia hiểu *underlay network*. Hoặc, chúng ta có thể sử dụng *IP header* ban đầu cho *underlay network*, và giới thiệu một loại *header* mới (khác với IP) cho *overlay network*.
 
 <img width="700px" src="../assets/datacenter/6-047-virtual2.png">
 
-Now, our strategy for routing packets can combine the overlay and underlay networks. Suppose VM A wants to send a packet to VM B.
+Bây giờ, chiến lược của chúng ta để định tuyến các *packets* có thể kết hợp *overlay* và *underlay networks*. Giả sử VM A muốn gửi một *packet* đến VM B.
 
 <img width="900px" src="../assets/datacenter/6-048-virtual3.png">
 
-1. VM A creates a packet with a single IP header, which contains the virtual IP address of B. (Remember, A is thinking in terms of overlay, and does not know about underlay physical IP addresses.) VM A forwards this packet to the virtual switch (on A's physical server).
+1.  VM A tạo một *packet* với một *IP header* duy nhất, chứa địa chỉ IP ảo của B. (Hãy nhớ rằng, A đang suy nghĩ theo thuật ngữ của *overlay*, và không biết về các địa chỉ IP vật lý của *underlay*.) VM A chuyển tiếp *packet* này đến *virtual switch* (trên *physical server* của A).
 
     <img width="900px" src="../assets/datacenter/6-049-virtual4.png">
 
-2. The virtual switch reads the header to learn B's virtual IP address. Then, the virtual switch looks up the physical server address corresponding to B's virtual IP address. (We haven't described how to do this yet.)
+2.  *Virtual switch* đọc *header* để biết địa chỉ IP ảo của B. Sau đó, *virtual switch* tra cứu địa chỉ *physical server* tương ứng với địa chỉ IP ảo của B. (Chúng ta chưa mô tả cách thực hiện điều này.)
 
-    The virtual switch adds an additional outer header containing B's physical server address. Adding the header is sometimes called **encapsulation**.
+    *Virtual switch* thêm một *outer header* (tiêu đề bên ngoài) bổ sung chứa địa chỉ *physical server* của B. Việc thêm *header* đôi khi được gọi là ***encapsulation***.
 
-    At this point, the packet has two headers. The inner header (higher layer, overlay, added by VM A) contains B's virtual IP address, and the outer header (lower layer, underlay, added by virtual switch) contains B's physical server address.
+    Tại thời điểm này, *packet* có hai *headers*. *Inner header* (tiêu đề bên trong) (lớp cao hơn, *overlay*, được thêm bởi VM A) chứa địa chỉ IP ảo của B, và *outer header* (lớp thấp hơn, *underlay*, được thêm bởi *virtual switch*) chứa địa chỉ *physical server* của B.
 
-    The virtual switch forwards this packet to the next hop switch, based on the physical server address.
+    *Virtual switch* chuyển tiếp *packet* này đến *switch* *next hop*, dựa trên địa chỉ *physical server*.
 
     <img width="900px" src="../assets/datacenter/6-050-virtual5.png">
 
-3. The packet is sent through the underlay network. Each switch in the datacenter only looks at the outer header (underlay, physical server address) to decide how to forward the packet. (Remember, the datacenter switches think in terms of underlay, and do not know about the overlay virtual IP address.)
+3.  *Packet* được gửi qua *underlay network*. Mỗi *switch* trong *datacenter* chỉ nhìn vào *outer header* (lớp nền, địa chỉ *physical server*) để quyết định cách chuyển tiếp *packet*. (Hãy nhớ rằng, các *datacenter switches* suy nghĩ theo thuật ngữ của *underlay*, và không biết về địa chỉ IP ảo của *overlay*.)
 
     <img width="900px" src="../assets/datacenter/6-051-virtual6.png">
 
     <img width="900px" src="../assets/datacenter/6-052-virtual7.png">
 
-4. Eventually, the packet reaches the destination physical server's virtual switch. The virtual switch looks at the outer header (underlay) and notices that the destination physical server address is itself.
+4.  Cuối cùng, *packet* đến *virtual switch* của *physical server* đích. *Virtual switch* nhìn vào *outer header* (*underlay*) và nhận thấy rằng địa chỉ *physical server* đích là chính nó.
 
-    The virtual switch removes the outer header, exposing the inner header inside. Removing the outer header is sometimes called **decapsulation**.
+    *Virtual switch* loại bỏ *outer header*, để lộ *inner header* bên trong. Việc loại bỏ *outer header* đôi khi được gọi là ***decapsulation* (giải đóng gói)**.
 
     <img width="900px" src="../assets/datacenter/6-053-virtual8.png">
 
-Finally, the virtual switch reads the inner header (overlay). This tells the virtual switch which of the VMs on the physical server the packet should be forwarded to.
+Cuối cùng, *virtual switch* đọc *inner header* (*overlay*). Điều này cho *virtual switch* biết *packet* nên được chuyển tiếp đến *VM* nào trên *physical server*.
 
 <img width="900px" src="../assets/datacenter/6-054-virtual9.png">
 
-In this process, **encapsulation** allowed us to think about routing at two different layers. The underlay was able to route packets using physical server addresses, without thinking about the overlay. Similarly, the VM in the overlay was able to send and receive packets without thinking about how to forward packets in the underlay. The virtual switches bridged the two layers by translating the virtual machine address into a physical server address, and adding and removing the extra underlay header.
+Trong quá trình này, ***encapsulation*** cho phép chúng ta suy nghĩ về việc định tuyến ở hai lớp khác nhau. *Underlay* có thể định tuyến các *packets* bằng cách sử dụng địa chỉ *physical server*, mà không cần suy nghĩ về *overlay*. Tương tự, *VM* trong *overlay* có thể gửi và nhận các *packets* mà không cần suy nghĩ về cách chuyển tiếp các *packets* trong *underlay*. Các *virtual switches* đã kết nối hai lớp bằng cách dịch địa chỉ *virtual machine* thành địa chỉ *physical server*, và thêm và bớt *header* *underlay* bổ sung.
 
 <img width="900px" src="../assets/datacenter/6-055-virtual10.png">
 
@@ -117,78 +106,74 @@ In this process, **encapsulation** allowed us to think about routing at two diff
 
 <img width="900px" src="../assets/datacenter/6-057-virtual12.png">
 
+## Forwarding Tables với Encapsulation
 
-## Forwarding Tables with Encapsulation
+Chúng ta nên cài đặt những mục nào trong các *forwarding tables* để hỗ trợ định tuyến với *encapsulation*?
 
-What entries should we install in the forwarding tables to support routing with encapsulation?
+Các *virtual machines* nên cài đặt một *default route* (tuyến đường mặc định) để chuyển tiếp mọi *packet* đến *virtual switch* trên máy vật lý.
 
-The virtual machines should install a default route that forwards every packet to the virtual switch on the physical machine.
+Các *virtual switches* cần triển khai thêm một số chức năng để kết nối hai lớp. Cụ thể, khi bạn thấy một địa chỉ ảo, bạn nên áp dụng *encapsulation* (thêm một lớp ngoài) với địa chỉ vật lý tương ứng. *Forwarding table* có các mục cho mọi *VM* đích mà bất kỳ *VM* nào trên *server* này có thể muốn nói chuyện. Chúng ta có thể hỗ trợ quy mô này vì chúng ta giả định các *VMs* sẽ không cần nói chuyện với mọi *VM* khác trong *datacenter*. Không giống như các thuật toán định tuyến tiêu chuẩn, chúng ta không cần định tuyến any-to-any (chúng ta không cần đường đi đến mọi *VM* khác).
 
-The virtual switches need to implement some extra functionality to bridge the two layers. In particular, when you see a virtual address, you should apply encapsulation (add an outer layer) with the corresponding physical address. The forwarding table has entries for every destination VM that any of the VMs on this server might want to talk to. We can support this scale because we assume the VMs won't need to talk to every other VM in the datacenter. Unlike standard routing algorithms, we don't need any-to-any routing (we don't need paths to every other VM).
+Các *virtual switches* cũng cần một quy tắc bổ sung để *decapsulating* các *packets*. Nếu đích của *packet* ngoài (*underlay*) là chính *switch* đó, bạn nên *decapsulate* (loại bỏ *outer header*) và chuyển *packet* đến địa chỉ *VM* trong *inner header*. Quy tắc này mở rộng theo số lượng *VMs* trên *server*, thường đủ nhỏ để có thể quản lý được.
 
-Virtual switches also need an extra rule for decapsulating packets. If the outer (underlay) packet destination is the switch itself, you should decapsulate (remove the outer header) and pass the packet to the VM address in the inner header. This rule scales with the number of VMs on the server, which is usually small enough to be manageable.
+Việc thêm chức năng này có khó không? May mắn thay, các *virtual switches* được triển khai trong phần mềm, vì vậy việc thêm chức năng này chỉ cần viết mã lệnh (không cần thêm phần cứng). Tuy nhiên, trên thực tế, *encapsulation* phổ biến đến mức đôi khi nó vẫn được triển khai trong phần cứng.
 
-Is it hard to add this functionality? Fortunately, virtual switches are implemented in software, so adding this functionality just requires writing code (no extra hardware needed). In practice, though, encapsulation is so common that it's sometimes implemented in hardware anyway.
+Các *switches* trong *datacenter* hoạt động giống hệt như trước khi chúng ta giới thiệu *virtualization*. Các *forwarding tables* chỉ chứa địa chỉ *physical server*, và chúng ta biết rằng chúng có thể được mở rộng quy mô bằng các thủ thuật tổng hợp dựa trên *topo* vật lý.
 
-The switches in the datacenter work exactly the same as they did before we introduced virtualization. The forwarding tables only contain physical server addresses, and we know that these can be scaled with aggregation tricks based on physical topology.
+## Multi-Tenancy (Đa người thuê) và Private Networks (Mạng riêng)
 
+Các *Datacenters* được quản lý bởi một nhà khai thác duy nhất, nhưng các tổ chức khác nhau có thể đang chạy các ứng dụng bên trong *datacenter* đó. Ví dụ, một *datacenter* do Google điều hành có thể có một số *virtual servers* do Gmail chạy, và những *servers* khác do Google Maps chạy. Cách tiếp cận lưu trữ nhiều dịch vụ trong một *datacenter* này được gọi là ***multi-tenancy***.
 
-## Multi-Tenancy and Private Networks
+Các *Cloud providers* (nhà cung cấp đám mây) cũng sử dụng các *datacenters* để cung cấp *virtual machines* cho khách hàng. Ví dụ, *Amazon Web Services (AWS)* và *Google Cloud Platform (GCP)* cho phép người dùng khởi động một *virtual machine* trong một *datacenter*, làm bất cứ điều gì họ muốn, và phá hủy *virtual machine* khi họ hoàn thành.
 
-Datacenters are managed by a single operator, but different organizations might be running applications inside that datacenter. For example, a datacenter run by Google might have some virtual servers run by Gmail, and others run by Google Maps. This approach of hosting multiple services in one datacenter is called **multi-tenancy**.
+Một vấn đề với *multi-tenancy* là, chúng ta không phải lúc nào cũng muốn các *tenants* (người thuê) khác nhau có thể giao tiếp với nhau. Ví dụ, nếu một khách hàng yêu cầu một *VM*, họ có lẽ không nên có thể kết nối với mọi *VM* khác trong *datacenter*.
 
-Cloud providers also use datacenters to supply virtual machines for customers. For example, Amazon Web Services (AWS) and Google Cloud Platform (GCP) allow users to start up a virtual machine in a datacenter, do whatever they want, and destroy the virtual machine when they're done.
-
-One problem with multi-tenancy is, we don't always want the different tenants to be able to communicate with each other. For example, if a customer requests a VM, they probably shouldn't be able to connect to every other VM in the datacenter.
-
-Another problem is, tenants in a datacenter don't coordinate with each other when choosing addresses. For example, suppose our datacenter had two tenants, Pepsi and Coke. Each tenant creates their own private network, where they assign internal IP addresses to virtual machines. The private network is only for hosts inside the datacenter to communicate with each other, and these hosts will never be contacted from the public Internet. Because the networks are private, the two tenants can both use addresses in the same specially-allocated private ranges (RFC 1918 addresses). Pepsi's private network might have a VM with IP address 192.0.2.2, and Coke's private network might have a different VM with IP address 192.0.2.2. (In practice, we use private ranges in order to reuse IPv4 addresses, since we're running out of them.)
+Một vấn đề khác là, các *tenants* trong một *datacenter* không phối hợp với nhau khi chọn địa chỉ. Ví dụ, giả sử *datacenter* của chúng ta có hai *tenants*, Pepsi và Coke. Mỗi *tenant* tạo ra *private network* của riêng mình, nơi họ gán các *IP addresses* nội bộ cho các *virtual machines*. *Private network* chỉ dành cho các *hosts* bên trong *datacenter* giao tiếp với nhau, và các *hosts* này sẽ không bao giờ được liên lạc từ Internet công cộng. Vì các mạng là riêng tư, hai *tenants* đều có thể sử dụng các địa chỉ trong cùng một dải địa chỉ riêng được phân bổ đặc biệt (*RFC 1918 addresses* - các dải địa chỉ dành riêng cho mạng nội bộ). *Private network* của Pepsi có thể có một *VM* với *IP address* 192.0.2.2, và *private network* của Coke có thể có một *VM* khác với *IP address* 192.0.2.2. (Trên thực tế, chúng ta sử dụng các dải địa chỉ riêng để tái sử dụng các *IPv4 addresses* (địa chỉ IPv4), vì chúng ta đang cạn kiệt chúng.)
 
 <img width="900px" src="../assets/datacenter/6-058-tenancy1.png">
 
-From the perspective of each tenant, this is not a problem. Pepsi's 192.0.2.2 will never communicate with Coke's 192.0.2.2, and neither host is accessible to the global Internet. However, this is a problem for the datacenter. If we use destination-based forwarding, and we see a packet with destination 192.0.2.2, we have no idea which VM this address is referring to.
+Từ góc độ của mỗi *tenant*, đây không phải là vấn đề. 192.0.2.2 của Pepsi sẽ không bao giờ giao tiếp với 192.0.2.2 của Coke, và cả hai *host* đều không thể truy cập từ Internet toàn cầu. Tuy nhiên, đây là một vấn đề đối với *datacenter*. Nếu chúng ta sử dụng *destination-based forwarding* (chuyển tiếp dựa trên đích), và chúng ta thấy một *packet* có đích là 192.0.2.2, chúng ta không biết địa chỉ này đang đề cập đến *VM* nào.
 
-Duplicate IP addresses occur in practice for two reasons. First, datacenters usually don't have control over what addresses the tenants are assigning to their VMs. Second, in IP, it's standard practice to use specific ranges for private networks, which often leads to duplicate addresses.
+Các *IP addresses* trùng lặp xảy ra trong thực tế vì hai lý do. Thứ nhất, các *datacenters* thường không có quyền kiểm soát các địa chỉ mà các *tenants* đang gán cho các *VMs* của họ. Thứ hai, trong IP, thông lệ tiêu chuẩn là sử dụng các dải cụ thể cho các *private networks*, điều này thường dẫn đến các địa chỉ trùng lặp.
 
+## Encapsulation cho Multi-Tenancy
 
-## Encapsulation For Multi-Tenancy
-
-We can use the idea of encapsulation again to solve this problem. We can add a new header that contains a **virtual network ID** for identifying a specific tenant (e.g. Pepsi has ID 1, Coke has ID 2). This new header doesn't contain information for forwarding and routing, but it provides additional context. Now, if a physical server has VMs for multiple tenants, it can pass the packet up to the correct virtual network.
+Chúng ta có thể sử dụng lại ý tưởng *encapsulation* để giải quyết vấn đề này. Chúng ta có thể thêm một *header* mới chứa một ***virtual network ID* (mã định danh mạng ảo)** để xác định một *tenant* cụ thể (ví dụ: Pepsi có ID 1, Coke có ID 2). *Header* mới này không chứa thông tin để chuyển tiếp và định tuyến, nhưng nó cung cấp thêm ngữ cảnh. Bây giờ, nếu một *physical server* có các *VMs* cho nhiều *tenants*, nó có thể chuyển *packet* lên đúng mạng ảo.
 
 <img width="900px" src="../assets/datacenter/6-059-tenancy2.png">
 
 <img width="900px" src="../assets/datacenter/6-060-tenancy3.png">
 
-When a virtual switch receives a packet and unwraps the outer (underlay) header, it looks at our new header to decide which tenant the packet is meant for. Then, it looks at the overlay header to forward the packet to a specific VM belonging to the correct tenant.
+Khi một *virtual switch* nhận được một *packet* và mở *outer header* (*underlay*), nó sẽ nhìn vào *header* mới của chúng ta để quyết định *packet* dành cho *tenant* nào. Sau đó, nó nhìn vào *overlay header* để chuyển tiếp *packet* đến một *VM* cụ thể thuộc về *tenant* chính xác.
 
+## Xếp chồng các Encapsulation
 
-## Stacking Encapsulations
+Chúng ta có thể sử dụng ý tưởng *encapsulation* nhiều lần, thêm nhiều *headers* mới để hỗ trợ cả *virtualization* và *multi-tenancy*.
 
-We can use the idea of encapsulation multiple times, adding multiple new headers to support both virtualization and multi-tenancy.
+Để bắt đầu, *virtual machine* tạo ra một *packet* *TCP/IP* tiêu chuẩn, với một đích IP ảo.
 
-To start, the virtual machine creates a standard TCP/IP packet, with a virtual IP destination.
+Trong bước *encapsulation* đầu tiên, chúng ta thêm một *virtual network header*, cho chúng ta biết *tenant* nào đã gửi *packet* này. Điều này giúp chúng ta phân biệt hai *tenants* sử dụng cùng một địa chỉ, và cũng ngăn chặn các *packets* được gửi đến một *tenant* khác.
 
-In the first encapsulation step, we add a virtual network header, which tells us which tenant sent this packet. This helps us disambiguate two tenants using the same address, and also prevents packets from being sent to a different tenant.
-
-In the second encapsulation step, we add an underlay network header, which tells us the physical server address corresponding to the virtual IP destination.
+Trong bước *encapsulation* thứ hai, chúng ta thêm một *underlay network header*, cho chúng ta biết địa chỉ *physical server* tương ứng với đích IP ảo.
 
 <img width="900px" src="../assets/datacenter/6-061-stack1.png">
 
-The layers of abstraction still hold when we stack encapsulations. The underlay network doesn't need to know that multiple tenants are in the same datacenter. The underlay network just looks at the outermost header for a physical server address, and forwards the packet accordingly.
+Các lớp trừu tượng vẫn giữ nguyên khi chúng ta xếp chồng các *encapsulations*. *Underlay network* không cần biết rằng nhiều *tenants* đang ở trong cùng một *datacenter*. *Underlay network* chỉ nhìn vào *header* ngoài cùng nhất để tìm địa chỉ *physical server*, và chuyển tiếp *packet* tương ứng.
 
-The decapsulation step works in reverse order. The virtual switch on the destination server receives a packet with two extra headers.
+Bước *decapsulation* hoạt động theo thứ tự ngược lại. *Virtual switch* trên *server* đích nhận được một *packet* có hai *headers* bổ sung.
 
-In the first decapsulation step, we remove the outer underlay header. This is no longer necessary since the packet has reached the destination physical server.
+Trong bước *decapsulation* đầu tiên, chúng ta loại bỏ *outer underlay header*. Điều này không còn cần thiết vì *packet* đã đến *physical server* đích.
 
-In the second decapsulation step, we use the virtual network header to decide which set of VMs we should think about. The physical server might have VMs for multiple tenants, and this helps narrows down to a single tenant.
+Trong bước *decapsulation* thứ hai, chúng ta sử dụng *virtual network header* để quyết định chúng ta nên xem xét tập hợp *VMs* nào. *Physical server* có thể có các *VMs* cho nhiều *tenants*, và điều này giúp thu hẹp xuống một *tenant* duy nhất.
 
-Finally, we use the innermost IP header to send the packet to the correct VM in the correct virtual network.
+Cuối cùng, chúng ta sử dụng *IP header* trong cùng nhất để gửi *packet* đến đúng *VM* trong đúng mạng ảo.
 
 <img width="900px" src="../assets/datacenter/6-062-stack2.png">
 
-Note: With encapsulation, we have to be careful when reading the 5-tuple (IPs, ports, and protocol) for load-balancing packets across multiple paths. Fortunately, modern router hardware is good at parsing packets to understand where the relevant headers are located in the packet, even if additional headers are inserted.
+Lưu ý: Với *encapsulation*, chúng ta phải cẩn thận khi đọc *5-tuple* (bộ 5 thông tin: IP nguồn, IP đích, cổng nguồn, cổng đích, và giao thức) để *load-balancing* (cân bằng tải) các *packets* trên nhiều đường đi. May mắn thay, phần cứng *router* hiện đại rất giỏi trong việc phân tích các *packets* để hiểu vị trí của các *headers* liên quan trong *packet*, ngay cả khi có thêm các *headers* được chèn vào.
 
-In practice, many different protocols exist for encapsulation. We could use IP-in-IP to support two IP headers (one for overlay, one for underlay).
+Trên thực tế, có nhiều giao thức khác nhau tồn tại cho *encapsulation*. Chúng ta có thể sử dụng *IP-in-IP* để hỗ trợ hai *IP headers* (một cho *overlay*, một cho *underlay*).
 
-MPLS is a simple header for adding a label that identifies a service (e.g. a virtual network, a tenant). This can be used to add encapsulation for multi-tenancy.
+*MPLS* là một *header* đơn giản để thêm một nhãn xác định một dịch vụ (ví dụ: một mạng ảo, một *tenant*). Điều này có thể được sử dụng để thêm *encapsulation* cho *multi-tenancy*.
 
-As datacenters have become more popular, many other protocols like GRE, VXLAN, and GENEVE have been developed. Most of these work over IP, so these custom protocols are the inner overlay header, and regular IP is the outer underlay header.
+Khi các *datacenters* trở nên phổ biến hơn, nhiều giao thức khác như *GRE*, *VXLAN*, và *GENEVE* đã được phát triển. Hầu hết chúng hoạt động trên IP, vì vậy các giao thức tùy chỉnh này là *inner overlay header*, và IP thông thường là *outer underlay header*.

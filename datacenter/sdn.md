@@ -1,264 +1,243 @@
+# Software-Defined Networking (Mạng định nghĩa bằng phần mềm)
 
+## Tại sao lại cần Software-Defined Networking?
 
+Trước đây, chúng ta đã thấy cách các *routing protocols* (giao thức định tuyến) có thể được điều chỉnh để hoạt động trong bối cảnh *datacenter* (trung tâm dữ liệu) (ví dụ: *equal-cost multi-path* (đa đường chi phí bằng nhau)). Sẽ ra sao nếu chúng ta muốn tối ưu hóa các *routing protocols* của mình hơn nữa cho các ràng buộc và trường hợp sử dụng cụ thể của *network* (mạng) của chúng ta? Các *routing protocols* tiêu chuẩn có thể sẽ không còn hoạt động hiệu quả.
 
+Trong phần này, chúng ta sẽ khám phá ***software-defined networking***, một mô hình hoàn toàn mới để suy nghĩ về định tuyến và quản lý mạng. Trong bối cảnh định tuyến, *SDN architecture* (kiến trúc SDN) bao gồm việc có một trung tâm điều khiển tập trung để tính toán các tuyến đường và phân phối chúng đến từng *routers* (bộ định tuyến) riêng lẻ. Chúng ta sẽ xem *SDN* hoạt động như thế nào trong bối cảnh *datacenter* và *wide-area network* (mạng diện rộng), đồng thời thảo luận về các lợi ích và hạn chế của phương pháp tiếp cận mới này.
 
+## Lược sử của Software-Defined Networking
 
+Mặc dù chúng ta sẽ xem xét *SDN* như một phương pháp tiếp cận mới cho các *routing protocols* chuyên biệt, mô hình *SDN* ban đầu được thiết kế để giải quyết các vấn đề nhức nhối ở *management plane* (mặt phẳng quản lý).
 
+Hãy nhớ lại rằng *management plane* rất quan trọng cho hoạt động của mạng. Các *routers* không thể làm gì trừ khi có người cấu hình chúng (ví dụ: gán chi phí cho các *links* (liên kết)) và chỉ dẫn chúng phải làm gì (ví dụ: chạy *routing protocol* nào). Ngoài ra, chúng ta cần các *routers* báo cáo lỗi để giữ cho mạng luôn hoạt động. Rất nhiều công việc quản lý này trong lịch sử đã được thực hiện thủ công.
 
-# Software-Defined Networking
+Mặc dù *management plane* rất quan trọng, nhưng lại có tương đối ít sự tập trung vào việc đổi mới nó. Tại *control plane* (mặt phẳng điều khiển), chúng ta đã thấy rất nhiều *routing protocols* khác nhau, nhưng cách chúng ta cấu hình và điều khiển các *routers* lại phát triển chậm hơn.
 
-## Why Software-Defined Networking?
+Trong suốt lịch sử của Internet, đã có một sự phát triển chậm rãi theo hướng sử dụng các kịch bản (scripts) để tương tác với mạng một cách có lập trình. Các kịch bản này đảm nhận những công việc mà người vận hành sẽ làm thủ công và thực hiện chúng bằng mã lệnh (không có nhiều trí thông minh). Ví dụ, các kịch bản cho phép tự động hóa quá trình thêm *routers* và *links* vào mạng. Một kịch bản để sửa chữa mạng có thể nói: nếu một *router* bị lỗi, hãy kiểm tra xem nó có thực sự bị lỗi không, khởi động lại nó, và nếu vẫn không khắc phục được, hãy báo cáo cho người vận hành.
 
-Previously, we saw how routing protocols can be adapted to work in datacenter contexts (e.g. equal-cost multi-path). What if we want to optimize our routing protocols even further for our specific network's constraints and use cases? The standard routing protocols might no longer work.
+Bất chấp những tiến bộ, các hệ thống quản lý này đã là nút thắt cổ chai cho hoạt động mạng trong một thời gian dài. Chúng ta vẫn có thể phải chờ đợi sự can thiệp của con người mỗi khi một *router* mới được thêm vào.
 
-In this section, we'll explore **software-defined networking**, a totally new paradigm for thinking about routing and network management. In the context of routing, the SDN architecture involves having a centralized control center compute routes and distribute them to individual routers. We'll see how SDN works in the context of datacenters and the wide-area network, and discuss benefits and drawbacks of this new approach.
+Năm 2005, một bài báo của Albert Greenberg và cộng sự đã mô tả vấn đề này bằng cách nói: "Các mạng dữ liệu ngày nay rất mong manh và khó quản lý một cách đáng ngạc nhiên. Chúng tôi cho rằng gốc rễ của những vấn đề này nằm ở sự phức tạp của *control plane* và *management plane*."
 
+Để đối phó với những vấn đề này, các nhà nghiên cứu bắt đầu suy nghĩ về những cách khác nhau để vận hành một hệ thống mạng. Điều này đã dẫn đến những đề xuất cấp tiến hơn, tái định hình lại thiết kế cơ bản của *routers*.
 
-## Brief History of Software-Defined Networking
+Các khái niệm chúng ta sẽ thấy lần đầu tiên được xem xét vào năm 2003, mặc dù chúng không nhận được nhiều sự chú ý vào thời điểm đó. Sự thất vọng với việc quản lý mạng đã thúc đẩy sự phát triển của các mô hình quản lý mới. Đến năm 2008, đã có nhiều động lực hơn, dẫn đến giao diện *switch* (bộ chuyển mạch) *OpenFlow* (chúng ta sẽ sớm thấy).
 
-Although we'll be looking at SDN as a new approach for specialized routing protocols, the SDN paradigm was originally designed in response to headaches at the management plane.
+Đến năm 2011, rõ ràng là ngành công nghiệp đang đi theo hướng mới này, và *Open Networking Foundation (ONF)* đã được thành lập bởi các nhà khai thác mạng lớn (Google, Yahoo, Verizon, Microsoft, Facebook) và các *vendors* (nhà cung cấp) (Cisco, Juniper, HP, Dell). Nicira, công ty khởi nghiệp tập trung vào *SDN* đã phát triển giao diện *OpenFlow*, là một công ty khởi nghiệp trị giá 40 triệu đô la vào năm 2012.
 
-Recall that the management plane is critical for network operation. Routers can't do anything unless someone configures them (e.g. assigns costs to links) and tells them what to do (e.g. what routing protocol to run). Also, we need routers to report errors to keep the network up and running. A lot of this management work has historically been done manually.
+## Routers được Tích hợp theo chiều dọc và Tiêu chuẩn hóa
 
-Even though the management plane is so important, there's been relatively little focus on innovating it. At the control plane, we've see lots of different routing protocols, but the way we configure and control routers has evolved more slowly.
+Nếu chúng ta muốn tái định hình thiết kế của *routers*, điều đó sẽ được thực hiện trong thực tế như thế nào? Các công nghệ trên *routers* thay đổi theo thời gian ra sao?
 
-Over the Internet's history, there's been a slow evolution toward using scripts to programatically interact with the network. These scripts take jobs that the operator would manually do, and implement them in code (without much intelligence). For example, scripts allow automating the process of adding routers and links to the network. A script for repairing the network might say: if a router fails, check that it's actually failed, reboot it, and if it's still not fixed, report to the operator.
+Nếu mạng của bạn cần một *router*, bạn có thể sẽ mua một cái từ một *vendor* thiết bị lớn như Cisco hoặc Juniper. Để đảm bảo rằng các *routers* tương thích với nhau, tất cả các *vendors* thiết bị lớn đều xây dựng *routers* của họ theo một số tiêu chuẩn được xác định trước.
 
-Despite the progress, these management systems have been the bottleneck for network operations for a long time. We still might have to wait for human intervention every time a new router is added.
+Mô hình kinh doanh này có thể gây khó khăn cho sự đổi mới và thử nghiệm các phương pháp tiếp cận mới. Giả sử bạn có một ý tưởng mới cho một *routing protocol*. Bạn sẽ cần phải được một *standards body* (tổ chức tiêu chuẩn) phê duyệt giao thức đó, việc này có thể mất nhiều năm. Sau đó, bạn sẽ phải chờ các *vendors* nâng cấp quy trình sản xuất của họ để tuân thủ tiêu chuẩn mới.
 
-In 2005, a paper by Albert Greenberg et. al. described the problem by saying: "Today's data networks are surprisingly fragile and difficult to manage. We argue that the root of these problems lies in the complexity of the control and management planes."
+Tiêu chuẩn hóa cũng làm cho *routers* kém linh hoạt hơn đối với người dùng triển khai các giải pháp tùy chỉnh. Nếu bạn có một vấn đề cụ thể cho mạng của mình, nhưng không ai khác gặp vấn đề này, giải pháp của bạn có thể sẽ không được *standards body* chấp nhận. Các *vendors* muốn tạo ra những *routers* đáp ứng nhu cầu của mọi người, và họ sẽ không nhất thiết phải triển khai một giải pháp hoàn hảo cho bạn, nếu không ai khác muốn nó.
 
-In response to these problems, researchers began thinking about different ways to run a network system. This led to more radical proposals that reimagined the fundamental design of routers.
+Mặt khác, tiêu chuẩn hóa cũng có nghĩa là nếu người khác có một vấn đề mà bạn không có, *router* có thể đi kèm với một giải pháp cho vấn đề của họ, ngay cả khi bạn không cần nó. Điều này có thể làm cho *routers* trở nên phức tạp một cách không cần thiết cho các mục đích của mạng cụ thể của bạn.
 
-The concepts we'll see were first considered in 2003, though they didn't gain much momentum at the time. Frustrations with network management accelerated the development of new management paradigms. By 2008, there was more momentum, leading to the OpenFlow switch interface (which we'll see soon).
+Tiêu chuẩn hóa cũng gây khó khăn cho việc thử nghiệm và nghiên cứu. Nếu bạn muốn thử một ý tưởng mới để xem nó có hoạt động hay không, bạn có thể không mua được *routers* có thể triển khai ý tưởng mới của mình. Các *vendors* không muốn xây dựng các sản phẩm thử nghiệm, dành cho một khách hàng cụ thể, mà có thể thậm chí không hoạt động.
 
-By 2011, it was evident the industry was moving in this new direction, and the Open Networking Foundation (ONF) was established by major network operators (Google, Yahoo, Verizon, Microsoft, Facebook) and vendors (Cisco, Juniper, HP, Dell). Nicira, the SDN-focused startup that developed the OpenFlow interface, was a \$40 million startup in 2012.
-
-
-## Routers are Vertically Integrated and Standardized
-
-If we wanted to reimagine the design of routers, how would that be implemented in practice? How do technologies on routers change over time?
-
-If your network needs a router, you'd probably purchase one from a major equipment vendor like Cisco or Juniper. In order to ensure that routers are compatible with each other, all the major equipment vendors build their routers according to some pre-defined standards. 
-
-This business model can make innovation and experimentation with new approaches difficult. Suppose you had a new idea for a routing protocol. You would need to get the protocol approved by a standards body, which could take years. Then, you'd have to wait for the vendors to upgrade their manufacturing to conform to the new standard.
-
-Standardization also makes routers less flexible for users implementing custom solutions. If you have a problem specific to your network, but no one else has this problem, your solution probably won't be adopted by the standards body. Vendors want to make routers that satisfy everybody's needs, and they won't necessarily implement a solution that's perfect for you, if nobody else wants it.
-
-On the other hand, standardization also means that if others have a problem that you don't, the router might come with a solution to their problem, even if you don't need it. This can make routers unnecessarily complex for the purposes of your specific network.
-
-Standardization also makes experimentation and research difficult. If you want to try a new idea to see if it works, you might not be able to buy routers that can implement your new idea. Vendors don't want to build experimental products, intended for one specific customer, that might not even work.
-
-Another major obstacle to innovation and experimentation is routers being **vertically integrated**. The router you buy already has the functionality for all three planes wired on the chips. There's no modularity that would let you swap out just the control plane by itself.
+Một trở ngại lớn khác cho sự đổi mới và thử nghiệm là các *routers* được ***vertically integrated* (tích hợp theo chiều dọc)**. *Router* bạn mua đã có sẵn chức năng cho cả ba mặt phẳng được tích hợp trên các con chip. Không có tính mô-đun nào cho phép bạn thay thế chỉ riêng *control plane*.
 
 <img width="300px" src="../assets/datacenter/6-063-vertical-integration.png">
 
+## Đổi mới Routers
 
-## Innovating Routers
+Nếu chúng ta muốn đổi mới *routers*, chúng ta có thể đổi mới những gì ở mỗi mặt phẳng, và chúng ta sẽ làm việc với những loại tiêu chuẩn có sẵn nào?
 
-If we did want to innovate routers, what could we innovate at each plane, and what kinds of pre-existing standards would we be working with?
+*Data plane* (mặt phẳng dữ liệu) được tiêu chuẩn hóa bởi *IEEE* (nhóm kỹ thuật điện) và yêu cầu mọi người tuân thủ nghiêm ngặt các tiêu chuẩn. Nếu hai *routers* từ các *vendors* khác nhau được kết nối, chúng ta phải đảm bảo cả hai bên đều gửi các bit dọc theo dây vật lý theo cùng một định dạng nhất quán.
 
-The data plane is standardized by IEEE (electrical engineering group) and requires everyone to strictly follow the standards. If two routers from different vendors are connected, we have to make sure both sides are sending bits along the physical wire in the same consistent format.
+Sự đổi mới ở *data plane* thường được thúc đẩy bởi nhu cầu về các *routers* có băng thông cao hơn, và các tính năng mới không thường xuyên được giới thiệu. Sự phát triển này diễn ra khá chậm, trong khoảng 2-3 năm, bởi vì chúng ta phải giải quyết các vấn đề về phần cứng vật lý và thiết kế chip để tăng băng thông. Vì các tính năng cốt lõi của *data plane* tương đối ổn định, sự đổi mới *router* không thực sự tập trung vào *data plane*, và việc chu kỳ phát triển chậm cũng không sao.
 
-Data plane innovation is usually driven by the demand for higher-bandwidth routers, and new features are not often introduced. This development happens quite slowly, in 2-3 year increments, because we have to solve physical hardware problems and design chips for increased bandwidth. Since the core data plane features are relatively stable, router innovation is not really focused on the data plane, and it's okay that the development cycle is slow.
+*Control plane* được tiêu chuẩn hóa bởi *IETF* (nhóm mạng đứng sau các RFC). Các *vendors* đôi khi thêm các phần mở rộng của riêng họ, mặc dù các tính năng cốt lõi hầu hết đều được tiêu chuẩn hóa. Ví dụ, chúng ta giả định rằng mọi *router* (ngay cả khi chúng đến từ các *vendors* khác nhau) đều tuân theo cùng một *routing protocol*.
 
-The control plane is standardized by the IETF (the network group behind RFCs). Vendors sometimes add their own extensions, though the core features are mostly standardized. For example, we assume that every router (even if they're from different routers) are following the same routing protocol.
+Sự đổi mới ở *control plane* (ví dụ: *routing protocols* mới) có thể mất vài năm để được áp dụng. Bạn có thể phải gửi một bản dự thảo đề xuất RFC, và cộng đồng có thể dành thời gian thảo luận về đề xuất trước khi đồng ý về các điều khoản của nó.
 
-Control plane innovation (e.g. new routing protocols) can take several years to be adopted. You might have to submit an RFC draft proposal, and the community may spend some time discussing the proposal before agreeing on its terms.
+*Management plane* cũng được tiêu chuẩn hóa bởi *IETF*, mặc dù nó ít được tiêu chuẩn hóa hơn nhiều. Các nhà khai thác khác nhau có thể sử dụng phần mềm khác nhau để cấu hình *routers* của họ, và chúng ta không thực sự cần các *vendors* khác nhau phải đồng ý về một phần mềm được tiêu chuẩn hóa nào đó. Bởi vì mặt phẳng này chỉ được tiêu chuẩn hóa một cách lỏng lẻo, nhiều phương pháp tiếp cận khác nhau với các tính năng khác nhau tồn tại.
 
-The management plane is also standardized by the IETF, though it's much less standardized. Different operators can use different software to configure their routers, and we don't really need different vendors to agree on some standardized software. Because this plane is only loosely standardized, many different approaches with different features exist.
+Tóm lại: *Data plane* được tiêu chuẩn hóa (nhưng chúng ta không thực sự có tính năng mới nào trong đầu), *control plane* được tiêu chuẩn hóa (nhưng chúng ta muốn thử các giải pháp mới), và *management plane* không thực sự được tiêu chuẩn hóa.
 
-In summary: The data plane is standardized (but we don't really have new features in mind), the control plane is standardized (but we want to try new solutions), and the management plane is not really standardized.
+## Ý tưởng cấp tiến: Tách rời Routers
 
+Tiêu chuẩn hóa và tích hợp theo chiều dọc đã gây khó khăn cho việc đổi mới và thử nghiệm. Điều này đã dẫn đến ý tưởng cấp tiến là tách rời các *routers* bằng cách chia các mặt phẳng thành các lớp trừu tượng khác nhau. Thay vì mua một *router* duy nhất với cả ba mặt phẳng, giờ đây chúng ta có thể mua riêng chức năng của *data plane* và *control plane*. Điều này cho phép chúng ta thay đổi các lớp một cách độc lập với nhau.
 
-## Radical Idea: Disaggregating Routers
-
-Standardization and vertical integration were making it difficult to innovate and experiment. This led to the radical idea of disaggregating routers by splitting the planes into different layers of abstraction. Instead of buying a single router with all three planes, we could now buy data and control plane functionality separately. This allows us to change layers independently from each other.
-
-In order to connect the three layers, we need an API between the layers of abstraction. In a vertically-coupled router, we don't care how the data plane and control plane talk to each other. However, if we buy the data plane separately, and we want to design our own custom control plane on top, we need an interface to interact with the data plane.
+Để kết nối ba lớp, chúng ta cần một *API* (Giao diện lập trình ứng dụng) giữa các lớp trừu tượng. Trong một *router* được ghép nối theo chiều dọc, chúng ta không quan tâm *data plane* và *control plane* nói chuyện với nhau như thế nào. Tuy nhiên, nếu chúng ta mua *data plane* riêng và muốn thiết kế *control plane* tùy chỉnh của riêng mình trên đó, chúng ta cần một giao diện để tương tác với *data plane*.
 
 <img width="300px" src="../assets/datacenter/6-064-sdn1.png">
 
-An even more radical idea is to stop thinking about the three planes in terms of only the router, and instead design a new system architecture that naturally splits up the data plane and control plane.
+Một ý tưởng cấp tiến hơn nữa là ngừng suy nghĩ về ba mặt phẳng chỉ theo thuật ngữ của *router*, và thay vào đó thiết kế một kiến trúc hệ thống mới tự nhiên tách biệt *data plane* và *control plane*.
 
 <img width="900px" src="../assets/datacenter/6-065-sdn2.png">
 
-At the bottom, we have commodity network devices. You can think of these as buying just the data plane by itself. These routers receive instructions from the control program via the network OS, and simply forward packets according to those instructions. These routers don't need to think about routing protocols at all, so they can be cheaper.
+Ở dưới cùng, chúng ta có các *commodity network devices* (thiết bị mạng phổ thông). Bạn có thể coi chúng như việc chỉ mua riêng *data plane*. Các *routers* này nhận chỉ thị từ *control program* (chương trình điều khiển) thông qua *network OS* (hệ điều hành mạng), và chỉ đơn giản là chuyển tiếp các gói tin theo những chỉ thị đó. Các *routers* này hoàn toàn không cần phải suy nghĩ về *routing protocols*, vì vậy chúng có thể rẻ hơn.
 
-In the middle, we have the network OS. You can think of this as the API connecting the data plane routers and the control plane program. The network OS provides an abstraction of the routers (e.g. as a graph) that can be passed up to the control program. Then, the control program can send routing instructions to the network OS, without worrying about how to program specific routers. The network OS can take those instructions and program them onto individual routers.
+Ở giữa, chúng ta có *network OS*. Bạn có thể coi đây là *API* kết nối các *routers* ở *data plane* và *control program* ở *control plane*. *Network OS* cung cấp một sự trừu tượng hóa của các *routers* (ví dụ: dưới dạng một đồ thị) có thể được truyền lên cho *control program*. Sau đó, *control program* có thể gửi các chỉ thị định tuyến đến *network OS*, mà không cần lo lắng về cách lập trình cho các *routers* cụ thể. *Network OS* có thể lấy những chỉ thị đó và lập trình chúng vào từng *routers* riêng lẻ.
 
-At the top, we have the control program. You can think of this as buying or implementing the control plane by itself. Here, the operator receives an abstraction of the network (e.g. graph) from the network OS, and can use that to write their own custom routing protocol. Then, the resulting routes can be passed to the network OS, which will program them onto routers.
+Ở trên cùng, chúng ta có *control program*. Bạn có thể coi đây là việc mua hoặc tự triển khai *control plane*. Ở đây, người vận hành nhận được một sự trừu tượng hóa của mạng (ví dụ: đồ thị) từ *network OS*, và có thể sử dụng nó để viết *routing protocol* tùy chỉnh của riêng mình. Sau đó, các tuyến đường kết quả có thể được chuyển đến *network OS*, nơi sẽ lập trình chúng vào các *routers*.
 
+## Định dạng API OpenFlow
 
-## OpenFlow API Format
-
-**OpenFlow** is an API for interacting with the data plane of a router. The operator writes their own fancy code, separate from the router, that computes routes through the network. Then, those routes can be programmed onto the forwarding chip.
+***OpenFlow*** là một *API* để tương tác với *data plane* của một *router*. Người vận hành viết mã lệnh phức tạp của riêng họ, tách biệt khỏi *router*, để tính toán các tuyến đường trong mạng. Sau đó, những tuyến đường đó có thể được lập trình vào *forwarding chip* (chip chuyển tiếp).
 
 <img width="300px" src="../assets/datacenter/6-066-openflow1.png">
 
-The OpenFlow paradigm is different from traditional routers, where the control plane is implemented in the router, and there's no clear API for programming custom routes onto the forwarding chip.
+Mô hình *OpenFlow* khác với các *routers* truyền thống, nơi *control plane* được triển khai trong *router*, và không có một *API* rõ ràng nào để lập trình các tuyến đường tùy chỉnh vào *forwarding chip*.
 
-The OpenFlow API defines a **flow table** abstraction to describe routes and forwarding rules. The operator code can output any rules and routes it wants, and install them on the router, as long as they're in the flow table format.
+*API* *OpenFlow* định nghĩa một sự trừu tượng hóa là ***flow table* (bảng luồng)** để mô tả các tuyến đường và quy tắc chuyển tiếp. Mã lệnh của người vận hành có thể xuất ra bất kỳ quy tắc và tuyến đường nào mà nó muốn, và cài đặt chúng trên *router*, miễn là chúng ở định dạng *flow table*.
 
-The basic building block of the API is a flow table, which you can think of as a generalized version of a forwarding table. Each flow table consists of key-value pairs, just like a forwarding table. The key specifies what to **match** the packet against. This could be a destination prefix, an exact destination, a 5-tuple, or other relatively simple matches. The corresponding value specifies what **action** to set when a packet matches. The action could be sending the packet to a next hop (like a forwarding table), but could also specify fancier actions like adding an extra header.
+Thành phần cơ bản của *API* là một *flow table*, bạn có thể coi nó như một phiên bản tổng quát của một *forwarding table* (bảng chuyển tiếp). Mỗi *flow table* bao gồm các cặp khóa-giá trị, giống như một *forwarding table*. Khóa chỉ định điều kiện để ***match* (đối sánh)** với gói tin. Điều này có thể là một *destination prefix* (tiền tố đích), một đích chính xác, một *5-tuple* (bộ 5 thông tin gồm IP nguồn, IP đích, cổng nguồn, cổng đích, và giao thức), hoặc các phép *match* tương đối đơn giản khác. Giá trị tương ứng chỉ định ***action* (hành động)** sẽ được thiết lập khi một gói tin khớp. *Action* có thể là gửi gói tin đến một chặng kế tiếp (giống như một *forwarding table*), nhưng cũng có thể chỉ định các *action* phức tạp hơn như thêm một *header* (tiêu đề) bổ sung.
 
-The output format is a sequence of one or more numbered flow tables, where each table has its own different match-action entries. These flow tables can then be programmed onto the forwarding chip.
+Định dạng đầu ra là một chuỗi gồm một hoặc nhiều *flow tables* được đánh số, trong đó mỗi bảng có các mục *match-action* khác nhau. Những *flow tables* này sau đó có thể được lập trình vào *forwarding chip*.
 
 <img width="700px" src="../assets/datacenter/6-068-openflow3.png">
 
-When a packet arrives at a router, it is checked against each table in order (e.g. Table 0, Table 1, Table 2, etc.), and when there's a match, we write down the corresponding action (without executing it yet). Eventually, once the packet is checked against the final table, any action(s) we wrote down are applied to the packet.
+Khi một gói tin đến một *router*, nó được kiểm tra với từng bảng theo thứ tự (ví dụ: Bảng 0, Bảng 1, Bảng 2, v.v.), và khi có một sự *match*, chúng ta ghi lại *action* tương ứng (mà chưa thực thi nó). Cuối cùng, một khi gói tin được kiểm tra với bảng cuối cùng, bất kỳ *action* nào chúng ta đã ghi lại sẽ được áp dụng cho gói tin.
 
-There are also special actions for skipping to later tables, which we can use in rules like: If the source port matches this number, skip to table 5 to set additional actions.
+Cũng có các *action* đặc biệt để bỏ qua đến các bảng sau, mà chúng ta có thể sử dụng trong các quy tắc như: Nếu cổng nguồn khớp với số này, hãy bỏ qua đến bảng 5 để thiết lập các *action* bổ sung.
 
 <img width="800px" src="../assets/datacenter/6-067-openflow2.png">
 
-The operator can run any code they want to generate flow tables, and the flow tables can be more general than a destination/next-hop forwarding table. However, the rules (match/action pairs) that we generate are still constrained by the specialized forwarding chip hardware. The forwarding chip is optimized for speed, and probably can't handle complex match rules like "if the TCP payload is in English, set this action."
+Người vận hành có thể chạy bất kỳ mã lệnh nào họ muốn để tạo ra các *flow tables*, và các *flow tables* có thể tổng quát hơn một *forwarding table* đích/chặng-kế-tiếp. Tuy nhiên, các quy tắc (*match/action* pairs) mà chúng ta tạo ra vẫn bị giới hạn bởi phần cứng của *forwarding chip* chuyên dụng. *Forwarding chip* được tối ưu hóa cho tốc độ, và có lẽ không thể xử lý các quy tắc *match* phức tạp như "nếu phần tải tin (payload) của TCP là tiếng Anh, hãy đặt *action* này."
 
-As a result, the flow tables we see in practice end up looking pretty similar to the tables we've already seen. Common match rules include longest prefix matching on IP destinations, 5-tuples to identify flows, and exact matches on encapsulation headers (e.g. MPLS).
+Kết quả là, các *flow tables* chúng ta thấy trong thực tế cuối cùng trông khá giống với các bảng chúng ta đã thấy. Các quy tắc *match* phổ biến bao gồm *longest prefix matching* (khớp tiền tố dài nhất) trên đích IP, *5-tuples* để xác định các luồng, và khớp chính xác trên các *encapsulation headers* (tiêu đề đóng gói) (ví dụ: *MPLS*).
 
-If the forwarding rules aren't so different, why use OpenFlow at all? Remember, the main advantage is that it gives the operator total freedom at the control plane. We're not limited to distance-vector or link-state protocols anymore.
+Nếu các quy tắc chuyển tiếp không khác biệt nhiều, tại sao lại sử dụng *OpenFlow*? Hãy nhớ rằng, lợi thế chính là nó cho phép người vận hành hoàn toàn tự do ở *control plane*. Chúng ta không còn bị giới hạn bởi các giao thức *distance-vector* (vector khoảng cách) hay *link-state* (trạng thái liên kết) nữa.
 
 <img width="400px" src="../assets/datacenter/6-069-openflow4.png">
 
+## Lợi ích của một Control Plane linh hoạt
 
-## Benefits of a Flexible Control Plane
+Kiến trúc mới của chúng ta mang lại cho người vận hành sự linh hoạt để triển khai *routing protocol* mới của họ tại *control plane*. Một số lợi ích của phương pháp này là gì?
 
-Our new architecture gives the operator flexibility to implement their new routing protocol at the control plane. What are some benefits of this approach?
+Người vận hành có thể triển khai các *routing protocols* tùy chỉnh phù hợp nhất với nhu cầu cụ thể của họ. Người vận hành không còn bị ràng buộc bởi các *standards bodies* và *vendors*.
 
-The operator can implement custom routing protocols best-suited for the operator's specific needs. The operator is no longer constrained by standards bodies and vendors.
+Sự linh hoạt cũng cho chúng ta cơ hội để đơn giản hóa. Ví dụ, nếu giao thức được tiêu chuẩn hóa bao gồm các tính năng chúng ta không cần, chúng ta không phải triển khai chúng trong giải pháp tùy chỉnh của mình. Các giao thức đơn giản hơn có thể có ít mã lệnh hơn và mã lệnh đơn giản hơn, điều này có thể cho phép phát triển và bảo trì giao thức đó dễ dàng hơn.
 
-Flexibility also gives us an opportunity to simplify. For example, if the standardized protocol includes features we don't need, we don't have to implement them in our custom solution. Simpler protocols can have less code and simpler code, which might allow for easier development and maintenance of that protocol.
+Cuối cùng, một *control plane* linh hoạt cho phép tính toán các tuyến đường một cách tập trung tại *control program*, thay vì phân tán trên nhiều *routers*. Sự tập trung hóa cũng đi kèm với một số lợi ích.
 
-Finally, a flexible control plane enables centralized computation of routes at the control program, instead of distributed across multiple routers. Centralization comes with several benefits as well.
+Sự tập trung hóa có thể dẫn đến các quyết định định tuyến thông minh hơn, mang lại hiệu suất xuất sắc. Trong một báo cáo năm 2013 từ Google, các kỹ sư đã triển khai một *SDN architecture* đã ghi nhận rằng "*traffic engineering* (kỹ thuật lưu lượng) tập trung giúp các *links* đạt gần 100% hiệu suất sử dụng, trong khi phân chia các luồng ứng dụng trên nhiều đường đi để cân bằng dung lượng với mức độ ưu tiên/yêu cầu của ứng dụng." Một bài báo năm 2013 của Microsoft mô tả việc sử dụng một bộ điều khiển *OpenFlow* để "đạt được hiệu suất sử dụng cao với WAN điều khiển bằng phần mềm."
 
-Centralization can result in more intelligent routing decisions that lead to excellent performance. In a 2013 report from Google, engineers who deployed an SDN architecture noted that "centralized traffic engineering service drives links to near 100% utilization, while splitting application flows among multiple paths to balance capacity against application priority/demands." A 2013 paper from Microsoft describes using an OpenFlow controller to "achieve high utilization with software-driven WAN."
+Các quyết định định tuyến thông minh hơn có thể giúp tối ưu hóa các tiêu chí khác ngoài hiệu suất, mà một *routing protocol* tiêu chuẩn không thể dễ dàng tối ưu hóa. Ví dụ, một mạng của chính phủ Hoa Kỳ có thể triển khai một quy tắc khoanh vùng địa lý (geofencing) rằng, không gửi lưu lượng qua các *links* ở Canada. Hoặc, một mạng truyền hình quảng bá có thể muốn tối ưu hóa cho sự đa dạng của đường đi để tăng độ tin cậy. Chúng ta có thể thực thi rằng hai luồng di chuyển qua các đường đi không chia sẻ bất kỳ *links* nào, để nếu một *link* bị hỏng, chỉ một trong hai luồng bị ảnh hưởng. Hai đường đi có thể đóng vai trò dự phòng cho nhau.
 
-More intelligent routing decisions can help optimize other criteria besides performance, that a standard routing protocol can't easily optimize. For example, a US government network might implement a geofencing rule that says, don't send traffic via links that are in Canada. Or, a broadcast TV network might want to optimize for path diversity to increase reliability. We can enforce that two flows travel via paths that don't share any links, so that if a link goes down, only one of the flows is affected. The two paths can serve as backups for each other.
-
-Centralization can also make it easier for routing protocols to converge. In a distributed protocol, if the network changed, the routers have to coordinate to converge on a new routing state. In this centralized model, if a link fails, that router could tell the boss, and the boss could recompute routes and install the new routes on the routers.
-
+Sự tập trung hóa cũng có thể giúp các *routing protocols* hội tụ dễ dàng hơn. Trong một giao thức phân tán, nếu mạng thay đổi, các *routers* phải phối hợp để hội tụ về một trạng thái định tuyến mới. Trong mô hình tập trung này, nếu một *link* bị lỗi, *router* đó có thể báo cho "sếp", và "sếp" có thể tính toán lại các tuyến đường và cài đặt các tuyến đường mới trên các *routers*.
 
 ## Traffic Engineering
 
-A flexible control plane allows us to perform **traffic engineering**, which means we can route traffic in a more intelligent and efficient way than a standard distributed routing protocol could.
+Một *control plane* linh hoạt cho phép chúng ta thực hiện ***traffic engineering***, có nghĩa là chúng ta có thể định tuyến lưu lượng một cách thông minh và hiệu quả hơn so với một *routing protocol* phân tán tiêu chuẩn.
 
 <img width="700px" src="../assets/datacenter/6-070-engineering1.png">
 
-Suppose there are two connections, S1-D at 10 Gbps and S2-D at 10 Gbps. If we just ran standard least-cost routing, both flows would send traffic along the bottom path. The bottom path would be congested (20 Gbps on 10 Gbps link), while the top path's bandwidth is sitting there unused.
+Giả sử có hai kết nối, S1-D ở tốc độ 10 Gbps và S2-D ở tốc độ 10 Gbps. Nếu chúng ta chỉ chạy *least-cost routing* (định tuyến chi phí thấp nhất) tiêu chuẩn, cả hai luồng sẽ gửi lưu lượng dọc theo đường đi phía dưới. Đường đi phía dưới sẽ bị tắc nghẽn (20 Gbps trên *link* 10 Gbps), trong khi *bandwidth* (băng thông) của đường đi phía trên không được sử dụng.
 
-With a more intelligent routing scheme, we could send S1-D traffic along the top path, and S2-D traffic along the bottom path. Using traffic engineering, we've forced some packets to take a longer route, in order to better utilize the bandwidth in the network.
+Với một cơ chế định tuyến thông minh hơn, chúng ta có thể gửi lưu lượng S1-D dọc theo đường đi phía trên, và lưu lượng S2-D dọc theo đường đi phía dưới. Bằng cách sử dụng *traffic engineering*, chúng ta đã buộc một số gói tin phải đi một con đường dài hơn, để tận dụng tốt hơn *bandwidth* trong mạng.
 
 <img width="700px" src="../assets/datacenter/6-071-engineering2.png">
 
-To compute these routes, we can modify least-cost routing, and instead enforce that traffic should be on the shortest path that has sufficient capacity. We can also enforce other constraints instead of capacity, such as latency. The resulting algorithm is called **constrained Shortest Path First (cSPF)**.
+Để tính toán các tuyến đường này, chúng ta có thể sửa đổi *least-cost routing*, và thay vào đó thực thi rằng lưu lượng nên đi trên con đường ngắn nhất có đủ dung lượng. Chúng ta cũng có thể thực thi các ràng buộc khác thay vì dung lượng, chẳng hạn như *latency* (độ trễ). Thuật toán kết quả được gọi là ***constrained Shortest Path First (cSPF)***.
 
-Now, suppose that S1-D needs 12 Gbps, and S2-D needs 8 Gbps. cSPF will send the flows along different paths to maximize bandwidth, but S1-D is sending 12 Gbps over a 10 Gbps link.
+Bây giờ, giả sử S1-D cần 12 Gbps, và S2-D cần 8 Gbps. *cSPF* sẽ gửi các luồng đi theo các đường khác nhau để tối đa hóa *bandwidth*, nhưng S1-D đang gửi 12 Gbps qua một *link* 10 Gbps.
 
-To fix this, our traffic engineering can be even more intelligent, and split traffic in a flow across different paths. S1-D can send 10 Gbps of its traffic along the top path, and the remaining 2 Gbps along the bottom path.
+Để khắc phục điều này, *traffic engineering* của chúng ta có thể còn thông minh hơn nữa, và chia lưu lượng trong một luồng qua các đường đi khác nhau. S1-D có thể gửi 10 Gbps lưu lượng của mình dọc theo đường đi phía trên, và 2 Gbps còn lại dọc theo đường đi phía dưới.
 
-Again, our traffic engineering allowed us to implement custom logic that resulted in better utilization of the network capacity.
+Một lần nữa, *traffic engineering* của chúng ta đã cho phép chúng ta triển khai logic tùy chỉnh mang lại hiệu quả sử dụng dung lượng mạng tốt hơn.
 
 <img width="700px" src="../assets/datacenter/6-074-engineering5.png">
 
-How do we actually implement split paths through the network, using the OpenFlow API from earlier? Remember, our routing decisions should still follow simple rules that forwarding tables can understand.
+Làm thế nào để chúng ta thực sự triển khai các đường đi được phân chia trong mạng, sử dụng *API OpenFlow* từ trước? Hãy nhớ rằng, các quyết định định tuyến của chúng ta vẫn nên tuân theo các quy tắc đơn giản mà các *forwarding tables* có thể hiểu được.
 
-One approach is to use encapsulation. At the sender, we can add rules to add an extra header, where some packets get label 0, and the rest get label 1. This label tells us which path to send the traffic along.
+Một cách tiếp cận là sử dụng *encapsulation* (sự đóng gói). Tại bên gửi, chúng ta có thể thêm các quy tắc để thêm một *header* bổ sung, trong đó một số gói tin nhận nhãn 0, và phần còn lại nhận nhãn 1. Nhãn này cho chúng ta biết nên gửi lưu lượng theo đường nào.
 
 <img width="700px" src="../assets/datacenter/6-075-engineering6.png">
 
-Now, at R1, we can add simple rules to route label 0 packets upwards to R2, and label 1 packets downwards to R3. This idea can be applied in addition to the other rules we had for constrained least-cost routing (e.g. the flow tables might have other entries for other destinations or other flows).
+Bây giờ, tại R1, chúng ta có thể thêm các quy tắc đơn giản để định tuyến các gói tin có nhãn 0 lên R2, và các gói tin có nhãn 1 xuống R3. Ý tưởng này có thể được áp dụng ngoài các quy tắc khác mà chúng ta đã có cho *constrained least-cost routing* (ví dụ: các *flow tables* có thể có các mục khác cho các đích khác hoặc các luồng khác).
 
+## Traffic Engineering tập trung và các quyết định tối ưu toàn cục
 
-## Centralized Traffic Engineering and Globally Optimal Decisions
+Một khác biệt lớn trong mô hình *SDN* của các *routing protocols* tùy chỉnh là sự tập trung hóa. Trong mô hình ban đầu, mỗi *router* đều chạy *routing protocol* của riêng mình. Bây giờ, chúng ta có thể có một máy tính duy nhất bên ngoài các *routers* tính toán tất cả các tuyến đường, và sau đó sử dụng *API flow table* để cài đặt những tuyến đường đó lên các *routers*.
 
-One major difference in the SDN model of custom routing protocols is centralization. In the original model, every router was running its own routing protocol. Now, we can have a single computer outside of the routers compute all the routes, and then use the flow table API to install those routes on the routers.
-
-Centralization allows us to make **globally optimal decisions**. In a distributed protocol, each router is making the best decision for itself, but that might not be the best decision for other routers. In the centralized model, the boss can use its global view of the network to decide what's best for everybody, and tell the routers to follow that decision.
+Sự tập trung hóa cho phép chúng ta đưa ra các ***globally optimal decisions* (quyết định tối ưu toàn cục)**. Trong một giao thức phân tán, mỗi *router* đang đưa ra quyết định tốt nhất cho chính nó, nhưng đó có thể không phải là quyết định tốt nhất cho các *routers* khác. Trong mô hình tập trung, "sếp" có thể sử dụng cái nhìn toàn cục về mạng để quyết định điều gì là tốt nhất cho mọi người, và yêu cầu các *routers* tuân theo quyết định đó.
 
 <img width="700px" src="../assets/datacenter/6-072-engineering3.png">
 
-Consider this network with two flows, S1-D at 20 Gbps, and S2-D at 100 Gbps. Assume we haven't implemented support for splitting a flow onto multiple paths.
+Hãy xem xét mạng này với hai luồng, S1-D ở tốc độ 20 Gbps, và S2-D ở tốc độ 100 Gbps. Giả sử chúng ta chưa triển khai hỗ trợ cho việc chia một luồng ra nhiều đường đi.
 
-Suppose the 20 Gbps S1-D flow starts first. Using constrained shortest path first, S1 could choose to use the bottom path. From the perspective of S1, this is a locally optimal decision (top and bottom paths both equally good).
+Giả sử luồng 20 Gbps S1-D bắt đầu trước. Sử dụng *constrained shortest path first*, S1 có thể chọn sử dụng đường đi phía dưới. Từ góc độ của S1, đây là một quyết định tối ưu cục bộ (đường đi trên và dưới đều tốt như nhau).
 
-Later, the 100 Gbps S2-D flow starts. Now, using constrained shortest path first, S2-D doesn't have any single path that meets its demands. The top path (20 Gbps) and bottom path (80 Gbps) both have insufficient capacity.
+Sau đó, luồng 100 Gbps S2-D bắt đầu. Bây giờ, sử dụng *constrained shortest path first*, S2-D không có bất kỳ đường đi đơn lẻ nào đáp ứng được yêu cầu của nó. Cả đường đi phía trên (20 Gbps) và đường đi phía dưới (80 Gbps) đều không đủ dung lượng.
 
-The key problem here is, each individual router made its own decision independently, without coordination.
+Vấn đề chính ở đây là, mỗi *router* riêng lẻ đã tự đưa ra quyết định của mình một cách độc lập, không có sự phối hợp.
 
-By introducing a centralized controller, the controller can look at the overall network structure and the demands of each flow, and assign paths to each flow more intelligently. The resulting decision is globally optimal, and increases network efficiency.
+Bằng cách giới thiệu một bộ điều khiển tập trung, bộ điều khiển có thể nhìn vào cấu trúc tổng thể của mạng và nhu cầu của mỗi luồng, và gán các đường đi cho mỗi luồng một cách thông minh hơn. Quyết định kết quả là tối ưu toàn cục, và tăng hiệu quả mạng.
 
 <img width="700px" src="../assets/datacenter/6-073-engineering4.png">
 
-Centralized traffic engineering can make even more intelligent routing decisions, depending on what the operator wants to optimize. For example, we could classify flows as high-priority or low-priority, and make decisions that optimize both network utilization and the needs of different applications.
+*Traffic engineering* tập trung có thể đưa ra các quyết định định tuyến thông minh hơn nữa, tùy thuộc vào những gì người vận hành muốn tối ưu hóa. Ví dụ, chúng ta có thể phân loại các luồng thành luồng ưu tiên cao hoặc ưu tiên thấp, và đưa ra các quyết định tối ưu hóa cả việc sử dụng mạng và nhu cầu của các ứng dụng khác nhau.
 
+## SDN trong Datacenter Overlay
 
-## SDN in Datacenter Overlay
+Trong phần trước, chúng ta đã thấy rằng các *virtual switches* (bộ chuyển mạch ảo) có thể áp dụng *encapsulation* để kết nối mạng *overlay* (lớp phủ) và *underlay* (lớp nền). Với một *virtual address* (địa chỉ ảo), chúng ta có thể thêm một *header* với *physical address* (địa chỉ vật lý) tương ứng, cho phép gói tin được gửi đi trên mạng *underlay*. Nhưng, làm thế nào để chúng ta biết được sự ánh xạ giữa *virtual addresses* và *physical addresses*?
 
-In the previous section, we saw that virtual switches can apply encapsulation to connect the overlay and underlay networks. Given a virtual address, we can add a header with the corresponding physical address, which allows the packet to be sent along the underlay network. But, how do we know the mapping between virtual addresses and physical addresses?
+Chúng ta cũng đã thấy rằng *encapsulation* có thể được sử dụng để hỗ trợ nhiều *tenants* (người thuê) trong một *datacenter* duy nhất, mỗi *tenant* chạy mạng riêng của mình. Các *switches* có thể thêm các *headers* với một *virtual network ID* (mã định danh mạng ảo). Nhưng, làm thế nào để chúng ta biết nên sử dụng *virtual network ID* nào?
 
-We also saw that encapsulation can be used to to support multiple tenants in a single datacenter, each running their own private network. Switches can add headers with a virtual network ID. But, how do we know which virtual network ID to use?
-
-A centralized SDN controller can be used in the datacenter to solve these problems. Each tenant can operate its own controller. When a new VM is created, the SDN learns about its virtual and physical addresses. Then, the SDN can update the forwarding tables in the other virtual switches, adding encapsulation rules with the new virtual/physical address mapping.
+Một bộ điều khiển *SDN* tập trung có thể được sử dụng trong *datacenter* để giải quyết những vấn đề này. Mỗi *tenant* có thể vận hành bộ điều khiển của riêng mình. Khi một *VM* (Máy ảo) mới được tạo, *SDN* sẽ biết được *virtual address* và *physical address* của nó. Sau đó, *SDN* có thể cập nhật các *forwarding tables* trong các *virtual switches* khác, thêm các quy tắc *encapsulation* với ánh xạ địa chỉ ảo/vật lý mới.
 
 <img width="900px" src="../assets/datacenter/6-076-sdn-overlay.png">
 
-For example, suppose Coke VM 2 is created with virtual IP 192.0.2.1 and physical IP 2.2.2.2. The SDN knows Coke VM 1 lives on physical server 1.1.1.1, so it can go to the virtual switch on 1.1.1.1 and add an encapsulation rule for the new Coke VM 2.
+Ví dụ, giả sử Coke *VM* 2 được tạo với *virtual IP* (IP ảo) là 192.0.2.1 và *physical IP* (IP vật lý) là 2.2.2.2. *SDN* biết rằng Coke *VM* 1 đang ở trên *physical server* (máy chủ vật lý) 1.1.1.1, vì vậy nó có thể đến *virtual switch* trên 1.1.1.1 và thêm một quy tắc *encapsulation* cho Coke *VM* 2 mới.
 
-The flow table at 1.1.1.1 might say: If you receive a packet with destination 192.0.2.1, add a header with Coke's virtual network ID of 42. Also, add a header with the corresponding physical address 2.2.2.2. Then, send the packet along the underlay network.
+*Flow table* tại 1.1.1.1 có thể nói: Nếu bạn nhận được một gói tin có đích là 192.0.2.1, hãy thêm một *header* với *virtual network ID* của Coke là 42. Đồng thời, thêm một *header* với *physical address* tương ứng là 2.2.2.2. Sau đó, gửi gói tin đi trên mạng *underlay*.
 
+## Lợi ích của SDN trong Datacenter Overlay
 
-## Benefits of SDN in Datacenter Overlay
+Tại sao chúng ta lại sử dụng kiến trúc *SDN* tập trung để hỗ trợ ảo hóa và *multi-tenancy* (đa người thuê) trong *datacenter*, thay vì một *routing protocol* tiêu chuẩn hơn?
 
-Why might we use a centralized SDN architecture to support virtualization and multi-tenancy in datacenters, instead of a more standard routing protocol?
+Kiến trúc *SDN* tập trung cho phép chúng ta tách biệt rõ ràng mạng *overlay* và *underlay* thành hai lớp có khả năng mở rộng. Trong một kiến trúc truyền thống, các *routers* trong mạng *underlay* sẽ phải xử lý các *encapsulation headers* tùy chỉnh (ví dụ: *virtual network IDs*). *SDN* cho phép mạng *underlay* vẫn đơn giản, mà không cần phải suy nghĩ về ảo hóa hay *multi-tenancy*.
 
-The centralized SDN architecture allows us to cleanly split the overlay and underlay networks into two scalable layers. In a traditional architecture, the routers in the underlay network would have to process the custom encapsulation headers (e.g. virtual network IDs). SDN allows the underlay network to remain simple, without thinking about virtualization or multi-tenancy.
+Sự tập trung hóa cho chúng ta một cách đơn giản để triển khai *control plane* tại các *end hosts* (máy chủ đầu cuối), mà không cần bất kỳ *routing protocols* phức tạp nào. Bộ điều khiển biết về một máy chủ mới và cập nhật các máy chủ khác tương ứng. Nếu không có bộ điều khiển tập trung, chúng ta có thể cần một cơ chế phân tán phức tạp nào đó để tìm ra nên thêm *encapsulation headers* nào.
 
-Centralization gives us a simple way to implement the control plane at end hosts, without any complicated routing protocols. The controller learns about a new host and updates the other hosts accordingly. Without a centralized controller, we might need some complex distributed scheme to figure out which encapsulation headers to add.
+Kiến trúc *SDN* này cũng cho chúng ta thấy tại sao các mạng *overlay* có thể mở rộng tốt. Bộ điều khiển *SDN* cho một *tenant* chỉ cần biết về các *VMs* thuộc về *tenant* cụ thể đó. Ngược lại, nếu chúng ta sử dụng kiến trúc truyền thống, một *VM* Coke mới có thể phải được quảng bá đến tất cả các *VMs* khác, ngay cả các *VMs* của Pepsi.
 
-This SDN architecture also shows us why overlay networks can scale well. The SDN controller for a tenant only needs to know about the VMs belonging to that specific tenant. By contrast, if we used a traditional architecture, a new Coke VM might have to be advertised to all the other VMs, even Pepsi VMs.
+## SDN trong Datacenter Underlay
 
+*Datacenter underlay* là một mạng vật lý, giống như bất kỳ mạng nào khác, mặc dù có một topo đặc biệt. Nhiều thách thức mạng thông thường, như đạt được hiệu suất sử dụng cao của các *links*, cũng áp dụng cho các mạng *datacenter underlay*. Điều đó có nghĩa là chúng ta cũng có thể áp dụng *SDN* cho mạng *underlay*.
 
-## SDN in Datacenter Underlay
-
-The datacenter underlay is a physical network, just like any other network, although with a special topology. Many general-purpose network challenges, like achieving high utilization of links, also apply to datacenter underlay networks. That means we can apply SDN to the underlay network as well.
-
-SDN at the underlay network can help us efficiently route packets through the datacenter. For example, the operator might want to send mice flows along links with small delay, and elephant flows along links with high bandwidth. 
+*SDN* tại mạng *underlay* có thể giúp chúng ta định tuyến các gói tin qua *datacenter* một cách hiệu quả. Ví dụ, người vận hành có thể muốn gửi các *mice flows* (luồng chuột - các luồng dữ liệu nhỏ và ngắn) dọc theo các *links* có độ trễ nhỏ, và các *elephant flows* (luồng voi - các luồng dữ liệu lớn và kéo dài) dọc theo các *links* có *bandwidth* cao.
 
 <img width="900px" src="../assets/datacenter/6-077-sdn-underlay.png">
 
-In our underlay Clos network, per-flow load balancing (hash 5-tuple to choose a path) could still send multiple elephant flows along the same path. Even if two elephant flows used different paths, the paths might share links, and those links might become congested. An SDN controller could solve this problem by coordinating the flows and placing them onto non-overlapping paths.
+Trong *Clos network* (mạng Clos) *underlay* của chúng ta, *per-flow load balancing* (cân bằng tải trên từng luồng) (sử dụng *hash 5-tuple* (hàm băm bộ 5 thông tin) để chọn đường đi) vẫn có thể gửi nhiều *elephant flows* đi cùng một đường. Ngay cả khi hai *elephant flows* sử dụng các đường đi khác nhau, các đường đi đó có thể chia sẻ các *links*, và những *links* đó có thể bị tắc nghẽn. Một bộ điều khiển *SDN* có thể giải quyết vấn đề này bằng cách phối hợp các luồng và đặt chúng vào các đường đi không chồng chéo.
 
 <img width="800px" src="../assets/datacenter/6-078-sdn-paper.png">
 
-This 2022 Google paper describes eliminating layers in the Clos network (fewer links, cheaper datacenter) by using SDN to route traffic more intelligently.
+Bài báo năm 2022 này của Google mô tả việc loại bỏ các lớp trong *Clos network* (ít *links* hơn, *datacenter* rẻ hơn) bằng cách sử dụng *SDN* để định tuyến lưu lượng một cách thông minh hơn.
 
-Hyperscale datacenters often use SDN in both the overlay and underlay networks. These are usually implemented as decoupled systems. There's one SDN thinking about the underlay, and a separate SDN thinking about the overlay.
+Các *Hyperscale datacenters* (trung tâm dữ liệu siêu quy mô) thường sử dụng *SDN* trong cả mạng *overlay* và *underlay*. Chúng thường được triển khai như các hệ thống tách rời. Có một *SDN* suy nghĩ về *underlay*, và một *SDN* riêng biệt suy nghĩ về *overlay*.
 
+## SDN trong Wide Area Networks
 
-## SDN in Wide Area Networks
+Ngoài các *datacenter*, *SDN* có thể hữu ích trong các *Wide Area Networks* (WAN) nói chung, đặc biệt khi việc sử dụng *bandwidth* hiệu quả là rất quan trọng. Ví dụ, trong ví dụ về *traffic engineering* từ trước, hãy tưởng tượng nếu các *links* 10 Gbps của chúng ta là *undersea cables* (cáp ngầm dưới biển). Không có cách nào rẻ tiền để thêm *bandwidth* bổ sung, vì vậy các tối ưu hóa phải tập trung vào việc sử dụng hiệu quả *bandwidth* mà chúng ta có.
 
-In addition to datacenters, SDN can be useful in general wide-area networks, especially when efficient utilization of bandwidth is critical. For example, in the traffic engineering example from earlier, imagine if our 10 Gbps links were undersea cables. There's no cheap way to add additional bandwidth, so optimizations have to instead focus on efficient utilization of the bandwidth we do have.
+## Hạn chế của điều khiển tập trung
 
+Sự tập trung hóa không phải là miễn phí và có một số hạn chế.
 
-## Drawbacks of Centralized Control
+Một hạn chế là độ tin cậy. Trong một mạng truyền thống, nếu một *router* bị lỗi, *routing protocol* sẽ hội tụ xung quanh sự cố đó. Các *routers* khác có thể định tuyến lại lưu lượng dọc theo các đường đi khác. Ngược lại, nếu bộ điều khiển trung tâm bị lỗi, chúng ta không còn cách nào để cập nhật mạng nữa, và các *routers* không biết cách điều chỉnh theo những thay đổi.
 
-Centralization doesn't come for free, and has some drawbacks.
+Lưu ý: Chúng ta đã vẽ bộ điều khiển tập trung như một thực thể duy nhất, nhưng nó không cần phải chạy trên một máy chủ duy nhất. Việc tính toán ở *control plane* có thể diễn ra trên nhiều máy chủ, nơi các máy chủ đó phối hợp để hoạt động một cách tập trung về mặt logic. Điều này khác với mô hình ban đầu, nơi các *routers* phối hợp nhưng vẫn tự đưa ra các quyết định phân tán của riêng mình. Điều này giúp tránh có một *single point of failure* (điểm lỗi duy nhất) trong phần cứng, mặc dù bộ điều khiển với tư cách là một đơn vị logic vẫn có thể bị lỗi (ví dụ: lỗi trong mã lệnh).
 
-One drawback is reliability. In a traditional network, if a router fails, the routing protocol converges around the failure. The other routers can reroute traffic along other paths. By contrast, if the central controller fails, we don't have a way to update the network anymore, and the routers don't know how to adjust to changes.
+Sự tập trung hóa cũng gây ra các vấn đề về *scalability* (khả năng mở rộng). Bộ điều khiển phải đưa ra quyết định cho tất cả mọi người, điều này có thể trở nên tốn kém đối với các mạng lớn. Ngược lại, trong một mạng truyền thống, mỗi *router* chỉ phải thực hiện các phép tính cho chính nó.
 
-Note: We've drawn the centralized controller as a single entity, but it doesn't need to be run on a single server. The control plane computation could happen across multiple servers, where those servers coordinate to operate in a logically centralized way. This is different from the original model, where routers coordinated but still made their own distributed decisions. This helps to avoid having a single point of failure in hardware, though the controller as a logical unit could still fail (e.g. bug in the code).
+Sự tập trung hóa cũng có thể gây ra các loại phức tạp khác. Trong một mạng truyền thống, chúng ta có thể mua một *router* và kết nối nó, và nó gần như bắt đầu hoạt động ngay lập tức. Với một bộ điều khiển trung tâm, chúng ta có thêm những thách thức về cơ sở hạ tầng. Chúng ta nên đặt bộ điều khiển này ở đâu? Làm thế nào để kết nối nó với các *routers* riêng lẻ một cách đáng tin cậy?
 
-Centralization also introduces scalability problems. The controller has to make decisions for everybody, which can get expensive for large networks. By contrast, in a traditional network, each router only has to perform computations for itself.
+Đây là một lĩnh vực nghiên cứu tích cực, bao gồm một dự án của Sylvia Ratnasamy và Rob Shakir (giảng viên khóa học Berkeley CS 168).
 
-Centralization could also introduce different types of complexity. In a traditional network, we could buy a router and connect it, and it more or less starts working right away. With a central controller, we have additional infrastructure challenges. Where do we put this controller? How do we connect it to the individual routers in a reliable way?
+## SDN trong Management Plane và Data Plane
 
-This is an active area of research, including a project by Sylvia Ratnasamy and Rob Shakir (Berkeley CS 168 instructors).
+Chúng ta đã thấy *SDN* như một cách mới để triển khai *control plane*. Nhưng, sự thất vọng ban đầu dẫn đến sự phát triển của *SDN* là ở *management plane*.
 
-
-## SDN in the Management and Data Plane
-
-We've seen SDN as a new way to implement the control plane. But, the initial frustration that led to the development of SDN was at the management plane.
-
-It turns out, many of the design paradigms that SDN used at the control plane can also apply to the management plane. For example, we saw that SDN relies on well-defined, programmatic APIs (e.g. OpenFlow).
+Hóa ra, nhiều mô hình thiết kế mà *SDN* đã sử dụng ở *control plane* cũng có thể áp dụng cho *management plane*. Ví dụ, chúng ta đã thấy rằng *SDN* dựa trên các *APIs* được định nghĩa rõ ràng, có thể lập trình được (ví dụ: *OpenFlow*).
 
 TODO ran out of time in SP24.

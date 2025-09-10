@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 # **Địa chỉ hóa trong Datacenter** (Datacenter Addressing)
 
 ## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)
@@ -30,7 +23,7 @@ Tuy nhiên, trong datacenter, chúng ta có thể tận dụng việc **operator
 
 Trong topology cụ thể này, các **rack** (tủ máy) được tổ chức vật lý thành các **pod** riêng biệt trong tòa nhà. Một cách tiếp cận tự nhiên là phân bổ một dải địa chỉ cho mỗi pod. Sau đó, mỗi pod có thể phân bổ các **sub-range** (dải con) cho từng rack trong pod. Cuối cùng, mỗi rack có thể phân bổ một địa chỉ IP riêng cho từng server.
 
-Nhà vận hành biết số lượng server trong mỗi rack và số lượng rack trong mỗi pod, vì vậy chúng ta có thể dùng thông tin này để phân bổ dải địa chỉ với kích thước phù hợp. Ví dụ: một rack có thể nhận một dải `/24`, cung cấp cho rack đó 256 địa chỉ cho các server của mình.
+Nhà vận hành biết số lượng server trong mỗi rack và số lượng rack trong mỗi pod, vì vậy chúng ta có thể dùng thông tin này để phân bổ dải địa chỉ với kích thước phù hợp. Ví dụ: một rack có thể nhận một dải */24*, cung cấp cho rack đó 256 địa chỉ cho các server của mình.
 
 Cách phân bổ này cho phép **aggregate routes** (gộp tuyến) và lưu ít mục hơn trong bảng chuyển tiếp. Ví dụ: xét một **spine router** (router xương sống) ở phía trên cùng của sơ đồ. Router này không cần ghi nhớ đường đi đến từng server. Thay vào đó, bảng chuyển tiếp chỉ cần bốn mục, mỗi mục cho một pod. Khi một packet đến, router kiểm tra 16 bit đầu tiên để chuyển tiếp packet đến pod thích hợp.
 

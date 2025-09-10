@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # TCP Design
 
 ## Reliably Delivering a Single Packet

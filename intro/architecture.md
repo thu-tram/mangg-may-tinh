@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Kiến trúc mạng** (Network Architecture)
 
 ## **Các mô hình thiết kế** (Design Paradigms)

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # TCP Implementation
 
 ## TCP Segments

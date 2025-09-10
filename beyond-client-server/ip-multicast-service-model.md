@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **IP Multicast**
 
 ## **Lược sử IP Multicast** (Brief History of IP Multicast)
@@ -21,7 +14,7 @@ Mặc dù các giao thức này không được triển khai toàn cầu, nhưng
 
 ## **Mô hình dịch vụ IP Multicast** (IP Multicast Service Model)
 
-Làm thế nào để định nghĩa một nhóm? Mỗi **multicast group** được định nghĩa bởi một địa chỉ IP. Các địa chỉ từ `224.0.0.0` đến `239.255.255.255` là địa chỉ multicast, và mọi người đều biết rằng các địa chỉ trong dải cố định này là địa chỉ multicast.
+Làm thế nào để định nghĩa một nhóm? Mỗi **multicast group** được định nghĩa bởi một địa chỉ IP. Các địa chỉ từ *224.0.0.0* đến *239.255.255.255* là địa chỉ multicast, và mọi người đều biết rằng các địa chỉ trong dải cố định này là địa chỉ multicast.
 
 <img width="500px" src="../assets/beyond-client-server/7-005-multicast-addresses.png">
 

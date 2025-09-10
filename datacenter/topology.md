@@ -1,274 +1,257 @@
+# Datacenter Topology (Cấu trúc liên kết mạng của Trung tâm dữ liệu)
 
+## Datacenter là gì?
 
-
-
-
-
-
-# Datacenter Topology
-
-## What is a Datacenter?
-
-So far, in our model of the Internet, we've shown end hosts sending packets to each other. The end host might be a client machine (e.g. your local computer), or a server (e.g. YouTube). But, is YouTube really a single machine on the Internet serving videos to the entire world?
+Cho đến nay, trong mô hình Internet của chúng ta, chúng ta đã thấy các *end hosts* (thiết bị đầu cuối) gửi các gói tin cho nhau. *End host* có thể là một *client machine* (máy khách) (ví dụ: máy tính cá nhân của bạn), hoặc một *server* (máy chủ) (ví dụ: YouTube). Nhưng, liệu YouTube có thực sự là một cỗ máy duy nhất trên Internet phục vụ video cho toàn thế giới không?
 
 <img width="800px" src="../assets/datacenter/6-001-single-server.png">
 
-In reality, YouTube is an entire building of interconnected machines, working together to serve videos to clients. All these machines are in the same local network, and can communicate with each other to fulfill requests (e.g. if the video you requested is stored across different machines).
+Thực tế, YouTube là cả một tòa nhà gồm các máy móc được kết nối với nhau, hoạt động cùng nhau để phục vụ video cho người dùng. Tất cả những cỗ máy này đều nằm trong cùng một *local network* (mạng cục bộ) và có thể giao tiếp với nhau để hoàn thành các yêu cầu (ví dụ: nếu video bạn yêu cầu được lưu trữ trên nhiều máy khác nhau).
 
 <img width="800px" src="../assets/datacenter/6-002-many-servers.png">
 
-Recall that in the network-of-network model of the Internet, each operator is free to manage their local network however they want. In this section, we'll focus on local networks dedicated to connecting servers inside a datacenter (as opposed to users like your personal computer). We'll talk about challenges unique to these local networks, and specialized solutions to networking problems (e.g. congestion control and routing) that are specifically designed to work well in datacenter contexts.
+Hãy nhớ lại rằng trong mô hình mạng-của-các-mạng của Internet, mỗi nhà khai thác đều có quyền tự do quản lý *local network* của mình theo cách họ muốn. Trong phần này, chúng ta sẽ tập trung vào các *local networks* dành riêng cho việc kết nối các *servers* bên trong một *Datacenter* (Trung tâm dữ liệu) (trái ngược với việc kết nối người dùng như máy tính cá nhân của bạn). Chúng ta sẽ nói về những thách thức riêng biệt của các *local networks* này, và các giải pháp chuyên biệt cho các vấn đề mạng (ví dụ: *congestion control* (kiểm soát tắc nghẽn) và *routing* (định tuyến)) được thiết kế đặc biệt để hoạt động tốt trong bối cảnh *Datacenter*.
 
-In real life, a datacenter is housed in one physical location, often on dedicated properties. In addition to computing infrastructure (e.g. servers), datacenters also need supporting infrastructure like cooling systems and power supplies, though we'll be focusing on the local network that connects the servers.
+Trong thực tế, một *Datacenter* được đặt tại một địa điểm vật lý, thường là trên các khu đất chuyên dụng. Ngoài cơ sở hạ tầng tính toán (ví dụ: *servers*), *Datacenters* còn cần cơ sở hạ tầng hỗ trợ như hệ thống làm mát và nguồn điện, mặc dù chúng ta sẽ chỉ tập trung vào *local network* kết nối các *servers*.
 
-Datacenters serve applications (e.g. YouTube videos, Google search results, etc.). This is the infrastructure for the end hosts that you might want to talk to. Note that this is different from Internet infrastructure we've seen so far. Previously, we saw carrier hotels, buildings where lots of networks (owned by different companies) connect to each other with heavy-duty routers. This is the infrastructure for routers forwarding your packets to various destinations, but applications are usually not hosted in carrier hotels.
+*Datacenters* phục vụ các ứng dụng (ví dụ: video YouTube, kết quả tìm kiếm Google, v.v.). Đây là cơ sở hạ tầng cho các *end hosts* mà bạn có thể muốn kết nối. Lưu ý rằng điều này khác với cơ sở hạ tầng Internet mà chúng ta đã thấy trước đây. Trước đó, chúng ta đã thấy *carrier hotels* (khách sạn viễn thông, nơi các mạng kết nối với nhau), những tòa nhà nơi rất nhiều mạng (thuộc sở hữu của các công ty khác nhau) kết nối với nhau bằng các *routers* (bộ định tuyến) hạng nặng. Đây là cơ sở hạ tầng cho các *routers* chuyển tiếp các gói tin của bạn đến nhiều đích khác nhau, nhưng các ứng dụng thường không được lưu trữ tại *carrier hotels*.
 
-A datacenter is usually owned by a single organization (e.g. Google, Amazon), and that organization could host many different applications (e.g. Gmail, YouTube, etc.) in a single datacenter. This means that the organization has control over all the network infrastructure inside the datacenter's local network.
+Một *Datacenter* thường thuộc sở hữu của một tổ chức duy nhất (ví dụ: Google, Amazon), và tổ chức đó có thể lưu trữ nhiều ứng dụng khác nhau (ví dụ: Gmail, YouTube, v.v.) trong một *Datacenter* duy nhất. Điều này có nghĩa là tổ chức đó có toàn quyền kiểm soát cơ sở hạ tầng mạng bên trong *local network* của *Datacenter*.
 
-Our focus is on modern hyperscale datacenters, operated by tech giants like Google and Amazon. The large scale introduces some unique challenges, but the concepts we'll see also work at smaller scales.
+Trọng tâm của chúng ta là các *Datacenters* siêu quy mô hiện đại, được vận hành bởi các gã khổng lồ công nghệ như Google và Amazon. Quy mô lớn mang lại một số thách thức độc đáo, nhưng các khái niệm chúng ta sẽ tìm hiểu cũng hoạt động ở quy mô nhỏ hơn.
 
 <img width="900px" src="../assets/datacenter/6-003-wan1.png">
 
-This map shows the wide area network (WAN) of all the networks owned by a tech giant like Google.
+Bản đồ này cho thấy *wide area network (WAN)* (mạng diện rộng) của tất cả các mạng do một gã khổng lồ công nghệ như Google sở hữu.
 
-The peering locations connect Google to the rest of the Internet. These mainly consist of Google-operated routers that connect to other autonomous systems.
+Các *peering locations* (địa điểm ngang hàng) kết nối Google với phần còn lại của Internet. Chúng chủ yếu bao gồm các *routers* do Google vận hành kết nối với các *autonomous systems* (hệ thống tự trị) khác.
 
 <img width="900px" class="real-photo" src="../assets/datacenter/6-004-peering.png">
 
-In addition to peering locations, Google also operates many datacenters. Applications in datacenters can communicate with the rest of the Internet via the peering locations. The datacenters and peering locations are all connected through Google-managed routers and links in Google's wide area network.
+Ngoài các *peering locations*, Google cũng vận hành nhiều *Datacenters*. Các ứng dụng trong *Datacenters* có thể giao tiếp với phần còn lại của Internet thông qua các *peering locations*. Các *Datacenters* và *peering locations* đều được kết nối thông qua các *routers* và *links* (liên kết) do Google quản lý trong *WAN* của Google.
 
 <img width="900px" class="real-photo" src="../assets/datacenter/6-005-datacenter-irl1.png">
 
-Datacenters and peering locations optimize for different performance goals, so they're often physically located in different places.
+*Datacenters* và *peering locations* tối ưu hóa cho các mục tiêu hiệu suất khác nhau, vì vậy chúng thường được đặt ở những vị trí vật lý khác nhau.
 
-Peering locations care about being physically close to other companies and networks. As a result, carrier hotels are often located in cities to be physically closer to customers and other companies.
+*Peering locations* quan tâm đến việc ở gần các công ty và mạng lưới khác về mặt vật lý. Do đó, *carrier hotels* thường được đặt tại các thành phố để gần gũi hơn với khách hàng và các công ty khác.
 
-By contrast, datacenters care less about being close to other companies, and instead prioritize requirements like physical space, power, and cooling. As a result, datacenters are often located in less-populated areas, sometimes with a nearby river (for cooling) or power station (datacenters might need hundreds of times more power than peering locations).
+Ngược lại, *Datacenters* ít quan tâm hơn đến việc ở gần các công ty khác, và thay vào đó ưu tiên các yêu cầu như không gian vật lý, điện năng và làm mát. Do đó, *Datacenters* thường được đặt ở những khu vực ít dân cư hơn, đôi khi gần một con sông (để làm mát) hoặc một trạm điện (*Datacenters* có thể cần lượng điện năng gấp hàng trăm lần so với *peering locations*).
 
 <img width="800px" class="real-photo" src="../assets/datacenter/6-006-datacenter-irl2.png">
 
-## Why is the Datacenter Different?
+## Tại sao Datacenter lại khác biệt?
 
-What makes a datacenter's local network different from general-purpose (wide area) networks on the rest of the Internet?
+Điều gì làm cho *local network* của một *Datacenter* khác biệt so với các mạng đa dụng (mạng diện rộng) trên phần còn lại của Internet?
 
-The datacenter network is run by a single organization, which gives us more control over the network and hosts. Unlike in the general-purpose Internet, we can run our own custom hardware or software, and we can enforce that every machine follows the same custom protocol.
+Mạng *Datacenter* được điều hành bởi một tổ chức duy nhất, điều này cho phép chúng ta kiểm soát nhiều hơn đối với mạng và các *hosts* (máy chủ/thiết bị). Không giống như trên Internet đa dụng, chúng ta có thể chạy phần cứng hoặc phần mềm tùy chỉnh của riêng mình, và chúng ta có thể thực thi rằng mọi máy đều tuân theo cùng một giao thức tùy chỉnh.
 
-Datacenters are often homogeneous, where every server and switch is built and operated exactly the same. Unlike in the general-purpose Internet, we don't have to consider some links being wireless, and others being wired. In the general-purpose Internet, some computers might be newer than others, but in a datacenter, every computer is usually part of the same generation, and the entire datacenter is upgraded at the same time.
+*Datacenters* thường đồng nhất, nơi mọi *server* và *switch* (bộ chuyển mạch) đều được xây dựng và vận hành hoàn toàn giống nhau. Không giống như trên Internet đa dụng, chúng ta không phải xem xét một số *links* là không dây, và một số khác là có dây. Trên Internet đa dụng, một số máy tính có thể mới hơn những máy khác, nhưng trong một *Datacenter*, mọi máy tính thường thuộc cùng một thế hệ, và toàn bộ *Datacenter* được nâng cấp cùng một lúc.
 
-The datacenter network exists in a single physical location, so we don't have to think about long-distance links like undersea cables. Within that single location, we have to support extremely high bandwidth.
+Mạng *Datacenter* tồn tại ở một địa điểm vật lý duy nhất, vì vậy chúng ta không cần phải nghĩ về các *links* đường dài như cáp ngầm dưới biển. Trong một địa điểm duy nhất đó, chúng ta phải hỗ trợ *bandwidth* (băng thông) cực kỳ cao.
 
+## Các Mẫu Lưu lượng trong Datacenter
 
-## Datacenter Traffic Patterns
+Khi bạn gửi một yêu cầu đến một ứng dụng trong *Datacenter*, gói tin của bạn di chuyển qua các *routers* trên Internet đa dụng, cuối cùng đến được *router* do Google vận hành. *Router* đó chuyển tiếp gói tin của bạn đến một trong các *edge routers* (router biên) của *Datacenter*, sau đó *edge router* này sẽ chuyển tiếp gói tin của bạn đến một *server* riêng lẻ nào đó trong *Datacenter*.
 
-When you make a request to a datacenter application, your packet travels across routers in the general-purpose Internet, eventually reaching Google-operated router. That router forwards your packet to one of the datacenter's edge routers, which then forwards your packet to some individual server in the datacenter.
+Một *server* này có lẽ không có đủ tất cả thông tin để xử lý yêu cầu của bạn. Ví dụ, nếu bạn yêu cầu một bảng tin Facebook, các *servers* khác nhau có thể cần phải làm việc cùng nhau để kết hợp quảng cáo, hình ảnh, bài đăng, v.v. Sẽ không thực tế nếu mọi *server* đều phải biết mọi thứ về Facebook để tự mình xử lý yêu cầu của bạn.
 
-This one server probably doesn't have all the information to process your request. For example, if you requested a Facebook feed, different servers might need to work together to combine ads, photos, posts, etc. It wouldn't be practical if every server had to know everything about Facebook to process your request by itself.
-
-In order for the different servers to coordinate, the first server triggers many backend requests to collect all the information needed in your request. A single user request could trigger hundreds of backend requests (521 on average, per a 2013 Facebook paper) before the response can be sent back to the user. In general, there's significantly more backend traffic between servers, and the external traffic with the user is very small in comparison.
+Để các *servers* khác nhau có thể phối hợp, *server* đầu tiên sẽ kích hoạt nhiều yêu cầu backend để thu thập tất cả thông tin cần thiết cho yêu cầu của bạn. Một yêu cầu duy nhất của người dùng có thể kích hoạt hàng trăm yêu cầu backend (trung bình là 521, theo một bài báo của Facebook năm 2013) trước khi phản hồi có thể được gửi lại cho người dùng. Nhìn chung, lưu lượng backend giữa các *servers* lớn hơn đáng kể, và lưu lượng bên ngoài với người dùng rất nhỏ khi so sánh.
 
 <img width="900px" src="../assets/datacenter/6-007-nsew-traffic1.png">
 
-Most modern applications are dominated by internal traffic between machines. For example, if you run a distributed program like mapreduce, the different servers need to communicate to each other to collectively solve your large query. Some applications might even have no user-facing network traffic at all. For example, Google might run periodic backups, which requires servers communicating, but produces no visible result for the end user.
+Hầu hết các ứng dụng hiện đại đều bị chi phối bởi lưu lượng nội bộ giữa các máy. Ví dụ, nếu bạn chạy một chương trình phân tán như mapreduce, các *servers* khác nhau cần phải giao tiếp với nhau để cùng giải quyết truy vấn lớn của bạn. Một số ứng dụng thậm chí có thể không có lưu lượng mạng hướng tới người dùng nào cả. Ví dụ, Google có thể chạy các bản sao lưu định kỳ, đòi hỏi các *servers* phải giao tiếp với nhau, nhưng không tạo ra kết quả nào có thể thấy được cho người dùng cuối.
 
-Connections that go outside the network (e.g. to end users or other datacenters) are described as **north-south** traffic. By contrast, connections between machines inside the network are described as **east-west** traffic. East-west traffic is several orders of magnitude larger than north-south traffic, and the volume of east-west traffic is increasing in recent years (e.g. with the growth of machine learning).
+Các kết nối đi ra ngoài mạng (ví dụ: đến người dùng cuối hoặc các *Datacenters* khác) được mô tả là *north-south traffic* (lưu lượng bắc-nam). Ngược lại, các kết nối giữa các máy bên trong mạng được mô tả là *east-west traffic* (lưu lượng đông-tây). *East-west traffic* lớn hơn *north-south traffic* vài bậc độ lớn, và khối lượng của *east-west traffic* đang tăng lên trong những năm gần đây (ví dụ: với sự phát triển của học máy).
 
 <img width="300px" src="../assets/datacenter/6-008-nsew-traffic2.png">
 
+## Racks (Giá đỡ)
 
-## Racks
-
-A datacenter fundamentally consists of many servers. The servers are organized in physical racks, where each rack has 40-48 rack units (slots), and each rack unit can fit 1-2 servers.
+Về cơ bản, một *Datacenter* bao gồm rất nhiều *servers*. Các *servers* được tổ chức trong các *racks* (giá đỡ) vật lý, mỗi *rack* có 40-48 đơn vị rack (khe cắm), và mỗi đơn vị rack có thể chứa 1-2 *servers*.
 
 <img width="500px" class="real-photo" src="../assets/datacenter/6-009-rack1.png">
 
-We'd like all the servers in the datacenter to be able to communicate with each other, so we need to build a network to connect them all. What does this network look like? How do we efficiently install links and switches to meet our requirements?
+Chúng ta muốn tất cả các *servers* trong *Datacenter* có thể giao tiếp với nhau, vì vậy chúng ta cần xây dựng một mạng lưới để kết nối tất cả chúng lại. Mạng lưới này trông như thế nào? Làm thế nào để chúng ta lắp đặt các *links* và *switches* một cách hiệu quả để đáp ứng các yêu cầu của mình?
 
-First, we can connect all the servers within a single rack. Each rack has a single switch called a **top-of-rack (TOR) switch**, and every server in the rack has a link (called an **access link** or **uplink**) connecting to that switch. The TOR is a relatively small router, with a single forwarding chip, and physical ports connecting to all the servers on the rack. Each server uplink typically has a capacity of around 100 Gbps.
+Đầu tiên, chúng ta có thể kết nối tất cả các *servers* trong cùng một *rack*. Mỗi *rack* có một *switch* duy nhất được gọi là *top-of-rack (TOR) switch* (switch đỉnh giá), và mọi *server* trong *rack* đều có một *link* (được gọi là *access link* (liên kết truy cập) hoặc *uplink* (đường lên)) kết nối đến *switch* đó. *TOR* là một *router* tương đối nhỏ, với một chip chuyển tiếp duy nhất, và các cổng vật lý kết nối với tất cả các *servers* trên *rack*. Mỗi *uplink* của *server* thường có dung lượng khoảng 100 Gbps.
 
 <img width="500px" class="real-photo" src="../assets/datacenter/6-010-rack2.png">
 
-Next, we have to think about how to connect the racks together. Ideally, we'd like every server to talk to every other server at their full line rate (i.e. using the entire uplink bandwidth).
+Tiếp theo, chúng ta phải suy nghĩ về cách kết nối các *racks* với nhau. Lý tưởng nhất, chúng ta muốn mọi *server* có thể nói chuyện với mọi *server* khác ở *line rate* (tốc độ tối đa của đường truyền) của chúng (tức là sử dụng toàn bộ *bandwidth* của *uplink*).
 
 <img width="500px" src="../assets/datacenter/6-011-rack3.png">
 
+## Bisection Bandwidth (Băng thông chia đôi)
 
-## Bisection Bandwidth
-
-Before thinking about how to connect racks, let's develop a metric for how connected a set of computers are.
+Trước khi nghĩ về cách kết nối các *racks*, hãy phát triển một thước đo về mức độ kết nối của một tập hợp các máy tính.
 
 <img width="800px" src="../assets/datacenter/6-012-bisection1.png">
 
-Intuitively, even though all three networks are fully connected, the left network is the most connected, the middle network is less connected, and the right network is the least connected. For example, the left and middle networks could support 1-4 and 3-6 simultaneously communicating at full line rate, while the right network cannot.
+Một cách trực quan, mặc dù cả ba mạng đều được kết nối đầy đủ, mạng bên trái là kết nối tốt nhất, mạng ở giữa kém kết nối hơn, và mạng bên phải là kém kết nối nhất. Ví dụ, mạng bên trái và giữa có thể hỗ trợ các node 1-4 và 3-6 giao tiếp đồng thời ở *line rate*, trong khi mạng bên phải thì không.
 
-One way to argue that the left network is more connected is to say: We have to cut more links to disconnect the network. This indicates that there are lots of redundant links, which allows us to run many simultaneous high-bandwidth connections. Similarly, one way to argue that the right network is less connected is to say: We only have to cut the 2-5 link to connect the network, which indicates the existence of a bottleneck that prevents simultaneous high-bandwidth connections.
+Một cách để lập luận rằng mạng bên trái kết nối tốt hơn là nói: Chúng ta phải cắt nhiều *links* hơn để ngắt kết nối mạng. Điều này cho thấy có rất nhiều *links* dự phòng, cho phép chúng ta chạy nhiều kết nối *bandwidth* cao đồng thời. Tương tự, một cách để lập luận rằng mạng bên phải kém kết nối hơn là nói: Chúng ta chỉ cần cắt *link* 2-5 để ngắt kết nối mạng, điều này cho thấy sự tồn tại của một điểm nghẽn ngăn cản các kết nối *bandwidth* cao đồng thời.
 
-**Bisection bandwidth** is a way to quantify how connected a network is. To compute bisection bandwidth, we compute the number of links we need to remove in order to partition the network into two disconnected halves of equal size. The bisection bandwidth is the sum of the bandwidths on the links that we cut.
+*Bisection bandwidth* (băng thông chia đôi) là một cách để định lượng mức độ kết nối của một mạng. Để tính *bisection bandwidth*, chúng ta tính số lượng *links* cần loại bỏ để phân chia mạng thành hai nửa không kết nối có kích thước bằng nhau. *Bisection bandwidth* là tổng của *bandwidths* trên các *links* mà chúng ta đã cắt.
 
 <img width="900px" src="../assets/datacenter/6-013-bisection2.png">
 
-In the rightmost structure, we only need to remove one link to partition the network, so the bisection bandwidth is just that one link. By contrast, in the leftmost structure, we need to remove 9 links to partition the network, so the bisection bandwidth is the combined bandwidth of all 9 links.
+Trong cấu trúc ngoài cùng bên phải, chúng ta chỉ cần loại bỏ một *link* để phân chia mạng, vì vậy *bisection bandwidth* chỉ là *bandwidth* của *link* đó. Ngược lại, trong cấu trúc ngoài cùng bên trái, chúng ta cần loại bỏ 9 *links* để phân chia mạng, vì vậy *bisection bandwidth* là *bandwidth* kết hợp của tất cả 9 *links* đó.
 
-An equivalent way of defining bisection bandwidth is: We divide the network into two halves, and each node in one half wants to simultaneously send data to a corresponding node in the other half. Among all possible partitions of nodes, what is the minimum bandwidth that the nodes can collectively send at? Considering the worst case (minimum bandwidth) forces us to think about bottlenecks.
+Một cách định nghĩa tương đương của *bisection bandwidth* là: Chúng ta chia mạng thành hai nửa, và mỗi nút ở một nửa muốn đồng thời gửi dữ liệu đến một nút tương ứng ở nửa còn lại. Trong tất cả các cách phân chia các nút có thể, *bandwidth* tối thiểu mà các nút có thể gửi đi chung là bao nhiêu? Việc xem xét trường hợp xấu nhất (*bandwidth* tối thiểu) buộc chúng ta phải nghĩ về các điểm nghẽn.
 
 <img width="900px" src="../assets/datacenter/6-014-bisection3.png">
 
-The most-connected network has full bisection bandwidth. This means that there are no bottlenecks, and no matter how you assign nodes to partitions, all nodes in one partition can communicate simultaneously with all nodes in the other partition at full rate. If there are N nodes, and all N/2 nodes in the left partition are sending data at full rate R, then the full bisection bandwidth is N/2 times R.
+Mạng được kết nối tốt nhất có *bisection bandwidth* đầy đủ. Điều này có nghĩa là không có điểm nghẽn, và dù bạn phân chia các nút vào các phân vùng như thế nào, tất cả các nút trong một phân vùng đều có thể giao tiếp đồng thời với tất cả các nút trong phân vùng kia ở tốc độ tối đa. Nếu có N nút, và tất cả N/2 nút trong phân vùng bên trái đang gửi dữ liệu ở tốc độ tối đa R, thì *bisection bandwidth* đầy đủ là N/2 nhân R.
 
-**Oversubscription** is a measure of how far from the full bisection bandwidth we are, or equivalently, how overloaded the bottleneck part of the network is. It's a ratio of the bisection bandwidth to the full bisection bandwidth (the bandwidth if all hosts sent at full rate).
+*Oversubscription* (tỷ lệ quá tải băng thông) là một thước đo về mức độ chúng ta còn cách xa *bisection bandwidth* đầy đủ, hoặc tương đương, mức độ quá tải của phần nghẽn của mạng. Đó là tỷ lệ của *bisection bandwidth* so với *bisection bandwidth* đầy đủ (*bandwidth* nếu tất cả các *hosts* đều gửi ở tốc độ tối đa).
 
 <img width="900px" src="../assets/datacenter/6-015-bisection4.png">
 
-In the rightmost example, assuming all links are 1 Gbps, then the bisection bandwidth is 2 Gbps (to split the left four hosts with the right four hosts). The full bisection bandwidth, achieved when all four left hosts were simultaneously sending data, is 4 Gbps. Therefore, the ratio 2/4 tells us that the hosts can only send at 50% of their full rate. In other words, our network is 2x oversubscribed, because if the hosts all sent at full rate, the bottleneck links would be 2x overloaded (4 Gbps on 2 Gbps of links).
+Trong ví dụ ngoài cùng bên phải, giả sử tất cả các *links* là 1 Gbps, thì *bisection bandwidth* là 2 Gbps (để tách bốn *hosts* bên trái với bốn *hosts* bên phải). *Bisection bandwidth* đầy đủ, đạt được khi tất cả bốn *hosts* bên trái đồng thời gửi dữ liệu, là 4 Gbps. Do đó, tỷ lệ 2/4 cho chúng ta biết rằng các *hosts* chỉ có thể gửi ở 50% tốc độ tối đa của chúng. Nói cách khác, mạng của chúng ta bị *oversubscribed* gấp 2 lần, bởi vì nếu tất cả các *hosts* đều gửi ở tốc độ tối đa, các *links* nghẽn sẽ bị quá tải gấp 2 lần (4 Gbps trên các *links* 2 Gbps).
 
+## Datacenter Topology (Cấu trúc liên kết mạng của Trung tâm dữ liệu)
 
-## Datacenter Topology
+Bây giờ chúng ta đã định nghĩa *bisection bandwidth*, một thước đo về khả năng kết nối phụ thuộc vào *topology* (cấu trúc liên kết mạng, hay topo mạng) của mạng. Trong một *Datacenter*, chúng ta có thể chọn *topology* của mình (ví dụ: chọn nơi lắp đặt cáp). Chúng ta nên xây dựng *topology* nào để tối đa hóa *bisection bandwidth*?
 
-We've now defined bisection bandwidth, a measure of connectedness that's a function of the network topology. In a datacenter, we can choose our topology (e.g. choose where to install cables). What topology should we build to maximize bisection bandwidth?
-
-One possible approach is to connect every rack to a giant cross-bar switch. All the racks on the left side can simultaneously send data at full rate into the switch, which forwards all that data to the right side at full rate. This would allow us to achieve full bisection bandwidth.
+Một cách tiếp cận có thể là kết nối mọi *rack* với một *cross-bar switch* (switch chuyển mạch chéo) khổng lồ. Tất cả các *racks* ở phía bên trái có thể đồng thời gửi dữ liệu ở tốc độ tối đa vào *switch*, *switch* này sẽ chuyển tiếp tất cả dữ liệu đó đến phía bên phải ở tốc độ tối đa. Điều này sẽ cho phép chúng ta đạt được *bisection bandwidth* đầy đủ.
 
 <img width="500px" src="../assets/datacenter/6-016-topology1.png">
 
-What are some problems with this approach? The switch will need one physical port for every rack (potentially up to 2500 ports). We sometimes refer to the number of external ports as the **radix** of the switch, so this switch would need a large radix. Also, this switch would need to have enormous capacity (potentially petabits per second) to support all the racks. Unsurprisingly, this switch is impractical to build (even if we could, it would be prohibitively expensive).
+Một số vấn đề với cách tiếp cận này là gì? *Switch* sẽ cần một cổng vật lý cho mỗi *rack* (có thể lên đến 2500 cổng). Chúng ta đôi khi gọi số lượng cổng bên ngoài là *radix* (số lượng cổng) của *switch*, vì vậy *switch* này sẽ cần một *radix* lớn. Ngoài ra, *switch* này sẽ cần có dung lượng cực lớn (có thể là petabit mỗi giây) để hỗ trợ tất cả các *racks*. Không có gì ngạc nhiên khi *switch* này không thực tế để xây dựng (ngay cả khi chúng ta có thể, nó sẽ cực kỳ đắt đỏ).
 
-Fun fact: In the 2000s, Google tried asking switch vendors to build a 10,000-port switch. The vendors declined, saying it's not possible to build this, and even if we could, nobody is asking for this except you (so there's no profit to be made in building it).
+Thông tin thú vị: Vào những năm 2000, Google đã thử yêu cầu các nhà cung cấp *switch* xây dựng một *switch* 10.000 cổng. Các nhà cung cấp đã từ chối, nói rằng không thể xây dựng thứ này, và ngay cả khi có thể, không ai yêu cầu nó ngoại trừ bạn (vì vậy không có lợi nhuận để xây dựng nó).
 
-Another problem is that this switch is a single point of failure, and the entire datacenter network stops working if this switch breaks.
+Một vấn đề khác là *switch* này là một điểm lỗi duy nhất, và toàn bộ mạng *Datacenter* sẽ ngừng hoạt động nếu *switch* này bị hỏng.
 
-Another possible approach is to arrange switches in a tree topology. This can help us reduce the radix and the bandwidth of each link.
+Một cách tiếp cận khác có thể là sắp xếp các *switches* theo *tree topology* (topo mạng hình cây). Điều này có thể giúp chúng ta giảm *radix* và *bandwidth* của mỗi *link*.
 
 <img width="500px" src="../assets/datacenter/6-017-topology2.png">
 
-What are some problems with this approach? The bisection bandwidth is lower. A single link is the bottleneck between the two halves of the tree.
+Một số vấn đề với cách tiếp cận này là gì? *Bisection bandwidth* thấp hơn. Một *link* duy nhất là điểm nghẽn giữa hai nửa của cây.
 
-To increase bisection bandwidth, we could install higher-bandwidth links at higher layers.
+Để tăng *bisection bandwidth*, chúng ta có thể lắp đặt các *links* có *bandwidth* cao hơn ở các lớp cao hơn.
 
 <img width="500px" src="../assets/datacenter/6-018-topology3.png">
 
-In this case, if the four lower links are 100 Gbps, and the two higher links are 300 Gbps, then we've removed the bottleneck and restored full bisection bandwidth.
+Trong trường hợp này, nếu bốn *links* dưới là 100 Gbps, và hai *links* trên là 300 Gbps, thì chúng ta đã loại bỏ được điểm nghẽn và khôi phục *bisection bandwidth* đầy đủ.
 
-This topology can be used, although we still haven't solved the problem where the top switch is expensive and scales poorly.
+*Topology* này có thể được sử dụng, mặc dù chúng ta vẫn chưa giải quyết được vấn đề *switch* ở đỉnh rất đắt và khả năng mở rộng kém.
 
+## Clos Networks (Mạng Clos)
 
-## Clos Networks
-
-So far, we've tried building networks using custom-built switches, potentially with very high bandwidth or radix. These switches are still expensive to build. Could we instead design a topology that gives high bisection bandwidth, using cheap commodity elements? In particular, we'd like to use a large number of cheap off-the-shelf switches, where all the switches have the same number of ports, each switch has a low number of ports, and all link speeds are the same.
+Cho đến nay, chúng ta đã thử xây dựng các mạng sử dụng các *switches* được chế tạo tùy chỉnh, có thể với *bandwidth* hoặc *radix* rất cao. Những *switches* này vẫn rất tốn kém để xây dựng. Liệu chúng ta có thể thiết kế một *topology* cho *bisection bandwidth* cao, sử dụng các thành phần hàng hóa giá rẻ không? Cụ thể, chúng ta muốn sử dụng một số lượng lớn các *switches* thương mại giá rẻ, trong đó tất cả các *switches* đều có cùng số cổng, mỗi *switch* có số lượng cổng thấp, và tất cả tốc độ *link* đều như nhau.
 
 <img width="600px" src="../assets/datacenter/6-019-clos1.png">
 
-A **Clos network** achieves high bandwidth with commodity parts by introducing a huge number of paths between nodes in the network. Because there are so many links and paths through the network, we can achieve high bisection bandwidth by having each node send data along a different path.
+Một *Clos network* (mạng Clos) đạt được *bandwidth* cao với các bộ phận thương mại bằng cách tạo ra một số lượng lớn các đường đi giữa các nút trong mạng. Bởi vì có rất nhiều *links* và đường đi qua mạng, chúng ta có thể đạt được *bisection bandwidth* cao bằng cách cho mỗi nút gửi dữ liệu theo một đường đi khác nhau.
 
 <img width="600px" src="../assets/datacenter/6-020-clos2.png">
 
-Unlike custom-built switches, where we scaled the network by building a bigger switch, we can scale Clos networks by simply adding more of the same switches. This solution is cost-effective and scalable!
+Không giống như các *switches* được chế tạo tùy chỉnh, nơi chúng ta mở rộng quy mô mạng bằng cách xây dựng một *switch* lớn hơn, chúng ta có thể mở rộng quy mô *Clos networks* bằng cách chỉ cần thêm nhiều *switches* giống nhau. Giải pháp này hiệu quả về chi phí và có khả năng mở rộng\!
 
-Clos networks have been used in other applications too, and are named for their inventor (Charles Clos, 1952).
+*Clos networks* cũng đã được sử dụng trong các ứng dụng khác, và được đặt theo tên của nhà phát minh ra chúng (Charles Clos, 1952).
 
-In a classic Clos network, we'd have all the racks on the left send data to the racks on the right. In datacenters, racks can both send and receive data, so instead of having a separate layer of senders and recipients, we can have a single layer with all the racks (acting as either sender or recipient). Then, data travels along one of the many paths deeper into the network, and then back out to reach the recipient. This result is called a **folded Clos network**, because we've "folded" the sender and recipient layers into one.
+Trong một *Clos network* cổ điển, chúng ta sẽ có tất cả các *racks* ở bên trái gửi dữ liệu đến các *racks* ở bên phải. Trong *Datacenters*, các *racks* có thể vừa gửi vừa nhận dữ liệu, vì vậy thay vì có một lớp người gửi và người nhận riêng biệt, chúng ta có thể có một lớp duy nhất với tất cả các *racks* (đóng vai trò là người gửi hoặc người nhận). Sau đó, dữ liệu di chuyển theo một trong nhiều đường đi sâu hơn vào mạng, và sau đó quay trở ra để đến người nhận. Kết quả này được gọi là *folded Clos network* (mạng Clos gập), bởi vì chúng ta đã "gập" các lớp người gửi và người nhận lại thành một.
 
 <img width="900px" src="../assets/datacenter/6-021-clos3.png">
 
+## Fat-Tree Clos Topology (Topo Clos Cây Béo)
 
-## Fat-Tree Clos Topology
+*Fat-tree topology* (topo cây béo) có *radix* thấp trên mỗi *switch*, và đạt được *bisection bandwidth* đầy đủ. Tuy nhiên, *switch* ở đỉnh cây rất đắt, khả năng mở rộng kém, và vẫn là một điểm lỗi duy nhất.
 
-The fat-tree topology has low radix per switch, and achieves full bisection bandwidth. However, the switch at the top of the tree is expensive, scales poorly, and still represents a single point of failure.
+*Clos topology* cho phép chúng ta sử dụng các *switches* thương mại để mở rộng quy mô mạng của mình. Nếu chúng ta kết hợp *Clos topology* với *fat-tree topology*, chúng ta có thể xây dựng một *topology* có khả năng mở rộng từ các *switches* thương mại\!
 
-The Clos topology allows us to use commodity switches to scale up our network. If we combine the Clos topology with the fat-tree topology, we can build a scalable topology out of commodity switches!
+*Topology* được trình bày ở đây đã được giới thiệu trong một bài báo SIGCOMM năm 2008 có tựa đề "A Scalable, Commodity Data Center Network Architecture" (Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat).
 
-The topology presented here was introduced in a 2008 SIGCOMM paper titled "A Scalable, Commodity Data Center Network Architecture" (Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat).
+Trong một *k-ary fat tree* (cây béo k-nhánh), chúng ta tạo ra k *pods* (cụm). Mỗi *pod* có k *switches*.
 
-In a k-ary fat tree, we create k pods. Each pod has k switches.
+Trong một *pod*, k/2 *switches* nằm ở *aggregation layer* (lớp tổng hợp) trên, và k/2 *switches* còn lại nằm ở *edge layer* (lớp biên) dưới.
 
-Within a pod, k/2 switches are in the upper aggregation layer, and the other k/2 switches are in the lower edge layer.
-
-(Note: This topology is defined for even k, so that we can split up the switches evenly between the aggregation layer and edge layer).
+(Lưu ý: *Topology* này được định nghĩa cho k là số chẵn, để chúng ta có thể chia đều các *switches* giữa *aggregation layer* và *edge layer*).
 
 <img width="900px" src="../assets/datacenter/6-022-pods1.png">
 
-Each switch in the pod has k links. Half of the links (k/2) connect upwards, and the other half (k/2) connect downwards.
+Mỗi *switch* trong *pod* có k *links*. Một nửa số *links* (k/2) kết nối lên trên, và nửa còn lại (k/2) kết nối xuống dưới.
 
-Consider a switch in the upper aggregation layer. Half (k/2) of its links connect up to the core layer (which connects the pods, discussed more below). The other half (k/2) of its links connect downwards to the k/2 switches in the edge layer.
+Hãy xem xét một *switch* trong *aggregation layer* trên. Một nửa (k/2) số *links* của nó kết nối lên *core layer* (lớp lõi) (lớp này kết nối các *pods*, sẽ được thảo luận thêm bên dưới). Nửa còn lại (k/2) số *links* của nó kết nối xuống k/2 *switches* trong *edge layer*.
 
-Similarly, consider a switch in the lower edge layer. Half (k/2) of its links connect upwards to the k/2 switches in the aggregation layer. The other half (k/2) of its links connect downwards to k/2 hosts in this pod.
+Tương tự, hãy xem xét một *switch* trong *edge layer* dưới. Một nửa (k/2) số *links* của nó kết nối lên k/2 *switches* trong *aggregation layer*. Nửa còn lại (k/2) số *links* của nó kết nối xuống k/2 *hosts* trong *pod* này.
 
 <img width="900px" src="../assets/datacenter/6-023-pods2.png">
 
+Tiếp theo, hãy xem *core layer*, lớp kết nối các *pods* lại với nhau. Mỗi *core switch* có k *links*, kết nối đến mỗi trong số k *pods*.
 
-Next, let's look at the core layer, which connects the pods together. Each core switch has k links, connecting to each of the k pods.
+Có $$(k/2)^2$$*core switches*. Chúng ta đã suy ra con số này như thế nào? Có k *pods*, và mỗi *pod* có k/2 *switches* trong *aggregation layer* trên, tổng cộng là$$k^2/2$$*switches* trong *aggregation layer*. Mỗi *switch* ở lớp *aggregation* có k/2 *links* hướng lên trên, tổng cộng là$$k^2/2 \times k/2 = k^3/4$$*links* hướng lên trên. Điều này có nghĩa là *core layer* sẽ cần có tổng cộng$$k^3/4$$ *links* hướng xuống dưới, để khớp với số lượng *links* hướng lên từ *aggregation layer*.
 
-There are $$(k/2)^2$$ core switches. How did we derive this number? There are k pods, and each pod has k/2 switches in the upper aggregation layer, for a total of $$k^2/2$$ switches in the aggregation layer. Each aggregation-layer switch has k/2 links pointing upwards, for a total of $$k^2/2 \times k/2 = k^3/4$$ links pointing upwards. This means that the core layer will need to have a total of $$k^3/4$$ links pointing downwards, to match the number of upwards links from the aggregation layer.
+Mỗi *switch* ở *core layer* có k *links* hướng xuống dưới, vì vậy chúng ta cần $$k^2/4$$*switches* ở *core layer* (mỗi *switch* có k *links*) để tạo ra$$k^3/4$$ *links* hướng về phía dưới. Điều này cho phép số lượng *links* lên từ *aggregation layer* khớp với số lượng *links* xuống từ *core layer*.
 
-Each core layer switch has k links pointing downwards, so we need $$k^2/4$$ core layer swiches (each with k links) to create $$k^3/4$$ links pointing towards. This allows the number of links up from the aggregation layer to match the number of links down from the core layer.
-
-We can also compute that there are $$(k/2)^2$$ hosts per pod in this topology. How did we derive this number? There are k/2 switches at the edge layer of each pod. Each edge-layer switch has k/2 downwards links to hosts, for a total of $$k/2 \times k/2 = (k/2)^2$$ hosts per pod. Note that each host is only connected to one edge-layer switch (a host is not connected to multiple switches in this topology). Since there are k pods in total, we can also deduce that there are $$(k/2)^2 \times k$$ hosts in total in this topology.
+Chúng ta cũng có thể tính toán rằng có $$(k/2)^2$$*hosts* trên mỗi *pod* trong *topology* này. Chúng ta đã suy ra con số này như thế nào? Có k/2 *switches* ở *edge layer* của mỗi *pod*. Mỗi *switch* ở *edge layer* có k/2 *links* hướng xuống *hosts*, tổng cộng là$$k/2 \times k/2 = (k/2)^2$$*hosts* trên mỗi *pod*. Lưu ý rằng mỗi *host* chỉ được kết nối với một *switch* ở *edge layer* (một *host* không được kết nối với nhiều *switches* trong *topology* này). Vì có tổng cộng k *pods*, chúng ta cũng có thể suy ra rằng có tổng cộng$$(k/2)^2 \times k$$ *hosts* trong *topology* này.
 
 <img width="900px" src="../assets/datacenter/6-024-pods3.png">
 
+k = 4, ví dụ nhỏ nhất, thật không may lại hơi khó hiểu vì một số con số tình cờ giống nhau (ví dụ: $$(k/2)^2 = k = 4$$). Để có một ví dụ rõ ràng hơn, chúng ta có thể xem xét k = 6.
 
-k = 4, the smallest example, is unfortunately a little confusing because some of the numbers coincidentally end up the same (e.g. $$(k/2)^2 = k = 4$$). For a clearer example, we can look at k = 6.
+Mỗi *pod* có k = 6 *switches*. k/2 = 3 *switches* nằm ở *aggregation layer* trên, và k/2 = 3 *switches* nằm ở *edge layer* dưới.
 
-Each pod has k = 6 switches. k/2 = 3 switches are in the upper aggregation layer, and k/2 = 3 switches are in the lower edge layer.
+Một *switch* ở *edge layer* có k/2 = 3 *links* hướng xuống 3 *hosts*, và k/2 = 3 *links* hướng lên 3 *switches* *aggregation* trong cùng một *pod*.
 
-An edge layer switch has k/2 = 3 links downwards to 3 hosts, and k/2 = 3 links upwards to the 3 aggregation switches in the same pod.
+Một *switch* ở *aggregation layer* có k/2 = 3 *links* hướng lên *core layer* (cụ thể là đến 3 *switches* khác nhau ở *core layer*), và k/2 = 3 *links* hướng xuống 3 *switches* *edge layer* trong cùng một *pod*.
 
-An aggregation layer switch has k/2 = 3 links upwards to the core layer (specifically, to 3 different core layer switches), and k/2 = 3 links downwards to the 3 edge layer switches in the same pod.
+Mỗi *pod* có k/2 = 3 *edge switches*, mỗi *switch* kết nối với k/2 = 3 *hosts*, vì vậy mỗi *pod* có tổng cộng $$(k/2)^2 = 9$$*hosts*. *Topology* có tổng cộng k *pods*, cho tổng số$$k \times (k/2)^2 = 54$$ *hosts*.
 
-Each pod has k/2 = 3 edge switches, each connected to k/2 = 3 hosts, so each pod has a total of $$(k/2)^2 = 9$$ hosts. The topology has k pods in total, for a total of $$k \times (k/2)^2 = 54$$ hosts.
+Tại *core layer*, chúng ta có $$(k/2)^2 = 9$$ *core switches*. Mỗi *switch* có k = 6 *links*, kết nối xuống mỗi trong số k = 6 *pods*.
 
-At the core layer, we have $$(k/2)^2 = 9$$ core switches. Each switch has k = 6 links, connecting downwards to each of the k = 6 pods.
-
-In total, the core layer has $$(k/2)^2 \times k$$ links pointing downwards (number of core switches, times number of links per switch). The aggregation layer has $$k \times (k/2) \times (k/2)$$ links pointing upwards (number of pods, times number of aggregation switches per pod, times number of upwards links per aggregation switch). These two expressions match (and evaluate to 54 for k = 6), allowing the core layer to be fully-connected to the aggregation layer.
+Tổng cộng, *core layer* có $$(k/2)^2 \times k$$*links* hướng xuống (số lượng *core switches*, nhân với số lượng *links* trên mỗi *switch*). *Aggregation layer* có$$k \times (k/2) \times (k/2)$$ *links* hướng lên (số lượng *pods*, nhân với số lượng *aggregation switches* trên mỗi *pod*, nhân với số lượng *links* hướng lên trên mỗi *aggregation switch*). Hai biểu thức này khớp nhau (và cho kết quả là 54 với k = 6), cho phép *core layer* được kết nối đầy đủ với *aggregation layer*.
 
 <img width="900px" src="../assets/datacenter/6-025-pods4.png">
 
-This topology achieves full bisection bandwidth. If you split the pods into two halves (e.g. left half and right half), then every host in the left half has a dedicated path to a corresponding host in the right half. This allows all the hosts to pair up (one in left half, one in right half), and for each pair to communicate along a dedicated path, with no bottlenecks.
+*Topology* này đạt được *bisection bandwidth* đầy đủ. Nếu bạn chia các *pods* thành hai nửa (ví dụ: nửa bên trái và nửa bên phải), thì mọi *host* ở nửa bên trái đều có một đường đi riêng đến một *host* tương ứng ở nửa bên phải. Điều này cho phép tất cả các *hosts* ghép cặp (một ở nửa bên trái, một ở nửa bên phải), và cho mỗi cặp giao tiếp dọc theo một đường đi riêng, không có điểm nghẽn.
 
-Also, notice that this topology can be built out of commodity switches. Every switch has a radix of k links, regardless of which layer the switch is in. Also, every link can have the same bandwidth (e.g. 1 Gbps), and the scalability comes from the fact that we've created a dedicated path between any pair of hosts.
+Ngoài ra, hãy để ý rằng *topology* này có thể được xây dựng từ các *switches* thương mại. Mọi *switch* đều có *radix* là k *links*, bất kể *switch* đó ở lớp nào. Ngoài ra, mọi *link* đều có thể có cùng *bandwidth* (ví dụ: 1 Gbps), và khả năng mở rộng đến từ việc chúng ta đã tạo ra một đường đi riêng giữa bất kỳ cặp *hosts* nào.
 
 <img width="900px" src="../assets/datacenter/6-026-pods5.png">
 
+Một cách khác để thấy *bisection bandwidth* đầy đủ là xóa các *links* cho đến khi mạng được phân chia thành hai nửa (các *pods* ở nửa bên trái, và các *pods* ở nửa bên phải).
 
-Another way to see the full bisection bandwidth is to delete links until the network is partitioned into two halves (pods in the left half, and pods in the right half).
+Mỗi *switch* ở *core layer* có k *links*, một *link* đến mỗi *pod*. Điều này cũng có nghĩa là mỗi *switch* ở *core layer* có k/2 *links* đến phía bên trái, và k/2 *links* đến phía bên phải.
 
-Each core layer switch has k links, one to each of the pods. This also means that each core layer switch has k/2 links to the left side, and k/2 links to the right side.
+Để cô lập hoàn toàn một bên (ví dụ: cô lập hoàn toàn phía bên trái), thì đối với mỗi *core switch*, chúng ta sẽ phải cắt k/2 *links* đến phía bên trái. Có $$(k/2)^2$$*core switches*, và chúng ta phải cắt k/2 *links* trên mỗi *switch*, tổng cộng là$$(k/2)^3$$*links* bị cắt. Điều này có nghĩa là *bisection bandwidth* của chúng ta là$$(k/2)^3$$ *links* (giả sử mọi *link* đều có *bandwidth* giống hệt nhau).
 
-In order to fully isolate one side (e.g. fully isolate the left side), then for each core switch, we'd have to cut k/2 links to the left side. There are $$(k/2)^2$$ core switches, and we have to cut k/2 links per switch, for a total of $$(k/2)^3$$ links cut. This means our bisection bandwidth is $$(k/2)^3$$ links (assuming every link has identical bandwidth).
-
-There are $$(k/2)^2$$ hosts per pod, and k/2 pods in the left side, for a total of $$(k/2)^3$$ links in the left side. Similarly, there are $$(k/2)^3$$ links in the right side. If every host in the left side wanted to communicate with every host in the right side, then $$(k/2)^3$$ links' worth of bandwidth would be needed. Our bisection bandwidth matches this number, which means that full bisection bandwidth is achieved.
+Có $$(k/2)^2$$*hosts* trên mỗi *pod*, và k/2 *pods* ở phía bên trái, tổng cộng là$$(k/2)^3$$*hosts* ở phía bên trái. Tương tự, có$$(k/2)^3$$*hosts* ở phía bên phải. Nếu mọi *host* ở phía bên trái muốn giao tiếp với mọi *host* ở phía bên phải, thì sẽ cần đến *bandwidth* tương đương với$$(k/2)^3$$ *links*. *Bisection bandwidth* của chúng ta khớp với con số này, có nghĩa là *bisection bandwidth* đầy đủ đã đạt được.
 
 <img width="900px" src="../assets/datacenter/6-027-pods6.png">
 
-How does this Clos fat-tree topology relate to the idea of racks and top-of-rack switches from earlier?
+*Clos fat-tree topology* này liên quan như thế nào đến ý tưởng về *racks* và *top-of-rack switches* từ trước đó?
 
-For specific nice values of k, we can arrange the hosts and switches inside a pod into separate racks, and connect the racks to to each other.
+Đối với các giá trị k đẹp cụ thể, chúng ta có thể sắp xếp các *hosts* và *switches* bên trong một *pod* vào các *racks* riêng biệt, và kết nối các *racks* với nhau.
 
-For example, consider k = 48, the example value used in the original paper. This means that inside a pod, there are k/2 = 24 aggregation layer switches, k/2 = 24 edge layer switches, and $$(k/2)^2$$ = 576 hosts per pod.
+Ví dụ, hãy xem xét k = 48, giá trị ví dụ được sử dụng trong bài báo gốc. Điều này có nghĩa là bên trong một *pod*, có k/2 = 24 *aggregation layer switches*, k/2 = 24 *edge layer switches*, và $$(k/2)^2$$ = 576 *hosts* trên mỗi *pod*.
 
-We can arrange the switches and hosts such that all 48 switches live in a rack that we place in the middle. Then, we can surround that rack of switches with 12 racks, each holding 48 hosts. This helps us fit all switches and hosts into identically-sized racks (48 machines per rack). Placing the switches in the middle rack also reduces the amount of physical wiring needed to build this topology.
+Chúng ta có thể sắp xếp các *switches* và *hosts* sao cho tất cả 48 *switches* nằm trong một *rack* mà chúng ta đặt ở giữa. Sau đó, chúng ta có thể bao quanh *rack* *switches* đó bằng 12 *racks*, mỗi *rack* chứa 48 *hosts*. Điều này giúp chúng ta xếp tất cả các *switches* và *hosts* vào các *racks* có kích thước giống hệt nhau (48 máy trên mỗi *rack*). Đặt các *switches* vào *rack* ở giữa cũng giúp giảm lượng dây cáp vật lý cần thiết để xây dựng *topology* này.
 
-The middle rack has k = 48 switches. Each switch has k = 48 ports, for a total of $$48^2 = 2304$$ ports in this rack.
+*Rack* ở giữa có k = 48 *switches*. Mỗi *switch* có k = 48 *ports* (cổng), tổng cộng là $$48^2 = 2304$$ *ports* trong *rack* này.
 
-Of these $$k^2 = 2304$$ ports, half of them ($$k^2/2 = 1152$$) connect switches inside the rack to each other. How did we derive $$k^2/2$$? It might help to look at some of the conceptual diagrams from earlier. Each of the k/2 aggregation layer switches has k/2 downward links, for a total of $$(k/2)^2$$ ports used. Similarly, each of the k/2 edge layer switches has k/2 upward links, for a total of $$(k/2)^2$$ ports used. This gives a total of $$2 \times (k/2)^2 = k^2/2$$ ports used.
+Trong số $$k^2 = 2304$$*ports* này, một nửa trong số chúng ($$k^2/2 = 1152$$) kết nối các *switches* bên trong *rack* với nhau. Chúng ta đã suy ra$$k^2/2$$như thế nào? Có thể sẽ hữu ích khi xem một số sơ đồ khái niệm từ trước. Mỗi trong số k/2 *aggregation layer switches* có k/2 *links* hướng xuống, tổng cộng là$$(k/2)^2$$*ports* được sử dụng. Tương tự, mỗi trong số k/2 *edge layer switches* có k/2 *links* hướng lên, tổng cộng là$$(k/2)^2$$*ports* được sử dụng. Điều này cho tổng cộng$$2 \times (k/2)^2 = k^2/2$$ *ports* được sử dụng.
 
-Note that the links between aggregation and edge switches are connecting switches inside the same rack. Therefore, two ports are needed for each link (one from an aggregation switch, and one from an edge switch), and that's why we doubled the $$(k/2)^2$$ value (or equivalently, accounted for that value twice at both the aggregation and edge layers).
+Lưu ý rằng các *links* giữa các *switches* *aggregation* và *edge* đang kết nối các *switches* trong cùng một *rack*. Do đó, cần hai *ports* cho mỗi *link* (một từ *aggregation switch*, và một từ *edge switch*), và đó là lý do tại sao chúng ta nhân đôi giá trị $$(k/2)^2$$ (hoặc tương đương, tính giá trị đó hai lần ở cả lớp *aggregation* và *edge*).
 
-Of the $$k^2 = 2304$$ ports, another quarter of them ($$k^2/4 = 576$$) connect switches to hosts inside the same pod. How did we derive this number? Remember that there are $$(k/2)^2$$ hosts within a pod, and each host is connected to exactly one switch. Therefore, we need $$(k/2)^2 = k^2/4$$ ports on the switches to connect to hosts.
+Trong số $$k^2 = 2304$$*ports*, một phần tư khác trong số chúng ($$k^2/4 = 576$$) kết nối các *switches* với các *hosts* bên trong cùng một *pod*. Chúng ta đã suy ra con số này như thế nào? Hãy nhớ rằng có$$(k/2)^2$$*hosts* trong một *pod*, và mỗi *host* được kết nối với đúng một *switch*. Do đó, chúng ta cần$$(k/2)^2 = k^2/4$$ *ports* trên các *switches* để kết nối với các *hosts*.
 
-Finally, of the $$k^2 = 2304$$ ports, the remaining quarter ($$k^2/4 = 576$$) connect the pod to the core layer. How did we derive this number? Remember that there are $$(k/2)^2$$ core switches, and each core switch has a link to each pod. In other words, a pod has a single link to each of the $$(k/2)^2$$ core switches. Therefore, we need $$(k/2)^2 = k^2/4$$ ports on the switches to connect to the core switches.
+Cuối cùng, trong số $$k^2 = 2304$$*ports*, một phần tư còn lại ($$k^2/4 = 576$$) kết nối *pod* với *core layer*. Chúng ta đã suy ra con số này như thế nào? Hãy nhớ rằng có$$(k/2)^2$$*core switches*, và mỗi *core switch* có một *link* đến mỗi *pod*. Nói cách khác, một *pod* có một *link* duy nhất đến mỗi trong số$$(k/2)^2$$*core switches*. Do đó, chúng ta cần$$(k/2)^2 = k^2/4$$ *ports* trên các *switches* để kết nối với các *core switches*.
 
-In summary: Out of $$k^2$$ total ports, half of them are used to interconnect aggregation/edge switches in the same layer (connections happen entirely within the middle rack). Another quarter of them are used to connect edge switches to hosts in the pod (connections between the middle rack and the 12 surrounding racks with hosts). The last quarter of them are used to connect aggregation switches to the core layer (connections between the middle rack and other core-layer racks).
+Tóm lại: Trong tổng số $$k^2$$ *ports*, một nửa trong số chúng được sử dụng để kết nối các *switches* *aggregation*/*edge* trong cùng một lớp (các kết nối hoàn toàn diễn ra bên trong *rack* ở giữa). Một phần tư khác được sử dụng để kết nối các *edge switches* với các *hosts* trong *pod* (kết nối giữa *rack* ở giữa và 12 *racks* xung quanh chứa *hosts*). Phần tư cuối cùng được sử dụng để kết nối các *aggregation switches* với *core layer* (kết nối giữa *rack* ở giữa và các *racks* *core-layer* khác).
 
 <img width="600px" src="../assets/datacenter/6-028-pods7.png">
 
-
-## Real-World Topologies
+## Real-World Topologies (Các Topo trong thế giới thực)
 
 <img width="900px" class="real-photo" src="../assets/datacenter/6-029-irl-topology1.png">
 
-In this example (2008), there are many different paths between any two end hosts.
+Trong ví dụ này (2008), có nhiều đường đi khác nhau giữa bất kỳ hai *end hosts* nào.
 
 <img width="900px" class="real-photo" src="../assets/datacenter/6-030-irl-topology2.png">
 
-In this paper (2015), various topologies were explored.
+Trong bài báo này (2015), nhiều *topologies* khác nhau đã được khám phá.
 
-Many specifics variants exist (2009, 2015), but they all share the same goal of achieving high bandwidth between any two servers.
+Nhiều biến thể cụ thể tồn tại (2009, 2015), nhưng tất cả chúng đều có chung mục tiêu là đạt được *bandwidth* cao giữa bất kỳ hai *servers* nào.

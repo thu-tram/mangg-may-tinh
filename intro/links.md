@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Links** (Liên kết)
 
 ## **Properties of Links** (Các đặc tính của liên kết)

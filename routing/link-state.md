@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Link-State Protocols
 
 ## Introduction to Link-State Protocols

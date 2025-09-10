@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Thiết kế chia sẻ tài nguyên** (Designing Resource Sharing)
 
 ## **Chia sẻ tài nguyên: Statistical Multiplexing** (Ghép kênh thống kê)

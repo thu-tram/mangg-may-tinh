@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Routing States
 
 ## Bad Routing Strategies

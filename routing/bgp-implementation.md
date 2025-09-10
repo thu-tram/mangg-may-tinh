@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # BGP Implementation and Issues
 
 ## Border and Interior Routers
@@ -200,7 +193,7 @@ The **LOCAL PREFERENCE** attribute encodes the Gao-Rexford import rules (top pri
 
 <img width="900px" src="../assets/routing/2-194-attribute1.png">
 
-As an example, suppose router E receives an eBGP announcement from AS#7, and router A knows that AS#7 is a customer. Then, in the iBGP message, router E can set a local preference value of 3000 (high number). Now, every other router in the same AS knows that router E can reach the destination it's announcing, via the path in the `ASPATH` attribute, with a local preference of 3000.
+As an example, suppose router E receives an eBGP announcement from AS#7, and router A knows that AS#7 is a customer. Then, in the iBGP message, router E can set a local preference value of 3000 (high number). Now, every other router in the same AS knows that router E can reach the destination it's announcing, via the path in the *ASPATH* attribute, with a local preference of 3000.
 
 By contrast, if router D receives an eBGP announcement from AS#79, and this AS is a peer, then in the iBGP message, router D can set a lower local preference value of 1000 and then distribute this path (with lower local preference) to the other routers in the AS.
 
@@ -212,7 +205,7 @@ The **ASPATH** attribute contains a list of ASes along the route being advertise
 
 As an example, an announcement would have IP prefix of the destination (128.112.0.0/16), and an ASPATH attribute of [3, 72, 25].
 
-The `ASPATH` is the second priority tiebreaker when importing paths. If two announcements have the same local preference (e.g. both are from customers), then we'll select the shorter path. `ASPATH` tells us the length of each path, measured by the number of ASes the path goes through.
+The *ASPATH* is the second priority tiebreaker when importing paths. If two announcements have the same local preference (e.g. both are from customers), then we'll select the shorter path. *ASPATH* tells us the length of each path, measured by the number of ASes the path goes through.
 
 If the local preference and path length are tied, the third priority tiebreaker is the IGP cost to the egress router. This cost is stored in the router's local forwarding table (e.g. a local distance-vector protocol would store the cost to every other router in the same AS).
 
@@ -220,7 +213,7 @@ The **MED** attribute encodes the preferences of the exporting AS. Equivalently,
 
 <img width="900px" src="../assets/routing/2-196-attribute3.png">
 
-For example, if there are two links between these two ASes, both border routers from the exporting AS will announce a path. The `ASPATH` and destination are the same, since the path of ASes to the destination is the same in both cases. However, the west router will include a lower `MED` attribute number, than the east router. This says: when possible, please route packets for the destination through my west router (lower number), because this router is closer to the destination.
+For example, if there are two links between these two ASes, both border routers from the exporting AS will announce a path. The *ASPATH* and destination are the same, since the path of ASes to the destination is the same in both cases. However, the west router will include a lower *MED* attribute number, than the east router. This says: when possible, please route packets for the destination through my west router (lower number), because this router is closer to the destination.
 
 If the local preference, path length, and distance to egress router are all tied, the fourth priority tiebreaker is the MED number inside each announcement.
 

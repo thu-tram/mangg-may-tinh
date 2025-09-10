@@ -1,87 +1,81 @@
+Chắc chắn rồi. Tôi sẽ tiếp tục dịch phần tiếp theo của giáo trình bạn đã cung cấp, tuân thủ nghiêm ngặt các quy tắc đã được thiết lập. Dưới đây là bản dịch cho tệp *arp.md*.
 
+-----
 
+# ARP: Kết nối Lớp 2 và Lớp 3
 
+## Kết nối Lớp 2 và Lớp 3
 
-
-
-
-# ARP: Connecting Layers 2 and 3
-
-## Connecting Layers 2 and 3
-
-Recall that packets get additional headers wrapped around them as they move down the stack, to lower layers. To send an IP packet, we first fill in its destination IP at Layer 3. Then, we pass that packet down to Layer 2, where we have to add a MAC address to send the packet along the link. What MAC address do we add?
+Hãy nhớ lại rằng các *packets* (gói tin) được bọc thêm các *headers* (phần đầu) khi chúng di chuyển xuống chồng giao thức, đến các lớp thấp hơn. Để gửi một *IP packet* (gói tin IP), trước tiên chúng ta điền địa chỉ IP đích của nó ở *Layer 3* (Lớp 3). Sau đó, chúng ta chuyển *packet* đó xuống *Layer 2* (Lớp 2), nơi chúng ta phải thêm một *MAC address* (địa chỉ MAC) để gửi *packet* đi dọc theo *link*. Chúng ta sẽ thêm *MAC address* nào?
 
 <img width="800px" src="../assets/end-to-end/5-041-arp-blank-mac.png">
 
-First, we need to check if the destination IP is somebody in our own local network, or somebody in a different local network. To determine this, the sender's forwarding table will have an entry indicating the range of local IP addresses, sometimes called our **subnet**. For example, the entry might say that 192.0.2.0/24 is direct, which means all addresses between 192.0.2.0 and 192.0.2.255 are on the same local network. The table also has a default route, saying that all other non-local destinations should be forwarded to the router.
+Đầu tiên, chúng ta cần kiểm tra xem IP đích có phải là một ai đó trong *local network* của chúng ta, hay là một ai đó trong một *local network* khác. Để xác định điều này, *forwarding table* (bảng chuyển tiếp) của người gửi sẽ có một mục nhập chỉ ra dải địa chỉ IP cục bộ, đôi khi được gọi là *subnet* (mạng con) của chúng ta. Ví dụ, mục nhập có thể nói rằng 192.0.2.0/24 là *direct* (trực tiếp), có nghĩa là tất cả các địa chỉ từ 192.0.2.0 đến 192.0.2.255 đều nằm trên cùng một *local network*. Bảng này cũng có một *default route* (tuyến mặc định), cho biết rằng tất cả các đích khác không thuộc mạng cục bộ sẽ được chuyển tiếp đến *router*.
 
-If the destination IP is in our subnet, we need some way to translate between the destination IP address and that machine's corresponding MAC address. If the destination is outside our subnet, we need some way to translate the router's IP address (from the forwarding table) to its corresponding MAC address, so we can send the packet to the router.
+Nếu IP đích nằm trong *subnet* của chúng ta, chúng ta cần một cách nào đó để dịch giữa địa chỉ IP đích và *MAC address* tương ứng của máy đó. Nếu đích nằm ngoài *subnet* của chúng ta, chúng ta cần một cách nào đó để dịch địa chỉ IP của *router* (từ *forwarding table*) sang *MAC address* tương ứng của nó, để chúng ta có thể gửi *packet* đến *router*.
 
-One naive solution is to broadcast every packet, so that the destination or router will definitely receive and process it. However, this is inefficient. It forces everyone to parse every packet (e.g. read the Layer 3 headers) to check if the packet is meant for them. Also, if the Layer 2 network has more than one link, the switches at Layer 2 have to flood the packet across all the links.
+Một giải pháp ngây thơ là *broadcast* (quảng bá) mọi *packet*, để đích hoặc *router* chắc chắn sẽ nhận và xử lý nó. Tuy nhiên, điều này không hiệu quả. Nó buộc mọi người phải phân tích cú pháp mọi *packet* (ví dụ: đọc các *headers* *Layer 3*) để kiểm tra xem *packet* có dành cho họ hay không. Ngoài ra, nếu mạng *Layer 2* có nhiều hơn một *link*, các *switches* ở *Layer 2* phải *flood* (tràn ngập) *packet* trên tất cả các *links*.
 
-A better approach would be to translate the destination IP address to its corresponding MAC address (if local) or the router's MAC address (if non-local), and unicast the packet at Layer 2.
-
+Một cách tiếp cận tốt hơn là dịch địa chỉ IP đích sang *MAC address* tương ứng của nó (nếu là cục bộ) hoặc *MAC address* của *router* (nếu không phải cục bộ), và *unicast* (truyền đơn hướng) *packet* ở *Layer 2*.
 
 ## ARP: Address Resolution Protocol
 
-**ARP (Address Resolution Protocol)** allows machines to translate an IP address into its corresponding MAC address.
+**ARP (Address Resolution Protocol - Giao thức phân giải địa chỉ)** cho phép các máy dịch một địa chỉ IP thành *MAC address* tương ứng của nó.
 
-To request a translation, a machine can broadcast a soliciation message: "I have MAC address `f8:ff:c2:2b:36:16`. What is the MAC address of the machine with IP 192.0.2.1?"
+Để yêu cầu một bản dịch, một máy có thể *broadcast* một thông điệp yêu cầu: "Tôi có *MAC address* *f8:ff:c2:2b:36:16*. *MAC address* của máy có IP 192.0.2.1 là gì?"
 
-All machines who are not this IP address ignore the message. The user who has this IP address unicasts a reply to the sender's MAC address, saying ``I am 192.0.2.1, and my MAC address is `a2:ff:28:02:f2:10`.
+Tất cả các máy không có địa chỉ IP này sẽ bỏ qua thông điệp. Người dùng có địa chỉ IP này sẽ *unicast* một phản hồi đến *MAC address* của người gửi, nói rằng "Tôi là 192.0.2.1, và *MAC address* của tôi là *a2:ff:28:02:f2:10*."
 
-Machines can also broadcast their own IP-to-MAC mapping to everybody, even if nobody asks.
+Các máy cũng có thể *broadcast* ánh xạ IP-tới-MAC của chính chúng cho mọi người, ngay cả khi không ai hỏi.
 
-When you receive an IP-to-MAC mapping, you can add it to your local **ARP Table**, which caches these mappings for the future. The table also includes an expiry date for each entry, since IP addresses aren't permanently assigned to a computer. A different computer could get assigned the same IP address, or the same computer could change IP addresses. (TODO: interfaces?)
+Khi bạn nhận được một ánh xạ IP-tới-MAC, bạn có thể thêm nó vào *ARP Table* (Bảng ARP) cục bộ của mình, bảng này lưu trữ các ánh xạ này để sử dụng trong tương lai. Bảng này cũng bao gồm ngày hết hạn cho mỗi mục nhập, vì địa chỉ IP không được gán vĩnh viễn cho một máy tính. Một máy tính khác có thể được gán cùng một địa chỉ IP, hoặc cùng một máy tính có thể thay đổi địa chỉ IP. (TODO: interfaces?)
 
-Step 1:
+Bước 1:
 
 <img width="900px" src="../assets/end-to-end/5-042-arp1.png">
 
-Step 2:
+Bước 2:
 
 <img width="900px" src="../assets/end-to-end/5-043-arp2.png">
 
-Step 3:
+Bước 3:
 
 <img width="900px" src="../assets/end-to-end/5-044-arp3.png">
 
-Step 4:
+Bước 4:
 
 <img width="900px" src="../assets/end-to-end/5-045-arp4.png">
 
-Note that ARP runs directly on Layer 2, so all packets are sent and received over Ethernet, not IP.
+Lưu ý rằng *ARP* chạy trực tiếp trên *Layer 2*, vì vậy tất cả các *packets* được gửi và nhận qua *Ethernet*, không phải *IP*.
 
 <img width="900px" src="../assets/end-to-end/5-046-arp5.png">
 
+## Kết nối Bảng ARP và Bảng Chuyển tiếp
 
-## Connecting ARP and Forwarding Tables
+Hãy nhớ lại rằng trong *forwarding table* của một *router*, đôi khi chúng ta sẽ bao gồm một mục nhập chỉ ra rằng một *host* được kết nối trực tiếp với *router*.
 
-Recall that in a router's forwarding table, we would sometimes include an entry indicating that a host is directly connected to the router.
-
-In reality, the router's forwarding table contains a single entry, mapping the entire subnet's range of IP addresses to be direct. If the router receives a packet whose destination is in this local range, the router runs ARP to find the corresponding MAC address, and uses Layer 2 to send the packet to the correct host on the link.
+Trong thực tế, *forwarding table* của *router* chứa một mục nhập duy nhất, ánh xạ toàn bộ dải địa chỉ IP của *subnet* là *direct*. Nếu *router* nhận được một *packet* có đích nằm trong dải cục bộ này, *router* sẽ chạy *ARP* để tìm *MAC address* tương ứng, và sử dụng *Layer 2* để gửi *packet* đến đúng *host* trên *link*.
 
 <img width="600px" src="../assets/end-to-end/5-047-direct-route.png">
 
-This also helps us in the case where multiple hosts are connected on the same link. In our conceptual picture, we'd say that Host A is directly connected on Port 1. Multiple hosts might be on that link, so by using ARP, we can create a Layer 2 packet that gets unicast to only Host A, and not other computers on the link.
+Điều này cũng giúp chúng ta trong trường hợp nhiều *hosts* được kết nối trên cùng một *link*. Trong hình ảnh khái niệm của chúng ta, chúng ta sẽ nói rằng *Host* A được kết nối trực tiếp trên Cổng 1. Nhiều *hosts* có thể nằm trên *link* đó, vì vậy bằng cách sử dụng *ARP*, chúng ta có thể tạo ra một *packet* *Layer 2* được *unicast* chỉ đến *Host* A, chứ không phải các máy tính khác trên *link*.
 
-Given a forwarding entry that maps a subnet like 192.0.2.0/24 as direct, how can we determine if a given IP address falls in that range? This is where it's useful to write ranges using a netmask instead of slash notation. Recall that to write this range as a netmask, we set all fixed bits to 1 and all unfixed bits to 0, to get 255.255.255.0. Then the range is expressed as 192.0.2.0 with netmask 255.255.255.0.
+Với một mục nhập chuyển tiếp ánh xạ một *subnet* như 192.0.2.0/24 là *direct*, làm thế nào chúng ta có thể xác định xem một địa chỉ IP đã cho có nằm trong dải đó hay không? Đây là lúc việc viết các dải địa chỉ bằng *netmask* (mặt nạ mạng) thay vì *slash notation* (ký hiệu gạch chéo) trở nên hữu ích. Hãy nhớ lại rằng để viết dải này dưới dạng *netmask*, chúng ta đặt tất cả các bit cố định thành 1 và tất cả các bit không cố định thành 0, để có được 255.255.255.0. Sau đó, dải được biểu thị là 192.0.2.0 với *netmask* 255.255.255.0.
 
-Now, to check if an address is in the range, we perform a bitwise AND of the address and the netmask. This causes all unfixed lower bits to get zeroed out, retaining only the fixed upper bits. Then, we check if the result matches 192.0.2.0 (the first address in the range, where all unfixed bits are 0).
+Bây giờ, để kiểm tra xem một địa chỉ có nằm trong dải hay không, chúng ta thực hiện phép toán AND bit của địa chỉ và *netmask*. Điều này làm cho tất cả các bit thấp không cố định bị đưa về 0, chỉ giữ lại các bit cao cố định. Sau đó, chúng ta kiểm tra xem kết quả có khớp với 192.0.2.0 (địa chỉ đầu tiên trong dải, nơi tất cả các bit không cố định là 0) hay không.
 
-Note that as packets get forwarded across hops, the Layer 2 destination will change to the MAC address of the next hop, so that packets can travel across links. However, the Layer 3 destination stays the same across each hop.
+Lưu ý rằng khi các *packets* được chuyển tiếp qua các *hops* (chặng), đích *Layer 2* sẽ thay đổi thành *MAC address* của *hop* tiếp theo, để các *packets* có thể di chuyển qua các *links*. Tuy nhiên, đích *Layer 3* vẫn giữ nguyên qua mỗi *hop*.
 
 <img width="700px" src="../assets/end-to-end/5-048-arp-filled-in-mac.png">
 
+## Neighbor Discovery trong IPv6
 
-## Neighbor Discovery in IPv6
+*ARP* dịch địa chỉ IPv4 sang *MAC addresses*. Để dịch địa chỉ IPv6 sang *MAC addresses*, chúng ta sử dụng một giao thức tương tự gọi là **neighbor discovery** (khám phá lân cận).
 
-ARP translates IPv4 addresses to MAC addresses. To translate IPv6 addresses to MAC addresses, we use a similar protocol called **neighbor discovery**.
+Thay vì *broadcast* yêu cầu dịch IP-tới-MAC, *neighbor discovery* thay vào đó *multicasts* (truyền đa hướng) yêu cầu đến một nhóm cụ thể, và mỗi máy tính lắng nghe trên một nhóm cụ thể dựa trên địa chỉ IP của nó. Ví dụ, tất cả mọi người có địa chỉ IP kết thúc bằng 12:3456 có thể lắng nghe trên nhóm *MAC address* 33:33:FF:12:34:56, trong khi tất cả mọi người có địa chỉ IP kết thúc bằng 78:90AB có thể lắng nghe trên nhóm *MAC address* 33:33:FF:78:90:AB.
 
-Instead of broadcasting the request for an IP-to-MAC translation, neighbor discovery instead multicasts the request to a specific group, and each computer listens on a specific group based on its IP address. For example,  everyone with an IP address ending in 12:3456 might listen on the group MAC address 33:33:FF:12:34:56, while everyone with an IP address ending in 78:90AB might listen on the group MAC address 33:33:FF:78:90:AB.
-
-If I want the MAC address corresponding to the user with an IPv6 address ending in 12:3456, I can plug those IPv6 bits into the group MAC address to get 33:33:FF:12:34:56, and I know that the user with that IP address must be listening to this group MAC address.
+Nếu tôi muốn *MAC address* tương ứng với người dùng có địa chỉ IPv6 kết thúc bằng 12:3456, tôi có thể cắm các bit IPv6 đó vào *MAC address* nhóm để có được 33:33:FF:12:34:56, và tôi biết rằng người dùng có địa chỉ IP đó phải đang lắng nghe *MAC address* nhóm này.
 
 <img width="900px" src="../assets/end-to-end/5-049-neighbor-discovery.png">
 
-Some terminology: In the neighbor discovery protocol, the request for a mapping is called Neighbor Solicitation, and the reply containing the mapping is called Neighbor Advertisement.
+Một số thuật ngữ: Trong giao thức *neighbor discovery*, yêu cầu ánh xạ được gọi là *Neighbor Solicitation* (Yêu cầu thông tin lân cận), và phản hồi chứa ánh xạ được gọi là *Neighbor Advertisement* (Quảng cáo thông tin lân cận).

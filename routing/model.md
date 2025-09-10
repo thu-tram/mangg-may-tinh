@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Model for Intra-Domain Routing
 
 ## Modeling the Network as a Graph

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # NAT: Network Address Translation
 
 ## Motivation: IPv4 Address Exhaustion

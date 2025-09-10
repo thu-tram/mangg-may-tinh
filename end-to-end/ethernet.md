@@ -1,164 +1,149 @@
-
-
-
-
-
-
-
 # Ethernet
 
-## Local Networks
+## Mạng Cục bộ
 
-In this section, we'll focus on what happens inside a local area network, such as the network in your home with your computer and your home router. This is in contrast with the wide-area networks we've been seeing so far, which span longer distances.
+Trong phần này, chúng ta sẽ tập trung vào những gì xảy ra bên trong một *local area network (mạng cục bộ)*, chẳng hạn như mạng trong nhà bạn với máy tính và *router (bộ định tuyến)* của bạn. Điều này trái ngược với các *wide-area networks (mạng diện rộng)* mà chúng ta đã tìm hiểu cho đến nay, vốn trải dài trên những khoảng cách lớn hơn.
 
-In particular, we'll look at forwarding and addressing at Layer 2. We'll have to define how packets are forwarded from a local host to a router. We'll also see how hosts in the same local network can exchange messages at Layer 2, without a need to contact routers at all. The predominant protocol at Layer 2 is Ethernet. 
+Cụ thể, chúng ta sẽ xem xét việc *forwarding (chuyển tiếp)* và *addressing (đánh địa chỉ)* ở *Layer 2 (Lớp 2)*. Chúng ta sẽ phải định nghĩa cách các *packet (gói tin)* được chuyển tiếp từ một *host (máy trạm)* cục bộ đến một *router*. Chúng ta cũng sẽ thấy cách các *host* trong cùng một mạng cục bộ có thể trao đổi thông điệp ở *Layer 2*, mà không cần liên hệ với *router* ở các lớp cao hơn. Giao thức chiếm ưu thế ở *Layer 2* là *Ethernet*.
 
 <img width="400px" src="../assets/end-to-end/5-001-layer2.png">
 
+## Kết nối các Host Cục bộ
 
-## Connecting Local Hosts
+Cho đến nay, chúng ta đã vẽ các liên kết kết nối chính xác hai máy. Trong mạng cục bộ, chúng ta đã vẽ một đường nối mỗi *host* với *router*.
 
-So far, we've drawn links connecting exactly two machines. In the local network, we drew a line connecting each host to the router.
-
-In reality, a single wire might be used to connect multiple machines. In the local network, the hosts and the router can all be on the same wire. We can abstract even further and note that at Layer 2, the router is really just a machine like any other (that happens to run routing protocols at higher layers). Ultimately, the wire doesn't really care what the connected machines are doing with the data they exchange.
+Thực tế, một sợi dây duy nhất có thể được sử dụng để kết nối nhiều máy. Trong mạng cục bộ, các *host* và *router* đều có thể nằm trên cùng một dây. Chúng ta có thể trừu tượng hóa hơn nữa và lưu ý rằng ở *Layer 2*, *router* thực sự chỉ là một máy như bất kỳ máy nào khác (chỉ là nó chạy các giao thức định tuyến ở các lớp cao hơn). Cuối cùng, sợi dây không thực sự quan tâm các máy được kết nối đang làm gì với dữ liệu chúng trao đổi.
 
 <img width="700px" src="../assets/end-to-end/5-002-linking-machines.png">
 
-What is the best way to wire up computers in a local network? Earlier, when we first introduced routing, we thought about using a mesh topology to connect all pairs of computers in the world. We also considered using a single wire to connect up all the computers. Ultimately, we decided that for a global network, neither approach was practical, and we needed to introduce routers.
+Cách tốt nhất để nối dây các máy tính trong một mạng cục bộ là gì? Trước đây, khi lần đầu giới thiệu về định tuyến, chúng ta đã nghĩ đến việc sử dụng *mesh topology (cấu trúc liên kết lưới)* để kết nối tất cả các cặp máy tính trên thế giới. Chúng ta cũng đã xem xét việc sử dụng một sợi dây duy nhất để kết nối tất cả các máy tính. Cuối cùng, chúng ta quyết định rằng đối với một mạng toàn cầu, cả hai cách tiếp cận đều không thực tế, và chúng ta cần giới thiệu các *router*.
 
 <img width="800px" src="../assets/end-to-end/5-003-mesh-bus.png">
 
-We can consider these topologies again in the local network. A mesh topology is still pretty impractical. If a new host joins, we'd have to add a wire connecting it to every other host. However, a **bus** topology, where we connect all the computers along a single wire, is pretty common and practical in a local network.
+Chúng ta có thể xem xét lại các cấu trúc liên kết này trong mạng cục bộ. Một *mesh topology* vẫn khá không thực tế. Nếu một *host* mới tham gia, chúng ta sẽ phải thêm một dây nối nó với mọi *host* khác. Tuy nhiên, một *bus topology (cấu trúc liên kết bus)*, nơi chúng ta kết nối tất cả các máy tính dọc theo một sợi dây duy nhất, lại khá phổ biến và thực tế trong một mạng cục bộ.
 
-The single-wire bus topology introduces the notion of a **shared media**. When we drew links connecting two machines, only those two computers used that link to communicate. Now, a packet from A to C, and a packet from B to D, might be on the wire at the same time, and the electrical signal on that wire cannot hold both packets simultaneously.
+*Bus topology* một dây giới thiệu khái niệm về *shared media (môi trường truyền dẫn chia sẻ)*. Khi chúng ta vẽ các liên kết nối hai máy, chỉ có hai máy tính đó sử dụng liên kết đó để giao tiếp. Bây giờ, một *packet* từ A đến C, và một *packet* từ B đến D, có thể ở trên dây cùng một lúc, và tín hiệu điện trên dây đó không thể chứa cả hai *packet* đồng thời.
 
 <img width="600px" src="../assets/end-to-end/5-004-collision.png">
 
-As an analogy, consider multiple people on a group call, sharing a single phone line: Any two people can talk to each other, but you can't have two simultaneous conversations, or else nobody understands what's being said.
+Để tương tự, hãy xem xét nhiều người trong một cuộc gọi nhóm, chia sẻ một đường dây điện thoại duy nhất: Bất kỳ hai người nào cũng có thể nói chuyện với nhau, nhưng bạn không thể có hai cuộc trò chuyện đồng thời, nếu không không ai hiểu được điều gì đang được nói.
 
-We've drawn links as wires with electrical signals on them for simplicity, but in reality, the link technology could use other shared media. For example, in a wireless link technology, all hosts connected by the link share the same part of the electromagnetic spectrum.
+Chúng ta đã vẽ các liên kết như những sợi dây có tín hiệu điện trên đó cho đơn giản, nhưng thực tế, công nghệ liên kết có thể sử dụng các *shared media* khác. Ví dụ, trong một công nghệ liên kết không dây, tất cả các *host* được kết nối bởi liên kết đều chia sẻ cùng một phần của phổ điện từ.
 
+## Giao tiếp qua Môi trường Truyền dẫn Chia sẻ: Các phương pháp Phối hợp
 
-## Communicating over Shared Media: Coordinated Approaches
-
-In a network with a shared medium, there's a risk that transmissions from different nodes may interfere or collide with each other. If two computers try to transmit data simultaneously, their signals will overlap and interfere. The recipients may be unable to decode the signal, and they can't tell who sent the signal. To solve this problem, we need a **multiple access protocol** that ensures that multiple computers can share the link and transmit over it.
+Trong một mạng có môi trường truyền dẫn chia sẻ, có nguy cơ các lần truyền từ các nút khác nhau có thể gây nhiễu hoặc *collision (xung đột)* với nhau. Nếu hai máy tính cố gắng truyền dữ liệu đồng thời, tín hiệu của chúng sẽ chồng chéo và gây nhiễu. Bên nhận có thể không giải mã được tín hiệu, và họ không thể biết ai đã gửi tín hiệu. Để giải quyết vấn đề này, chúng ta cần một *multiple access protocol (giao thức đa truy cập)* để đảm bảo rằng nhiều máy tính có thể chia sẻ liên kết và truyền qua nó.
 
 <img width="700px" src="../assets/end-to-end/5-005-multiple-access-taxonomy.png">
 
-One possible category of approaches is to allocate a fixed portion of resources to each node on the link. There are two ways we could consider dividing up the resources. In **frequency-division multiplexing**, we allocate a different slice of frequencies to each computer. (Consider AM/FM radio or broadcast TV, which divide up frequencies into channels.) In **time-division multiplexing**, we divide time into fixed slots and allocate a slot to every connected node.
+Một loại phương pháp khả thi là phân bổ một phần tài nguyên cố định cho mỗi nút trên liên kết. Có hai cách chúng ta có thể xem xét để phân chia tài nguyên. Trong *frequency-division multiplexing (ghép kênh phân chia theo tần số)*, chúng ta phân bổ một dải tần số khác nhau cho mỗi máy tính. (Hãy xem xét đài AM/FM hoặc truyền hình quảng bá, chúng chia tần số thành các kênh.) Trong *time-division multiplexing (ghép kênh phân chia theo thời gian)*, chúng ta chia thời gian thành các khe cố định và phân bổ một khe cho mỗi nút được kết nối.
 
-Fixed allocation of resources has some downsides. There's only a limited amount of frequency/time to distribute. Also, not everyone has something to say all the time, so the frequency/time we allocate might go unused most of the time. This approach is wasteful, because it confines computers to their specific allocated slice, even while other slices might be unused.
+Việc phân bổ tài nguyên cố định có một số nhược điểm. Chỉ có một lượng tần số/thời gian hạn chế để phân phối. Ngoài ra, không phải ai cũng có điều gì đó để nói mọi lúc, vì vậy tần số/thời gian chúng ta phân bổ có thể không được sử dụng trong phần lớn thời gian. Cách tiếp cận này lãng phí, bởi vì nó giới hạn các máy tính vào dải được phân bổ cụ thể của chúng, ngay cả khi các dải khác có thể không được sử dụng.
 
-Instead of fixed allocation, another category of approaches are based on the nodes taking turns, without any fixed allocations. In this category, we're dynamically partitioning by time, so that nodes use only the time they need during their turn, with no wasted time. There are two ways we could consider having nodes take turns.
+Thay vì phân bổ cố định, một loại phương pháp khác dựa trên việc các nút thay phiên nhau, không có bất kỳ sự phân bổ cố định nào. Trong loại này, chúng ta đang phân vùng động theo thời gian, để các nút chỉ sử dụng thời gian chúng cần trong lượt của mình, không có thời gian lãng phí. Có hai cách chúng ta có thể xem xét để các nút thay phiên nhau.
 
-In a **polling protocol**, a centralized coordinator decides when each connected node gets to speak. The coordinator goes to each node one by one and asks if the node has something to say. If the node says yes, the coordinator lets the node speak for some time. If the node says no, the coordinator immediately moves on to the next node, and the node doesn't waste any resources. Bluetooth is a real-world protocol using this idea.
+Trong một *polling protocol (giao thức thăm dò)*, một điều phối viên tập trung quyết định khi nào mỗi nút được kết nối được phép nói. Điều phối viên đi đến từng nút một và hỏi xem nút đó có điều gì muốn nói không. Nếu nút nói có, điều phối viên cho phép nút nói trong một khoảng thời gian. Nếu nút nói không, điều phối viên ngay lập tức chuyển sang nút tiếp theo, và nút đó không lãng phí bất kỳ tài nguyên nào. Bluetooth là một giao thức trong thế giới thực sử dụng ý tưởng này.
 
 <img width="900px" src="../assets/end-to-end/5-006-polling.png">
 
-The other way to let nodes take turns is **token passing**. Instead of having a centralized coordinator, we have a virtual token that can be passed between nodes, and only the node with the token is allowed to speak. If a node has something to say, it holds onto the token while transmitting, then passes it to the next node. If a node doesn't have anything to say at the moment, it immediately passes the token to the next node. IBM Token Ring and FDDI are real-world examples of protocols that use this idea.
+Cách khác để cho các nút thay phiên là *token passing*. Thay vì có một điều phối viên tập trung, chúng ta có một thẻ bài ảo có thể được truyền giữa các nút, và chỉ nút có thẻ bài mới được phép nói. Nếu một nút có điều gì muốn nói, nó sẽ giữ thẻ bài trong khi truyền, sau đó chuyển nó cho nút tiếp theo. Nếu một nút không có gì để nói vào lúc đó, nó ngay lập tức chuyển thẻ bài cho nút tiếp theo. IBM Token Ring và FDDI là những ví dụ thực tế về các giao thức sử dụng ý tưởng này.
 
 <img width="900px" src="../assets/end-to-end/5-007-token.png">
 
-One downside to these turn-based approaches is complexity. We have to implement some form of inter-node communication, which could get complicated. In token passing, we might need some dedicated frequency channel for nodes to reliably pass the token between each other. We might also have to deal with complications like two nodes both thinking they have the token and causing a collision. In a polling protocol, we need to designate a central coordinator to communicate with nodes, and implement a way for the coordinator to talk to the nodes. In Bluetooth, your smartphone can be the central coordinator talking to auxiliary devices, but in other networks, it might not be obvious who the coordinator is.
+Một nhược điểm của các phương pháp dựa trên lượt này là sự phức tạp. Chúng ta phải triển khai một số hình thức giao tiếp giữa các nút, điều này có thể trở nên phức tạp. Trong *token passing*, chúng ta có thể cần một kênh tần số chuyên dụng để các nút có thể truyền thẻ bài một cách đáng tin cậy cho nhau. Chúng ta cũng có thể phải đối phó với các phức tạp như hai nút cùng nghĩ rằng chúng có thẻ bài và gây ra một *collision*. Trong một *polling protocol*, chúng ta cần chỉ định một điều phối viên trung tâm để giao tiếp với các nút, và triển khai một cách để điều phối viên nói chuyện với các nút. Trong Bluetooth, điện thoại thông minh của bạn có thể là điều phối viên trung tâm nói chuyện với các thiết bị phụ, nhưng trong các mạng khác, có thể không rõ ai là điều phối viên.
 
+## Giao tiếp qua Môi trường Truyền dẫn Chia sẻ: Các phương pháp Truy cập Ngẫu nhiên
 
-## Communicating over Shared Media: Random Access Approaches
+Một loại phương pháp thứ ba, bên cạnh phân bổ cố định hoặc thay phiên nhau, là *random access (truy cập ngẫu nhiên)*. Trong phương pháp này, chúng ta chỉ cho phép các nút nói bất cứ khi nào chúng có điều gì muốn nói, và giải quyết các *collision* khi chúng xảy ra. Các nút không phối hợp với nhau, và chỉ gửi dữ liệu bất cứ khi nào chúng có gì đó để gửi.
 
-A third category of approaches, besides fixed allocation or taking turns, is **random access**. In this approach, we just allow nodes to talk whenever they have something to say, and deal with collisions when they occur. The nodes don't coordinate between each other, and just send data whenever they have something to send.
+Một lợi ích lớn của các giao thức *random access* là sự đơn giản. Không giống như các phương pháp dựa trên lượt, chúng ta không cần triển khai giao tiếp giữa các nút.
 
-One major benefit of random access protocols is simplicity. Unlike the turn-based approaches, we don't need to implement inter-node communication.
+Khi bên nhận nhận được một *packet*, nó sẽ trả lời bằng một *ack (gói tin xác nhận)*. Nếu hai nút gửi dữ liệu đồng thời, *collision* sẽ làm hỏng các *packet* của chúng, vì vậy không có *ack* nào được gửi. Nếu bên gửi không thấy *ack*, nó sẽ đợi một khoảng thời gian ngẫu nhiên và gửi lại. Việc đợi một khoảng thời gian ngẫu nhiên, thay vì gửi lại ngay lập tức, giúp chúng ta tránh được các *collision* khi các *packet* được gửi lại.
 
-When the recipient gets a packet, it replies with an ack. If two nodes send data simultaneously, the collision causes their packets to be corrupted, so no ack is sent. If the sender doesn't see an ack, it waits some random amount of time and re-sends. Waiting some random amount of time, instead of re-sending immediately, helps us avoid collisions when the packets are resent.
+Giao thức *random access* ngây thơ là "thô lỗ" vì các nút bắt đầu nói bất cứ khi nào chúng muốn, và giải quyết *collision* sau đó. Một biến thể "lịch sự" hơn của giao thức này được gọi là *Carrier Sense Multiple Access (CSMA) (Đa truy cập nhận biết sóng mang)*. Các nút lắng nghe *shared media* trước để xem có ai đang nói không, và chỉ bắt đầu nói khi nó yên tĩnh. Ở đây, "lắng nghe" đề cập đến việc cảm nhận một tín hiệu trên dây.
 
-The naive random access protocol is "rude" because nodes start talking whenever they want, and deal with collisions afterwards. A more "polite" variant of this protocol is called **Carrier Sense Multiple Access (CSMA)**. Nodes listen to the shared medium first to see if anybody is speaking, and only start talking when it is quiet. Here, "listen" refers to sensing a signal on the wire.
-
-Note that CSMA does not help us avoid all collisions. If signals instantaneously propagated along the entire length of the wire, there would be no collisions in CSMA. However, propagation delay can introduce issues. Suppose node A on one end of the wire hears silence and starts transmitting. The signal might not have propagated to node B yet, on the other end of the wire. Node B hears silence and also starts transmitting, causing a collision.
+Lưu ý rằng *CSMA* không giúp chúng ta tránh được tất cả các *collision*. Nếu tín hiệu lan truyền tức thời dọc theo toàn bộ chiều dài của dây, sẽ không có *collision* trong *CSMA*. Tuy nhiên, *propagation delay (độ trễ lan truyền)* có thể gây ra các vấn đề. Giả sử nút A ở một đầu của dây nghe thấy sự im lặng và bắt đầu truyền. Tín hiệu có thể chưa lan truyền đến nút B, ở đầu kia của dây. Nút B nghe thấy sự im lặng và cũng bắt đầu truyền, gây ra một *collision*.
 
 <img width="500px" src="../assets/end-to-end/5-008-propagation.png">
 
-This 2D diagram demonstrates how propagation delay can cause conflicts. A horizontal cross-section shows the wire at an instant in time, and lets us see how far the signal has propagated across the wire at that instant. A vertical cross-section shows a single location on the wire across time, and lets us see when that location sees the first and last bits of the transmission. Both H2 and H4 hear silence before they start transmitting, but their signals still collide.
+Sơ đồ 2D này minh họa cách *propagation delay* có thể gây ra xung đột. Một mặt cắt ngang cho thấy sợi dây tại một thời điểm, và cho chúng ta thấy tín hiệu đã lan truyền được bao xa trên dây tại thời điểm đó. Một mặt cắt dọc cho thấy một vị trí duy nhất trên dây theo thời gian, và cho chúng ta thấy khi nào vị trí đó nhìn thấy các bit đầu tiên và cuối cùng của việc truyền. Cả H2 và H4 đều nghe thấy sự im lặng trước khi chúng bắt đầu truyền, nhưng tín hiệu của chúng vẫn xung đột.
 
-To mitigate this problem, we can use **CSMA/CD** (Carrier Sense Multiple Access with **Collision Detection**), which extends the idea of CSMA. In addition to listening before speaking, we also listen while we speak. If you start hearing something while you're transmitting, you stop immediately. Note that CSMA/CD still doesn't fix the problem of collisions, but it allows us to detect collisions sooner.
+Để giảm thiểu vấn đề này, chúng ta có thể sử dụng *CSMA/CD* (Carrier Sense Multiple Access with *Collision Detection (Phát hiện xung đột)*), mở rộng ý tưởng của *CSMA*. Ngoài việc lắng nghe trước khi nói, chúng ta cũng lắng nghe trong khi nói. Nếu bạn bắt đầu nghe thấy điều gì đó trong khi bạn đang truyền, bạn dừng lại ngay lập tức. Lưu ý rằng *CSMA/CD* vẫn không khắc phục được vấn đề *collision*, nhưng nó cho phép chúng ta phát hiện *collision* sớm hơn.
 
-If there's only one speaker, there won't be any collisions, and all of our random access schemes should work fine. If there are only a few speakers, there might be occasional collisions, but all of our schemes can deal with them. However, if many senders want to talk simultaneously, we may have problems with repeated collisions, and waiting a random amount of time to re-send won't help.
+Nếu chỉ có một người nói, sẽ không có bất kỳ *collision* nào, và tất cả các lược đồ *random access* của chúng ta đều hoạt động tốt. Nếu chỉ có một vài người nói, có thể có những *collision* không thường xuyên, nhưng tất cả các lược đồ của chúng ta đều có thể giải quyết chúng. Tuy nhiên, nếu nhiều người gửi muốn nói đồng thời, chúng ta có thể gặp vấn đề với các *collision* lặp đi lặp lại, và việc đợi một khoảng thời gian ngẫu nhiên để gửi lại sẽ không giúp ích.
 
-To deal with repeated collisions, CSMA/CD uses **binary exponential backoff**. Each time we detect a collision on a retransmission attempt, we wait up to twice as long before the next retransmission. Note that we still randomly choose the retransimssion time, but each time we detect a collision, we choose the random number from a range with a limit that's twice as high. For example, if we chose a random time in the range [0, 4] and detected a collision, the next random time we choose is in the range [0, 8].
+Để đối phó với các *collision* lặp đi lặp lại, *CSMA/CD* sử dụng *binary exponential backoff (lùi số mũ nhị phân)*. Mỗi lần chúng ta phát hiện một *collision* trong một lần thử gửi lại, chúng ta đợi một khoảng thời gian dài gấp đôi trước lần gửi lại tiếp theo. Lưu ý rằng chúng ta vẫn chọn ngẫu nhiên thời gian gửi lại, nhưng mỗi lần chúng ta phát hiện một *collision*, chúng ta chọn số ngẫu nhiên từ một phạm vi có giới hạn cao gấp đôi. Ví dụ, nếu chúng ta chọn một thời gian ngẫu nhiên trong khoảng [0, 4] và phát hiện một *collision*, thời gian ngẫu nhiên tiếp theo chúng ta chọn là trong khoảng [0, 8].
 
-Binary exponential backoff works well in both scenarios. When there are a few nodes speaking, repeated collisions are uncommon, so we can retransmit after a short wait time. When there are many nodes speaking, there are many repeated collisions, so the delay increases exponentially until there are no collisions (e.g. enough nodes have been delayed far into the future, and there are fewer nodes competing right now). This approach ensures we only slow down when many nodes want to speak, and maintains fast transmission when few nodes want to speak.
+*Binary exponential backoff* hoạt động tốt trong cả hai kịch bản. Khi có ít nút nói, các *collision* lặp lại không phổ biến, vì vậy chúng ta có thể gửi lại sau một thời gian chờ ngắn. Khi có nhiều nút nói, có nhiều *collision* lặp lại, vì vậy độ trễ tăng theo cấp số nhân cho đến khi không có *collision* nào (ví dụ: đủ số nút đã bị trì hoãn rất xa trong tương lai, và có ít nút cạnh tranh hơn ngay bây giờ). Cách tiếp cận này đảm bảo chúng ta chỉ giảm tốc độ khi nhiều nút muốn nói, và duy trì tốc độ truyền nhanh khi ít nút muốn nói.
 
+## Lược sử Layer 2: ALOHANet
 
-## Brief History of Layer 2: ALOHANet
+Năm 1968, Norman Abramson gặp một vấn đề tại Đại học Hawaii. Có một máy tính trung tâm tại Đại học Hawaii, và ông cần một cách để các máy tính trên các hòn đảo khác có thể truy cập vào máy tính trung tâm này. Thiết kế kết quả đã có ảnh hưởng rất lớn đến các thiết kế giao thức *Layer 2* hiện đại.
 
-In 1968, Norman Abramson had a problem at the University of Hawaii. There was a central computer at the University of Hawaii, and he needed a way for computers on other islands to access this central computer. The resulting design was very influential to modern Layer 2 protocol designs.
+Giao thức kết quả được gọi là *ALOHANet* (Additive Links On-line Hawaii Area), cho phép giao tiếp không dây từ các hòn đảo khác đến máy tính trung tâm. *ALOHANet* là không dây và sử dụng một *shared media*, nơi mọi người đều gửi dữ liệu qua cùng một liên kết.
 
-The resulting protocol was called ALOHANet (Additive Links On-line Hawaii Area), which allowed wireless communication from other islands to the central computer. ALOHANet was wireless and used a shared medium, where everybody is sending data over the same link.
+*ALOHANet* đã sử dụng một sự kết hợp của phân bổ cố định và *random access*, do thiết lập bất đối xứng của nó. Máy tính trung tâm (hub) sử dụng tần số chuyên dụng của riêng mình để truyền các thông điệp đi, và tất cả các nút từ xa đều lắng nghe trên tần số này để nhận thông điệp. Với chỉ một người gửi trên một tần số chuyên dụng, không có nguy cơ *collision*.
 
-ALOHANet used a combination of fixed allocation and random access, because of its asymmetric setup. The central computer (hub) used its own dedicated frequency to transmit outgoing messages, and all remote nodes listened on this frequency to receive messages. With only one sender on a dedicated frequency, there's no risk of collisions.
+Ngược lại, tất cả các nút từ xa đều truyền trên một tần số chia sẻ riêng biệt, và hub lắng nghe trên tần số này. Hub sẽ không xung đột với các nút từ xa, vì chúng sử dụng các tần số khác nhau, nhưng các nút từ xa có thể xung đột với nhau.
 
-By contrast, all the remote nodes transmit on a separate shared frequency, and the hub listened to this frequency. The hub won't collide with the remote nodes, because they use different frequencies, but the remote nodes could collide with each other.
-
-This asymmetric design worked well for ALOHANet because the hub probably has more to send than the remote nodes.
+Thiết kế bất đối xứng này hoạt động tốt cho *ALOHANet* vì hub có lẽ có nhiều thứ để gửi hơn các nút từ xa.
 
 <img width="200px" src="../assets/end-to-end/5-009-alohanet.png">
 
-ALOHANet was one of the first systems to use a random access protocol to handle collisions, and this approach would later be used in Ethernet. ALOHANet used the naive rude approach to random access. Later protocols like Ethernet used the more polite approach of CSMA/CD, where we listen for collisions before and during transimssion, and we back off exponentially when there are collisions.
+*ALOHANet* là một trong những hệ thống đầu tiên sử dụng một *random access protocol* để xử lý các *collision*, và cách tiếp cận này sau này sẽ được sử dụng trong *Ethernet*. *ALOHANet* đã sử dụng cách tiếp cận *random access* ngây thơ và thô lỗ. Các giao thức sau này như *Ethernet* đã sử dụng cách tiếp cận lịch sự hơn của *CSMA/CD*, nơi chúng ta lắng nghe các *collision* trước và trong khi truyền, và chúng ta lùi theo cấp số nhân khi có *collision*.
 
+## Giao tiếp LAN: Địa chỉ MAC
 
-## LAN Communication: MAC Addresses
+Bởi vì nhiều máy tính có thể được kết nối dọc theo cùng một liên kết *Ethernet*, chúng ta thực sự có thể sử dụng các giao thức *Layer 2* để gửi thông điệp giữa các máy tính cục bộ trên cùng một liên kết, mà không cần sử dụng bất kỳ giao thức *Layer 3 (Lớp 3)* nào cả (ví dụ: không có *router* chuyển tiếp *packet*). Trong phép tương tự về hệ thống bưu chính, hai người trong cùng một phòng có thể chuyền thư cho nhau, mà không cần gửi thư đến bưu điện.
 
-Because multiple computers can be connected along the same Ethernet link, we can actually use Layer 2 protocols to send messages between local computers on the same link, without using any Layer 3 protocols at all (e.g. no routers forwarding packets). In the postal system analogy, two people in the same room can pass letters between each other, without sending the letter to the post office.
+Một vấn đề khi gửi thông điệp qua *shared media* là: Khi chúng ta truyền thông điệp, mọi người trên liên kết đều nhận được thông điệp, không chỉ người nhận dự định. Để gửi một thông điệp chỉ cho một người, chúng ta cần một hệ thống *addressing* ở *Layer 2* để có thể xác định máy nào là đích của thông điệp. Trong phép tương tự về hệ thống bưu chính, nếu tôi nói trong một căn phòng, mọi người đều nhận được thông điệp. Để nói chuyện với một người cụ thể, tôi cần gọi tên họ.
 
-One problem with sending messages over a shared media is: When we transmit the message, everybody on the link gets the message, not just the intended recipient. To send a message to just one person, we need an addressing system at Layer 2 so that we can identify which machine the message is intended for. In the postal system analogy, if I speak in a room, everyone gets the message. To talk to one specific person, I need to refer to them using their name.
+Ở *Layer 2*, mỗi máy tính có một *MAC address (Địa chỉ Kiểm soát Truy cập Phương tiện)*. *MAC address* dài 48 bit, và thường được viết dưới dạng thập lục phân với dấu hai chấm ngăn cách mỗi 2 chữ số hex (8 bit), ví dụ: *f8:ff:c2:2b:36:16*. *MAC address* đôi khi được gọi là địa chỉ ether hoặc địa chỉ liên kết.
 
-At Layer 2, every computer has a **MAC address** (Media Access Control). MAC addresses are 48 bits long, and are usually written in hexadecimal with colons separating every 2 hex digits (8 bits), e.g. `f8:ff:c2:2b:36:16`. MAC addresses are sometimes called ether addresses or link addresses.
+*MAC address* thường được mã hóa cứng vĩnh viễn ("burned in") trên một thiết bị (ví dụ: NIC trong máy tính của bạn). Hầu hết các hệ điều hành sẽ cho phép bạn ghi đè *MAC address* bằng phần mềm, nhưng mỗi thiết bị đã đi kèm với một *MAC address* được cài đặt sẵn. *MAC address* được phân bổ theo nhà sản xuất tạo ra phần cứng. Hai bit đầu tiên là cờ, sau đó 22 bit tiếp theo xác định nhà sản xuất, rồi 24 bit cuối cùng xác định máy cụ thể trong không gian địa chỉ của nhà sản xuất đó.
 
-MAC addresses are usually permanently hard-coded ("burned in") on a device (e.g. the NIC in your computer). Most OSes will let you override the MAC address in software, but every device already comes with a MAC address installed. MAC addresses are allocated according to the manufacturer that creates the hardware. The first two bits are flags, then the next 22 bits identify the manufacturer, then the last 24 bits identify the specific machine within that manufacturer's address space.
+Tại sao không chỉ sử dụng *IP addressing (việc đánh địa chỉ IP)*? Các *host* trên một liên kết có thể muốn trao đổi thông điệp, mà không cần kết nối với Internet (tức là chúng hoàn toàn không có địa chỉ IP).
 
-Why not just use IP addressing? Hosts on a link might want to exchange messages, without ever being connected to the Internet (i.e. they don't have an IP address at all).
+Lược đồ *addressing* vĩnh viễn này khác với IP, nơi bạn nhận được một địa chỉ khi lần đầu tham gia mạng, và địa chỉ đó phụ thuộc vào vị trí địa lý của bạn. *MAC address* thường được cho là duy nhất trên toàn cầu, bởi vì bạn có thể cắm máy tính của mình vào bất kỳ mạng cục bộ nào, và sẽ rất tệ nếu hai máy tính trên một liên kết có cùng một *MAC address*.
 
-This permanent addressing scheme is different from IP, where you receive an address when you first join a network, and the address depends on your geographic location. MAC addresses are usually supposed to be globally unique, because you might plug your computer into any local network, and it'd be bad if two computers on a link had the same MAC address.
+## Các loại Giao tiếp LAN, Cấu trúc Gói tin Ethernet
 
+Có các loại đích đến khác nhau trong một *packet* *Layer 2*. Trong *unicast (truyền tin đơn hướng)*, *packet* được dành cho một người nhận duy nhất. Trong *broadcast (truyền tin quảng bá)*, *packet* được dành cho tất cả các máy trên mạng cục bộ. Trong *multicast (truyền tin đa hướng)*, *packet* được dành cho tất cả các máy trong mạng cục bộ thuộc về một nhóm cụ thể. Các máy có thể chọn tham gia các nhóm nhất định để nhận các *packet* dành cho nhóm đó. *Ethernet* hỗ trợ *unicast*, *multicast*, và *broadcast*.
 
-## LAN Communication Types, Ethernet Packet Structure
+Lưu ý rằng *broadcast* đôi khi được coi là một trường hợp đặc biệt của *multicast*, nơi mọi người tự động là một phần của nhóm quảng bá.
 
-There are different possible destinations in a Layer 2 packet. In **unicast**, the packet is intended to a single recipient. In **broadcast**, the packet is intended for all machines on the local network. In **multicast**, the packet is intended for all machines in the local network that belong to a particular group. Machines can choose to join certain groups to receive packets meant for that group. Ethernet supports unicast, multicast, and broadcast.
+Mô hình *unicast/broadcast/multicast* này cũng mở rộng đến các lớp khác. Ví dụ, chúng ta đã thấy *anycast (truyền tin tới một trong nhóm)* ở *Layer 3*, với mục tiêu là gửi đến bất kỳ một thành viên nào của một nhóm (bất kỳ máy chủ nào có cùng địa chỉ IP).
 
-Note that broadcast is sometimes thought of as a special case of multicast, where everybody is automatically part of the broadcast group.
+## Cấu trúc Gói tin Ethernet
 
-This unicast/broadcast/multicast model extends to other layers too. For example, we saw anycast at Layer 3, where the goal was to send to any one member of a group (any of the servers with the same IP address).
-
-
-## Ethernet Packet Structure
-
-A data packet in Ethernet is called a **frame**. Many fields look similar to the IP header fields, though there are some differences.
+Một *packet* dữ liệu trong *Ethernet* được gọi là một *frame (khung dữ liệu)*. Nhiều trường trông tương tự như các trường tiêu đề IP, mặc dù có một số khác biệt.
 
 <img width="900px" src="../assets/end-to-end/5-010-ethernet-packet.png">
 
-The Ethernet packet starts with a 7-byte preamble, which indicates the start of a packet. This helps separate packets as they're signalled across the wire.
+*Packet* *Ethernet* bắt đầu bằng một *preamble (phần mở đầu)* 7 byte, chỉ ra sự bắt đầu của một *packet*. Điều này giúp tách biệt các *packet* khi chúng được truyền tín hiệu qua dây.
 
-Then, we have the destination and source MAC addresses, similar to the destination and source fields in the IP header. We have a 2-byte type field, which allows us to demultiplex between IPv4 or IPv6, and pass the packet payload to the correct next protocol. This is similar to the protocol field in the IP header, or the port field in the TCP/UDP headers. We also have a checksum, though unlike IP, the checksum is over the entire packet, so that we don't have to rely on higher layers (e.g. the packet might not be TCP/IP at all).
+Sau đó, chúng ta có địa chỉ MAC đích và nguồn, tương tự như các trường đích và nguồn trong tiêu đề IP. Chúng ta có một trường loại 2 byte, cho phép chúng ta phân kênh giữa IPv4 hoặc IPv6, và chuyển tải trọng *packet* đến giao thức tiếp theo chính xác. Điều này tương tự như trường giao thức trong tiêu đề IP, hoặc trường cổng trong tiêu đề TCP/UDP. Chúng ta cũng có một *checksum (tổng kiểm)*, mặc dù không giống như IP, *checksum* là trên toàn bộ *packet*, để chúng ta không phải dựa vào các lớp cao hơn (ví dụ: *packet* có thể hoàn toàn không phải là TCP/IP).
 
-To unicast a message, we set the destination MAC address to a specific machine's MAC address. Everybody on the shared medium receives the packet, so everybody needs to check the destination MAC to see if the packet is meant for them. If the destination MAC address doesn't match your address, you should ignore the packet.
+Để *unicast* một thông điệp, chúng ta đặt địa chỉ MAC đích thành *MAC address* của một máy cụ thể. Mọi người trên *shared media* đều nhận được *packet*, vì vậy mọi người cần kiểm tra MAC đích để xem *packet* có dành cho mình không. Nếu địa chỉ MAC đích không khớp với địa chỉ của bạn, bạn nên bỏ qua *packet*.
 
-To broadcast a message, we set the destination MAC to the special address `FF:FF:FF:FF:FF:FF` (all ones). Just like in unicast, everybody on the shared medium receives the packet, but this time, because the destination MAC address is the broadcast address, everybody knows to reads the packet. Note that this all-ones broadcast address is the same in every Ethernet network.
+Để *broadcast* một thông điệp, chúng ta đặt MAC đích thành địa chỉ đặc biệt *FF:FF:FF:FF:FF:FF* (toàn bit 1). Giống như trong *unicast*, mọi người trên *shared media* đều nhận được *packet*, nhưng lần này, vì địa chỉ MAC đích là địa chỉ *broadcast*, mọi người đều biết để đọc *packet*. Lưu ý rằng địa chỉ *broadcast* toàn bit 1 này là giống nhau trong mọi mạng *Ethernet*.
 
-To multicast a message, we set the destination MAC to the address of that group. Recall that the first two bits of the MAC addresses are flags. Normal addresses allocated to machines always set the first bit to 0, and addresses for groups always set the first bit to 1. Just like in unicast and broadcast, everybody still gets the message. Anybody who's part of a group needs to make sure they're listening on that group's address in order to receive packets multicast to that group. Additional protocols are necessary to control who belongs to which groups, and we won't discuss them further.
+Để *multicast* một thông điệp, chúng ta đặt MAC đích thành địa chỉ của nhóm đó. Nhớ lại rằng hai bit đầu tiên của *MAC address* là cờ. Các địa chỉ bình thường được phân bổ cho các máy luôn đặt bit đầu tiên thành 0, và các địa chỉ cho các nhóm luôn đặt bit đầu tiên thành 1. Giống như trong *unicast* và *broadcast*, mọi người vẫn nhận được thông điệp. Bất kỳ ai là thành viên của một nhóm cần đảm bảo rằng họ đang lắng nghe trên địa chỉ của nhóm đó để nhận các *packet* *multicast* đến nhóm đó. Các giao thức bổ sung là cần thiết để kiểm soát ai thuộc về nhóm nào, và chúng ta sẽ không thảo luận thêm về chúng.
 
+## Mạng Layer 2 với Ethernet
 
-## Layer 2 Networks with Ethernet
+Cho đến nay, chúng ta đã trình bày các giao thức *Layer 2* hoạt động trên một liên kết duy nhất với nhiều máy tính được gắn vào nó, nhưng chúng ta có thể giới thiệu nhiều liên kết và xây dựng một mạng hoàn toàn bằng *Layer 2*. Các *packet* có thể được chuyển tiếp, và các máy thậm chí có thể chạy các giao thức định tuyến, tất cả đều sử dụng độc quyền các *MAC address* *Layer 2*.
 
-So far, we've shown Layer 2 protocols as operating on a single link with multiple computers attached to it, but we could introduce multiple links and build a network entirely using Layer 2. Packets could be forwarded, and machines could even run routing protocols, all exclusively using Layer 2 MAC addresses.
+Các giao thức định tuyến chúng ta chạy ở lớp IP cũng có thể hoạt động ở *Layer 2*, mặc dù một nhược điểm là chúng ta không thể tổng hợp các *MAC address*. Địa chỉ IP được phân bổ dựa trên địa lý, nhưng *MAC address* được phân bổ dựa trên nhà sản xuất, vì vậy không có cách nào rõ ràng để tổng hợp chúng. Nhược điểm này là lý do tại sao chúng ta không thể xây dựng Internet toàn cầu chỉ bằng *Layer 2*.
 
-The routing protocols we ran at the IP layer could also work at Layer 2, though one downside is that we can't aggregate MAC addresses. IP addresses are allocated based on geography, but MAC addresses are allocated based on manufacturer, so there's no clear way to aggregate them. This downside is why we can't build the global Internet out of only Layer 2.
+Nếu có nhiều liên kết trong một mạng cục bộ duy nhất, chúng ta sẽ phải đảm bảo rằng nếu ai đó *broadcast* một thông điệp, bất kỳ *switch (thiết bị chuyển mạch)* nào ở *Layer 2* cũng sẽ chuyển tiếp *packet* ra khỏi tất cả các cổng đi.
 
-If there are multiple links in a single local network, we'd have to ensure that if someone broadcasts a message, any switches at Layer 2 forward the packet out of all outgoing ports.
+*Multicast* trở nên phức tạp hơn trong một mạng *Layer 2* với nhiều liên kết. Cần có các giao thức bổ sung, mặc dù chúng ta sẽ không thảo luận thêm.
 
-Multicast gets more complicated in a Layer 2 network with multiple links. Additional protocols are needed, though we won't discuss further.
+Một ví dụ về *multicast* hữu ích trên mạng LAN là *Bonjour/mDNS*, một giao thức do Apple phát triển. Trong giao thức này, tất cả các thiết bị của Apple (ví dụ: iPhone, iPad, Apple TV) được mã hóa cứng để tham gia một nhóm đặc biệt trên mạng cục bộ. Nếu iPhone của bạn muốn tìm các thiết bị gần đó để phát nhạc (ví dụ: Apple TV, loa Apple hoặc HomePod hay bất cứ tên gọi nào của chúng), iPhone có thể *multicast* một thông điệp đến nhóm, hỏi xem có ai có thể phát nhạc không. Các thiết bị trong nhóm cũng có thể *multicast* phản hồi, nói rằng "Tôi là một Apple TV và tôi có thể phát nhạc." Điều thú vị là giao thức này thực sự cũng sử dụng DNS trong nhóm *multicast* để gửi *SRV records (bản ghi SRV)*, ánh xạ mỗi máy với các khả năng của nó.
 
-One example of multicast being useful on a LAN is Bonjour/mDNS, a protocol developed by Apple. In this protocol, all Apple devices (e.g. iPhone, iPad, Apple TV) are hard-coded to join a special group on the local network. If your iPhone wants to find nearby devices to play music (e.g. Apple TV, Apple speaker or HomePod or whatever they call it), the iPhone can multicast a message to the group, asking if anybody can play music. Devices in the group can also multicast responses, saying "I am an Apple TV and I can play music." Interestingly, this protocol actually also uses DNS in the multicast group to send SRV records, which maps each machine to its capabilities.
+Lưu ý lịch sử: Trong Internet hiện đại, chúng ta đã nói rằng các thuật ngữ "router" và "switch" có thể thay thế cho nhau. Bây giờ chúng ta đã có khái niệm về mạng *Layer 2*, chúng ta có thể nói rằng một *switch* chỉ hoạt động ở Lớp 1 và 2, trong khi một *router* hoạt động ở Lớp 1, 2 và 3.
 
-Historical note: In the modern Internet, we've said that the terms "router" and "switch" are interchangeable. Now that we have the notion of a Layer 2 network, we could say that a switch only operates at Layers 1 and 2, while a router operates at Layers 1, 2, and 3.
+Nếu bạn quay lại hình ảnh của chúng ta về việc đóng gói và mở gói các tiêu đề, chúng ta đã giả định rằng mọi *router* đều phân tích *packet* lên đến *Layer 3*, và chuyển tiếp *packet* đến *router* tiếp theo qua IP. Tuy nhiên, nếu chúng ta có một mạng *Layer 2* với nhiều liên kết, một *switch* chỉ cần chuyển *packet* lên đến *Layer 2* và chuyển tiếp *packet* đến *switch* tiếp theo qua *Ethernet*.
 
-If you go back to our picture of wrapping and unwrapping headers, we've assumed that every router parses the packet up to Layer 3, and forwards the packet to the next router over IP. However, if we had a Layer 2 network with multiple links, a switch only needs to pass the packet up to Layer 2 and forward the packet to the next switch over Ethernet.
-
-Today, pretty much all switches also implement Layer 3, which is why we use the terms interchangeably. Historically, Ethernet predates the Internet, which is why there was a distinction between switches and routers.
+Ngày nay, hầu như tất cả các *switch* cũng triển khai *Layer 3*, đó là lý do tại sao chúng ta sử dụng các thuật ngữ này thay thế cho nhau. Về mặt lịch sử, *Ethernet* có trước Internet, đó là lý do tại sao có sự phân biệt giữa *switch* và *router*.

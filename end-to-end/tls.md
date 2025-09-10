@@ -1,17 +1,10 @@
-
-
-
-
-
-
-
 # TLS: Secure Bytestreams
 
 ## Secure Bytestreams
 
 TCP by itself is insecure against network attackers. Someone on the network (e.g. a malicious router, an attacker sniffing packets on a wire) could read or even modify your TCP packets while they're in transit.
 
-Also, with TCP, you might connect to an attacker instead of the real server. Suppose you want to connect to a bank website, and you do a DNS lookup for `www.bank.com`. The attacker (e.g. someone who hacked into the resolver or a router) changes the DNS response so that it maps `www.bank.com` to the attacker's IP address, 6.6.6.6. Now, when you form a TCP connection to the bank website, you're talking to the attacker. You might end up sending your bank password to the attacker!
+Also, with TCP, you might connect to an attacker instead of the real server. Suppose you want to connect to a bank website, and you do a DNS lookup for *www.bank.com*. The attacker (e.g. someone who hacked into the resolver or a router) changes the DNS response so that it maps *www.bank.com* to the attacker's IP address, 6.6.6.6. Now, when you form a TCP connection to the bank website, you're talking to the attacker. You might end up sending your bank password to the attacker!
 
 To address these security issues, we add a new protocol, **Transport Layer Security (TLS)**, on top of TCP.
 

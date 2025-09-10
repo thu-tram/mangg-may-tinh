@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Transport Layer Principles
 
 ## Reliability Abstraction and Goals

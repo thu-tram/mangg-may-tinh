@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # **Giới thiệu về Internet** (Introduction to the Internet)
 
 ## **Internet là gì?** (What is the Internet?)

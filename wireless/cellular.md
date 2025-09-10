@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # Mạng Di động (Cellular)
 
 ## Tại sao nên nghiên cứu về Mạng Di động?

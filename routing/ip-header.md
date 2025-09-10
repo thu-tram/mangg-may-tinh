@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 # IP Header
 
 ## IP Header Design Goals

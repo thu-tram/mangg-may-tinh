@@ -1,12 +1,5 @@
 
 
-
-
-
-
-
-
-
 # **Định tuyến trong Datacenter** (Datacenter Routing)
 
 ## **Tại sao Datacenter lại khác biệt?** (Why are Datacenters Different?)
