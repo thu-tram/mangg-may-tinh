@@ -76,9 +76,6 @@ NIC có một **central controller processor** (bộ xử lý điều khiển tr
 
 Trong networking stack tiêu chuẩn, có thể coi NIC như một “tấm thảm chùi chân” – chỉ chuyển packet đến OS và gửi packet ra ngoài cho OS, nhưng xử lý rất tối thiểu trên các packet đó.
 
-Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:
-
-
 
 ## **Lược sử Offloading: Epoch 1** (Brief History of Offloading: Epoch 1)
 

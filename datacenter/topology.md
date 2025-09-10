@@ -54,7 +54,7 @@ Mạng *Datacenter* tồn tại ở một địa điểm vật lý duy nhất, v
 
 Khi bạn gửi một yêu cầu đến một ứng dụng trong *Datacenter*, gói tin của bạn di chuyển qua các *routers* trên Internet đa dụng, cuối cùng đến được *router* do Google vận hành. *Router* đó chuyển tiếp gói tin của bạn đến một trong các *edge routers* (router biên) của *Datacenter*, sau đó *edge router* này sẽ chuyển tiếp gói tin của bạn đến một *server* riêng lẻ nào đó trong *Datacenter*.
 
-Một *server* này có lẽ không có đủ tất cả thông tin để xử lý yêu cầu của bạn. Ví dụ, nếu bạn yêu cầu một bảng tin Facebook, các *servers* khác nhau có thể cần phải làm việc cùng nhau để kết hợp quảng cáo, hình ảnh, bài đăng, v.v. Sẽ không thực tế nếu mọi *server* đều phải biết mọi thứ về Facebook để tự mình xử lý yêu cầu của bạn.
+Một *server* này có lẽ không có đủ tất cả thông tin để xử lý yêu cầu của bạn. Ví dụ, nếu bạn yêu cầu một bảng tin Facebook, các *servers* khác nhau có thể cần phải làm việc cùng nhau để kết hợp advertise, hình ảnh, bài đăng, v.v. Sẽ không thực tế nếu mọi *server* đều phải biết mọi thứ về Facebook để tự mình xử lý yêu cầu của bạn.
 
 Để các *servers* khác nhau có thể phối hợp, *server* đầu tiên sẽ kích hoạt nhiều yêu cầu backend để thu thập tất cả thông tin cần thiết cho yêu cầu của bạn. Một yêu cầu duy nhất của người dùng có thể kích hoạt hàng trăm yêu cầu backend (trung bình là 521, theo một bài báo của Facebook năm 2013) trước khi phản hồi có thể được gửi lại cho người dùng. Nhìn chung, lưu lượng backend giữa các *servers* lớn hơn đáng kể, và lưu lượng bên ngoài với người dùng rất nhỏ khi so sánh.
 

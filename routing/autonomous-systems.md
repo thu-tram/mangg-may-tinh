@@ -128,43 +128,43 @@ Nguyên tắc này quyết định các tuyến đường mà *AS* lựa chọn.
 
 <img width="900px" src="../assets/routing/2-141-gaorexford2.png">
 
-Thứ hai, các *AS* chỉ vận chuyển lưu lượng nếu họ được trả tiền cho việc đó. Không có động cơ nào để các *AS* làm việc miễn phí. Nguyên tắc này quyết định các đường dẫn mà *AS* sẵn sàng tham gia. Bạn có thể coi nguyên tắc này như một phiên bản hạn chế hơn của việc thông báo đường đi trong giao thức *distance-vector*. Thay vì quảng bá một tuyến đường đến mọi hàng xóm, cho phép bất kỳ ai chuyển tiếp gói tin qua tôi, tôi chỉ quảng bá các tuyến đường mà tôi được trả tiền để chuyển tiếp gói tin.
+Thứ hai, các *AS* chỉ vận chuyển lưu lượng nếu họ được trả tiền cho việc đó. Không có động cơ nào để các *AS* làm việc miễn phí. Nguyên tắc này quyết định các đường dẫn mà *AS* sẵn sàng tham gia. Bạn có thể coi nguyên tắc này như một phiên bản hạn chế hơn của việc thông báo đường đi trong giao thức *distance-vector*. Thay vì quảng bá một tuyến đường đến mọi neighbour, cho phép bất kỳ ai chuyển tiếp gói tin qua tôi, tôi chỉ quảng bá các tuyến đường mà tôi được trả tiền để chuyển tiếp gói tin.
 
-Một hệ quả của nguyên tắc thứ hai này là: Với tư cách là một *AS*, lưu lượng tôi vận chuyển phải đến từ một *customer*, hoặc đi đến một *customer*. Nói cách khác, đối với bất kỳ tuyến đường nào đi qua tôi, một trong những hàng xóm của tôi phải là một *customer*.
+Một hệ quả của nguyên tắc thứ hai này là: Với tư cách là một *AS*, lưu lượng tôi vận chuyển phải đến từ một *customer*, hoặc đi đến một *customer*. Nói cách khác, đối với bất kỳ tuyến đường nào đi qua tôi, một trong những neighbour của tôi phải là một *customer*.
 
 Hãy xem xét tất cả các trường hợp cụ thể.
 
-Các tuyến đường mà cả hai hàng xóm của tôi đều là *customer* là tốt, bởi vì tôi đang được hai *customer* trả tiền để chuyển tiếp gói tin.
+Các tuyến đường mà cả hai neighbour của tôi đều là *customer* là tốt, bởi vì tôi đang được hai *customer* trả tiền để chuyển tiếp gói tin.
 
 <img width="900px" src="../assets/routing/2-142-gaorexford3.png">
 
-Tương tự, các tuyến đường mà một trong những hàng xóm của tôi là *customer* và một hàng xóm là *peer* là tốt, bởi vì mặc dù *peer* không trả tiền cho tôi, nhưng *customer* thì có.
+Tương tự, các tuyến đường mà một trong những neighbour của tôi là *customer* và một neighbour là *peer* là tốt, bởi vì mặc dù *peer* không trả tiền cho tôi, nhưng *customer* thì có.
 
 <img width="900px" src="../assets/routing/2-143-gaorexford4.png">
 
-Các tuyến đường mà một trong những hàng xóm của tôi là *customer*, và hàng xóm còn lại là *provider* là tốt. Thoạt nhìn, có vẻ như đường đi này không tốt, bởi vì *customer* đang trả tiền cho tôi, và sau đó tôi lại trả tiền cho *provider*. Liệu có khả năng tôi không kiếm được đồng nào, hoặc thậm chí lỗ vốn từ giao dịch này không? Điều đó có thể đúng, nhưng nếu chúng ta không tham gia vào các tuyến đường này, chúng ta sẽ trở thành một *AS* vô dụng không có *customer*. Công việc của một *AS* là cung cấp kết nối cho người dùng của mình, và việc tham gia vào các tuyến đường *customer-AS-provider* này sẽ mở ra nhiều tuyến đường hơn đến phần còn lại của Internet.
+Các tuyến đường mà một trong những neighbour của tôi là *customer*, và neighbour còn lại là *provider* là tốt. Thoạt nhìn, có vẻ như đường đi này không tốt, bởi vì *customer* đang trả tiền cho tôi, và sau đó tôi lại trả tiền cho *provider*. Liệu có khả năng tôi không kiếm được đồng nào, hoặc thậm chí lỗ vốn từ giao dịch này không? Điều đó có thể đúng, nhưng nếu chúng ta không tham gia vào các tuyến đường này, chúng ta sẽ trở thành một *AS* vô dụng không có *customer*. Công việc của một *AS* là cung cấp kết nối cho người dùng của mình, và việc tham gia vào các tuyến đường *customer-AS-provider* này sẽ mở ra nhiều tuyến đường hơn đến phần còn lại của Internet.
 
 <img width="900px" src="../assets/routing/2-144-gaorexford5.png">
 
-Các tuyến đường mà cả hai hàng xóm của tôi đều là *peer* là không tốt, bởi vì không bên nào trả tiền cho tôi để chuyển tiếp gói tin.
+Các tuyến đường mà cả hai neighbour của tôi đều là *peer* là không tốt, bởi vì không bên nào trả tiền cho tôi để chuyển tiếp gói tin.
 
 Nói chung, các *peer* không cung cấp dịch vụ chuyển tiếp giữa các *peer* khác. Xét theo cấu trúc phân cấp, một đường dẫn không nên đi ngang ở một cấp độ nhất định qua nhiều chặng.
 
 <img width="900px" src="../assets/routing/2-145-gaorexford6.png">
 
-Các tuyến đường mà một trong những hàng xóm của tôi là *peer* và hàng xóm còn lại là *provider* cũng không tốt, bởi vì một lần nữa, không bên nào trả tiền cho tôi để chuyển tiếp gói tin.
+Các tuyến đường mà một trong những neighbour của tôi là *peer* và neighbour còn lại là *provider* cũng không tốt, bởi vì một lần nữa, không bên nào trả tiền cho tôi để chuyển tiếp gói tin.
 
 Nói chung, nếu một *AS* có một liên kết *peer*, liên kết đó sẽ chỉ vận chuyển lưu lượng đến/từ các *customer* của chính nó. Nói cách khác, khi các gói tin đến B qua liên kết *peer* đó, lựa chọn có lợi nhuận duy nhất của B là chuyển tiếp gói tin đến một *customer* (không phải *provider*, và không phải một *peer* khác). Tương tự, các gói tin từ *customer* có thể được chuyển tiếp qua liên kết *peer* (*customer* trả tiền), nhưng các gói tin từ *provider* và *peer* không thể được chuyển tiếp qua liên kết *peer* (không ai trả tiền).
 
 <img width="900px" src="../assets/routing/2-146-gaorexford7.png">
 
-Tương tự, các tuyến đường mà cả hai hàng xóm của tôi đều là *provider* là không tốt, bởi vì tôi phải trả tiền cho cả hai bên để chuyển tiếp gói tin, và không ai trả tiền cho tôi để làm việc này.
+Tương tự, các tuyến đường mà cả hai neighbour của tôi đều là *provider* là không tốt, bởi vì tôi phải trả tiền cho cả hai bên để chuyển tiếp gói tin, và không ai trả tiền cho tôi để làm việc này.
 
 <img width="900px" src="../assets/routing/2-147-gaorexford8.png">
 
 ## Ví dụ về các quy tắc Gao-Rexford
 
-*Policy* để chọn tuyến đường (*customer* tốt nhất, *provider* tệ nhất), và *policy* để thông báo tuyến đường (chỉ thông báo và tham gia vào các tuyến đường mà một trong những hàng xóm của tôi là *customer*) sẽ được sử dụng trong giao thức đã sửa đổi của chúng ta để tính toán các tuyến đường tôn trọng *policy* của mỗi *AS*. Chúng ta chưa nói về cách tính toán tuyến đường, nhưng với một tuyến đường cho trước, chúng ta có thể kiểm tra xem nó có thỏa mãn hai *policy* này không.
+*Policy* để chọn tuyến đường (*customer* tốt nhất, *provider* tệ nhất), và *policy* để thông báo tuyến đường (chỉ thông báo và tham gia vào các tuyến đường mà một trong những neighbour của tôi là *customer*) sẽ được sử dụng trong giao thức đã sửa đổi của chúng ta để tính toán các tuyến đường tôn trọng *policy* của mỗi *AS*. Chúng ta chưa nói về cách tính toán tuyến đường, nhưng với một tuyến đường cho trước, chúng ta có thể kiểm tra xem nó có thỏa mãn hai *policy* này không.
 
 <img width="300px" src="../assets/routing/2-148-gaorexford9.png">
 
@@ -174,13 +174,13 @@ Một đường dẫn khả dĩ cho lưu lượng là D, B, A, C, E (và ngượ
 
 Ai đang trả tiền cho ai trong đường dẫn này? Vì lưu lượng đang được gửi dọc theo liên kết D-B, *customer* (D) phải trả tiền cho *provider* (B). Tương tự, E phải trả tiền cho C, và cả B và C đều phải trả tiền cho A.
 
-Liệu các *transit AS* A, B, và C có đồng ý thông báo và tham gia vào tuyến đường này không? Hãy kiểm tra từng hàng xóm của chúng.
+Liệu các *transit AS* A, B, và C có đồng ý thông báo và tham gia vào tuyến đường này không? Hãy kiểm tra từng neighbour của chúng.
 
-Các hàng xóm của A dọc theo đường dẫn này đều là *customer*, vì vậy A đang kiếm tiền và cho rằng đường dẫn này tốt.
+Các neighbour của A dọc theo đường dẫn này đều là *customer*, vì vậy A đang kiếm tiền và cho rằng đường dẫn này tốt.
 
-Các hàng xóm của B là một *customer* (D) và một *provider* (A). B đang kiếm tiền từ *customer* (D), và cho rằng đường dẫn này tốt. (Hãy nhớ rằng, các đường dẫn có một hàng xóm là *customer* và một hàng xóm là *provider* là tốt, ngay cả khi *AS* có lợi nhuận ròng bằng 0, bởi vì chúng cho phép kết nối rộng hơn.)
+Các neighbour của B là một *customer* (D) và một *provider* (A). B đang kiếm tiền từ *customer* (D), và cho rằng đường dẫn này tốt. (Hãy nhớ rằng, các đường dẫn có một neighbour là *customer* và một neighbour là *provider* là tốt, ngay cả khi *AS* có lợi nhuận ròng bằng 0, bởi vì chúng cho phép kết nối rộng hơn.)
 
-Tương tự, C có ít nhất một hàng xóm là *customer* (E), vì vậy nó cũng cho rằng tuyến đường này tốt.
+Tương tự, C có ít nhất một neighbour là *customer* (E), vì vậy nó cũng cho rằng tuyến đường này tốt.
 
 <img width="600px" src="../assets/routing/2-149-gaorexford10.png">
 
@@ -190,7 +190,7 @@ Thay vì cả B và C đều trả tiền cho A, có lẽ họ chọn thiết l�
 
 Bây giờ, một đường dẫn khả dĩ khác cho lưu lượng là D, B, C, E. Lúc này, D vẫn cần trả tiền cho B, và E vẫn phải trả tiền cho C. Tuy nhiên, B và C không còn cần trả tiền cho A, và họ không trả tiền cho nhau (mối quan hệ *peer*).
 
-Một lần nữa, chúng ta có thể kiểm tra xem các *transit AS* trên đường dẫn này, cụ thể là B và C, có đồng ý thông báo và tham gia vào tuyến đường này không. Các hàng xóm của B là một *customer* (D) và một *provider* (C). B đang kiếm tiền từ *customer* (D), và cho rằng đường dẫn này tốt. Tương tự, C có ít nhất một hàng xóm là *customer* (E), vì vậy C cũng cho rằng tuyến đường này tốt.
+Một lần nữa, chúng ta có thể kiểm tra xem các *transit AS* trên đường dẫn này, cụ thể là B và C, có đồng ý thông báo và tham gia vào tuyến đường này không. Các neighbour của B là một *customer* (D) và một *provider* (C). B đang kiếm tiền từ *customer* (D), và cho rằng đường dẫn này tốt. Tương tự, C có ít nhất một neighbour là *customer* (E), vì vậy C cũng cho rằng tuyến đường này tốt.
 
 <img width="600px" src="../assets/routing/2-151-gaorexford12.png">
 
@@ -202,9 +202,9 @@ Lưu ý: Dường như B và C đang tiết kiệm tiền với mối quan hệ 
 
 Nói chung, các đường dẫn trong *AS graph* luôn ***valley-free*** (không có dạng thung lũng).
 
-Xét theo cấu trúc phân cấp, nếu một đường dẫn bao gồm một chặng đi ngang qua một liên kết *peer*, chặng kế tiếp ngay lập tức cần phải đi xuống dốc đến một *customer*. Chặng kế tiếp không thể lại đi ngang (cả hai hàng xóm đều là *peer*), và chặng kế tiếp không thể đi lên dốc đến một *provider* (hàng xóm là *peer* và *provider*).
+Xét theo cấu trúc phân cấp, nếu một đường dẫn bao gồm một chặng đi ngang qua một liên kết *peer*, chặng kế tiếp ngay lập tức cần phải đi xuống dốc đến một *customer*. Chặng kế tiếp không thể lại đi ngang (cả hai neighbour đều là *peer*), và chặng kế tiếp không thể đi lên dốc đến một *provider* (neighbour là *peer* và *provider*).
 
-Xét theo cấu trúc phân cấp, nếu một đường dẫn bao gồm một chặng đi xuống dốc từ *provider* đến *customer*, chặng kế tiếp ngay lập tức phải tiếp tục đi xuống dốc đến một trong những *customer* của nó. Chặng kế tiếp không thể lại đi ngang (các hàng xóm là *provider* và *peer*), và chặng kế tiếp không thể đi lên dốc (cả hai hàng xóm đều là *provider*).
+Xét theo cấu trúc phân cấp, nếu một đường dẫn bao gồm một chặng đi xuống dốc từ *provider* đến *customer*, chặng kế tiếp ngay lập tức phải tiếp tục đi xuống dốc đến một trong những *customer* của nó. Chặng kế tiếp không thể lại đi ngang (các neighbour là *provider* và *peer*), và chặng kế tiếp không thể đi lên dốc (cả hai neighbour đều là *provider*).
 
 Nếu một liên kết đi xuống phải được theo sau bởi một liên kết đi xuống khác, thì chúng ta có thể kết luận rằng ngay khi bạn có một liên kết đi xuống trong một đường dẫn, tất cả các liên kết tiếp theo cũng phải đi xuống. Một thung lũng là một đường dẫn đi xuống, và sau đó quay đầu để bắt đầu đi lên. Các đường dẫn không thể chứa thung lũng, bởi vì một khi bạn bắt đầu đi xuống, bạn phải tiếp tục đi xuống cho đến tận đích.
 
@@ -226,7 +226,7 @@ Khi thiết kế một giao thức để tính toán các tuyến đường liê
 
 Các *AS* muốn ***autonomy***, sự tự do lựa chọn các *policy* tùy ý của riêng mình, mà không cần phối hợp với các *AS* khác, hoặc lo lắng về những *policy* mà giao thức cho phép. Trong thực tế, các *policy* thường tuân theo các nguyên tắc dựa trên tiền bạc mà chúng ta đã mô tả, nhưng giao thức không nên buộc *AS* phải tuân theo bất kỳ *policy* cụ thể nào.
 
-Các *AS* cũng muốn ***privacy***. Các *AS* không muốn phải nói rõ cho những người khác trong mạng về sở thích và *policy* của họ. Ví dụ, một *AS* không nên cần phải công khai cho mọi người biết về việc các hàng xóm của nó là *peer*, *customer*, hay *provider*. Điều này phản ánh các chiến lược kinh doanh trong thế giới thực. Với tư cách là một công ty, bạn có thể không muốn tiết lộ thông tin về *customer* và *provider* của mình cho các đối thủ.
+Các *AS* cũng muốn ***privacy***. Các *AS* không muốn phải nói rõ cho những người khác trong mạng về sở thích và *policy* của họ. Ví dụ, một *AS* không nên cần phải công khai cho mọi người biết về việc các neighbour của nó là *peer*, *customer*, hay *provider*. Điều này phản ánh các chiến lược kinh doanh trong thế giới thực. Với tư cách là một công ty, bạn có thể không muốn tiết lộ thông tin về *customer* và *provider* của mình cho các đối thủ.
 
 Lưu ý rằng định nghĩa của chúng ta về *privacy* nói rằng các *AS* không cần phải tiết lộ *một cách rõ ràng* các *policy* của họ. Trong thực tế, các *AS* vẫn cần phối hợp với phần còn lại của mạng để thống nhất về các đường dẫn qua mạng, vì vậy một lượng thông tin bị rò rỉ là không thể tránh khỏi. Các kỹ thuật đảo ngược (reverse-engineering) tồn tại để theo dõi các tuyến đường mà gói tin đang đi qua mạng.
 

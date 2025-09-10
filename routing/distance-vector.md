@@ -14,25 +14,25 @@ Các giao thức *distance-vector* có một lịch sử lâu đời trên Inter
 
 Để bắt đầu, A có thể nói với R1: "Tôi là A." Bây giờ, R1 biết cách *forwarding* các *packet* đến A.
 
-Bây giờ R1 đã có một đường đi đến A, nó có thể nói với các hàng xóm của mình, R2 và R3: "Tôi là R1, và tôi có thể đến được A."
+Bây giờ R1 đã có một đường đi đến A, nó có thể nói với các neighbour của mình, R2 và R3: "Tôi là R1, và tôi có thể đến được A."
 
 <img width="800px" src="../assets/routing/2-033-sketch2.png">
 
 Bây giờ, R2 và R3 biết rằng chúng có thể đến được A bằng cách *forwarding* các *packet* đến R1.
 
-R2 bây giờ có thể nói với các hàng xóm của mình, R4 và R5: "Tôi là R2, và tôi có thể đến được A." Tương tự, R3 có thể nói với các hàng xóm của mình, R6 và R7: "Tôi là R3, và tôi có thể đến được A."
+R2 bây giờ có thể nói với các neighbour của mình, R4 và R5: "Tôi là R2, và tôi có thể đến được A." Tương tự, R3 có thể nói với các neighbour của mình, R6 và R7: "Tôi là R3, và tôi có thể đến được A."
 
 <img width="800px" src="../assets/routing/2-034-sketch3.png">
 
 Bây giờ, R4 và R5 biết rằng các *packet* cho A có thể được chuyển tiếp đến R2, và R6 và R7 biết rằng các *packet* cho A có thể được chuyển tiếp đến R3.
 
-Quá trình tiếp tục: R4, R5, R6, và R7 mỗi người nói với hàng xóm của mình họ là ai, và rằng họ có thể đến được A. Đến cuối cùng, *forwarding table* của mọi người đều được điền đầy, và chúng ta có thể định tuyến các *packet* từ bất kỳ đâu trong mạng hướng về A.
+Quá trình tiếp tục: R4, R5, R6, và R7 mỗi người nói với neighbour của mình họ là ai, và rằng họ có thể đến được A. Đến cuối cùng, *forwarding table* của mọi người đều được điền đầy, và chúng ta có thể định tuyến các *packet* từ bất kỳ đâu trong mạng hướng về A.
 
 <img width="800px" src="../assets/routing/2-035-sketch4.png">
 
 Tóm lại: Khi bạn nhận được một thông báo từ ai đó nói rằng họ có thể đến được A, bạn nên ghi lại người đã gửi thông báo đó. Bây giờ, bạn có thể gửi các tin nhắn dành cho A thông qua người đó.
 
-Ngoài ra, bây giờ bạn đã có cách để gửi tin nhắn đến A, bạn nên tạo một thông báo cho tất cả các hàng xóm của mình, để họ có thể gửi các tin nhắn dành cho A thông qua bạn.
+Ngoài ra, bây giờ bạn đã có cách để gửi tin nhắn đến A, bạn nên tạo một thông báo cho tất cả các neighbour của mình, để họ có thể gửi các tin nhắn dành cho A thông qua bạn.
 
 Nếu có nhiều đích đến thì sao? Chúng ta có thể chạy cùng một thuật toán này lặp đi lặp lại, một lần cho mỗi đích. *Forwarding table* sau đó sẽ chứa nhiều mục, một mục cho mỗi đích.
 
@@ -45,7 +45,7 @@ Trong các ghi chú này, chúng ta sẽ tập trung vào một phần duy nhấ
 > Đối với mỗi đích:
 >
 >   - Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng.
->   - Sau đó, hãy nói cho tất cả các hàng xóm của bạn.
+>   - Sau đó, hãy nói cho tất cả các neighbour của bạn.
 
 ## Hướng của Thông báo và Tin nhắn
 
@@ -67,7 +67,7 @@ Nếu có nhiều đường đi để đến A thì sao?
 
 Trong kịch bản này, cả R3 và R4 sẽ thông báo rằng chúng có thể đến được A. R5 nên chọn *forwarding* các *packet* đến R3 hay R4?
 
-Hãy nhớ lại rằng mục tiêu của chúng ta là tìm các tuyến đường có chi phí thấp nhất qua mạng. Để cho phép các *router* chọn đường đi có chi phí thấp nhất trong số nhiều đường đang được quảng cáo, chúng ta cũng cần bao gồm chi phí trong các thông báo.
+Hãy nhớ lại rằng mục tiêu của chúng ta là tìm các tuyến đường có chi phí thấp nhất qua mạng. Để cho phép các *router* chọn đường đi có chi phí thấp nhất trong số nhiều đường đang được advertise, chúng ta cũng cần bao gồm chi phí trong các thông báo.
 
 Thông báo của R3 bây giờ nói: "Tôi là R3, và tôi có thể đến A với chi phí 3."
 
@@ -101,16 +101,16 @@ R5 có thể không nghe về cả hai đường đi đồng thời, vì vậy c
 >
 >   - Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng nếu:
 >       - **Đích không có trong bảng.**
->       - **Chi phí được quảng cáo tốt hơn chi phí tốt nhất đã biết.**
->   - Sau đó, hãy nói cho tất cả các hàng xóm của bạn.
+>       - **Chi phí được advertise tốt hơn chi phí tốt nhất đã biết.**
+>   - Sau đó, hãy nói cho tất cả các neighbour của bạn.
 
-Làm thế nào để chúng ta biết một đường đi mới là tốt hơn hay tệ hơn? Chúng ta phải cẩn thận, bởi vì không phải tất cả các chi phí liên kết đều giống nhau. Khi ai đó quảng cáo một đường đi, chi phí qua đường đi đó thực sự là tổng của hai con số: Chi phí liên kết từ bạn đến hàng xóm, cộng với chi phí từ hàng xóm đến đích (như được quảng cáo bởi hàng xóm).
+Làm thế nào để chúng ta biết một đường đi mới là tốt hơn hay tệ hơn? Chúng ta phải cẩn thận, bởi vì không phải tất cả các chi phí liên kết đều giống nhau. Khi ai đó advertise một đường đi, chi phí qua đường đi đó thực sự là tổng của hai con số: Chi phí liên kết từ bạn đến neighbour, cộng với chi phí từ neighbour đến đích (như được advertise bởi neighbour).
 
-Như một ví dụ cụ thể, giả sử chúng ta nghe: "Tôi là R1, và A cách tôi 5." Chi phí của đường đi mới này thực sự là 1 (chi phí liên kết từ chúng ta đến R1), cộng với 5 (chi phí từ R1 đến A, từ quảng cáo), là 6.
+Như một ví dụ cụ thể, giả sử chúng ta nghe: "Tôi là R1, và A cách tôi 5." Chi phí của đường đi mới này thực sự là 1 (chi phí liên kết từ chúng ta đến R1), cộng với 5 (chi phí từ R1 đến A, từ advertise), là 6.
 
 <img width="600px" src="../assets/routing/2-041-costs1.png">
 
-Sau đó, chúng ta có thể nghe: "Tôi là R2, và A cách tôi 3." Sẽ là không chính xác nếu chỉ nhìn vào chi phí trong quảng cáo. Trong trường hợp này, chi phí của đường đi mới thực sự là 10 (chi phí liên kết từ chúng ta đến R2), cộng với 3 (chi phí từ R2 đến A, từ quảng cáo), là 13. Chi phí này không tốt hơn chi phí tốt nhất đã biết của chúng ta là 6, vì vậy chúng ta không cập nhật bảng. Các *packet* vẫn được chuyển tiếp đến R1.
+Sau đó, chúng ta có thể nghe: "Tôi là R2, và A cách tôi 3." Sẽ là không chính xác nếu chỉ nhìn vào chi phí trong advertise. Trong trường hợp này, chi phí của đường đi mới thực sự là 10 (chi phí liên kết từ chúng ta đến R2), cộng với 3 (chi phí từ R2 đến A, từ advertise), là 13. Chi phí này không tốt hơn chi phí tốt nhất đã biết của chúng ta là 6, vì vậy chúng ta không cập nhật bảng. Các *packet* vẫn được chuyển tiếp đến R1.
 
 <img width="600px" src="../assets/routing/2-042-costs2.png">
 
@@ -122,10 +122,10 @@ Sau đó, chúng ta có thể nghe: "Tôi là R2, và A cách tôi 3." Sẽ là 
 >
 >   - Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, **cộng với chi phí liên kết đến hàng xóm**, tốt hơn chi phí tốt nhất đã biết.
->   - Sau đó, hãy nói cho tất cả các hàng xóm của bạn.
+>       - Chi phí được advertise, **cộng với chi phí liên kết đến neighbour**, tốt hơn chi phí tốt nhất đã biết.
+>   - Sau đó, hãy nói cho tất cả các neighbour của bạn.
 
-Đối với mỗi thông báo chúng ta nghe được, chúng ta phải so sánh hai con số. Một con số là chi phí tốt nhất đã biết trong bảng. Con số kia là tổng của chi phí liên kết đến hàng xóm, cộng với chi phí được quảng cáo từ hàng xóm đến đích. Nếu con số sau thấp hơn, chúng ta sử dụng đường đi mới và từ bỏ đường đi cũ.
+Đối với mỗi thông báo chúng ta nghe được, chúng ta phải so sánh hai con số. Một con số là chi phí tốt nhất đã biết trong bảng. Con số kia là tổng của chi phí liên kết đến neighbour, cộng với chi phí được advertise từ neighbour đến đích. Nếu con số sau thấp hơn, chúng ta sử dụng đường đi mới và từ bỏ đường đi cũ.
 
 ## Quy tắc 1: Thuật toán Bellman-Ford Phân tán
 
@@ -143,7 +143,7 @@ Lưu ý: Mặc dù chúng ta đang hiển thị một đích duy nhất cho đơ
 
 ## Demo Bellman-Ford
 
-Lưu ý về thuật ngữ: Khi chúng ta gửi một tin nhắn như "Tôi là R1, và tôi có thể đến A với chi phí 5," đến các hàng xóm của chúng ta, điều này thường được gọi là ***announcing (thông báo)*** hoặc ***advertising (quảng bá)*** một tuyến đường. Lưu ý rằng quảng cáo chứa ba giá trị: đích, danh tính của bạn (để hàng xóm của bạn có thể chuyển tiếp đến bạn), và tổng chi phí từ bạn đến đích.
+Lưu ý về thuật ngữ: Khi chúng ta gửi một tin nhắn như "Tôi là R1, và tôi có thể đến A với chi phí 5," đến các neighbour của chúng ta, điều này thường được gọi là ***announcing (thông báo)*** hoặc ***advertising (quảng bá)*** một tuyến đường. Lưu ý rằng advertise chứa ba giá trị: đích, danh tính của bạn (để neighbour của bạn có thể chuyển tiếp đến bạn), và tổng chi phí từ bạn đến đích.
 
 Để trình bày lại thuật toán cho đến nay một lần nữa:
 
@@ -171,7 +171,7 @@ R2 nhận được thông báo này và tìm trong *forwarding table* của nó 
 
 <img width="900px" src="../assets/routing/2-047-demo4.png">
 
-Lưu ý rằng trong giao thức của chúng ta cho đến nay, các *router* gửi thông báo đến tất cả các hàng xóm của chúng. Điều này có nghĩa là thông báo của R2 cũng được gửi đến R1. Nếu điều này làm bạn bận tâm, hãy chờ xem, chúng ta sẽ xem lại nó sau.
+Lưu ý rằng trong giao thức của chúng ta cho đến nay, các *router* gửi thông báo đến tất cả các neighbour của chúng. Điều này có nghĩa là thông báo của R2 cũng được gửi đến R1. Nếu điều này làm bạn bận tâm, hãy chờ xem, chúng ta sẽ xem lại nó sau.
 
 R1 nhận được thông báo này. Theo *forwarding table* của R1, cách tốt nhất đã biết để đến A có chi phí 1. Đường đi qua R2 sẽ có chi phí 2 (từ thông báo của R2), cộng 1 (liên kết đến R2), tổng cộng là 3. Đây là một cách tệ hơn để đến A, vì vậy R1 sẽ bỏ qua thông báo này và để *forwarding table* của nó không thay đổi.
 
@@ -181,7 +181,7 @@ R3 cũng nhận được cùng một thông báo. *Forwarding table* của R3 tr
 
 <img width="900px" src="../assets/routing/2-049-demo6.png">
 
-Theo các quy tắc của chúng ta cho đến nay, nếu bạn cập nhật *forwarding table* của mình, bạn cần gửi một thông báo đến tất cả các hàng xóm của bạn. Mặc dù chúng ta có thể thấy rằng thông báo tiếp theo này sẽ không thay đổi bất cứ điều gì, R3 không có cái nhìn toàn cục về mạng như chúng ta, vì vậy R3 sẽ gửi một thông báo đến tất cả các hàng xóm của nó, cụ thể là R2. Thông báo chứa: đích (A), chặng tiếp theo (R3), và chi phí qua chặng tiếp theo này (3).
+Theo các quy tắc của chúng ta cho đến nay, nếu bạn cập nhật *forwarding table* của mình, bạn cần gửi một thông báo đến tất cả các neighbour của bạn. Mặc dù chúng ta có thể thấy rằng thông báo tiếp theo này sẽ không thay đổi bất cứ điều gì, R3 không có cái nhìn toàn cục về mạng như chúng ta, vì vậy R3 sẽ gửi một thông báo đến tất cả các neighbour của nó, cụ thể là R2. Thông báo chứa: đích (A), chặng tiếp theo (R3), và chi phí qua chặng tiếp theo này (3).
 
 <img width="900px" src="../assets/routing/2-050-demo7.png">
 
@@ -195,15 +195,15 @@ R2 không cập nhật *forwarding table* của nó, vì vậy nó không tạo 
 
 Hãy nhớ lại một trong những thách thức định tuyến của chúng ta từ phần trước: *Topology* mạng có thể thay đổi.
 
-Giả sử chúng ta nghe một quảng cáo từ R2, nói rằng A cách R2 là 3. Nếu không có gì trong bảng của chúng ta, chúng ta sẽ chấp nhận quảng cáo này và ghi lại chi phí là 1+3=4.
+Giả sử chúng ta nghe một advertise từ R2, nói rằng A cách R2 là 3. Nếu không có gì trong bảng của chúng ta, chúng ta sẽ chấp nhận advertise này và ghi lại chi phí là 1+3=4.
 
 <img width="900px" src="../assets/routing/2-052-change1.png">
 
-Sau đó, chúng ta có thể nghe một quảng cáo khác từ R2, nói rằng A cách R2 là 8. Từ quy tắc trước, chúng ta sẽ từ chối điều này, bởi vì chi phí được quảng cáo (1+8=9) tệ hơn chi phí hiện tại của chúng ta (4).
+Sau đó, chúng ta có thể nghe một advertise khác từ R2, nói rằng A cách R2 là 8. Từ quy tắc trước, chúng ta sẽ từ chối điều này, bởi vì chi phí được advertise (1+8=9) tệ hơn chi phí hiện tại của chúng ta (4).
 
 <img width="900px" src="../assets/routing/2-053-change2.png">
 
-Tuy nhiên, chúng ta phải cẩn thận khi từ chối quảng cáo này. *Router* tạo ra thông báo (R2), cũng chính là *router* chặng tiếp theo mà chúng ta đang sử dụng. R2 đang cố nói: "Nếu bạn đang sử dụng tôi làm chặng tiếp theo, khoảng cách của tôi đến A không còn là 3 nữa, mà là 8." Nhưng chúng ta đã bỏ qua tin nhắn này vì chúng ta không nghĩ đến khả năng các đường đi có thể thay đổi.
+Tuy nhiên, chúng ta phải cẩn thận khi từ chối advertise này. *Router* tạo ra thông báo (R2), cũng chính là *router* chặng tiếp theo mà chúng ta đang sử dụng. R2 đang cố nói: "Nếu bạn đang sử dụng tôi làm chặng tiếp theo, khoảng cách của tôi đến A không còn là 3 nữa, mà là 8." Nhưng chúng ta đã bỏ qua tin nhắn này vì chúng ta không nghĩ đến khả năng các đường đi có thể thay đổi.
 
 Để khắc phục điều này, chúng ta phải sửa đổi quy tắc cập nhật của mình. Nếu chúng ta nghe một thông báo từ *router* chặng tiếp theo (router có đường đi tốt nhất đã biết mà chúng ta đang chuyển tiếp *packet* đến), chúng ta nên coi thông báo đó là một bản cập nhật, và chỉnh sửa *forwarding table* của mình. Chúng ta nên làm điều này ngay cả khi thông báo tạo ra một đường đi tệ hơn, bởi vì chặng tiếp theo có thể đang nói với chúng ta rằng chi phí đường đi đã thay đổi và trở nên tệ hơn.
 
@@ -217,11 +217,11 @@ Lưu ý rằng khi quy tắc mới này được áp dụng, chúng ta không c�
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
 >       - **Quảng cáo đến từ chặng tiếp theo hiện tại.**
->   - Sau đó, hãy nói cho tất cả các hàng xóm của bạn.
+>   - Sau đó, hãy nói cho tất cả các neighbour của bạn.
 
 Để hỗ trợ các *topology* thay đổi, các *router* sẽ chạy giao thức định tuyến vô thời hạn.
 
@@ -241,9 +241,9 @@ Ví dụ, hãy quay lại từ đầu ví dụ trước đó. *Forwarding table*
 
 Bạn có thể thử thiết kế một lược đồ phức tạp hơn để đảm bảo độ tin cậy (ví dụ: buộc người nhận gửi xác nhận), nhưng hãy sử dụng một cái gì đó đơn giản: Nếu bạn có một thông báo cần thực hiện, hãy gửi lại thông báo đó sau mỗi vài giây. Hóa ra cách tiếp cận đơn giản này hoạt động tốt với một số lựa chọn thiết kế sau này của chúng ta, và không cần gì phức tạp hơn.
 
-Về mặt hình thức, giao thức sẽ định nghĩa một ***advertisement interval (khoảng thời gian quảng bá)***. 30 giây là một khoảng thời gian phổ biến được sử dụng trong thực tế. Nếu khoảng thời gian là X giây, thì mọi quảng cáo phải được gửi lại sau mỗi X giây.
+Về mặt hình thức, giao thức sẽ định nghĩa một ***advertisement interval (khoảng thời gian quảng bá)***. 30 giây là một khoảng thời gian phổ biến được sử dụng trong thực tế. Nếu khoảng thời gian là X giây, thì mọi advertise phải được gửi lại sau mỗi X giây.
 
-Miễn là chúng ta đợi đủ lâu và gửi lại *packet* đủ nhiều lần, liên kết cuối cùng sẽ gửi thành công quảng cáo, miễn là liên kết hoạt động một phần thời gian. Nếu liên kết làm mất mọi *packet*, thì không có cách nào để quảng cáo được gửi đi (và có lẽ một liên kết với tỷ lệ thành công 0% không nên có trong đồ thị). Cuối cùng, với đủ lần gửi lại, giao thức này vẫn sẽ hội tụ.
+Miễn là chúng ta đợi đủ lâu và gửi lại *packet* đủ nhiều lần, liên kết cuối cùng sẽ gửi thành công advertise, miễn là liên kết hoạt động một phần thời gian. Nếu liên kết làm mất mọi *packet*, thì không có cách nào để advertise được gửi đi (và có lẽ một liên kết với tỷ lệ thành công 0% không nên có trong đồ thị). Cuối cùng, với đủ lần gửi lại, giao thức này vẫn sẽ hội tụ.
 
 {: .blue}
 
@@ -251,11 +251,11 @@ Miễn là chúng ta đợi đủ lâu và gửi lại *packet* đủ nhiều l�
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
 >       - **Quảng cáo đến từ chặng tiếp theo hiện tại.**
->   - Quảng bá cho tất cả các hàng xóm của bạn **khi bảng cập nhật, và định kỳ (advertisement interval)**.
+>   - Quảng bá cho tất cả các neighbour của bạn **khi bảng cập nhật, và định kỳ (advertisement interval)**.
 
 Lưu ý rằng việc gửi lại theo chu kỳ có thể hoạt động kết hợp với quy tắc của chúng ta từ trước đó, nơi chúng ta gửi một thông báo bất cứ khi nào *forwarding table* thay đổi. Các thông báo được gửi ngay sau khi có thay đổi được gọi là ***triggered updates (cập nhật kích hoạt)***.
 
@@ -271,7 +271,7 @@ Hãy nhớ lại thách thức định tuyến của chúng ta từ trước đ�
 
 Để giải quyết vấn đề này, chúng ta sẽ cho mỗi tuyến đường (tức là mỗi mục trong bảng) một ***time to live (TTL)*** hữu hạn. Đây là một bộ đếm thời gian ngược, cho chúng ta biết chúng ta có thể giữ mục chuyển tiếp này trong bao lâu nữa.
 
-Các cập nhật định kỳ giúp chúng ta xác nhận rằng một tuyến đường vẫn còn tồn tại. Nếu chúng ta nhận được một quảng cáo từ chặng tiếp theo, chúng ta có thể đặt lại ("nạp lại") *TTL* về giá trị ban đầu của nó.
+Các cập nhật định kỳ giúp chúng ta xác nhận rằng một tuyến đường vẫn còn tồn tại. Nếu chúng ta nhận được một advertise từ chặng tiếp theo, chúng ta có thể đặt lại ("nạp lại") *TTL* về giá trị ban đầu của nó.
 
 Nếu có điều gì đó trong mạng bị lỗi, chúng ta sẽ ngừng nhận các cập nhật định kỳ. Cuối cùng, *TTL* sẽ hết hạn. Nếu *TTL* hết hạn, chúng ta sẽ xóa mục đó khỏi bảng. Về mặt trực giác: Chúng ta không còn nhận được cập nhật nữa, vì vậy tuyến đường này có lẽ không còn hợp lệ.
 
@@ -285,7 +285,7 @@ Thời gian trôi qua. Tại t=1, *TTL* bây giờ là 10. Tại t=2, *TTL* là 
 
 <img width="900px" src="../assets/routing/2-057-ttl2.png">
 
-Tại t=5, R2 thực hiện việc gửi lại thông báo định kỳ của mình: "Tôi là R2, và A cách tôi 5." Chúng ta nhìn vào bảng của mình và nhận ra rằng R2 là chặng tiếp theo hiện tại đến A, vì vậy chúng ta nên chấp nhận quảng cáo này (theo Quy tắc 2) và cập nhật bảng.
+Tại t=5, R2 thực hiện việc gửi lại thông báo định kỳ của mình: "Tôi là R2, và A cách tôi 5." Chúng ta nhìn vào bảng của mình và nhận ra rằng R2 là chặng tiếp theo hiện tại đến A, vì vậy chúng ta nên chấp nhận advertise này (theo Quy tắc 2) và cập nhật bảng.
 
 Bởi vì chúng ta đã nhận được một xác nhận rằng tuyến đường này vẫn còn tồn tại, *TTL* có thể được đặt lại về giá trị ban đầu là 11. Chúng ta cần nhận được một xác nhận khác về tuyến đường này từ R2 trong 11 giây tới.
 
@@ -303,18 +303,18 @@ Tại t=16 (11 giây sau lần cập nhật cuối cùng tại t=5), *TTL* trong
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
 >       - Quảng cáo đến từ chặng tiếp theo hiện tại.
->   - Quảng bá cho tất cả các hàng xóm của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+>   - Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
 >   - **Nếu một mục trong bảng hết hạn, hãy xóa nó.**
 
 Hãy cẩn thận đừng nhầm lẫn các bộ đếm thời gian khác nhau mà *router* phải duy trì.
 
-*Advertisement interval* cho *router* biết khi nào cần quảng bá các tuyến đường cho các hàng xóm. Đây thường là một bộ đếm thời gian duy nhất cho toàn bộ bảng, vì vậy *router* quảng bá tất cả các tuyến đường trong bảng bất cứ khi nào bộ đếm thời gian *advertisement interval* hết hạn. Trong ví dụ trên, bộ đếm thời gian *advertisement interval* là 5 giây, vì R2 đã gửi quảng cáo tại t=0 và t=5.
+*Advertisement interval* cho *router* biết khi nào cần quảng bá các tuyến đường cho các neighbour. Đây thường là một bộ đếm thời gian duy nhất cho toàn bộ bảng, vì vậy *router* quảng bá tất cả các tuyến đường trong bảng bất cứ khi nào bộ đếm thời gian *advertisement interval* hết hạn. Trong ví dụ trên, bộ đếm thời gian *advertisement interval* là 5 giây, vì R2 đã gửi advertise tại t=0 và t=5.
 
-Ngược lại, *TTL* cho *router* biết khi nào cần xóa một mục trong bảng. Mỗi mục trong bảng có *TTL* độc lập riêng, đếm ngược cho mục cụ thể đó. Trong ví dụ trên, *TTL* ban đầu là 11 giây (đặt lại thành 11 khi chúng ta chấp nhận một quảng cáo), và đếm ngược cho mỗi mục trong bảng.
+Ngược lại, *TTL* cho *router* biết khi nào cần xóa một mục trong bảng. Mỗi mục trong bảng có *TTL* độc lập riêng, đếm ngược cho mục cụ thể đó. Trong ví dụ trên, *TTL* ban đầu là 11 giây (đặt lại thành 11 khi chúng ta chấp nhận một advertise), và đếm ngược cho mỗi mục trong bảng.
 
 Tại thời điểm này, chúng ta có một giao thức định tuyến gần như hoạt động đầy đủ\! Hãy thêm một số tối ưu hóa để hội tụ nhanh hơn.
 
@@ -330,7 +330,7 @@ Tại t=6, liên kết A-đến-R2 bị hỏng\! Mục trong bảng bây giờ �
 
 Cũng tại t=6, chúng ta nhận được một thông báo mới: "Tôi là R1, và A cách tôi 1." Chúng ta nhìn vào bảng của mình, và chúng ta đã có một cách để đến A, vì vậy chúng ta từ chối thông báo này. (Lưu ý: Điều này không quan trọng cho bản demo này, nhưng chúng ta đang giả định rằng chúng ta không chấp nhận các đường đi có chi phí bằng nhau ở đây.)
 
-Giá như chúng ta biết rằng tuyến đường hiện tại của mình đã hỏng, chúng ta có thể chấp nhận quảng cáo mới này ngay bây giờ. Nhưng thay vào đó, chúng ta phải chờ đợi thêm 10 giây nữa để sử dụng con đường hỏng này.
+Giá như chúng ta biết rằng tuyến đường hiện tại của mình đã hỏng, chúng ta có thể chấp nhận advertise mới này ngay bây giờ. Nhưng thay vào đó, chúng ta phải chờ đợi thêm 10 giây nữa để sử dụng con đường hỏng này.
 
 <img width="900px" src="../assets/routing/2-061-poison2.png">
 
@@ -338,7 +338,7 @@ Thời gian trôi qua. Đến t=11 (năm giây sau), tuyến đường hỏng v�
 
 Tại t=11, chúng ta nhận được một thông báo khác: "Tôi là R1, và A cách tôi 1." R1 đang gửi lại thông báo của mình từ trước đó. Một lần nữa, chúng ta nhìn vào bảng của mình, và chúng ta vẫn có một mục cho A, vì vậy chúng ta lại từ chối thông báo này.
 
-Một lần nữa, giá như chúng ta có cách nào đó để biết rằng tuyến đường hiện tại của mình đã hỏng... thì chúng ta có thể chấp nhận quảng cáo mới này. Tuy nhiên, với cách tiếp cận hiện tại của chúng ta, chúng ta phải tiếp tục sử dụng con đường hỏng trong 5 giây còn lại.
+Một lần nữa, giá như chúng ta có cách nào đó để biết rằng tuyến đường hiện tại của mình đã hỏng... thì chúng ta có thể chấp nhận advertise mới này. Tuy nhiên, với cách tiếp cận hiện tại của chúng ta, chúng ta phải tiếp tục sử dụng con đường hỏng trong 5 giây còn lại.
 
 <img width="900px" src="../assets/routing/2-062-poison3.png">
 
@@ -352,11 +352,11 @@ Chuyện gì vừa xảy ra vậy? Tại t=6, sự cố xảy ra, và mục tron
 
 Vấn đề chính ở đây là: Khi có sự cố xảy ra, nó không được báo cáo, vì vậy chúng ta buộc phải dựa vào thời gian chờ để xóa các con đường hỏng. Điều này chậm. Có cách nào để chúng ta phát hiện sự cố sớm hơn không?
 
-Giải pháp là ***poison (đánh dấu độc)***: Khi có sự cố xảy ra, nếu có thể, hãy quảng cáo một cách rõ ràng rằng một con đường đã hỏng.
+Giải pháp là ***poison (đánh dấu độc)***: Khi có sự cố xảy ra, nếu có thể, hãy advertise một cách rõ ràng rằng một con đường đã hỏng.
 
-Nói một cách thông thường, thông báo *poison* mới mà R2 gửi sẽ nói: "Tôi là R2, và tôi không còn cách nào để đến A." Trong giao thức, chúng ta mã hóa thông điệp này bằng cách quảng cáo một con đường với chi phí vô cực: "Tôi là R2, và A cách tôi vô cực." Con đường chi phí vô cực này đại diện cho một con đường hỏng.
+Nói một cách thông thường, thông báo *poison* mới mà R2 gửi sẽ nói: "Tôi là R2, và tôi không còn cách nào để đến A." Trong giao thức, chúng ta mã hóa thông điệp này bằng cách advertise một con đường với chi phí vô cực: "Tôi là R2, và A cách tôi vô cực." Con đường chi phí vô cực này đại diện cho một con đường hỏng.
 
-Các con đường bị *poison* lan truyền giống như bất kỳ con đường nào khác. Nếu chúng ta đang chuyển tiếp các *packet* đến R2, và chúng ta nhận được một thông điệp *poison* từ R2, chúng ta cập nhật *forwarding table* của mình và thay thế chi phí bằng vô cực (theo Quy tắc 2). Chúng ta cũng có thể quảng bá *poison* chi phí vô cực này cho các hàng xóm của mình, để họ cũng được cảnh báo về con đường hỏng. Điều này cho phép một con đường không hợp lệ lan truyền qua mạng, điều này có thể nhanh hơn nhiều so với việc chờ đợi con đường hết thời gian.
+Các con đường bị *poison* lan truyền giống như bất kỳ con đường nào khác. Nếu chúng ta đang chuyển tiếp các *packet* đến R2, và chúng ta nhận được một thông điệp *poison* từ R2, chúng ta cập nhật *forwarding table* của mình và thay thế chi phí bằng vô cực (theo Quy tắc 2). Chúng ta cũng có thể quảng bá *poison* chi phí vô cực này cho các neighbour của mình, để họ cũng được cảnh báo về con đường hỏng. Điều này cho phép một con đường không hợp lệ lan truyền qua mạng, điều này có thể nhanh hơn nhiều so với việc chờ đợi con đường hết thời gian.
 
 Hãy xem lại bản demo từ trước đó, nhưng với việc *poisoning* khi tuyến đường hết hạn. Như trước đây, giả sử rằng đến t=5, chúng ta đã học được một tuyến đường đến A, qua R2, và tuyến đường này còn lại 11 giây *TTL*.
 
@@ -368,9 +368,9 @@ Với sửa đổi của chúng ta, thay vì không nói gì, R2 gửi cho chún
 
 <img width="900px" src="../assets/routing/2-064-poison5.png">
 
-Mục trong bảng của chúng ta bây giờ mã hóa thực tế rằng A thực sự không thể đến được qua R2. Mục này có *TTL*, giống như bất kỳ mục nào khác trong bảng. Ngoài ra, chúng ta có thể quảng bá con đường chi phí vô cực này cho các hàng xóm của mình, giống như bất kỳ mục nào khác. Điều này cho các hàng xóm của chúng ta biết rằng chúng ta cũng không còn có thể đến A.
+Mục trong bảng của chúng ta bây giờ mã hóa thực tế rằng A thực sự không thể đến được qua R2. Mục này có *TTL*, giống như bất kỳ mục nào khác trong bảng. Ngoài ra, chúng ta có thể quảng bá con đường chi phí vô cực này cho các neighbour của mình, giống như bất kỳ mục nào khác. Điều này cho các neighbour của chúng ta biết rằng chúng ta cũng không còn có thể đến A.
 
-Cũng tại t=6, sau khi cập nhật bảng, chúng ta nhận được một thông báo mới: "Tôi là R1, và A cách tôi 1." Sử dụng tuyến đường này có khoảng cách là 2 (1 từ liên kết, 1 từ quảng cáo), tốt hơn vô cực (từ bảng). Chúng ta chấp nhận quảng cáo này và cập nhật bảng. Bây giờ, các *packet* cho A được định tuyến qua R1 thay vì R2.
+Cũng tại t=6, sau khi cập nhật bảng, chúng ta nhận được một thông báo mới: "Tôi là R1, và A cách tôi 1." Sử dụng tuyến đường này có khoảng cách là 2 (1 từ liên kết, 1 từ advertise), tốt hơn vô cực (từ bảng). Chúng ta chấp nhận advertise này và cập nhật bảng. Bây giờ, các *packet* cho A được định tuyến qua R1 thay vì R2.
 
 <img width="900px" src="../assets/routing/2-065-poison6.png">
 
@@ -378,9 +378,9 @@ Trong bản demo trước của chúng ta, tại t=6, chúng ta buộc phải đ
 
 Với *poison*, chúng ta đã có thể hội tụ trên một con đường hợp lệ sớm hơn. Giữa t=6 và t=16, các *packet* bây giờ sẽ đến A một cách chính xác (trong khi trong cách tiếp cận không có *poison*, các *packet* trong khoảng thời gian này sẽ bị mất). Ngoài ra, nhờ có *poison*, chúng ta đã tránh được việc lan truyền một tuyến đường hỏng cho người khác trong khoảng thời gian đó. Thậm chí tốt hơn, chúng ta có thể lan truyền *poison* cho người khác và cho họ biết rằng con đường đến A qua chúng ta (và R2) đã hỏng.
 
-Hãy hình thức hóa các quy tắc của *poison*. *Poison* bắt nguồn từ một trong hai nguồn: một trong các tuyến đường của bạn hết thời gian, hoặc bạn nhận thấy một sự cố cục bộ (ví dụ: một trong các liên kết của bạn bị hỏng). Khi một trong những điều này xảy ra, bạn có thể cập nhật mục bảng thích hợp với chi phí vô cực, đặt lại *TTL*, và quảng bá *poison* này cho các hàng xóm của bạn.
+Hãy hình thức hóa các quy tắc của *poison*. *Poison* bắt nguồn từ một trong hai nguồn: một trong các tuyến đường của bạn hết thời gian, hoặc bạn nhận thấy một sự cố cục bộ (ví dụ: một trong các liên kết của bạn bị hỏng). Khi một trong những điều này xảy ra, bạn có thể cập nhật mục bảng thích hợp với chi phí vô cực, đặt lại *TTL*, và quảng bá *poison* này cho các neighbour của bạn.
 
-*Poison* lan truyền như thế nào? Khi bạn nhận được một quảng cáo *poison* từ chặng tiếp theo hiện tại của mình, hãy chấp nhận nó. Chặng tiếp theo của bạn đang nói với bạn rằng tuyến đường không còn tồn tại (tương tự như quảng cáo các con đường tệ hơn trong Quy tắc 2), vì vậy bạn cần cập nhật bảng của mình. Khi bạn cập nhật bảng, bạn đặt lại *TTL*, giống như bất kỳ cập nhật bảng nào khác. Bạn cũng quảng bá *poison* cho các hàng xóm của mình, giống như bất kỳ cập nhật bảng nào khác, để các hàng xóm của bạn cũng biết về tuyến đường hỏng.
+*Poison* lan truyền như thế nào? Khi bạn nhận được một advertise *poison* từ chặng tiếp theo hiện tại của mình, hãy chấp nhận nó. Chặng tiếp theo của bạn đang nói với bạn rằng tuyến đường không còn tồn tại (tương tự như advertise các con đường tệ hơn trong Quy tắc 2), vì vậy bạn cần cập nhật bảng của mình. Khi bạn cập nhật bảng, bạn đặt lại *TTL*, giống như bất kỳ cập nhật bảng nào khác. Bạn cũng quảng bá *poison* cho các neighbour của mình, giống như bất kỳ cập nhật bảng nào khác, để các neighbour của bạn cũng biết về tuyến đường hỏng.
 
 Một sửa đổi cuối cùng: Bây giờ bảng của chúng ta chứa *poison*, chúng ta phải cẩn thận không chuyển tiếp các *packet* dọc theo một tuyến đường bị *poison*. Nếu một mục trong bảng nói rằng A có thể đến được qua R1 với chi phí vô cực, điều này thực sự có nghĩa là A không thể đến được qua R1. Nếu chúng ta nhận được một *packet* dành cho A, chúng ta không thể chuyển tiếp nó đến R1.
 
@@ -392,11 +392,11 @@ Một sửa đổi cuối cùng: Bây giờ bảng của chúng ta chứa *poiso
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
->       - Quảng cáo đến từ chặng tiếp theo hiện tại. **Bao gồm cả các quảng cáo poison.**
->   - Quảng bá cho tất cả các hàng xóm của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
+>       - Quảng cáo đến từ chặng tiếp theo hiện tại. **Bao gồm cả các advertise poison.**
+>   - Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
 >   - Nếu một mục trong bảng hết hạn, **hãy biến mục đó thành poison và quảng bá nó**.
 
 ## Quy tắc 6A: Split Horizon
@@ -421,9 +421,9 @@ Chúng ta đã tạo ra một vòng lặp định tuyến\! R2 sẽ chuyển ti�
 
 Vấn đề này có thể khó nhận ra lúc đầu, vì vậy hãy diễn đạt lại nó một cách trực quan. Giả sử tôi đã chấp nhận một tuyến đường từ Alice, điều đó có nghĩa là tôi sẽ chuyển tiếp các *packet* đến Alice. Điều gì xảy ra nếu sau đó tôi cung cấp lại tuyến đường này cho Alice? Nếu cô ấy chấp nhận tuyến đường, cô ấy sẽ chuyển tiếp các *packet* đến tôi, và tôi sẽ chuyển tiếp *packet* trở lại cho cô ấy.
 
-Nếu *topology* mạng không bao giờ thay đổi, quảng cáo này là vô hại. Con đường tôi đang cung cấp cho Alice đi từ Alice, đến tôi, trở lại Alice. Con đường mới này chắc chắn đắt hơn vì nó thêm một vòng lặp không cần thiết, vì vậy Alice sẽ luôn từ chối quảng cáo này.
+Nếu *topology* mạng không bao giờ thay đổi, advertise này là vô hại. Con đường tôi đang cung cấp cho Alice đi từ Alice, đến tôi, trở lại Alice. Con đường mới này chắc chắn đắt hơn vì nó thêm một vòng lặp không cần thiết, vì vậy Alice sẽ luôn từ chối advertise này.
 
-Tuy nhiên, quảng cáo này nguy hiểm nếu Alice mất tuyến đường của mình. Bây giờ, quảng cáo của tôi đang lừa Alice nghĩ rằng cô ấy có thể gửi *packet* cho tôi. Nhưng, con đường của tôi lại dựa vào chính Alice, vì vậy nếu cô ấy chấp nhận con đường này, chúng ta sẽ tạo ra một vòng lặp nơi cô ấy gửi *packet* cho tôi, chỉ để tôi gửi *packet* ngay trở lại cho cô ấy. Vấn đề chính ở đây là: Alice nghĩ rằng con đường tôi đang quảng bá là độc lập và không bao giờ đi qua Alice. Nhưng thực tế, con đường của tôi có đi qua Alice, vì vậy nếu cô ấy chấp nhận con đường của tôi, cô ấy sẽ chuyển tiếp các *packet* trở lại chính mình.
+Tuy nhiên, advertise này nguy hiểm nếu Alice mất tuyến đường của mình. Bây giờ, advertise của tôi đang lừa Alice nghĩ rằng cô ấy có thể gửi *packet* cho tôi. Nhưng, con đường của tôi lại dựa vào chính Alice, vì vậy nếu cô ấy chấp nhận con đường này, chúng ta sẽ tạo ra một vòng lặp nơi cô ấy gửi *packet* cho tôi, chỉ để tôi gửi *packet* ngay trở lại cho cô ấy. Vấn đề chính ở đây là: Alice nghĩ rằng con đường tôi đang quảng bá là độc lập và không bao giờ đi qua Alice. Nhưng thực tế, con đường của tôi có đi qua Alice, vì vậy nếu cô ấy chấp nhận con đường của tôi, cô ấy sẽ chuyển tiếp các *packet* trở lại chính mình.
 
 Để giải quyết vấn đề này, chúng ta cần tránh cung cấp cho Alice một tuyến đường đã liên quan đến chính cô ấy. Chúng ta không bao giờ muốn Alice chấp nhận một tuyến đường gửi các *packet* trở lại chính mình.
 
@@ -435,11 +435,11 @@ Tuy nhiên, quảng cáo này nguy hiểm nếu Alice mất tuyến đường c�
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
->       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các quảng cáo poison.
->   - Quảng bá cho tất cả các hàng xóm của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
+>       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.
+>   - Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
 >       - **Nhưng không quảng bá trở lại cho chặng tiếp theo.**
 >   - Nếu một mục trong bảng hết hạn, hãy biến mục đó thành poison và quảng bá nó.
 
@@ -461,7 +461,7 @@ Nếu chúng ta không triển khai sửa lỗi nào, đây là lúc R3 sẽ qu�
 
 Nếu chúng ta triển khai *split horizon*, R3 sẽ không quảng bá tuyến đường của mình trở lại cho R2 tại thời điểm này.
 
-Trong cách tiếp cận *poison reverse*, R3 gửi một quảng cáo một cách rõ ràng trở lại cho R2: "Tôi là R3, và A cách tôi vô cực."
+Trong cách tiếp cận *poison reverse*, R3 gửi một advertise một cách rõ ràng trở lại cho R2: "Tôi là R3, và A cách tôi vô cực."
 
 <img width="900px" src="../assets/routing/2-073-poisonreverse3.png">
 
@@ -475,7 +475,7 @@ Trong cách tiếp cận *split horizon*, không có *poison* nào được gử
 
 <img width="900px" src="../assets/routing/2-074-split-and-poison1.png">
 
-Ngược lại, nếu chúng ta sử dụng cách tiếp cận *poison reverse*, R3 gửi *poison* một cách rõ ràng trở lại cho R2: "Tôi là R3, và A cách tôi vô cực." R2 chấp nhận quảng cáo này (Quy tắc 2, tuyến đường từ chặng tiếp theo của nó), và cập nhật bảng của mình để vô hiệu hóa đường đi qua R3. Quảng cáo *poison reverse* ngay lập tức loại bỏ vòng lặp định tuyến.
+Ngược lại, nếu chúng ta sử dụng cách tiếp cận *poison reverse*, R3 gửi *poison* một cách rõ ràng trở lại cho R2: "Tôi là R3, và A cách tôi vô cực." R2 chấp nhận advertise này (Quy tắc 2, tuyến đường từ chặng tiếp theo của nó), và cập nhật bảng của mình để vô hiệu hóa đường đi qua R3. Quảng cáo *poison reverse* ngay lập tức loại bỏ vòng lặp định tuyến.
 
 <img width="900px" src="../assets/routing/2-075-split-and-poison2.png">
 
@@ -485,11 +485,11 @@ Ngược lại, nếu chúng ta sử dụng cách tiếp cận *poison reverse*,
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
->       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các quảng cáo poison.
->   - Quảng bá cho tất cả các hàng xóm của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
+>       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.
+>   - Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
 >       - Nhưng không quảng bá trở lại cho chặng tiếp theo.
 >       - **...Hoặc, quảng bá poison trở lại cho chặng tiếp theo.**
 >   - Nếu một mục trong bảng hết hạn, hãy biến mục đó thành poison và quảng bá nó.
@@ -508,7 +508,7 @@ Liên kết A-R3 bị hỏng\! A bây giờ không thể đến được. Theo Q
 
 <img width="900px" src="../assets/routing/2-077-infinity2.png">
 
-R2 nhận được quảng cáo *poison* và cập nhật bảng của mình (Quy tắc 2, chấp nhận từ chặng tiếp theo). Bây giờ, cả R2 và R3 đều biết rằng A không thể đến được.
+R2 nhận được advertise *poison* và cập nhật bảng của mình (Quy tắc 2, chấp nhận từ chặng tiếp theo). Bây giờ, cả R2 và R3 đều biết rằng A không thể đến được.
 
 Quảng cáo *poison* đến R1 bị mất\! R1 không thấy *poison*, vì vậy nó vẫn nghĩ rằng nó có thể đến A qua R3. (*Poison* có thể được gửi lại sau, nhưng trong bản demo này, tất cả những điều tồi tệ sắp xảy ra sẽ xảy ra trước khi *poison* có cơ hội được gửi lại.)
 
@@ -516,29 +516,29 @@ Tại thời điểm này, R2 và R3 không thể đến A, nhưng R1 nghĩ rằ
 
 <img width="900px" src="../assets/routing/2-078-infinity3.png">
 
-Cuối cùng, R1 gửi đi một quảng cáo. Con đường của R1 đến A là qua R3, vì vậy theo *split horizon*, nó sẽ không quảng bá cho R3. Tuy nhiên, R1 vẫn sẽ quảng bá cho R2: "Tôi là R1, và A cách tôi 2."
+Cuối cùng, R1 gửi đi một advertise. Con đường của R1 đến A là qua R3, vì vậy theo *split horizon*, nó sẽ không quảng bá cho R3. Tuy nhiên, R1 vẫn sẽ quảng bá cho R2: "Tôi là R1, và A cách tôi 2."
 
 <img width="900px" src="../assets/routing/2-079-infinity4.png">
 
 R2 không có cách nào để đến A, vì vậy nó chấp nhận tuyến đường này. Bây giờ, R2 bị lừa nghĩ rằng nó có thể đến A với chi phí 3.
 
-R2 gửi đi một quảng cáo về tuyến đường mới của mình. *Split horizon* quy định rằng R2 sẽ không quảng bá trở lại cho R1, nhưng nó vẫn sẽ quảng bá cho R3: "Tôi là R2, và A cách tôi 3."
+R2 gửi đi một advertise về tuyến đường mới của mình. *Split horizon* quy định rằng R2 sẽ không quảng bá trở lại cho R1, nhưng nó vẫn sẽ quảng bá cho R3: "Tôi là R2, và A cách tôi 3."
 
 <img width="900px" src="../assets/routing/2-080-infinity5.png">
 
 R3 không có cách nào để đến A, vì vậy nó chấp nhận tuyến đường này. Bây giờ, R3 bị lừa nghĩ rằng nó có thể đến A với chi phí 4.
 
-Tiếp theo, R3 gửi đi một quảng cáo cho R1 (không phải R2, theo *split horizon*): "Tôi là R3, và A cách tôi 4."
+Tiếp theo, R3 gửi đi một advertise cho R1 (không phải R2, theo *split horizon*): "Tôi là R3, và A cách tôi 4."
 
 <img width="900px" src="../assets/routing/2-081-infinity6.png">
 
-R1 sẽ chấp nhận quảng cáo này (Quy tắc 2, quảng cáo từ chặng tiếp theo) và cập nhật bảng của mình. Bây giờ, R1 nghĩ chi phí của nó đến A là 5.
+R1 sẽ chấp nhận advertise này (Quy tắc 2, advertise từ chặng tiếp theo) và cập nhật bảng của mình. Bây giờ, R1 nghĩ chi phí của nó đến A là 5.
 
 Có lẽ bạn đang thấy điều này sẽ đi đến đâu. R1 quảng bá cho R2 (không phải R3, theo *split horizon*): "Tôi là R1, và A cách tôi 5."
 
 <img width="900px" src="../assets/routing/2-082-infinity7.png">
 
-R2 chấp nhận quảng cáo này (Quy tắc 2), và nghĩ rằng nó có thể đến A với chi phí 6.
+R2 chấp nhận advertise này (Quy tắc 2), và nghĩ rằng nó có thể đến A với chi phí 6.
 
 <img width="900px" src="../assets/routing/2-083-infinity8.png">
 
@@ -550,7 +550,7 @@ R3 quảng bá một chi phí là 7 cho R1, người bây giờ nghĩ rằng nó
 
 <img width="900px" src="../assets/routing/2-085-infinity10.png">
 
-R1, R2, và R3 sẽ tiếp tục gửi các quảng cáo cho nhau theo một chu kỳ, với chi phí ngày càng cao (tất cả đều sẽ được chấp nhận bởi Quy tắc 2). Ngoài ra, các *packet* cho A sẽ bị kẹt trong một vòng lặp chuyển tiếp giữa các *router* này.
+R1, R2, và R3 sẽ tiếp tục gửi các advertise cho nhau theo một chu kỳ, với chi phí ngày càng cao (tất cả đều sẽ được chấp nhận bởi Quy tắc 2). Ngoài ra, các *packet* cho A sẽ bị kẹt trong một vòng lặp chuyển tiếp giữa các *router* này.
 
 Hãy trình bày lại vấn đề một lần nữa. *Poison* đã không lan truyền chính xác đến tất cả các *host*, vì vậy một trong các *router* vẫn còn một con đường hỏng trong bảng của nó. Sau đó, con đường hỏng đó được quảng bá trong một vòng lặp, và Quy tắc 2 đã khiến chi phí tiếp tục tăng, không có hồi kết.
 
@@ -564,7 +564,7 @@ Tại sao *split horizon* không cứu chúng ta? Hãy nhớ rằng, *split hori
 
 Với sửa lỗi này, vòng lặp vẫn sẽ tồn tại trong một thời gian, nhưng cuối cùng, tất cả các chi phí sẽ đạt đến 16 (vô cực). Hãy xem điều này hoạt động.
 
-Các chi phí đang tăng lên với mỗi quảng cáo. Cuối cùng, R1 quảng bá cho R2: "Tôi là R1, và A cách tôi 14." R2 chấp nhận (theo Quy tắc 2) và cập nhật chi phí của mình lên 15.
+Các chi phí đang tăng lên với mỗi advertise. Cuối cùng, R1 quảng bá cho R2: "Tôi là R1, và A cách tôi 14." R2 chấp nhận (theo Quy tắc 2) và cập nhật chi phí của mình lên 15.
 
 <img width="900px" src="../assets/routing/2-086-infinity11.png">
 
@@ -580,7 +580,7 @@ Cuối cùng, R1 quảng bá cho R2: "Tôi là R1, và A cách tôi vô cực." 
 
 <img width="900px" src="../assets/routing/2-089-infinity14.png">
 
-Chúng ta đã đạt đến *steady-state* một lần nữa\! Bất kỳ quảng cáo nào trong tương lai đều sẽ quảng bá chi phí vô cực, và chúng sẽ không thay đổi các bảng. Cuối cùng, các mục chi phí vô cực đều sẽ hết hạn. Hoặc, nếu một tuyến đường khác đến A xuất hiện, nó sẽ thay thế mục chi phí vô cực.
+Chúng ta đã đạt đến *steady-state* một lần nữa\! Bất kỳ advertise nào trong tương lai đều sẽ quảng bá chi phí vô cực, và chúng sẽ không thay đổi các bảng. Cuối cùng, các mục chi phí vô cực đều sẽ hết hạn. Hoặc, nếu một tuyến đường khác đến A xuất hiện, nó sẽ thay thế mục chi phí vô cực.
 
 {: .blue}
 
@@ -588,11 +588,11 @@ Chúng ta đã đạt đến *steady-state* một lần nữa\! Bất kỳ quả
 >
 > Đối với mỗi đích:
 >
->   - Nếu bạn nghe một quảng cáo cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
+>   - Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng **và đặt lại TTL** nếu:
 >       - Đích không có trong bảng.
->       - Chi phí được quảng cáo, cộng với chi phí liên kết đến hàng xóm, tốt hơn chi phí tốt nhất đã biết.
->       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các quảng cáo poison.
->   - Quảng bá cho tất cả các hàng xóm của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+>       - Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.
+>       - Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.
+>   - Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
 >       - Nhưng không quảng bá trở lại cho chặng tiếp theo.
 >       - ...Hoặc, quảng bá poison trở lại cho chặng tiếp theo.
 >       - **Bất kỳ chi phí nào lớn hơn hoặc bằng 16 đều được quảng bá là vô cực.**
@@ -600,12 +600,12 @@ Chúng ta đã đạt đến *steady-state* một lần nữa\! Bất kỳ quả
 
 ## Cập nhật theo Sự kiện
 
-Có ba trường hợp mà một *router* có thể muốn gửi quảng cáo:
+Có ba trường hợp mà một *router* có thể muốn gửi advertise:
 
-1.  Gửi quảng cáo khi bảng thay đổi. Đây được gọi là ***triggered updates***. Bảng có thể thay đổi khi chúng ta chấp nhận một quảng cáo mới, hoặc khi một liên kết mới được thêm vào (ví dụ: tuyến đường tĩnh mới), hoặc khi một liên kết bị hỏng (ví dụ: tuyến đường bị *poison*).
+1.  Gửi advertise khi bảng thay đổi. Đây được gọi là ***triggered updates***. Bảng có thể thay đổi khi chúng ta chấp nhận một advertise mới, hoặc khi một liên kết mới được thêm vào (ví dụ: tuyến đường tĩnh mới), hoặc khi một liên kết bị hỏng (ví dụ: tuyến đường bị *poison*).
 
-2.  Gửi quảng cáo định kỳ, một lần mỗi *advertisement interval*.
+2.  Gửi advertise định kỳ, một lần mỗi *advertisement interval*.
 
-3.  Gửi quảng cáo khi một mục trong bảng hết hạn (và được thay thế bằng *poison*).
+3.  Gửi advertise khi một mục trong bảng hết hạn (và được thay thế bằng *poison*).
 
-Lưu ý rằng *triggered updates* là một tối ưu hóa. Thay vì quảng cáo mỗi khi bảng thay đổi, chúng ta có thể chỉ cần đợi đến *advertisement interval* tiếp theo để quảng bá các thay đổi. Giao thức này vẫn sẽ đúng. Tuy nhiên, *triggered updates*, ngoài các cập nhật định kỳ, giúp giao thức của chúng ta hội tụ trên các tuyến đường chính xác nhanh hơn, bởi vì chúng ta lan truyền thông tin mới ngay khi chúng ta biết về nó.
+Lưu ý rằng *triggered updates* là một tối ưu hóa. Thay vì advertise mỗi khi bảng thay đổi, chúng ta có thể chỉ cần đợi đến *advertisement interval* tiếp theo để quảng bá các thay đổi. Giao thức này vẫn sẽ đúng. Tuy nhiên, *triggered updates*, ngoài các cập nhật định kỳ, giúp giao thức của chúng ta hội tụ trên các tuyến đường chính xác nhanh hơn, bởi vì chúng ta lan truyền thông tin mới ngay khi chúng ta biết về nó.

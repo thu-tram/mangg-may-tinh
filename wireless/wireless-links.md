@@ -124,10 +124,6 @@ $$P_r^\text{dB} = P_t^\text{dB} + G_t^\text{dB} + G_r^\text{dB} + 20 \log_{10} \
 
 Mô hình không gian trống là một mô hình lý thuyết hữu ích để đo lường cường độ tín hiệu lý tưởng tại bộ thu, tuy nhiên trên thực tế, các chướng ngại vật vật lý (ví dụ: bề mặt Trái Đất) ngăn cản chúng ta đạt được giá trị lý tưởng này.
 
-Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành kèm giải thích lần đầu xuất hiện và duy trì định dạng Markdown:
-
-
-
 ## **Link Budget** (Ngân sách liên kết)
 
 Nếu tín hiệu yếu dần theo khoảng cách, làm thế nào để biết một liên kết có thực sự hoạt động hay không? Nói cách khác, làm thế nào để biết bộ thu (**receiver**) có thể phát hiện được một tín hiệu đủ rõ ràng để giải mã hay không?

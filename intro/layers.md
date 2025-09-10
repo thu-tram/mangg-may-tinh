@@ -1,6 +1,6 @@
 # Layers of the Internet
 
-Dưới đây là bản dịch tiếng Việt theo đúng quy tắc bạn yêu cầu, giữ nguyên thuật ngữ chuyên ngành khi xuất hiện lần đầu và định dạng Markdown:
+
 
 
 
@@ -147,7 +147,7 @@ Bây giờ, khi đã xem tất cả các tầng, hãy chú ý rằng mỗi tần
 Hai tầng tương tác trực tiếp thông qua **interface** (giao diện) giữa chúng. Không có cách thực tiễn nào để bỏ qua tầng và xây dựng Layer 7 trực tiếp trên Layer 3, chẳng hạn.
 
 **Lưu ý:** Bạn có thể nhận thấy chúng ta đã bỏ qua **Layer 5** và **Layer 6**. Vào những năm 1970, khi mô hình phân tầng được tiêu chuẩn hóa, các nhà thiết kế nghĩ rằng hai tầng này là cần thiết, nhưng trong Internet hiện đại, chúng đã trở nên lỗi thời.  
-- **Session layer (Layer 5)**: dự kiến dùng để tập hợp các flow khác nhau thành một **session** (phiên), ví dụ: tải nhiều hình ảnh và quảng cáo để tạo thành một trang web.  
+- **Session layer (Layer 5)**: dự kiến dùng để tập hợp các flow khác nhau thành một **session** (phiên), ví dụ: tải nhiều hình ảnh và advertise để tạo thành một trang web.  
 - **Presentation layer (Layer 6)**: dự kiến giúp người dùng **visualize** (trực quan hóa) dữ liệu.  
 
 Ngày nay, hầu hết chức năng của hai tầng này được triển khai trong Layer 7.

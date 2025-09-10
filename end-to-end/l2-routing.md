@@ -268,13 +268,13 @@ Khi bạn nhận được một *BPDU*, bạn kiểm tra xem nó có thông tin 
 
 <img width="900px" src="../assets/end-to-end/5-033-bpdu-advertisements.png">
 
-Chi phí đến *root* được tính toán giống như chúng ta đã làm trong *distance-vector protocol (giao thức vector khoảng cách)*. Ví dụ, giả sử hàng xóm của bạn nói với bạn "Root là R2, và tôi có thể đến R2 với chi phí 7." Thì chi phí của bạn đến *root* là chi phí liên kết trực tiếp của bạn đến hàng xóm, cộng với chi phí của hàng xóm đến *root* (như được chỉ định trong quảng cáo).
+Chi phí đến *root* được tính toán giống như chúng ta đã làm trong *distance-vector protocol (giao thức vector khoảng cách)*. Ví dụ, giả sử neighbour của bạn nói với bạn "Root là R2, và tôi có thể đến R2 với chi phí 7." Thì chi phí của bạn đến *root* là chi phí liên kết trực tiếp của bạn đến neighbour, cộng với chi phí của neighbour đến *root* (như được chỉ định trong advertise).
 
-Khi bạn cập nhật trạng thái của mình (bạn nghĩ *root* là ai, hoặc chi phí tốt nhất đã biết của bạn đến *root*), bạn nên gửi một *BPDU* đến các hàng xóm của mình để thông báo cho họ về trạng thái mới của bạn.
+Khi bạn cập nhật trạng thái của mình (bạn nghĩ *root* là ai, hoặc chi phí tốt nhất đã biết của bạn đến *root*), bạn nên gửi một *BPDU* đến các neighbour của mình để thông báo cho họ về trạng thái mới của bạn.
 
 Một khi giao thức hội tụ, trạng thái sẽ cung cấp cho mỗi *switch* đủ thông tin để dán nhãn cho tất cả các *port* của nó. Bạn biết con đường tốt nhất đến *root*, vì vậy bạn có thể dán nhãn cho *port* tương ứng là *root port*.
 
-Các hàng xóm của bạn cũng đã nói cho bạn biết họ cách *root* bao xa. Nếu một hàng xóm nói rằng họ ở xa hơn, thì bạn có thể dán nhãn cho *port* tương ứng là một *designated port*. Nếu một hàng xóm nói rằng họ ở gần hơn (nhưng họ không nằm trên con đường tốt nhất của bạn đến *root*), thì bạn có thể dán nhãn cho *port* tương ứng là một *blocked port*.
+Các neighbour của bạn cũng đã nói cho bạn biết họ cách *root* bao xa. Nếu một neighbour nói rằng họ ở xa hơn, thì bạn có thể dán nhãn cho *port* tương ứng là một *designated port*. Nếu một neighbour nói rằng họ ở gần hơn (nhưng họ không nằm trên con đường tốt nhất của bạn đến *root*), thì bạn có thể dán nhãn cho *port* tương ứng là một *blocked port*.
 
 Các *BPDU* được trao đổi thường xuyên, để nếu *topology* mạng thay đổi, giao thức có thể thích ứng và tìm ra một cây bao trùm (tức là vô hiệu hóa các liên kết) cho *topology* mới.
 
@@ -282,56 +282,56 @@ Các *BPDU* được trao đổi thường xuyên, để nếu *topology* mạng
 
 Các *router* gửi và nhận các trao đổi *BPDU* song song, vì vậy không có một *router* cụ thể nào gửi *BPDU* đầu tiên. Trong ví dụ này, chúng ta sẽ hiển thị một tập hợp con của các *BPDU* được gửi đi.
 
-Trạng thái ban đầu của R3 nói: Root R3 cách 0. Quảng cáo đầu tiên của R3 gửi trạng thái này đến các hàng xóm của nó.
+Trạng thái ban đầu của R3 nói: Root R3 cách 0. Quảng cáo đầu tiên của R3 gửi trạng thái này đến các neighbour của nó.
 
 <img width="800px" src="../assets/end-to-end/5-034-bpdu-exchanges-1.png">
 
-R1 nghe thấy quảng cáo này. R1 hiện đang nghĩ *root* là R1, và quảng cáo cung cấp một *root* là R3. *Root* được quảng cáo tệ hơn (ID cao hơn), vì vậy R1 từ chối quảng cáo này.
+R1 nghe thấy advertise này. R1 hiện đang nghĩ *root* là R1, và advertise cung cấp một *root* là R3. *Root* được advertise tệ hơn (ID cao hơn), vì vậy R1 từ chối advertise này.
 
-R6 nghe thấy quảng cáo này. R6 hiện đang nghĩ *root* là R6, và quảng cáo này cung cấp một *root* là R3. *Root* được quảng cáo tốt hơn, vì vậy R6 chấp nhận quảng cáo này. Trạng thái cập nhật của R6 nói: Root R3 cách 1. Lưu ý: Chi phí được tính từ 0, chi phí trong quảng cáo từ R3, cộng với 1, chi phí của liên kết đến R3.
+R6 nghe thấy advertise này. R6 hiện đang nghĩ *root* là R6, và advertise này cung cấp một *root* là R3. *Root* được advertise tốt hơn, vì vậy R6 chấp nhận advertise này. Trạng thái cập nhật của R6 nói: Root R3 cách 1. Lưu ý: Chi phí được tính từ 0, chi phí trong advertise từ R3, cộng với 1, chi phí của liên kết đến R3.
 
-Tại thời điểm này, R6 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một quảng cáo đến các hàng xóm của mình (không được hiển thị trong bản demo này).
+Tại thời điểm này, R6 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một advertise đến các neighbour của mình (không được hiển thị trong bản demo này).
 
-Một thời gian sau, R1 gửi một quảng cáo đến các hàng xóm của nó với trạng thái của nó: Root R1 cách 0.
+Một thời gian sau, R1 gửi một advertise đến các neighbour của nó với trạng thái của nó: Root R1 cách 0.
 
 <img width="800px" src="../assets/end-to-end/5-035-bpdu-exchanges-2.png">
 
-R2 nghe thấy quảng cáo này. *Root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R2), vì vậy R2 chấp nhận quảng cáo này. Trạng thái cập nhật của R2 nói: Root R1 cách 1.
+R2 nghe thấy advertise này. *Root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R2), vì vậy R2 chấp nhận advertise này. Trạng thái cập nhật của R2 nói: Root R1 cách 1.
 
-Tương tự, R3 nghe thấy quảng cáo này, và chấp nhận nó vì *root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R3). Trạng thái cập nhật của R3 nói: Root R1 cách 1.
+Tương tự, R3 nghe thấy advertise này, và chấp nhận nó vì *root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R3). Trạng thái cập nhật của R3 nói: Root R1 cách 1.
 
-R2 và R3 đã cập nhật trạng thái của chúng, vì vậy mỗi cái sẽ gửi một quảng cáo đến các hàng xóm của chúng.
+R2 và R3 đã cập nhật trạng thái của chúng, vì vậy mỗi cái sẽ gửi một advertise đến các neighbour của chúng.
 
 <img width="900px" src="../assets/end-to-end/5-036-bpdu-exchanges-3.png">
 
-R4 nghe thấy quảng cáo từ R2. *Root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R4), vì vậy R4 chấp nhận quảng cáo này. Trạng thái cập nhật của R4 nói: Root R1 cách 2. Lưu ý: Chi phí này được tính bằng cách cộng 1 (chi phí trong quảng cáo từ R2), cộng với 1 (chi phí liên kết đến R2).
+R4 nghe thấy advertise từ R2. *Root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R4), vì vậy R4 chấp nhận advertise này. Trạng thái cập nhật của R4 nói: Root R1 cách 2. Lưu ý: Chi phí này được tính bằng cách cộng 1 (chi phí trong advertise từ R2), cộng với 1 (chi phí liên kết đến R2).
 
-R6 nghe thấy quảng cáo từ R3. *Root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R3), vì vậy R6 chấp nhận quảng cáo này. Trạng thái cập nhật của R6 nói: Root R1 cách 2. Lưu ý: Trạng thái cũ của R6 nói R3 cách 1, và trạng thái mới nói R1 cách 2. Mặc dù trạng thái mới có khoảng cách cao hơn, nó vẫn tốt hơn vì trạng thái mới có một *root* tốt hơn.
+R6 nghe thấy advertise từ R3. *Root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R3), vì vậy R6 chấp nhận advertise này. Trạng thái cập nhật của R6 nói: Root R1 cách 2. Lưu ý: Trạng thái cũ của R6 nói R3 cách 1, và trạng thái mới nói R1 cách 2. Mặc dù trạng thái mới có khoảng cách cao hơn, nó vẫn tốt hơn vì trạng thái mới có một *root* tốt hơn.
 
-R4 và R6 đã cập nhật trạng thái của mình, vì vậy chúng sẽ gửi quảng cáo đến các hàng xóm của mình với trạng thái cập nhật của mình. Chúng ta sẽ xem quảng cáo của R4 trước, sau đó quay lại R6 sau (một lần nữa, hãy nhớ rằng tất cả những điều này đang diễn ra song song trong thực tế).
+R4 và R6 đã cập nhật trạng thái của mình, vì vậy chúng sẽ gửi advertise đến các neighbour của mình với trạng thái cập nhật của mình. Chúng ta sẽ xem advertise của R4 trước, sau đó quay lại R6 sau (một lần nữa, hãy nhớ rằng tất cả những điều này đang diễn ra song song trong thực tế).
 
 <img width="900px" src="../assets/end-to-end/5-037-bpdu-exchanges-4.png">
 
-R5 nghe thấy quảng cáo từ R4. *Root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R5), vì vậy R5 chấp nhận quảng cáo này. Trạng thái cập nhật của R5 nói: Root R1 cách 3 (2 từ quảng cáo, cộng 1 từ chi phí liên kết đến R4).
+R5 nghe thấy advertise từ R4. *Root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R5), vì vậy R5 chấp nhận advertise này. Trạng thái cập nhật của R5 nói: Root R1 cách 3 (2 từ advertise, cộng 1 từ chi phí liên kết đến R4).
 
-R6 cũng nghe thấy quảng cáo từ R4. *Root* được quảng cáo (R1) giống như *root* hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận quảng cáo sẽ cho chi phí là 2 (từ quảng cáo), cộng với 1 (từ chi phí liên kết đến R4), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 2. Do đó, R6 từ chối quảng cáo (3 tệ hơn 2).
+R6 cũng nghe thấy advertise từ R4. *Root* được advertise (R1) giống như *root* hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận advertise sẽ cho chi phí là 2 (từ advertise), cộng với 1 (từ chi phí liên kết đến R4), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 2. Do đó, R6 từ chối advertise (3 tệ hơn 2).
 
-R5 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một quảng cáo đến các hàng xóm của mình với trạng thái cập nhật của mình.
+R5 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một advertise đến các neighbour của mình với trạng thái cập nhật của mình.
 
 <img width="700px" src="../assets/end-to-end/5-038-bpdu-exchanges-5.png">
 
-R7 nghe thấy quảng cáo từ R5. *Root* được quảng cáo (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R7), vì vậy R7 chấp nhận quảng cáo này.
+R7 nghe thấy advertise từ R5. *Root* được advertise (R1) tốt hơn *root* hiện đang được biết đến tốt nhất (R7), vì vậy R7 chấp nhận advertise này.
 
-R7 đã cập nhật trạng thái của mình, và sẽ gửi một quảng cáo đến các hàng xóm của mình, mặc dù quảng cáo đó không được hiển thị ở đây (R6 sẽ từ chối nó vì có chi phí đến *root* tệ hơn).
+R7 đã cập nhật trạng thái của mình, và sẽ gửi một advertise đến các neighbour của mình, mặc dù advertise đó không được hiển thị ở đây (R6 sẽ từ chối nó vì có chi phí đến *root* tệ hơn).
 
 <img width="700px" src="../assets/end-to-end/5-039-bpdu-exchanges-6.png">
 
-Tiếp nối từ trước đó, R6 gửi một quảng cáo đến các hàng xóm của nó, và R7 nhận được quảng cáo này. *Root* được quảng cáo (R1) giống như *root* hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận quảng cáo sẽ cho chi phí là 2 (từ quảng cáo), cộng với 1 (từ chi phí liên kết đến R6), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 4. Do đó, R7 chấp nhận quảng cáo (3 tốt hơn 4), và cập nhật trạng thái của mình để có chi phí đến *root* là 3 (thay vì 4).
+Tiếp nối từ trước đó, R6 gửi một advertise đến các neighbour của nó, và R7 nhận được advertise này. *Root* được advertise (R1) giống như *root* hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận advertise sẽ cho chi phí là 2 (từ advertise), cộng với 1 (từ chi phí liên kết đến R6), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 4. Do đó, R7 chấp nhận advertise (3 tốt hơn 4), và cập nhật trạng thái của mình để có chi phí đến *root* là 3 (thay vì 4).
 
-Các *router* tiếp tục trao đổi quảng cáo định kỳ với nhau. Không phải tất cả các quảng cáo đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các *router* sẽ biết rằng *root* là R1. Ngoài ra, tất cả các *router* sẽ biết về chi phí của chúng đến *root*.
+Các *router* tiếp tục trao đổi advertise định kỳ với nhau. Không phải tất cả các advertise đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các *router* sẽ biết rằng *root* là R1. Ngoài ra, tất cả các *router* sẽ biết về chi phí của chúng đến *root*.
 
-Các *router* tiếp tục trao đổi quảng cáo định kỳ với nhau. Không phải tất cả các quảng cáo đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các *router* sẽ biết rằng *root* là R1. Ngoài ra, tất cả các *router* sẽ biết về chi phí của chúng đến *root*.
+Các *router* tiếp tục trao đổi advertise định kỳ với nhau. Không phải tất cả các advertise đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các *router* sẽ biết rằng *root* là R1. Ngoài ra, tất cả các *router* sẽ biết về chi phí của chúng đến *root*.
 
 <img width="900px" src="../assets/end-to-end/5-040-bpdu-exchanges-7.png">
 
-Một khi tất cả các *router* biết chi phí của chúng đến *root* đã được thống nhất, chúng có thể trao đổi các quảng cáo định kỳ. Điều này cho phép các *router* tìm hiểu về giá trị chi phí đến *root* của các hàng xóm, điều này lần lượt cho phép các *router* gán các *port* là DP, RP, hoặc BP.
+Một khi tất cả các *router* biết chi phí của chúng đến *root* đã được thống nhất, chúng có thể trao đổi các advertise định kỳ. Điều này cho phép các *router* tìm hiểu về giá trị chi phí đến *root* của các neighbour, điều này lần lượt cho phép các *router* gán các *port* là DP, RP, hoặc BP.

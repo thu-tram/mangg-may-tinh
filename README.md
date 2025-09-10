@@ -1,10 +1,11 @@
 # Mạng máy tính: Kiến trúc và giao thức
 
-Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, ChatGPT, MS Copilot, Grok, AIStudio...), nhưng mà vẫn chưa soát hết.
+Bản dịch đã được hoàn thiện (Đội ơn Gemini, ChatGPT, MS Copilot, Grok, AIStudio...), nhưng mà vẫn chưa soát lại hết (+ lọc khá nhiều chỗ vẫn chưa hay).
 
 ## Mục lục
 
 ### Introduction
+
 - [Giới thiệu về Internet](intro/intro.md)
 - [Các Layer của Internet](intro/layers.md)
 - [Headers](intro/headers.md)
@@ -13,6 +14,7 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [Links](intro/links.md)
 
 ### Routing
+
 - [Introduction to Routing](routing/intro.md)
 - [Model for Intra-Domain Routing](routing/model.md)
 - [Routing States](routing/solutions.md)
@@ -26,6 +28,7 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [IP Header](routing/ip-header.md)
 
 ### Transport
+
 - [Transport Layer Principles](transport/reliability.md)
 - [TCP Design](transport/tcp-design.md)
 - [TCP Implementation](transport/tcp-implementation.md)
@@ -37,10 +40,12 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [Router-Assisted Congestion Control](transport/router-based-cc.md)
 
 ### Applications
+
 - [DNS](applications/dns.md)
 - [HTTP](applications/http.md)
 
 ### End-to-End
+
 - [Ethernet](end-to-end/ethernet.md)
 - [Layer 2 Routing (STP)](end-to-end/l2-routing.md)
 - [ARP: Connecting Layers 2 and 3](end-to-end/arp.md)
@@ -50,6 +55,7 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [End-to-End Connectivity](end-to-end/end-to-end.md)
 
 ### Datacenters
+
 - [Topologies](datacenter/topology.md)
 - [Congestion Control](datacenter/datacenter-cc.md)
 - [Routing](datacenter/datacenter-routing.md)
@@ -59,6 +65,7 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [Host Networking](datacenter/host-networking.md)
 
 ### Beyond Client-Server
+
 - [Multicast](beyond-client-server/intro.md)
 - [IP Multicast](beyond-client-server/ip-multicast-service-model.md)
 - [DVMRP](beyond-client-server/dvmrp.md)
@@ -69,14 +76,15 @@ Bản dịch Tiếng Việt đã được dịch xong rồi (Đội ơn Gemini, 
 - [Collective Implementations](beyond-client-server/collective-implementations.md)
 
 ### Wireless
+
 - [Wireless Links](wireless/wireless-links.md)
 - [Cellular](wireless/cellular.md)
 
 ### Glossary
+
 - [Glossary](glossary.md)
 
-
-## Phần mở đầu gốc 
+## Phần mở đầu gốc
 
 _By [Peyrin Kao](https://peyrin.github.io), based on lectures by [Sylvia Ratnasamy](https://www2.eecs.berkeley.edu/Faculty/Homepages/ratnasamy.html), [Rob Shakir](https://rob.sh/), and others._
 
@@ -88,18 +96,15 @@ Here is the official course description:
 This course is an introduction to the Internet architecture. We will focus on the concepts and fundamental design principles that have contributed to the Internet's scalability and robustness and survey the various protocols and algorithms used within this architecture. Topics include layering, addressing, intradomain routing, interdomain routing, reliable delivery, congestion control, and the core protocols (e.g., TCP, UDP, IP, DNS, and HTTP) and network technologies (e.g., Ethernet, wireless).
 </p>
 
-
 ## Disclaimer: Beta
 
 These notes have not been proofread. They likely contain errors.
 
 If you're a CS 168 student at Berkeley, in any case of dispute, the official course lectures are the correct source of truth.
 
-
 ## Diagrams
 
 [Slideshow versions of these notes with diagrams are available here.](https://drive.google.com/drive/folders/13RnAGH1OrsOVvXdmQC73WkmoVD9r5lzd)
-
 
 ## PDF Version
 
@@ -107,18 +112,15 @@ If you're a CS 168 student at Berkeley, in any case of dispute, the official cou
 
 The PDF version is not always up-to-date. It was last updated in November 2024.
 
-
 ## Corrections
 
 As of the Fall 2024 semester, this textbook is still being actively maintained and updated.
 
 If you see any parts that needs to be corrected, please open a Github issue [here](https://github.com/berkeley-cs168/textbook/issues).
 
-
 ## Source and Changelog
 
 The source for the textbook and a log of all changes is [available on Github](https://github.com/berkeley-cs168/textbook).
-
 
 ## License
 

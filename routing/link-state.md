@@ -142,7 +142,7 @@ Một số ưu và nhược điểm của các giao thức *link-state* so với
 
 Trong *distance-vector*, khi chúng ta nhận được một thông báo, chúng ta không nhất thiết biết tất cả các chi tiết về đường đi mà chúng ta đang chấp nhận. Chúng ta phải tin vào bất cứ điều gì mà láng giềng của chúng ta tuyên bố trong thông báo. Ngược lại, trong *link-state*, chúng ta biết toàn bộ *topology* của đồ thị, vì vậy chúng ta biết nhiều hơn về các đường đi mà các gói tin đang đi.
 
-Tùy thuộc vào việc triển khai, *distance-vector* có thể chậm hơn để *converge*. Nếu mạng thay đổi, chúng ta phải đợi láng giềng của mình tính toán lại và quảng cáo lại một đường đi, trước khi chúng ta có thể cập nhật *forwarding table* của mình. Sau đó, tất cả các láng giềng của chúng ta phải đợi chúng ta, và cứ thế tiếp tục. Ngược lại, trong *link-state*, mọi người có thể nhanh chóng *flooding* thông tin mới và tính toán lại cùng một lúc.
+Tùy thuộc vào việc triển khai, *distance-vector* có thể chậm hơn để *converge*. Nếu mạng thay đổi, chúng ta phải đợi láng giềng của mình tính toán lại và advertise lại một đường đi, trước khi chúng ta có thể cập nhật *forwarding table* của mình. Sau đó, tất cả các láng giềng của chúng ta phải đợi chúng ta, và cứ thế tiếp tục. Ngược lại, trong *link-state*, mọi người có thể nhanh chóng *flooding* thông tin mới và tính toán lại cùng một lúc.
 
 Các giao thức *link-state* tốt cho các mạng cục bộ nhỏ, nhưng không mở rộng tốt cho Internet toàn cầu. Cụ thể, *link-state* yêu cầu mọi *router* phải biết về toàn bộ mạng. Trên Internet toàn cầu, các nhà khai thác có thể không muốn tiết lộ *network topology* của họ (ví dụ: vị trí của các *router* của họ, *bandwidth* của các liên kết của họ) cho các đối thủ cạnh tranh.
 

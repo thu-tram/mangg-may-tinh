@@ -42,9 +42,9 @@ Hãy nhớ rằng các quảng bá lan truyền ra ngoài từ đích, và các 
 
 <img width="900px" src="../assets/routing/2-154-import-policy.png">
 
-Trong giao thức *distance-vector*, khi tôi nhận được một thông báo và cài đặt một tuyến đường mới, tôi luôn thông báo tuyến đường mới này cho tất cả các hàng xóm của mình.
+Trong giao thức *distance-vector*, khi tôi nhận được một thông báo và cài đặt một tuyến đường mới, tôi luôn thông báo tuyến đường mới này cho tất cả các neighbour của mình.
 
-Bây giờ các *AS* có *policy* riêng, chúng có thể chọn có muốn tham gia vào một tuyến đường hay không. Nếu một *AS* có một tuyến đường mà nó có thể không thích, nó có thể chọn không *export* tuyến đường đó cho một số hàng xóm nhất định.
+Bây giờ các *AS* có *policy* riêng, chúng có thể chọn có muốn tham gia vào một tuyến đường hay không. Nếu một *AS* có một tuyến đường mà nó có thể không thích, nó có thể chọn không *export* tuyến đường đó cho một số neighbour nhất định.
 
 Ví dụ, giả sử *policy* của tôi là tôi không muốn mang lưu lượng của C. Điều này có thể là do lý do tiền tệ, hoặc có thể là một quyết định *policy* khác của tôi. Khi tôi chấp nhận một quảng bá và cài đặt một tuyến đường, sẽ không sao nếu tôi không quảng bá tuyến đường đó cho C.
 
@@ -66,7 +66,7 @@ Khi *importing* các tuyến đường, *Gao-Rexford rules* nói rằng *AS* ưu
 
 Trong thực tế, các *AS* cũng triển khai thêm các quy tắc phá vỡ thế cân bằng ngoài *Gao-Rexford rules*. Ví dụ, nếu tôi nhận được quảng bá từ hai *customer*, tôi cần một số quy tắc phá vỡ thế cân bằng bổ sung để ưu tiên một trong số họ. Hiệu suất là một quy tắc phá vỡ thế cân bằng phổ biến, trong đó chúng ta chọn các tuyến đường có *bandwidth* cao hơn hoặc đường đi ngắn hơn.
 
-Dựa trên *Gao-Rexford rules*, chúng ta nên *export* các đường đi như thế nào? Hãy nhớ lại rằng một *AS* đồng ý tham gia vào một tuyến đường nếu ít nhất một hàng xóm là một *customer*. Do đó, *AS* chỉ nên quảng bá các tuyến đường nếu tuyến đường kết quả, nếu được chấp nhận, có một hàng xóm ở một phía.
+Dựa trên *Gao-Rexford rules*, chúng ta nên *export* các đường đi như thế nào? Hãy nhớ lại rằng một *AS* đồng ý tham gia vào một tuyến đường nếu ít nhất một neighbour là một *customer*. Do đó, *AS* chỉ nên quảng bá các tuyến đường nếu tuyến đường kết quả, nếu được chấp nhận, có một neighbour ở một phía.
 
 Hãy xem xét tất cả các trường hợp cụ thể.
 

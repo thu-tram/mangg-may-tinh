@@ -72,7 +72,7 @@ Có nhiều topology khác nhau để kết nối giữa các rack, nhưng trong
 
 <img width="900px" src="../assets/beyond-client-server/7-067-clos-with-gpus.png">
 
-Ngoài ra còn có các topology khác. TPU được tích hợp sẵn **router** trên chip, nên có thể kết nối trực tiếp TPU vào mạng mà không cần switch. Một topology phổ biến với TPU là kết nối chúng thành **3D torus** (khối lập phương 3D có các cạnh nối vòng). Ví dụ: nếu bạn đi tới đỉnh của khối lập phương và tiếp tục theo liên kết hướng lên, bạn sẽ quay lại đáy khối; hoặc nếu bạn đi tới mặt trước và tiếp tục theo liên kết hướng ra trước, bạn sẽ quay lại mặt sau. Giống như topology Clos, một số cặp node sẽ gần nhau (ví dụ: hàng xóm trực tiếp), trong khi các cặp khác sẽ xa hơn (ví dụ: cách nhau nhiều hop).
+Ngoài ra còn có các topology khác. TPU được tích hợp sẵn **router** trên chip, nên có thể kết nối trực tiếp TPU vào mạng mà không cần switch. Một topology phổ biến với TPU là kết nối chúng thành **3D torus** (khối lập phương 3D có các cạnh nối vòng). Ví dụ: nếu bạn đi tới đỉnh của khối lập phương và tiếp tục theo liên kết hướng lên, bạn sẽ quay lại đáy khối; hoặc nếu bạn đi tới mặt trước và tiếp tục theo liên kết hướng ra trước, bạn sẽ quay lại mặt sau. Giống như topology Clos, một số cặp node sẽ gần nhau (ví dụ: neighbour trực tiếp), trong khi các cặp khác sẽ xa hơn (ví dụ: cách nhau nhiều hop).
 
 <img width="400px" src="../assets/beyond-client-server/7-068-2d-torus.png">
 
