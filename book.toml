@@ -1,0 +1,12 @@
+[book]
+authors = ["duykhanh471"]
+language = "vi"
+multilingual = false
+src = "src"
+title = "Mạngg máy tính - Thư trạm"
+
+[build]
+build-dir = "public"
+
+[output.html]
+git-repository-url = "https://github.com/thu-tram/mangg-may-tinh/"
