@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Multicast - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html" class="active"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="multicast"><a class="header" href="#multicast"><strong>Multicast</strong></a></h1>
+<h2 id="Động-lực-multicast-motivation-multicast"><a class="header" href="#Động-lực-multicast-motivation-multicast"><strong>Động lực: Multicast</strong> (Motivation: Multicast)</a></h2>
+<p>Trong tất cả các chủ đề mà chúng ta đã tìm hiểu cho đến nay, chúng ta đều nói rằng mục tiêu của Internet là truyền dữ liệu giữa các <strong>host</strong> (máy chủ/máy trạm). Đặc biệt, chúng ta đã giả định mô hình truyền <strong>unicast</strong> (truyền đơn hướng), nghĩa là có một nguồn duy nhất gửi dữ liệu tới một đích duy nhất.</p>
+<p>Nhiều giao thức mà chúng ta đã thấy (ví dụ: <strong>HTTP</strong>, <strong>DNS</strong>, <strong>TCP</strong>, <strong>TLS</strong>) dựa trên mô hình <strong>client-server</strong> (máy khách – máy chủ), vốn dựa trên mô hình truyền unicast. Trong mô hình client-server, có một client và một server trao đổi dữ liệu, điều này ngụ ý rằng chúng đang gửi dữ liệu unicast cho nhau.</p>
+<p>Phần lớn lưu lượng trên Internet thực sự là unicast, nhưng vẫn có một số ngoại lệ. Đặc biệt, một số ứng dụng liên quan đến việc giao tiếp theo nhóm giữa các host. Ví dụ: một trò chơi nhiều người chơi (<strong>multi-player game</strong>), một ứng dụng truyền nội dung trực tiếp (<strong>live content delivery app</strong>, ví dụ: họp trực tuyến qua Zoom, phát trực tiếp một trận đấu thể thao), hoặc một tài liệu cộng tác (ví dụ: Google Docs). Cũng có những ứng dụng nhóm đặc thù hơn, như <strong>discovery</strong> (tìm kiếm thiết bị, ví dụ: gửi một thông điệp tới tất cả thiết bị Apple để tìm loa gần nhất), hoặc huấn luyện AI (chúng ta sẽ nghiên cứu phần này sau).</p>
+<p>Mô hình client-server không phải là cách tự nhiên nhất để hình dung các tình huống này. Trong một trò chơi nhiều người chơi hoặc một ứng dụng hội nghị truyền hình, không tồn tại một client hoặc một server duy nhất. Vậy mạng nên hỗ trợ các ứng dụng này như thế nào để giúp lập trình viên dễ dàng phát triển chúng hơn?</p>
+<p>Một câu trả lời khả dĩ là: Mạng <strong>không cần</strong> hỗ trợ gì cả. Giao tiếp nhóm có thể được triển khai bằng unicast. Ví dụ: khi bạn cập nhật một tài liệu cộng tác, bạn có thể gửi một gói tin unicast riêng tới từng thành viên khác trong nhóm để họ biết về bản cập nhật của bạn.</p>
+<img width="500px" src="../assets/beyond-client-server/7-001-unicast-model.png">
+<p>Tuy nhiên, cách tiếp cận chỉ dùng unicast này có thể kém hiệu quả. Xét ví dụ topology mạng, trong đó bạn ở Mỹ và tất cả các thành viên khác của nhóm ở châu Âu. Nếu bạn gửi các gói tin unicast riêng tới từng thành viên, bạn đang gửi nhiều bản sao trùng lặp của dữ liệu qua tuyến cáp quang biển đắt đỏ. Ngoài ra, điều này buộc bên gửi phải gửi nhiều gói tin unicast trùng lặp, dẫn đến khả năng mở rộng kém (ví dụ: tưởng tượng một server duy nhất phát trực tiếp một trận đấu thể thao cho hàng triệu người dùng).</p>
+<p>Một cách tiếp cận tự nhiên hơn là chỉ gửi <strong>một</strong> gói tin qua tuyến cáp biển, sau đó để một thiết bị ở châu Âu (ví dụ: một <strong>router</strong> hoặc một host) phân phối bản sao gói tin đó tới các thành viên trong nhóm. Lý tưởng nhất, chúng ta muốn tránh gửi các bản sao trùng lặp của một gói tin trên cùng một liên kết. Nói cách khác, mỗi liên kết chỉ nên mang gói tin đó <strong>một lần</strong> (hoặc không mang, nếu không có thành viên nhóm nào ở phía đó).</p>
+<img width="500px" src="../assets/beyond-client-server/7-002-multicast-model.png">
+<p>Cách tiếp cận này đòi hỏi mạng phải có hỗ trợ bổ sung và cần phát triển một số giao thức mới.</p>
+<h2 id="Định-nghĩa-multicast-multicast-definitions"><a class="header" href="#Định-nghĩa-multicast-multicast-definitions"><strong>Định nghĩa Multicast</strong> (Multicast Definitions)</a></h2>
+<p>Hãy nhớ rằng chúng ta đã thấy bốn mô hình truyền gói tin cho đến nay:</p>
+<ul>
+<li><strong>Unicast:</strong> Gửi gói tin tới đúng một đích duy nhất.</li>
+<li><strong>Anycast:</strong> Gửi gói tin tới một trong số các đích có thể. Chỉ cần một thành viên trong tập đích nhận được gói tin.</li>
+<li><strong>Broadcast:</strong> Gửi gói tin tới tất cả các đích. Định nghĩa “tất cả” phụ thuộc vào ngữ cảnh, nhưng bạn có thể hình dung là tất cả host trong một mạng cục bộ.</li>
+<li><strong>Multicast:</strong> Gửi gói tin tới tất cả các thành viên trong một nhóm. Host có thể tham gia/rời nhóm bất kỳ lúc nào. Lưu ý rằng bạn có thể gửi gói tin tới một nhóm ngay cả khi bạn không phải là thành viên của nhóm đó.</li>
+</ul>
+<img width="900px" src="../assets/beyond-client-server/7-003-uni-any-multi-broadcast.png">
+<p>Mô hình multicast có thể được sử dụng để giải quyết các vấn đề giao tiếp nhóm đã nêu ở trên. Ví dụ: tất cả host quan tâm đến việc nhận phát trực tiếp một trận đấu thể thao có thể tham gia vào một <strong>multicast group</strong>. Sau đó, dịch vụ phát trực tiếp có thể gửi gói tin multicast tới toàn bộ nhóm.</p>
+<p>Một ví dụ khác: nếu muốn dùng multicast cho mục đích discovery, chúng ta có thể để tất cả máy in trong tòa nhà tham gia vào một multicast group. Khi đó, người dùng có thể gửi gói tin multicast tới toàn nhóm để tìm các máy in mà họ có thể sử dụng.</p>
+<h2 id="ip-multicast-và-overlay-multicast-ip-vs-overlay-multicast"><a class="header" href="#ip-multicast-và-overlay-multicast-ip-vs-overlay-multicast"><strong>IP Multicast và Overlay Multicast</strong> (IP vs. Overlay Multicast)</a></h2>
+<p>Một cuộc tranh luận lâu dài trong lịch sử multicast là câu hỏi về kiến trúc: <strong>Chúng ta nên triển khai multicast ở tầng nào?</strong></p>
+<ul>
+<li>
+<p>Một lựa chọn là triển khai multicast ở <strong>Layer 3</strong>, đôi khi gọi là <strong>IP multicast</strong>. Trong cách tiếp cận này, chúng ta bổ sung hỗ trợ chuyên biệt cho các router để chúng hiểu cách gửi gói tin multicast. Cách này cho hiệu năng tốt hơn, nhưng khó triển khai hơn.</p>
+</li>
+<li>
+<p>Lựa chọn khác là triển khai multicast ở <strong>Layer 7</strong>, đôi khi gọi là <strong>overlay multicast</strong>. Trong cách tiếp cận này, ứng dụng sẽ xử lý toàn bộ chức năng multicast. Cách này giữ nguyên Layer 3, nên các router chỉ cần hiểu unicast. Cách này cho hiệu năng kém hơn, nhưng dễ triển khai hơn.</p>
+</li>
+</ul>
+<p>Không có lựa chọn nào là tuyệt đối tốt hơn. Chúng ta sẽ nghiên cứu cả hai cách và phân tích các đánh đổi giữa chúng.</p>
+<img width="500px" src="../assets/beyond-client-server/7-004-multicast-taxonomy.png">
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datacenter/host-networking.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../beyond-client-server/ip-multicast-service-model.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datacenter/host-networking.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../beyond-client-server/ip-multicast-service-model.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

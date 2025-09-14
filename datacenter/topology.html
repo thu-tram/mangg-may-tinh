@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Topologies - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html" class="active"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="datacenter-topology-cấu-trúc-liên-kết-mạng-của-trung-tâm-dữ-liệu"><a class="header" href="#datacenter-topology-cấu-trúc-liên-kết-mạng-của-trung-tâm-dữ-liệu">Datacenter Topology (Cấu trúc liên kết mạng của Trung tâm dữ liệu)</a></h1>
+<h2 id="datacenter-là-gì"><a class="header" href="#datacenter-là-gì">Datacenter là gì?</a></h2>
+<p>Cho đến nay, trong mô hình Internet của chúng ta, chúng ta đã thấy các <em>end hosts</em> (thiết bị đầu cuối) gửi các gói tin cho nhau. <em>End host</em> có thể là một <em>client machine</em> (máy khách) (ví dụ: máy tính cá nhân của bạn), hoặc một <em>server</em> (máy chủ) (ví dụ: YouTube). Nhưng, liệu YouTube có thực sự là một cỗ máy duy nhất trên Internet phục vụ video cho toàn thế giới không?</p>
+<img width="800px" src="../assets/datacenter/6-001-single-server.png">
+<p>Thực tế, YouTube là cả một tòa nhà gồm các máy móc được kết nối với nhau, hoạt động cùng nhau để phục vụ video cho người dùng. Tất cả những cỗ máy này đều nằm trong cùng một <em>local network</em> (mạng cục bộ) và có thể giao tiếp với nhau để hoàn thành các yêu cầu (ví dụ: nếu video bạn yêu cầu được lưu trữ trên nhiều máy khác nhau).</p>
+<img width="800px" src="../assets/datacenter/6-002-many-servers.png">
+<p>Hãy nhớ lại rằng trong mô hình mạng-của-các-mạng của Internet, mỗi nhà khai thác đều có quyền tự do quản lý <em>local network</em> của mình theo cách họ muốn. Trong phần này, chúng ta sẽ tập trung vào các <em>local networks</em> dành riêng cho việc kết nối các <em>servers</em> bên trong một <em>Datacenter</em> (Trung tâm dữ liệu) (trái ngược với việc kết nối người dùng như máy tính cá nhân của bạn). Chúng ta sẽ nói về những thách thức riêng biệt của các <em>local networks</em> này, và các giải pháp chuyên biệt cho các vấn đề mạng (ví dụ: <em>congestion control</em> (kiểm soát tắc nghẽn) và <em>routing</em> (định tuyến)) được thiết kế đặc biệt để hoạt động tốt trong bối cảnh <em>Datacenter</em>.</p>
+<p>Trong thực tế, một <em>Datacenter</em> được đặt tại một địa điểm vật lý, thường là trên các khu đất chuyên dụng. Ngoài cơ sở hạ tầng tính toán (ví dụ: <em>servers</em>), <em>Datacenters</em> còn cần cơ sở hạ tầng hỗ trợ như hệ thống làm mát và nguồn điện, mặc dù chúng ta sẽ chỉ tập trung vào <em>local network</em> kết nối các <em>servers</em>.</p>
+<p><em>Datacenters</em> phục vụ các ứng dụng (ví dụ: video YouTube, kết quả tìm kiếm Google, v.v.). Đây là cơ sở hạ tầng cho các <em>end hosts</em> mà bạn có thể muốn kết nối. Lưu ý rằng điều này khác với cơ sở hạ tầng Internet mà chúng ta đã thấy trước đây. Trước đó, chúng ta đã thấy <em>carrier hotels</em> (khách sạn viễn thông, nơi các mạng kết nối với nhau), những tòa nhà nơi rất nhiều mạng (thuộc sở hữu của các công ty khác nhau) kết nối với nhau bằng các <em>routers</em> (bộ định tuyến) hạng nặng. Đây là cơ sở hạ tầng cho các <em>routers</em> chuyển tiếp các gói tin của bạn đến nhiều đích khác nhau, nhưng các ứng dụng thường không được lưu trữ tại <em>carrier hotels</em>.</p>
+<p>Một <em>Datacenter</em> thường thuộc sở hữu của một tổ chức duy nhất (ví dụ: Google, Amazon), và tổ chức đó có thể lưu trữ nhiều ứng dụng khác nhau (ví dụ: Gmail, YouTube, v.v.) trong một <em>Datacenter</em> duy nhất. Điều này có nghĩa là tổ chức đó có toàn quyền kiểm soát cơ sở hạ tầng mạng bên trong <em>local network</em> của <em>Datacenter</em>.</p>
+<p>Trọng tâm của chúng ta là các <em>Datacenters</em> siêu quy mô hiện đại, được vận hành bởi các gã khổng lồ công nghệ như Google và Amazon. Quy mô lớn mang lại một số thách thức độc đáo, nhưng các khái niệm chúng ta sẽ tìm hiểu cũng hoạt động ở quy mô nhỏ hơn.</p>
+<img width="900px" src="../assets/datacenter/6-003-wan1.png">
+<p>Bản đồ này cho thấy <em>wide area network (WAN)</em> (mạng diện rộng) của tất cả các mạng do một gã khổng lồ công nghệ như Google sở hữu.</p>
+<p>Các <em>peering locations</em> (địa điểm ngang hàng) kết nối Google với phần còn lại của Internet. Chúng chủ yếu bao gồm các <em>routers</em> do Google vận hành kết nối với các <em>autonomous systems</em> (hệ thống tự trị) khác.</p>
+<img width="900px" class="real-photo" src="../assets/datacenter/6-004-peering.png">
+<p>Ngoài các <em>peering locations</em>, Google cũng vận hành nhiều <em>Datacenters</em>. Các ứng dụng trong <em>Datacenters</em> có thể giao tiếp với phần còn lại của Internet thông qua các <em>peering locations</em>. Các <em>Datacenters</em> và <em>peering locations</em> đều được kết nối thông qua các <em>routers</em> và <em>links</em> (liên kết) do Google quản lý trong <em>WAN</em> của Google.</p>
+<img width="900px" class="real-photo" src="../assets/datacenter/6-005-datacenter-irl1.png">
+<p><em>Datacenters</em> và <em>peering locations</em> tối ưu hóa cho các mục tiêu hiệu suất khác nhau, vì vậy chúng thường được đặt ở những vị trí vật lý khác nhau.</p>
+<p><em>Peering locations</em> quan tâm đến việc ở gần các công ty và mạng lưới khác về mặt vật lý. Do đó, <em>carrier hotels</em> thường được đặt tại các thành phố để gần gũi hơn với khách hàng và các công ty khác.</p>
+<p>Ngược lại, <em>Datacenters</em> ít quan tâm hơn đến việc ở gần các công ty khác, và thay vào đó ưu tiên các yêu cầu như không gian vật lý, điện năng và làm mát. Do đó, <em>Datacenters</em> thường được đặt ở những khu vực ít dân cư hơn, đôi khi gần một con sông (để làm mát) hoặc một trạm điện (<em>Datacenters</em> có thể cần lượng điện năng gấp hàng trăm lần so với <em>peering locations</em>).</p>
+<img width="800px" class="real-photo" src="../assets/datacenter/6-006-datacenter-irl2.png">
+<h2 id="tại-sao-datacenter-lại-khác-biệt"><a class="header" href="#tại-sao-datacenter-lại-khác-biệt">Tại sao Datacenter lại khác biệt?</a></h2>
+<p>Điều gì làm cho <em>local network</em> của một <em>Datacenter</em> khác biệt so với các mạng đa dụng (mạng diện rộng) trên phần còn lại của Internet?</p>
+<p>Mạng <em>Datacenter</em> được điều hành bởi một tổ chức duy nhất, điều này cho phép chúng ta kiểm soát nhiều hơn đối với mạng và các <em>hosts</em> (máy chủ/thiết bị). Không giống như trên Internet đa dụng, chúng ta có thể chạy phần cứng hoặc phần mềm tùy chỉnh của riêng mình, và chúng ta có thể thực thi rằng mọi máy đều tuân theo cùng một giao thức tùy chỉnh.</p>
+<p><em>Datacenters</em> thường đồng nhất, nơi mọi <em>server</em> và <em>switch</em> (bộ chuyển mạch) đều được xây dựng và vận hành hoàn toàn giống nhau. Không giống như trên Internet đa dụng, chúng ta không phải xem xét một số <em>links</em> là không dây, và một số khác là có dây. Trên Internet đa dụng, một số máy tính có thể mới hơn những máy khác, nhưng trong một <em>Datacenter</em>, mọi máy tính thường thuộc cùng một thế hệ, và toàn bộ <em>Datacenter</em> được nâng cấp cùng một lúc.</p>
+<p>Mạng <em>Datacenter</em> tồn tại ở một địa điểm vật lý duy nhất, vì vậy chúng ta không cần phải nghĩ về các <em>links</em> đường dài như cáp ngầm dưới biển. Trong một địa điểm duy nhất đó, chúng ta phải hỗ trợ <em>bandwidth</em> (băng thông) cực kỳ cao.</p>
+<h2 id="các-mẫu-lưu-lượng-trong-datacenter"><a class="header" href="#các-mẫu-lưu-lượng-trong-datacenter">Các Mẫu Lưu lượng trong Datacenter</a></h2>
+<p>Khi bạn gửi một yêu cầu đến một ứng dụng trong <em>Datacenter</em>, gói tin của bạn di chuyển qua các <em>routers</em> trên Internet đa dụng, cuối cùng đến được <em>router</em> do Google vận hành. <em>Router</em> đó chuyển tiếp gói tin của bạn đến một trong các <em>edge routers</em> (router biên) của <em>Datacenter</em>, sau đó <em>edge router</em> này sẽ chuyển tiếp gói tin của bạn đến một <em>server</em> riêng lẻ nào đó trong <em>Datacenter</em>.</p>
+<p>Một <em>server</em> này có lẽ không có đủ tất cả thông tin để xử lý yêu cầu của bạn. Ví dụ, nếu bạn yêu cầu một bảng tin Facebook, các <em>servers</em> khác nhau có thể cần phải làm việc cùng nhau để kết hợp advertise, hình ảnh, bài đăng, v.v. Sẽ không thực tế nếu mọi <em>server</em> đều phải biết mọi thứ về Facebook để tự mình xử lý yêu cầu của bạn.</p>
+<p>Để các <em>servers</em> khác nhau có thể phối hợp, <em>server</em> đầu tiên sẽ kích hoạt nhiều yêu cầu backend để thu thập tất cả thông tin cần thiết cho yêu cầu của bạn. Một yêu cầu duy nhất của người dùng có thể kích hoạt hàng trăm yêu cầu backend (trung bình là 521, theo một bài báo của Facebook năm 2013) trước khi phản hồi có thể được gửi lại cho người dùng. Nhìn chung, lưu lượng backend giữa các <em>servers</em> lớn hơn đáng kể, và lưu lượng bên ngoài với người dùng rất nhỏ khi so sánh.</p>
+<img width="900px" src="../assets/datacenter/6-007-nsew-traffic1.png">
+<p>Hầu hết các ứng dụng hiện đại đều bị chi phối bởi lưu lượng nội bộ giữa các máy. Ví dụ, nếu bạn chạy một chương trình phân tán như mapreduce, các <em>servers</em> khác nhau cần phải giao tiếp với nhau để cùng giải quyết truy vấn lớn của bạn. Một số ứng dụng thậm chí có thể không có lưu lượng mạng hướng tới người dùng nào cả. Ví dụ, Google có thể chạy các bản sao lưu định kỳ, đòi hỏi các <em>servers</em> phải giao tiếp với nhau, nhưng không tạo ra kết quả nào có thể thấy được cho người dùng cuối.</p>
+<p>Các kết nối đi ra ngoài mạng (ví dụ: đến người dùng cuối hoặc các <em>Datacenters</em> khác) được mô tả là <em>north-south traffic</em> (lưu lượng bắc-nam). Ngược lại, các kết nối giữa các máy bên trong mạng được mô tả là <em>east-west traffic</em> (lưu lượng đông-tây). <em>East-west traffic</em> lớn hơn <em>north-south traffic</em> vài bậc độ lớn, và khối lượng của <em>east-west traffic</em> đang tăng lên trong những năm gần đây (ví dụ: với sự phát triển của học máy).</p>
+<img width="300px" src="../assets/datacenter/6-008-nsew-traffic2.png">
+<h2 id="racks-giá-đỡ"><a class="header" href="#racks-giá-đỡ">Racks (Giá đỡ)</a></h2>
+<p>Về cơ bản, một <em>Datacenter</em> bao gồm rất nhiều <em>servers</em>. Các <em>servers</em> được tổ chức trong các <em>racks</em> (giá đỡ) vật lý, mỗi <em>rack</em> có 40-48 đơn vị rack (khe cắm), và mỗi đơn vị rack có thể chứa 1-2 <em>servers</em>.</p>
+<img width="500px" class="real-photo" src="../assets/datacenter/6-009-rack1.png">
+<p>Chúng ta muốn tất cả các <em>servers</em> trong <em>Datacenter</em> có thể giao tiếp với nhau, vì vậy chúng ta cần xây dựng một mạng lưới để kết nối tất cả chúng lại. Mạng lưới này trông như thế nào? Làm thế nào để chúng ta lắp đặt các <em>links</em> và <em>switches</em> một cách hiệu quả để đáp ứng các yêu cầu của mình?</p>
+<p>Đầu tiên, chúng ta có thể kết nối tất cả các <em>servers</em> trong cùng một <em>rack</em>. Mỗi <em>rack</em> có một <em>switch</em> duy nhất được gọi là <em>top-of-rack (TOR) switch</em> (switch đỉnh giá), và mọi <em>server</em> trong <em>rack</em> đều có một <em>link</em> (được gọi là <em>access link</em> (liên kết truy cập) hoặc <em>uplink</em> (đường lên)) kết nối đến <em>switch</em> đó. <em>TOR</em> là một <em>router</em> tương đối nhỏ, với một chip chuyển tiếp duy nhất, và các cổng vật lý kết nối với tất cả các <em>servers</em> trên <em>rack</em>. Mỗi <em>uplink</em> của <em>server</em> thường có dung lượng khoảng 100 Gbps.</p>
+<img width="500px" class="real-photo" src="../assets/datacenter/6-010-rack2.png">
+<p>Tiếp theo, chúng ta phải suy nghĩ về cách kết nối các <em>racks</em> với nhau. Lý tưởng nhất, chúng ta muốn mọi <em>server</em> có thể nói chuyện với mọi <em>server</em> khác ở <em>line rate</em> (tốc độ tối đa của đường truyền) của chúng (tức là sử dụng toàn bộ <em>bandwidth</em> của <em>uplink</em>).</p>
+<img width="500px" src="../assets/datacenter/6-011-rack3.png">
+<h2 id="bisection-bandwidth-băng-thông-chia-đôi"><a class="header" href="#bisection-bandwidth-băng-thông-chia-đôi">Bisection Bandwidth (Băng thông chia đôi)</a></h2>
+<p>Trước khi nghĩ về cách kết nối các <em>racks</em>, hãy phát triển một thước đo về mức độ kết nối của một tập hợp các máy tính.</p>
+<img width="800px" src="../assets/datacenter/6-012-bisection1.png">
+<p>Một cách trực quan, mặc dù cả ba mạng đều được kết nối đầy đủ, mạng bên trái là kết nối tốt nhất, mạng ở giữa kém kết nối hơn, và mạng bên phải là kém kết nối nhất. Ví dụ, mạng bên trái và giữa có thể hỗ trợ các node 1-4 và 3-6 giao tiếp đồng thời ở <em>line rate</em>, trong khi mạng bên phải thì không.</p>
+<p>Một cách để lập luận rằng mạng bên trái kết nối tốt hơn là nói: Chúng ta phải cắt nhiều <em>links</em> hơn để ngắt kết nối mạng. Điều này cho thấy có rất nhiều <em>links</em> dự phòng, cho phép chúng ta chạy nhiều kết nối <em>bandwidth</em> cao đồng thời. Tương tự, một cách để lập luận rằng mạng bên phải kém kết nối hơn là nói: Chúng ta chỉ cần cắt <em>link</em> 2-5 để ngắt kết nối mạng, điều này cho thấy sự tồn tại của một điểm nghẽn ngăn cản các kết nối <em>bandwidth</em> cao đồng thời.</p>
+<p><em>Bisection bandwidth</em> (băng thông chia đôi) là một cách để định lượng mức độ kết nối của một mạng. Để tính <em>bisection bandwidth</em>, chúng ta tính số lượng <em>links</em> cần loại bỏ để phân chia mạng thành hai nửa không kết nối có kích thước bằng nhau. <em>Bisection bandwidth</em> là tổng của <em>bandwidths</em> trên các <em>links</em> mà chúng ta đã cắt.</p>
+<img width="900px" src="../assets/datacenter/6-013-bisection2.png">
+<p>Trong cấu trúc ngoài cùng bên phải, chúng ta chỉ cần loại bỏ một <em>link</em> để phân chia mạng, vì vậy <em>bisection bandwidth</em> chỉ là <em>bandwidth</em> của <em>link</em> đó. Ngược lại, trong cấu trúc ngoài cùng bên trái, chúng ta cần loại bỏ 9 <em>links</em> để phân chia mạng, vì vậy <em>bisection bandwidth</em> là <em>bandwidth</em> kết hợp của tất cả 9 <em>links</em> đó.</p>
+<p>Một cách định nghĩa tương đương của <em>bisection bandwidth</em> là: Chúng ta chia mạng thành hai nửa, và mỗi nút ở một nửa muốn đồng thời gửi dữ liệu đến một nút tương ứng ở nửa còn lại. Trong tất cả các cách phân chia các nút có thể, <em>bandwidth</em> tối thiểu mà các nút có thể gửi đi chung là bao nhiêu? Việc xem xét trường hợp xấu nhất (<em>bandwidth</em> tối thiểu) buộc chúng ta phải nghĩ về các điểm nghẽn.</p>
+<img width="900px" src="../assets/datacenter/6-014-bisection3.png">
+<p>Mạng được kết nối tốt nhất có <em>bisection bandwidth</em> đầy đủ. Điều này có nghĩa là không có điểm nghẽn, và dù bạn phân chia các nút vào các phân vùng như thế nào, tất cả các nút trong một phân vùng đều có thể giao tiếp đồng thời với tất cả các nút trong phân vùng kia ở tốc độ tối đa. Nếu có N nút, và tất cả N/2 nút trong phân vùng bên trái đang gửi dữ liệu ở tốc độ tối đa R, thì <em>bisection bandwidth</em> đầy đủ là N/2 nhân R.</p>
+<p><em>Oversubscription</em> (tỷ lệ quá tải băng thông) là một thước đo về mức độ chúng ta còn cách xa <em>bisection bandwidth</em> đầy đủ, hoặc tương đương, mức độ quá tải của phần nghẽn của mạng. Đó là tỷ lệ của <em>bisection bandwidth</em> so với <em>bisection bandwidth</em> đầy đủ (<em>bandwidth</em> nếu tất cả các <em>hosts</em> đều gửi ở tốc độ tối đa).</p>
+<img width="900px" src="../assets/datacenter/6-015-bisection4.png">
+<p>Trong ví dụ ngoài cùng bên phải, giả sử tất cả các <em>links</em> là 1 Gbps, thì <em>bisection bandwidth</em> là 2 Gbps (để tách bốn <em>hosts</em> bên trái với bốn <em>hosts</em> bên phải). <em>Bisection bandwidth</em> đầy đủ, đạt được khi tất cả bốn <em>hosts</em> bên trái đồng thời gửi dữ liệu, là 4 Gbps. Do đó, tỷ lệ 2/4 cho chúng ta biết rằng các <em>hosts</em> chỉ có thể gửi ở 50% tốc độ tối đa của chúng. Nói cách khác, mạng của chúng ta bị <em>oversubscribed</em> gấp 2 lần, bởi vì nếu tất cả các <em>hosts</em> đều gửi ở tốc độ tối đa, các <em>links</em> nghẽn sẽ bị quá tải gấp 2 lần (4 Gbps trên các <em>links</em> 2 Gbps).</p>
+<h2 id="datacenter-topology-cấu-trúc-liên-kết-mạng-của-trung-tâm-dữ-liệu-1"><a class="header" href="#datacenter-topology-cấu-trúc-liên-kết-mạng-của-trung-tâm-dữ-liệu-1">Datacenter Topology (Cấu trúc liên kết mạng của Trung tâm dữ liệu)</a></h2>
+<p>Bây giờ chúng ta đã định nghĩa <em>bisection bandwidth</em>, một thước đo về khả năng kết nối phụ thuộc vào <em>topology</em> (cấu trúc liên kết mạng, hay topo mạng) của mạng. Trong một <em>Datacenter</em>, chúng ta có thể chọn <em>topology</em> của mình (ví dụ: chọn nơi lắp đặt cáp). Chúng ta nên xây dựng <em>topology</em> nào để tối đa hóa <em>bisection bandwidth</em>?</p>
+<p>Một cách tiếp cận có thể là kết nối mọi <em>rack</em> với một <em>cross-bar switch</em> (switch chuyển mạch chéo) khổng lồ. Tất cả các <em>racks</em> ở phía bên trái có thể đồng thời gửi dữ liệu ở tốc độ tối đa vào <em>switch</em>, <em>switch</em> này sẽ chuyển tiếp tất cả dữ liệu đó đến phía bên phải ở tốc độ tối đa. Điều này sẽ cho phép chúng ta đạt được <em>bisection bandwidth</em> đầy đủ.</p>
+<img width="500px" src="../assets/datacenter/6-016-topology1.png">
+<p>Một số vấn đề với cách tiếp cận này là gì? <em>Switch</em> sẽ cần một cổng vật lý cho mỗi <em>rack</em> (có thể lên đến 2500 cổng). Chúng ta đôi khi gọi số lượng cổng bên ngoài là <em>radix</em> (số lượng cổng) của <em>switch</em>, vì vậy <em>switch</em> này sẽ cần một <em>radix</em> lớn. Ngoài ra, <em>switch</em> này sẽ cần có dung lượng cực lớn (có thể là petabit mỗi giây) để hỗ trợ tất cả các <em>racks</em>. Không có gì ngạc nhiên khi <em>switch</em> này không thực tế để xây dựng (ngay cả khi chúng ta có thể, nó sẽ cực kỳ đắt đỏ).</p>
+<p>Thông tin thú vị: Vào những năm 2000, Google đã thử yêu cầu các nhà cung cấp <em>switch</em> xây dựng một <em>switch</em> 10.000 cổng. Các nhà cung cấp đã từ chối, nói rằng không thể xây dựng thứ này, và ngay cả khi có thể, không ai yêu cầu nó ngoại trừ bạn (vì vậy không có lợi nhuận để xây dựng nó).</p>
+<p>Một vấn đề khác là <em>switch</em> này là một điểm lỗi duy nhất, và toàn bộ mạng <em>Datacenter</em> sẽ ngừng hoạt động nếu <em>switch</em> này bị hỏng.</p>
+<p>Một cách tiếp cận khác có thể là sắp xếp các <em>switches</em> theo <em>tree topology</em> (topo mạng hình cây). Điều này có thể giúp chúng ta giảm <em>radix</em> và <em>bandwidth</em> của mỗi <em>link</em>.</p>
+<img width="500px" src="../assets/datacenter/6-017-topology2.png">
+<p>Một số vấn đề với cách tiếp cận này là gì? <em>Bisection bandwidth</em> thấp hơn. Một <em>link</em> duy nhất là điểm nghẽn giữa hai nửa của cây.</p>
+<p>Để tăng <em>bisection bandwidth</em>, chúng ta có thể lắp đặt các <em>links</em> có <em>bandwidth</em> cao hơn ở các lớp cao hơn.</p>
+<img width="500px" src="../assets/datacenter/6-018-topology3.png">
+<p>Trong trường hợp này, nếu bốn <em>links</em> dưới là 100 Gbps, và hai <em>links</em> trên là 300 Gbps, thì chúng ta đã loại bỏ được điểm nghẽn và khôi phục <em>bisection bandwidth</em> đầy đủ.</p>
+<p><em>Topology</em> này có thể được sử dụng, mặc dù chúng ta vẫn chưa giải quyết được vấn đề <em>switch</em> ở đỉnh rất đắt và khả năng mở rộng kém.</p>
+<h2 id="clos-networks-mạng-clos"><a class="header" href="#clos-networks-mạng-clos">Clos Networks (Mạng Clos)</a></h2>
+<p>Cho đến nay, chúng ta đã thử xây dựng các mạng sử dụng các <em>switches</em> được chế tạo tùy chỉnh, có thể với <em>bandwidth</em> hoặc <em>radix</em> rất cao. Những <em>switches</em> này vẫn rất tốn kém để xây dựng. Liệu chúng ta có thể thiết kế một <em>topology</em> cho <em>bisection bandwidth</em> cao, sử dụng các thành phần hàng hóa giá rẻ không? Cụ thể, chúng ta muốn sử dụng một số lượng lớn các <em>switches</em> thương mại giá rẻ, trong đó tất cả các <em>switches</em> đều có cùng số cổng, mỗi <em>switch</em> có số lượng cổng thấp, và tất cả tốc độ <em>link</em> đều như nhau.</p>
+<img width="600px" src="../assets/datacenter/6-019-clos1.png">
+<p>Một <em>Clos network</em> (mạng Clos) đạt được <em>bandwidth</em> cao với các bộ phận thương mại bằng cách tạo ra một số lượng lớn các đường đi giữa các nút trong mạng. Bởi vì có rất nhiều <em>links</em> và đường đi qua mạng, chúng ta có thể đạt được <em>bisection bandwidth</em> cao bằng cách cho mỗi nút gửi dữ liệu theo một đường đi khác nhau.</p>
+<img width="600px" src="../assets/datacenter/6-020-clos2.png">
+<p>Không giống như các <em>switches</em> được chế tạo tùy chỉnh, nơi chúng ta mở rộng quy mô mạng bằng cách xây dựng một <em>switch</em> lớn hơn, chúng ta có thể mở rộng quy mô <em>Clos networks</em> bằng cách chỉ cần thêm nhiều <em>switches</em> giống nhau. Giải pháp này hiệu quả về chi phí và có khả năng mở rộng!</p>
+<p><em>Clos networks</em> cũng đã được sử dụng trong các ứng dụng khác, và được đặt theo tên của nhà phát minh ra chúng (Charles Clos, 1952).</p>
+<p>Trong một <em>Clos network</em> cổ điển, chúng ta sẽ có tất cả các <em>racks</em> ở bên trái gửi dữ liệu đến các <em>racks</em> ở bên phải. Trong <em>Datacenters</em>, các <em>racks</em> có thể vừa gửi vừa nhận dữ liệu, vì vậy thay vì có một lớp người gửi và người nhận riêng biệt, chúng ta có thể có một lớp duy nhất với tất cả các <em>racks</em> (đóng vai trò là người gửi hoặc người nhận). Sau đó, dữ liệu di chuyển theo một trong nhiều đường đi sâu hơn vào mạng, và sau đó quay trở ra để đến người nhận. Kết quả này được gọi là <em>folded Clos network</em> (mạng Clos gập), bởi vì chúng ta đã &quot;gập&quot; các lớp người gửi và người nhận lại thành một.</p>
+<img width="900px" src="../assets/datacenter/6-021-clos3.png">
+<h2 id="fat-tree-clos-topology-topo-clos-cây-béo"><a class="header" href="#fat-tree-clos-topology-topo-clos-cây-béo">Fat-Tree Clos Topology (Topo Clos Cây Béo)</a></h2>
+<p><em>Fat-tree topology</em> (topo cây béo) có <em>radix</em> thấp trên mỗi <em>switch</em>, và đạt được <em>bisection bandwidth</em> đầy đủ. Tuy nhiên, <em>switch</em> ở đỉnh cây rất đắt, khả năng mở rộng kém, và vẫn là một điểm lỗi duy nhất.</p>
+<p><em>Clos topology</em> cho phép chúng ta sử dụng các <em>switches</em> thương mại để mở rộng quy mô mạng của mình. Nếu chúng ta kết hợp <em>Clos topology</em> với <em>fat-tree topology</em>, chúng ta có thể xây dựng một <em>topology</em> có khả năng mở rộng từ các <em>switches</em> thương mại!</p>
+<p><em>Topology</em> được trình bày ở đây đã được giới thiệu trong một bài báo SIGCOMM năm 2008 có tựa đề &quot;A Scalable, Commodity Data Center Network Architecture&quot; (Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat).</p>
+<p>Trong một <em>k-ary fat tree</em> (cây béo k-nhánh), chúng ta tạo ra k <em>pods</em> (cụm). Mỗi <em>pod</em> có k <em>switches</em>.</p>
+<p>Trong một <em>pod</em>, k/2 <em>switches</em> nằm ở <em>aggregation layer</em> (lớp tổng hợp) trên, và k/2 <em>switches</em> còn lại nằm ở <em>edge layer</em> (lớp biên) dưới.</p>
+<p>(Lưu ý: <em>Topology</em> này được định nghĩa cho k là số chẵn, để chúng ta có thể chia đều các <em>switches</em> giữa <em>aggregation layer</em> và <em>edge layer</em>).</p>
+<img width="900px" src="../assets/datacenter/6-022-pods1.png">
+<p>Mỗi <em>switch</em> trong <em>pod</em> có k <em>links</em>. Một nửa số <em>links</em> (k/2) kết nối lên trên, và nửa còn lại (k/2) kết nối xuống dưới.</p>
+<p>Hãy xem xét một <em>switch</em> trong <em>aggregation layer</em> trên. Một nửa (k/2) số <em>links</em> của nó kết nối lên <em>core layer</em> (lớp lõi) (lớp này kết nối các <em>pods</em>, sẽ được thảo luận thêm bên dưới). Nửa còn lại (k/2) số <em>links</em> của nó kết nối xuống k/2 <em>switches</em> trong <em>edge layer</em>.</p>
+<p>Tương tự, hãy xem xét một <em>switch</em> trong <em>edge layer</em> dưới. Một nửa (k/2) số <em>links</em> của nó kết nối lên k/2 <em>switches</em> trong <em>aggregation layer</em>. Nửa còn lại (k/2) số <em>links</em> của nó kết nối xuống k/2 <em>hosts</em> trong <em>pod</em> này.</p>
+<img width="900px" src="../assets/datacenter/6-023-pods2.png">
+<p>Tiếp theo, hãy xem <em>core layer</em>, lớp kết nối các <em>pods</em> lại với nhau. Mỗi <em>core switch</em> có k <em>links</em>, kết nối đến mỗi trong số k <em>pods</em>.</p>
+<p>Có $$(k/2)^2$$<em>core switches</em>. Chúng ta đã suy ra con số này như thế nào? Có k <em>pods</em>, và mỗi <em>pod</em> có k/2 <em>switches</em> trong <em>aggregation layer</em> trên, tổng cộng là$$k^2/2$$<em>switches</em> trong <em>aggregation layer</em>. Mỗi <em>switch</em> ở lớp <em>aggregation</em> có k/2 <em>links</em> hướng lên trên, tổng cộng là$$k^2/2 \times k/2 = k^3/4$$<em>links</em> hướng lên trên. Điều này có nghĩa là <em>core layer</em> sẽ cần có tổng cộng$$k^3/4$$ <em>links</em> hướng xuống dưới, để khớp với số lượng <em>links</em> hướng lên từ <em>aggregation layer</em>.</p>
+<p>Mỗi <em>switch</em> ở <em>core layer</em> có k <em>links</em> hướng xuống dưới, vì vậy chúng ta cần $$k^2/4$$<em>switches</em> ở <em>core layer</em> (mỗi <em>switch</em> có k <em>links</em>) để tạo ra$$k^3/4$$ <em>links</em> hướng về phía dưới. Điều này cho phép số lượng <em>links</em> lên từ <em>aggregation layer</em> khớp với số lượng <em>links</em> xuống từ <em>core layer</em>.</p>
+<p>Chúng ta cũng có thể tính toán rằng có $$(k/2)^2$$<em>hosts</em> trên mỗi <em>pod</em> trong <em>topology</em> này. Chúng ta đã suy ra con số này như thế nào? Có k/2 <em>switches</em> ở <em>edge layer</em> của mỗi <em>pod</em>. Mỗi <em>switch</em> ở <em>edge layer</em> có k/2 <em>links</em> hướng xuống <em>hosts</em>, tổng cộng là$$k/2 \times k/2 = (k/2)^2$$<em>hosts</em> trên mỗi <em>pod</em>. Lưu ý rằng mỗi <em>host</em> chỉ được kết nối với một <em>switch</em> ở <em>edge layer</em> (một <em>host</em> không được kết nối với nhiều <em>switches</em> trong <em>topology</em> này). Vì có tổng cộng k <em>pods</em>, chúng ta cũng có thể suy ra rằng có tổng cộng$$(k/2)^2 \times k$$ <em>hosts</em> trong <em>topology</em> này.</p>
+<img width="900px" src="../assets/datacenter/6-024-pods3.png">
+<p>k = 4, ví dụ nhỏ nhất, thật không may lại hơi khó hiểu vì một số con số tình cờ giống nhau (ví dụ: $$(k/2)^2 = k = 4$$). Để có một ví dụ rõ ràng hơn, chúng ta có thể xem xét k = 6.</p>
+<p>Mỗi <em>pod</em> có k = 6 <em>switches</em>. k/2 = 3 <em>switches</em> nằm ở <em>aggregation layer</em> trên, và k/2 = 3 <em>switches</em> nằm ở <em>edge layer</em> dưới.</p>
+<p>Một <em>switch</em> ở <em>edge layer</em> có k/2 = 3 <em>links</em> hướng xuống 3 <em>hosts</em>, và k/2 = 3 <em>links</em> hướng lên 3 <em>switches</em> <em>aggregation</em> trong cùng một <em>pod</em>.</p>
+<p>Một <em>switch</em> ở <em>aggregation layer</em> có k/2 = 3 <em>links</em> hướng lên <em>core layer</em> (cụ thể là đến 3 <em>switches</em> khác nhau ở <em>core layer</em>), và k/2 = 3 <em>links</em> hướng xuống 3 <em>switches</em> <em>edge layer</em> trong cùng một <em>pod</em>.</p>
+<p>Mỗi <em>pod</em> có k/2 = 3 <em>edge switches</em>, mỗi <em>switch</em> kết nối với k/2 = 3 <em>hosts</em>, vì vậy mỗi <em>pod</em> có tổng cộng $$(k/2)^2 = 9$$<em>hosts</em>. <em>Topology</em> có tổng cộng k <em>pods</em>, cho tổng số$$k \times (k/2)^2 = 54$$ <em>hosts</em>.</p>
+<p>Tại <em>core layer</em>, chúng ta có $$(k/2)^2 = 9$$ <em>core switches</em>. Mỗi <em>switch</em> có k = 6 <em>links</em>, kết nối xuống mỗi trong số k = 6 <em>pods</em>.</p>
+<p>Tổng cộng, <em>core layer</em> có $$(k/2)^2 \times k$$<em>links</em> hướng xuống (số lượng <em>core switches</em>, nhân với số lượng <em>links</em> trên mỗi <em>switch</em>). <em>Aggregation layer</em> có$$k \times (k/2) \times (k/2)$$ <em>links</em> hướng lên (số lượng <em>pods</em>, nhân với số lượng <em>aggregation switches</em> trên mỗi <em>pod</em>, nhân với số lượng <em>links</em> hướng lên trên mỗi <em>aggregation switch</em>). Hai biểu thức này khớp nhau (và cho kết quả là 54 với k = 6), cho phép <em>core layer</em> được kết nối đầy đủ với <em>aggregation layer</em>.</p>
+<img width="900px" src="../assets/datacenter/6-025-pods4.png">
+<p><em>Topology</em> này đạt được <em>bisection bandwidth</em> đầy đủ. Nếu bạn chia các <em>pods</em> thành hai nửa (ví dụ: nửa bên trái và nửa bên phải), thì mọi <em>host</em> ở nửa bên trái đều có một đường đi riêng đến một <em>host</em> tương ứng ở nửa bên phải. Điều này cho phép tất cả các <em>hosts</em> ghép cặp (một ở nửa bên trái, một ở nửa bên phải), và cho mỗi cặp giao tiếp dọc theo một đường đi riêng, không có điểm nghẽn.</p>
+<p>Ngoài ra, hãy để ý rằng <em>topology</em> này có thể được xây dựng từ các <em>switches</em> thương mại. Mọi <em>switch</em> đều có <em>radix</em> là k <em>links</em>, bất kể <em>switch</em> đó ở lớp nào. Ngoài ra, mọi <em>link</em> đều có thể có cùng <em>bandwidth</em> (ví dụ: 1 Gbps), và khả năng mở rộng đến từ việc chúng ta đã tạo ra một đường đi riêng giữa bất kỳ cặp <em>hosts</em> nào.</p>
+<img width="900px" src="../assets/datacenter/6-026-pods5.png">
+<p>Một cách khác để thấy <em>bisection bandwidth</em> đầy đủ là xóa các <em>links</em> cho đến khi mạng được phân chia thành hai nửa (các <em>pods</em> ở nửa bên trái, và các <em>pods</em> ở nửa bên phải).</p>
+<p>Mỗi <em>switch</em> ở <em>core layer</em> có k <em>links</em>, một <em>link</em> đến mỗi <em>pod</em>. Điều này cũng có nghĩa là mỗi <em>switch</em> ở <em>core layer</em> có k/2 <em>links</em> đến phía bên trái, và k/2 <em>links</em> đến phía bên phải.</p>
+<p>Để cô lập hoàn toàn một bên (ví dụ: cô lập hoàn toàn phía bên trái), thì đối với mỗi <em>core switch</em>, chúng ta sẽ phải cắt k/2 <em>links</em> đến phía bên trái. Có $$(k/2)^2$$<em>core switches</em>, và chúng ta phải cắt k/2 <em>links</em> trên mỗi <em>switch</em>, tổng cộng là$$(k/2)^3$$<em>links</em> bị cắt. Điều này có nghĩa là <em>bisection bandwidth</em> của chúng ta là$$(k/2)^3$$ <em>links</em> (giả sử mọi <em>link</em> đều có <em>bandwidth</em> giống hệt nhau).</p>
+<p>Có $$(k/2)^2$$<em>hosts</em> trên mỗi <em>pod</em>, và k/2 <em>pods</em> ở phía bên trái, tổng cộng là$$(k/2)^3$$<em>hosts</em> ở phía bên trái. Tương tự, có$$(k/2)^3$$<em>hosts</em> ở phía bên phải. Nếu mọi <em>host</em> ở phía bên trái muốn giao tiếp với mọi <em>host</em> ở phía bên phải, thì sẽ cần đến <em>bandwidth</em> tương đương với$$(k/2)^3$$ <em>links</em>. <em>Bisection bandwidth</em> của chúng ta khớp với con số này, có nghĩa là <em>bisection bandwidth</em> đầy đủ đã đạt được.</p>
+<img width="900px" src="../assets/datacenter/6-027-pods6.png">
+<p><em>Clos fat-tree topology</em> này liên quan như thế nào đến ý tưởng về <em>racks</em> và <em>top-of-rack switches</em> từ trước đó?</p>
+<p>Đối với các giá trị k đẹp cụ thể, chúng ta có thể sắp xếp các <em>hosts</em> và <em>switches</em> bên trong một <em>pod</em> vào các <em>racks</em> riêng biệt, và kết nối các <em>racks</em> với nhau.</p>
+<p>Ví dụ, hãy xem xét k = 48, giá trị ví dụ được sử dụng trong bài báo gốc. Điều này có nghĩa là bên trong một <em>pod</em>, có k/2 = 24 <em>aggregation layer switches</em>, k/2 = 24 <em>edge layer switches</em>, và $$(k/2)^2$$ = 576 <em>hosts</em> trên mỗi <em>pod</em>.</p>
+<p>Chúng ta có thể sắp xếp các <em>switches</em> và <em>hosts</em> sao cho tất cả 48 <em>switches</em> nằm trong một <em>rack</em> mà chúng ta đặt ở giữa. Sau đó, chúng ta có thể bao quanh <em>rack</em> <em>switches</em> đó bằng 12 <em>racks</em>, mỗi <em>rack</em> chứa 48 <em>hosts</em>. Điều này giúp chúng ta xếp tất cả các <em>switches</em> và <em>hosts</em> vào các <em>racks</em> có kích thước giống hệt nhau (48 máy trên mỗi <em>rack</em>). Đặt các <em>switches</em> vào <em>rack</em> ở giữa cũng giúp giảm lượng dây cáp vật lý cần thiết để xây dựng <em>topology</em> này.</p>
+<p><em>Rack</em> ở giữa có k = 48 <em>switches</em>. Mỗi <em>switch</em> có k = 48 <em>ports</em> (cổng), tổng cộng là $$48^2 = 2304$$ <em>ports</em> trong <em>rack</em> này.</p>
+<p>Trong số $$k^2 = 2304$$<em>ports</em> này, một nửa trong số chúng ($$k^2/2 = 1152$$) kết nối các <em>switches</em> bên trong <em>rack</em> với nhau. Chúng ta đã suy ra$$k^2/2$$như thế nào? Có thể sẽ hữu ích khi xem một số sơ đồ khái niệm từ trước. Mỗi trong số k/2 <em>aggregation layer switches</em> có k/2 <em>links</em> hướng xuống, tổng cộng là$$(k/2)^2$$<em>ports</em> được sử dụng. Tương tự, mỗi trong số k/2 <em>edge layer switches</em> có k/2 <em>links</em> hướng lên, tổng cộng là$$(k/2)^2$$<em>ports</em> được sử dụng. Điều này cho tổng cộng$$2 \times (k/2)^2 = k^2/2$$ <em>ports</em> được sử dụng.</p>
+<p>Lưu ý rằng các <em>links</em> giữa các <em>switches</em> <em>aggregation</em> và <em>edge</em> đang kết nối các <em>switches</em> trong cùng một <em>rack</em>. Do đó, cần hai <em>ports</em> cho mỗi <em>link</em> (một từ <em>aggregation switch</em>, và một từ <em>edge switch</em>), và đó là lý do tại sao chúng ta nhân đôi giá trị $$(k/2)^2$$ (hoặc tương đương, tính giá trị đó hai lần ở cả lớp <em>aggregation</em> và <em>edge</em>).</p>
+<p>Trong số $$k^2 = 2304$$<em>ports</em>, một phần tư khác trong số chúng ($$k^2/4 = 576$$) kết nối các <em>switches</em> với các <em>hosts</em> bên trong cùng một <em>pod</em>. Chúng ta đã suy ra con số này như thế nào? Hãy nhớ rằng có$$(k/2)^2$$<em>hosts</em> trong một <em>pod</em>, và mỗi <em>host</em> được kết nối với đúng một <em>switch</em>. Do đó, chúng ta cần$$(k/2)^2 = k^2/4$$ <em>ports</em> trên các <em>switches</em> để kết nối với các <em>hosts</em>.</p>
+<p>Cuối cùng, trong số $$k^2 = 2304$$<em>ports</em>, một phần tư còn lại ($$k^2/4 = 576$$) kết nối <em>pod</em> với <em>core layer</em>. Chúng ta đã suy ra con số này như thế nào? Hãy nhớ rằng có$$(k/2)^2$$<em>core switches</em>, và mỗi <em>core switch</em> có một <em>link</em> đến mỗi <em>pod</em>. Nói cách khác, một <em>pod</em> có một <em>link</em> duy nhất đến mỗi trong số$$(k/2)^2$$<em>core switches</em>. Do đó, chúng ta cần$$(k/2)^2 = k^2/4$$ <em>ports</em> trên các <em>switches</em> để kết nối với các <em>core switches</em>.</p>
+<p>Tóm lại: Trong tổng số $$k^2$$ <em>ports</em>, một nửa trong số chúng được sử dụng để kết nối các <em>switches</em> <em>aggregation</em>/<em>edge</em> trong cùng một lớp (các kết nối hoàn toàn diễn ra bên trong <em>rack</em> ở giữa). Một phần tư khác được sử dụng để kết nối các <em>edge switches</em> với các <em>hosts</em> trong <em>pod</em> (kết nối giữa <em>rack</em> ở giữa và 12 <em>racks</em> xung quanh chứa <em>hosts</em>). Phần tư cuối cùng được sử dụng để kết nối các <em>aggregation switches</em> với <em>core layer</em> (kết nối giữa <em>rack</em> ở giữa và các <em>racks</em> <em>core-layer</em> khác).</p>
+<img width="600px" src="../assets/datacenter/6-028-pods7.png">
+<h2 id="real-world-topologies-các-topo-trong-thế-giới-thực"><a class="header" href="#real-world-topologies-các-topo-trong-thế-giới-thực">Real-World Topologies (Các Topo trong thế giới thực)</a></h2>
+<img width="900px" class="real-photo" src="../assets/datacenter/6-029-irl-topology1.png">
+<p>Trong ví dụ này (2008), có nhiều đường đi khác nhau giữa bất kỳ hai <em>end hosts</em> nào.</p>
+<img width="900px" class="real-photo" src="../assets/datacenter/6-030-irl-topology2.png">
+<p>Trong bài báo này (2015), nhiều <em>topologies</em> khác nhau đã được khám phá.</p>
+<p>Nhiều biến thể cụ thể tồn tại (2009, 2015), nhưng tất cả chúng đều có chung mục tiêu là đạt được <em>bandwidth</em> cao giữa bất kỳ hai <em>servers</em> nào.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../end-to-end/end-to-end.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datacenter/datacenter-cc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../end-to-end/end-to-end.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datacenter/datacenter-cc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

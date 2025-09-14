@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Software-Defined Networking - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html" class="active"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="software-defined-networking-mạng-định-nghĩa-bằng-phần-mềm"><a class="header" href="#software-defined-networking-mạng-định-nghĩa-bằng-phần-mềm">Software-Defined Networking (Mạng định nghĩa bằng phần mềm)</a></h1>
+<h2 id="tại-sao-lại-cần-software-defined-networking"><a class="header" href="#tại-sao-lại-cần-software-defined-networking">Tại sao lại cần Software-Defined Networking?</a></h2>
+<p>Trước đây, chúng ta đã thấy cách các <em>routing protocols</em> (giao thức định tuyến) có thể được điều chỉnh để hoạt động trong bối cảnh <em>datacenter</em> (trung tâm dữ liệu) (ví dụ: <em>equal-cost multi-path</em> (đa đường chi phí bằng nhau)). Sẽ ra sao nếu chúng ta muốn tối ưu hóa các <em>routing protocols</em> của mình hơn nữa cho các ràng buộc và trường hợp sử dụng cụ thể của <em>network</em> (mạng) của chúng ta? Các <em>routing protocols</em> tiêu chuẩn có thể sẽ không còn hoạt động hiệu quả.</p>
+<p>Trong phần này, chúng ta sẽ khám phá <em><strong>software-defined networking</strong></em>, một mô hình hoàn toàn mới để suy nghĩ về định tuyến và quản lý mạng. Trong bối cảnh định tuyến, <em>SDN architecture</em> (kiến trúc SDN) bao gồm việc có một trung tâm điều khiển tập trung để tính toán các tuyến đường và phân phối chúng đến từng <em>routers</em> (bộ định tuyến) riêng lẻ. Chúng ta sẽ xem <em>SDN</em> hoạt động như thế nào trong bối cảnh <em>datacenter</em> và <em>wide-area network</em> (mạng diện rộng), đồng thời thảo luận về các lợi ích và hạn chế của phương pháp tiếp cận mới này.</p>
+<h2 id="lược-sử-của-software-defined-networking"><a class="header" href="#lược-sử-của-software-defined-networking">Lược sử của Software-Defined Networking</a></h2>
+<p>Mặc dù chúng ta sẽ xem xét <em>SDN</em> như một phương pháp tiếp cận mới cho các <em>routing protocols</em> chuyên biệt, mô hình <em>SDN</em> ban đầu được thiết kế để giải quyết các vấn đề nhức nhối ở <em>management plane</em> (mặt phẳng quản lý).</p>
+<p>Hãy nhớ lại rằng <em>management plane</em> rất quan trọng cho hoạt động của mạng. Các <em>routers</em> không thể làm gì trừ khi có người cấu hình chúng (ví dụ: gán chi phí cho các <em>links</em> (liên kết)) và chỉ dẫn chúng phải làm gì (ví dụ: chạy <em>routing protocol</em> nào). Ngoài ra, chúng ta cần các <em>routers</em> báo cáo lỗi để giữ cho mạng luôn hoạt động. Rất nhiều công việc quản lý này trong lịch sử đã được thực hiện thủ công.</p>
+<p>Mặc dù <em>management plane</em> rất quan trọng, nhưng lại có tương đối ít sự tập trung vào việc đổi mới nó. Tại <em>control plane</em> (mặt phẳng điều khiển), chúng ta đã thấy rất nhiều <em>routing protocols</em> khác nhau, nhưng cách chúng ta cấu hình và điều khiển các <em>routers</em> lại phát triển chậm hơn.</p>
+<p>Trong suốt lịch sử của Internet, đã có một sự phát triển chậm rãi theo hướng sử dụng các kịch bản (scripts) để tương tác với mạng một cách có lập trình. Các kịch bản này đảm nhận những công việc mà người vận hành sẽ làm thủ công và thực hiện chúng bằng mã lệnh (không có nhiều trí thông minh). Ví dụ, các kịch bản cho phép tự động hóa quá trình thêm <em>routers</em> và <em>links</em> vào mạng. Một kịch bản để sửa chữa mạng có thể nói: nếu một <em>router</em> bị lỗi, hãy kiểm tra xem nó có thực sự bị lỗi không, khởi động lại nó, và nếu vẫn không khắc phục được, hãy báo cáo cho người vận hành.</p>
+<p>Bất chấp những tiến bộ, các hệ thống quản lý này đã là nút thắt cổ chai cho hoạt động mạng trong một thời gian dài. Chúng ta vẫn có thể phải chờ đợi sự can thiệp của con người mỗi khi một <em>router</em> mới được thêm vào.</p>
+<p>Năm 2005, một bài báo của Albert Greenberg và cộng sự đã mô tả vấn đề này bằng cách nói: &quot;Các mạng dữ liệu ngày nay rất mong manh và khó quản lý một cách đáng ngạc nhiên. Chúng tôi cho rằng gốc rễ của những vấn đề này nằm ở sự phức tạp của <em>control plane</em> và <em>management plane</em>.&quot;</p>
+<p>Để đối phó với những vấn đề này, các nhà nghiên cứu bắt đầu suy nghĩ về những cách khác nhau để vận hành một hệ thống mạng. Điều này đã dẫn đến những đề xuất cấp tiến hơn, tái định hình lại thiết kế cơ bản của <em>routers</em>.</p>
+<p>Các khái niệm chúng ta sẽ thấy lần đầu tiên được xem xét vào năm 2003, mặc dù chúng không nhận được nhiều sự chú ý vào thời điểm đó. Sự thất vọng với việc quản lý mạng đã thúc đẩy sự phát triển của các mô hình quản lý mới. Đến năm 2008, đã có nhiều động lực hơn, dẫn đến giao diện <em>switch</em> (bộ chuyển mạch) <em>OpenFlow</em> (chúng ta sẽ sớm thấy).</p>
+<p>Đến năm 2011, rõ ràng là ngành công nghiệp đang đi theo hướng mới này, và <em>Open Networking Foundation (ONF)</em> đã được thành lập bởi các nhà khai thác mạng lớn (Google, Yahoo, Verizon, Microsoft, Facebook) và các <em>vendors</em> (nhà cung cấp) (Cisco, Juniper, HP, Dell). Nicira, công ty khởi nghiệp tập trung vào <em>SDN</em> đã phát triển giao diện <em>OpenFlow</em>, là một công ty khởi nghiệp trị giá 40 triệu đô la vào năm 2012.</p>
+<h2 id="routers-được-tích-hợp-theo-chiều-dọc-và-tiêu-chuẩn-hóa"><a class="header" href="#routers-được-tích-hợp-theo-chiều-dọc-và-tiêu-chuẩn-hóa">Routers được Tích hợp theo chiều dọc và Tiêu chuẩn hóa</a></h2>
+<p>Nếu chúng ta muốn tái định hình thiết kế của <em>routers</em>, điều đó sẽ được thực hiện trong thực tế như thế nào? Các công nghệ trên <em>routers</em> thay đổi theo thời gian ra sao?</p>
+<p>Nếu mạng của bạn cần một <em>router</em>, bạn có thể sẽ mua một cái từ một <em>vendor</em> thiết bị lớn như Cisco hoặc Juniper. Để đảm bảo rằng các <em>routers</em> tương thích với nhau, tất cả các <em>vendors</em> thiết bị lớn đều xây dựng <em>routers</em> của họ theo một số tiêu chuẩn được xác định trước.</p>
+<p>Mô hình kinh doanh này có thể gây khó khăn cho sự đổi mới và thử nghiệm các phương pháp tiếp cận mới. Giả sử bạn có một ý tưởng mới cho một <em>routing protocol</em>. Bạn sẽ cần phải được một <em>standards body</em> (tổ chức tiêu chuẩn) phê duyệt giao thức đó, việc này có thể mất nhiều năm. Sau đó, bạn sẽ phải chờ các <em>vendors</em> nâng cấp quy trình sản xuất của họ để tuân thủ tiêu chuẩn mới.</p>
+<p>Tiêu chuẩn hóa cũng làm cho <em>routers</em> kém linh hoạt hơn đối với người dùng triển khai các giải pháp tùy chỉnh. Nếu bạn có một vấn đề cụ thể cho mạng của mình, nhưng không ai khác gặp vấn đề này, giải pháp của bạn có thể sẽ không được <em>standards body</em> chấp nhận. Các <em>vendors</em> muốn tạo ra những <em>routers</em> đáp ứng nhu cầu của mọi người, và họ sẽ không nhất thiết phải triển khai một giải pháp hoàn hảo cho bạn, nếu không ai khác muốn nó.</p>
+<p>Mặt khác, tiêu chuẩn hóa cũng có nghĩa là nếu người khác có một vấn đề mà bạn không có, <em>router</em> có thể đi kèm với một giải pháp cho vấn đề của họ, ngay cả khi bạn không cần nó. Điều này có thể làm cho <em>routers</em> trở nên phức tạp một cách không cần thiết cho các mục đích của mạng cụ thể của bạn.</p>
+<p>Tiêu chuẩn hóa cũng gây khó khăn cho việc thử nghiệm và nghiên cứu. Nếu bạn muốn thử một ý tưởng mới để xem nó có hoạt động hay không, bạn có thể không mua được <em>routers</em> có thể triển khai ý tưởng mới của mình. Các <em>vendors</em> không muốn xây dựng các sản phẩm thử nghiệm, dành cho một khách hàng cụ thể, mà có thể thậm chí không hoạt động.</p>
+<p>Một trở ngại lớn khác cho sự đổi mới và thử nghiệm là các <em>routers</em> được <strong><em>vertically integrated</em> (tích hợp theo chiều dọc)</strong>. <em>Router</em> bạn mua đã có sẵn chức năng cho cả ba mặt phẳng được tích hợp trên các con chip. Không có tính mô-đun nào cho phép bạn thay thế chỉ riêng <em>control plane</em>.</p>
+<img width="300px" src="../assets/datacenter/6-063-vertical-integration.png">
+<h2 id="Đổi-mới-routers"><a class="header" href="#Đổi-mới-routers">Đổi mới Routers</a></h2>
+<p>Nếu chúng ta muốn đổi mới <em>routers</em>, chúng ta có thể đổi mới những gì ở mỗi mặt phẳng, và chúng ta sẽ làm việc với những loại tiêu chuẩn có sẵn nào?</p>
+<p><em>Data plane</em> (mặt phẳng dữ liệu) được tiêu chuẩn hóa bởi <em>IEEE</em> (nhóm kỹ thuật điện) và yêu cầu mọi người tuân thủ nghiêm ngặt các tiêu chuẩn. Nếu hai <em>routers</em> từ các <em>vendors</em> khác nhau được kết nối, chúng ta phải đảm bảo cả hai bên đều gửi các bit dọc theo dây vật lý theo cùng một định dạng nhất quán.</p>
+<p>Sự đổi mới ở <em>data plane</em> thường được thúc đẩy bởi nhu cầu về các <em>routers</em> có băng thông cao hơn, và các tính năng mới không thường xuyên được giới thiệu. Sự phát triển này diễn ra khá chậm, trong khoảng 2-3 năm, bởi vì chúng ta phải giải quyết các vấn đề về phần cứng vật lý và thiết kế chip để tăng băng thông. Vì các tính năng cốt lõi của <em>data plane</em> tương đối ổn định, sự đổi mới <em>router</em> không thực sự tập trung vào <em>data plane</em>, và việc chu kỳ phát triển chậm cũng không sao.</p>
+<p><em>Control plane</em> được tiêu chuẩn hóa bởi <em>IETF</em> (nhóm mạng đứng sau các RFC). Các <em>vendors</em> đôi khi thêm các phần mở rộng của riêng họ, mặc dù các tính năng cốt lõi hầu hết đều được tiêu chuẩn hóa. Ví dụ, chúng ta giả định rằng mọi <em>router</em> (ngay cả khi chúng đến từ các <em>vendors</em> khác nhau) đều tuân theo cùng một <em>routing protocol</em>.</p>
+<p>Sự đổi mới ở <em>control plane</em> (ví dụ: <em>routing protocols</em> mới) có thể mất vài năm để được áp dụng. Bạn có thể phải gửi một bản dự thảo đề xuất RFC, và cộng đồng có thể dành thời gian thảo luận về đề xuất trước khi đồng ý về các điều khoản của nó.</p>
+<p><em>Management plane</em> cũng được tiêu chuẩn hóa bởi <em>IETF</em>, mặc dù nó ít được tiêu chuẩn hóa hơn nhiều. Các nhà khai thác khác nhau có thể sử dụng phần mềm khác nhau để cấu hình <em>routers</em> của họ, và chúng ta không thực sự cần các <em>vendors</em> khác nhau phải đồng ý về một phần mềm được tiêu chuẩn hóa nào đó. Bởi vì mặt phẳng này chỉ được tiêu chuẩn hóa một cách lỏng lẻo, nhiều phương pháp tiếp cận khác nhau với các tính năng khác nhau tồn tại.</p>
+<p>Tóm lại: <em>Data plane</em> được tiêu chuẩn hóa (nhưng chúng ta không thực sự có tính năng mới nào trong đầu), <em>control plane</em> được tiêu chuẩn hóa (nhưng chúng ta muốn thử các giải pháp mới), và <em>management plane</em> không thực sự được tiêu chuẩn hóa.</p>
+<h2 id="Ý-tưởng-cấp-tiến-tách-rời-routers"><a class="header" href="#Ý-tưởng-cấp-tiến-tách-rời-routers">Ý tưởng cấp tiến: Tách rời Routers</a></h2>
+<p>Tiêu chuẩn hóa và tích hợp theo chiều dọc đã gây khó khăn cho việc đổi mới và thử nghiệm. Điều này đã dẫn đến ý tưởng cấp tiến là tách rời các <em>routers</em> bằng cách chia các mặt phẳng thành các lớp trừu tượng khác nhau. Thay vì mua một <em>router</em> duy nhất với cả ba mặt phẳng, giờ đây chúng ta có thể mua riêng chức năng của <em>data plane</em> và <em>control plane</em>. Điều này cho phép chúng ta thay đổi các lớp một cách độc lập với nhau.</p>
+<p>Để kết nối ba lớp, chúng ta cần một <em>API</em> (Giao diện lập trình ứng dụng) giữa các lớp trừu tượng. Trong một <em>router</em> được ghép nối theo chiều dọc, chúng ta không quan tâm <em>data plane</em> và <em>control plane</em> nói chuyện với nhau như thế nào. Tuy nhiên, nếu chúng ta mua <em>data plane</em> riêng và muốn thiết kế <em>control plane</em> tùy chỉnh của riêng mình trên đó, chúng ta cần một giao diện để tương tác với <em>data plane</em>.</p>
+<img width="300px" src="../assets/datacenter/6-064-sdn1.png">
+<p>Một ý tưởng cấp tiến hơn nữa là ngừng suy nghĩ về ba mặt phẳng chỉ theo thuật ngữ của <em>router</em>, và thay vào đó thiết kế một kiến trúc hệ thống mới tự nhiên tách biệt <em>data plane</em> và <em>control plane</em>.</p>
+<img width="900px" src="../assets/datacenter/6-065-sdn2.png">
+<p>Ở dưới cùng, chúng ta có các <em>commodity network devices</em> (thiết bị mạng phổ thông). Bạn có thể coi chúng như việc chỉ mua riêng <em>data plane</em>. Các <em>routers</em> này nhận chỉ thị từ <em>control program</em> (chương trình điều khiển) thông qua <em>network OS</em> (hệ điều hành mạng), và chỉ đơn giản là chuyển tiếp các gói tin theo những chỉ thị đó. Các <em>routers</em> này hoàn toàn không cần phải suy nghĩ về <em>routing protocols</em>, vì vậy chúng có thể rẻ hơn.</p>
+<p>Ở giữa, chúng ta có <em>network OS</em>. Bạn có thể coi đây là <em>API</em> kết nối các <em>routers</em> ở <em>data plane</em> và <em>control program</em> ở <em>control plane</em>. <em>Network OS</em> cung cấp một sự trừu tượng hóa của các <em>routers</em> (ví dụ: dưới dạng một đồ thị) có thể được truyền lên cho <em>control program</em>. Sau đó, <em>control program</em> có thể gửi các chỉ thị định tuyến đến <em>network OS</em>, mà không cần lo lắng về cách lập trình cho các <em>routers</em> cụ thể. <em>Network OS</em> có thể lấy những chỉ thị đó và lập trình chúng vào từng <em>routers</em> riêng lẻ.</p>
+<p>Ở trên cùng, chúng ta có <em>control program</em>. Bạn có thể coi đây là việc mua hoặc tự triển khai <em>control plane</em>. Ở đây, người vận hành nhận được một sự trừu tượng hóa của mạng (ví dụ: đồ thị) từ <em>network OS</em>, và có thể sử dụng nó để viết <em>routing protocol</em> tùy chỉnh của riêng mình. Sau đó, các tuyến đường kết quả có thể được chuyển đến <em>network OS</em>, nơi sẽ lập trình chúng vào các <em>routers</em>.</p>
+<h2 id="Định-dạng-api-openflow"><a class="header" href="#Định-dạng-api-openflow">Định dạng API OpenFlow</a></h2>
+<p><em><strong>OpenFlow</strong></em> là một <em>API</em> để tương tác với <em>data plane</em> của một <em>router</em>. Người vận hành viết mã lệnh phức tạp của riêng họ, tách biệt khỏi <em>router</em>, để tính toán các tuyến đường trong mạng. Sau đó, những tuyến đường đó có thể được lập trình vào <em>forwarding chip</em> (chip chuyển tiếp).</p>
+<img width="300px" src="../assets/datacenter/6-066-openflow1.png">
+<p>Mô hình <em>OpenFlow</em> khác với các <em>routers</em> truyền thống, nơi <em>control plane</em> được triển khai trong <em>router</em>, và không có một <em>API</em> rõ ràng nào để lập trình các tuyến đường tùy chỉnh vào <em>forwarding chip</em>.</p>
+<p><em>API</em> <em>OpenFlow</em> định nghĩa một sự trừu tượng hóa là <strong><em>flow table</em> (bảng luồng)</strong> để mô tả các tuyến đường và quy tắc chuyển tiếp. Mã lệnh của người vận hành có thể xuất ra bất kỳ quy tắc và tuyến đường nào mà nó muốn, và cài đặt chúng trên <em>router</em>, miễn là chúng ở định dạng <em>flow table</em>.</p>
+<p>Thành phần cơ bản của <em>API</em> là một <em>flow table</em>, bạn có thể coi nó như một phiên bản tổng quát của một <em>forwarding table</em> (bảng chuyển tiếp). Mỗi <em>flow table</em> bao gồm các cặp khóa-giá trị, giống như một <em>forwarding table</em>. Khóa chỉ định điều kiện để <strong><em>match</em> (đối sánh)</strong> với gói tin. Điều này có thể là một <em>destination prefix</em> (tiền tố đích), một đích chính xác, một <em>5-tuple</em> (bộ 5 thông tin gồm IP nguồn, IP đích, cổng nguồn, cổng đích, và giao thức), hoặc các phép <em>match</em> tương đối đơn giản khác. Giá trị tương ứng chỉ định <strong><em>action</em> (hành động)</strong> sẽ được thiết lập khi một gói tin khớp. <em>Action</em> có thể là gửi gói tin đến một chặng kế tiếp (giống như một <em>forwarding table</em>), nhưng cũng có thể chỉ định các <em>action</em> phức tạp hơn như thêm một <em>header</em> (tiêu đề) bổ sung.</p>
+<p>Định dạng đầu ra là một chuỗi gồm một hoặc nhiều <em>flow tables</em> được đánh số, trong đó mỗi bảng có các mục <em>match-action</em> khác nhau. Những <em>flow tables</em> này sau đó có thể được lập trình vào <em>forwarding chip</em>.</p>
+<img width="700px" src="../assets/datacenter/6-068-openflow3.png">
+<p>Khi một gói tin đến một <em>router</em>, nó được kiểm tra với từng bảng theo thứ tự (ví dụ: Bảng 0, Bảng 1, Bảng 2, v.v.), và khi có một sự <em>match</em>, chúng ta ghi lại <em>action</em> tương ứng (mà chưa thực thi nó). Cuối cùng, một khi gói tin được kiểm tra với bảng cuối cùng, bất kỳ <em>action</em> nào chúng ta đã ghi lại sẽ được áp dụng cho gói tin.</p>
+<p>Cũng có các <em>action</em> đặc biệt để bỏ qua đến các bảng sau, mà chúng ta có thể sử dụng trong các quy tắc như: Nếu cổng nguồn khớp với số này, hãy bỏ qua đến bảng 5 để thiết lập các <em>action</em> bổ sung.</p>
+<img width="800px" src="../assets/datacenter/6-067-openflow2.png">
+<p>Người vận hành có thể chạy bất kỳ mã lệnh nào họ muốn để tạo ra các <em>flow tables</em>, và các <em>flow tables</em> có thể tổng quát hơn một <em>forwarding table</em> đích/chặng-kế-tiếp. Tuy nhiên, các quy tắc (<em>match/action</em> pairs) mà chúng ta tạo ra vẫn bị giới hạn bởi phần cứng của <em>forwarding chip</em> chuyên dụng. <em>Forwarding chip</em> được tối ưu hóa cho tốc độ, và có lẽ không thể xử lý các quy tắc <em>match</em> phức tạp như &quot;nếu phần tải tin (payload) của TCP là tiếng Anh, hãy đặt <em>action</em> này.&quot;</p>
+<p>Kết quả là, các <em>flow tables</em> chúng ta thấy trong thực tế cuối cùng trông khá giống với các bảng chúng ta đã thấy. Các quy tắc <em>match</em> phổ biến bao gồm <em>longest prefix matching</em> (khớp tiền tố dài nhất) trên đích IP, <em>5-tuples</em> để xác định các luồng, và khớp chính xác trên các <em>encapsulation headers</em> (tiêu đề đóng gói) (ví dụ: <em>MPLS</em>).</p>
+<p>Nếu các quy tắc chuyển tiếp không khác biệt nhiều, tại sao lại sử dụng <em>OpenFlow</em>? Hãy nhớ rằng, lợi thế chính là nó cho phép người vận hành hoàn toàn tự do ở <em>control plane</em>. Chúng ta không còn bị giới hạn bởi các giao thức <em>distance-vector</em> (vector khoảng cách) hay <em>link-state</em> (trạng thái liên kết) nữa.</p>
+<img width="400px" src="../assets/datacenter/6-069-openflow4.png">
+<h2 id="lợi-ích-của-một-control-plane-linh-hoạt"><a class="header" href="#lợi-ích-của-một-control-plane-linh-hoạt">Lợi ích của một Control Plane linh hoạt</a></h2>
+<p>Kiến trúc mới của chúng ta mang lại cho người vận hành sự linh hoạt để triển khai <em>routing protocol</em> mới của họ tại <em>control plane</em>. Một số lợi ích của phương pháp này là gì?</p>
+<p>Người vận hành có thể triển khai các <em>routing protocols</em> tùy chỉnh phù hợp nhất với nhu cầu cụ thể của họ. Người vận hành không còn bị ràng buộc bởi các <em>standards bodies</em> và <em>vendors</em>.</p>
+<p>Sự linh hoạt cũng cho chúng ta cơ hội để đơn giản hóa. Ví dụ, nếu giao thức được tiêu chuẩn hóa bao gồm các tính năng chúng ta không cần, chúng ta không phải triển khai chúng trong giải pháp tùy chỉnh của mình. Các giao thức đơn giản hơn có thể có ít mã lệnh hơn và mã lệnh đơn giản hơn, điều này có thể cho phép phát triển và bảo trì giao thức đó dễ dàng hơn.</p>
+<p>Cuối cùng, một <em>control plane</em> linh hoạt cho phép tính toán các tuyến đường một cách tập trung tại <em>control program</em>, thay vì phân tán trên nhiều <em>routers</em>. Sự tập trung hóa cũng đi kèm với một số lợi ích.</p>
+<p>Sự tập trung hóa có thể dẫn đến các quyết định định tuyến thông minh hơn, mang lại hiệu suất xuất sắc. Trong một báo cáo năm 2013 từ Google, các kỹ sư đã triển khai một <em>SDN architecture</em> đã ghi nhận rằng &quot;<em>traffic engineering</em> (kỹ thuật lưu lượng) tập trung giúp các <em>links</em> đạt gần 100% hiệu suất sử dụng, trong khi phân chia các luồng ứng dụng trên nhiều đường đi để cân bằng dung lượng với mức độ ưu tiên/yêu cầu của ứng dụng.&quot; Một bài báo năm 2013 của Microsoft mô tả việc sử dụng một bộ điều khiển <em>OpenFlow</em> để &quot;đạt được hiệu suất sử dụng cao với WAN điều khiển bằng phần mềm.&quot;</p>
+<p>Các quyết định định tuyến thông minh hơn có thể giúp tối ưu hóa các tiêu chí khác ngoài hiệu suất, mà một <em>routing protocol</em> tiêu chuẩn không thể dễ dàng tối ưu hóa. Ví dụ, một mạng của chính phủ Hoa Kỳ có thể triển khai một quy tắc khoanh vùng địa lý (geofencing) rằng, không gửi lưu lượng qua các <em>links</em> ở Canada. Hoặc, một mạng truyền hình quảng bá có thể muốn tối ưu hóa cho sự đa dạng của đường đi để tăng độ tin cậy. Chúng ta có thể thực thi rằng hai luồng di chuyển qua các đường đi không chia sẻ bất kỳ <em>links</em> nào, để nếu một <em>link</em> bị hỏng, chỉ một trong hai luồng bị ảnh hưởng. Hai đường đi có thể đóng vai trò dự phòng cho nhau.</p>
+<p>Sự tập trung hóa cũng có thể giúp các <em>routing protocols</em> hội tụ dễ dàng hơn. Trong một giao thức phân tán, nếu mạng thay đổi, các <em>routers</em> phải phối hợp để hội tụ về một trạng thái định tuyến mới. Trong mô hình tập trung này, nếu một <em>link</em> bị lỗi, <em>router</em> đó có thể báo cho &quot;sếp&quot;, và &quot;sếp&quot; có thể tính toán lại các tuyến đường và cài đặt các tuyến đường mới trên các <em>routers</em>.</p>
+<h2 id="traffic-engineering"><a class="header" href="#traffic-engineering">Traffic Engineering</a></h2>
+<p>Một <em>control plane</em> linh hoạt cho phép chúng ta thực hiện <em><strong>traffic engineering</strong></em>, có nghĩa là chúng ta có thể định tuyến lưu lượng một cách thông minh và hiệu quả hơn so với một <em>routing protocol</em> phân tán tiêu chuẩn.</p>
+<img width="700px" src="../assets/datacenter/6-070-engineering1.png">
+<p>Giả sử có hai kết nối, S1-D ở tốc độ 10 Gbps và S2-D ở tốc độ 10 Gbps. Nếu chúng ta chỉ chạy <em>least-cost routing</em> (định tuyến chi phí thấp nhất) tiêu chuẩn, cả hai luồng sẽ gửi lưu lượng dọc theo đường đi phía dưới. Đường đi phía dưới sẽ bị tắc nghẽn (20 Gbps trên <em>link</em> 10 Gbps), trong khi <em>bandwidth</em> (băng thông) của đường đi phía trên không được sử dụng.</p>
+<p>Với một cơ chế định tuyến thông minh hơn, chúng ta có thể gửi lưu lượng S1-D dọc theo đường đi phía trên, và lưu lượng S2-D dọc theo đường đi phía dưới. Bằng cách sử dụng <em>traffic engineering</em>, chúng ta đã buộc một số gói tin phải đi một con đường dài hơn, để tận dụng tốt hơn <em>bandwidth</em> trong mạng.</p>
+<img width="700px" src="../assets/datacenter/6-071-engineering2.png">
+<p>Để tính toán các tuyến đường này, chúng ta có thể sửa đổi <em>least-cost routing</em>, và thay vào đó thực thi rằng lưu lượng nên đi trên con đường ngắn nhất có đủ dung lượng. Chúng ta cũng có thể thực thi các ràng buộc khác thay vì dung lượng, chẳng hạn như <em>latency</em> (độ trễ). Thuật toán kết quả được gọi là <em><strong>constrained Shortest Path First (cSPF)</strong></em>.</p>
+<p>Bây giờ, giả sử S1-D cần 12 Gbps, và S2-D cần 8 Gbps. <em>cSPF</em> sẽ gửi các luồng đi theo các đường khác nhau để tối đa hóa <em>bandwidth</em>, nhưng S1-D đang gửi 12 Gbps qua một <em>link</em> 10 Gbps.</p>
+<p>Để khắc phục điều này, <em>traffic engineering</em> của chúng ta có thể còn thông minh hơn nữa, và chia lưu lượng trong một luồng qua các đường đi khác nhau. S1-D có thể gửi 10 Gbps lưu lượng của mình dọc theo đường đi phía trên, và 2 Gbps còn lại dọc theo đường đi phía dưới.</p>
+<p>Một lần nữa, <em>traffic engineering</em> của chúng ta đã cho phép chúng ta triển khai logic tùy chỉnh mang lại hiệu quả sử dụng dung lượng mạng tốt hơn.</p>
+<img width="700px" src="../assets/datacenter/6-074-engineering5.png">
+<p>Làm thế nào để chúng ta thực sự triển khai các đường đi được phân chia trong mạng, sử dụng <em>API OpenFlow</em> từ trước? Hãy nhớ rằng, các quyết định định tuyến của chúng ta vẫn nên tuân theo các quy tắc đơn giản mà các <em>forwarding tables</em> có thể hiểu được.</p>
+<p>Một cách tiếp cận là sử dụng <em>encapsulation</em> (sự đóng gói). Tại bên gửi, chúng ta có thể thêm các quy tắc để thêm một <em>header</em> bổ sung, trong đó một số gói tin nhận nhãn 0, và phần còn lại nhận nhãn 1. Nhãn này cho chúng ta biết nên gửi lưu lượng theo đường nào.</p>
+<img width="700px" src="../assets/datacenter/6-075-engineering6.png">
+<p>Bây giờ, tại R1, chúng ta có thể thêm các quy tắc đơn giản để định tuyến các gói tin có nhãn 0 lên R2, và các gói tin có nhãn 1 xuống R3. Ý tưởng này có thể được áp dụng ngoài các quy tắc khác mà chúng ta đã có cho <em>constrained least-cost routing</em> (ví dụ: các <em>flow tables</em> có thể có các mục khác cho các đích khác hoặc các luồng khác).</p>
+<h2 id="traffic-engineering-tập-trung-và-các-quyết-định-tối-ưu-toàn-cục"><a class="header" href="#traffic-engineering-tập-trung-và-các-quyết-định-tối-ưu-toàn-cục">Traffic Engineering tập trung và các quyết định tối ưu toàn cục</a></h2>
+<p>Một khác biệt lớn trong mô hình <em>SDN</em> của các <em>routing protocols</em> tùy chỉnh là sự tập trung hóa. Trong mô hình ban đầu, mỗi <em>router</em> đều chạy <em>routing protocol</em> của riêng mình. Bây giờ, chúng ta có thể có một máy tính duy nhất bên ngoài các <em>routers</em> tính toán tất cả các tuyến đường, và sau đó sử dụng <em>API flow table</em> để cài đặt những tuyến đường đó lên các <em>routers</em>.</p>
+<p>Sự tập trung hóa cho phép chúng ta đưa ra các <strong><em>globally optimal decisions</em> (quyết định tối ưu toàn cục)</strong>. Trong một giao thức phân tán, mỗi <em>router</em> đang đưa ra quyết định tốt nhất cho chính nó, nhưng đó có thể không phải là quyết định tốt nhất cho các <em>routers</em> khác. Trong mô hình tập trung, &quot;sếp&quot; có thể sử dụng cái nhìn toàn cục về mạng để quyết định điều gì là tốt nhất cho mọi người, và yêu cầu các <em>routers</em> tuân theo quyết định đó.</p>
+<img width="700px" src="../assets/datacenter/6-072-engineering3.png">
+<p>Hãy xem xét mạng này với hai luồng, S1-D ở tốc độ 20 Gbps, và S2-D ở tốc độ 100 Gbps. Giả sử chúng ta chưa triển khai hỗ trợ cho việc chia một luồng ra nhiều đường đi.</p>
+<p>Giả sử luồng 20 Gbps S1-D bắt đầu trước. Sử dụng <em>constrained shortest path first</em>, S1 có thể chọn sử dụng đường đi phía dưới. Từ góc độ của S1, đây là một quyết định tối ưu cục bộ (đường đi trên và dưới đều tốt như nhau).</p>
+<p>Sau đó, luồng 100 Gbps S2-D bắt đầu. Bây giờ, sử dụng <em>constrained shortest path first</em>, S2-D không có bất kỳ đường đi đơn lẻ nào đáp ứng được yêu cầu của nó. Cả đường đi phía trên (20 Gbps) và đường đi phía dưới (80 Gbps) đều không đủ dung lượng.</p>
+<p>Vấn đề chính ở đây là, mỗi <em>router</em> riêng lẻ đã tự đưa ra quyết định của mình một cách độc lập, không có sự phối hợp.</p>
+<p>Bằng cách giới thiệu một bộ điều khiển tập trung, bộ điều khiển có thể nhìn vào cấu trúc tổng thể của mạng và nhu cầu của mỗi luồng, và gán các đường đi cho mỗi luồng một cách thông minh hơn. Quyết định kết quả là tối ưu toàn cục, và tăng hiệu quả mạng.</p>
+<img width="700px" src="../assets/datacenter/6-073-engineering4.png">
+<p><em>Traffic engineering</em> tập trung có thể đưa ra các quyết định định tuyến thông minh hơn nữa, tùy thuộc vào những gì người vận hành muốn tối ưu hóa. Ví dụ, chúng ta có thể phân loại các luồng thành luồng ưu tiên cao hoặc ưu tiên thấp, và đưa ra các quyết định tối ưu hóa cả việc sử dụng mạng và nhu cầu của các ứng dụng khác nhau.</p>
+<h2 id="sdn-trong-datacenter-overlay"><a class="header" href="#sdn-trong-datacenter-overlay">SDN trong Datacenter Overlay</a></h2>
+<p>Trong phần trước, chúng ta đã thấy rằng các <em>virtual switches</em> (bộ chuyển mạch ảo) có thể áp dụng <em>encapsulation</em> để kết nối mạng <em>overlay</em> (lớp phủ) và <em>underlay</em> (lớp nền). Với một <em>virtual address</em> (địa chỉ ảo), chúng ta có thể thêm một <em>header</em> với <em>physical address</em> (địa chỉ vật lý) tương ứng, cho phép gói tin được gửi đi trên mạng <em>underlay</em>. Nhưng, làm thế nào để chúng ta biết được sự ánh xạ giữa <em>virtual addresses</em> và <em>physical addresses</em>?</p>
+<p>Chúng ta cũng đã thấy rằng <em>encapsulation</em> có thể được sử dụng để hỗ trợ nhiều <em>tenants</em> (người thuê) trong một <em>datacenter</em> duy nhất, mỗi <em>tenant</em> chạy mạng riêng của mình. Các <em>switches</em> có thể thêm các <em>headers</em> với một <em>virtual network ID</em> (mã định danh mạng ảo). Nhưng, làm thế nào để chúng ta biết nên sử dụng <em>virtual network ID</em> nào?</p>
+<p>Một bộ điều khiển <em>SDN</em> tập trung có thể được sử dụng trong <em>datacenter</em> để giải quyết những vấn đề này. Mỗi <em>tenant</em> có thể vận hành bộ điều khiển của riêng mình. Khi một <em>VM</em> (Máy ảo) mới được tạo, <em>SDN</em> sẽ biết được <em>virtual address</em> và <em>physical address</em> của nó. Sau đó, <em>SDN</em> có thể cập nhật các <em>forwarding tables</em> trong các <em>virtual switches</em> khác, thêm các quy tắc <em>encapsulation</em> với ánh xạ địa chỉ ảo/vật lý mới.</p>
+<img width="900px" src="../assets/datacenter/6-076-sdn-overlay.png">
+<p>Ví dụ, giả sử Coke <em>VM</em> 2 được tạo với <em>virtual IP</em> (IP ảo) là 192.0.2.1 và <em>physical IP</em> (IP vật lý) là 2.2.2.2. <em>SDN</em> biết rằng Coke <em>VM</em> 1 đang ở trên <em>physical server</em> (máy chủ vật lý) 1.1.1.1, vì vậy nó có thể đến <em>virtual switch</em> trên 1.1.1.1 và thêm một quy tắc <em>encapsulation</em> cho Coke <em>VM</em> 2 mới.</p>
+<p><em>Flow table</em> tại 1.1.1.1 có thể nói: Nếu bạn nhận được một gói tin có đích là 192.0.2.1, hãy thêm một <em>header</em> với <em>virtual network ID</em> của Coke là 42. Đồng thời, thêm một <em>header</em> với <em>physical address</em> tương ứng là 2.2.2.2. Sau đó, gửi gói tin đi trên mạng <em>underlay</em>.</p>
+<h2 id="lợi-ích-của-sdn-trong-datacenter-overlay"><a class="header" href="#lợi-ích-của-sdn-trong-datacenter-overlay">Lợi ích của SDN trong Datacenter Overlay</a></h2>
+<p>Tại sao chúng ta lại sử dụng kiến trúc <em>SDN</em> tập trung để hỗ trợ ảo hóa và <em>multi-tenancy</em> (đa người thuê) trong <em>datacenter</em>, thay vì một <em>routing protocol</em> tiêu chuẩn hơn?</p>
+<p>Kiến trúc <em>SDN</em> tập trung cho phép chúng ta tách biệt rõ ràng mạng <em>overlay</em> và <em>underlay</em> thành hai lớp có khả năng mở rộng. Trong một kiến trúc truyền thống, các <em>routers</em> trong mạng <em>underlay</em> sẽ phải xử lý các <em>encapsulation headers</em> tùy chỉnh (ví dụ: <em>virtual network IDs</em>). <em>SDN</em> cho phép mạng <em>underlay</em> vẫn đơn giản, mà không cần phải suy nghĩ về ảo hóa hay <em>multi-tenancy</em>.</p>
+<p>Sự tập trung hóa cho chúng ta một cách đơn giản để triển khai <em>control plane</em> tại các <em>end hosts</em> (máy chủ đầu cuối), mà không cần bất kỳ <em>routing protocols</em> phức tạp nào. Bộ điều khiển biết về một máy chủ mới và cập nhật các máy chủ khác tương ứng. Nếu không có bộ điều khiển tập trung, chúng ta có thể cần một cơ chế phân tán phức tạp nào đó để tìm ra nên thêm <em>encapsulation headers</em> nào.</p>
+<p>Kiến trúc <em>SDN</em> này cũng cho chúng ta thấy tại sao các mạng <em>overlay</em> có thể mở rộng tốt. Bộ điều khiển <em>SDN</em> cho một <em>tenant</em> chỉ cần biết về các <em>VMs</em> thuộc về <em>tenant</em> cụ thể đó. Ngược lại, nếu chúng ta sử dụng kiến trúc truyền thống, một <em>VM</em> Coke mới có thể phải được quảng bá đến tất cả các <em>VMs</em> khác, ngay cả các <em>VMs</em> của Pepsi.</p>
+<h2 id="sdn-trong-datacenter-underlay"><a class="header" href="#sdn-trong-datacenter-underlay">SDN trong Datacenter Underlay</a></h2>
+<p><em>Datacenter underlay</em> là một mạng vật lý, giống như bất kỳ mạng nào khác, mặc dù có một topo đặc biệt. Nhiều thách thức mạng thông thường, như đạt được hiệu suất sử dụng cao của các <em>links</em>, cũng áp dụng cho các mạng <em>datacenter underlay</em>. Điều đó có nghĩa là chúng ta cũng có thể áp dụng <em>SDN</em> cho mạng <em>underlay</em>.</p>
+<p><em>SDN</em> tại mạng <em>underlay</em> có thể giúp chúng ta định tuyến các gói tin qua <em>datacenter</em> một cách hiệu quả. Ví dụ, người vận hành có thể muốn gửi các <em>mice flows</em> (luồng chuột - các luồng dữ liệu nhỏ và ngắn) dọc theo các <em>links</em> có độ trễ nhỏ, và các <em>elephant flows</em> (luồng voi - các luồng dữ liệu lớn và kéo dài) dọc theo các <em>links</em> có <em>bandwidth</em> cao.</p>
+<img width="900px" src="../assets/datacenter/6-077-sdn-underlay.png">
+<p>Trong <em>Clos network</em> (mạng Clos) <em>underlay</em> của chúng ta, <em>per-flow load balancing</em> (cân bằng tải trên từng luồng) (sử dụng <em>hash 5-tuple</em> (hàm băm bộ 5 thông tin) để chọn đường đi) vẫn có thể gửi nhiều <em>elephant flows</em> đi cùng một đường. Ngay cả khi hai <em>elephant flows</em> sử dụng các đường đi khác nhau, các đường đi đó có thể chia sẻ các <em>links</em>, và những <em>links</em> đó có thể bị tắc nghẽn. Một bộ điều khiển <em>SDN</em> có thể giải quyết vấn đề này bằng cách phối hợp các luồng và đặt chúng vào các đường đi không chồng chéo.</p>
+<img width="800px" src="../assets/datacenter/6-078-sdn-paper.png">
+<p>Bài báo năm 2022 này của Google mô tả việc loại bỏ các lớp trong <em>Clos network</em> (ít <em>links</em> hơn, <em>datacenter</em> rẻ hơn) bằng cách sử dụng <em>SDN</em> để định tuyến lưu lượng một cách thông minh hơn.</p>
+<p>Các <em>Hyperscale datacenters</em> (trung tâm dữ liệu siêu quy mô) thường sử dụng <em>SDN</em> trong cả mạng <em>overlay</em> và <em>underlay</em>. Chúng thường được triển khai như các hệ thống tách rời. Có một <em>SDN</em> suy nghĩ về <em>underlay</em>, và một <em>SDN</em> riêng biệt suy nghĩ về <em>overlay</em>.</p>
+<h2 id="sdn-trong-wide-area-networks"><a class="header" href="#sdn-trong-wide-area-networks">SDN trong Wide Area Networks</a></h2>
+<p>Ngoài các <em>datacenter</em>, <em>SDN</em> có thể hữu ích trong các <em>Wide Area Networks</em> (WAN) nói chung, đặc biệt khi việc sử dụng <em>bandwidth</em> hiệu quả là rất quan trọng. Ví dụ, trong ví dụ về <em>traffic engineering</em> từ trước, hãy tưởng tượng nếu các <em>links</em> 10 Gbps của chúng ta là <em>undersea cables</em> (cáp ngầm dưới biển). Không có cách nào rẻ tiền để thêm <em>bandwidth</em> bổ sung, vì vậy các tối ưu hóa phải tập trung vào việc sử dụng hiệu quả <em>bandwidth</em> mà chúng ta có.</p>
+<h2 id="hạn-chế-của-điều-khiển-tập-trung"><a class="header" href="#hạn-chế-của-điều-khiển-tập-trung">Hạn chế của điều khiển tập trung</a></h2>
+<p>Sự tập trung hóa không phải là miễn phí và có một số hạn chế.</p>
+<p>Một hạn chế là độ tin cậy. Trong một mạng truyền thống, nếu một <em>router</em> bị lỗi, <em>routing protocol</em> sẽ hội tụ xung quanh sự cố đó. Các <em>routers</em> khác có thể định tuyến lại lưu lượng dọc theo các đường đi khác. Ngược lại, nếu bộ điều khiển trung tâm bị lỗi, chúng ta không còn cách nào để cập nhật mạng nữa, và các <em>routers</em> không biết cách điều chỉnh theo những thay đổi.</p>
+<p>Lưu ý: Chúng ta đã vẽ bộ điều khiển tập trung như một thực thể duy nhất, nhưng nó không cần phải chạy trên một máy chủ duy nhất. Việc tính toán ở <em>control plane</em> có thể diễn ra trên nhiều máy chủ, nơi các máy chủ đó phối hợp để hoạt động một cách tập trung về mặt logic. Điều này khác với mô hình ban đầu, nơi các <em>routers</em> phối hợp nhưng vẫn tự đưa ra các quyết định phân tán của riêng mình. Điều này giúp tránh có một <em>single point of failure</em> (điểm lỗi duy nhất) trong phần cứng, mặc dù bộ điều khiển với tư cách là một đơn vị logic vẫn có thể bị lỗi (ví dụ: lỗi trong mã lệnh).</p>
+<p>Sự tập trung hóa cũng gây ra các vấn đề về <em>scalability</em> (khả năng mở rộng). Bộ điều khiển phải đưa ra quyết định cho tất cả mọi người, điều này có thể trở nên tốn kém đối với các mạng lớn. Ngược lại, trong một mạng truyền thống, mỗi <em>router</em> chỉ phải thực hiện các phép tính cho chính nó.</p>
+<p>Sự tập trung hóa cũng có thể gây ra các loại phức tạp khác. Trong một mạng truyền thống, chúng ta có thể mua một <em>router</em> và kết nối nó, và nó gần như bắt đầu hoạt động ngay lập tức. Với một bộ điều khiển trung tâm, chúng ta có thêm những thách thức về cơ sở hạ tầng. Chúng ta nên đặt bộ điều khiển này ở đâu? Làm thế nào để kết nối nó với các <em>routers</em> riêng lẻ một cách đáng tin cậy?</p>
+<p>Đây là một lĩnh vực nghiên cứu tích cực, bao gồm một dự án của Sylvia Ratnasamy và Rob Shakir (giảng viên khóa học Berkeley CS 168).</p>
+<h2 id="sdn-trong-management-plane-và-data-plane"><a class="header" href="#sdn-trong-management-plane-và-data-plane">SDN trong Management Plane và Data Plane</a></h2>
+<p>Chúng ta đã thấy <em>SDN</em> như một cách mới để triển khai <em>control plane</em>. Nhưng, sự thất vọng ban đầu dẫn đến sự phát triển của <em>SDN</em> là ở <em>management plane</em>.</p>
+<p>Hóa ra, nhiều mô hình thiết kế mà <em>SDN</em> đã sử dụng ở <em>control plane</em> cũng có thể áp dụng cho <em>management plane</em>. Ví dụ, chúng ta đã thấy rằng <em>SDN</em> dựa trên các <em>APIs</em> được định nghĩa rõ ràng, có thể lập trình được (ví dụ: <em>OpenFlow</em>).</p>
+<p>TODO ran out of time in SP24.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datacenter/virtualization.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datacenter/host-networking.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datacenter/virtualization.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datacenter/host-networking.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

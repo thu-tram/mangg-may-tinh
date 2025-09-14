@@ -1,0 +1,362 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Congestion Control Implementation - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html" class="active"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="triển-khai-kiểm-soát-tắc-nghẽn"><a class="header" href="#triển-khai-kiểm-soát-tắc-nghẽn">Triển khai Kiểm soát Tắc nghẽn</a></h1>
+<h2 id="tóm-tắt-lại-các-cửa-sổ-tcp"><a class="header" href="#tóm-tắt-lại-các-cửa-sổ-tcp">Tóm tắt lại: Các Cửa sổ TCP</a></h2>
+<p>Cho đến nay, chúng ta đã thiết kế một phác thảo khái niệm về một thuật toán điều chỉnh động, dựa trên <em>host</em>, nơi mỗi nguồn chạy cùng một thuật toán một cách độc lập để đạt được một phần <em>bandwidth</em> hiệu quả và công bằng.</p>
+<p>Đầu tiên, sử dụng <em>slow-start (khởi động chậm)</em> (bắt đầu ở tốc độ thấp, tăng theo cấp số nhân) để khám phá ra một tốc độ ban đầu. Sau đó, trong mỗi vòng lặp, nếu chúng ta phát hiện tắc nghẽn (phát hiện mất mát), chúng ta giảm R theo cấp số nhân. Nếu chúng ta không phát hiện tắc nghẽn, chúng ta tăng R theo cấp số cộng.</p>
+<p>Trong phần này, chúng ta sẽ xem cách <em>TCP</em> triển khai thuật toán này. Dù tốt hay xấu, các cơ chế <em>Congestion Control (Kiểm soát tắc nghẽn)</em> của <em>TCP</em> rất gắn liền với các cơ chế độ tin cậy của <em>TCP</em>. (Đây là kết quả của thiết kế ban đầu, nơi <em>TCP</em> được vá để tính đến tắc nghẽn.) Trong phần này, chúng ta sẽ xem cách triển khai của <em>TCP</em> hoạt động để đạt được cả độ tin cậy và <em>congestion control</em> cùng một lúc.</p>
+<p>Hãy nhớ lại rằng trong <em>TCP</em>, bên gửi duy trì một <em>sliding window (cửa sổ trượt)</em> gồm các byte/packet liên tiếp đang trên đường truyền. Kích thước của cửa sổ được quyết định bởi <em>flow control (kiểm soát luồng)</em> (do không gian bộ đệm ở bên nhận quyết định) và <em>congestion control</em> (tốc độ do bên gửi tính toán).</p>
+<p>Cụ thể hơn, trong <em>flow control</em>, bên nhận gửi một cửa sổ quảng bá, cho biết có thể gửi thêm bao nhiêu byte nữa mà không làm tràn bộ nhớ của bên nhận. Giá trị cửa sổ quảng bá này đôi khi được viết tắt là <em><strong>RWND (cửa sổ phía nhận)</strong></em>.</p>
+<p>Trong <em>congestion control</em>, bên gửi duy trì một giá trị, đôi khi được viết tắt là <em><strong>CWND (cửa sổ tắc nghẽn)</strong></em>, biểu thị tốc độ mà bên gửi có thể gửi các <em>packet</em> mà không làm quá tải các liên kết. Giá trị này sẽ được đặt và điều chỉnh động bởi thuật toán <em>congestion control</em>.</p>
+<p>Cửa sổ của bên gửi được tính bằng giá trị nhỏ nhất của <em>CWND</em> và <em>RWND</em>. Trong bài giảng này, chúng ta sẽ giả định rằng <em>RWND</em> lớn hơn <em>CWND</em>, do đó nút thắt cổ chai là mạng, chứ không phải bộ nhớ của bên nhận. Điều này thường đúng, nhưng không phải lúc nào cũng đúng trong thực tế.</p>
+<img width="900px" src="../assets/transport/3-047-window1.png">
+<p>Hãy nhớ lại rằng chúng ta có thể xem <em>sliding window</em> như một khoảng trong luồng byte. Cạnh trái của cửa sổ là byte đầu tiên chưa được xác nhận (mọi thứ bên trái cửa sổ đã được gửi và xác nhận). Cạnh phải của cửa sổ được xác định bởi kích thước cửa sổ. Chỉ các <em>packet</em> bên trong cửa sổ này mới được phép đang trên đường truyền.</p>
+<p>Khi dữ liệu ở cạnh trái của cửa sổ được xác nhận, cửa sổ trượt sang phải, và dữ liệu bổ sung bây giờ có thể được gửi đi.</p>
+<p>Để phát hiện mất mát, chúng ta duy trì một bộ đếm thời gian duy nhất cho <em>packet</em> ngoài cùng bên trái trong cửa sổ. Nếu bộ đếm thời gian hết hạn mà <em>packet</em> đó chưa được xác nhận, chúng ta sẽ gửi lại <em>packet</em> ngoài cùng bên trái trong cửa sổ. Ngoài ra, để phát hiện mất mát, chúng ta đếm số lượng <em>duplicate acks (ack trùng lặp)</em>, và gửi lại <em>packet</em> ngoài cùng bên trái nếu chúng ta thấy 3 <em>duplicate acks</em>. Cách tiếp cận dựa trên <em>ack</em> trùng lặp này đôi khi được gọi là <em><strong>fast retransmit (truyền lại nhanh)</strong></em>.</p>
+<h2 id="cửa-sổ-và-tốc-độ"><a class="header" href="#cửa-sổ-và-tốc-độ">Cửa sổ và Tốc độ</a></h2>
+<p>Làm thế nào để chúng ta điều chỉnh tốc độ cho <em>congestion control</em>, và làm thế nào để chúng ta tính toán <em>congestion window</em>? Hóa ra hai giá trị này có liên quan trực tiếp, và việc điều chỉnh cửa sổ được thực hiện bằng cách điều chỉnh tốc độ. Kích thước cửa sổ và tốc độ gửi dữ liệu có tương quan với nhau theo phương trình sau: tốc độ nhân với <em>RTT</em> = kích thước cửa sổ.</p>
+<p>Về mặt trực quan, bạn có thể nghĩ kích thước cửa sổ và tốc độ là cùng một đại lượng, được biểu thị bằng hai &quot;đơn vị đo&quot; khác nhau. Kích thước cửa sổ tăng có nghĩa là chúng ta đang gửi dữ liệu nhanh hơn, và ngược lại.</p>
+<p>Để thấy tại sao phương trình này đúng, hãy xem xét <em>RTT</em> đầu tiên. Chúng ta có thể gửi [kích thước cửa sổ] <em>packet</em> trong <em>RTT</em> đầu tiên này (trước khi bất kỳ <em>ack</em> nào đến), cho tốc độ là kích thước cửa sổ / <em>RTT</em>.</p>
+<p>Hãy nhớ lại rằng thiết kế <em>TCP</em> khái niệm của chúng ta đo dữ liệu bằng <em>packet</em> cho đơn giản, nhưng trong thực tế, <em>TCP</em> suy nghĩ theo byte. Trong một triển khai thực tế, kích thước cửa sổ được đo bằng byte, nhưng để đơn giản, chúng ta sẽ xem xét kích thước cửa sổ theo <em>packet</em>.</p>
+<p>Để chuyển đổi giữa <em>packet</em> và byte, hãy nhớ lại rằng chúng ta đã định nghĩa <em>Maximum Segment Size (MSS) (Kích thước Phân đoạn Tối đa)</em>, là số byte trên mỗi <em>packet</em>. Điều này cho chúng ta biết rằng <em>MSS</em> nhân với số lượng <em>packet</em> = số lượng byte. Một lần nữa, về mặt trực quan, bạn có thể nghĩ byte và <em>packet</em> là hai đơn vị đo khác nhau cho cùng một đại lượng (lượng dữ liệu).</p>
+<h2 id="cập-nhật-theo-sự-kiện"><a class="header" href="#cập-nhật-theo-sự-kiện">Cập nhật theo Sự kiện</a></h2>
+<p>Trong mô hình khái niệm của chúng ta, mục tiêu là điều chỉnh tốc độ/cửa sổ một lần mỗi &quot;vòng lặp&quot;, nhưng chúng ta chưa hình thức hóa cách đo mỗi vòng lặp. Chúng ta có thể định nghĩa sơ bộ mỗi vòng lặp là một <em>RTT</em>, nhưng bản thân <em>RTT</em> là một giá trị thay đổi động mà chúng ta không thể đo chính xác.</p>
+<p>Để cập nhật kích thước cửa sổ một cách dễ dự đoán và đo lường hơn, chúng ta có thể xem xét các sự kiện khác nhau mà việc triển khai <em>TCP</em> hiện có phản ứng lại, và cập nhật cửa sổ mỗi khi một trong những sự kiện này xảy ra. Đây được gọi là <em><strong>event-driven updates (cập nhật theo sự kiện)</strong></em>.</p>
+<p>Ba sự kiện <em>TCP</em> mà chúng ta cần cập nhật kích thước cửa sổ là: <em>ack</em> mới, 3 <em>duplicate acks</em>, và hết thời gian chờ.</p>
+<p>Khi chúng ta thấy một <em>ack</em> mới (cho dữ liệu chưa được xác nhận trước đó), đây là một dấu hiệu cho thấy dữ liệu của chúng ta đã đi qua mạng mà không bị mất. Trong mô hình của chúng ta, chúng ta phát hiện tắc nghẽn bằng cách kiểm tra mất mát, vì vậy một <em>ack</em> mới là một dấu hiệu cho thấy mạng không bị tắc nghẽn. Do đó, khi chúng ta thấy một <em>ack</em> mới, chúng ta có thể tăng kích thước cửa sổ (hoặc trong quá trình khám phá <em>slow-start</em>, hoặc điều chỉnh <em>AIMD</em>).</p>
+<p>Khi chúng ta thấy 3 <em>duplicate acks</em>, chúng ta đánh dấu một <em>packet</em> bị mất. Đây là một tín hiệu của mất mát đơn lẻ, cho thấy tắc nghẽn nhẹ. Chúng ta đã mất một <em>packet</em>, nhưng các <em>packet</em> tiếp theo vẫn đang được nhận. Để phản ứng với sự mất mát này, chúng ta sẽ giảm kích thước cửa sổ (trong quá trình điều chỉnh <em>AIMD</em>).</p>
+<p>Khi chúng ta gặp phải một lần hết thời gian chờ, chúng ta đánh dấu một <em>packet</em> bị mất. Việc chúng ta phát hiện mất mát sau khi hết thời gian chờ, chứ không phải <em>duplicate acks</em>, là một tín hiệu của việc nhiều <em>packet</em> bị mất (tắc nghẽn nặng). Để thấy tại sao, hãy xem xét kích thước cửa sổ là 100 <em>packet</em>. Nếu chúng ta gặp phải một lần hết thời gian chờ, điều này có nghĩa là chúng ta không nhận được <em>ack</em> cho <em>packet</em> ngoài cùng bên trái trong cửa sổ. Nhưng nó cũng có nghĩa là chúng ta đã không nhận được 3 <em>duplicate acks</em> cho bất kỳ <em>packet</em> nào khác trong cửa sổ trong suốt thời gian của bộ đếm. Một lần hết thời gian chờ có nghĩa là rất ít, nếu có, <em>packet</em> đang được nhận, và có điều gì đó tồi tệ đã xảy ra.</p>
+<p>Nếu chúng ta phát hiện một lần hết thời gian chờ, có điều gì đó không mong muốn đã xảy ra (ví dụ: mạng đã thay đổi), và chúng ta không nên tin tưởng vào kích thước cửa sổ hiện tại của mình nữa. Để phản ứng, chúng ta nên quay lại giai đoạn <em>slow-start</em> và khám phá lại một kích thước cửa sổ tốt. Đây không phải là cách duy nhất để phản ứng với việc hết thời gian chờ, nhưng đây là những gì <em>TCP</em> đã quyết định.</p>
+<h2 id="slow-start-theo-sự-kiện"><a class="header" href="#slow-start-theo-sự-kiện">Slow-Start theo Sự kiện</a></h2>
+<p>Trong mô hình khái niệm của chúng ta, chúng ta đã triển khai <em>slow-start</em> bằng cách chọn một tốc độ chậm, và tăng tốc độ theo cấp số nhân (ví dụ: nhân đôi trong mỗi vòng lặp) cho đến khi chúng ta gặp phải lần mất mát đầu tiên. Bây giờ chúng ta cần một cách theo sự kiện để nhân đôi cửa sổ một lần mỗi <em>RTT</em>.</p>
+<p><em>TCP</em> bắt đầu với một cửa sổ nhỏ là 1 <em>packet</em>. Hãy nhớ, chúng ta có thể chuyển đổi <em>packet</em> thành byte với <em>maximum segment size (MSS)</em>, và sau đó chuyển đổi byte thành tốc độ bằng cách chia <em>MSS/RTT</em>.</p>
+<p>Mỗi khi chúng ta nhận được một xác nhận, chúng ta sẽ tăng kích thước cửa sổ thêm 1 <em>packet</em>. Trực giác về những gì sẽ xảy ra là:</p>
+<p>Ban đầu, kích thước cửa sổ là 1 <em>packet</em>. Chúng ta gửi 1 <em>packet</em>, và sau một <em>RTT</em>, nhận lại 1 <em>ack</em>. <em>Ack</em> đó cho phép chúng ta tăng cửa sổ lên 2 <em>packet</em>.</p>
+<p>Bây giờ chúng ta gửi 2 <em>packet</em>, và sau một <em>RTT</em>, chúng ta nhận lại 2 <em>ack</em>. 2 <em>ack</em> đó cho phép chúng ta tăng cửa sổ thêm 2 <em>packet</em> nữa, cho kích thước cửa sổ mới là 4 <em>packet</em>.</p>
+<p>Bây giờ chúng ta gửi 4 <em>packet</em>, và sau một <em>RTT</em>, chúng ta nhận lại 4 <em>ack</em>. 4 <em>ack</em> đó cho phép chúng ta tăng cửa sổ thêm 4 <em>packet</em> nữa, cho kích thước cửa sổ mới là 8 <em>packet</em>.</p>
+<img width="500px" src="../assets/transport/3-071-event-driven-ss.png">
+<p>Tuy nhiên, bức tranh trực quan này giả định chúng ta đang gửi tất cả 4 <em>packet</em> và nhận tất cả 4 <em>ack</em> đồng thời. Trong thực tế, hành vi <em>sliding window</em> khiến cửa sổ của chúng ta tăng thêm 1 mỗi khi chúng ta nhận được một <em>ack</em>, mặc dù hành vi cuối cùng (nhân đôi cửa sổ mỗi <em>RTT</em>) là như nhau.</p>
+<p>Như trước đây, chúng ta bắt đầu với kích thước cửa sổ là 1 <em>packet</em>. Chúng ta gửi 1 <em>packet</em> (A), và sau một <em>RTT</em>, nhận lại <em>ack</em> cho A. <em>Ack</em> đó cho phép chúng ta tăng cửa sổ lên 2 <em>packet</em>, và không có <em>packet</em> nào đang trên đường truyền.</p>
+<p>Tiếp theo, chúng ta có thể gửi ra 2 <em>packet</em> (B và C). Khi chúng ta nhận được <em>ack</em> cho B, chúng ta tăng cửa sổ lên 3 <em>packet</em>. Vẫn còn 1 <em>packet</em> đang trên đường truyền (C), vì vậy chúng ta có thể gửi thêm 2 <em>packet</em> nữa (D và E).</p>
+<p>Khi chúng ta nhận được <em>ack</em> cho C, chúng ta có thể tăng cửa sổ lên 4 <em>packet</em>. Vẫn còn 2 <em>packet</em> đang trên đường truyền (D và E), vì vậy chúng ta có thể gửi thêm 2 <em>packet</em> nữa (F và G).</p>
+<p>Nói chung, giả sử không có mất mát và không có sắp xếp lại thứ tự, mỗi khi chúng ta nhận được một <em>ack</em>, <em>sliding window</em> cho phép chúng ta gửi thêm một <em>packet</em>, và cửa sổ được tăng lên cho phép chúng ta gửi thêm một <em>packet</em> nữa. Bởi vì mỗi <em>ack</em> dẫn đến việc 2 <em>packet</em> được gửi đi, chúng ta có được hành vi mà cửa sổ nhân đôi mỗi <em>RTT</em>. Ví dụ, trong một khoảng <em>RTT</em> mà chúng ta nhận được 16 <em>ack</em>, mỗi <em>ack</em> kích hoạt hai <em>packet</em> được gửi đi, tổng cộng là 32 <em>packet</em>. Sau đó, trong khoảng <em>RTT</em> tiếp theo, 32 <em>packet</em> đó sẽ được xác nhận, kích hoạt 64 <em>packet</em> được gửi đi.</p>
+<p>Cuối cùng, sau một thời gian nhân đôi cửa sổ mỗi <em>RTT</em> (tăng cửa sổ thêm 1 cho mỗi <em>ack</em>), chúng ta sẽ gặp phải mất mát. Điều này cũng có nghĩa là chúng ta đã học được tốc độ &quot;an toàn&quot; tối đa cho phép để gửi các <em>packet</em> mà không gặp phải mất mát. Chúng ta sẽ ghi nhớ tốc độ này trong một tham số mới gọi là <em>SSTHRESH (ngưỡng khởi động chậm)</em>. Cụ thể, ngay khi chúng ta gặp phải mất <em>packet</em>, chúng ta sẽ đặt <em>SSTHRESH</em> bằng một nửa kích thước cửa sổ. Ví dụ, nếu một cửa sổ 16 <em>packet</em> không gây ra mất mát, nhưng một cửa sổ 32 <em>packet</em> lại gây ra mất mát, thì chúng ta sẽ đặt <em>SSTHRESH</em> là 16.</p>
+<img width="700px" src="../assets/transport/3-072-ssthresh-ss.png">
+<p>Hãy nhớ lại rằng sau <em>slow-start</em>, chúng ta sẽ liên tục điều chỉnh kích thước cửa sổ (<em>AIMD</em>). <em>SSTHRESH</em> cho phép chúng ta ghi nhớ tốc độ an toàn mà chúng ta đã học được từ <em>slow-start</em>, ngay cả khi tốc độ bắt đầu thay đổi sau này.</p>
+<h2 id="triển-khai-tăng-cộng"><a class="header" href="#triển-khai-tăng-cộng">Triển khai Tăng Cộng</a></h2>
+<p>Trong mô hình khái niệm của chúng ta, sau <em>slow-start</em>, chúng ta muốn tăng tốc độ một cách từ từ (cộng tính) khi không có mất mát. Chúng ta cần một cách theo sự kiện để tăng cửa sổ thêm 1 <em>packet</em> cho mỗi <em>RTT</em>.</p>
+<p>Chúng ta không có một con số chính xác cho <em>RTT</em>, nhưng chúng ta biết rằng trong một <em>RTT</em> duy nhất, chúng ta mong đợi một lượng <em>packet</em> bằng kích thước cửa sổ sẽ được xác nhận. Ví dụ, với kích thước cửa sổ là 10, chúng ta nhận được 10 <em>ack</em> mỗi <em>RTT</em>. Nếu chúng ta tăng cửa sổ thêm 1/10 <em>packet</em> cho mỗi <em>ack</em>, thì trong suốt một <em>RTT</em>, cửa sổ sẽ tăng thêm 1 <em>packet</em>, như mong muốn.</p>
+<p>Mỗi khi chúng ta nhận được một xác nhận, chúng ta sẽ lấy kích thước cửa sổ hiện tại <em>CWND</em> và gán lại nó thành <em>CWND</em> + (1/<em>CWND</em>). Điều này tăng cửa sổ thêm một phần nhỏ của một <em>packet</em> trên mỗi <em>ack</em>. Sau một lượng <em>packet</em> bằng kích thước cửa sổ (tức là sau một <em>RTT</em>), cửa sổ tăng thêm 1 <em>packet</em>.</p>
+<p>Về mặt hình thức, <em>TCP</em> đo cửa sổ bằng byte, không phải <em>packet</em>, vì vậy (1/<em>CWND</em>) tương đương với <em>MSS</em> * (<em>MSS</em>/<em>CWND</em>) bằng byte. Trong (1/<em>CWND</em>), tử số là 1 <em>packet</em> (tổng mức tăng trong một <em>RTT</em>), và mẫu số là <em>CWND</em> được đo bằng <em>packet</em>. Vì mẫu số bây giờ được đo bằng <em>packet</em>, chúng ta cũng phải đo tử số bằng <em>packet</em>: 1 <em>packet</em> = <em>MSS</em> byte.</p>
+<p>Nhưng phân số 1/<em>CWND</em> hoặc <em>MSS</em>/<em>CWND</em> vẫn là một tỷ lệ (không có thứ nguyên), đại diện cho phần trăm cần tăng trên mỗi <em>ack</em>. Tổng mức tăng chúng ta muốn là 1 <em>packet</em> = <em>MSS</em> byte, vì vậy chúng ta phải nhân phân số này với <em>MSS</em> byte.</p>
+<p>Ví dụ, giả sử <em>CWND</em> của chúng ta là 3 <em>packet</em> = 150 byte (giả sử <em>MSS</em> = 50 byte). Trong chế độ xem <em>packet</em>, chúng ta sẽ thêm 1/3 <em>packet</em> vào cửa sổ mỗi lần, cho tổng mức tăng là 1 <em>packet</em>.</p>
+<p>Trong chế độ xem byte, chúng ta có thể chia <em>MSS</em>/<em>CWND</em> = 50/150 để có được cùng một tỷ lệ 1/3 mà chúng ta cần để tăng mỗi lần, cho tổng mức tăng là 1. Nhưng chúng ta vẫn cần nhân với <em>MSS</em> để tổng mức tăng là <em>MSS</em> thay vì 1.</p>
+<img width="900px" src="../assets/transport/3-073-event-driven-aimd.png">
+<p>Lưu ý rằng mức tăng không hoàn toàn tuyến tính, nhưng cung cấp một sự xấp xỉ đủ tốt. Ví dụ, bắt đầu với <em>CWND</em> = 4, lần cập nhật đầu tiên là 4 + 1/4 = 4.25, và lần tăng thứ hai là 4.25 + 1/4.25 = 4.49. Sau bốn lần cập nhật, kích thước cửa sổ sẽ là 4.92 trong phép xấp xỉ này (chúng ta muốn nó là 5 trong mô hình chính xác).</p>
+<h2 id="triển-khai-giảm-nhân"><a class="header" href="#triển-khai-giảm-nhân">Triển khai Giảm Nhân</a></h2>
+<p>Nếu chúng ta phát hiện mất mát từ 3 <em>duplicate acks</em>, chúng ta chia kích thước cửa sổ cho 2.</p>
+<p>Hãy nhớ lại rằng nếu bộ đếm thời gian truyền lại hết hạn, chúng ta hiểu việc hết thời gian chờ là nhiều <em>packet</em> bị mất (chúng ta thậm chí không nhận được <em>duplicate acks</em>). Chúng ta giả định rằng cửa sổ hiện tại có thể sai lệch rất nhiều, và để thận trọng, chúng ta sẽ khám phá lại một tốc độ tốt từ đầu.</p>
+<p>Đầu tiên, chúng ta sẽ ghi nhận rằng tốc độ hiện tại quá cao, và tốc độ an toàn tốt nhất đã biết là một nửa tốc độ hiện tại của chúng ta (theo nguyên tắc giảm nhân). Để ghi lại tốc độ an toàn này, chúng ta sẽ đặt <em>SSTHRESH</em> bằng một nửa cửa sổ hiện tại.</p>
+<p>Sau đó, chúng ta sẽ đặt lại kích thước cửa sổ về 1 <em>packet</em>, và lặp lại quá trình <em>slow-start</em> một lần nữa.</p>
+<p>Lưu ý rằng khi chúng ta thử lại <em>slow-start</em>, chúng ta cần cẩn thận để không quay trở lại tốc độ nguy hiểm với việc hết thời gian chờ từ trước đó. May mắn thay, chúng ta đã đặt <em>SSTHRESH</em> ngay dưới tốc độ nguy hiểm. Do đó, trong các lần thử lại <em>slow-start</em> tiếp theo (nơi <em>SSTHRESH</em> được đặt), ngay khi cửa sổ của chúng ta vượt quá <em>SSTHRESH</em>, chúng ta nên chuyển từ tăng nhân sang tăng cộng. Trong lần <em>slow-start</em> đầu tiên, <em>SSTHRESH</em> không được đặt (hoặc là vô cực).</p>
+<p>Tóm lại: Trong <em>slow-start</em>, chúng ta tăng cửa sổ thêm 1 <em>packet</em> cho mỗi <em>ack</em> (dẫn đến nhân đôi tốc độ mỗi <em>RTT</em>). Khi ở chế độ <em>AIMD</em>, chúng ta tăng cửa sổ thêm một phần nhỏ của kích thước cửa sổ cho mỗi <em>ack</em> (dẫn đến tăng thêm 1 cho mỗi lượng dữ liệu bằng kích thước cửa sổ). Chúng ta giảm cửa sổ bằng cách chia đôi nó khi nhận được 3 <em>duplicate acks</em>, và thay đổi nó thành 1 khi hết thời gian chờ.</p>
+<p>Lưu ý rằng khi giảm, chúng ta không bao giờ giảm kích thước cửa sổ xuống dưới 1 <em>packet</em>. Trong trường hợp xấu nhất, chúng ta cần cho phép 1 <em>packet</em> được đang trên đường truyền.</p>
+<h2 id="mô-hình-răng-cưa-tcp"><a class="header" href="#mô-hình-răng-cưa-tcp">Mô hình Răng cưa TCP</a></h2>
+<img width="900px" src="../assets/transport/3-074-sawtooth-ssthresh.png">
+<p>Nếu chúng ta vẽ đồ thị tốc độ theo thời gian, chúng ta sẽ thấy sự tăng trưởng theo cấp số nhân ban đầu (<em>slow-start</em>). Ngay khi chúng ta gặp phải mất mát, chúng ta cắt giảm một nửa tốc độ, và chuyển sang chế độ <em>AIMD</em>. Bây giờ, chúng ta tăng tuyến tính cho đến khi gặp phải mất mát, và chúng ta giảm một nửa tốc độ mỗi khi gặp phải mất mát.</p>
+<h2 id="fast-recovery-ví-dụ-thực-tế"><a class="header" href="#fast-recovery-ví-dụ-thực-tế">Fast Recovery: Ví dụ Thực tế</a></h2>
+<p>Còn một vấn đề cuối cùng chúng ta phải giải quyết trong việc triển khai <em>congestion control</em> của mình. Khi chúng ta gặp phải một <em>packet</em> bị mất đơn lẻ, <em>congestion window</em> bị giảm đi một nửa, như dự định. Tuy nhiên, điều này có tác dụng phụ không mong muốn là khiến bên gửi bị đình trệ một thời gian trước khi có thể tiếp tục gửi các <em>packet</em>.</p>
+<p>Để thấy điều này hoạt động, hãy xem xét một ví dụ thực tế. Chúng ta gửi 10 <em>packet</em>, được đánh số từ 101 đến 110. <em>Packet</em> đầu tiên (101) bị mất.</p>
+<p>Kết quả là, 9 <em>packet</em> còn lại, từ 102 đến 110, đều được xác nhận là ack(101), bởi vì byte tiếp theo được mong đợi vẫn là 101.</p>
+<p>Sau <em>duplicate ack</em>(101) thứ ba (được tạo ra khi nhận 102, 103, và 104), bên gửi sẽ gửi lại 101.</p>
+<p>Cuối cùng, <em>ack</em> cho <em>packet</em> 101 được gửi lại sẽ đến. Nó ghi ack(111), bởi vì các <em>packet</em> từ 102 đến 110 đều đã được nhận trước đó, và với việc nhận được 101, byte tiếp theo được mong đợi là 111.</p>
+<img width="700px" src="../assets/transport/3-075-fastrecovery1.png">
+<p>Tóm lại: Ở phía bên gửi, chúng ta gửi từ 101 đến 110, và 101 bị mất. Chúng ta nhận được ack(101) từ 102, ack(101) từ 103, và ack(101) từ 104. Tại thời điểm này, chúng ta gửi lại 101. Sau đó, chúng ta nhận được ack(101) từ 105 đến 110. Cuối cùng, chúng ta nhận được ack(111) từ 101.</p>
+<p>Ở phía bên nhận, chúng ta nhận từ 102 đến 110, và gửi lại ack(101) mỗi lần, vì byte chưa nhận tiếp theo vẫn là 101. Cuối cùng, chúng ta nhận được <em>packet</em> 101 được gửi lại, và chúng ta gửi lại ack(111) bởi vì byte chưa nhận tiếp theo là 111.</p>
+<p><em>CWND</em> trông như thế nào trong ví dụ thực tế này? Hãy nhớ rằng cửa sổ bắt đầu từ byte đầu tiên chưa được xác nhận, và kéo dài cho <em>CWND</em> byte liên tiếp. Cách duy nhất để dịch chuyển cửa sổ về phía trước là nhận được byte đầu tiên chưa được xác nhận. Nếu chúng ta nhận được <em>ack</em> cho một số byte khác trong cửa sổ, cửa sổ vẫn giữ nguyên, bởi vì cửa sổ được xác định bởi byte đầu tiên chưa được xác nhận.</p>
+<h2 id="fast-recovery-vấn-đề"><a class="header" href="#fast-recovery-vấn-đề">Fast Recovery: Vấn đề</a></h2>
+<p>Hãy giả sử rằng <em>CWND</em> bắt đầu là 10. Các <em>packet</em> từ 101 đến 110 được phép đang trên đường truyền. Bên gửi gửi từ 101 đến 110, nhưng 101 bị mất.</p>
+<img width="900px" src="../assets/transport/3-076-fastrecovery2.png">
+<p>Bên gửi thấy ack(101), được tạo ra từ việc phía bên kia nhận 102. Tại thời điểm này, byte đầu tiên chưa được xác nhận vẫn là 101, vì vậy cửa sổ không thay đổi. Các <em>packet</em> duy nhất được phép đang trên đường truyền vẫn là từ 101 đến 110, và bên gửi không thể gửi bất cứ thứ gì mới (ví dụ: 111 không thể được gửi).</p>
+<p>Tiếp theo, bên gửi thấy ack(101), được tạo ra từ việc phía bên kia nhận 103. Một lần nữa, byte đầu tiên chưa được xác nhận vẫn là 101, vì vậy cửa sổ không thay đổi. Cửa sổ vẫn bắt đầu từ 101 và kéo dài đến 110, và bên gửi không thể gửi bất cứ thứ gì mới.</p>
+<p>Tiếp theo, bên gửi thấy ack(101), được tạo ra từ việc phía bên kia nhận 104. Đây là <em>duplicate ack</em> thứ ba, vì vậy chúng ta phải giảm <em>CWND</em> xuống 5. Byte đầu tiên chưa được xác nhận vẫn là 101, và <em>CWND</em> là 5, vì vậy các <em>packet</em> từ 101 đến 105 được phép đang trên đường truyền. Bên gửi vẫn không thể gửi bất cứ thứ gì mới. Chúng ta gửi lại 101 (<em>packet</em> ngoài cùng bên trái trong cửa sổ) vì chúng ta đã thấy <em>duplicate ack</em> thứ ba.</p>
+<p>Tiếp theo, bên gửi thấy ack(101), được tạo ra từ việc phía bên kia nhận 105. Cửa sổ vẫn là 101 (byte đầu tiên chưa được xác nhận) đến 105 (<em>CWND</em> byte sau đó), vì vậy chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<img width="800px" src="../assets/transport/3-077-fastrecovery3.png">
+<p>Tiếp theo, bên gửi thấy ack(101), được tạo ra từ việc phía bên kia nhận 106. Một lần nữa, cửa sổ không thay đổi, và chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<p>Bên gửi nhận được ack(101), ack(101), ack(101), ack(101) từ việc phía bên kia nhận 107, 108, 109, 110. Trong mọi trường hợp, 101 vẫn là byte đầu tiên chưa được xác nhận, vì vậy cửa sổ vẫn là 101 đến 105, và bên gửi không thể gửi bất cứ thứ gì mới.</p>
+<p>Chuyện gì đã xảy ra ở đây? Chỉ có một <em>packet</em> duy nhất bị mất, nhưng kết quả là bên gửi đã phải ngừng gửi hoàn toàn trong một thời gian dài.</p>
+<p>Cửa sổ được định nghĩa bởi byte đầu tiên chưa được xác nhận, vì vậy cửa sổ không chịu di chuyển về phía trước cho đến khi 101 được gửi lại và xác nhận. Mặc dù tất cả các <em>packet</em> khác (từ 102 đến 110) đều đến, cửa sổ vẫn bị kẹt ở 101, và các <em>packet</em> sau đó (từ 111 trở đi) không thể được gửi. Bên gửi bị đình trệ!</p>
+<p>Cuối cùng, bên gửi nhận được ack(111) từ <em>packet</em> 101 được gửi lại. Điều này khiến cửa sổ nhảy về phía trước và trượt đến <em>packet</em> đầu tiên chưa được xác nhận mới, 111. <em>CWND</em> vẫn là 5, vì vậy bên gửi bây giờ có thể gửi từ 111 đến 115.</p>
+<img width="800px" src="../assets/transport/3-078-fastrecovery4.png">
+<p>Chuyện gì đã xảy ra ở đây? Bây giờ chúng ta có một vấn đề thứ hai. Bên gửi đã bị đình trệ một thời gian dài, nhưng ngay khi 101 được xác nhận với ack(111), cửa sổ đã nhảy về phía trước đến tận 111-115, và bên gửi đột nhiên phải vội vàng gửi 111-115 cùng một lúc.</p>
+<p>Bên gửi đã bị đình trệ một thời gian dài, không gửi gì cả, và sau đó đột nhiên vội vàng gửi 111-115 cùng một lúc. Bây giờ, bên gửi phải đợi thêm một <em>round-trip</em> đầy đủ để 111-115 được xác nhận, trước khi có thể gửi 116 và xa hơn nữa.</p>
+<img width="900px" src="../assets/transport/3-079-fastrecovery5.png">
+<p>Tóm lại: Việc mất <em>packet</em> đơn lẻ đã khiến cửa sổ bị kẹt, điều này khiến bên gửi bị đình trệ và không gửi gì cả. Cuối cùng, khi <em>packet</em> đó được gửi lại và xác nhận, cửa sổ nhảy về phía trước, khiến bên gửi phải vội vàng gửi một loạt <em>packet</em> mới cùng một lúc. Bên gửi bây giờ phải đợi thêm một <em>round-trip</em> nữa để những <em>packet</em> mới đó được xác nhận, trước khi có thể tiếp tục hoạt động như bình thường.</p>
+<img width="900px" src="../assets/transport/3-080-fastrecovery6.png">
+<p>Một vài lưu ý về vấn đề này:</p>
+<p>Nếu vấn đề vẫn còn khó hiểu, có thể hữu ích khi lưu ý rằng vấn đề này chủ yếu là do lược đồ <em>sliding window</em> của <em>TCP</em>, và không thực sự là do lược đồ <em>congestion control</em>. <em>Congestion control</em> khiến cửa sổ thu nhỏ lại, nhưng ngay cả khi cửa sổ không thu nhỏ, bên gửi vẫn sẽ bị buộc phải đình trệ cho đến khi 101 được nhận và cửa sổ nhảy về phía trước.</p>
+<p>Khi chúng ta suy nghĩ về vấn đề này một cách trực quan, việc vẽ các sơ đồ về cửa sổ của bên gửi, đánh dấu các byte đã được xác nhận sẽ hữu ích. Ví dụ, sau ba <em>duplicate acks</em>, chúng ta đánh dấu 102, 103, 104 là đã nhận, và cửa sổ cho phép 101 (byte đầu tiên chưa được xác nhận) đến 105 được đang trên đường truyền.</p>
+<p>Tuy nhiên, đây không thực sự là những gì bên gửi thấy. Hãy nhớ rằng, bên gửi chỉ thấy các <em>cumulative acks (xác nhận tích lũy)</em>, vì vậy nó không thực sự biết rằng 102, 103, và 104 đã được nhận. Bên gửi có thể suy luận rằng 3 <em>packet</em> trong cửa sổ (không phải là 101) đã được nhận, nhưng nó không biết chính xác là 3 <em>packet</em> nào.</p>
+<p>Cuối cùng, lưu ý rằng sau khi chúng ta nhận được 3 thông điệp <em>duplicate ack</em>(101), chúng ta gửi lại 101, và chúng ta không bao giờ gửi lại 101 một lần nữa, ngay cả khi có thêm các thông điệp <em>duplicate ack</em>(101) đến. Đây chỉ là quy tắc của <em>TCP</em> để gửi lại khi có <em>duplicate acks</em>.</p>
+<h2 id="fast-recovery-Ý-tưởng"><a class="header" href="#fast-recovery-Ý-tưởng">Fast Recovery: Ý tưởng</a></h2>
+<p>Vậy, làm thế nào để chúng ta giải quyết vấn đề này? Lý tưởng nhất, chúng ta không muốn bên gửi bị đình trệ, và chúng ta muốn bên gửi tiếp tục gửi các <em>packet</em> sau đó (từ 111 trở đi), ngay cả khi 101 bị mất.</p>
+<p>Lưu ý rằng mặc dù bên gửi không thể suy luận chính xác <em>packet</em> nào đến, bên gửi có thể suy luận rằng các <em>packet</em> sau đó (không phải 101) đang được nhận.</p>
+<p>Khi chúng ta thấy ack(101), được tạo ra từ việc 102 được nhận, chúng ta không thực sự biết rằng 102 đã được nhận, nhưng chúng ta biết một <em>packet</em> nào đó (không phải 101) đã được nhận. Do đó, chỉ còn 9 <em>packet</em> đang trên đường truyền.</p>
+<p>Khi chúng ta thấy một ack(101) khác, được tạo ra từ việc 103 được nhận, chúng ta lại không biết rằng cụ thể là 103 đã được nhận, nhưng chúng ta biết rằng một <em>packet</em> khác (không phải 101) đã được nhận. Do đó, chỉ còn 8 <em>packet</em> đang trên đường truyền.</p>
+<p>Khi chúng ta tiếp tục nhận các thông điệp <em>duplicate ack</em>(101), chúng ta có thể suy luận rằng còn ít <em>packet</em> hơn đang trên đường truyền:</p>
+<p>Sau ack(101) từ 102: 9 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 103: 8 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 104: 7 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 105: 6 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 106: 5 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 107: 4 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 108: 3 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 109: 2 <em>packet</em> đang trên đường truyền.</p>
+<p>Sau ack(101) từ 110: 1 <em>packet</em> đang trên đường truyền.</p>
+<p>Cuối cùng, sau khi chúng ta nhận được ack(101) chín lần (từ việc 102 đến 110 được nhận), chúng ta biết rằng chỉ còn 1 <em>packet</em> đang trên đường truyền, đó là 101.</p>
+<p>Sau khi mất mát đơn lẻ, chúng ta thực sự muốn <em>CWND</em> là 5, có nghĩa là chúng ta muốn có 5 <em>packet</em> đang trên đường truyền tại bất kỳ thời điểm nào. Đến khi chúng ta nhận được ack(101) từ 107, chúng ta có thể suy luận rằng chỉ còn 4 <em>packet</em> đang trên đường truyền. (Thực tế, chúng là 101, 108, 109, 110, mặc dù bên gửi không biết điều đó.)</p>
+<p>Tại thời điểm này, chúng ta muốn có thể gửi 111, để có tổng cộng 5 <em>packet</em> đang trên đường truyền. Nhưng cửa sổ sẽ không cho phép chúng ta làm điều đó, bởi vì cửa sổ vẫn bị kẹt ở 101 (byte đầu tiên chưa được xác nhận) đến 105 (<em>CWND</em> byte sau đó).</p>
+<p>Ý tưởng chính sẽ giúp bên gửi không bị đình trệ là: Hãy cấp cho bên gửi tín dụng tạm thời cho mỗi <em>duplicate ack</em>.</p>
+<p>Khi một <em>duplicate ack</em> đến, chúng ta có thể suy luận rằng có ít hơn một <em>packet</em> đang trên đường truyền, mặc dù chúng ta không biết là <em>packet</em> nào. Để giải quyết điều này, chúng ta sẽ mở rộng cửa sổ một cách nhân tạo thêm 1 <em>packet</em>, để cho phép bên gửi gửi thêm một <em>packet</em> nữa.</p>
+<h2 id="fast-recovery-giải-pháp"><a class="header" href="#fast-recovery-giải-pháp">Fast Recovery: Giải pháp</a></h2>
+<p>Hãy lấy ý tưởng mở rộng cửa sổ một cách nhân tạo cho mỗi <em>duplicate ack</em>, và áp dụng nó vào ví dụ từ trước.</p>
+<p>Như trước đây, cửa sổ bắt đầu từ 101 đến 110, và chúng ta gửi đi 10 <em>packet</em>.</p>
+<img width="900px" src="../assets/transport/3-081-fastrecovery7.png">
+<p>Như trước đây, chúng ta nhận được ack(101) từ 102, cửa sổ không thay đổi, và chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<p>Như trước đây, chúng ta nhận được ack(101) từ 103, cửa sổ không thay đổi, và chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<img width="900px" src="../assets/transport/3-082-fastrecovery8.png">
+<p>Như trước đây, chúng ta nhận được ack(101) từ 104, cửa sổ không thay đổi, và chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<p><em>Duplicate ack</em> thứ ba có nghĩa là chúng ta giảm <em>CWND</em> xuống 5, vì vậy cửa sổ bây giờ là 101 đến 105.</p>
+<p>Tuy nhiên, chúng ta đã nhận được 3 <em>ack</em>, vì vậy chúng ta mở rộng cửa sổ một cách nhân tạo thêm 3 để tính đến những <em>ack</em> đó. Do đó, <em>CWND</em> thực sự được đặt thành 5 + 3 = 8.</p>
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 105. Điều này cho phép chúng ta mở rộng cửa sổ một lần nữa, lên 9. Bây giờ cửa sổ kéo dài từ 101 đến 109, vì vậy chúng ta vẫn không thể gửi các <em>packet</em> mới.</p>
+<img width="900px" src="../assets/transport/3-083-fastrecovery9.png">
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 106. Chúng ta lại mở rộng cửa sổ lên 10, kéo dài từ 101 đến 110, và chúng ta không thể gửi bất cứ thứ gì mới.</p>
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 107. Chúng ta lại mở rộng cửa sổ lên 11, kéo dài từ 101 đến 111. Bây giờ chúng ta có thể gửi đi 111!</p>
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 108. Chúng ta lại mở rộng cửa sổ lên 12, kéo dài từ 101 đến 112. Bây giờ chúng ta có thể gửi đi 112!</p>
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 109. Chúng ta lại mở rộng cửa sổ lên 13, kéo dài từ 101 đến 113. Bây giờ chúng ta có thể gửi đi 113!</p>
+<p>Tiếp theo, chúng ta nhận được ack(101) từ 110. Chúng ta lại mở rộng cửa sổ lên 14, kéo dài từ 101 đến 114. Bây giờ chúng ta có thể gửi đi 114!</p>
+<img width="900px" src="../assets/transport/3-084-fastrecovery10.png">
+<p>Cuối cùng, chúng ta nhận được ack(111) từ <em>packet</em> 101 được gửi lại. Tại thời điểm này, chúng ta có thể đặt lại <em>CWND</em> về giá trị dự định ban đầu là 5, để cửa sổ kéo dài từ 111 đến 115. Điều này cho phép chúng ta gửi đi 115!</p>
+<p>Với sửa lỗi này, chúng ta đã giải quyết được vấn đề bên gửi bị đình trệ. Ban đầu, bên gửi phải đợi <em>packet</em> 101 được gửi lại được xác nhận trước khi gửi các <em>packet</em> mới. Bây giờ, bên gửi có thể tiếp tục gửi các <em>packet</em> trước khi <em>packet</em> 101 được gửi lại được xác nhận.</p>
+<img width="900px" src="../assets/transport/3-085-fastrecovery11.png">
+<p>Chúng ta cũng đã giải quyết vấn đề thứ hai từ trước đó, nơi cửa sổ nhảy về phía trước và chúng ta gửi một loạt <em>packet</em> mới (từ 111 đến 115). Bây giờ, từ 111 đến 114 đã được gửi đi sớm hơn, và khi cửa sổ nhảy về phía trước, chúng ta chỉ phải gửi đi 115.</p>
+<p>Nếu không có sửa lỗi này, chúng ta đã phải đình trệ thêm một <em>round-trip</em> nữa trong khi chờ đợi loạt <em>packet</em> từ 111 đến 115 được xác nhận. Bây giờ, bởi vì chúng ta đã bận rộn hơn và gửi đi từ 111 đến 114, chúng sẽ được xác nhận sớm hơn, và chúng ta có thể tiếp tục gửi 116 và xa hơn nữa mà không cần cả <em>RTT</em> đình trệ đó.</p>
+<img width="900px" src="../assets/transport/3-086-fastrecovery12.png">
+<p>Một cách khác để nhìn vào sửa lỗi này là tập trung vào các <em>packet</em> trong cửa sổ được mở rộng nhân tạo.</p>
+<p>Khi chúng ta nhận được <em>duplicate ack</em> thứ ba, <em>CWND</em> thu nhỏ xuống 5, nhưng chúng ta mở rộng nhân tạo cho 3 <em>duplicate acks</em> để có <em>CWND</em> là 8. Nếu bạn nhìn vào cửa sổ mở rộng này, 3 trong số các <em>packet</em> đã được xác nhận (102, 103, 104, mặc dù chúng ta không biết đó là những <em>packet</em> này), và 5 <em>packet</em> còn lại đang trên đường truyền. Điều này đạt được cửa sổ dự định của chúng ta là 5 <em>packet</em> đang trên đường truyền.</p>
+<p>Tiếp theo, khi chúng ta nhận được một ack(101) khác từ 105, cửa sổ mở rộng lên 9. Một lần nữa, nếu bạn nhìn vào cửa sổ này, 4 trong số các <em>packet</em> đã được xác nhận (chúng ta không biết là <em>packet</em> nào), và 5 <em>packet</em> còn lại đang trên đường truyền, cho chúng ta cửa sổ dự định là 5 <em>packet</em> đang trên đường truyền.</p>
+<p>Khi chúng ta nhận được ack(101) từ 106, cửa sổ mở rộng lên 10, bao gồm 5 <em>packet</em> đã nhận (từ 5 <em>duplicate acks</em>), cộng với 5 <em>packet</em> đang trên đường truyền (kích thước cửa sổ dự định).</p>
+<p>Ở mỗi bước, trong cửa sổ mở rộng của chúng ta, nếu bạn không tính các <em>packet</em> đã được xác nhận, có chính xác 5 <em>packet</em> đang trên đường truyền trong cửa sổ. Một lần nữa, chúng ta không biết chính xác <em>packet</em> nào trong cửa sổ đã được xác nhận, nhưng chúng ta có thể sử dụng các <em>duplicate acks</em> để đếm có bao nhiêu <em>packet</em> đã được xác nhận, và sử dụng số đếm đó để giữ 5 <em>packet</em> đang trên đường truyền.</p>
+<p>Khi chúng ta nhận được ack(101) từ 107, cửa sổ mở rộng lên 11, bao gồm 6 <em>packet</em> đã nhận (từ 6 <em>duplicate acks</em>). 5 <em>packet</em> còn lại trong cửa sổ được phép đang trên đường truyền.</p>
+<p>Tại thời điểm này, chúng ta đã gửi 10 <em>packet</em> ban đầu, và chúng ta đã nhận được 6 <em>duplicate acks</em>, điều này cho chúng ta biết rằng chỉ còn 4 <em>packet</em> đang trên đường truyền. Điều này cho phép chúng ta gửi đi 111. Cửa sổ mở rộng nhân tạo nắm bắt được lý luận này, bởi vì nó mở rộng cửa sổ để bao gồm 111.</p>
+<p>Khi chúng ta nhận được ack(101) từ 108, chúng ta suy luận rằng bây giờ, có ít hơn một <em>packet</em> đang trên đường truyền. Vì vậy, chúng ta lại mở rộng cửa sổ một cách nhân tạo lên 12, cho phép 112 được gửi đi.</p>
+<h2 id="fast-recovery-triển-khai"><a class="header" href="#fast-recovery-triển-khai">Fast Recovery: Triển khai</a></h2>
+<p>Khi chúng ta phát hiện mất <em>packet</em> từ các <em>duplicate acks</em>, chúng ta tạm thời vào chế độ <em><strong>fast recovery (phục hồi nhanh)</strong></em>, nơi các <em>duplicate acks</em> bổ sung sẽ mở rộng cửa sổ một cách nhân tạo để ngăn chặn việc đình trệ.</p>
+<p>Chế độ <em>fast recovery</em> được kích hoạt khi chúng ta nhận được 3 <em>duplicate acks</em>. Thay vì chỉ giảm một nửa <em>CWND</em>, như chúng ta đã làm trước đây, bây giờ chúng ta đặt <em>CWND</em> thành <em>CWND</em>/2 + 3, nơi cửa sổ được mở rộng nhân tạo thêm 3 cho 3 <em>duplicate acks</em> mà chúng ta đã nhận. Chúng ta cũng đặt <em>SSTHRESH</em> thành <em>CWND</em>/2, để chúng ta ghi nhớ tốc độ an toàn mới cho sau này.</p>
+<p>Khi ở trong chế độ <em>fast recovery</em>, mỗi <em>duplicate ack</em> bổ sung khiến <em>CWND</em> tăng thêm 1, cho phép cửa sổ mở rộng một cách nhân tạo.</p>
+<p>Cuối cùng, khi chúng ta nhận được một <em>ack</em> mới, không trùng lặp, chúng ta rời khỏi chế độ <em>fast recovery</em> và đặt <em>CWND</em> thành <em>SSTHRESH</em>. Lưu ý rằng trong khi chúng ta đang mở rộng cửa sổ một cách nhân tạo, <em>SSTHRESH</em> luôn giúp chúng ta ghi nhớ tốc độ ban đầu đã giảm đi một nửa mà chúng ta cuối cùng muốn gửi ở đó.</p>
+<h2 id="máy-trạng-thái-tcp"><a class="header" href="#máy-trạng-thái-tcp">Máy trạng thái TCP</a></h2>
+<p>Cuối cùng, chúng ta đã sẵn sàng để kết hợp tất cả các mảnh ghép lại và triển khai <em>TCP</em>, với <em>congestion control</em>.</p>
+<p>Bên gửi duy trì 5 giá trị:</p>
+<p>Số đếm <em>duplicate ack</em> giúp chúng ta phát hiện mất mát sớm hơn so với việc hết thời gian chờ. Nó được khởi tạo là 0.</p>
+<p>Bộ đếm thời gian được sử dụng để phát hiện mất mát. Chỉ có một bộ đếm thời gian duy nhất.</p>
+<p><em>RWND</em> được sử dụng cho <em>flow control</em> (không làm quá tải bộ đệm của bên nhận).</p>
+<p><em>CWND</em> được sử dụng cho <em>congestion control</em>. Nó được khởi tạo là 1 <em>packet</em>.</p>
+<p><em>SSTHRESH</em> giúp thuật toán <em>congestion control</em> ghi nhớ tốc độ an toàn mới nhất. Nó được khởi tạo là vô cực.</p>
+<p>Bên nhận duy trì một bộ đệm gồm các <em>packet</em> không theo thứ tự.</p>
+<p>Bên gửi phản ứng với 3 sự kiện: <em>Ack</em> cho dữ liệu mới (chưa được <em>ack</em> trước đó), <em>duplicate ack</em>, và hết thời gian chờ.</p>
+<p>Bên nhận phản ứng với việc nhận một <em>packet</em>, bằng cách trả lời bằng một <em>ack</em> và một giá trị <em>RWND</em>.</p>
+<p>Hãy xem cách bên gửi phản ứng với mỗi trong 3 sự kiện.</p>
+<p>Khi chúng ta nhận được một <em>ack</em> cho dữ liệu mới, chưa được <em>ack</em> trước đó: Nếu ở trong chế độ <em>slow-start</em>, chúng ta tăng <em>CWND</em> thêm 1. Điều này cho phép <em>CWND</em> nhân đôi mỗi <em>RTT</em>. Nếu chúng ta đang ở trong chế độ <em>fast-recovery</em>, chúng ta đặt <em>CWND</em> thành <em>SSTHRESH</em>, để chúng ta rời khỏi <em>fast recovery</em> (vì chúng ta vừa nhận được một <em>ack</em> mới). Nếu chúng ta đang ở trong chế độ tránh tắc nghẽn, chúng ta thêm 1/<em>CWND</em> vào <em>CWND</em>, để <em>CWND</em> tăng thêm 1 mỗi <em>RTT</em> (tăng cộng). Chúng ta cũng đặt lại bộ đếm thời gian, đặt lại số đếm <em>duplicate ack</em>, và, nếu cửa sổ cho phép, gửi dữ liệu mới.</p>
+<p>Khi chúng ta nhận được một <em>duplicate ack</em>, chúng ta tăng số đếm <em>duplicate ack</em>. Nếu số đếm đạt 3, chúng ta gửi lại <em>packet</em> ngoài cùng bên trái trong cửa sổ. Điều này đôi khi được gọi là <em>fast retransmit</em>. Chúng ta cũng vào chế độ <em>fast-recovery</em> bằng cách đặt <em>SSTHRESH</em> thành <em>CWND</em>/2 (ghi nhớ tốc độ an toàn cuối cùng) và đặt <em>CWND</em> thành <em>CWND</em>/2 + 3 (thêm 3 để mở rộng cửa sổ một cách nhân tạo cho các <em>duplicate acks</em>). Nếu số đếm vượt quá 3, chúng ta ở lại trong chế độ <em>fast-recovery</em> và mở rộng <em>CWND</em> một cách nhân tạo thêm 1 cho mỗi <em>duplicate ack</em> tiếp theo.</p>
+<p>Khi bộ đếm thời gian hết hạn, chúng ta gửi lại <em>packet</em> ngoài cùng bên trái trong cửa sổ. Chúng ta cũng quay trở lại chế độ <em>slow-start</em>, đặt <em>SSTHRESH</em> thành <em>CWND</em>/2 (ghi nhớ tốc độ an toàn cuối cùng), và đặt lại <em>CWND</em> về 1 <em>packet</em>.</p>
+<p>Máy trạng thái <em>congestion control</em> cho thấy 3 chế độ có thể có mà <em>TCP</em> có thể ở, và các điều kiện kích hoạt sự chuyển đổi giữa các chế độ.</p>
+<img width="900px" src="../assets/transport/3-087-state-machine.png">
+<p>Chúng ta vào chế độ <em>fast-recovery</em> nếu chúng ta nhận được 3 <em>duplicate acks</em>. Một khi chúng ta ở trong chế độ này, bất kỳ <em>duplicate acks</em> nào nữa cũng sẽ giữ chúng ta ở trong chế độ <em>fast-recovery</em> (tiếp tục mở rộng cửa sổ một cách nhân tạo). Để rời khỏi chế độ <em>fast-recovery</em>, hoặc là một lần hết thời gian chờ sẽ chuyển chúng ta trở lại chế độ <em>slow-start</em>, hoặc một <em>ack</em> mới cho phép chúng ta quay trở lại chế độ tránh tắc nghẽn.</p>
+<p>Một lần hết thời gian chờ sẽ kích hoạt chế độ <em>slow-start</em>. Bất kỳ <em>ack</em> nào nữa (trùng lặp hoặc mới) cũng sẽ giữ chúng ta ở trong <em>slow-start</em>. Cuối cùng, nếu <em>CWND</em> vượt quá <em>SSTHRESH</em> (tốc độ an toàn), chúng ta sẽ vào chế độ tránh tắc nghẽn. Hoặc, nếu chúng ta phát hiện mất mát, chúng ta sẽ giảm một nửa tốc độ và vào chế độ <em>fast-recovery</em> một chút trước khi chuyển sang chế độ tránh tắc nghẽn.</p>
+<p>Trong chế độ tránh tắc nghẽn, các <em>ack</em> mới sẽ giữ chúng ta ở trong chế độ này (tăng cộng), nhưng các <em>duplicate acks</em> sẽ gửi chúng ta đến chế độ <em>fast-recovery</em>, và việc hết thời gian chờ sẽ gửi chúng ta đến chế độ <em>slow-start</em>.</p>
+<h2 id="các-biến-thể-kiểm-soát-tắc-nghẽn-tcp"><a class="header" href="#các-biến-thể-kiểm-soát-tắc-nghẽn-tcp">Các Biến thể Kiểm soát Tắc nghẽn TCP</a></h2>
+<p>Có một số biến thể của thuật toán <em>congestion control</em> <em>TCP</em>, tất cả đều được triển khai trong hệ điều hành của <em>host</em> cuối. Sự thật thú vị: Các tên này liên quan đến hệ điều hành Berkeley Software Distribution (BSD).</p>
+<p>Trong <em>TCP Tahoe</em>, nếu chúng ta nhận được ba <em>duplicate acks</em>, chúng ta đặt lại <em>CWND</em> về 1, thay vì giảm một nửa <em>CWND</em>.</p>
+<p>Trong <em>TCP Reno</em>, nếu chúng ta nhận được ba <em>duplicate acks</em>, chúng ta giảm một nửa <em>CWND</em>. Khi hết thời gian chờ, chúng ta đặt lại <em>CWND</em> về 1.</p>
+<p><em>TCP New Reno</em> giống như Reno, nhưng thêm <em>fast recovery</em>. Đây là những gì chúng ta vừa triển khai.</p>
+<p>Các biến thể khác cũng tồn tại. Trong <em>TCP-SACK</em>, chúng ta thêm các <em>selective acknowledgments (xác nhận chọn lọc)</em> nơi các <em>ack</em> chứa nhiều chi tiết hơn (ví dụ: đã nhận tất cả đến 13, và cả 18 nữa).</p>
+<p>Làm thế nào mà tất cả các biến thể khác nhau này có thể cùng tồn tại? Tại sao chúng ta không cần một giao thức thống nhất duy nhất mà mọi người đều nói? Hãy nhớ rằng, <em>congestion control</em> được triển khai ở các <em>host</em> cuối, vì vậy bên gửi có thể làm bất cứ điều gì họ muốn để điều chỉnh tốc độ của mình. Cuối cùng, mạng và các <em>host</em> cuối khác chỉ thấy các <em>packet</em> <em>TCP</em> được gửi ở một tốc độ (hy vọng là hợp lý), và họ không quan tâm tốc độ đang được tính toán như thế nào. Định dạng <em>packet</em> <em>TCP</em> cơ bản không thay đổi với các thuật toán <em>congestion control</em> khác nhau.</p>
+<p>Tuy nhiên, không phải tất cả các giao thức đều tương thích. Nếu bạn sử dụng biến thể <em>TCP-SACK</em> với các <em>selective acknowledgements</em>, và tôi sử dụng <em>TCP Tahoe</em>, chúng ta có một vấn đề. Bạn mong đợi các <em>ack</em> chọn lọc, nhưng tôi chỉ cung cấp các <em>cumulative acks</em>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../transport/cc-design.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../transport/throughput-model.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../transport/cc-design.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../transport/throughput-model.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

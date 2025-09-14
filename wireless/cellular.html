@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cellular - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html" class="active"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mạng-di-động-cellular"><a class="header" href="#mạng-di-động-cellular">Mạng Di động (Cellular)</a></h1>
+<h2 id="tại-sao-nên-nghiên-cứu-về-mạng-di-động"><a class="header" href="#tại-sao-nên-nghiên-cứu-về-mạng-di-động">Tại sao nên nghiên cứu về Mạng Di động?</a></h2>
+<p>Kết nối di động không dây là tiêu chuẩn hiện đại. Điện thoại của bạn có thể kết nối Internet trong khi bạn đang ở trên một chiếc xe hơi đang di chuyển.</p>
+<p>Các mạng Internet truyền thống không thể hỗ trợ điều này. Bạn có thể di chuyển từ phòng ngủ đến nhà bếp và vẫn có quyền truy cập Internet. Trong trường hợp đó, bạn đang ở trong phạm vi phủ sóng của <strong>Router</strong> (Bộ định tuyến) không dây tại nhà, thiết bị này sau đó được kết nối qua dây dẫn đến phần còn lại của Internet. Tuy nhiên, Internet truyền thống không cung cấp các kết nối liền mạch trên các khoảng cách xa (ví dụ: khi di chuyển bằng ô tô).</p>
+<p>Có nhiều cách để triển khai kết nối di động không dây, nhưng mạng di động là công nghệ truy cập chiếm ưu thế hiện nay. Hơn một nửa lưu lượng web ngày nay bắt nguồn từ một thiết bị di động!</p>
+<p>Mạng di động chỉ là một trong nhiều công nghệ có thể cung cấp kết nối di động không dây. Các công nghệ khác như vệ tinh hoặc quang học không gian tự do cũng tồn tại, mặc dù mạng di động vẫn là phương pháp chủ đạo ngày nay.</p>
+<p>Trong tương lai, các ứng dụng hiệu suất cao yêu cầu công nghệ di động không dây, như ô tô tự lái hoặc thực tế ảo, có thể dẫn đến nhiều sự đổi mới hơn. Các mạng di động hiện tại có thể trở nên đắt đỏ một cách cấm đoán khi chúng ta cố gắng mở rộng quy mô để hỗ trợ các ứng dụng trong tương lai. Ngoài ra, các nhà khai thác mạng di động như AT&amp;T và Verizon không có tiếng là đổi mới nhanh chóng. Sự đồng thuận chung là đây là một lĩnh vực chín muồi cho sự đột phá trong tương lai gần và là một lĩnh vực nghiên cứu tích cực.</p>
+<h2 id="lược-sử-mạng-di-động"><a class="header" href="#lược-sử-mạng-di-động">Lược sử Mạng Di động</a></h2>
+<p>Công nghệ di động bắt nguồn từ hệ thống điện thoại cũ. Các mạng di động lần đầu tiên được phát triển để cho phép người dùng thực hiện các cuộc gọi điện thoại không dây, thay vì trên một đường dây điện thoại cố định có dây. Chiếc điện thoại di động đầu tiên được bán vào năm 1983 với giá $4,000 (cao hơn rất nhiều ngày nay, sau khi tính lạm phát).</p>
+<p>Do công nghệ di động bắt nguồn từ mạng điện thoại (chứ không phải Internet), nhiều lựa chọn thiết kế khác với Internet truyền thống. Trong nhiều năm, công nghệ di động (ví dụ: điện thoại di động tiền-smartphone cho các cuộc gọi thoại) và Internet đã phát triển song song, mỗi bên có một bộ lựa chọn kiến trúc khác nhau.</p>
+<p>Ví dụ, mạng di động sử dụng cơ chế <strong>resource reservations</strong> (dành riêng tài nguyên), trong khi Internet hiện đại sử dụng <strong>packet switching</strong> (chuyển mạch gói). Các mạng di động thường tư duy theo từng người dùng cá nhân, trong khi Internet chủ yếu tư duy theo từng luồng hoặc gói tin cá nhân. Mô hình kinh doanh của các mạng di động (ví dụ: tính phí người dùng theo phút) khác với Internet, vốn thường không theo dõi việc sử dụng nhiều như vậy.</p>
+<p>Trong những năm gần đây, các mạng di động đã trở nên tương thích hơn với Internet truyền thống. Ngày nay, bạn có thể coi mạng di động như một mạng cục bộ Lớp 2 chuyên dụng có thể tương tác với phần còn lại của Internet <strong>TCP/IP</strong> truyền thống.</p>
+<h2 id="các-tiêu-chuẩn-di-động"><a class="header" href="#các-tiêu-chuẩn-di-động">Các Tiêu chuẩn Di động</a></h2>
+<p>Trong Internet truyền thống, chúng ta đã thấy rằng các cơ quan tiêu chuẩn hóa giúp chúng ta chuẩn hóa các giao thức như <strong>TCP</strong> và <strong>IP</strong>. Mạng di động cũng có nhiều cơ quan tiêu chuẩn hóa hợp tác để tạo ra một tiêu chuẩn.</p>
+<p>Ở một số khía cạnh, các cơ quan tiêu chuẩn hóa mạng di động có sự phức tạp chính trị trong đời thực nhiều hơn các cơ quan tiêu chuẩn hóa Internet. Để đạt được khả năng tương tác, tất cả các nhà sản xuất điện thoại di động và tất cả các nhà khai thác mạng (ví dụ: Verizon xây dựng các trạm phát sóng di động) cần phải đồng ý về các giao thức, xuống tận lớp vật lý.</p>
+<p>Cơ quan tiêu chuẩn hóa chính trong thế giới di động là <strong>3GPP</strong> (Dự án Đối tác Thế hệ thứ 3). Các nhà cung cấp thiết bị lớn và các công ty viễn thông đều tham gia vào tổ chức này. <strong>3GPP</strong> đề xuất các tiêu chuẩn, sau đó được chuyển đến <strong>ITU</strong> (Liên minh Viễn thông Quốc tế). <strong>ITU</strong> là một phần của Liên Hợp Quốc và mỗi quốc gia có một phiếu bầu, vì vậy cũng có một số yếu tố chính trị liên quan đến các tiêu chuẩn. (Thông tin thú vị: Mỗi quốc gia có một phiếu bầu, vì vậy Mỹ có thể bị Liên minh châu Âu bỏ phiếu áp đảo.)</p>
+<p>Thông thường, một thế hệ công nghệ mới được giới thiệu sau mỗi 10 năm. Bây giờ bạn đã biết các con số trong 2G, 3G, 4G và 5G đại diện cho điều gì (các thế hệ công nghệ di động). Mạng 5G được định nghĩa vào khoảng năm 2020, và các nhà khai thác vẫn đang triển khai công nghệ này. Việc lập kế hoạch cho tiêu chuẩn 6G sẽ bắt đầu trong vài năm tới (cuối những năm 2020).</p>
+<p>Mỗi thế hệ cố gắng cải tiến so với thế hệ trước trên nhiều phương diện, bao gồm tốc độ dữ liệu lý thuyết cao nhất, tốc độ dữ liệu trung bình mà người dùng trải nghiệm, tính di động (kết nối trong khi người dùng đang di chuyển ở tốc độ cao), mật độ kết nối (số lượng thiết bị trong một khu vực cụ thể), v.v. Mỗi thế hệ thường hoạt động tốt hơn khoảng 10 lần so với thế hệ trước trên tất cả các phương diện này.</p>
+<p>Ngoài những cải tiến về hiệu suất, thiết kế kiến trúc cũng đã phát triển qua các thế hệ, để chuyển từ thiết kế mạng điện thoại sang thiết kế Internet. Điện thoại 1G hoàn toàn là analog, được thiết kế cho các cuộc gọi thoại. 2G/3G vẫn chủ yếu là chuyển mạch kênh, tập trung vào lưu lượng thoại (một chút tin nhắn, hầu như không có lưu lượng Internet). Từ 4G trở đi, chúng ta đã chuyển sang kiến trúc <strong>packet-switched</strong>, và thoại giờ đây chỉ là một trong nhiều ứng dụng chạy trên mạng.</p>
+<p>Các thông số kỹ thuật di động dài hàng nghìn trang và bao gồm hàng trăm tài liệu, và gần như không ai thực sự đọc hết chúng. Một đặc điểm bất tiện của các tiêu chuẩn này là mọi thứ đều được đổi tên khi chúng ta chuyển từ thế hệ này sang thế hệ tiếp theo. Ví dụ, các trạm phát sóng di động đã được gọi là &quot;base station&quot;, &quot;nodeB&quot;, &quot;evolved NodeB (eNodeB)&quot;, và &quot;next-gen Node B (gNB)&quot;, tất cả đều có nghĩa giống nhau. Trong lớp học này, chúng ta sẽ tự đặt ra thuật ngữ riêng để làm cho các tên gọi trở nên trực quan hơn. Nếu bạn xem qua một cuốn sách giáo khoa hoặc một thông số kỹ thuật, bạn có thể thấy các tên gọi khác nhau, nhưng các ý tưởng chúng ta sẽ thấy nhìn chung nên nhất quán về mặt khái niệm với sách giáo khoa và thông số kỹ thuật.</p>
+<h2 id="thách-thức-chính-tính-di-động-mobility"><a class="header" href="#thách-thức-chính-tính-di-động-mobility">Thách thức chính: Tính di động (Mobility)</a></h2>
+<p>Thách thức chính khiến mạng di động trở nên khó khăn là <strong>mobility</strong> (tính di động). Hãy nhớ rằng, hãy nghĩ về <strong>mobility</strong> như việc điện thoại của bạn đang phát video khi bạn đang di chuyển trên đường cao tốc (tuy nhiên đừng xem video khi đang lái xe). Có bốn thách thức cơ bản mà chúng ta sẽ nghiên cứu:</p>
+<ol>
+<li><strong>Discovery</strong> (Khám phá): Khi tôi đang di chuyển, làm cách nào để biết nên kết nối với trạm phát sóng di động nào?</li>
+<li><strong>Authentication</strong> (Xác thực): Trạm phát sóng của AT&amp;T có thể chỉ muốn cung cấp kết nối cho khách hàng của mình, chứ không phải các khách hàng khác. Làm thế nào trạm phát sóng di động đạt được điều này?</li>
+<li><strong>Seamless communication</strong> (Giao tiếp liền mạch): Nếu tôi di chuyển ra khỏi phạm vi của một trạm phát sóng và vào phạm vi của một trạm phát sóng khác, kết nối của tôi phải liền mạch, không bị gián đoạn.</li>
+<li><strong>Accountability</strong> (Giải trình trách nhiệm): Nếu khách hàng chỉ trả tiền cho 6GB dữ liệu, mạng nên ngừng cung cấp kết nối cho khách hàng (hoặc cung cấp kết nối kém hơn) sau khi khách hàng đã vượt quá giới hạn của họ. Yêu cầu này xuất phát từ mạng di động cũ (trả tiền theo phút gọi thoại), và vẫn tồn tại vì tài nguyên trong mạng di động rất khan hiếm.</li>
+</ol>
+<h2 id="các-thành-phần-hạ-tầng-trạm-phát-sóng-vô-tuyến-radio-towers"><a class="header" href="#các-thành-phần-hạ-tầng-trạm-phát-sóng-vô-tuyến-radio-towers">Các thành phần hạ tầng: Trạm phát sóng vô tuyến (Radio Towers)</a></h2>
+<p>Các thành phần của một mạng di động là gì? Đầu tiên, có trạm phát sóng vô tuyến.</p>
+<p>Trạm phát sóng vô tuyến có một ăng-ten. Bên trong trạm là một bộ thu phát vô tuyến, có chức năng chuyển đổi các bit kỹ thuật số thành tín hiệu analog được gửi qua giao diện không gian.</p>
+<p>Cũng bên trong trạm là một bộ điều khiển vô tuyến, quyết định cách phân bổ tài nguyên vô tuyến.</p>
+<p>Bạn có thể coi bộ điều khiển như một CPU đang chạy một bộ lập lịch. Bộ điều khiển phân bổ các đoạn tần số và thời gian khác nhau cho các khách hàng khác nhau, tùy thuộc vào nhu cầu và mô hình kinh doanh (ví dụ: khách hàng đang trả bao nhiêu tiền). Đây thực sự là một bài toán lập lịch khá khó, mặc dù chúng ta sẽ không thảo luận thêm ở đây.</p>
+<p>Đây là một mô hình đơn giản hóa về việc bộ điều khiển vô tuyến phân bổ tài nguyên. Mỗi hình chữ nhật có màu cho chúng ta thấy rằng một người dùng (được ký hiệu bằng màu) có thể sử dụng tần số cụ thể đó, tại thời điểm cụ thể đó.</p>
+<p>Mỗi mặt cắt dọc đại diện cho một khe thời gian, và cho bạn thấy các tần số đã được phân bổ cho người dùng trong mặt cắt đó như thế nào. Ví dụ, trong khe thời gian đầu tiên, người dùng màu xanh lam nhận được 3 khe tần số, người dùng màu cam nhận được 5 khe tần số và người dùng màu xám nhận được 4 khe tần số.</p>
+<p>Mỗi mặt cắt ngang đại diện cho một tần số, và cho bạn thấy tần số cụ thể đó được phân bổ cho người dùng theo thời gian như thế nào. Ví dụ, hàng trên cùng cho thấy một tần số được phân bổ cho màu xám, sau đó là màu xanh lá cây, sau đó là màu xanh lam, sau đó là màu đỏ, và cứ thế tiếp tục.</p>
+<p>Lưu ý rằng mô hình này đang chia sẻ tài nguyên bằng cách sử dụng <strong>reservations</strong> (cơ chế đặt trước), không phải nỗ lực tối đa. Một người dùng chỉ có thể gửi trong một tần số và thời gian đã được bộ điều khiển phân bổ cho họ.</p>
+<p>Các bộ điều khiển vô tuyến trước đây thường được lắp đặt trong trạm phát sóng hoặc gần trạm, tuy nhiên ngày nay, đã có những nỗ lực để chuyển các bộ điều khiển lên đám mây để bảo trì và quản lý dễ dàng hơn.</p>
+<p>Mỗi nhà khai thác vận hành nhiều trạm phát sóng di động, được bố trí khắp cả nước, để người dùng có thể kết nối với một trạm dù họ ở bất cứ đâu. Kết quả là một <strong>Radio Access Network (RAN)</strong> (Mạng Truy cập Vô tuyến).</p>
+<p>Thông thường, mỗi trạm phát sóng nhận được một bộ tần số riêng mà nó có thể sử dụng, và các tần số được gán sao cho các trạm lân cận nhận được các dải tần số khác nhau. Điều này đảm bảo rằng các trạm lân cận không sử dụng cùng tần số và gây nhiễu cho nhau. Trong hình này, mỗi màu tương ứng với một bộ tần số. Có thể hai trạm cùng sử dụng bộ tần số màu xanh lam, nhưng chúng không nằm cạnh nhau nên sẽ không gây nhiễu. Bất kỳ trạm lân cận nào cũng đang sử dụng các tần số không chồng chéo. Lưu ý rằng các tần số thường được phân bổ theo nhu cầu, do đó một trạm phát sóng di động ở trung tâm thành phố San Francisco sẽ nhận được nhiều tần số hơn một trạm ở giữa một nơi hẻo lánh.</p>
+<h2 id="các-thành-phần-hạ-tầng-lõi-mạng-di-động-cellular-core"><a class="header" href="#các-thành-phần-hạ-tầng-lõi-mạng-di-động-cellular-core">Các thành phần hạ tầng: Lõi Mạng Di động (Cellular Core)</a></h2>
+<p>Một người dùng di động giờ đây có thể gửi dữ liệu đến một trạm phát sóng di động. Trạm phát sóng di động giờ cần gửi dữ liệu đó đến phần còn lại của Internet.</p>
+<p>Mỗi trạm phát sóng di động có một kết nối có dây đến <strong>cellular core</strong> (lõi mạng di động). Bạn có thể coi <strong>cellular core</strong> là hạ tầng backend của mạng di động (không phải phần hướng tới người dùng).</p>
+<p><strong>Cellular core</strong> chứa một số thành phần mặt phẳng dữ liệu. Bạn có thể coi chúng như các <strong>router</strong> và <strong>switch</strong> thông thường chuyển tiếp các gói tin giữa người dùng (thông qua các trạm phát sóng) và phần còn lại của mạng. Chúng ta sẽ tập trung vào hai loại <strong>router</strong> đặc biệt trong <strong>cellular core</strong>.</p>
+<p><strong>Radio gateway</strong> (Cổng vô tuyến) là ranh giới giữa <strong>RAN</strong> (các trạm phát sóng di động) và <strong>cellular core</strong>. Một trạm phát sóng di động chuyển tiếp dữ liệu của mình đến một trong những <strong>radio gateway</strong> này. Ở đầu kia của lõi, <strong>packet gateway</strong> (cổng gói tin) là ranh giới giữa mạng di động và phần còn lại của Internet. Dữ liệu từ người dùng cuối cùng sẽ đến <strong>packet gateway</strong> và được gửi ra Internet dưới dạng một gói <strong>TCP/IP</strong> tiêu chuẩn.</p>
+<p><strong>Cellular core</strong> cũng chứa một số thành phần mặt phẳng điều khiển. Chúng ta không có những thành phần này trong Internet truyền thống. Lưu lượng của người dùng không đến các thành phần này. Chúng ta sẽ tập trung vào hai thành phần mặt phẳng điều khiển.</p>
+<p><strong>Database</strong> (Cơ sở dữ liệu) lưu trữ thông tin về khách hàng, chẳng hạn như: Khách hàng sở hữu những thiết bị nào? Khách hàng có gói dữ liệu nào? Thiết bị của khách hàng hiện đang ở đâu (ví dụ: đang kết nối với trạm nào)?</p>
+<p><strong>Mobility manager</strong> (Trình quản lý di động) là một bộ điều khiển (hãy nghĩ nó giống như một CPU) quản lý chức năng mạng. Trình quản lý giúp chúng ta xác thực một người dùng (ví dụ: kiểm tra xem họ có thực sự là khách hàng của Verizon hay không). Trình quản lý cũng giúp chúng ta cập nhật các cấu hình khi người dùng di chuyển.</p>
+<p>Để tóm tắt về hạ tầng: Các thiết bị người dùng gửi dữ liệu đến các trạm phát sóng di động trong <strong>RAN</strong>. Trạm phát sóng di động chuyển tiếp dữ liệu đến <strong>radio gateway</strong> (đi vào lõi). Dữ liệu cuối cùng đến <strong>packet gateway</strong> và được chuyển tiếp đến Internet (ra khỏi lõi). Cũng trong lõi là các thành phần điều khiển (<strong>mobility manager</strong>, <strong>database</strong>) để lưu trữ và quản lý thông tin về khách hàng.</p>
+<h2 id="các-bước-hoạt-động-ở-mức-cao-của-mạng-di-động"><a class="header" href="#các-bước-hoạt-động-ở-mức-cao-của-mạng-di-động">Các Bước Hoạt động ở Mức Cao của Mạng Di động</a></h2>
+<p><strong>Bước 0: Registration (Đăng ký).</strong> Người dùng đăng ký dịch vụ di động. Ví dụ, bạn bước vào một cửa hàng của Verizon, mua một <strong>data plan</strong> (gói dữ liệu) và ký hợp đồng. Nhà khai thác lúc này sẽ lưu trữ thông tin về bạn và gói dịch vụ của bạn trong <strong>database</strong>.</p>
+<img width="900px" src="../assets/wireless/8-036-step0.png" />
+ 
+**Bước 1: Discovery.** Người dùng bật điện thoại của họ ở một nơi bất kỳ. Điện thoại của họ phải khám phá xem có những trạm phát sóng nào ở gần, và cũng phải chọn một trạm để sử dụng.
+<img width="900px" src="../assets/wireless/8-037-step1.png" />
+<p><strong>Bước 2: Attachment (Gắn kết).</strong> Sau khi chọn một trạm phát sóng, thiết bị của người dùng thông báo cho trạm rằng nó muốn kết nối. Trạm phát sóng phải hỏi <strong>mobility manager</strong> xem kết nối có được phép không (ví dụ: kiểm tra xem người dùng đã vượt quá hạn ngạch của họ chưa).</p>
+<img width="900px" src="../assets/wireless/8-038-step2.png" />
+<p>Nếu việc xác thực thành công, <strong>mobility manager</strong> sẽ cấu hình trạm phát sóng và các <strong>router</strong> để thiết lập một đường dẫn từ người dùng đến Internet (thông qua trạm phát sóng và các <strong>router</strong>).</p>
+<img width="900px" src="../assets/wireless/8-039-step2-part2.png" />
+<p><strong>Bước 3: Data exchange (Trao đổi dữ liệu).</strong> Người dùng bây giờ có thể gửi và nhận dữ liệu dọc theo đường dẫn đã được cấu hình.</p>
+<img width="900px" src="../assets/wireless/8-040-step3.png" />
+<p><strong>Bước 4: Handover (Chuyển giao).</strong> Khi người dùng di chuyển, họ có thể đi xa khỏi trạm phát sóng ban đầu của mình và đến gần một trạm mới hơn (trong cùng <strong>RAN</strong> của nhà khai thác). Trạm cũ, trạm mới và thiết bị của người dùng đều phối hợp với nhau để quyết định xem người dùng có nên chuyển trạm hay không.</p>
+<img width="900px" src="../assets/wireless/8-041-step4.png" />
+<p>Nếu tất cả đều đồng ý rằng người dùng nên chuyển trạm, họ sẽ thông báo cho <strong>mobility manager</strong>, và <strong>mobility manager</strong> sẽ cấu hình lại trạm phát sóng và các <strong>router</strong> để thiết lập một đường dẫn mới từ người dùng đến Internet (lúc này sử dụng trạm mới, và có thể cả các <strong>router</strong> khác). Quá trình chuyển giao này phải liền mạch, nghĩa là người dùng có thể gửi và nhận dữ liệu trong suốt quá trình và không bị gián đoạn. Để đạt được một cuộc <strong>handover</strong> liền mạch như vậy đòi hỏi mạng phải liên tục giám sát thiết bị người dùng.</p>
+<img width="900px" src="../assets/wireless/8-042-step4-part2.png" />
+<p>Các bước 3 và 4 có thể lặp lại khi người dùng di chuyển và <strong>router</strong> tốt nhất để sử dụng liên tục thay đổi.</p>
+<img width="900px" src="../assets/wireless/8-043-step4-part3.png" />
+<p>Một tính năng cuối cùng chúng ta cần triển khai là <strong>roaming</strong> (chuyển vùng). Nếu người dùng đến một quốc gia khác như Đức, nhà khai thác của họ (ví dụ: Verizon, có trụ sở tại Mỹ) có thể không có vùng phủ sóng ở Đức. Nhưng, Verizon có thể ký hợp đồng với Deutsche Telecom (một nhà khai thác ở Đức), để cho phép khách hàng của Verizon sử dụng cơ sở hạ tầng của Deutsche Telecom. Điều này có nghĩa là Deutsche Telecom có thể cần hỗ trợ không chỉ người dùng của mình, mà cả người dùng từ các mạng khác như Verizon.</p>
+<img width="900px" src="../assets/wireless/8-044-step-roaming.png" />
+<p>Các bước kết nối trong một mạng khách (khi đang <strong>roaming</strong>) nói chung khá tương tự, ngoại trừ việc các <strong>mobility manager</strong> trong mạng khách và mạng chủ cũng phải phối hợp với nhau (ví dụ: Deutsche Telecom kiểm tra với Verizon để xem người dùng có trả tiền cho dịch vụ <strong>roaming</strong> hay không).</p>
+<h2 id="bước-0-registration"><a class="header" href="#bước-0-registration">Bước 0: Registration</a></h2>
+<p>Khi bạn đăng ký một <strong>data plan</strong>, bạn sẽ nhận được một <strong>IMSI (International Mobile Subscriber Identity)</strong> (Nhận dạng Thuê bao Di động Quốc tế), đây là một mã định danh duy nhất được liên kết với thuê bao của bạn. Số này được lưu trữ an toàn trong phần cứng của một <strong>SIM card</strong> (thẻ SIM).</p>
+<p>Lưu ý: Đây là lý do tại sao các nhà khai thác như Verizon cung cấp cho bạn một <strong>SIM card</strong> để lắp vào điện thoại. Nếu bạn đổi điện thoại nhưng vẫn giữ nguyên gói cước, bạn chỉ cần chuyển <strong>SIM card</strong> sang điện thoại mới, và bây giờ điện thoại mới của bạn được liên kết với cùng một số <strong>IMSI</strong>. Hoặc, nếu bạn đổi gói cước nhưng sử dụng cùng một điện thoại, bạn lắp một <strong>SIM card</strong> mới vào điện thoại, và bây giờ điện thoại đó được liên kết với một số <strong>IMSI</strong> mới.</p>
+<p>3 chữ số đầu tiên của <strong>IMSI</strong> là <strong>Mobile Country Code</strong> (Mã Quốc gia Di động), xác định một quốc gia. 2-3 chữ số tiếp theo là <strong>Mobile Network Code</strong> (Mã Mạng Di động), đại diện cho nhà cung cấp dịch vụ của bạn (ví dụ: Verizon, AT&amp;T). Các chữ số còn lại là <strong>Mobile Subscriber Identification Number</strong> (Số Nhận dạng Thuê bao Di động), xác định một người dùng cụ thể trong nhà cung cấp dịch vụ đó. Tổng thể <strong>IMSI</strong> không thể vượt quá 15 chữ số.</p>
+<img width="600px" src="../assets/wireless/8-045-imsi.png" />
+<p>Lưu ý rằng <strong>IMSI</strong> không giống như một <strong>IP address</strong> (địa chỉ IP). Nếu bạn trả tiền cho một <strong>data plan</strong> kéo dài một năm, bạn sẽ giữ nguyên <strong>IMSI</strong> trong cả năm. Nhưng, mỗi lần bạn <strong>attachment</strong> và kết nối với mạng, bạn có thể nhận được một <strong>IP address</strong> khác nhau.</p>
+<p>Có hai mã định danh khác được sử dụng trong các mạng di động. Chúng khác biệt với <strong>IMSI</strong>, và chúng ta sẽ không đề cập chi tiết về chúng. <strong>IMEI (International Mobile Equipment Identity)</strong> (Nhận dạng Thiết bị Di động Quốc tế) định danh duy nhất một thiết bị vật lý. <strong>IMEI</strong> mã hóa nhà sản xuất và kiểu máy của thiết bị (&quot;đây là một chiếc iPhone 13&quot;), và không thay đổi ngay cả khi bạn thay đổi <strong>data plan</strong>. Hoặc, nếu bạn có hai điện thoại được bao phủ bởi cùng một <strong>data plan</strong>, bạn sẽ có hai số <strong>IMEI</strong>, nhưng chỉ có một <strong>IMSI</strong> duy nhất.</p>
+<p>Mã định danh còn lại là số điện thoại của bạn. Một lần nữa, điều này khác biệt với <strong>IMSI</strong> hoặc <strong>IMEI</strong>, và các chữ số đại diện cho những thứ khác nhau (ví dụ: mã vùng của bạn). Mạng điện thoại sẽ cần liên kết số điện thoại của bạn với một <strong>IMSI</strong> cụ thể để xác định gói cước điện thoại của bạn.</p>
+<p>Sau khi bạn đăng ký và nhận được <strong>IMSI</strong>, nhà khai thác (ví dụ: Verizon) sẽ lưu trữ <strong>IMSI</strong> của bạn và thông tin về gói cước của bạn trong <strong>database</strong>.</p>
+<img width="600px" src="../assets/wireless/8-046-registration.png" />
+<p>Trong quá trình <strong>registration</strong>, thiết bị của người dùng (<strong>SIM card</strong>) và nhà khai thác (<strong>database</strong>) cũng đồng ý về một khóa bí mật chia sẻ. Điều này sẽ hữu ích khi chúng ta thực hiện <strong>attachment</strong>.</p>
+<h2 id="bước-1-discovery"><a class="header" href="#bước-1-discovery">Bước 1: Discovery</a></h2>
+<p>Làm thế nào thiết bị người dùng khám phá ra những trạm phát sóng nào đang trong tầm phủ sóng và thuộc sở hữu của nhà khai thác của người dùng?</p>
+<p>Mỗi trạm phát sóng sẽ truyền các <strong>beacons</strong> (tín hiệu báo hiệu) định kỳ, thông báo cho mọi người trong phạm vi rằng trạm đó tồn tại. Thông điệp <strong>beacon</strong> cũng bao gồm nhà khai thác mạng (ví dụ: xin chào, tôi là một trạm của Verizon), trong đó nhà khai thác được xác định bằng <strong>Mobile Network Code</strong> gồm 2-3 chữ số. Hãy nhớ rằng, <strong>IMSI</strong> của thiết bị (trên <strong>SIM card</strong>) cũng có một <strong>Mobile Network Code</strong>, vì vậy thiết bị có thể kiểm tra: <strong>SIM card</strong> của tôi nói rằng tôi ở trong mạng 220, và <strong>beacon</strong> của trạm này nói rằng nó ở trong mạng 220, vì vậy tôi có thể sử dụng trạm này.</p>
+<p><strong>Beacon</strong> được truyền trên một tần số cụ thể gọi là <strong>control channel</strong> (kênh điều khiển), để <strong>beacon</strong> không gây nhiễu với việc truyền dữ liệu. Mỗi dải tần số có một <strong>control channel</strong> liên quan riêng. Nhớ lại rằng các trạm lân cận có các dải tần số không chồng chéo, điều này cũng có nghĩa là chúng có các <strong>control channel</strong> khác nhau (tránh nhiễu).</p>
+<p>Thiết bị của người dùng có thể nghe thấy nhiều <strong>beacons</strong>. Người dùng đo cường độ tín hiệu đến các trạm khác nhau và chọn trạm (thuộc nhà khai thác của mình) có tín hiệu tốt nhất.</p>
+<img width="300px" src="../assets/wireless/8-047-discovery.png" />
+<p>Có một vấn đề chúng ta phải giải quyết. Làm thế nào thiết bị của người dùng biết nên nghe <strong>control channel</strong> nào? Thiết bị cần phải dò đúng <strong>control channel</strong> để nhận được các <strong>beacons</strong>. Chúng ta có một <strong>bootstrapping problem</strong> (vấn đề mồi).</p>
+<p>Có một vài giải pháp cho vấn đề này. Thiết bị có thể chỉ cần quét và thử một loạt tần số (chậm, nhưng đôi khi là lựa chọn duy nhất). Nhà khai thác có thể cung cấp cho thiết bị một danh sách các <strong>control channel</strong> được cấu hình sẵn trong quá trình <strong>registration</strong>. Thiết bị cũng có thể lưu vào bộ đệm các kênh đã sử dụng trước đó.</p>
+<p>Lưu ý rằng việc quét các trạm tiếp theo sau khi <strong>discovery</strong> là không cần thiết. Trong quá trình <strong>handover</strong>, trạm cũ sẽ cho người dùng biết chính xác tần số dữ liệu nào để sử dụng trên trạm mới. Đây là lý do tại sao <strong>handover</strong> (cỡ 0.01--0.1 giây) nhanh hơn nhiều so với việc quét trong quá trình <strong>discovery</strong> (cỡ 10--100 giây).</p>
+<h2 id="bước-2-attachment"><a class="header" href="#bước-2-attachment">Bước 2: Attachment</a></h2>
+<ol>
+<li>Khi một người dùng đã khám phá ra một trạm, nó sẽ gửi một <strong>attach request</strong> (yêu cầu gắn kết) đến trạm đó. Người dùng bao gồm <strong>IMSI</strong> của mình (ID thuê bao) trong yêu cầu.</li>
+<li>Trạm sau đó phải gửi yêu cầu đến <strong>mobility manager</strong>, nơi thực sự xử lý yêu cầu.</li>
+<li>Trình quản lý tra cứu <strong>IMSI</strong> trong <strong>database</strong> để biết chi tiết về gói dịch vụ của người dùng. Trình quản lý cũng thực hiện xác thực (chi tiết mã hóa bị bỏ qua) bằng cách sử dụng khóa bí mật được biết bởi thiết bị và trình quản lý (trong <strong>database</strong> của nó).</li>
+</ol>
+<p>Nếu xác thực thành công, chúng ta biết người dùng chính là người mà họ tự nhận. Nếu việc tra cứu <strong>database</strong> cũng cho thấy người dùng đủ điều kiện sử dụng dịch vụ, thì trình quản lý sẽ chấp thuận <strong>attach request</strong>.</p>
+<img width="700px" src="../assets/wireless/8-048-attachment1.png" />
+<ol start="4">
+<li>Sau khi <strong>attach request</strong> được chấp thuận, <strong>mobility manager</strong> bây giờ phải cấu hình <strong>data plane</strong> để cung cấp kết nối cho người dùng. Đầu tiên, trình quản lý gán một <strong>IP address</strong> cho thiết bị. Sau đó, trình quản lý cấu hình trạm, cho bộ điều khiển vô tuyến của trạm biết cần phân bổ bao nhiêu tài nguyên cho người dùng này. Trình quản lý cũng cấu hình trạm và các <strong>router</strong> để tạo ra một đường dẫn giữa thiết bị và Internet. Cuối cùng, trình quản lý khởi tạo các bộ đếm và bộ định hình để theo dõi việc sử dụng Internet của thiết bị.</li>
+</ol>
+<p>Sau khi thiết lập kết nối cho người dùng, trình quản lý kết thúc bằng cách ghi lại thông tin vị trí của người dùng trong <strong>database</strong>. Cụ thể, <strong>database</strong> ánh xạ <strong>IMSI</strong> của người dùng tới <strong>IP address</strong> của nó và đường dẫn mà nó đang sử dụng (trạm nào, cổng nào).</p>
+<img width="700px" src="../assets/wireless/8-049-attachment2.png" />
+<p>Lưu ý rằng toàn bộ quá trình <strong>attachment</strong> xảy ra trên các <strong>control channel</strong>. Chúng ta chưa gán bất kỳ tần số nào cho người dùng, vì vậy người dùng phải sử dụng các <strong>control channel</strong> chuyên dụng để giao tiếp.</p>
+<img width="700px" src="../assets/wireless/8-050-attachment3.png" />
+<h2 id="bước-3-data-exchange"><a class="header" href="#bước-3-data-exchange">Bước 3: Data Exchange</a></h2>
+<p>Tại thời điểm này, mạng được cấu hình để thiết bị có thể sử dụng <strong>IP address</strong> của mình để gửi và nhận tin nhắn.</p>
+<img width="900px" src="../assets/wireless/8-051-exchange1.png" />
+<p>Làm thế nào mạng di động (<strong>tower</strong>, <strong>radio gateway</strong>, <strong>packet gateway</strong>) biết cách chuyển tiếp các gói tin? Người dùng liên tục di chuyển, vì vậy nếu chúng ta chạy một thuật toán định tuyến truyền thống như vector khoảng cách, các tuyến đường sẽ không bao giờ hội tụ.</p>
+<p>Thay vào đó, trình quản lý sẽ tạo ra một đường dẫn giữa thiết bị và Internet bằng cách sử dụng <strong>tunnels</strong> (đường hầm). Hãy nhớ rằng, đường đi của gói tin là từ thiết bị, đến trạm, đến <strong>radio gateway</strong>, đến <strong>packet gateway</strong>.</p>
+<p>Về mặt khái niệm, để triển khai <strong>tunnel</strong>, chúng ta sẽ nói với trạm: Nếu bạn nhận được một gói tin từ người dùng, hãy gửi nó theo đường này (vào <strong>tunnel</strong> màu xanh). Ở phía bên kia của liên kết có dây, các gói tin sẽ thoát khỏi <strong>tunnel</strong> màu xanh và đến <strong>radio gateway</strong>. Sau đó, chúng ta sẽ nói với <strong>radio gateway</strong>: Nếu bạn nhận được một gói tin thoát ra khỏi <strong>tunnel</strong>, hãy gửi nó theo đường này (vào <strong>tunnel</strong> màu xanh lá). Các gói tin sau đó đi qua <strong>tunnel</strong> màu xanh lá và đến <strong>packet gateway</strong>, nơi có thể chuyển tiếp gói tin vào Internet.</p>
+<img width="900px" src="../assets/wireless/8-052-exchange2.png" />
+<p>Các gói tin đến cũng đi qua các <strong>tunnels</strong>. Chúng ta nói với <strong>packet gateway</strong>: Nếu bạn nhận được một gói tin dành cho Người dùng A, hãy gửi nó vào <strong>tunnel</strong> màu xanh lá (hướng tới <strong>radio gateway</strong>). Chúng ta cũng nói với <strong>radio gateway</strong>: Nếu bạn nhận được một gói tin thoát ra khỏi <strong>tunnel</strong> màu xanh lá, hãy gửi nó vào <strong>tunnel</strong> màu xanh lam (hướng tới trạm).</p>
+<p>Lưu ý rằng không có thành phần mạng nào đang chạy một giao thức định tuyến để tìm đường đi. Thay vào đó, trình quản lý đang chỉ cho các <strong>router</strong> cách chuyển tiếp các gói tin. Mỗi người dùng sẽ cần bộ <strong>tunnels</strong> của riêng mình, vì vậy mạng đang lưu trữ <strong>per-user state</strong> (trạng thái theo từng người dùng) (ví dụ: một mục trong bảng cho mỗi người dùng được kết nối).</p>
+<p>Làm thế nào chúng ta thực sự triển khai các quy tắc này? Ví dụ, làm thế nào <strong>radio gateway</strong> biết khi nào một gói tin đến đang ra khỏi <strong>tunnel</strong> màu xanh? Chúng ta có thể sử dụng <strong>encapsulation</strong> (đóng gói). Khi đi vào một <strong>tunnel</strong>, chúng ta có thể thêm một tiêu đề mới, cho biết gói tin đang đi qua <strong>tunnel</strong> đó (ví dụ: &quot;gói tin này đang đi qua <strong>tunnel</strong> màu xanh&quot;). Ở đầu kia, khi gói tin thoát khỏi <strong>tunnel</strong>, cổng sẽ nhìn vào tiêu đề phụ và biết gói tin đến từ <strong>tunnel</strong> nào. Cổng sau đó có thể sử dụng thông tin này để quyết định nơi chuyển tiếp gói tin tiếp theo.</p>
+<img width="900px" src="../assets/wireless/8-053-exchange3.png" />
+<p>Lưu ý rằng với <strong>tunnels</strong> và <strong>encapsulation</strong>, các <strong>router</strong> không bao giờ chuyển tiếp dựa trên IP của người dùng. Người dùng luôn di chuyển, vì vậy chúng ta không thể sử dụng IP của họ để xác định vị trí của họ. Thay vào đó, chúng ta phải sử dụng các <strong>tunnels</strong> được cấu hình sẵn này để quyết định nơi chuyển tiếp gói tin.</p>
+<h2 id="bước-4-handover"><a class="header" href="#bước-4-handover">Bước 4: Handover</a></h2>
+<p>Điều gì xảy ra nếu người dùng di chuyển từ một trạm này sang một trạm khác? Hãy xem xét một giao thức (đơn giản hóa một chút). Chúng ta sẽ gọi các trạm là cũ và mới, và di chuyển từ trạm cũ sang trạm mới.</p>
+<img width="900px" src="../assets/wireless/8-054-handover1.png" />
+<ol>
+<li>Thiết bị của bạn liên tục đo cường độ tín hiệu của nó tới trạm cũ và báo cáo cường độ đó cho trạm cũ. Tại một thời điểm nào đó, trạm cũ sẽ nói: Cường độ tín hiệu của bạn quá thấp. Đây là một số trạm lân cận (thuộc cùng một nhà khai thác) và các tần số <strong>control channel</strong> tương ứng của chúng. Bạn có thể đo cường độ tín hiệu của mình tới các trạm lân cận này không?</li>
+<li>Thiết bị của bạn đo cường độ tín hiệu đến các trạm lân cận và báo cáo các giá trị đó cho trạm cũ. Trạm cũ sẽ chọn trạm mới tốt nhất, dựa trên bất kỳ chính sách nào mà nhà khai thác muốn.</li>
+<li>Trạm cũ nói với trạm mới: Người dùng đang đến chỗ bạn. Điều này khiến trạm mới phân bổ một số tài nguyên tần số cho người dùng.</li>
+<li>Trạm mới cho trạm cũ biết những tài nguyên tần số nào đã được phân bổ.</li>
+<li>Trạm cũ nói với người dùng: Hãy kết nối với trạm mới, sử dụng các tần số này.</li>
+<li>Trạm mới báo cáo cho <strong>mobility manager</strong>: Tôi là trạm mới cho người dùng. Trình quản lý cập nhật <strong>database</strong> của mình với vị trí mới của người dùng. Trình quản lý cũng cập nhật các <strong>tunnels</strong> để tạo ra một đường dẫn mới giữa người dùng và Internet (thông qua một trạm mới, và cũng có thể thông qua các <strong>radio gateway</strong> và <strong>packet gateway</strong> mới).</li>
+<li>Cuối cùng, trạm mới thông báo cho trạm cũ rằng <strong>handover</strong> đã hoàn tất.</li>
+</ol>
+<p>Tại sao quá trình <strong>handover</strong> lại phức tạp đến vậy? Hãy nhớ rằng, chúng ta muốn cung cấp cho người dùng giao tiếp liền mạch, không bị gián đoạn khi họ di chuyển giữa các trạm. Điều này đòi hỏi sự hợp tác giữa người dùng, các trạm cũ và mới, <strong>mobility manager</strong>, và các cổng.</p>
+<p>Giao tiếp liền mạch rất khó vì quá trình <strong>handover</strong> không phải là nguyên tử. Người dùng vẫn đang gửi và nhận dữ liệu trong khi <strong>handover</strong> đang diễn ra. Ví dụ, các máy chủ bên ngoài trả lời người dùng có thể đã gửi một loạt các gói tin đến trạm cũ. Trong quá trình chuyển giao, trạm cũ tiếp tục đệm bất kỳ dữ liệu nào nó nhận được cho người dùng đó. Sau khi chuyển giao, trạm cũ có thể gửi dữ liệu đã đệm đó đến trạm mới, nơi sẽ chuyển tiếp dữ liệu đó đến người dùng. Lưu ý rằng các mạng <strong>TCP/IP</strong> truyền thống không cần phải đệm dữ liệu như thế này. Loại đệm này là một tính năng mới được thêm vào cho các cuộc <strong>handover</strong> liền mạch khi người dùng di chuyển.</p>
+<p>Lưu ý rằng các quyết định trong quá trình <strong>handover</strong> này luôn được thực hiện bởi nhà khai thác. Thiết bị không được chọn trạm tiếp theo để sử dụng. Lợi ích của thiết kế này là nó cho phép nhà khai thác kiểm soát nhiều hơn. Ví dụ, nếu một trạm bị quá tải, nhà khai thác có thể cân bằng tải và gửi người dùng đến một trạm khác. Hoặc, nếu một số người dùng được ưu tiên hơn những người khác, nhà khai thác có thể gửi những người dùng ít được ưu tiên hơn đến các trạm kém hơn. Nhược điểm của thiết kế này là nó hơi chậm hơn và đòi hỏi nhiều lượt đi-về và phức tạp hơn.</p>
+<p>Lưu ý rằng <strong>IP address</strong> của người dùng không thay đổi trong quá trình chuyển giao. Chúng ta chỉ cập nhật các <strong>tunnels</strong> để các gói tin dành cho <strong>IP address</strong> của người dùng đi qua một đường dẫn khác.</p>
+<p><strong>Handover</strong> rất phức tạp và đòi hỏi phải cập nhật <strong>per-user state</strong> trong mạng. Nếu số lượng người dùng tăng lên, hoặc người dùng di chuyển rất nhanh, giao thức này sẽ gặp phải những thách thức về khả năng mở rộng. Tuy nhiên, mạng di động hiện đại hoạt động khá tốt ở quy mô lớn, bởi vì rất nhiều công sức đã được đổ vào việc tối ưu hóa các giao thức này. Đó là lý do tại sao các tài liệu đặc tả tiêu chuẩn thường dài hàng ngàn trang!</p>
+<h2 id="roaming"><a class="header" href="#roaming">Roaming</a></h2>
+<p>Nhớ lại rằng một người dùng có thể <strong>roaming</strong> và kết nối với một mạng khác nếu họ đang đến thăm một quốc gia khác (hoặc bất kỳ nơi nào mà nhà khai thác của họ không có vùng phủ sóng).</p>
+<p>Quá trình kết nối (<strong>discovery</strong>, <strong>attachment</strong>, <strong>handover</strong>) trong một mạng khách nói chung khá tương tự như kết nối trong mạng chủ. Sự khác biệt chính là, <strong>mobility manager</strong> trong mạng khách phải giao tiếp trở lại với <strong>mobility manager</strong> trong mạng chủ.</p>
+<p>Ví dụ, mạng khách cần yêu cầu mạng chủ giúp xác thực người dùng (kiểm tra xem người dùng đã trả tiền cho dịch vụ <strong>roaming</strong> chưa). Ngoài ra, mạng khách cần gửi dữ liệu theo dõi trở lại mạng chủ, để mạng chủ biết vị trí của người dùng.</p>
+<p>Làm thế nào mạng khách biết mạng chủ ở đâu? Hãy nhớ rằng, trong quá trình <strong>attachment</strong>, thiết bị trình diện <strong>IMSI</strong> của nó, và <strong>IMSI</strong> chứa một <strong>Mobile Network Code</strong> xác định nhà khai thác của người dùng.</p>
+<p>Có hai cách tiếp cận khác nhau để thiết lập các <strong>tunnels</strong> giữa người dùng và Internet.</p>
+<p>Trong phương pháp <strong>home routing</strong> (định tuyến tại nhà), lưu lượng được tạo <strong>tunnel</strong> thông qua <strong>packet gateway</strong> của mạng chủ. Điều này có nghĩa là tất cả các gói tin phải đi từ mạng khách trở về mạng chủ, trước khi được chuyển tiếp đến mạng Internet rộng lớn hơn. Điều này có lợi vì nó cho phép <strong>packet gateway</strong> của mạng chủ có thể theo dõi người dùng. Một nhược điểm là, nếu bạn là người dùng có trụ sở tại Hoa Kỳ, bạn <strong>roaming</strong> ở Đức, và bạn muốn truy cập một trang web ở Đức, gói tin của bạn phải đi từ Đức, trở về cổng ở Hoa Kỳ, và sau đó quay trở lại Đức.</p>
+<img width="900px" src="../assets/wireless/8-055-roaming1.png" />
+<p>Trong phương pháp <strong>local breakout</strong> (tách nhánh cục bộ), lưu lượng được tạo <strong>tunnel</strong> thông qua <strong>packet gateway</strong> của mạng khách. Điều này có thể rút ngắn tuyến đường giữa người dùng và Internet, vì các gói tin không phải đi hết quãng đường trở về mạng chủ trước. Tuy nhiên, điều này có thể làm cho việc tính toán mức sử dụng của người dùng trở nên phức tạp hơn, vì mạng <strong>roaming</strong> bây giờ phải thực hiện việc tính toán và gửi dữ liệu trở lại mạng chủ.</p>
+<img width="900px" src="../assets/wireless/8-056-roaming2.png" />
+<h2 id="các-hoạt-động-bổ-sung"><a class="header" href="#các-hoạt-động-bổ-sung">Các Hoạt động Bổ sung</a></h2>
+<p>Chúng ta đã xem xét một số hoạt động chính trong các mạng di động, nhưng cũng có các hoạt động khác tồn tại.</p>
+<p><strong>Lawful intercept</strong> (Can thiệp hợp pháp) là một yêu cầu pháp lý đối với tất cả các nhà khai thác di động. Điều này cho phép một chính phủ có lệnh khám xét có thể nghe lén kết nối của bạn và nghe các gói tin bạn đang gửi.</p>
+<p><strong>Stolen phone registries</strong> (Sổ đăng ký điện thoại bị đánh cắp) cho phép người dùng báo cáo điện thoại của họ bị đánh cắp. Sau đó, nếu kẻ trộm cố gắng kết nối điện thoại bị đánh cắp của bạn vào mạng, nhà khai thác (<strong>mobility manager</strong> và <strong>database</strong>) sẽ nhận thấy rằng điện thoại đã bị đánh cắp và có thể cố gắng truy tìm điện thoại. Ở đây, nhà khai thác sử dụng <strong>IMEI</strong> (số ID được mã hóa cứng vào điện thoại của bạn) để xác định chiếc điện thoại cụ thể (bất kể <strong>IMSI</strong>, ID thuê bao). Các thiết bị cần phải báo cáo <strong>IMEI</strong> của chúng khi kết nối, cho phép nhà khai thác kiểm tra xem điện thoại có bị đánh cắp hay không.</p>
+<p>Những hoạt động bổ sung này là khả thi vì nhà khai thác có quyền kiểm soát tập trung, theo dõi tất cả người dùng và vị trí của họ.</p>
+<h2 id="suy-ngẫm-về-thiết-kế-mạng-di-động"><a class="header" href="#suy-ngẫm-về-thiết-kế-mạng-di-động">Suy ngẫm về Thiết kế Mạng Di động</a></h2>
+<p>Như chúng ta đã lưu ý trước đó, các mạng di động có những mục tiêu và lựa chọn thiết kế cơ bản khác biệt so với Internet truyền thống. Ví dụ, chúng ta đã thấy rằng xác thực và tính toán cước là những mục tiêu trung tâm của mạng di động, mặc dù đây không phải là mục tiêu trong Internet truyền thống. Chúng ta cũng thấy rằng việc phân bổ dựa trên <strong>reservations</strong>, và mạng duy trì <strong>per-user state</strong> đang thay đổi một cách linh động.</p>
+<p>Việc sử dụng các mạng dựa trên <strong>reservation</strong> có trạng thái đã làm tăng sự phức tạp của mạng lưới của chúng ta. Các thành phần khác nhau phải liên tục cấu hình lại các <strong>tunnels</strong> khi người dùng di chuyển.</p>
+<p>Hãy nghĩ về một số thiết kế thay thế khả thi. Nhớ lại rằng <strong>handover</strong> phức tạp vì chúng ta muốn người dùng giữ nguyên <strong>IP address</strong> khi họ di chuyển. Điều gì sẽ xảy ra nếu thay vào đó chúng ta thay đổi <strong>IP address</strong> của người dùng trong mỗi lần <strong>handover</strong>? Bây giờ, các <strong>IP address</strong> thực sự phản ánh vị trí của người dùng, và chúng ta có thể sử dụng lại các giao thức định tuyến truyền thống. Tuy nhiên, các giao thức ở tầng cao hơn như <strong>TCP</strong> và <strong>HTTP</strong> sẽ bị hỏng. Hãy nhớ rằng, <strong>TCP</strong> dựa vào việc hai người dùng kết nối giữ nguyên cùng một <strong>IP address</strong>.</p>
+<p>Việc sử dụng cùng một <strong>IP address</strong> làm tăng sự phức tạp, nhưng việc thay đổi <strong>IP address</strong> làm hỏng <strong>TCP</strong>. Một giải pháp khả thi là sử dụng một <strong>transport-level protocol</strong> (giao thức tầng vận chuyển) khác cho phép thay đổi <strong>IP address</strong>, như <strong>QUIC</strong> (được phát triển tại Google). Khi đó, mặc dù các <strong>IP address</strong> đang thay đổi, chúng ta có thể sử dụng trường <strong>flow label</strong> (nhãn luồng) trong tiêu đề <strong>IPv6</strong> để gắn nhãn cho tất cả các gói tin trong một luồng.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../wireless/wireless-links.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../wireless/wireless-links.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

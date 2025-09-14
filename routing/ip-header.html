@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>IP Header - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html" class="active"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="ip-header"><a class="header" href="#ip-header">IP Header</a></h1>
+<h2 id="mục-tiêu-thiết-kế-ip-header"><a class="header" href="#mục-tiêu-thiết-kế-ip-header">Mục tiêu thiết kế IP Header</a></h2>
+<p>Hãy nhớ lại rằng một giao thức như <em>IP</em> (Giao thức Internet) bao gồm <em>syntax</em> (cú pháp) và <em>semantics</em> (ngữ nghĩa). <em>syntax</em> xác định các trường có trong <em>IP header</em> (phần đầu IP), và <em>semantics</em> xác định cách các trường đó được xử lý.</p>
+<p>Cũng hãy nhớ lại rằng <em>packet</em> <em>IP</em> bao gồm một <em>header</em> (phần đầu) và <em>payload</em> (phần dữ liệu). <em>header</em> chứa siêu dữ liệu liên quan mà giao thức <em>IP</em> có thể xử lý. <em>payload</em> chứa bất kỳ dữ liệu nào sẽ được chuyển lên các giao thức lớp cao hơn, và không được giao thức <em>IP</em> phân tích.</p>
+<p>Cuối cùng, hãy nhớ lại rằng các <em>header</em> được thêm vào khi chúng ta đi xuống chồng giao thức, và được bóc đi khi chúng ta chuyển các <em>packet</em> lên trên chồng giao thức. <em>IP header</em> được xử lý ở cả các <em>end hosts</em> (máy chủ đầu cuối) và ở mọi <em>Router</em> trung gian.</p>
+<p><em>IP header</em> nên càng nhỏ càng tốt. Mỗi <em>packet</em> được gửi qua Internet đều cần đính kèm <em>IP header</em>, vì vậy việc tăng kích thước <em>IP header</em>, dù chỉ một byte, sẽ làm tăng đáng kể tổng lượng <em>bandwidth</em> trên toàn Internet.</p>
+<p><em>IP header</em> nên càng đơn giản càng tốt. Mọi <em>Router</em> và <em>end host</em> đều phải xử lý các <em>packet</em> <em>IP</em> khi chúng được gửi và nhận, vì vậy một <em>header</em> phức tạp để xử lý sẽ làm chậm toàn bộ Internet. Lý tưởng nhất, chúng ta muốn <em>header</em> được xử lý hoàn toàn bằng phần cứng, vì vậy chúng ta không thể giả định rằng chúng ta có quyền truy cập vào các hoạt động <em>CPU</em> đa dụng khi xử lý <em>header</em> này.</p>
+<h2 id="các-trường-của-ip-header"><a class="header" href="#các-trường-của-ip-header">Các trường của IP Header</a></h2>
+<p>Một giao thức <em>IP</em> cần phải làm bốn việc:</p>
+<p>Mọi người (các <em>end host</em>, <em>Router</em>) cần có khả năng <strong>phân tích</strong> <em>packet</em> và hiểu các bit có ý nghĩa gì. Để hỗ trợ điều này, <em>header</em> sẽ bao gồm <strong><em>IP version</em> (phiên bản IP)</strong> (giá trị 4-bit), <strong><em>header length</em> (độ dài phần đầu)</strong> (giá trị 4-bit, được đo bằng các từ 4-byte, cần thiết vì độ dài <em>IP header</em> không cố định), và <strong><em>packet length</em> (độ dài gói tin)</strong> (giá trị 16-bit, được đo bằng byte).</p>
+<p>Các <em>Router</em> (không phải <em>end host</em>) cần <strong>chuyển tiếp</strong> <em>packet</em> đến <em>Router</em> tiếp theo. Để hỗ trợ điều này, <em>header</em> sẽ bao gồm <strong><em>destination IP address</em> (địa chỉ IP đích)</strong> (giá trị 32-bit).</p>
+<p>Các <em>end host</em> (không phải <em>Router</em>) cần <strong>chuyển <em>packet</em> lên</strong> các lớp cao hơn. Để hỗ trợ điều này, <em>header</em> sẽ bao gồm một <strong><em>protocol number</em> (số hiệu giao thức)</strong> (giá trị 8-bit), cho chúng ta biết giao thức Lớp 4 nào (<em>TCP</em> (Giao thức Điều khiển Truyền vận) hoặc <em>UDP</em> (Giao thức Gói Dữ liệu Người dùng)) nên được sử dụng để xử lý <em>payload</em>. Ví dụ, <em>protocol number</em> là 6 có nghĩa là sử dụng giao thức <em>TCP</em> để đọc <em>payload</em> còn lại (đọc các bit đầu tiên của <em>payload</em> là <em>header</em> <em>TCP</em>, v.v.). <em>protocol number</em> là 17 tương ứng với giao thức <em>UDP</em>.</p>
+<img width="800px" src="../assets/routing/2-197-demultiplex.png">
+<p>Các <em>end host</em> và <em>Router</em> cần có khả năng <strong>gửi các gói tin trả lời</strong> lại cho nguồn. Để hỗ trợ điều này, <em>header</em> sẽ bao gồm <strong><em>source IP address</em> (địa chỉ IP nguồn)</strong> (giá trị 32-bit).</p>
+<h2 id="xử-lý-lỗi-ip"><a class="header" href="#xử-lý-lỗi-ip">Xử lý lỗi IP</a></h2>
+<p>Các <em>end host</em> và <em>Router</em> cũng cần có khả năng <strong>chỉ định các vấn đề hoặc các trường hợp đặc biệt</strong> trong trường hợp một <em>packet</em> cần xử lý bổ sung.</p>
+<p>Các <em>packet</em> <em>IP</em> có thể bị kẹt trong các vòng lặp (ví dụ: nếu <em>routing protocol</em> chưa hội tụ). Một lựa chọn khả dĩ là để <em>packet</em> lặp vô hạn cho đến khi các tuyến đường hội tụ, nhưng việc chuyển tiếp <em>packet</em> diễn ra ở quy mô nano giây, và sự hội tụ định tuyến diễn ra ở quy mô mili giây hoặc giây. Việc để <em>packet</em> lặp cho đến khi các tuyến đường hội tụ có thể mất nhiều thời gian và lãng phí rất nhiều <em>bandwidth</em>. Để ngăn chặn vòng lặp vô hạn, <em>IP header</em> có một <em><strong>time to live (TTL)</strong></em> (giá trị 8-bit), được giảm đi ở mỗi chặng. Nếu <em>TTL</em> về 0, <em>packet</em> sẽ bị loại bỏ, và một thông báo lỗi được gửi lại cho nguồn. (Thông báo lỗi là yêu cầu của đặc tả <em>IP</em>, mặc dù không phải lúc nào cũng được gửi trong thực tế.)</p>
+<p>Các <em>packet</em> <em>IP</em> có thể bị hỏng (ví dụ: các bit trên đường truyền có thể bị hỏng do các quá trình điện). Để phát hiện lỗi, <em>IP header</em> chứa một <strong><em>checksum</em> (tổng kiểm tra)</strong> (giá trị 16-bit), và loại bỏ các <em>packet</em> nếu <em>checksum</em> không chính xác.</p>
+<p>Lưu ý rằng <em>IP checksum</em> chỉ được tính toán trên <em>IP header</em>. <em>checksum</em> chỉ có thể phát hiện lỗi trong <em>IP header</em>, không phải lỗi trong <em>IP payload</em>. Điều này phản ánh <strong><em>end-to-end principle</em> (nguyên tắc đầu cuối-đầu cuối)</strong>, trong đó chúng ta bắt buộc rằng <em>payload</em> được kiểm tra bởi <em>end host</em>, chứ không phải bởi các <em>Router</em> trung gian.</p>
+<p><em>IP checksum</em> được cập nhật tại mỗi <em>Router</em>, vì <em>TTL</em> thay đổi, và <em>checksum</em> phải được tính toán lại. Một thiết kế thay thế khả thi là loại trừ <em>TTL</em> trong <em>checksum</em>, để tiết kiệm cho các <em>Router</em> công việc bổ sung.</p>
+<p>Các <em>packet</em> <em>IP</em> có thể quá lớn đối với một liên kết cụ thể. Mỗi liên kết có một <strong><em>maximum transmission unit (MTU)</em> (đơn vị truyền tải tối đa)</strong>, chỉ ra kích thước <em>packet</em> lớn nhất (tính bằng byte) mà liên kết đó có thể mang theo như một đơn vị. Ví dụ, liên kết có thể có bộ nhớ hạn chế để ghi nhớ một <em>packet</em> trong khi nó gửi các bit đi trên đường truyền.</p>
+<p><em>end host</em> không biết liên kết nào sẽ mang <em>packet</em>, vì vậy <em>end host</em> có thể gửi một <em>packet</em> quá lớn đối với một trong các liên kết. Để giải quyết vấn đề này, một <em>Router</em> có thể thực hiện <strong><em>fragmentation</em> (phân mảnh)</strong>, chia <em>packet</em> thành nhiều mảnh nhỏ, mà <em>Router</em> ở đầu kia của liên kết phải tập hợp lại để phục hồi <em>packet</em> ban đầu. Các trường <em>identification</em> (định danh) (16-bit), <em>flags</em> (cờ) (3-bit), và <em>offset</em> (độ lệch) (13-bit) trong <em>header</em> được sử dụng để triển khai <em>fragmentation</em>.</p>
+<img width="900px" src="../assets/routing/2-198-fragment.png">
+<p><em>Fragmentation</em> có thể thực hiện được trong phần cứng (ví dụ: một <em>Router</em> có thể nhanh chóng phân mảnh các <em>packet</em> mà không cần &quot;punt&quot; <em>packet</em> để xử lý đặc biệt), nhưng nó gây ra thêm chi phí. Internet hiện đại tránh <em>fragmentation</em> bất cứ khi nào có thể. Ví dụ, chúng ta cố gắng chuẩn hóa <em>MTU</em> càng nhiều càng tốt (một tiêu chuẩn hiện đại là 1500 byte).</p>
+<p>Các nhà thiết kế ban đầu của <em>IP</em> đã không hoàn toàn đi theo thiết kế nỗ lực tối đa (best-effort), và nghĩ rằng có thể hữu ích nếu cho phép các ứng dụng gửi các loại <em>packet</em> khác nhau dựa trên nhu cầu của ứng dụng. Để thực hiện điều này, <em>IP header</em> có các bit <strong><em>Type of Service (ToS)</em> (Loại dịch vụ)</strong> (giá trị 8-bit), có thể được sử dụng để yêu cầu các hình thức phân phối <em>packet</em> khác nhau. Ví dụ, một số <em>packet</em> có thể được đánh dấu là nhạy cảm với độ trễ hoặc ưu tiên cao. Qua nhiều năm, các bit này đã được định nghĩa lại để đại diện cho các giao thức khác nhau, và <em>ToS</em> không còn tồn tại ở dạng ban đầu. Thay vào đó, các bit này bây giờ đại diện cho một khái niệm nào đó về mức độ ưu tiên. Ví dụ về các giao thức sử dụng các bit này là <em>Differentiated Services Code Point (DSCP)</em> (Điểm mã Dịch vụ Phân biệt), định nghĩa các loại lưu lượng nhất định, và <em>Explicit Congestion Notification (ECN)</em> (Thông báo Tắc nghẽn Tường minh), sẽ giúp xử lý tắc nghẽn lưu lượng (sẽ được thảo luận sau).</p>
+<p>Trong thiết kế <em>IP</em> ban đầu, các <strong><em>option bits</em> (các bit tùy chọn)</strong> bổ sung có thể được thêm vào <em>IP header</em> để yêu cầu xử lý nâng cao hơn trên <em>packet</em>. Ví dụ, người gửi có thể yêu cầu các <em>Router</em> ghi lại tuyến đường mà <em>packet</em> đang đi (ví dụ: để chẩn đoán). Người gửi có thể bao gồm một tuyến đường nguồn trong <em>header</em> của <em>packet</em> và buộc <em>packet</em> phải đi theo một tuyến đường nhất định. <em>header</em> của <em>packet</em> cũng có thể bao gồm một dấu thời gian. Trong các triển khai hiện đại, các tùy chọn này hầu như luôn bị vô hiệu hóa, vì chúng dẫn đến các triển khai phức tạp không cần thiết làm tăng chi phí xử lý <em>packet</em>. Ví dụ, các tùy chọn này buộc <em>IP header</em> phải có độ dài thay đổi, điều này khó xử lý hơn một <em>header</em> có độ dài cố định.</p>
+<img width="900px" src="../assets/routing/2-199-ip-header.png">
+<h2 id="các-thay-đổi-trong-header-ipv6"><a class="header" href="#các-thay-đổi-trong-header-ipv6">Các thay đổi trong Header IPv6</a></h2>
+<p><em>IPv6</em> (Giao thức Internet phiên bản 6) được thúc đẩy bởi lo ngại rằng cuối cùng chúng ta sẽ hết địa chỉ <em>IPv4</em> (Giao thức Internet phiên bản 4) 32-bit. <em>IPv6</em> <strong>mở rộng địa chỉ</strong> để địa chỉ dài 128 bit. Số lượng địa chỉ <em>IPv6</em> khả dụng là cực lớn (hãy nghĩ đến: số lượng nguyên tử trong vũ trụ), vì vậy chúng ta gần như chắc chắn sẽ không bao giờ hết địa chỉ <em>IPv6</em>.</p>
+<p>Các nhà thiết kế <em>IPv6</em> đã nhân cơ hội này để dọn dẹp và hiện đại hóa <em>IP header</em>, loại bỏ và cập nhật các trường đã lỗi thời. Ban đầu, <em>IPv6</em> được dự định là một giao thức tham vọng hơn với nhiều tính năng địa chỉ mới, nhưng hầu hết các tính năng này chưa bao giờ được hiện thực hóa. Trong thực tế, ngoài việc &quot;dọn dẹp mùa xuân&quot; loại bỏ các tính năng lỗi thời này, không có nhiều thay đổi đáng kể đối với giao thức so với <em>IPv4</em>, vì vậy kết quả là một giao thức <em>IP</em> thanh lịch hơn, không có nhiều thay đổi tham vọng.</p>
+<p>Lưu ý: Trong trường hợp bạn tò mò, <em>IPv5</em> (Giao thức Internet phiên bản 5) đã được công bố vào năm 1990 (trước <em>IPv6</em> vào năm 1998). Nó là một giao thức thử nghiệm chưa bao giờ được triển khai rộng rãi.</p>
+<p><em>IPv6</em> <strong>loại bỏ <em>checksum</em></strong> trong <em>header</em> của <em>packet</em> <em>IP</em>. Lập luận ủng hộ việc bao gồm <em>checksum</em> là: nếu một <em>packet</em> bị hỏng và không được phát hiện, <em>packet</em> hỏng đó tiếp tục được gửi đi, lãng phí <em>bandwidth</em>. Việc bao gồm <em>checksum</em> đảm bảo rằng <em>packet</em> bị loại bỏ và <em>bandwidth</em> không bị lãng phí cho một <em>packet</em> bị hỏng. Trong thời hiện đại, <em>bandwidth</em> ít bị tắc nghẽn hơn, vì vậy <em>checksum</em> không còn cần thiết nữa, và không ảnh hưởng lớn đến hiệu suất nếu một số <em>packet</em> bị hỏng được gửi đi hết mạng.</p>
+<p><em>IPv6</em> <strong>loại bỏ <em>fragmentation</em></strong>. Nếu một <em>packet</em> <em>IPv6</em> quá lớn đối với một liên kết cụ thể, <em>Router</em> sẽ loại bỏ <em>packet</em> và gửi một thông báo lỗi trở lại nguồn với kích thước <em>packet</em> tối đa cho phép (<em>MTU</em>). Người gửi ban đầu chịu trách nhiệm chia dữ liệu thành các <em>packet</em> nhỏ hơn và gửi lại các <em>packet</em> nhỏ hơn đó. Các <em>end host</em> (ví dụ: máy tính cá nhân của bạn) xử lý ít <em>packet</em> hơn các <em>Router</em> (ví dụ: trong các trung tâm dữ liệu), vì vậy việc chuyển khối lượng công việc <em>fragmentation</em> từ các <em>Router</em> sang các <em>end host</em> cải thiện khả năng mở rộng tổng thể của Internet.</p>
+<p><em>IPv6</em> thay thế phần tùy chọn có độ dài thay đổi bằng một triển khai đã được sửa đổi của trường giao thức. Trong <em>IPv4</em>, các tùy chọn có vấn đề vì chúng tạo ra các <em>header</em> có độ dài thay đổi, khó phân tích hơn. Trong <em>IPv6</em>, <em>header</em> có độ dài cố định. Điều này cũng có nghĩa là trường <em><strong>header length</strong></em> có thể được loại bỏ.</p>
+<p>Để tiếp tục hỗ trợ các tùy chọn, <em>IPv6</em> tổng quát hóa trường giao thức để cho phép <em>packet</em> <em>IP</em> được chuyển lên để xử lý đặc biệt trước khi đến Lớp 4. (Hãy nhớ lại, <em>header</em> giao thức trong <em>IPv4</em> được đặt thành 7 hoặc 19, để chỉ ra giao thức Lớp 4 nào sẽ xử lý <em>packet</em> tiếp theo.) Trường này được đổi tên từ protocol thành <strong><em>next header</em> (phần đầu tiếp theo)</strong> trong <em>IPv6</em>.</p>
+<img width="800px" src="../assets/routing/2-200-next-header.png">
+<p>Nếu bạn muốn một giao thức bổ sung xử lý <em>packet</em> <em>IP</em>, bạn có thể đặt số tương ứng của giao thức đó vào trường <em>next header</em>. Các nhà thiết kế và người dùng của các giao thức bổ sung này cần phải đồng ý về việc số nào tương ứng với giao thức nào, và một tổ chức tiêu chuẩn cần quản lý các số này. Sau đó, <em>payload</em> có thể được chuyển đến giao thức bổ sung, giao thức này có thể đọc một <em>header</em> bổ sung (sau <em>header</em> <em>IPv6</em> Lớp 3, nhưng trước <em>header</em> Lớp 4) và thực hiện xử lý bổ sung, trước khi chuyển <em>payload</em> còn lại đến Lớp 4.</p>
+<p>Nếu <em>packet</em> không có tùy chọn bổ sung nào, thì trường <em>next header</em> giống như trường protocol cũ, cho phép <em>packet</em> <em>IP</em> được chuyển trực tiếp lên một giao thức Lớp 4 mà không cần xử lý thêm.</p>
+<p>Ý tưởng về các <em>next header</em> có thể được tổng quát hóa để cho phép nhiều giao thức xử lý <em>packet</em> sau <em>IPv6</em>, nhưng trước Lớp 4. Ví dụ, <em>IPv6</em> có thể có một <em>next header</em> để xử lý đặc biệt. Sau đó, <em>header</em> của giao thức xử lý đặc biệt cũng có thể chứa một trường <em>next header</em>, chỉ định một giao thức Lớp 4, hoặc một giao thức xử lý đặc biệt khác nữa. Cách tiếp cận này có khả năng tương thích với tương lai, vì nó hỗ trợ các giao thức trong tương lai chưa được phát minh. Các giao thức trong tương lai đó có thể được thêm vào theo cách tiếp cận <em>next-header</em> này, mà không làm hỏng <em>IPv6</em> hoặc yêu cầu cập nhật <em>IPv6</em>.</p>
+<p><em>IPv6</em> thêm một trường <strong><em>flow label</em> (nhãn luồng)</strong> vào <em>header</em>. Ở lớp 3, các <em>packet</em> được gửi độc lập (cách một <em>packet</em> được gửi không ảnh hưởng đến các <em>packet</em> khác), nhưng trong thực tế, thường có nhiều <em>packet</em> liên quan đến nhau theo một cách nào đó. Ví dụ, trong một luồng video giữa hai máy chủ, có thể có nhiều <em>packet</em> được gửi giữa hai ứng dụng giống nhau. Lớp 3 được cho là sẽ xử lý các <em>packet</em> này một cách riêng biệt, nhưng trong thực tế, các <em>Router</em> đã thêm các hệ thống tiên tiến hơn gọi là <strong><em>middleboxes</em> (các hộp trung gian)</strong> (ví dụ: <em>firewalls</em> (tường lửa), <em>intrusion detection systems</em> (hệ thống phát hiện xâm nhập)) có thể quan tâm đến việc các <em>packet</em> này là một phần của cùng một luồng, hoặc kết nối. Ví dụ, một <em>firewall</em> có thể cần đọc nhiều <em>packet</em> từ một kết nối để quyết định xem kết nối đó có nên được cho phép hay chặn. Khi tất cả các <em>packet</em> được gửi độc lập, các <em>middlebox</em> này phải đoán xem hai <em>packet</em> có liên quan đến nhau hay không (ví dụ: nó nhận thấy các <em>packet</em> có cùng địa chỉ IP nguồn/đích). <em>IPv6</em> thêm một cách tường minh để biểu thị rằng nhiều <em>packet</em> có liên quan đến nhau.</p>
+<img width="900px" src="../assets/routing/2-201-ipv6-header.png">
+<p>Số phiên bản không thay đổi giữa <em>IPv4</em> và <em>IPv6</em>. Độ dài <em>packet</em> không thay đổi (mặc dù được đổi tên từ Total Length thành Payload Length). <em>TTL</em> được đổi tên thành <em>Hop Limit</em> (Giới hạn Chặng), mặc dù chức năng không thay đổi.</p>
+<p>Các bit <em>Type of Service</em> được đổi tên thành <em>Traffic Class</em> (Lớp Lưu lượng), và vẫn có thể được sử dụng để thực hiện một số khái niệm về ưu tiên <em>packet</em>.</p>
+<p>Nói chung, <em>IPv6</em> đi theo <em>end-to-end principle</em> và yêu cầu <em>end host</em> thực hiện công việc (phân mảnh, xác minh <em>checksum</em> và gửi lại các <em>packet</em> bị hỏng) khi có thể. Một số trường, như <em>hop limit</em> hoặc <em>TTL</em>, về cơ bản là một vấn đề ở cấp độ <em>IP</em>, và không thể được thực hiện bởi các <em>end host</em>. (<em>end host</em> sẽ giúp xử lý một <em>packet</em> đang lặp trong mạng như thế nào?)</p>
+<p><em>IPv6</em> cũng cố gắng đơn giản hóa <em>header</em> (loại bỏ các tùy chọn có độ dài thay đổi), trong khi vẫn cho phép khả năng mở rộng cho các cải tiến trong tương lai (cách tiếp cận <em>next-header</em>, <em>flow label</em>).</p>
+<h2 id="bảo-mật-ip-header"><a class="header" href="#bảo-mật-ip-header">Bảo mật IP Header</a></h2>
+<p><em>IP</em> không có bất kỳ cơ chế bảo mật tích hợp nào để chống lại những kẻ tấn công. Kẻ tấn công có thể gửi một <em>packet</em> với địa chỉ IP nguồn không chính xác, cho phép kẻ tấn công mạo danh người khác. Điều này có thể khiến máy chủ bị mạo danh bị đổ lỗi oan cho một <em>packet</em>. Hoặc, nếu kẻ tấn công gửi một <em>packet</em> giả mạo, gói tin trả lời có thể được gửi đến máy chủ bị mạo danh. Việc nói dối về địa chỉ nguồn được gọi là <strong><em>IP spoofing</em> (giả mạo IP)</strong>.</p>
+<p><em>IP spoofing</em> có thể được sử dụng cho các cuộc <strong><em>denial-of-service (DoS) attacks</em> (tấn công từ chối dịch vụ)</strong>. Một cuộc tấn công DoS có thể được sử dụng để làm quá tải một máy chủ và khiến nó bị sập bằng cách làm ngập máy chủ với các <em>packet</em>. Nếu tất cả các <em>packet</em> đến từ cùng một người gửi, máy chủ có thể ngăn chặn cuộc tấn công bằng cách bỏ qua các <em>packet</em> từ địa chỉ IP của kẻ tấn công. Tuy nhiên, nếu kẻ tấn công nói dối về địa chỉ IP nguồn, máy chủ sẽ khó phân biệt hơn giữa lưu lượng của kẻ tấn công và lưu lượng hợp pháp.</p>
+<p>Các cuộc tấn công tinh vi hơn liên quan đến giả mạo tồn tại, mặc dù chúng ta sẽ không đề cập chi tiết trong lớp học này (xem ghi chú của CS 161 tại UC Berkeley để biết thêm chi tiết).</p>
+<p>Trường <em>ToS</em> trong <em>IP header</em> cho phép người gửi đặt mức độ ưu tiên cho các <em>packet</em> của họ. Nếu chúng ta cho phép mọi người tự đặt mức độ ưu tiên, những người dùng độc hại có thể đặt mức độ ưu tiên cao hơn và lừa mạng ưu tiên lưu lượng của kẻ tấn công.</p>
+<p>Nếu mạng tính phí bổ sung cho lưu lượng ưu tiên cao, kẻ tấn công có thể gửi một <em>packet</em> ưu tiên cao giả mạo, và máy chủ bị mạo danh sẽ phải trả tiền cho lưu lượng của kẻ tấn công.</p>
+<p>Thiết kế Internet ban đầu không ngăn chặn các cuộc tấn công này, mặc dù các <em>ISP</em> (nhà cung cấp dịch vụ Internet) hiện đại đã triển khai các biện pháp bảo mật bổ sung để giảm thiểu các cuộc tấn công ở lớp <em>IP</em>. Trong Internet hiện đại, các <em>ISP</em> không cho phép các <em>end host</em> đặt trường <em>ToS</em>, và nhiều <em>ISP</em> có các công cụ để phát hiện và chặn các <em>packet</em> giả mạo.</p>
+<p>Trong <em>IPv4</em>, kẻ tấn công có thể cố tình gửi các <em>packet</em> lớn, buộc các <em>Router</em> phải thực hiện thêm công việc phân mảnh các <em>packet</em> đó. Hoặc, kẻ tấn công có thể cố tình thêm các tùy chọn bổ sung, buộc các <em>Router</em> phải xử lý các tùy chọn bổ sung đó. Điều này có thể được sử dụng để thực hiện các cuộc tấn công DoS và làm quá tải khả năng xử lý của một <em>Router</em>.</p>
+<p>Trường <em>TTL</em> có thể bị khai thác để tìm hiểu về cấu trúc liên kết mạng. Bạn có thể gửi một <em>packet</em> với <em>TTL</em> là 1. <em>packet</em> sẽ hết hạn ở chặng đầu tiên, và <em>Router</em> đầu tiên sẽ gửi cho bạn một thông báo lỗi, cho phép bạn biết được danh tính của <em>Router</em> đầu tiên.</p>
+<img width="600px" src="../assets/routing/2-202-traceroute1.png">
+<p>Sau đó, bạn có thể gửi một <em>packet</em> với <em>TTL</em> là 2, nó sẽ hết hạn ở chặng thứ hai. <em>Router</em> thứ hai sẽ gửi cho bạn một thông báo lỗi, cho phép bạn cũng khám phá ra <em>Router</em> thứ hai.</p>
+<img width="600px" src="../assets/routing/2-203-traceroute2.png">
+<p>Bằng cách lặp lại điều này với <em>TTL</em> là 3, <em>TTL</em> là 4, v.v., bạn có thể khám phá tất cả các <em>Router</em> trên đường đi của mình. Cuộc tấn công này được gọi là <strong><em>traceroute</em> (công cụ theo dõi đường đi)</strong>, mặc dù những người khác cho rằng nó không phải là một cuộc tấn công và hữu ích cho việc chẩn đoán.</p>
+<img width="600px" src="../assets/routing/2-204-traceroute3.png">
+<p>Việc lặp lại cuộc tấn công này trên các nguồn và đích khác nhau cho phép bạn tìm hiểu thêm về cấu trúc liên kết mạng. Một số <em>Router</em> không gửi thông báo lỗi khi <em>TTL</em> bị vượt quá, điều này có thể hạn chế việc khai thác này.</p>
+<p>Về mặt lý thuyết, kẻ tấn công có thể giả mạo trường giao thức hoặc <em>checksum</em>, nhưng điều này có khả năng khiến <em>packet</em> bị loại bỏ vì giao thức hoặc <em>checksum</em> không hợp lệ, vì vậy các cuộc tấn công thực tế với hai trường này không thực sự tồn tại.</p>
+<img width-="800px" src="../assets/routing/2-205-attacks.png">
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/bgp-implementation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../transport/reliability.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/bgp-implementation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../transport/reliability.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

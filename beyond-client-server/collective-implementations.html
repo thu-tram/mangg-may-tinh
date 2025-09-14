@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Collective Implementations - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html" class="active"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="triển-khai-collective-collective-implementations"><a class="header" href="#triển-khai-collective-collective-implementations"><strong>Triển khai Collective</strong> (Collective Implementations)</a></h1>
+<h2 id="Động-lực-triển-khai-allreduce-motivation-implementing-allreduce"><a class="header" href="#Động-lực-triển-khai-allreduce-motivation-implementing-allreduce"><strong>Động lực: Triển khai AllReduce</strong> (Motivation: Implementing AllReduce)</a></h2>
+<p>Bây giờ, khi chúng ta đã có định nghĩa của 7 <strong>collective</strong> (tập hợp thao tác truyền thông tin giữa nhiều nút), chúng ta có thể bắt đầu suy nghĩ về cách triển khai chúng trong một mạng. Để triển khai một collective, có hai câu hỏi cần trả lời:</p>
+<ul>
+<li>Chúng ta sử dụng <strong>topology</strong> (kiến trúc kết nối) nào để kết nối các nút?</li>
+<li>Dữ liệu nào cần được trao đổi giữa các nút để hoàn thành thao tác một cách hiệu quả?</li>
+</ul>
+<p>Khi đã quyết định topology sẽ dùng và dữ liệu cần trao đổi, chúng ta có thể phân tích hiệu năng của thiết kế. Tổng lượng <strong>network bandwidth</strong> (băng thông mạng) đã sử dụng là bao nhiêu? Thời gian để hoàn thành thao tác là bao lâu? Có thể tập trung vào các chỉ số hiệu năng khác, nhưng trong phần này, chúng ta sẽ tập trung vào hai chỉ số này.</p>
+<p>Để đo hiệu năng, chúng ta định nghĩa một số biến: Có tổng cộng $$p$$ nút. Mỗi vector có tổng cộng $$D$$ byte. Điều này có nghĩa là mỗi phần tử vector (mỗi ô trong hình minh họa) có kích thước $$D/p$$ byte.</p>
+<p>Trong phần này, chúng ta đặt $$p=5$$ để một số ví dụ minh họa dễ hình dung hơn. Lưu ý rằng điều này cũng có nghĩa là mỗi vector bây giờ có 5 phần tử thay vì 4 phần tử. (Ghi chú: Hãy nhớ rằng vector đại diện cho dữ liệu bất kỳ, và chúng ta chia mỗi vector thành $$p$$ <strong>sub-vector</strong> (vector con) có kích thước bằng nhau, trong đó $$p$$ là tổng số nút. Việc tăng $$p$$ từ 4 lên 5 không nhất thiết nghĩa là có nhiều dữ liệu hơn, mà có thể chỉ là chia cùng một lượng dữ liệu thành 5 phần thay vì 4 phần.)</p>
+<p>Trong phần này, chúng ta sẽ tập trung vào việc triển khai collective <strong>AllReduce</strong>, mặc dù các ý tưởng có thể áp dụng cho các collective khác. Nhắc lại rằng AllReduce tính tổng theo từng phần tử của các vector, sau đó gửi vector tổng này tới tất cả các nút.</p>
+<img width="900px" src="../assets/beyond-client-server/7-082-allreduce-reminder.png">
+<h2 id="cách-tiếp-cận-1-full-mesh-approach-1-full-mesh"><a class="header" href="#cách-tiếp-cận-1-full-mesh-approach-1-full-mesh"><strong>Cách tiếp cận 1: Full Mesh</strong> (Approach 1: Full Mesh)</a></h2>
+<p>Topology đầu tiên chúng ta xem xét là <strong>full-mesh</strong> (lưới đầy đủ), trong đó mỗi nút có một liên kết trực tiếp tới mọi nút khác.</p>
+<img width="900px" src="../assets/beyond-client-server/7-083-mesh-1.png">
+<p>Với topology này, chúng ta có thể triển khai AllReduce theo các bước:</p>
+<ol>
+<li>Mỗi nút gửi toàn bộ vector của mình trực tiếp tới mọi nút khác.</li>
+</ol>
+<img width="900px" src="../assets/beyond-client-server/7-084-mesh-2.png">
+<ol start="2">
+<li>Sau đó, mỗi nút cộng tất cả các vector mà nó nhận được.</li>
+</ol>
+<img width="900px" src="../assets/beyond-client-server/7-085-mesh-3.png">
+<p><strong>Băng thông sử dụng:</strong> Mỗi nút cần gửi toàn bộ vector ($$D$$ byte) của mình tới tất cả $$p-1$$ nút khác, nên mỗi nút gửi $$D(p-1)$$ byte. Có tổng cộng $$p$$ nút, nên tổng dữ liệu gửi là $$Dp(p-1) = O(D \cdot p^2)$$ byte.</p>
+<p><strong>Thời gian thực hiện:</strong> Phụ thuộc vào giới hạn tài nguyên của các nút và liên kết, nhưng giả sử không có giới hạn tài nguyên, tất cả việc gửi vector có thể diễn ra đồng thời, hoàn thành trong một bước thời gian (<strong>time step</strong>). Nói cách khác, Node 1 gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Cùng lúc đó, Node 2 cũng gửi dữ liệu tới tất cả các nút khác, sử dụng đồng thời tất cả các liên kết ra của nó. Giả sử không có giới hạn tài nguyên, cách tiếp cận này chỉ mất một time step để hoàn thành, trong đó mỗi nút cần gửi và nhận $$2 \cdot D \cdot (p-1)$$ byte mỗi time step (mỗi nút gửi $$D \cdot (p-1)$$ byte và nhận $$D \cdot (p-1)$$ byte, cộng lại thành hệ số 2).</p>
+<h2 id="cách-tiếp-cận-2-reduce-tại-một-nút-approach-2-reduce-at-one-node"><a class="header" href="#cách-tiếp-cận-2-reduce-tại-một-nút-approach-2-reduce-at-one-node"><strong>Cách tiếp cận 2: Reduce tại một nút</strong> (Approach 2: Reduce at One Node)</a></h2>
+<p>Trong topology tiếp theo, chúng ta để một nút duy nhất thực hiện toàn bộ công việc tính toán:</p>
+<img width="900px" src="../assets/beyond-client-server/7-086-root-1.png">
+<p>Để chạy AllReduce:</p>
+<ol>
+<li>Tất cả các nút (trừ Node 1) gửi vector của mình tới Node 1.</li>
+</ol>
+<img width="800px" src="../assets/beyond-client-server/7-087-root-2.png">
+<ol start="2">
+<li>Node 1 tính tổng, và gửi vector tổng này trở lại cho tất cả các nút.</li>
+</ol>
+<img width="900px" src="../assets/beyond-client-server/7-088-root-3.png">
+<p><strong>Băng thông sử dụng:</strong></p>
+<ul>
+<li>Bước 1: Mỗi nút (trừ Node 1) cần gửi toàn bộ vector tới Node 1, tức là $$D$$ byte. Có $$p-1$$ nút gửi dữ liệu, nên tổng dữ liệu gửi trong bước này là $$D(p-1)$$ byte.</li>
+<li>Bước 2: Node 1 phải gửi vector tổng tới tất cả các nút khác. Vector tổng có kích thước $$D$$ byte, gửi tới $$p-1$$ nút, nên tổng dữ liệu gửi trong bước này cũng là $$D(p-1)$$ byte.</li>
+</ul>
+<p>Tổng cộng, qua hai bước, chúng ta gửi $$2 \cdot D \cdot (p-1) = O(D \cdot p)$$ byte. Lưu ý rằng đây là cải thiện hệ số $$p$$ so với $$O(D \cdot p^2)$$ byte trong cách tiếp cận full-mesh.</p>
+<p><strong>Thời gian thực hiện:</strong> Giả sử không có giới hạn tài nguyên, tất cả các nút có thể gửi vector của mình tới Node 1 cùng lúc. Sau đó, chúng ta phải chờ Node 1 tính tổng. Khi tổng đã được tính, Node 1 có thể gửi vector tổng tới tất cả các nút khác cùng lúc. Tổng cộng, cách tiếp cận này mất 2 time step để hoàn thành, trong đó Node 1 phải gửi hoặc nhận $$D \cdot (p-1)$$ byte mỗi time step.</p>
+<p>Chúng ta không đo chính xác độ dài của một time step ở đây, nhưng điểm so sánh chính là: với cách tiếp cận này, toàn bộ việc gửi ở bước 1 phải hoàn tất trước khi việc gửi ở bước 2 bắt đầu. Ngược lại, trong cách tiếp cận đầu tiên, toàn bộ dữ liệu có thể được gửi đồng thời.</p>
+<p><strong>Nhược điểm:</strong> Cách tiếp cận này tạo ra một <strong>single point of failure</strong> (điểm lỗi đơn) tại Node 1. Do đó, cách này không thường được sử dụng trong thực tế.</p>
+<h2 id="cách-tiếp-cận-3-tree-based-dựa-trên-cấu-trúc-cây"><a class="header" href="#cách-tiếp-cận-3-tree-based-dựa-trên-cấu-trúc-cây"><strong>Cách tiếp cận 3: Tree-Based</strong> (Dựa trên cấu trúc cây)</a></h2>
+<p>Trong topology tiếp theo, chúng ta sẽ xây dựng một <strong>binary tree</strong> (cây nhị phân). Ở đây, “binary” nghĩa là mỗi nút có tối đa 2 <strong>child</strong> (nút con).</p>
+<img width="800px" src="../assets/beyond-client-server/7-089-tree-1.png">
+<p>Để chạy <strong>AllReduce</strong>: Bắt đầu từ các <strong>leaf node</strong> (nút lá) ở đáy cây, mỗi nút gửi vector của mình tới <strong>parent</strong> (nút cha).</p>
+<img width="800px" src="../assets/beyond-client-server/7-090-tree-2.png">
+<p>Khi nhận được tất cả vector từ các child, bạn sẽ cộng chúng với vector của mình.</p>
+<img width="800px" src="../assets/beyond-client-server/7-091-tree-3.png">
+<p>Sau đó, bạn gửi vector tổng này lên parent.</p>
+<img width="700px" src="../assets/beyond-client-server/7-092-tree-4.png">
+<p>Sau khi lặp lại bước này qua tất cả các tầng của cây, <strong>root</strong> (nút gốc) sẽ tính được tổng cuối cùng.</p>
+<img width="700px" src="../assets/beyond-client-server/7-093-tree-5.png">
+<p>Tiếp theo, ở bước thứ hai, root gửi vector tổng này xuống cây, tới các child của nó. Khi nhận được vector tổng từ parent, bạn sẽ gửi một bản sao của vector tổng đó tới tất cả các child của mình.</p>
+<img width="800px" src="../assets/beyond-client-server/7-094-tree-6.png">
+<img width="800px" src="../assets/beyond-client-server/7-095-tree-7.png">
+<p><strong>Băng thông sử dụng:</strong></p>
+<ul>
+<li>Bước 1: Mỗi nút nhận tối đa 2 vector từ các child (vì cây là nhị phân) và gửi 1 vector tới parent. Điều này cho giới hạn trên là $$3D$$ byte mỗi nút, tổng cộng $$3D \cdot p$$ byte trong Bước 1.</li>
+<li>Bước 2: Mỗi nút nhận 1 vector từ parent và gửi tối đa 2 vector tới các child. Giới hạn trên vẫn là $$3D$$ byte mỗi nút, tổng cộng $$3D \cdot p$$ byte trong Bước 2.</li>
+</ul>
+<p>Tổng cộng, qua hai bước, chúng ta gửi $$6 \cdot D \cdot p = O(D \cdot p)$$ byte. Đây là cải thiện hệ số $$p$$ so với <strong>full-mesh</strong>, và bằng với cách tiếp cận <strong>reduce-at-one-node</strong>.</p>
+<p><strong>Thời gian thực hiện:</strong> Bạn phải chờ nhận vector từ các child trước khi có thể gửi vector tổng (tổng vector của bạn và vector của các child) lên parent. Tổng cộng, cách tiếp cận này mất $$O(\log p)$$ <strong>time step</strong> để gửi vector lên cây, và thêm $$O(\log p)$$ time step để gửi vector tổng xuống cây, tức tổng cộng $$O(\log p)$$ time step. Mỗi nút phải gửi hoặc nhận tối đa $$3D$$ byte mỗi time step (ít hơn so với các cách tiếp cận khác). So sánh chính xác về thời gian cần thay thế giá trị $$D$$ và giới hạn tài nguyên mạng, nhưng nhìn chung, cách này cần nhiều time step hơn, song mỗi time step có thể hoàn thành nhanh hơn vì lượng dữ liệu truyền nhỏ hơn.</p>
+<p>Lưu ý rằng chúng ta đã tận dụng phép <strong>reduction</strong> (giảm dữ liệu) trong triển khai này. Mỗi nút cộng vector của mình với vector của các child, nên chỉ cần gửi một vector tổng duy nhất lên parent. Trong cách tiếp cận ngây thơ hơn, mỗi nút sẽ gửi cả 3 vector (vector của mình và của 2 child) lên parent, nhưng ở đây chúng ta đã tiết kiệm băng thông.</p>
+<p>Nói chung, các collective dạng hợp nhất dữ liệu (<strong>Reduce</strong>, <strong>ReduceScatter</strong>, <strong>AllReduce</strong>) cho phép tối ưu triển khai. Trong Reduce và ReduceScatter, tổng lượng dữ liệu nhận thực tế nhỏ hơn lượng dữ liệu gửi, và chúng ta có thể tận dụng điều này. Ví dụ, nếu biết đầu ra là tổng của tất cả vector, và bạn nhận 2 vector, bạn có thể cộng chúng lại và gửi một vector tổng duy nhất, thay vì gửi riêng từng vector.</p>
+<h2 id="cách-tiếp-cận-4-ring-based-naive-dựa-trên-vòng--ngây-thơ"><a class="header" href="#cách-tiếp-cận-4-ring-based-naive-dựa-trên-vòng--ngây-thơ"><strong>Cách tiếp cận 4: Ring-Based (Naive)</strong> (Dựa trên vòng – Ngây thơ)</a></h2>
+<p>Trong hai cách tiếp cận cuối, chúng ta sẽ xây dựng topology dạng <strong>ring</strong> (vòng). Lưu ý rằng liên kết vòng từ Node 1 tới Node 5 không có gì đặc biệt so với các liên kết khác (việc liên kết này dài hơn không mang ý nghĩa gì).</p>
+<img width="900px" src="../assets/beyond-client-server/7-096-naive-ring-1.png">
+<p>Để chạy AllReduce theo cách ngây thơ: Node 5 bắt đầu bằng cách gửi vector của mình sang trái.</p>
+<img width="900px" src="../assets/beyond-client-server/7-097-naive-ring-2.png">
+<p>Khi nhận vector từ <strong>neighbor</strong> (nút láng giềng) bên phải, bạn cộng nó với vector của mình.</p>
+<img width="900px" src="../assets/beyond-client-server/7-098-naive-ring-3.png">
+<p>Sau đó, bạn gửi vector tổng này sang <strong>neighbor</strong> bên trái.</p>
+<img width="900px" src="../assets/beyond-client-server/7-099-naive-ring-4.png">
+<img width="900px" src="../assets/beyond-client-server/7-100-naive-ring-5.png">
+<p>Quá trình này sẽ tiếp tục quanh vòng.</p>
+<img width="900px" src="../assets/beyond-client-server/7-101-naive-ring-6.png">
+<img width="900px" src="../assets/beyond-client-server/7-102-naive-ring-7.png">
+<p>Cuối cùng, Node 1 sẽ tính được vector tổng cuối cùng.</p>
+<img width="900px" src="../assets/beyond-client-server/7-103-naive-ring-8.png">
+<img width="900px" src="../assets/beyond-client-server/7-104-naive-ring-9.png">
+<p>Sau đó, ở bước thứ hai, chúng ta gửi vector tổng này quanh vòng để mọi nút đều có bản sao. Node 5 bắt đầu bằng cách gửi vector tổng sang trái. Khi nhận vector tổng từ neighbor bên phải, bạn gửi một bản sao sang neighbor bên trái. Quá trình này tiếp tục quanh vòng cho đến khi mọi nút nhận được vector tổng.</p>
+<img width="900px" src="../assets/beyond-client-server/7-105-naive-ring-10.png">
+<p><strong>Băng thông sử dụng:</strong></p>
+<ul>
+<li>Bước 1: Mỗi nút nhận 1 vector từ neighbor bên phải và gửi 1 vector sang neighbor bên trái. Giới hạn trên là $$2D$$ byte mỗi nút, tổng cộng $$2D \cdot p$$ byte.</li>
+<li>Bước 2: Mỗi nút lại nhận 1 vector và gửi 1 vector. Giới hạn trên vẫn là $$2D$$ byte mỗi nút, tổng cộng $$2D \cdot p$$ byte.</li>
+</ul>
+<p>Tổng cộng, qua hai bước, chúng ta gửi $$4 \cdot D \cdot p = O(D \cdot p)$$ byte.</p>
+<p><strong>Thời gian thực hiện:</strong> Bạn phải chờ nhận vector (từ bên trái) trước khi có thể gửi vector (sang bên phải). Tổng cộng, cách này mất $$p$$ time step để vòng lặp hoàn tất ở bước 1, và thêm $$p$$ time step để gửi vector tổng ở bước 2, tức tổng cộng $$2p = O(p)$$ time step. Mỗi nút phải gửi hoặc nhận tối đa $$2D$$ byte mỗi time step.</p>
+<p>Giống như topology dạng cây, so sánh thời gian chính xác cần thay thế giá trị $$D$$ và giới hạn tài nguyên mạng. Nhìn chung, so với hai cách tiếp cận đầu tiên, cách này cần nhiều time step hơn, nhưng mỗi time step có thể hoàn thành nhanh hơn vì lượng dữ liệu truyền nhỏ hơn.</p>
+<p><strong>Lưu ý:</strong> Chúng ta chọn Node 5 làm điểm bắt đầu, nhưng các điểm bắt đầu khác cũng có thể hoạt động. Tương tự, chúng ta có thể di chuyển theo chiều trái–phải thay vì phải–trái.</p>
+<h2 id="cách-tiếp-cận-5-ring-based-optimized-dựa-trên-vòng--tối-ưu"><a class="header" href="#cách-tiếp-cận-5-ring-based-optimized-dựa-trên-vòng--tối-ưu"><strong>Cách tiếp cận 5: Ring-Based (Optimized)</strong> (Dựa trên vòng – Tối ưu)</a></h2>
+<p>Các cách tiếp cận trước đây đều cho ra kết quả đúng, nhưng tạo ra <strong>bursty workload</strong> (tải công việc dồn cục). Trong cách ring-based ngây thơ, mỗi nút dành phần lớn thời gian ở trạng thái chờ, không làm gì. Tại một thời điểm, bạn đột ngột nhận toàn bộ vector, phải ngay lập tức cộng vector đó với vector của mình, rồi gửi kết quả sang trái. Mọi nút khác phải chờ bạn hoàn thành thao tác này.</p>
+<p>Để tạo tải công việc ít dồn cục hơn và cân bằng hơn, chúng ta có thể <strong>stagger</strong> (xen kẽ) các bước của AllReduce dạng ring-based <em>ngây thơ</em> (naive ring-based AllReduce). Việc gửi toàn bộ vector sang trái cùng lúc sẽ khiến nó bị quá tải. Thay vào đó, bạn có thể gửi vector về bên trái theo từng lượt một, mỗi element một lần gửi.</p>
+<img width="900px" src="../assets/beyond-client-server/7-106-optimized-ring-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-107-optimized-ring-2.png">
+<p>Khi bạn nhận được <strong>một phần tử</strong> (từ bên trái), bạn có thể cộng phần tử đó với phần tử tương ứng của mình. Sau đó, bạn gửi kết quả tổng này (vẫn chỉ là một phần tử) sang bên trái.</p>
+<img width="900px" src="../assets/beyond-client-server/7-108-optimized-ring-3.png">
+<img width="900px" src="../assets/beyond-client-server/7-109-optimized-ring-4.png">
+<p>Ngoài việc <strong>stagger</strong> (xen kẽ) việc gửi từng phần tử của vector, hãy chú ý rằng <strong>điểm bắt đầu</strong> cũng được sắp xếp xen kẽ. Thay vì điểm bắt đầu là Node 5 gửi tất cả các phần tử của nó, bây giờ chúng ta bắt đầu bằng cách để nút thứ $$i$$ gửi phần tử thứ $$i$$ của nó.</p>
+<img width="900px" src="../assets/beyond-client-server/7-110-optimized-ring-5.png">
+<img width="900px" src="../assets/beyond-client-server/7-111-optimized-ring-6.png">
+<p>Bằng cách xen kẽ thao tác theo cả hai chiều này (mỗi nút gửi một phần tử tại một thời điểm, và mỗi nút bắt đầu ở một phần tử khác nhau), chúng ta có thể tạo ra một <strong>workload</strong> (tải công việc) cân bằng hơn. Ở mỗi <strong>time step</strong>, mỗi nút nhận đúng một phần tử từ bên phải, tính một phép cộng, và gửi đúng một phần tử sang bên trái.</p>
+<img width="900px" src="../assets/beyond-client-server/7-112-optimized-ring-7.png">
+<img width="900px" src="../assets/beyond-client-server/7-113-optimized-ring-8.png">
+<p>Nếu chúng ta lặp lại quá trình này $$p$$ lần, thì mỗi phần tử sẽ đi hết một vòng quanh vòng tròn.</p>
+<img width="900px" src="../assets/beyond-client-server/7-114-optimized-ring-9.png">
+<p>Tuy nhiên, không phải mọi nút đều biết tất cả các phần tử của vector tổng, vì vậy chúng ta phải chạy thêm một vòng nữa. Giống như trong cách tiếp cận <strong>naive</strong> (ngây thơ), ở vòng thứ hai này, khi bạn nhận được một phần tử của vector tổng, bạn chỉ cần gửi một bản sao sang bên phải.</p>
+<img width="900px" src="../assets/beyond-client-server/7-115-optimized-ring-10.png">
+<img width="900px" src="../assets/beyond-client-server/7-116-optimized-ring-11.png">
+<img width="900px" src="../assets/beyond-client-server/7-117-optimized-ring-12.png">
+<img width="900px" src="../assets/beyond-client-server/7-118-optimized-ring-13.png">
+<p>Khi xem bản demo động này, hãy chú ý vào <strong>hai chiều</strong> mà chúng ta đang xen kẽ thao tác:</p>
+<ul>
+<li>Nếu bạn tập trung vào một <strong>cột</strong>, bạn sẽ thấy rằng chúng ta gửi từng phần tử một, và nhận từng phần tử một.</li>
+<li>Nếu bạn tập trung vào một <strong>hàng</strong>, bạn sẽ thấy rằng mỗi nút nhận tổng của tất cả các phần tử thứ $$i$$ cho đến thời điểm đó, cộng thêm phần tử thứ $$i$$ của mình, và gửi tổng mới sang trái. Vì thao tác này đi qua tất cả các nút, chúng ta biết rằng cuối cùng sẽ cộng được tất cả các phần tử thứ $$i$$ lại với nhau.</li>
+</ul>
+<p><strong>Tóm lại</strong>, <strong>optimized ring-based AllReduce</strong> thực hiện chính xác các thao tác giống như <strong>naive ring-based AllReduce</strong>. Điểm khác biệt duy nhất là chúng ta đã xen kẽ việc gửi và nhận vector, để giảm tính “dồn cục” (<strong>burstiness</strong>) của tải công việc tại mỗi nút.</p>
+<p><strong>Phân tích băng thông và thời gian</strong> của optimized ring-based AllReduce giống với naive ring-based AllReduce:</p>
+<ul>
+<li>Mỗi nút nhận/gửi $$2D$$ byte ở bước đầu tiên, và thêm $$2D$$ byte ở bước thứ hai, tổng cộng $$4 \cdot D \cdot p = O(D \cdot p)$$ byte.</li>
+<li>Chúng ta vẫn cần $$O(p)$$ time step để hoàn thành hai vòng quanh vòng tròn.</li>
+</ul>
+<p>Tuy nhiên, <strong>băng thông trên mỗi time step</strong> đã được cải thiện trong cách tối ưu. Trong cách naive, mỗi nút phải nhận và gửi toàn bộ vector trong một time step, tổng cộng $$2D$$ byte truyền trong một time step. Trong cách tối ưu, mỗi nút chỉ phải nhận và gửi <strong>một phần tử</strong> tại mỗi time step, tổng cộng $$2D/p$$ byte truyền trong một time step.</p>
+<h2 id="overlay-và-underlay-topologies"><a class="header" href="#overlay-và-underlay-topologies"><strong>Overlay và Underlay Topologies</strong></a></h2>
+<p>Hãy nhớ rằng các thao tác collective này được định nghĩa sao cho <strong>user</strong> (ví dụ: chương trình huấn luyện AI) có thể chọn bất kỳ tập hợp $$p$$ host nào và yêu cầu chúng chạy một thao tác AllReduce. Khi user chọn $$p$$ host, rất có thể chúng không được kết nối sẵn theo topology vòng. Làm thế nào để triển khai AllReduce dạng vòng ngay cả khi các host không được kết nối vật lý theo topology vòng?</p>
+<p>Câu trả lời là sử dụng <strong>overlay</strong>. Chúng ta có thể vẽ các liên kết ảo để kết nối các host thành topology vòng:</p>
+<img width="900px" src="../assets/beyond-client-server/7-119-ring-overlay-1.png">
+<p>Khi Node D gửi vector tới Node B, ở góc nhìn <strong>overlay</strong>, Node D đang gửi vector qua một liên kết ảo duy nhất tới neighbor trực tiếp của nó. Ở góc nhìn <strong>underlay</strong>, vector này thực tế phải đi qua nhiều <strong>hop</strong> (bước nhảy) trước khi đến đích là Node B.</p>
+<p>Như đã thấy khi thảo luận về <strong>overlay-based multicast</strong>, hiệu năng của overlay phụ thuộc vào mức độ khớp giữa topology overlay và mạng underlay. Trong bối cảnh huấn luyện AI, hiệu năng đặc biệt quan trọng vì chúng ta đang truyền một lượng dữ liệu khổng lồ.</p>
+<p>Để minh họa tại sao topology overlay quan trọng, giả sử có 4 nút muốn chạy AllReduce. Làm thế nào để <strong>đánh số</strong> các nút nhằm đạt hiệu năng tốt nhất?</p>
+<p>Trước hết, lưu ý rằng <strong>bất kỳ cách đánh số nào</strong> cũng sẽ cho ra kết quả AllReduce đúng. Nói cách khác, bất kỳ nút nào cũng có thể là Node 1, Node 2, v.v. (Điều này không đúng với tất cả các thao tác collective, nhưng đúng với AllReduce.)</p>
+<p>Dưới đây là hai cách đánh số nút:</p>
+<img width="900px" src="../assets/beyond-client-server/7-120-ring-overlay-2.png">
+<p>Cách đầu tiên dẫn đến <strong>average stretch</strong> (độ giãn trung bình) là 3.5. Đặc biệt, hãy chú ý rằng các liên kết ảo C–D và B–A phải đi qua nhiều liên kết trong mạng underlay.</p>
+<img width="900px" src="../assets/beyond-client-server/7-121-ring-overlay-3.png">
+<p>Ngược lại, cách thứ hai dẫn đến average stretch là 2.5. Tập hợp các liên kết ảo này đặt các liên kết liền kề trong vòng gần nhau hơn.</p>
+<img width="900px" src="../assets/beyond-client-server/7-122-ring-overlay-4.png">
+<p>Nói chung, để tối ưu hiệu năng của AllReduce dạng vòng, chúng ta muốn các nút liền kề (ví dụ: Node $$i$$ và Node $$i+1$$) gần nhau trong mạng.</p>
+<p>Sơ đồ này minh họa một topology underlay bất kỳ, nhưng ý tưởng tương tự áp dụng cho các topology dạng <strong>datacenter-like</strong> (giống trung tâm dữ liệu) được sử dụng trong huấn luyện AI. Hãy nhớ rằng trong các topology này, một số nút có kết nối hiệu năng rất cao (ví dụ: hai GPU trên cùng một máy), trong khi các nút khác có kết nối kém hơn (ví dụ: hai GPU ở các rack khác nhau).</p>
+<p>Các tác vụ huấn luyện AI có tính dự đoán, và topology cơ sở hạ tầng là cố định và có cấu trúc. Điều này có nghĩa là chúng ta có nhiều cơ hội để tối ưu hiệu năng của tác vụ huấn luyện. Ví dụ: chúng ta có thể gán các tác vụ cụ thể cho các nút cụ thể, sao cho các thao tác collective được thực hiện trên các nút gần nhau (ví dụ: tất cả các nút trong cùng một rack). Việc tìm cách tối ưu hóa các tác vụ huấn luyện AI là một lĩnh vực nghiên cứu đang rất sôi động.</p>
+<h2 id="các-lớp-trừu-tượng-layers-of-abstraction"><a class="header" href="#các-lớp-trừu-tượng-layers-of-abstraction"><strong>Các lớp trừu tượng</strong> (Layers of Abstraction)</a></h2>
+<p>Tóm lại, bạn có thể hình dung các thao tác collective ở <strong>ba lớp trừu tượng</strong>:</p>
+<ol>
+<li>
+<p><strong>Definitions</strong> (Định nghĩa): Ở lớp trừu tượng cao nhất, chúng ta định nghĩa thao tác bằng cách chỉ rõ đầu vào và đầu ra mong đợi. User chỉ cần hiểu các định nghĩa này để sử dụng collective, mà không cần biết cách triển khai.</p>
+</li>
+<li>
+<p><strong>Overlay</strong>: Giảm xuống một lớp trừu tượng, chúng ta xem xét dữ liệu được trao đổi trong the overlay topology. At this level, you can assume that the nodes are organized in a useful topology (e.g. tree or ring), and can send data along virtual links in that topology.</p>
+</li>
+<li>
+<p>Underlay. At the lowest level of abstraction, we think about how the virtual links (overlay) correspond to actual physical links in the underlay. When Node 5 sends a vector to Node 4, that vector actually has to be forwarded across several physical routers and links.</p>
+</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../beyond-client-server/collective-operations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../wireless/wireless-links.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../beyond-client-server/collective-operations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../wireless/wireless-links.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

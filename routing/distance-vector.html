@@ -1,0 +1,600 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Distance-Vector Protocols - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html" class="active"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="các-giao-thức-distance-vector"><a class="header" href="#các-giao-thức-distance-vector">Các Giao thức Distance-Vector</a></h1>
+<h2 id="phác-thảo-thuật-toán"><a class="header" href="#phác-thảo-thuật-toán">Phác thảo Thuật toán</a></h2>
+<p>Trong phần này, chúng ta sẽ thiết kế một <em><strong>distance-vector protocol</strong></em>, là một trong ba loại thuật toán định tuyến (cùng với <em>link-state (trạng thái liên kết)</em> và <em>path-vector (vector đường đi)</em>).</p>
+<p>Các giao thức <em>distance-vector</em> có một lịch sử lâu đời trên Internet và ARPANET (tiền thân của Internet). Giao thức <em>distance-vector</em> tiêu biểu là <em><strong>Routing Information Protocol (RIP) (Giao thức Thông tin Định tuyến)</strong></em>, và giao thức D-V mà chúng ta sẽ thiết kế có nhiều điểm tương đồng với <em>RIP</em>.</p>
+<p>Để có được một số trực giác về giao thức định tuyến mà chúng ta sẽ nghiên cứu trong phần này, hãy xem xét mạng sau đây.</p>
+<img width="800px" src="../assets/routing/2-032-sketch1.png">
+<p>Để bắt đầu, <em>forwarding table</em> của mọi <em>router</em> đều trống. Mục tiêu của chúng ta là điền vào các <em>forwarding table</em> của mọi <em>router</em>, sao cho các <em>packet</em> có thể được định tuyến từ bất kỳ đâu đến đích là A.</p>
+<p>Để bắt đầu, A có thể nói với R1: &quot;Tôi là A.&quot; Bây giờ, R1 biết cách <em>forwarding</em> các <em>packet</em> đến A.</p>
+<p>Bây giờ R1 đã có một đường đi đến A, nó có thể nói với các neighbour của mình, R2 và R3: &quot;Tôi là R1, và tôi có thể đến được A.&quot;</p>
+<img width="800px" src="../assets/routing/2-033-sketch2.png">
+<p>Bây giờ, R2 và R3 biết rằng chúng có thể đến được A bằng cách <em>forwarding</em> các <em>packet</em> đến R1.</p>
+<p>R2 bây giờ có thể nói với các neighbour của mình, R4 và R5: &quot;Tôi là R2, và tôi có thể đến được A.&quot; Tương tự, R3 có thể nói với các neighbour của mình, R6 và R7: &quot;Tôi là R3, và tôi có thể đến được A.&quot;</p>
+<img width="800px" src="../assets/routing/2-034-sketch3.png">
+<p>Bây giờ, R4 và R5 biết rằng các <em>packet</em> cho A có thể được chuyển tiếp đến R2, và R6 và R7 biết rằng các <em>packet</em> cho A có thể được chuyển tiếp đến R3.</p>
+<p>Quá trình tiếp tục: R4, R5, R6, và R7 mỗi người nói với neighbour của mình họ là ai, và rằng họ có thể đến được A. Đến cuối cùng, <em>forwarding table</em> của mọi người đều được điền đầy, và chúng ta có thể định tuyến các <em>packet</em> từ bất kỳ đâu trong mạng hướng về A.</p>
+<img width="800px" src="../assets/routing/2-035-sketch4.png">
+<p>Tóm lại: Khi bạn nhận được một thông báo từ ai đó nói rằng họ có thể đến được A, bạn nên ghi lại người đã gửi thông báo đó. Bây giờ, bạn có thể gửi các tin nhắn dành cho A thông qua người đó.</p>
+<p>Ngoài ra, bây giờ bạn đã có cách để gửi tin nhắn đến A, bạn nên tạo một thông báo cho tất cả các neighbour của mình, để họ có thể gửi các tin nhắn dành cho A thông qua bạn.</p>
+<p>Nếu có nhiều đích đến thì sao? Chúng ta có thể chạy cùng một thuật toán này lặp đi lặp lại, một lần cho mỗi đích. <em>Forwarding table</em> sau đó sẽ chứa nhiều mục, một mục cho mỗi đích.</p>
+<p>Trong các ghi chú này, chúng ta sẽ tập trung vào một phần duy nhất cho đơn giản, nhưng giao thức chúng ta sẽ thiết kế có thể mở rộng cho nhiều đích.</p>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng.</li>
+<li>Sau đó, hãy nói cho tất cả các neighbour của bạn.</li>
+</ul>
+</blockquote>
+<h2 id="hướng-của-thông-báo-và-tin-nhắn"><a class="header" href="#hướng-của-thông-báo-và-tin-nhắn">Hướng của Thông báo và Tin nhắn</a></h2>
+<p>Trong giao thức này, rất dễ nhầm lẫn giữa hướng mà các thông báo và tin nhắn được gửi.</p>
+<p>Các thông báo về cách đến A bắt đầu tại A, và lan truyền ra ngoài. Ví dụ, B đã gửi một thông báo đến D, nói rằng &quot;Tôi là B, và các tin nhắn cho A có thể được gửi qua tôi.&quot;</p>
+<p>Ngược lại, các tin nhắn thực tế được gửi đến A lại được gửi vào trong, hướng về A. Ví dụ, một tin nhắn có thể bắt đầu tại D và được gửi đến B trên đường đến A.</p>
+<img width="800px" src="../assets/routing/2-036-directions.png">
+<p>Hướng của các thông báo hoàn toàn ngược lại với hướng của chính các tin nhắn! Hãy cẩn thận đừng nhầm lẫn giữa các thông báo và các tin nhắn thực tế!</p>
+<h2 id="quy-tắc-1-cập-nhật-bellman-ford"><a class="header" href="#quy-tắc-1-cập-nhật-bellman-ford">Quy tắc 1: Cập nhật Bellman-Ford</a></h2>
+<p>Nếu có nhiều đường đi để đến A thì sao?</p>
+<img width="500px" src="../assets/routing/2-037-multipath1.png">
+<p>Trong kịch bản này, cả R3 và R4 sẽ thông báo rằng chúng có thể đến được A. R5 nên chọn <em>forwarding</em> các <em>packet</em> đến R3 hay R4?</p>
+<p>Hãy nhớ lại rằng mục tiêu của chúng ta là tìm các tuyến đường có chi phí thấp nhất qua mạng. Để cho phép các <em>router</em> chọn đường đi có chi phí thấp nhất trong số nhiều đường đang được advertise, chúng ta cũng cần bao gồm chi phí trong các thông báo.</p>
+<p>Thông báo của R3 bây giờ nói: &quot;Tôi là R3, và tôi có thể đến A với chi phí 3.&quot;</p>
+<p>Thông báo của R4 bây giờ nói: &quot;Tôi là R4, và tôi có thể đến A với chi phí 2.&quot;</p>
+<p>Bây giờ, R5 nhận thấy rằng R4 đang cung cấp đường đi ngắn hơn, và quyết định <em>forwarding</em> các <em>packet</em> qua R4.</p>
+<img width="700px" src="../assets/routing/2-038-multipath2.png">
+<p>Chúng ta sẽ sử dụng <em>forwarding table</em> để ghi nhớ chi phí tốt nhất đã biết đến đích (và chặng tiếp theo tương ứng). Mỗi mục của <em>forwarding table</em> bây giờ cho chúng ta biết: đích, chặng tiếp theo cho đích đó, và chi phí để đến đích qua chặng tiếp theo đó.</p>
+<p>Lưu ý: Về mặt hình thức, <em>forwarding table</em> lưu trữ các cặp khóa-giá trị, ánh xạ mỗi đích đến một bộ 2-tuple chứa chặng tiếp theo và khoảng cách. Chúng ta sẽ vẽ các bảng với 3 cột cho đơn giản.</p>
+<p>R5 có thể không nghe về cả hai đường đi đồng thời, vì vậy chúng ta cần phải chính xác hơn về những gì xảy ra khi chúng ta nghe về một đường đi mới. Có ba khả năng khi chúng ta nghe về một đường đi:</p>
+<ol>
+<li>
+<p>Nếu bảng không có đường đi đến đích, hãy chấp nhận đường đi đó. Nếu tôi không có cách nào để đến A, tôi nên chấp nhận bất kỳ đường đi nào được cung cấp.</p>
+<img width="900px" src="../assets/routing/2-039-multipath3.png">
+</li>
+<li>
+<p>Nếu đường đi mới (mà chúng ta nghe về) tốt hơn đường đi tốt nhất đã biết (từ <em>forwarding table</em>), chúng ta nên chấp nhận đường đi mới, và thay thế đường đi cũ khỏi bảng.</p>
+<img width="900px" src="../assets/routing/2-040-multipath4.png">
+</li>
+<li>
+<p>Nếu đường đi mới (mà chúng ta nghe về) tệ hơn đường đi tốt nhất đã biết (từ <em>forwarding table</em>), chúng ta nên bỏ qua đường đi mới, và tiếp tục sử dụng đường đi trong bảng.</p>
+</li>
+</ol>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng nếu:
+<ul>
+<li><strong>Đích không có trong bảng.</strong></li>
+<li><strong>Chi phí được advertise tốt hơn chi phí tốt nhất đã biết.</strong></li>
+</ul>
+</li>
+<li>Sau đó, hãy nói cho tất cả các neighbour của bạn.</li>
+</ul>
+</blockquote>
+<p>Làm thế nào để chúng ta biết một đường đi mới là tốt hơn hay tệ hơn? Chúng ta phải cẩn thận, bởi vì không phải tất cả các chi phí liên kết đều giống nhau. Khi ai đó advertise một đường đi, chi phí qua đường đi đó thực sự là tổng của hai con số: Chi phí liên kết từ bạn đến neighbour, cộng với chi phí từ neighbour đến đích (như được advertise bởi neighbour).</p>
+<p>Như một ví dụ cụ thể, giả sử chúng ta nghe: &quot;Tôi là R1, và A cách tôi 5.&quot; Chi phí của đường đi mới này thực sự là 1 (chi phí liên kết từ chúng ta đến R1), cộng với 5 (chi phí từ R1 đến A, từ advertise), là 6.</p>
+<img width="600px" src="../assets/routing/2-041-costs1.png">
+<p>Sau đó, chúng ta có thể nghe: &quot;Tôi là R2, và A cách tôi 3.&quot; Sẽ là không chính xác nếu chỉ nhìn vào chi phí trong advertise. Trong trường hợp này, chi phí của đường đi mới thực sự là 10 (chi phí liên kết từ chúng ta đến R2), cộng với 3 (chi phí từ R2 đến A, từ advertise), là 13. Chi phí này không tốt hơn chi phí tốt nhất đã biết của chúng ta là 6, vì vậy chúng ta không cập nhật bảng. Các <em>packet</em> vẫn được chuyển tiếp đến R1.</p>
+<img width="600px" src="../assets/routing/2-042-costs2.png">
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe về một đường đi đến đích đó, hãy cập nhật bảng nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, <strong>cộng với chi phí liên kết đến neighbour</strong>, tốt hơn chi phí tốt nhất đã biết.</li>
+</ul>
+</li>
+<li>Sau đó, hãy nói cho tất cả các neighbour của bạn.</li>
+</ul>
+</blockquote>
+<p>Đối với mỗi thông báo chúng ta nghe được, chúng ta phải so sánh hai con số. Một con số là chi phí tốt nhất đã biết trong bảng. Con số kia là tổng của chi phí liên kết đến neighbour, cộng với chi phí được advertise từ neighbour đến đích. Nếu con số sau thấp hơn, chúng ta sử dụng đường đi mới và từ bỏ đường đi cũ.</p>
+<h2 id="quy-tắc-1-thuật-toán-bellman-ford-phân-tán"><a class="header" href="#quy-tắc-1-thuật-toán-bellman-ford-phân-tán">Quy tắc 1: Thuật toán Bellman-Ford Phân tán</a></h2>
+<p>Phép toán này có quen thuộc không? Hóa ra, đây chính là phép toán nới lỏng từ <em>Dijkstra's shortest paths algorithm (thuật toán tìm đường đi ngắn nhất của Dijkstra)</em>!</p>
+<p><em><strong>Bellman-Ford (Thuật toán Bellman-Ford)</strong></em> là một thuật toán tìm đường đi ngắn nhất khác dựa trên phép nới lỏng làm hoạt động chính. <em>Bellman-Ford</em> thậm chí còn đơn giản hơn Dijkstra: Lặp đi lặp lại qua tất cả các cạnh, nới lỏng mọi cạnh, cho đến khi chúng ta có được tất cả các đường đi ngắn nhất.</p>
+<p>Bạn có thể đã triển khai Dijkstra hoặc <em>Bellman-Ford</em> trước đây trong một lớp cấu trúc dữ liệu, như CS 61B tại UC Berkeley. Thật không may, đoạn mã bạn đã viết sẽ không hữu ích lắm cho giao thức định tuyến của chúng ta. Hãy nhớ rằng, giao thức định tuyến phải được phân tán, vì các <em>router</em> không có cái nhìn toàn cục về mạng (không có một bộ não trung tâm). Ngoài ra, các <em>router</em> đang hoạt động không đồng bộ. Không có ai thực thi thứ tự mà các <em>router</em> thực hiện các phép toán nới lỏng, hoặc thứ tự mà các <em>router</em> gửi đi các thông báo.</p>
+<p>Thay vào đó, giao thức định tuyến mà chúng ta đã thiết kế là một phiên bản phân tán, không đồng bộ của thuật toán <em>Bellman-Ford</em>. Giao thức là phân tán, bởi vì chúng ta không yêu cầu một máy tính duy nhất chạy toàn bộ thuật toán. Thay vào đó, mỗi <em>router</em> đang tính toán phần câu trả lời của riêng mình (điền vào <em>forwarding table</em> của riêng mình) mà không thấy toàn bộ đồ thị. Giao thức là không đồng bộ, bởi vì các <em>router</em> đều có thể chạy thuật toán cùng một lúc, mà không cần phải kiểm soát thứ tự của các hoạt động.</p>
+<img width="900px" src="../assets/routing/2-043-bellman-ford.png">
+<p>Lưu ý: Mặc dù chúng ta đang hiển thị một đích duy nhất cho đơn giản, đừng quên rằng giao thức định tuyến của chúng ta sẽ có thể tìm thấy các đường đi ngắn nhất đến tất cả các đích, giống như các thuật toán Dijkstra hoặc <em>Bellman-Ford</em> tập trung (một máy tính).</p>
+<h2 id="demo-bellman-ford"><a class="header" href="#demo-bellman-ford">Demo Bellman-Ford</a></h2>
+<p>Lưu ý về thuật ngữ: Khi chúng ta gửi một tin nhắn như &quot;Tôi là R1, và tôi có thể đến A với chi phí 5,&quot; đến các neighbour của chúng ta, điều này thường được gọi là <em><strong>announcing (thông báo)</strong></em> hoặc <em><strong>advertising (quảng bá)</strong></em> một tuyến đường. Lưu ý rằng advertise chứa ba giá trị: đích, danh tính của bạn (để neighbour của bạn có thể chuyển tiếp đến bạn), và tổng chi phí từ bạn đến đích.</p>
+<p>Để trình bày lại thuật toán cho đến nay một lần nữa:</p>
+<p>Khi bạn nhận được một thông báo từ một <em>router</em> khác, bạn cộng chi phí từ đích đến <em>router</em> đó (chi phí này có trong thông báo), cộng với chi phí của liên kết từ <em>router</em> đó đến bạn. Nếu tổng này nhỏ hơn khoảng cách tốt nhất đã biết đến đích trong bảng của bạn, bạn thay thế mục <em>forwarding table</em> của mình cho đích này bằng chặng tiếp theo mới (danh tính của <em>router</em> khác từ thông báo) và khoảng cách mới (tổng bạn vừa tính).</p>
+<p>Nếu bạn nhận được một thông báo từ một <em>router</em> khác, và đích không có trong <em>forwarding table</em> của bạn thì sao? Bạn không có khoảng cách tốt nhất đã biết đến đích này, bởi vì bạn chưa biết cách đến đích này. Trong trường hợp này, bạn có thể thêm một mục mới vào <em>forwarding table</em> của mình với đích mới, và chặng tiếp theo và chi phí từ thông báo.</p>
+<p>Khi bạn thay đổi <em>forwarding table</em> của mình, điều đó có nghĩa là bạn đã khám phá ra một đường đi mới đến đích. Để lan truyền đường đi mới này đến phần còn lại của mạng, bạn sẽ cần thông báo đường đi mới này (đích, danh tính của bạn, và chi phí qua bạn) cho các <em>router</em> liền kề của bạn.</p>
+<p>Với thuật toán này trong tâm trí, hãy chạy qua một ví dụ. Trong mạng này, chúng ta sẽ giả sử tất cả các cạnh có chi phí 1 vì các cạnh không được gán nhãn. Chúng ta muốn điền vào các <em>forwarding table</em> với các tuyến đường đến A, đích duy nhất.</p>
+<img width="900px" src="../assets/routing/2-044-demo1.png">
+<p>Đầu tiên, sử dụng <em>static routing (định tuyến tĩnh)</em>, chúng ta mã hóa cứng một mục trong <em>forwarding table</em> của R1. Để đến đích A, chặng tiếp theo là chính A, và chi phí của đường đi này là 1.</p>
+<img width="900px" src="../assets/routing/2-045-demo2.png">
+<p><em>Forwarding table</em> của R1 đã thay đổi, vì vậy R1 sẽ tạo một thông báo mới với 3 giá trị: đích (A), danh tính của <em>router</em> (R1), và chi phí đến đích qua <em>router</em> này (1). Thông báo này được gửi đến tất cả các <em>router</em> liền kề của R1, cụ thể là chỉ R2.</p>
+<img width="900px" src="../assets/routing/2-046-demo3.png">
+<p>R2 nhận được thông báo này và tìm trong <em>forwarding table</em> của nó một mục tương ứng với đích A. <em>Forwarding table</em> trống, vì vậy không có mục nào như vậy tồn tại. Do đó, R2 sẽ thêm một mục mới với 3 giá trị: đích (A), chặng tiếp theo (R1, từ thông báo), và chi phí đến đích qua R1 (2, tổng hợp chi phí trong thông báo và chi phí của liên kết đến R1).</p>
+<p><em>Forwarding table</em> của R2 đã thay đổi, vì vậy R2 sẽ tạo một thông báo với 3 giá trị: đích (A), danh tính của <em>router</em> (R2), và chi phí đến đích qua <em>router</em> này (2). Thông báo này được gửi đến tất cả các <em>router</em> liền kề của R2, cụ thể là R3 và R1.</p>
+<img width="900px" src="../assets/routing/2-047-demo4.png">
+<p>Lưu ý rằng trong giao thức của chúng ta cho đến nay, các <em>router</em> gửi thông báo đến tất cả các neighbour của chúng. Điều này có nghĩa là thông báo của R2 cũng được gửi đến R1. Nếu điều này làm bạn bận tâm, hãy chờ xem, chúng ta sẽ xem lại nó sau.</p>
+<p>R1 nhận được thông báo này. Theo <em>forwarding table</em> của R1, cách tốt nhất đã biết để đến A có chi phí 1. Đường đi qua R2 sẽ có chi phí 2 (từ thông báo của R2), cộng 1 (liên kết đến R2), tổng cộng là 3. Đây là một cách tệ hơn để đến A, vì vậy R1 sẽ bỏ qua thông báo này và để <em>forwarding table</em> của nó không thay đổi.</p>
+<img width="900px" src="../assets/routing/2-048-demo5.png">
+<p>R3 cũng nhận được cùng một thông báo. <em>Forwarding table</em> của R3 trống, vì vậy R3 sẽ cài đặt một mục mới với 3 giá trị: đích (A), chặng tiếp theo (R2, từ thông báo), và chi phí đến đích qua R2 (3, tổng hợp chi phí từ thông báo, và chi phí của liên kết R3-R2).</p>
+<img width="900px" src="../assets/routing/2-049-demo6.png">
+<p>Theo các quy tắc của chúng ta cho đến nay, nếu bạn cập nhật <em>forwarding table</em> của mình, bạn cần gửi một thông báo đến tất cả các neighbour của bạn. Mặc dù chúng ta có thể thấy rằng thông báo tiếp theo này sẽ không thay đổi bất cứ điều gì, R3 không có cái nhìn toàn cục về mạng như chúng ta, vì vậy R3 sẽ gửi một thông báo đến tất cả các neighbour của nó, cụ thể là R2. Thông báo chứa: đích (A), chặng tiếp theo (R3), và chi phí qua chặng tiếp theo này (3).</p>
+<img width="900px" src="../assets/routing/2-050-demo7.png">
+<p>R2 nhận được thông báo này. R2 biết một cách để đến A với chi phí 2, từ <em>forwarding table</em>. Thông báo cung cấp một đường đi với chi phí 3 (từ thông báo), cộng 1 (chi phí của liên kết R2-R3), cho tổng chi phí là 4. Điều này tệ hơn chi phí trong <em>forwarding table</em>, vì vậy R2 bỏ qua thông báo.</p>
+<p>R2 không cập nhật <em>forwarding table</em> của nó, vì vậy nó không tạo thông báo. Tại thời điểm này, không có thông báo nào được tạo thêm, và chúng ta có thể thấy rằng mọi <em>router</em> đã điền vào <em>forwarding table</em> của nó với thông tin về cách đến A. Chúng ta cũng có thể thấy rằng các <em>forwarding table</em> cùng nhau tạo thành một cây phân phối hợp lệ, có chi phí thấp nhất với các tuyến đường ngắn nhất để đến A.</p>
+<img width="900px" src="../assets/routing/2-051-demo8.png">
+<h2 id="quy-tắc-2-cập-nhật-từ-chặng-tiếp-theo"><a class="header" href="#quy-tắc-2-cập-nhật-từ-chặng-tiếp-theo">Quy tắc 2: Cập nhật từ Chặng tiếp theo</a></h2>
+<p>Hãy nhớ lại một trong những thách thức định tuyến của chúng ta từ phần trước: <em>Topology</em> mạng có thể thay đổi.</p>
+<p>Giả sử chúng ta nghe một advertise từ R2, nói rằng A cách R2 là 3. Nếu không có gì trong bảng của chúng ta, chúng ta sẽ chấp nhận advertise này và ghi lại chi phí là 1+3=4.</p>
+<img width="900px" src="../assets/routing/2-052-change1.png">
+<p>Sau đó, chúng ta có thể nghe một advertise khác từ R2, nói rằng A cách R2 là 8. Từ quy tắc trước, chúng ta sẽ từ chối điều này, bởi vì chi phí được advertise (1+8=9) tệ hơn chi phí hiện tại của chúng ta (4).</p>
+<img width="900px" src="../assets/routing/2-053-change2.png">
+<p>Tuy nhiên, chúng ta phải cẩn thận khi từ chối advertise này. <em>Router</em> tạo ra thông báo (R2), cũng chính là <em>router</em> chặng tiếp theo mà chúng ta đang sử dụng. R2 đang cố nói: &quot;Nếu bạn đang sử dụng tôi làm chặng tiếp theo, khoảng cách của tôi đến A không còn là 3 nữa, mà là 8.&quot; Nhưng chúng ta đã bỏ qua tin nhắn này vì chúng ta không nghĩ đến khả năng các đường đi có thể thay đổi.</p>
+<p>Để khắc phục điều này, chúng ta phải sửa đổi quy tắc cập nhật của mình. Nếu chúng ta nghe một thông báo từ <em>router</em> chặng tiếp theo (router có đường đi tốt nhất đã biết mà chúng ta đang chuyển tiếp <em>packet</em> đến), chúng ta nên coi thông báo đó là một bản cập nhật, và chỉnh sửa <em>forwarding table</em> của mình. Chúng ta nên làm điều này ngay cả khi thông báo tạo ra một đường đi tệ hơn, bởi vì chặng tiếp theo có thể đang nói với chúng ta rằng chi phí đường đi đã thay đổi và trở nên tệ hơn.</p>
+<img width="900px" src="../assets/routing/2-054-change3.png">
+<p>Lưu ý rằng khi quy tắc mới này được áp dụng, chúng ta không cập nhật đích hoặc chặng tiếp theo trong <em>forwarding table</em>, chỉ có khoảng cách. Trong ví dụ, các <em>packet</em> tại R3 dành cho A vẫn được chuyển tiếp đến R2 (cùng đích, cùng chặng tiếp theo), nhưng chi phí qua R2 đã thay đổi.</p>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li><strong>Quảng cáo đến từ chặng tiếp theo hiện tại.</strong></li>
+</ul>
+</li>
+<li>Sau đó, hãy nói cho tất cả các neighbour của bạn.</li>
+</ul>
+</blockquote>
+<p>Để hỗ trợ các <em>topology</em> thay đổi, các <em>router</em> sẽ chạy giao thức định tuyến vô thời hạn.</p>
+<p>Giả sử chúng ta chạy giao thức vô thời hạn, không có thay đổi <em>topology</em>. Ban đầu, một số phép nới lỏng sẽ thành công và các <em>forwarding table</em> sẽ thay đổi. Cuối cùng, thuật toán sẽ <em><strong>converge (hội tụ)</strong></em> khi chúng ta đã tìm thấy tất cả các tuyến đường có chi phí thấp nhất qua mạng. Tại thời điểm này, nếu chúng ta tiếp tục nới lỏng các cạnh, các <em>forwarding table</em> sẽ không thay đổi. Mọi phép nới lỏng sẽ bị từ chối, bởi vì các đường đi tốt nhất đã biết đến mục tiêu đều là các đường đi ngắn nhất, và chúng ta sẽ không bao giờ tìm thấy một đường đi tốt hơn để thay thế các đường đi ngắn nhất hiện tại. Trạng thái của mạng khi hội tụ được gọi là <em><strong>steady state (trạng thái ổn định)</strong></em>.</p>
+<p>Sau đó, giả sử chúng ta thay đổi <em>topology</em> (ví dụ: có thể một <em>router</em> bị lỗi). Khi chúng ta tiếp tục chạy giao thức, một số phép nới lỏng có thể thành công trở lại, vì chúng ta đã thay đổi đồ thị cơ bản. Sau một thời gian, cây phân phối sẽ hội tụ trở lại trên các tuyến đường có chi phí thấp nhất mới và ngừng thay đổi cho đến lần tiếp theo <em>topology</em> thay đổi.</p>
+<p>Để tương tự, hãy xem xét một hồ nước. Ở <em>steady state</em>, không có sự xáo trộn, mặt nước hoàn toàn tĩnh lặng. Nếu bạn ném một viên đá xuống nước, sẽ có một số gợn sóng khi môi trường điều chỉnh theo sự thay đổi bạn vừa thực hiện, nhưng sau một thời gian, mặt nước sẽ trở lại hoàn toàn tĩnh lặng.</p>
+<h2 id="quy-tắc-3-gửi-lại"><a class="header" href="#quy-tắc-3-gửi-lại">Quy tắc 3: Gửi lại</a></h2>
+<p>Hãy nhớ lại một thách thức định tuyến khác của chúng ta từ phần trước: Các <em>packet</em> có thể bị mất.</p>
+<p>Ví dụ, hãy quay lại từ đầu ví dụ trước đó. <em>Forwarding table</em> của R2 và R3 trống, và R1 được cập nhật với tuyến đường được mã hóa cứng đến A. Nếu R1 đưa ra một thông báo, nhưng <em>packet</em> bị mất thì sao? R2 không bao giờ nghe thấy thông báo, và giao thức thất bại.</p>
+<img width="900px" src="../assets/routing/2-055-dropped.png">
+<p>Bạn có thể thử thiết kế một lược đồ phức tạp hơn để đảm bảo độ tin cậy (ví dụ: buộc người nhận gửi xác nhận), nhưng hãy sử dụng một cái gì đó đơn giản: Nếu bạn có một thông báo cần thực hiện, hãy gửi lại thông báo đó sau mỗi vài giây. Hóa ra cách tiếp cận đơn giản này hoạt động tốt với một số lựa chọn thiết kế sau này của chúng ta, và không cần gì phức tạp hơn.</p>
+<p>Về mặt hình thức, giao thức sẽ định nghĩa một <em><strong>advertisement interval (khoảng thời gian quảng bá)</strong></em>. 30 giây là một khoảng thời gian phổ biến được sử dụng trong thực tế. Nếu khoảng thời gian là X giây, thì mọi advertise phải được gửi lại sau mỗi X giây.</p>
+<p>Miễn là chúng ta đợi đủ lâu và gửi lại <em>packet</em> đủ nhiều lần, liên kết cuối cùng sẽ gửi thành công advertise, miễn là liên kết hoạt động một phần thời gian. Nếu liên kết làm mất mọi <em>packet</em>, thì không có cách nào để advertise được gửi đi (và có lẽ một liên kết với tỷ lệ thành công 0% không nên có trong đồ thị). Cuối cùng, với đủ lần gửi lại, giao thức này vẫn sẽ hội tụ.</p>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li><strong>Quảng cáo đến từ chặng tiếp theo hiện tại.</strong></li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn <strong>khi bảng cập nhật, và định kỳ (advertisement interval)</strong>.</li>
+</ul>
+</blockquote>
+<p>Lưu ý rằng việc gửi lại theo chu kỳ có thể hoạt động kết hợp với quy tắc của chúng ta từ trước đó, nơi chúng ta gửi một thông báo bất cứ khi nào <em>forwarding table</em> thay đổi. Các thông báo được gửi ngay sau khi có thay đổi được gọi là <em><strong>triggered updates (cập nhật kích hoạt)</strong></em>.</p>
+<p>Giao thức vẫn sẽ hội tụ nếu chúng ta chỉ gửi thông báo theo chu kỳ. Bảng thay đổi, chúng ta đợi cho đến khi hết khoảng thời gian, và gửi đi thông báo. Tuy nhiên, việc thêm <em>triggered updates</em> ngoài các cập nhật theo chu kỳ là một tối ưu hóa có thể giúp giao thức hội tụ nhanh hơn. Ngay khi chúng ta biết về bản cập nhật, chúng ta cũng có thể thông báo nó ngay, mà không cần đợi hết khoảng thời gian.</p>
+<p>Với quy tắc mới này, một khi mạng hội tụ, mọi <em>router</em> sẽ tiếp tục gửi lại các thông báo định kỳ, nhưng không có thông báo nào sẽ được chấp nhận, bởi vì chúng ta đang ở <em>steady state</em> và mọi người đã có các tuyến đường có chi phí ngắn nhất.</p>
+<p>Trong ví dụ trước đó, sau khi mạng hội tụ, R3 có thể quyết định gửi lại thông báo của mình, với đích A, chặng tiếp theo R3, và chi phí qua R3 là 3. Nhưng R2 sẽ bỏ qua thông báo này vì <em>forwarding table</em> của nó đã có một tuyến đường rẻ hơn với chi phí 2 (đường đi trong thông báo có chi phí 3 + 1 = 4).</p>
+<h2 id="quy-tắc-4-hết-hạn"><a class="header" href="#quy-tắc-4-hết-hạn">Quy tắc 4: Hết hạn</a></h2>
+<p>Hãy nhớ lại thách thức định tuyến của chúng ta từ trước đó: <em>Topology</em> mạng có thể thay đổi. Cụ thể, các liên kết và <em>router</em> có thể bị lỗi. Nếu một <em>router</em> bị lỗi trong mạng, tuyến đường của chúng ta có thể trở nên không hợp lệ. <em>Router</em> bị lỗi sẽ không cho chúng ta biết về vấn đề (vì nó đã bị lỗi), vì vậy chúng ta bị mắc kẹt với tuyến đường không hợp lệ này.</p>
+<p>Để giải quyết vấn đề này, chúng ta sẽ cho mỗi tuyến đường (tức là mỗi mục trong bảng) một <em><strong>time to live (TTL)</strong></em> hữu hạn. Đây là một bộ đếm thời gian ngược, cho chúng ta biết chúng ta có thể giữ mục chuyển tiếp này trong bao lâu nữa.</p>
+<p>Các cập nhật định kỳ giúp chúng ta xác nhận rằng một tuyến đường vẫn còn tồn tại. Nếu chúng ta nhận được một advertise từ chặng tiếp theo, chúng ta có thể đặt lại (&quot;nạp lại&quot;) <em>TTL</em> về giá trị ban đầu của nó.</p>
+<p>Nếu có điều gì đó trong mạng bị lỗi, chúng ta sẽ ngừng nhận các cập nhật định kỳ. Cuối cùng, <em>TTL</em> sẽ hết hạn. Nếu <em>TTL</em> hết hạn, chúng ta sẽ xóa mục đó khỏi bảng. Về mặt trực giác: Chúng ta không còn nhận được cập nhật nữa, vì vậy tuyến đường này có lẽ không còn hợp lệ.</p>
+<p>Đây là một ví dụ về <em>TTL</em> đang hoạt động. Trong ví dụ này, chúng ta là R3. Tại thời điểm t=0, chúng ta nghe một thông báo: &quot;Tôi là R2, và A cách tôi 5.&quot; Bảng của chúng ta không có mục nào cho A, vì vậy chúng ta sẽ chấp nhận đường đi này, và đặt <em>TTL</em> của nó là 11. Lưu ý rằng <em>TTL</em> này được liên kết với mục bảng cụ thể. Nếu chúng ta có nhiều mục trong bảng, mỗi mục sẽ có <em>TTL</em> riêng.</p>
+<img width="900px" src="../assets/routing/2-056-ttl1.png">
+<p><em>TTL</em> là 11 cho chúng ta biết rằng R2 phải gửi cho chúng ta một xác nhận khác về tuyến đường này trong 11 giây tới. Nếu không, mục bảng này sẽ bị xóa. (Lưu ý: <em>TTL</em> ban đầu là 11 được chọn một cách tùy ý. Trong thực tế, con số này sẽ được đặt bởi giao thức hoặc người vận hành <em>router</em>.)</p>
+<p>Thời gian trôi qua. Tại t=1, <em>TTL</em> bây giờ là 10. Tại t=2, <em>TTL</em> là 9. Tại t=3, <em>TTL</em> là 8. Tại t=4, <em>TTL</em> là 7.</p>
+<img width="900px" src="../assets/routing/2-057-ttl2.png">
+<p>Tại t=5, R2 thực hiện việc gửi lại thông báo định kỳ của mình: &quot;Tôi là R2, và A cách tôi 5.&quot; Chúng ta nhìn vào bảng của mình và nhận ra rằng R2 là chặng tiếp theo hiện tại đến A, vì vậy chúng ta nên chấp nhận advertise này (theo Quy tắc 2) và cập nhật bảng.</p>
+<p>Bởi vì chúng ta đã nhận được một xác nhận rằng tuyến đường này vẫn còn tồn tại, <em>TTL</em> có thể được đặt lại về giá trị ban đầu là 11. Chúng ta cần nhận được một xác nhận khác về tuyến đường này từ R2 trong 11 giây tới.</p>
+<img width="900px" src="../assets/routing/2-058-ttl3.png">
+<p>Giả sử rằng một liên kết bị hỏng tại t=6, và A bây giờ không thể đến được. R2 loại bỏ tuyến đường tĩnh của nó đến A, và không còn gửi bất kỳ cập nhật định kỳ nào nữa.</p>
+<p>Tại t=16 (11 giây sau lần cập nhật cuối cùng tại t=5), <em>TTL</em> trong mục bảng của chúng ta đã giảm xuống 0, vì vậy chúng ta sẽ xóa mục đó khỏi bảng của mình.</p>
+<img width="900px" src="../assets/routing/2-059-ttl4.png">
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng <strong>và đặt lại TTL</strong> nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li>Quảng cáo đến từ chặng tiếp theo hiện tại.</li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).</li>
+<li><strong>Nếu một mục trong bảng hết hạn, hãy xóa nó.</strong></li>
+</ul>
+</blockquote>
+<p>Hãy cẩn thận đừng nhầm lẫn các bộ đếm thời gian khác nhau mà <em>router</em> phải duy trì.</p>
+<p><em>Advertisement interval</em> cho <em>router</em> biết khi nào cần quảng bá các tuyến đường cho các neighbour. Đây thường là một bộ đếm thời gian duy nhất cho toàn bộ bảng, vì vậy <em>router</em> quảng bá tất cả các tuyến đường trong bảng bất cứ khi nào bộ đếm thời gian <em>advertisement interval</em> hết hạn. Trong ví dụ trên, bộ đếm thời gian <em>advertisement interval</em> là 5 giây, vì R2 đã gửi advertise tại t=0 và t=5.</p>
+<p>Ngược lại, <em>TTL</em> cho <em>router</em> biết khi nào cần xóa một mục trong bảng. Mỗi mục trong bảng có <em>TTL</em> độc lập riêng, đếm ngược cho mục cụ thể đó. Trong ví dụ trên, <em>TTL</em> ban đầu là 11 giây (đặt lại thành 11 khi chúng ta chấp nhận một advertise), và đếm ngược cho mỗi mục trong bảng.</p>
+<p>Tại thời điểm này, chúng ta có một giao thức định tuyến gần như hoạt động đầy đủ! Hãy thêm một số tối ưu hóa để hội tụ nhanh hơn.</p>
+<h2 id="quy-tắc-5-poisoning-các-tuyến-đường-hết-hạn"><a class="header" href="#quy-tắc-5-poisoning-các-tuyến-đường-hết-hạn">Quy tắc 5: Poisoning các Tuyến đường Hết hạn</a></h2>
+<p>Chờ đợi các tuyến đường hết hạn là chậm. Để thấy tại sao, hãy xem lại bản demo từ trước đó.</p>
+<p>Trong ví dụ này, chúng ta là R3. Giả sử rằng đến t=5, chúng ta đã học được một tuyến đường đến A, qua R2, và tuyến đường này còn lại 11 giây <em>TTL</em>.</p>
+<img width="900px" src="../assets/routing/2-060-poison1.png">
+<p>Tại t=6, liên kết A-đến-R2 bị hỏng! Mục trong bảng bây giờ đã hỏng, bởi vì nếu chúng ta chuyển tiếp các <em>packet</em> đến R2, chúng sẽ không thực sự đến được A. Tuy nhiên, chúng ta chưa biết rằng mục này đã hỏng. Chúng ta phải đợi thêm 10 giây nữa để tuyến đường này hết hạn.</p>
+<p>Cũng tại t=6, chúng ta nhận được một thông báo mới: &quot;Tôi là R1, và A cách tôi 1.&quot; Chúng ta nhìn vào bảng của mình, và chúng ta đã có một cách để đến A, vì vậy chúng ta từ chối thông báo này. (Lưu ý: Điều này không quan trọng cho bản demo này, nhưng chúng ta đang giả định rằng chúng ta không chấp nhận các đường đi có chi phí bằng nhau ở đây.)</p>
+<p>Giá như chúng ta biết rằng tuyến đường hiện tại của mình đã hỏng, chúng ta có thể chấp nhận advertise mới này ngay bây giờ. Nhưng thay vào đó, chúng ta phải chờ đợi thêm 10 giây nữa để sử dụng con đường hỏng này.</p>
+<img width="900px" src="../assets/routing/2-061-poison2.png">
+<p>Thời gian trôi qua. Đến t=11 (năm giây sau), tuyến đường hỏng vẫn còn lại 5 giây <em>TTL</em>.</p>
+<p>Tại t=11, chúng ta nhận được một thông báo khác: &quot;Tôi là R1, và A cách tôi 1.&quot; R1 đang gửi lại thông báo của mình từ trước đó. Một lần nữa, chúng ta nhìn vào bảng của mình, và chúng ta vẫn có một mục cho A, vì vậy chúng ta lại từ chối thông báo này.</p>
+<p>Một lần nữa, giá như chúng ta có cách nào đó để biết rằng tuyến đường hiện tại của mình đã hỏng... thì chúng ta có thể chấp nhận advertise mới này. Tuy nhiên, với cách tiếp cận hiện tại của chúng ta, chúng ta phải tiếp tục sử dụng con đường hỏng trong 5 giây còn lại.</p>
+<img width="900px" src="../assets/routing/2-062-poison3.png">
+<p>Thời gian trôi qua. Đến t=16 (năm giây sau), <em>TTL</em> của tuyến đường hỏng cuối cùng cũng về 0, và chúng ta có thể xóa mục này khỏi bảng.</p>
+<p>Cũng tại t=16, R1 lại gửi lại thông báo của mình: &quot;Tôi là R1, và A cách tôi 1.&quot; Cuối cùng, bảng của chúng ta không có tuyến đường đến A (tuyến đường hỏng vừa bị xóa), vì vậy chúng ta có thể chấp nhận thông báo này.</p>
+<img width="900px" src="../assets/routing/2-063-poison4.png">
+<p>Chuyện gì vừa xảy ra vậy? Tại t=6, sự cố xảy ra, và mục trong bảng của chúng ta trở nên hỏng. Tuy nhiên, vì còn lại 10 giây <em>TTL</em> trên tuyến đường hỏng, chúng ta phải tiếp tục sử dụng tuyến đường hỏng trong 10 giây nữa. Trong thời gian này, bất kỳ <em>packet</em> nào đến A sẽ bị mất, bởi vì chúng ta sẽ chuyển tiếp <em>packet</em> dọc theo một con đường hỏng. Ngoài ra, chúng ta có thể quảng bá tuyến đường hỏng này cho người khác, khiến họ cũng bị mất <em>packet</em>. Cuối cùng, như chúng ta đã thấy, chúng ta có thể từ chối các đường đi mới, nghĩ rằng con đường hỏng vẫn còn hợp lệ.</p>
+<p>Vấn đề chính ở đây là: Khi có sự cố xảy ra, nó không được báo cáo, vì vậy chúng ta buộc phải dựa vào thời gian chờ để xóa các con đường hỏng. Điều này chậm. Có cách nào để chúng ta phát hiện sự cố sớm hơn không?</p>
+<p>Giải pháp là <em><strong>poison (đánh dấu độc)</strong></em>: Khi có sự cố xảy ra, nếu có thể, hãy advertise một cách rõ ràng rằng một con đường đã hỏng.</p>
+<p>Nói một cách thông thường, thông báo <em>poison</em> mới mà R2 gửi sẽ nói: &quot;Tôi là R2, và tôi không còn cách nào để đến A.&quot; Trong giao thức, chúng ta mã hóa thông điệp này bằng cách advertise một con đường với chi phí vô cực: &quot;Tôi là R2, và A cách tôi vô cực.&quot; Con đường chi phí vô cực này đại diện cho một con đường hỏng.</p>
+<p>Các con đường bị <em>poison</em> lan truyền giống như bất kỳ con đường nào khác. Nếu chúng ta đang chuyển tiếp các <em>packet</em> đến R2, và chúng ta nhận được một thông điệp <em>poison</em> từ R2, chúng ta cập nhật <em>forwarding table</em> của mình và thay thế chi phí bằng vô cực (theo Quy tắc 2). Chúng ta cũng có thể quảng bá <em>poison</em> chi phí vô cực này cho các neighbour của mình, để họ cũng được cảnh báo về con đường hỏng. Điều này cho phép một con đường không hợp lệ lan truyền qua mạng, điều này có thể nhanh hơn nhiều so với việc chờ đợi con đường hết thời gian.</p>
+<p>Hãy xem lại bản demo từ trước đó, nhưng với việc <em>poisoning</em> khi tuyến đường hết hạn. Như trước đây, giả sử rằng đến t=5, chúng ta đã học được một tuyến đường đến A, qua R2, và tuyến đường này còn lại 11 giây <em>TTL</em>.</p>
+<img width="900px" src="../assets/routing/2-060-poison1.png">
+<p>Tại t=6, liên kết A-đến-R2 bị hỏng! Mục trong bảng bây giờ đã hỏng. Tuy nhiên, chúng ta chưa biết rằng mục này đã hỏng.</p>
+<p>Với sửa đổi của chúng ta, thay vì không nói gì, R2 gửi cho chúng ta một thông báo <em>poison</em>: &quot;Tôi là R2, và A cách tôi vô cực.&quot; Theo Quy tắc 2 (chấp nhận từ chặng tiếp theo), chúng ta nhận thấy rằng R2 là chặng tiếp theo của chúng ta, vì vậy chúng ta chấp nhận thông báo này và cập nhật bảng của mình.</p>
+<img width="900px" src="../assets/routing/2-064-poison5.png">
+<p>Mục trong bảng của chúng ta bây giờ mã hóa thực tế rằng A thực sự không thể đến được qua R2. Mục này có <em>TTL</em>, giống như bất kỳ mục nào khác trong bảng. Ngoài ra, chúng ta có thể quảng bá con đường chi phí vô cực này cho các neighbour của mình, giống như bất kỳ mục nào khác. Điều này cho các neighbour của chúng ta biết rằng chúng ta cũng không còn có thể đến A.</p>
+<p>Cũng tại t=6, sau khi cập nhật bảng, chúng ta nhận được một thông báo mới: &quot;Tôi là R1, và A cách tôi 1.&quot; Sử dụng tuyến đường này có khoảng cách là 2 (1 từ liên kết, 1 từ advertise), tốt hơn vô cực (từ bảng). Chúng ta chấp nhận advertise này và cập nhật bảng. Bây giờ, các <em>packet</em> cho A được định tuyến qua R1 thay vì R2.</p>
+<img width="900px" src="../assets/routing/2-065-poison6.png">
+<p>Trong bản demo trước của chúng ta, tại t=6, chúng ta buộc phải đợi 10 giây để tuyến đường hỏng hết hạn. Nhờ có thông báo <em>poison</em>, chúng ta đã có thể vô hiệu hóa ngay lập tức tuyến đường hỏng đó tại t=6, và chấp nhận con đường mới.</p>
+<p>Với <em>poison</em>, chúng ta đã có thể hội tụ trên một con đường hợp lệ sớm hơn. Giữa t=6 và t=16, các <em>packet</em> bây giờ sẽ đến A một cách chính xác (trong khi trong cách tiếp cận không có <em>poison</em>, các <em>packet</em> trong khoảng thời gian này sẽ bị mất). Ngoài ra, nhờ có <em>poison</em>, chúng ta đã tránh được việc lan truyền một tuyến đường hỏng cho người khác trong khoảng thời gian đó. Thậm chí tốt hơn, chúng ta có thể lan truyền <em>poison</em> cho người khác và cho họ biết rằng con đường đến A qua chúng ta (và R2) đã hỏng.</p>
+<p>Hãy hình thức hóa các quy tắc của <em>poison</em>. <em>Poison</em> bắt nguồn từ một trong hai nguồn: một trong các tuyến đường của bạn hết thời gian, hoặc bạn nhận thấy một sự cố cục bộ (ví dụ: một trong các liên kết của bạn bị hỏng). Khi một trong những điều này xảy ra, bạn có thể cập nhật mục bảng thích hợp với chi phí vô cực, đặt lại <em>TTL</em>, và quảng bá <em>poison</em> này cho các neighbour của bạn.</p>
+<p><em>Poison</em> lan truyền như thế nào? Khi bạn nhận được một advertise <em>poison</em> từ chặng tiếp theo hiện tại của mình, hãy chấp nhận nó. Chặng tiếp theo của bạn đang nói với bạn rằng tuyến đường không còn tồn tại (tương tự như advertise các con đường tệ hơn trong Quy tắc 2), vì vậy bạn cần cập nhật bảng của mình. Khi bạn cập nhật bảng, bạn đặt lại <em>TTL</em>, giống như bất kỳ cập nhật bảng nào khác. Bạn cũng quảng bá <em>poison</em> cho các neighbour của mình, giống như bất kỳ cập nhật bảng nào khác, để các neighbour của bạn cũng biết về tuyến đường hỏng.</p>
+<p>Một sửa đổi cuối cùng: Bây giờ bảng của chúng ta chứa <em>poison</em>, chúng ta phải cẩn thận không chuyển tiếp các <em>packet</em> dọc theo một tuyến đường bị <em>poison</em>. Nếu một mục trong bảng nói rằng A có thể đến được qua R1 với chi phí vô cực, điều này thực sự có nghĩa là A không thể đến được qua R1. Nếu chúng ta nhận được một <em>packet</em> dành cho A, chúng ta không thể chuyển tiếp nó đến R1.</p>
+<img width="500px" src="../assets/routing/2-066-poison-route.png">
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng <strong>và đặt lại TTL</strong> nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li>Quảng cáo đến từ chặng tiếp theo hiện tại. <strong>Bao gồm cả các advertise poison.</strong></li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).</li>
+<li>Nếu một mục trong bảng hết hạn, <strong>hãy biến mục đó thành poison và quảng bá nó</strong>.</li>
+</ul>
+</blockquote>
+<h2 id="quy-tắc-6a-split-horizon"><a class="header" href="#quy-tắc-6a-split-horizon">Quy tắc 6A: Split Horizon</a></h2>
+<p>Hãy quay lại ví dụ yêu thích của chúng ta một lần nữa để minh họa một vấn đề khác. Giả sử chúng ta đang ở <em>steady state</em>, và các <em>forwarding table</em> có các tuyến đường ngắn nhất chính xác đến A. Các thông báo đang được gửi lại định kỳ, nhưng tất cả các thông báo đều bị từ chối vì chúng ta đang ở <em>steady state</em>.</p>
+<img width="900px" src="../assets/routing/2-067-splithorizon1.png">
+<p>Liên kết R1-R2 bị hỏng, và mục của R2 hết hạn, bởi vì R1 đã ngừng gửi các thông báo định kỳ. R2 bây giờ có một <em>forwarding table</em> trống. Chuyện gì xảy ra tiếp theo?</p>
+<img width="900px" src="../assets/routing/2-068-splithorizon2.png">
+<p>Cuối cùng, R3 gửi lại thông báo của mình đến R2, với đích (A), chặng tiếp theo (R3), và chi phí qua chặng tiếp theo (3).</p>
+<p>Bảng của R2 trống, vì vậy nó chấp nhận thông báo này và thêm đích (A), chặng tiếp theo (R3), và chi phí qua chặng tiếp theo (3 + 1 = 4).</p>
+<img width="900px" src="../assets/routing/2-069-splithorizon3.png">
+<p>Chúng ta đã tạo ra một vòng lặp định tuyến! R2 sẽ chuyển tiếp các <em>packet</em> đến R3, và R3 sẽ chuyển tiếp các <em>packet</em> đến R2.</p>
+<img width="900px" src="../assets/routing/2-070-splithorizon4.png">
+<p>Vấn đề này có thể khó nhận ra lúc đầu, vì vậy hãy diễn đạt lại nó một cách trực quan. Giả sử tôi đã chấp nhận một tuyến đường từ Alice, điều đó có nghĩa là tôi sẽ chuyển tiếp các <em>packet</em> đến Alice. Điều gì xảy ra nếu sau đó tôi cung cấp lại tuyến đường này cho Alice? Nếu cô ấy chấp nhận tuyến đường, cô ấy sẽ chuyển tiếp các <em>packet</em> đến tôi, và tôi sẽ chuyển tiếp <em>packet</em> trở lại cho cô ấy.</p>
+<p>Nếu <em>topology</em> mạng không bao giờ thay đổi, advertise này là vô hại. Con đường tôi đang cung cấp cho Alice đi từ Alice, đến tôi, trở lại Alice. Con đường mới này chắc chắn đắt hơn vì nó thêm một vòng lặp không cần thiết, vì vậy Alice sẽ luôn từ chối advertise này.</p>
+<p>Tuy nhiên, advertise này nguy hiểm nếu Alice mất tuyến đường của mình. Bây giờ, advertise của tôi đang lừa Alice nghĩ rằng cô ấy có thể gửi <em>packet</em> cho tôi. Nhưng, con đường của tôi lại dựa vào chính Alice, vì vậy nếu cô ấy chấp nhận con đường này, chúng ta sẽ tạo ra một vòng lặp nơi cô ấy gửi <em>packet</em> cho tôi, chỉ để tôi gửi <em>packet</em> ngay trở lại cho cô ấy. Vấn đề chính ở đây là: Alice nghĩ rằng con đường tôi đang quảng bá là độc lập và không bao giờ đi qua Alice. Nhưng thực tế, con đường của tôi có đi qua Alice, vì vậy nếu cô ấy chấp nhận con đường của tôi, cô ấy sẽ chuyển tiếp các <em>packet</em> trở lại chính mình.</p>
+<p>Để giải quyết vấn đề này, chúng ta cần tránh cung cấp cho Alice một tuyến đường đã liên quan đến chính cô ấy. Chúng ta không bao giờ muốn Alice chấp nhận một tuyến đường gửi các <em>packet</em> trở lại chính mình.</p>
+<p>Điều này dẫn chúng ta đến một giải pháp được gọi là <em><strong>split horizon (chân trời phân tách)</strong></em>, nơi chúng ta không bao giờ quảng bá một tuyến đường trở lại cho người đã cung cấp tuyến đường đó cho chúng ta.</p>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng <strong>và đặt lại TTL</strong> nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li>Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.</li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+<ul>
+<li><strong>Nhưng không quảng bá trở lại cho chặng tiếp theo.</strong></li>
+</ul>
+</li>
+<li>Nếu một mục trong bảng hết hạn, hãy biến mục đó thành poison và quảng bá nó.</li>
+</ul>
+</blockquote>
+<h2 id="quy-tắc-6b-poison-reverse"><a class="header" href="#quy-tắc-6b-poison-reverse">Quy tắc 6B: Poison Reverse</a></h2>
+<p><em><strong>Poison reverse (đánh dấu độc ngược)</strong></em> là một cách thay thế để tránh các vòng lặp định tuyến. Chúng ta có thể sử dụng <em>split horizon</em> hoặc <em>poison reverse</em> để giải quyết vấn đề từ trước đó (nhưng không phải cả hai).</p>
+<p>Trong <em>split horizon</em>, nếu ai đó cho tôi một tuyến đường, tôi không quảng bá tuyến đường đó trở lại cho họ.</p>
+<p>Ngược lại, trong <em>poison reverse</em>, nếu ai đó cho tôi một tuyến đường, tôi quảng bá <em>poison</em> một cách rõ ràng trở lại cho họ. Nói cách khác, tôi nói rõ với họ, &quot;Đừng chuyển tiếp <em>packet</em> theo đường của tôi&quot; (bởi vì tôi sẽ chỉ chuyển tiếp chúng trở lại cho bạn).</p>
+<img width="900px" src="../assets/routing/2-071-poisonreverse1.png">
+<p>Hãy xem lại bản demo, nhưng lần này sử dụng <em>poison reverse</em> thay vì <em>split horizon</em>. Như trước đây, chúng ta đạt <em>steady state</em>, sau đó R1-R2 bị hỏng, và R2 mất mục trong bảng của nó.</p>
+<img width="900px" src="../assets/routing/2-072-poisonreverse2.png">
+<p>Nếu chúng ta không triển khai sửa lỗi nào, đây là lúc R3 sẽ quảng bá tuyến đường của mình cho R2, và R2 sẽ chấp nhận một tuyến đường đi qua chính nó.</p>
+<p>Nếu chúng ta triển khai <em>split horizon</em>, R3 sẽ không quảng bá tuyến đường của mình trở lại cho R2 tại thời điểm này.</p>
+<p>Trong cách tiếp cận <em>poison reverse</em>, R3 gửi một advertise một cách rõ ràng trở lại cho R2: &quot;Tôi là R3, và A cách tôi vô cực.&quot;</p>
+<img width="900px" src="../assets/routing/2-073-poisonreverse3.png">
+<p>R2 không có mục nào cho A (mục cũ của nó đã hết hạn), vì vậy nó chấp nhận tuyến đường bị <em>poison</em> mới này. Bây giờ, bảng của R2 nói rõ rằng nó không thể đến A qua R3. Chúng ta đã tránh được vòng lặp định tuyến với sự trợ giúp của <em>poison reverse</em>!</p>
+<p>Trong mô hình mạng của chúng ta, cả <em>split horizon</em> và <em>poison reverse</em> đều sẽ giúp tránh các vòng lặp định tuyến. Nói chung, <em>poison reverse</em> có thể giúp loại bỏ các vòng lặp định tuyến sớm hơn nếu chúng từng phát sinh.</p>
+<p>Ví dụ, giả sử chúng ta kết thúc với một vòng lặp định tuyến bằng cách nào đó, nơi R2 và R3 đang chuyển tiếp các <em>packet</em> cho nhau.</p>
+<p>Trong cách tiếp cận <em>split horizon</em>, không có <em>poison</em> nào được gửi. R2 nhận được tuyến đường của mình từ R3, vì vậy nó sẽ không gửi bất cứ điều gì cho R3. Tương tự, R3 nhận được tuyến đường của mình từ R2, vì vậy nó sẽ không gửi bất cứ điều gì cho R2. Vòng lặp tồn tại cho đến khi các mục trong bảng hết hạn. Cho đến lúc đó, các <em>packet</em> có thể bị mất trong vòng lặp.</p>
+<img width="900px" src="../assets/routing/2-074-split-and-poison1.png">
+<p>Ngược lại, nếu chúng ta sử dụng cách tiếp cận <em>poison reverse</em>, R3 gửi <em>poison</em> một cách rõ ràng trở lại cho R2: &quot;Tôi là R3, và A cách tôi vô cực.&quot; R2 chấp nhận advertise này (Quy tắc 2, tuyến đường từ chặng tiếp theo của nó), và cập nhật bảng của mình để vô hiệu hóa đường đi qua R3. Quảng cáo <em>poison reverse</em> ngay lập tức loại bỏ vòng lặp định tuyến.</p>
+<img width="900px" src="../assets/routing/2-075-split-and-poison2.png">
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng <strong>và đặt lại TTL</strong> nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li>Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.</li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+<ul>
+<li>Nhưng không quảng bá trở lại cho chặng tiếp theo.</li>
+<li><strong>...Hoặc, quảng bá poison trở lại cho chặng tiếp theo.</strong></li>
+</ul>
+</li>
+<li>Nếu một mục trong bảng hết hạn, hãy biến mục đó thành poison và quảng bá nó.</li>
+</ul>
+</blockquote>
+<p>Lưu ý rằng <em>split horizon</em> và <em>poison reverse</em> là hai lựa chọn, và bạn có thể chọn chính xác một để sử dụng (không phải cả hai). Hoặc bạn không nói gì trở lại cho chặng tiếp theo, hoặc bạn quảng bá <em>poison</em> một cách rõ ràng trở lại cho chặng tiếp theo.</p>
+<h2 id="quy-tắc-7-Đếm-đến-vô-cực"><a class="header" href="#quy-tắc-7-Đếm-đến-vô-cực">Quy tắc 7: Đếm đến Vô cực</a></h2>
+<p><em>Split horizon</em> hoặc <em>poison reverse</em> đã giúp chúng ta tránh các vòng lặp có độ dài 2, nơi R1 chuyển tiếp đến R2, và R2 chuyển tiếp đến R1. Nhưng chúng ta vẫn có thể gặp phải các vòng lặp định tuyến liên quan đến 3 hoặc nhiều <em>router</em> hơn.</p>
+<img width="900px" src="../assets/routing/2-076-infinity1.png">
+<p>Để thấy tại sao, hãy xem xét mạng này. Giả sử các bảng đạt <em>steady-state</em>. Cả R1 và R2 đều chuyển tiếp đến R3, R3 chuyển tiếp đến A.</p>
+<p>Liên kết A-R3 bị hỏng! A bây giờ không thể đến được. Theo Quy tắc 5, R3 cập nhật bảng của mình để hiển thị chi phí vô cực đến A, và gửi <em>poison</em> này đến cả R2 và R1.</p>
+<img width="900px" src="../assets/routing/2-077-infinity2.png">
+<p>R2 nhận được advertise <em>poison</em> và cập nhật bảng của mình (Quy tắc 2, chấp nhận từ chặng tiếp theo). Bây giờ, cả R2 và R3 đều biết rằng A không thể đến được.</p>
+<p>Quảng cáo <em>poison</em> đến R1 bị mất! R1 không thấy <em>poison</em>, vì vậy nó vẫn nghĩ rằng nó có thể đến A qua R3. (<em>Poison</em> có thể được gửi lại sau, nhưng trong bản demo này, tất cả những điều tồi tệ sắp xảy ra sẽ xảy ra trước khi <em>poison</em> có cơ hội được gửi lại.)</p>
+<p>Tại thời điểm này, R2 và R3 không thể đến A, nhưng R1 nghĩ rằng nó vẫn có thể đến A.</p>
+<img width="900px" src="../assets/routing/2-078-infinity3.png">
+<p>Cuối cùng, R1 gửi đi một advertise. Con đường của R1 đến A là qua R3, vì vậy theo <em>split horizon</em>, nó sẽ không quảng bá cho R3. Tuy nhiên, R1 vẫn sẽ quảng bá cho R2: &quot;Tôi là R1, và A cách tôi 2.&quot;</p>
+<img width="900px" src="../assets/routing/2-079-infinity4.png">
+<p>R2 không có cách nào để đến A, vì vậy nó chấp nhận tuyến đường này. Bây giờ, R2 bị lừa nghĩ rằng nó có thể đến A với chi phí 3.</p>
+<p>R2 gửi đi một advertise về tuyến đường mới của mình. <em>Split horizon</em> quy định rằng R2 sẽ không quảng bá trở lại cho R1, nhưng nó vẫn sẽ quảng bá cho R3: &quot;Tôi là R2, và A cách tôi 3.&quot;</p>
+<img width="900px" src="../assets/routing/2-080-infinity5.png">
+<p>R3 không có cách nào để đến A, vì vậy nó chấp nhận tuyến đường này. Bây giờ, R3 bị lừa nghĩ rằng nó có thể đến A với chi phí 4.</p>
+<p>Tiếp theo, R3 gửi đi một advertise cho R1 (không phải R2, theo <em>split horizon</em>): &quot;Tôi là R3, và A cách tôi 4.&quot;</p>
+<img width="900px" src="../assets/routing/2-081-infinity6.png">
+<p>R1 sẽ chấp nhận advertise này (Quy tắc 2, advertise từ chặng tiếp theo) và cập nhật bảng của mình. Bây giờ, R1 nghĩ chi phí của nó đến A là 5.</p>
+<p>Có lẽ bạn đang thấy điều này sẽ đi đến đâu. R1 quảng bá cho R2 (không phải R3, theo <em>split horizon</em>): &quot;Tôi là R1, và A cách tôi 5.&quot;</p>
+<img width="900px" src="../assets/routing/2-082-infinity7.png">
+<p>R2 chấp nhận advertise này (Quy tắc 2), và nghĩ rằng nó có thể đến A với chi phí 6.</p>
+<img width="900px" src="../assets/routing/2-083-infinity8.png">
+<p>R2 quảng bá một chi phí là 6 cho R3, người bây giờ nghĩ rằng nó có thể đến A với chi phí 7.</p>
+<img width="900px" src="../assets/routing/2-084-infinity9.png">
+<p>R3 quảng bá một chi phí là 7 cho R1, người bây giờ nghĩ rằng nó có thể đến A với chi phí 8.</p>
+<img width="900px" src="../assets/routing/2-085-infinity10.png">
+<p>R1, R2, và R3 sẽ tiếp tục gửi các advertise cho nhau theo một chu kỳ, với chi phí ngày càng cao (tất cả đều sẽ được chấp nhận bởi Quy tắc 2). Ngoài ra, các <em>packet</em> cho A sẽ bị kẹt trong một vòng lặp chuyển tiếp giữa các <em>router</em> này.</p>
+<p>Hãy trình bày lại vấn đề một lần nữa. <em>Poison</em> đã không lan truyền chính xác đến tất cả các <em>host</em>, vì vậy một trong các <em>router</em> vẫn còn một con đường hỏng trong bảng của nó. Sau đó, con đường hỏng đó được quảng bá trong một vòng lặp, và Quy tắc 2 đã khiến chi phí tiếp tục tăng, không có hồi kết.</p>
+<p>Tại sao <em>split horizon</em> không cứu chúng ta? Hãy nhớ rằng, <em>split horizon</em> chỉ ngăn một <em>router</em> quảng bá trở lại cho chặng tiếp theo của nó. Nhưng trong trường hợp này, vòng lặp có độ dài 3, và chúng ta chưa bao giờ quảng bá trở lại cho chặng tiếp theo.</p>
+<p>(Lưu ý: <em>Poison reverse</em> cũng không cứu chúng ta. Nếu R3 quảng bá <em>poison</em> trở lại cho R2, thì R2 sẽ bỏ qua <em>poison</em> đó, bởi vì chặng tiếp theo của R2 là R1, không phải R3.)</p>
+<p>Đây được gọi là vấn đề <em><strong>count-to-infinity (đếm đến vô cực)</strong></em>, và không có sửa lỗi nào của chúng ta cho đến nay (<em>poison</em> các tuyến đường hết hạn, <em>split horizon</em>, <em>poison reverse</em>) có thể giải quyết được nó.</p>
+<p>Để giải quyết vấn đề này, chúng ta sẽ thực thi một chi phí tối đa. Trong <em>RIP</em>, giá trị này là 15. Tất cả các chi phí lớn hơn mức tối đa này (tức là 16 trở lên) được coi là vô cực.</p>
+<p>Với sửa lỗi này, vòng lặp vẫn sẽ tồn tại trong một thời gian, nhưng cuối cùng, tất cả các chi phí sẽ đạt đến 16 (vô cực). Hãy xem điều này hoạt động.</p>
+<p>Các chi phí đang tăng lên với mỗi advertise. Cuối cùng, R1 quảng bá cho R2: &quot;Tôi là R1, và A cách tôi 14.&quot; R2 chấp nhận (theo Quy tắc 2) và cập nhật chi phí của mình lên 15.</p>
+<img width="900px" src="../assets/routing/2-086-infinity11.png">
+<p>R2 quảng bá cho R3: &quot;Tôi là R2, và A cách tôi 15.&quot; R3 chấp nhận (theo Quy tắc 2), nhưng thay vì cập nhật chi phí của mình lên 16, chi phí được cập nhật thành vô cực.</p>
+<img width="900px" src="../assets/routing/2-087-infinity12.png">
+<p>Tiếp theo, R3 quảng bá cho R1: &quot;Tôi là R3, và A cách tôi vô cực.&quot; R1 chấp nhận (theo Quy tắc 2), và bây giờ R1 cũng có chi phí vô cực. (Lưu ý: Quảng cáo này trông giống như <em>poison</em>, mặc dù vô cực bắt nguồn từ việc đếm đến vô cực thay vì phát hiện một sự cố.)</p>
+<img width="900px" src="../assets/routing/2-088-infinity13.png">
+<p>Cuối cùng, R1 quảng bá cho R2: &quot;Tôi là R1, và A cách tôi vô cực.&quot; R2 chấp nhận (theo Quy dashboards 2), và bây giờ tất cả các <em>router</em> đều có chi phí vô cực.</p>
+<img width="900px" src="../assets/routing/2-089-infinity14.png">
+<p>Chúng ta đã đạt đến <em>steady-state</em> một lần nữa! Bất kỳ advertise nào trong tương lai đều sẽ quảng bá chi phí vô cực, và chúng sẽ không thay đổi các bảng. Cuối cùng, các mục chi phí vô cực đều sẽ hết hạn. Hoặc, nếu một tuyến đường khác đến A xuất hiện, nó sẽ thay thế mục chi phí vô cực.</p>
+<p>{: .blue}</p>
+<blockquote>
+<p>Hãy xem lại giao thức của chúng ta cho đến nay.</p>
+<p>Đối với mỗi đích:</p>
+<ul>
+<li>Nếu bạn nghe một advertise cho đích đó, hãy cập nhật bảng <strong>và đặt lại TTL</strong> nếu:
+<ul>
+<li>Đích không có trong bảng.</li>
+<li>Chi phí được advertise, cộng với chi phí liên kết đến neighbour, tốt hơn chi phí tốt nhất đã biết.</li>
+<li>Quảng cáo đến từ chặng tiếp theo hiện tại. Bao gồm cả các advertise poison.</li>
+</ul>
+</li>
+<li>Quảng bá cho tất cả các neighbour của bạn khi bảng cập nhật, và định kỳ (advertisement interval).
+<ul>
+<li>Nhưng không quảng bá trở lại cho chặng tiếp theo.</li>
+<li>...Hoặc, quảng bá poison trở lại cho chặng tiếp theo.</li>
+<li><strong>Bất kỳ chi phí nào lớn hơn hoặc bằng 16 đều được quảng bá là vô cực.</strong></li>
+</ul>
+</li>
+<li>Nếu một mục trong bảng hết hạn, hãy biến mục đó thành poison và quảng bá nó.</li>
+</ul>
+</blockquote>
+<h2 id="cập-nhật-theo-sự-kiện"><a class="header" href="#cập-nhật-theo-sự-kiện">Cập nhật theo Sự kiện</a></h2>
+<p>Có ba trường hợp mà một <em>router</em> có thể muốn gửi advertise:</p>
+<ol>
+<li>
+<p>Gửi advertise khi bảng thay đổi. Đây được gọi là <em><strong>triggered updates</strong></em>. Bảng có thể thay đổi khi chúng ta chấp nhận một advertise mới, hoặc khi một liên kết mới được thêm vào (ví dụ: tuyến đường tĩnh mới), hoặc khi một liên kết bị hỏng (ví dụ: tuyến đường bị <em>poison</em>).</p>
+</li>
+<li>
+<p>Gửi advertise định kỳ, một lần mỗi <em>advertisement interval</em>.</p>
+</li>
+<li>
+<p>Gửi advertise khi một mục trong bảng hết hạn (và được thay thế bằng <em>poison</em>).</p>
+</li>
+</ol>
+<p>Lưu ý rằng <em>triggered updates</em> là một tối ưu hóa. Thay vì advertise mỗi khi bảng thay đổi, chúng ta có thể chỉ cần đợi đến <em>advertisement interval</em> tiếp theo để quảng bá các thay đổi. Giao thức này vẫn sẽ đúng. Tuy nhiên, <em>triggered updates</em>, ngoài các cập nhật định kỳ, giúp giao thức của chúng ta hội tụ trên các tuyến đường chính xác nhanh hơn, bởi vì chúng ta lan truyền thông tin mới ngay khi chúng ta biết về nó.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/solutions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../routing/link-state.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/solutions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../routing/link-state.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

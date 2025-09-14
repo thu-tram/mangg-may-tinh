@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>NAT: Network Address Translation - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html" class="active"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="nat-network-address-translation-chuyển-đổi-địa-chỉ-mạng"><a class="header" href="#nat-network-address-translation-chuyển-đổi-địa-chỉ-mạng">NAT: <em>Network Address Translation</em> (Chuyển đổi địa chỉ mạng)</a></h1>
+<h2 id="Động-cơ-cạn-kiệt-địa-chỉ-ipv4"><a class="header" href="#Động-cơ-cạn-kiệt-địa-chỉ-ipv4">Động cơ: Cạn kiệt địa chỉ <em>IPv4</em></a></h2>
+<p>Hãy nhớ rằng chúng ta chỉ có $$2^{32}$$ địa chỉ <em>IPv4</em> khác nhau, con số này không đủ để gán cho mọi <em>host</em> (máy chủ/máy trạm) trên Internet. Chúng ta đã thấy rằng <em>IPv6</em> là một giải pháp mạnh mẽ cho vấn đề cạn kiệt địa chỉ <em>IPv4</em>, nhưng việc triển khai <em>IPv6</em> diễn ra khá chậm.</p>
+<p>Trong thời gian chờ đợi, để tiết kiệm địa chỉ, <em>IANA</em> đã phân bổ các dải địa chỉ IP riêng (<em>private IP addresses</em>) theo chuẩn RFC 1918, có thể được sử dụng bởi bất kỳ mạng nào không yêu cầu địa chỉ Internet công cộng: 192.168.0.0/16, 10.0.0.0/8 và 172.16.0.0/12. Thực tế, các địa chỉ này thường được dùng trong mạng gia đình, giúp thiết bị cá nhân của bạn không cần một địa chỉ IP công cộng duy nhất. Tuy nhiên, bạn vẫn cần truy cập Internet, vậy làm thế nào để sử dụng địa chỉ IP riêng?</p>
+<h2 id="nat-khái-niệm"><a class="header" href="#nat-khái-niệm">NAT: Khái niệm</a></h2>
+<p>Trong <em>NAT</em>, mục tiêu là sử dụng một địa chỉ IP công cộng duy nhất để đại diện cho nhiều <em>host</em> trong mạng nội bộ. Mấu chốt là <em>gateway router</em> (bộ định tuyến cổng) sẽ chuyển đổi địa chỉ IP riêng thành địa chỉ công cộng trước khi gửi gói tin ra ngoài. Sau đó, <em>router</em> sẽ chuyển đổi địa chỉ công cộng trở lại thành địa chỉ riêng cho các gói tin phản hồi đi vào.</p>
+<p>Alice, Bob và Chuck cùng làm việc tại tiệm lốp xe của Joe. Họ có các địa chỉ IP riêng A, B và C, vốn không thể sử dụng trực tiếp trên Internet vì không duy nhất. Thay vào đó, tất cả mọi người trong tiệm phải chia sẻ một địa chỉ IP công cộng duy nhất – đây là địa chỉ duy nhất và hợp lệ trên Internet mà họ có.</p>
+<img width="900px" src="../assets/end-to-end/5-056-nat1.png">
+<p>Alice muốn gửi một thông điệp đến máy chủ công cộng bên ngoài có địa chỉ IP công cộng S. Cô gửi một <em>packet</em> (gói tin) với thông tin: &quot;From: A, To: S&quot;. Nếu gửi gói tin này trực tiếp, S sẽ không thể phản hồi vì A là địa chỉ IP riêng.</p>
+<img width="900px" src="../assets/end-to-end/5-057-nat2.png">
+<p>Thay vào đó, khi gói tin đến <em>gateway router</em>, nó sẽ ghi lại tiêu đề thành &quot;From: R1, To: S&quot;. <em>Router</em> cũng ghi chú: Nếu nhận được phản hồi từ S, hãy gửi cho A.</p>
+<img width="900px" src="../assets/end-to-end/5-058-nat3.png">
+<p>Khi S nhận được gói tin, nó sẽ phản hồi đến địa chỉ công cộng R1: &quot;From: S, To: R1&quot;. Khi R1 nhận được phản hồi, nó kiểm tra ghi chú và sửa tiêu đề thành &quot;From: S, To: A&quot;, rồi gửi gói tin về cho A.</p>
+<img width="900px" src="../assets/end-to-end/5-059-nat4.png">
+<p>Nhờ vậy, Alice, Bob và Chuck đều có thể gửi gói tin ra ngoài. Khi <em>router</em> nhận gói tin, nó phải ghi nhớ ánh xạ giữa đích bên ngoài và nguồn bên trong (&quot;B vừa gửi gói tin đến N, nên mọi phản hồi từ N phải gửi lại cho B&quot;).</p>
+<p>Vấn đề phát sinh nếu Alice và Bob cùng muốn giao tiếp với S.</p>
+<img width="900px" src="../assets/end-to-end/5-060-nat5.png">
+<p>Khi phản hồi từ S đến, <em>router</em> sẽ không biết nên gửi cho A hay B.</p>
+<img width="900px" src="../assets/end-to-end/5-061-nat6.png">
+<p>Chúng ta có thể giải quyết bằng cách sử dụng <em>logical ports</em> (cổng logic) từ <em>Layer 4</em>. Kết nối của Alice: &quot;From: A, Port 50000, To: S, Port 80&quot;. <em>Router</em> chuyển thành &quot;From: R1, Port 50000, To: S, Port 80&quot; và ghi chú: nếu nhận phản hồi từ S, Port 80, đến R1, Port 50000 thì gửi cho A.</p>
+<img width="900px" src="../assets/end-to-end/5-062-nat7.png">
+<p>Bob có thể tạo kết nối riêng: &quot;From: B, Port 60000, To: S, Port 80&quot;. <em>Router</em> chuyển thành &quot;From: R1, Port 60000, To: S, Port 80&quot; và ghi chú: nếu nhận phản hồi từ S, Port 80, đến R1, Port 60000 thì gửi cho B.</p>
+<img width="900px" src="../assets/end-to-end/5-063-nat8.png">
+<p>Nói chung, <em>router</em> sẽ theo dõi kết nối bằng bộ 5 thông tin (<em>5-tuple</em>): địa chỉ IP nguồn, địa chỉ IP đích, giao thức, <em>source port</em> (cổng nguồn) và <em>destination port</em> (cổng đích). Khi nhận gói tin đi ra, <em>router</em> đổi IP nguồn riêng thành IP nguồn công cộng và lưu bộ 5-tuple. Khi nhận gói tin đi vào, <em>router</em> tra bảng để tìm kết nối tương ứng và gửi đến <em>client</em> phù hợp (với IP riêng của họ).</p>
+<img width="900px" src="../assets/end-to-end/5-064-nat9.png">
+<h2 id="thay-đổi-số-cổng-của-client"><a class="header" href="#thay-đổi-số-cổng-của-client">Thay đổi số cổng của <em>Client</em></a></h2>
+<p>Vấn đề cuối cùng: nếu Alice và Bob cùng chọn cùng một số cổng (ví dụ Port 50000)?</p>
+<img width="900px" src="../assets/end-to-end/5-065-nat10.png">
+<p>Khi đó, <em>router</em> sẽ lưu hai kết nối: (A Port 50000 → S Port 80) và (B Port 50000 → S Port 80). Nếu nhận gói tin &quot;From: S, Port 80, To: R1, Port 50000&quot;, sẽ không rõ gói tin thuộc kết nối của A hay B.</p>
+<img width="900px" src="../assets/end-to-end/5-066-nat11.png">
+<p>Giải pháp là cho phép <em>router</em> thay đổi cả số cổng. Khi Bob gửi &quot;From: B, Port 50000, To: S, Port 80&quot;, <em>router</em> nhận thấy Port 50000 đã được dùng cho kết nối đến S Port 80, nên tạo một <em>fake port</em> (cổng giả) cho Bob, ví dụ 60000, và chuyển thành &quot;From: R1, Port 60000, To: S, Port 80&quot;.</p>
+<p><em>Router</em> lưu: (B Port 50000, giả thành 60000, → S Port 80).</p>
+<img width="900px" src="../assets/end-to-end/5-067-nat12.png">
+<p>Khi nhận gói tin &quot;From: S, Port 80, To: R1, Port 50000&quot; → của Alice; còn &quot;From: S, Port 80, To: R1, Port 60000&quot; → của Bob.</p>
+<img width="900px" src="../assets/end-to-end/5-068-nat13.png">
+<p>Bob không hề biết <em>router</em> đã đổi số cổng. Khi <em>router</em> gửi lại gói tin cho Bob, nó đổi cổng giả về cổng gốc.</p>
+<h2 id="nat-triển-khai"><a class="header" href="#nat-triển-khai">NAT: Triển khai</a></h2>
+<p>Khi <em>home router</em> (router gia đình) kết nối <em>ISP</em> lần đầu, nó có thể chạy <em>DHCP</em> để nhận địa chỉ IP công cộng. <em>ISP</em> cấp một địa chỉ IP duy nhất cho <em>home router</em>, và tất cả thiết bị trong mạng gia đình sẽ chia sẻ địa chỉ này.</p>
+<img width="800px" src="../assets/end-to-end/5-069-nat-dhcp.png">
+<p>Chế độ NAT vừa mô tả gọi là <strong>Port Address Translation (PAT)</strong> – cho phép tạo <em>fake port</em>. PAT yêu cầu <em>router</em> hiểu <em>Layer 4</em> để phân tích gói tin, theo dõi kết nối và sửa tiêu đề.</p>
+<p>PAT là chế độ NAT phức tạp và phổ biến nhất, nhưng cũng có chế độ NAT đơn giản hơn cho ánh xạ một-một. Ví dụ: 10.0.0.1 (riêng) ↔ 42.0.2.1 (công cộng).</p>
+<img width="400px" src="../assets/end-to-end/5-070-simpler-nat.png">
+<h2 id="nat-được-dùng-ở-đâu"><a class="header" href="#nat-được-dùng-ở-đâu">NAT được dùng ở đâu?</a></h2>
+<p>NAT làm tăng độ phức tạp của <em>packet forwarding</em> (chuyển tiếp gói tin) vì <em>router</em> phải phân tích cả tiêu đề <em>Layer 4</em>, sửa tiêu đề <em>Layer 3</em> và <em>Layer 4</em>, và duy trì bảng trạng thái kết nối. Điều này tiêu tốn CPU và bộ nhớ.</p>
+<p>Vì vậy, NAT thường được triển khai ở rìa mạng (<em>edge</em>), ví dụ trên <em>home router</em> (router gia đình), để giới hạn số lượng luồng (<em>flow</em>) đi qua router. Chạy NAT trên router gia đình là hợp lý vì thường không có quá nhiều thiết bị trong nhà gửi kết nối ra ngoài. Ngược lại, chạy NAT trên các <em>datacenter router</em> (router trung tâm dữ liệu) hiệu năng cao sẽ là ý tưởng tồi.</p>
+<p>Trong thực tế, NAT quy mô nhỏ được sử dụng trong hầu hết các mạng cá nhân (gia đình/văn phòng) cho <em>IPv4</em>, ngay cả ngày nay. Khi địa chỉ <em>IPv4</em> cạn kiệt, các <em>ISP</em> (nhà cung cấp dịch vụ Internet) không thể cấp một địa chỉ công cộng cho mỗi khách hàng (tức mỗi router gia đình). Kết quả là, chính mạng của ISP cũng phải chạy một phiên bản NAT phức tạp hơn gọi là <strong>Carrier Grade NAT (CGNAT)</strong>. Phiên bản này được triển khai sâu hơn trong mạng và yêu cầu router theo dõi nhiều kết nối hơn rất nhiều.</p>
+<p>Lưu ý rằng chúng ta thường không dùng NAT cho <em>IPv6</em>, vì <em>IPv6</em> có đủ địa chỉ để gán một địa chỉ công cộng duy nhất cho mọi máy tính trên thế giới.</p>
+<h2 id="kết-nối-đến-inbound-connections"><a class="header" href="#kết-nối-đến-inbound-connections">Kết nối đến (<em>Inbound Connections</em>)</a></h2>
+<p>Cho đến giờ, chúng ta giả định rằng các kết nối luôn được khởi tạo từ phía <em>client</em> (máy khách) có địa chỉ IP riêng. Nói cách khác, gói tin đầu tiên luôn đi ra ngoài, từ <em>client</em> đến <em>server</em>. Điều này phù hợp với cách hầu hết các mạng gia đình hoạt động: khi bạn tải một trang web, bạn là bên khởi tạo kết nối. Thông thường, không ai từ bên ngoài cố gắng kết nối đến bạn.</p>
+<p>Nhưng nếu bạn đang chạy một <em>server</em> và muốn người bên ngoài có thể khởi tạo kết nối đến <em>server</em> này thì sao? Người dùng bên ngoài không thể gửi gói tin trực tiếp đến địa chỉ IP riêng. Họ có thể gửi đến địa chỉ IP công cộng của router, nhưng nếu router nhận được gói tin như &quot;From: outside user, To: R1, Port 28&quot;, router sẽ không biết phải chuyển tiếp đến <em>client</em> riêng nào. Đây là gói tin đầu tiên của một kết nối mới, nên bảng NAT của router chưa có thông tin về kết nối này.</p>
+<img width="900px" src="../assets/end-to-end/5-071-inbound-nat.png">
+<p>Để cho phép kết nối đến, router chạy NAT cần có <strong>port mapping table</strong> (bảng ánh xạ cổng). Ví dụ, Alice (bên trong mạng, chỉ có IP riêng) thông báo cho router: &quot;Tôi sẽ chạy một <em>server</em> mới và lắng nghe trên Port 28&quot;. Khi đó, nếu router thấy gói tin từ bên ngoài gửi đến R1, Port 28, nó sẽ biết cần chuyển tiếp gói tin này cho Alice.</p>
+<p>Các mục trong bảng ánh xạ cổng có thể cần cấu hình thủ công (ví dụ: Alice cấu hình router bằng tay). Các giao thức động như <em>UPnP</em> (<em>Universal Plug-n-Play</em>) và <em>NAT-PMP</em> (<em>NAT Port Mapping Protocol</em>) cho phép cấu hình cổng mở một cách tự động. Các giao thức này đôi khi được dùng bởi ứng dụng như trò chơi trực tuyến, nơi cần kết nối đến từ bên ngoài.</p>
+<h2 id="tác-động-bảo-mật-của-nat-security-implications-of-nat"><a class="header" href="#tác-động-bảo-mật-của-nat-security-implications-of-nat">Tác động bảo mật của NAT (<em>Security Implications of NAT</em>)</a></h2>
+<p>NAT phá vỡ <em>End-to-end Principle</em> (nguyên tắc đầu-cuối). Trước đây, với <em>Layer 3</em>, bất kỳ ai trên Internet cũng có thể kết nối đến bất kỳ ai khác. Tuy nhiên, vì NAT không cho phép kết nối đến theo mặc định, người dùng trong mạng gia đình (chỉ có IP riêng và chia sẻ IP công cộng) sẽ không thể được truy cập trực tiếp. Họ phải cấu hình router trước khi có thể nhận gói tin đến.</p>
+<p>NAT có đặc điểm là chặn kết nối đến theo mặc định. Điều này có thể được xem như một tính năng bảo mật, dù thực chất chỉ là hệ quả phụ chứ không phải mục tiêu thiết kế. NAT khiến các kết nối đến bị chặn, điều này có thể hữu ích để ngăn kẻ tấn công kết nối vào các <em>host</em> bên trong mạng. Hành vi này khá giống với <em>firewall</em> (tường lửa), vốn cũng thường chặn kết nối đến theo mặc định. Tuy nhiên, đây chỉ là sự trùng hợp, nên NAT không thực sự thực thi một chính sách bảo mật có nguyên tắc, và không nên được coi là một biện pháp phòng thủ tuyệt đối.</p>
+<p>NAT cũng có tác dụng phụ là giúp bảo vệ quyền riêng tư của <em>client</em>. Một lần nữa, đây không phải là tính năng bảo mật được thiết kế chủ đích. Vì router thay đổi địa chỉ IP của <em>client</em>, khi <em>server</em> nhận gói tin, nó không biết chính xác ai là người gửi ban đầu (có thể là Alice, Bob hoặc Chuck).</p>
+<p>Ngược lại, nếu không dùng NAT, <em>server</em> có thể biết chính xác danh tính của người gửi. Ngoài ra, nếu không dùng NAT và dùng <em>IPv6</em>, <em>server</em> thậm chí có thể biết chính xác máy tính mà người gửi đang dùng, vì địa chỉ <em>IPv6</em> đôi khi được tự động cấu hình dựa trên địa chỉ MAC (chép một phần địa chỉ MAC vào địa chỉ IP). Nếu dùng <em>IPv6</em> và vẫn muốn bảo vệ quyền riêng tư của <em>client</em>, có thể dùng các giải pháp khác như <em>IPv6 temporary/privacy addresses</em> (địa chỉ tạm thời/riêng tư).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../end-to-end/dhcp.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../end-to-end/tls.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../end-to-end/dhcp.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../end-to-end/tls.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

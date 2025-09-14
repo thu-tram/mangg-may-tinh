@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TLS: Secure Bytestreams - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html" class="active"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="tls-luồng-byte-an-toàn-secure-bytestreams"><a class="header" href="#tls-luồng-byte-an-toàn-secure-bytestreams">TLS: Luồng byte an toàn (<em>Secure Bytestreams</em>)</a></h1>
+<h2 id="luồng-byte-an-toàn-secure-bytestreams"><a class="header" href="#luồng-byte-an-toàn-secure-bytestreams">Luồng byte an toàn (<em>Secure Bytestreams</em>)</a></h2>
+<p><em>TCP</em> (<em>Transmission Control Protocol</em> – Giao thức điều khiển truyền) tự thân nó không an toàn trước các kẻ tấn công trên mạng. Một ai đó trong mạng (ví dụ: một <em>router</em> độc hại, hoặc kẻ tấn công nghe lén gói tin trên đường truyền) có thể đọc hoặc thậm chí sửa đổi các gói tin <em>TCP</em> của bạn khi chúng đang được truyền.</p>
+<p>Ngoài ra, với <em>TCP</em>, bạn có thể kết nối tới kẻ tấn công thay vì máy chủ thật. Giả sử bạn muốn kết nối tới trang web ngân hàng, và bạn thực hiện tra cứu <em>DNS</em> (<em>Domain Name System</em> – Hệ thống tên miền) cho <em>www.bank.com</em>. Kẻ tấn công (ví dụ: ai đó đã xâm nhập vào bộ phân giải <em>DNS resolver</em> hoặc một <em>router</em>) thay đổi phản hồi <em>DNS</em> để ánh xạ <em>www.bank.com</em> tới địa chỉ IP của kẻ tấn công, 6.6.6.6. Bây giờ, khi bạn thiết lập kết nối <em>TCP</em> tới trang web ngân hàng, bạn thực chất đang nói chuyện với kẻ tấn công. Bạn có thể sẽ gửi mật khẩu ngân hàng của mình cho hắn!</p>
+<p>Để giải quyết các vấn đề bảo mật này, chúng ta thêm một giao thức mới, <strong>Transport Layer Security (TLS)</strong> (Bảo mật tầng vận chuyển), chạy trên <em>TCP</em>.</p>
+<p><em>TLS</em> có thể được xem như một giao thức tầng 4.5, nằm giữa <em>TCP</em> và các giao thức ứng dụng như <em>HTTP</em>. (Chúng ta dùng số “lạ” 4.5 vì các tầng 5 và 6 đã lỗi thời và không liên quan đến bảo mật.) <em>TLS</em> dựa trên trừu tượng hóa luồng byte (<em>bytestream abstraction</em>) của <em>TCP</em>, nên nó không quan tâm đến từng gói tin riêng lẻ hoặc việc mất/sắp xếp lại gói tin. <em>TLS</em> cung cấp cho ứng dụng cùng một trừu tượng hóa luồng byte như <em>TCP</em>, nhưng luồng byte này giờ đã an toàn trước các kẻ tấn công mạng. Đây là lý do tại sao <em>HTTP</em> và <em>HTTPS</em> về mặt ngữ nghĩa là các giao thức giống hệt nhau. Điểm khác biệt duy nhất là <em>HTTPS</em> chạy trên luồng byte an toàn của <em>TLS-over-TCP</em>, trong khi <em>HTTP</em> chạy trên <em>TCP</em> thuần túy không có <em>TLS</em>.</p>
+<img width="400px" src="../assets/end-to-end/5-072-layer45.png">
+<p>Để phân biệt giữa <em>HTTPS</em> và <em>HTTP</em>, chúng ta dùng Port 80 cho kết nối <em>HTTP</em>, và Port 443 cho kết nối <em>HTTPS</em>. Máy chủ có thể buộc người dùng sử dụng <em>HTTPS</em> bằng cách trả lời tất cả yêu cầu ở Port 80 bằng một lệnh chuyển hướng (<em>redirect</em>) sang Port 443.</p>
+<h2 id="bắt-tay-tls-tls-handshake"><a class="header" href="#bắt-tay-tls-tls-handshake">Bắt tay TLS (<em>TLS Handshake</em>)</a></h2>
+<p>Ở mức khái quát, <em>TLS</em> sử dụng mật mã học (<em>cryptography</em>) để mã hóa các thông điệp được gửi qua luồng byte. <em>TLS</em> cũng sử dụng các giao thức mật mã khác (<em>message authentication codes</em> – mã xác thực thông điệp) để ngăn kẻ tấn công thay đổi thông điệp khi chúng được gửi qua mạng.</p>
+<p>Để mã hóa lưu lượng, <em>TLS</em> phải bắt đầu bằng một quá trình bắt tay bổ sung (<em>handshake</em>) để trao đổi khóa và xác minh danh tính của máy chủ (ví dụ: ngân hàng thật, chứ không phải kẻ giả mạo ngân hàng).</p>
+<p>Vì <em>TLS</em> được xây dựng trên <em>TCP</em>, nên quá trình bắt tay ba bước của <em>TCP</em> (<em>TCP three-way handshake</em>) diễn ra trước như bình thường. Điều này tạo ra một luồng byte (chưa an toàn), cho phép tất cả các thông điệp tiếp theo, bao gồm cả bắt tay <em>TLS</em>, được truyền mà không cần quan tâm đến từng gói tin riêng lẻ.</p>
+<p>Quá trình bắt tay <em>TLS</em> diễn ra như sau:</p>
+<img width="400px" src="../assets/end-to-end/5-073-tls-handshake.png">
+<ol>
+<li>
+<p><strong>Client</strong> và <strong>server</strong> trao đổi thông điệp <em>hello</em>. Các thông điệp <em>hello</em> chứa các số ngẫu nhiên, đảm bảo rằng mỗi lần bắt tay sẽ tạo ra các khóa bí mật khác nhau. (Sẽ rất nguy hiểm nếu chúng ta dùng cùng một khóa mỗi lần, và kẻ tấn công đánh cắp được khóa đó.) Các thông điệp <em>hello</em> cũng cho phép <em>client</em> và <em>server</em> thống nhất về các giao thức mật mã cụ thể sẽ sử dụng. <em>Client hello</em> liệt kê tất cả các thuật toán mật mã mà <em>client</em> hỗ trợ, và <em>server hello</em> chọn một thuật toán để sử dụng.</p>
+</li>
+<li>
+<p><strong>Server</strong> gửi một chứng chỉ xác thực (<em>certificate of authenticity</em>). Điều này cho phép <em>client</em> xác minh rằng nó đang giao tiếp với máy chủ thật, chứ không phải kẻ giả mạo. Cách <em>client</em> thực sự xác minh chứng chỉ này có một số chi tiết phức tạp, nhưng chúng ta sẽ không bàn sâu ở đây.</p>
+</li>
+<li>
+<p><strong>Client</strong> và <strong>server</strong> tạo ra một bí mật (<em>secret</em>) mà chỉ hai bên biết. Vì luồng byte ở thời điểm này vẫn chưa an toàn, họ cần một giao thức mật mã cho phép chia sẻ bí mật qua kênh không an toàn. Chúng ta sẽ không đi sâu vào chi tiết, nhưng nếu bạn quen với mã hóa khóa công khai <em>RSA</em> (ví dụ: từ môn CS 70 tại UC Berkeley), thì đây là một thuật toán mật mã có thể dùng. <em>Client</em> mã hóa bí mật bằng khóa công khai của <em>server</em> và gửi nó cho <em>server</em>. Chỉ <em>server</em> mới biết khóa riêng tương ứng và có thể giải mã thông điệp để biết bí mật.</p>
+</li>
+<li>
+<p><strong>Client</strong> và <strong>server</strong> tạo ra các khóa bí mật (<em>secret keys</em>) dựa trên bí mật đã chia sẻ và các giá trị ngẫu nhiên từ thông điệp <em>hello</em>. Việc sử dụng bí mật đảm bảo rằng kẻ tấn công không thể biết được các khóa bí mật. Việc sử dụng giá trị ngẫu nhiên đảm bảo rằng mỗi lần bắt tay sẽ tạo ra một khóa khác nhau. Quá trình tạo khóa này được thực hiện cục bộ và độc lập bởi cả <em>client</em> và <em>server</em>. Các khóa bí mật này không bao giờ được gửi qua mạng, nên kẻ tấn công không có cơ hội biết được chúng.</p>
+</li>
+<li>
+<p><strong>Client</strong> và <strong>server</strong> trao đổi một số thông điệp xác nhận (<em>acknowledgements</em>) để đảm bảo rằng họ đã tạo ra cùng một bí mật, và không ai đã can thiệp vào các thông điệp được gửi qua mạng cho đến thời điểm này (vì luồng byte vẫn chưa an toàn).</p>
+</li>
+</ol>
+<p>Tại thời điểm này, quá trình bắt tay đã hoàn tất, và tất cả các thông điệp sau đó sẽ được mã hóa bằng khóa bí mật (các mã xác thực thông điệp cũng được sử dụng để ngăn việc giả mạo). Chúng ta đã thiết lập một luồng byte an toàn trên kết nối <em>TCP</em>, và các ứng dụng có thể trao đổi dữ liệu trên luồng byte an toàn này.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../end-to-end/nat.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../end-to-end/end-to-end.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../end-to-end/nat.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../end-to-end/end-to-end.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

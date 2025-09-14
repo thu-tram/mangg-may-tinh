@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Layer 2 Routing (STP) - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html" class="active"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Định-tuyến-layer-2-stp"><a class="header" href="#Định-tuyến-layer-2-stp">Định tuyến Layer 2 (STP)</a></h1>
+<h2 id="mạng-layer-2-với-ethernet"><a class="header" href="#mạng-layer-2-với-ethernet">Mạng Layer 2 với Ethernet</a></h2>
+<p>Cho đến nay, chúng ta đã trình bày các giao thức <em>Layer 2</em> hoạt động trên một liên kết duy nhất với nhiều máy tính được gắn vào nó, nhưng chúng ta có thể giới thiệu nhiều liên kết và xây dựng một mạng hoàn toàn bằng <em>Layer 2</em>. Các <em>packet</em> có thể được <em>forwarding</em>, và các máy thậm chí có thể chạy các giao thức định tuyến, tất cả đều sử dụng độc quyền các <em>MAC address</em> <em>Layer 2</em>.</p>
+<p>Các giao thức định tuyến chúng ta chạy ở lớp IP cũng có thể hoạt động ở <em>Layer 2</em>, mặc dù một nhược điểm là chúng ta không thể tổng hợp các <em>MAC address</em>. Địa chỉ IP được phân bổ dựa trên địa lý, nhưng <em>MAC address</em> được phân bổ dựa trên nhà sản xuất, vì vậy không có cách nào rõ ràng để tổng hợp chúng. Nhược điểm này là lý do tại sao chúng ta không thể xây dựng Internet toàn cầu chỉ bằng <em>Layer 2</em>.</p>
+<p>Nếu có nhiều liên kết trong một mạng cục bộ duy nhất, chúng ta sẽ phải đảm bảo rằng nếu ai đó <em>broadcast</em> một thông điệp, bất kỳ <em>switch</em> nào ở <em>Layer 2</em> cũng sẽ chuyển tiếp <em>packet</em> ra khỏi tất cả các <em>port (cổng)</em> đi.</p>
+<p><em>Multicast</em> trở nên phức tạp hơn trong một mạng <em>Layer 2</em> với nhiều liên kết. Cần có các giao thức bổ sung, sẽ được thảo luận sau (trong phần Chủ đề Đặc biệt).</p>
+<p>Một ví dụ về <em>multicast</em> hữu ích trên mạng <em>LAN</em> là <em>Bonjour/mDNS</em>, một giao thức do Apple phát triển. Trong giao thức này, tất cả các thiết bị của Apple (ví dụ: iPhone, iPad, Apple TV) được mã hóa cứng để tham gia một nhóm đặc biệt trên mạng cục bộ. Nếu iPhone của bạn muốn tìm các thiết bị gần đó để phát nhạc (ví dụ: Apple TV, loa Apple hoặc HomePod hay bất cứ tên gọi nào của chúng), iPhone có thể <em>multicast</em> một thông điệp đến nhóm, hỏi xem có ai có thể phát nhạc không. Các thiết bị trong nhóm cũng có thể <em>multicast</em> phản hồi, nói rằng &quot;Tôi là một Apple TV và tôi có thể phát nhạc.&quot; Điều thú vị là giao thức này thực sự cũng sử dụng DNS trong nhóm <em>multicast</em> để gửi <em>SRV records</em>, ánh xạ mỗi máy với các khả năng của nó.</p>
+<p>Lưu ý lịch sử: Trong Internet hiện đại, chúng ta đã nói rằng các thuật ngữ &quot;router&quot; và &quot;switch&quot; có thể thay thế cho nhau. Bây giờ chúng ta đã có khái niệm về mạng <em>Layer 2</em>, chúng ta có thể nói rằng một <em>switch</em> chỉ hoạt động ở Lớp 1 và 2, trong khi một <em>router</em> hoạt động ở Lớp 1, 2 và 3.</p>
+<p>Nếu bạn quay lại hình ảnh của chúng ta về việc đóng gói và mở gói các tiêu đề, chúng ta đã giả định rằng mọi <em>router</em> đều phân tích <em>packet</em> lên đến <em>Layer 3</em>, và chuyển tiếp <em>packet</em> đến <em>router</em> tiếp theo qua IP. Tuy nhiên, nếu chúng ta có một mạng <em>Layer 2</em> với nhiều liên kết, một <em>switch</em> chỉ cần chuyển <em>packet</em> lên đến <em>Layer 2</em> và chuyển tiếp <em>packet</em> đến <em>switch</em> tiếp theo qua <em>Ethernet</em>.</p>
+<p>Ngày nay, hầu như tất cả các <em>switch</em> cũng triển khai <em>Layer 3</em>, đó là lý do tại sao chúng ta sử dụng các thuật ngữ này thay thế cho nhau. Về mặt lịch sử, <em>Ethernet</em> có trước Internet, đó là lý do tại sao có sự phân biệt giữa <em>switch</em> và <em>router</em>.</p>
+<h2 id="cấu-trúc-liên-kết-mạng-layer-2"><a class="header" href="#cấu-trúc-liên-kết-mạng-layer-2">Cấu trúc liên kết Mạng Layer 2</a></h2>
+<p>Giống như chúng ta đã thấy trong đơn vị về định tuyến, có nhiều <em>topology (cấu trúc liên kết)</em> khác nhau mà chúng ta có thể sử dụng để kết nối các máy tính trong một mạng cục bộ.</p>
+<p>Chúng ta có thể sử dụng một liên kết duy nhất để kết nối tất cả các máy tính, nhưng điều này không hiệu quả. Chúng ta chỉ có <em>bandwidth (băng thông)</em> của một liên kết duy nhất để sử dụng. Ngoài ra, mọi người cần phải đợi đến lượt mình để gửi tin nhắn, và nếu hai máy tính gửi tin nhắn đồng thời, có thể xảy ra <em>collision</em>.</p>
+<p>Chúng ta cũng có thể sử dụng một <em>full mesh (lưới đầy đủ)</em>, cung cấp cho mỗi cặp <em>host</em> một liên kết chuyên dụng, nhưng lại khó mở rộng.</p>
+<p>Giống như ở <em>Layer 3</em>, chúng ta có thể giới thiệu các <em>switch</em> chuyển tiếp các <em>packet</em> qua một <em>topology</em>, hướng tới đích cuối cùng của chúng. Nhưng, cũng giống như ở <em>Layer 3</em>, điều này giới thiệu vấn đề định tuyến, nơi các <em>switch</em> cần phải quyết định nơi để chuyển tiếp các <em>packet</em>.</p>
+<p>Trong phần này, chúng ta sẽ khám phá một số giao thức định tuyến được thiết kế đặc biệt cho các mạng <em>Layer 2</em> cục bộ. Chúng ta cũng sẽ thấy một số thách thức ngăn cản các giao thức này được mở rộng và sử dụng cho mạng <em>Layer 3</em> toàn cầu.</p>
+<h2 id="chuyển-tiếp-bằng-flooding"><a class="header" href="#chuyển-tiếp-bằng-flooding">Chuyển tiếp bằng Flooding</a></h2>
+<p>Cách tiếp cận <em>ngây thơ</em> (naive approach) nhất để <em>forwarding</em> là <em>flooding (gửi tràn lan)</em> mọi <em>packet</em> bạn nhận được. Khi một <em>switch</em> nhận được một <em>packet</em>, nó sẽ gửi <em>packet</em> đó ra khỏi mọi <em>port</em>.</p>
+<p>Như một tối ưu hóa nhỏ, chúng ta không cần gửi <em>packet</em> trở lại <em>port</em> mà chúng ta đã nhận <em>packet</em> từ đó.</p>
+<img width="500px" src="../assets/end-to-end/5-011-flooding.png">
+<p>Cách tiếp cận ngây thơ này có hai vấn đề lớn:</p>
+<ol>
+<li>
+<p>Nó lãng phí <em>bandwidth</em>. Các bản sao của <em>packet</em> được gửi một cách không cần thiết đến các <em>switch</em> và <em>host</em> không cần <em>packet</em> đó.</p>
+</li>
+<li>
+<p><em>Flooding</em> có thể khiến các <em>packet</em> bị lặp lại và làm quá tải mạng.</p>
+</li>
+</ol>
+<h2 id="learning-switches"><a class="header" href="#learning-switches">Learning Switches</a></h2>
+<p>Hãy bắt đầu với vấn đề đầu tiên: <em>Flooding</em> các <em>packet</em> làm lãng phí <em>bandwidth</em>.</p>
+<p>Để giải quyết vấn đề này, chúng ta muốn điền vào các <em>forwarding table (bảng chuyển tiếp)</em> cho các <em>switch</em>, để chúng có thể chuyển tiếp các <em>packet</em> trực tiếp đến đích của chúng, thay vì <em>flooding</em> các bản sao của <em>packet</em> ra mọi hướng.</p>
+<p>Chúng ta có thể chạy một thuật toán định tuyến để điền vào các <em>forwarding table</em>, nhưng một cách tiếp cận thậm chí còn đơn giản hơn là sử dụng <strong><em>learning switches</em> (switch học)</strong>.</p>
+<p>Giả sử bạn là <em>router</em> R2. Bạn không có thông tin gì về <em>topology</em> mạng đầy đủ, và <em>forwarding table</em> của bạn trống rỗng. Bạn có các <em>port</em> ở phía bắc, nam, đông và tây.</p>
+<p>Bạn thấy một <em>packet</em> đến từ <em>port</em> phía tây của bạn. <em>Packet</em> đó ghi: &quot;Từ A, Đến B.&quot; Từ <em>packet</em> này, bạn có thể suy ra rằng A phải ở phía tây của bạn.</p>
+<img width="800px" src="../assets/end-to-end/5-012-learning-1.png">
+<p>Bây giờ bạn có thể thêm một mục vào <em>forwarding table</em> của mình: Các <em>packet</em> cho A nên được chuyển tiếp về phía tây.</p>
+<p>Đây là ý tưởng chính đằng sau <em>learning switches</em>. Khi bạn nhận được một <em>packet</em> đến, bạn có một manh mối về vị trí của <em>người gửi</em>. Bạn có thể sử dụng thông tin đó để điền vào mục chuyển tiếp cho <em>người gửi</em>.</p>
+<p>Lưu ý rằng <em>packet</em> đến không cho bạn biết bất cứ điều gì về vị trí của người nhận. Trong ví dụ trên, khi bạn nhận được &quot;Từ A, Đến B&quot; từ <em>port</em> phía tây, điều đó không cho bạn biết gì về vị trí của B (người nhận). Thay vào đó, bạn điền vào <em>forwarding table</em> cho A, để các <em>packet</em> trong tương lai cho A có thể được chuyển tiếp về phía tây.</p>
+<p>Khi bạn nhận được nhiều <em>packet</em> đến hơn, bạn có thể bắt đầu điền vào <em>forwarding table</em> của mình với nhiều mục hơn. Nếu bạn nhận được một <em>packet</em> có đích không có trong <em>forwarding table</em> của bạn, bạn vẫn có thể chuyển tiếp <em>packet</em> bằng cách <em>flooding</em> nó ra tất cả các <em>port</em> (trừ <em>port</em> đến).</p>
+<p>Ví dụ, khi bạn nhận &quot;Từ A, Đến B&quot; từ <em>port</em> phía tây, bạn chưa có <em>forwarding table</em> cho B. Do đó, bạn nên chuyển tiếp <em>packet</em> này ra tất cả các <em>port</em> (trừ <em>port</em> phía tây).</p>
+<img width="900px" src="../assets/end-to-end/5-013-learning-2.png">
+<p>Lưu ý: Không cần phải gửi <em>packet</em> trở lại <em>port</em> đến (ví dụ: phía tây), vì <em>switch/host</em> trước đó (ví dụ: ở phía tây của bạn) đã có một bản sao của <em>packet</em> và đã chuyển tiếp nó (đó là cách nó đến được bạn). Nếu bạn gửi <em>packet</em> trở lại, <em>switch/host</em> trước đó sẽ chỉ đưa ra quyết định chuyển tiếp tương tự một lần nữa (hoặc <em>flooding</em> lại, hoặc chuyển tiếp lại cho bạn), và việc chuyển tiếp lặp đi lặp lại này không giúp <em>packet</em> đến được đích của nó.</p>
+<p>Tóm lại, <em>learning switches</em> có hai quy tắc để tuân theo:</p>
+<ol>
+<li>
+<p>Khi bạn nhận được một <em>packet</em> đến, hãy cập nhật <em>forwarding table</em> để liên kết người gửi với <em>port</em> đến.</p>
+</li>
+<li>
+<p>Nếu đích có trong <em>forwarding table</em> của bạn, thì hãy chuyển tiếp <em>packet</em> đến chặng tiếp theo chính xác. Nếu không, hãy <em>flooding</em> <em>packet</em> ra tất cả các <em>port</em> trừ <em>port</em> đến.</p>
+</li>
+</ol>
+<p>Đây là một ví dụ về <em>learning switches</em> đang hoạt động. Hãy xem xét <em>topology</em> mạng này. Tất cả các <em>switch</em> đều là <em>learning switches</em>, và <em>forwarding table</em> của chúng bắt đầu trống.</p>
+<p>A gửi một <em>packet</em> đến B. A chuyển tiếp <em>packet</em> đến R1.</p>
+<p>R1 thấy <em>packet</em> &quot;Từ A, Đến B&quot; đến từ Port 1. Do đó, A phải ở hướng Port 1. R1 thêm ánh xạ này vào <em>forwarding table</em> của nó.</p>
+<p>R1 không biết B ở đâu, vì vậy R1 <em>flooding</em> <em>packet</em> này ra tất cả các <em>port</em> (trừ <em>port</em> đến).</p>
+<img width="800px" src="../assets/end-to-end/5-014-learning-3.png">
+<p>R2 và R4 đều nhận được <em>packet</em> &quot;Từ A, đến B&quot;. Cả hai bây giờ đều có manh mối về vị trí của A, và thêm một ánh xạ cho A vào <em>forwarding table</em> của chúng. Cả hai đều không biết B ở đâu, vì vậy chúng <em>flooding</em> <em>packet</em> ra tất cả các <em>port</em> (trừ <em>port</em> đến).</p>
+<img width="800px" src="../assets/end-to-end/5-015-learning-4.png">
+<p>R3 và R5 đều nhận được <em>packet</em> &quot;Từ A, đến B&quot;. Cả hai bây giờ đều có manh mối về vị trí của A, và thêm một ánh xạ cho A vào <em>forwarding table</em> của chúng. Cả hai đều không biết B ở đâu, vì vậy chúng <em>flooding</em> <em>packet</em> ra tất cả các <em>port</em> (trừ <em>port</em> đến).</p>
+<img width="800px" src="../assets/end-to-end/5-016-learning-5.png">
+<p>C nhận được <em>packet</em> &quot;Từ A, đến B&quot;. C kiểm tra tiêu đề và nhận ra rằng nó không phải là người nhận dự định của <em>packet</em> này, vì vậy C loại bỏ <em>packet</em>.</p>
+<p>B nhận được <em>packet</em> &quot;Từ A, đến B&quot;. B kiểm tra tiêu đề và nhận ra rằng nó là người nhận, vì vậy B nhận và xử lý thành công <em>packet</em> này.</p>
+<img width="800px" src="../assets/end-to-end/5-017-learning-6.png">
+<p>Tiếp theo, giả sử B gửi một <em>packet</em> đến A. Đầu tiên, B chuyển tiếp <em>packet</em> đến R3.</p>
+<p>R3 nhận được <em>packet</em> &quot;Từ B, đến A&quot;. Điều này cho R3 một manh mối về vị trí của B, vì vậy R3 thêm một ánh xạ cho B vào <em>forwarding table</em> của nó. Ngoài ra, R3 nhận thấy rằng A có trong <em>forwarding table</em> của nó, vì vậy R3 có thể chuyển tiếp <em>packet</em> dọc theo chặng tiếp theo đến A (thay vì <em>flooding</em> <em>packet</em>).</p>
+<img width="800px" src="../assets/end-to-end/5-018-learning-7.png">
+<p>R2 nhận được <em>packet</em> &quot;Từ B, đến A&quot;. Điều này cho phép R2 thêm một ánh xạ cho B vào <em>forwarding table</em> của nó. R2 nhìn vào <em>forwarding table</em> của nó và thấy một mục cho A, vì vậy nó chuyển tiếp <em>packet</em> dọc theo chặng tiếp theo đến A.</p>
+<img width="800px" src="../assets/end-to-end/5-019-learning-8.png">
+<p>R1 nhận được <em>packet</em> &quot;Từ B, đến A&quot;. Điều này cho phép R1 thêm một ánh xạ cho B vào <em>forwarding table</em> của nó. R1 nhìn vào <em>forwarding table</em> của nó và thấy một mục cho A, vì vậy nó chuyển tiếp <em>packet</em> dọc theo chặng tiếp theo đến A.</p>
+<img width="800px" src="../assets/end-to-end/5-020-learning-9.png">
+<p>Khi nhiều <em>packet</em> được gửi đi, nhiều mục hơn được thêm vào các <em>forwarding table</em>, và ít <em>flooding</em> hơn diễn ra.</p>
+<p>Một tính năng cuối cùng chúng ta cần thêm vào: Khi một mục trong <em>forwarding table</em> được cài đặt, chúng ta gán cho nó một <em>TTL (Time-to-Live - Thời gian sống)</em>. Nếu <em>TTL</em> hết hạn, mục đó sẽ bị xóa. Điều này cho phép các tuyến đường bị hỏng (ví dụ: do một liên kết, <em>host</em>, hoặc <em>switch</em> bị sập) hết hạn. Ví dụ, nếu B rời khỏi mạng trong ví dụ trên, <em>TTL</em> sẽ đảm bảo rằng tất cả các <em>forwarding table</em> cho B cuối cùng sẽ hết hạn.</p>
+<h2 id="Động-lực-của-stp-các-vòng-lặp"><a class="header" href="#Động-lực-của-stp-các-vòng-lặp">Động lực của STP: Các Vòng lặp</a></h2>
+<p>Nhớ lại rằng <em>flooding</em> có hai vấn đề: Nó lãng phí <em>bandwidth</em>, và các <em>loop (vòng lặp)</em> có thể làm quá tải mạng. <em>Learning switches</em> đã giải quyết vấn đề đầu tiên, nhưng chúng không giải quyết được vấn đề <em>loop</em>.</p>
+<p>Để thấy tại sao, hãy xem xét <em>topology</em> này với các <em>loop</em>. Giả sử tất cả các <em>switch</em> là <em>learning switches</em>, và tất cả các <em>forwarding table</em> bắt đầu trống. A cố gắng gửi một <em>packet</em> đến B, và chuyển tiếp <em>packet</em> đến R1.</p>
+<img width="700px" src="../assets/end-to-end/5-021-loop.png">
+<p>R1 không có mục nào cho B, vì vậy nó <em>flooding</em> <em>packet</em> đến R2 (và R3).</p>
+<p>R2 không có mục nào cho B, vì vậy nó <em>flooding</em> <em>packet</em> đến R4.</p>
+<p>R4 không có mục nào cho B, vì vậy nó <em>flooding</em> <em>packet</em> đến R3.</p>
+<p>R3 không có mục nào cho B, vì vậy nó <em>flooding</em> <em>packet</em> đến R1.</p>
+<p>R1 không có mục nào cho B, vì vậy nó <em>flooding</em> <em>packet</em> đến R2, và chu kỳ tiếp tục.</p>
+<p>Đồng thời, một bản sao của <em>packet</em> cũng đang di chuyển trong một <em>loop</em> theo hướng ngược lại: R1 ban đầu <em>flooding</em> đến R3, sau đó <em>flooding</em> đến R4, sau đó <em>flooding</em> đến R2, sau đó <em>flooding</em> đến R1, rồi <em>flooding</em> đến R3, tiếp tục chu kỳ.</p>
+<p>Trong suốt quá trình này, các <em>switch</em> cài đặt các mục chuyển tiếp cho A, nhưng chúng không bao giờ nhận được bất kỳ mục nào cho B, vì vậy <em>loop</em> vô hạn không bao giờ được giải quyết. Không ai có mục chuyển tiếp cho B, vì vậy mọi người đều <em>flooding</em> <em>packet</em> khi họ nhận được nó.</p>
+<p>Vấn đề này đôi khi được gọi là <em>broadcast storm (bão quảng bá)</em>, vì mạng đang bị quá tải với lưu lượng <em>broadcast</em>.</p>
+<p>Làm thế nào để chúng ta giải quyết vấn đề này? Lý tưởng nhất, chúng ta muốn &quot;xóa&quot; các liên kết dự phòng, để <em>topology</em> không có <em>loop</em>. Sau đó, cách tiếp cận <em>learning switch</em> sẽ hoạt động tốt, không có <em>broadcast storm</em>.</p>
+<img width="700px" src="../assets/end-to-end/5-022-loop-fixed.png">
+<p>Lưu ý: Một giải pháp khác có thể là thêm một trường <em>TTL</em> vào mỗi <em>packet</em>, để <em>packet</em> hết hạn sau khi được chuyển tiếp quá nhiều lần. Thật không may, tiêu đề <em>Ethernet</em> không có trường <em>TTL</em>, vì vậy giải pháp này không thể được triển khai.</p>
+<p>Lưu ý: Một giải pháp khác có thể là loại bỏ các <em>packet</em> nếu bạn đã thấy chúng trước đây. Điều này sẽ yêu cầu đính kèm một loại dấu thời gian hoặc ID duy nhất cho mỗi <em>packet</em>. Một lần nữa, tiêu đề <em>Ethernet</em> không có trường tiêu đề cho việc này, vì vậy giải pháp này cũng không thể được triển khai.</p>
+<h2 id="stp-bầu-chọn-một-root"><a class="header" href="#stp-bầu-chọn-một-root">STP: Bầu chọn một Root</a></h2>
+<p><em><strong>Spanning Tree Protocol (STP) (Giao thức Cây bao trùm)</strong></em> giúp chúng ta vô hiệu hóa các liên kết, để <em>topology</em> kết quả không có <em>loop</em>. Điều này sẽ giúp chúng ta tránh được các <em>broadcast storm</em>.</p>
+<p>Lưu ý rằng các <em>host</em> không tham gia vào giao thức này. Các <em>router</em> sẽ làm việc cùng nhau để vô hiệu hóa các liên kết và loại bỏ các <em>loop</em> khỏi <em>topology</em>. Do đó, chúng ta sẽ bỏ qua các <em>host</em> khi mô tả giao thức này.</p>
+<img width="200px5" src="../assets/end-to-end/5-023-stp-no-hosts.png">
+<p><em>STP</em> quyết định vô hiệu hóa các liên kết nào bằng cách nào? Hãy bắt đầu bằng cách giải quyết vấn đề này với một cái nhìn toàn cục về mạng. Sau đó, chúng ta sẽ nghĩ về cách các <em>switch</em> trao đổi thông điệp để đạt được điều này, mà không cần một cái nhìn toàn cục về mạng.</p>
+<p>Bước đầu tiên trong <em>STP</em> là bầu chọn một <strong><em>root switch</em> (switch gốc)</strong>, như sau:</p>
+<p>Mỗi <em>switch</em> được gán một ID, bao gồm một giá trị ưu tiên (do người vận hành mạng đặt thủ công), và <em>MAC address</em> của <em>switch</em>.</p>
+<p>Khi so sánh hai <em>switch</em>, <em>switch</em> có độ ưu tiên thấp hơn sẽ có ID thấp hơn. Nếu độ ưu tiên bằng nhau, thì <em>switch</em> có <em>MAC address</em> thấp hơn sẽ có ID thấp hơn.</p>
+<p><em>Root switch</em> là <em>switch</em> có ID thấp nhất.</p>
+<img width="300px" src="../assets/end-to-end/5-024-stp-root-election.png">
+<p>Nếu người vận hành mạng muốn chọn một <em>root</em> cụ thể, họ có thể làm như vậy bằng cách đặt thủ công độ ưu tiên của các <em>switch</em> khác nhau. Hoặc, người vận hành có thể để tất cả các độ ưu tiên của <em>switch</em> ở giá trị mặc định, điều này sẽ khiến <em>switch</em> có <em>MAC address</em> thấp nhất được bầu làm <em>root</em>. Trong các ghi chú này, chúng ta sẽ không thảo luận về <em>root</em> nào là tốt nhất; điều quan trọng chỉ là một trong các <em>router</em> được chọn một cách rõ ràng làm <em>root</em>.</p>
+<h2 id="stp-các-trạng-thái-cổng"><a class="header" href="#stp-các-trạng-thái-cổng">STP: Các Trạng thái Cổng</a></h2>
+<p>Bây giờ chúng ta đã có một <em>root switch</em>, chúng ta sẽ phân loại mọi <em>port</em> trên mọi <em>switch</em> thành một trong ba trạng thái:</p>
+<ol>
+<li>
+<p><strong><em>Designated Port</em> (Cổng chỉ định):</strong> Đây là các <em>port</em> hướng ra xa <em>root</em> (tức là chúng dẫn đến một nơi nào đó xa <em>root</em> hơn).</p>
+</li>
+<li>
+<p><strong><em>Root Port</em> (Cổng gốc):</strong> Có một hoặc nhiều <em>port</em> hướng về phía <em>root</em> (tức là chúng dẫn đến một nơi nào đó gần <em>root</em> hơn). Trong số các <em>port</em> này, <em>port</em> nằm trên đường đi có chi phí thấp nhất đến <em>root</em> là <em>root port</em>.</p>
+</li>
+<li>
+<p><strong><em>Blocked Port</em> (Cổng bị chặn):</strong> Tất cả các <em>port</em> hướng về phía <em>root</em>, không phải là <em>root port</em> (cách tốt nhất để đến <em>root</em>), là các <em>blocked port</em>.</p>
+</li>
+</ol>
+<img width="800px" src="../assets/end-to-end/5-025-stp-port-types.png">
+<p>Dưới đây là một số ví dụ về các trạng thái <em>port</em> đang hoạt động. Giả sử rằng các ID được sắp xếp theo nhãn của <em>router</em>. Điều này có nghĩa là R1 có ID thấp nhất, vì vậy nó được bầu làm <em>root switch</em>.</p>
+<img width="200px5" src="../assets/end-to-end/5-026-stp-port-types-example.png">
+<p>Tất cả các <em>port</em> trên <em>root switch</em> (R1) đều hướng ra xa <em>root</em>, vì vậy chúng đều là các <em>designated port</em>.</p>
+<p>R2 có hai <em>port</em>. Chỉ có một trong số chúng hướng về phía <em>root</em>, vì vậy đó phải là con đường tốt nhất đến <em>root</em>. Do đó, <em>port</em> hướng lên của R2 được dán nhãn là một <em>root port</em>.</p>
+<p><em>Port</em> còn lại tại R2 hướng ra xa <em>root</em>, vì vậy <em>port</em> hướng xuống của R2 được dán nhãn là một <em>designated port</em>.</p>
+<p>R6 có ba <em>port</em>. <em>Port</em> hướng xuống hướng ra xa <em>root</em>, vì vậy nó là một <em>designated port</em>.</p>
+<p>Tại R6, các <em>port</em> đến R4 và R3 đều hướng về phía <em>root</em>. Tuy nhiên, <em>port</em> đến R3 cung cấp đường đi có chi phí thấp nhất đến <em>root</em> (chi phí 2), trong khi <em>port</em> đến R4 cung cấp một đường đi tệ hơn đến <em>root</em> (chi phí 3). Do đó, chúng ta dán nhãn <em>port</em> đến R3 là <em>root port</em> (cách tốt nhất để đến <em>root</em>), và <em>port</em> đến R4 là một <em>blocked port</em> (hướng về <em>root</em>, nhưng không phải là đường đi tốt nhất).</p>
+<p>Đôi khi, chúng ta có một sự hòa, và có hai cách tốt nhất để đến <em>root</em>.</p>
+<img width="400px" src="../assets/end-to-end/5-027-stp-tie-1.png">
+<p>Ví dụ, tại R4, cả <em>port</em> đến R2 và <em>port</em> đến R3 đều hướng về phía <em>root</em>, và cả hai đều cung cấp một đường đi chi phí 2 đến <em>root</em>. Trong trường hợp hòa, chúng ta sẽ nói rằng chặng tiếp theo có ID thấp hơn là đường đi tốt hơn đến <em>root</em>. Điều này làm cho <em>port</em> đến R2 trở thành <em>root port</em>, và <em>port</em> đến R3 trở thành một <em>blocked port</em>.</p>
+<p>Đôi khi, chúng ta sẽ có một liên kết dẫn đến một nơi nào đó cách <em>root</em> một khoảng bằng nhau.</p>
+<img width="900px" src="../assets/end-to-end/5-028-stp-tie-2.png">
+<p>Ví dụ, R4 cách <em>root</em> một khoảng cách 2, và nó có một liên kết đến R5, cũng cách <em>root</em> một khoảng cách 2. Một lần nữa, chúng ta sẽ sử dụng ID của <em>router</em> làm yếu tố phá vỡ thế hòa. Nếu liên kết dẫn đến một <em>router</em> có ID cao hơn, chúng ta sẽ nói rằng liên kết đó hướng ra xa <em>root</em>. Nếu liên kết dẫn đến một <em>router</em> có ID thấp hơn, chúng ta sẽ nói rằng liên kết đó hướng về phía <em>root</em>. Trong ví dụ này, <em>port</em> hướng sang phải của R4 hướng ra xa <em>root</em> (dẫn đến một nơi nào đó cùng khoảng cách, nhưng ID cao hơn), vì vậy nó là một <em>designated port</em>. Mặt khác, <em>port</em> hướng sang trái của R5 hướng về phía <em>root</em> (dẫn đến một nơi nào đó cùng khoảng cách, nhưng ID thấp hơn), vì vậy nó là một <em>root port</em> hoặc một <em>blocked port</em>.</p>
+<h2 id="stp-vô-hiệu-hóa-các-liên-kết"><a class="header" href="#stp-vô-hiệu-hóa-các-liên-kết">STP: Vô hiệu hóa các Liên kết</a></h2>
+<p>Bây giờ mỗi <em>port</em> đã được gán một trạng thái (<em>designated port</em>, <em>root port</em>, hoặc <em>blocked port</em>), chúng ta sẵn sàng loại bỏ các <em>loop</em> khỏi <em>topology</em> mạng.</p>
+<p>Để loại bỏ các <em>loop</em>, mỗi <em>switch</em> chỉ cần giả vờ như các <em>blocked port</em> của nó không tồn tại. Nói cách khác, không gửi bất kỳ dữ liệu người dùng nào ra khỏi <em>port</em> đó, và không nhận bất kỳ dữ liệu người dùng nào từ <em>port</em> đó.</p>
+<img width="200px5" src="../assets/end-to-end/5-029-stp-disabling-ports.png">
+<p>(Lưu ý: Chúng ta chỉ định dữ liệu người dùng ở đây vì các <em>packet</em> <em>STP</em> vẫn có thể được gửi và nhận từ <em>blocked port</em>. Điều này sẽ cho phép <em>STP</em> kích hoạt lại <em>blocked port</em> nếu <em>topology</em> thay đổi.)</p>
+<p>Nếu chúng ta ngừng gửi dữ liệu người dùng dọc theo các <em>blocked port</em>, thì bất kỳ liên kết nào có <em>blocked port</em> cuối cùng sẽ bị vô hiệu hóa.</p>
+<p>Tại sao điều này lại hoạt động? Hãy nghĩ về nó từ góc độ của một <em>switch</em> cụ thể. <em>Root port</em> của bạn là cách tốt nhất để bạn đến <em>root</em>. Các <em>blocked port</em> của bạn cũng hướng về phía <em>root</em>, nhưng chúng không phải là con đường tốt nhất đến <em>root</em>. Điều này có nghĩa là <em>blocked port</em> thực sự tạo ra một con đường dự phòng (nhưng tệ hơn) đến <em>root</em>, vì vậy chúng ta nên vô hiệu hóa liên kết đó.</p>
+<p>Một mối lo ngại bạn có thể có là: Điều gì sẽ xảy ra nếu bạn chặn một <em>port</em>, nhưng ai đó khác cần sử dụng liên kết bị vô hiệu hóa đó để chuyển tiếp các <em>packet</em> đến bạn, trên đường đến <em>root</em> của họ? May mắn thay, điều này sẽ không bao giờ xảy ra. Hãy nhớ rằng <em>blocked port</em> của bạn hướng về phía <em>root</em> (tức là bạn ở xa hơn, và phía bên kia gần <em>root</em> hơn bạn). Do đó, nếu <em>switch</em> ở phía bên kia (gần hơn) chuyển tiếp các <em>packet</em> đến bạn (xa hơn), chúng sẽ chuyển tiếp các <em>packet</em> ra xa <em>root</em>. Điều này có nghĩa là chúng ta có thể chặn <em>port</em> này một cách an toàn và vô hiệu hóa liên kết này mà không cần lo lắng về việc các <em>switch</em> khác cố gắng sử dụng liên kết đó như một phần của con đường đến <em>root</em> của họ.</p>
+<p>Ngược lại, các liên kết chỉ định không thể bị vô hiệu hóa một cách an toàn, bởi vì chúng dẫn ra xa <em>root</em> (tức là <em>switch</em> ở phía bên kia ở xa <em>root</em> hơn bạn). <em>Switch</em> ở phía bên kia có thể thực sự muốn chuyển tiếp các <em>packet</em> đến bạn, bởi vì bạn đang nằm trên con đường tốt nhất của họ đến <em>root</em>. May mắn thay, đây cũng không phải là vấn đề. Mặc dù bạn không thể vô hiệu hóa liên kết này một cách an toàn, bạn có thể dựa vào <em>switch</em> ở phía bên kia để vô hiệu hóa liên kết nếu họ không cần nó. <em>Switch</em> ở phía bên kia ở xa hơn bạn, vì vậy họ sẽ hoặc giữ liên kết này nếu đó là con đường tốt nhất của họ đến <em>root</em> (tức là <em>root port</em>), hoặc họ sẽ vô hiệu hóa liên kết này nếu đó không phải là con đường tốt nhất của họ đến <em>root</em> (tức là <em>blocked port</em>).</p>
+<p>Với chiến lược này, mỗi liên kết chỉ bị vô hiệu hóa bởi một bên. Bên ở xa hơn đặt câu hỏi: Tôi có đang sử dụng liên kết này làm con đường tốt nhất của mình đến <em>root</em> không? Nếu có, <em>port</em> của liên kết này là một <em>root port</em>. Nếu không, <em>port</em> của liên kết này là một <em>blocked port</em>.</p>
+<p>Bên ở gần hơn luôn làm cho <em>port</em> của liên kết này trở thành một <em>designated port</em>. Điều này có tác dụng để lại quyết định vô hiệu hóa cho bên ở xa hơn. Điều này tốt, bởi vì bên ở gần hơn không biết liệu bên ở xa hơn có đang sử dụng liên kết này làm con đường tốt nhất của họ đến <em>root</em> hay không.</p>
+<img width="800px" src="../assets/end-to-end/5-030-stp-why-it-works.png">
+<h2 id="stp-các-cổng-chỉ-định"><a class="header" href="#stp-các-cổng-chỉ-định">STP: Các Cổng Chỉ định</a></h2>
+<p>Lưu ý bên lề: Tại sao chúng ta gọi chúng là các <em>designated port</em>? Cho đến nay, chúng ta đã vẽ các mạng nơi mỗi liên kết kết nối hai máy, nhưng hãy nhớ rằng đôi khi chúng ta có thể có các liên kết kết nối nhiều máy tính.</p>
+<p>Giả sử rằng một liên kết kết nối hai <em>switch</em> cũng có rất nhiều <em>host</em> được kết nối với nó. Nếu các <em>host</em> này muốn gửi hoặc nhận dữ liệu, họ sẽ gửi dữ liệu đến <em>designated port</em>, chứ không phải <em>blocked port</em>. (<em>Blocked port</em> sẽ không nhận bất kỳ dữ liệu người dùng nào.) Điều này đảm bảo rằng dữ liệu của họ chỉ đi một con đường duy nhất đến đích. Nếu dữ liệu được gửi đến cả <em>designated port</em> và <em>blocked port</em>, dữ liệu có thể đi hai con đường đến đích, tạo ra một <em>loop</em>.</p>
+<img width="400px" src="../assets/end-to-end/5-031-stp-designated-ports.png">
+<p>Với điều này trong tâm trí, một cách diễn giải tương đương khác của một <em>designated port</em> là: Các <em>host</em> trên một liên kết nên gửi dữ liệu về phía <em>designated port</em> để đến <em>root</em> (hoặc bất cứ nơi nào khác trên cây bao trùm). Từ góc độ của <em>switch</em>, <em>designated port</em> hướng ra xa <em>root</em>. Từ góc độ của các <em>host</em>, việc gửi đến <em>designated port</em> đưa họ đến gần <em>root</em> hơn (hoặc bất cứ nơi nào khác trên cây bao trùm).</p>
+<h2 id="stp-trao-đổi-bpdu"><a class="header" href="#stp-trao-đổi-bpdu">STP: Trao đổi BPDU</a></h2>
+<p>Bây giờ chúng ta đã biết cách sử dụng <em>STP</em> để vô hiệu hóa các liên kết và loại bỏ các <em>loop</em> khỏi một <em>topology</em> mạng. Tuy nhiên, giao thức của chúng ta cho đến nay giả định kiến thức toàn cục về mạng. Bạn sẽ cần một cái nhìn toàn cục để xác định <em>root</em>, và để quyết định xem các <em>port</em> hướng về phía hay ra xa <em>root</em>.</p>
+<p>Để các <em>switch</em> có thể học được thông tin cần thiết để dán nhãn cho các <em>port</em> của mình, các <em>switch</em> trao đổi các thông điệp được gọi là <strong><em>Bridge Protocol Data Units (BPDUs)</em> (Các đơn vị dữ liệu giao thức cầu nối)</strong>. Chúng khá giống với các thông điệp định tuyến mặt phẳng điều khiển mà chúng ta đã trao đổi trong các giao thức định tuyến khác, nhưng với một cái tên hoa mỹ. Lưu ý rằng các thông điệp mặt phẳng điều khiển này khác biệt với các <em>packet</em> người dùng mặt phẳng dữ liệu (dữ liệu thực tế mà chúng ta đang chuyển tiếp).</p>
+<p>Khi giao thức bắt đầu, mỗi <em>switch</em> đều nghĩ rằng <em>root</em> là chính nó, và chi phí đến <em>root</em> (chính nó) là 0.</p>
+<p>Khi giao thức chạy, mỗi <em>switch</em> theo dõi những gì nó nghĩ là <em>root</em>, và con đường tốt nhất đã biết đến <em>root</em> đó (và chi phí của con đường đó).</p>
+<img width="600px" src="../assets/end-to-end/5-032-bpdu-start.png">
+<p>Khi bạn gửi một <em>BPDU</em>, bạn bao gồm hai mẩu thông tin: Bạn nghĩ <em>root</em> là ai, và bạn cách <em>root</em> bao xa. Ví dụ, một <em>BPDU</em> có thể nói: &quot;Root là R2, và tôi có thể đến R2 với chi phí 7.&quot;</p>
+<p>Khi bạn nhận được một <em>BPDU</em>, bạn kiểm tra xem nó có thông tin nào &quot;tốt hơn&quot; không. <em>BPDU</em> có thể tốt hơn vì hai lý do:</p>
+<ol>
+<li>
+<p><em>Root</em> trong <em>BPDU</em> có ID thấp hơn. Điều này có nghĩa là bạn đã khám phá ra một <em>root</em> tốt hơn. Bạn nên từ bỏ <em>root</em> và chi phí hiện tại của mình, và thay vào đó chấp nhận <em>root</em> mới và con đường đến <em>root</em> mới.</p>
+</li>
+<li>
+<p><em>Root</em> trong <em>BPDU</em> là như nhau, nhưng <em>BPDU</em> đang cung cấp một con đường tốt hơn đến <em>root</em>. Bạn nên chấp nhận con đường mới đến <em>root</em>.</p>
+</li>
+</ol>
+<img width="900px" src="../assets/end-to-end/5-033-bpdu-advertisements.png">
+<p>Chi phí đến <em>root</em> được tính toán giống như chúng ta đã làm trong <em>distance-vector protocol (giao thức vector khoảng cách)</em>. Ví dụ, giả sử neighbour của bạn nói với bạn &quot;Root là R2, và tôi có thể đến R2 với chi phí 7.&quot; Thì chi phí của bạn đến <em>root</em> là chi phí liên kết trực tiếp của bạn đến neighbour, cộng với chi phí của neighbour đến <em>root</em> (như được chỉ định trong advertise).</p>
+<p>Khi bạn cập nhật trạng thái của mình (bạn nghĩ <em>root</em> là ai, hoặc chi phí tốt nhất đã biết của bạn đến <em>root</em>), bạn nên gửi một <em>BPDU</em> đến các neighbour của mình để thông báo cho họ về trạng thái mới của bạn.</p>
+<p>Một khi giao thức hội tụ, trạng thái sẽ cung cấp cho mỗi <em>switch</em> đủ thông tin để dán nhãn cho tất cả các <em>port</em> của nó. Bạn biết con đường tốt nhất đến <em>root</em>, vì vậy bạn có thể dán nhãn cho <em>port</em> tương ứng là <em>root port</em>.</p>
+<p>Các neighbour của bạn cũng đã nói cho bạn biết họ cách <em>root</em> bao xa. Nếu một neighbour nói rằng họ ở xa hơn, thì bạn có thể dán nhãn cho <em>port</em> tương ứng là một <em>designated port</em>. Nếu một neighbour nói rằng họ ở gần hơn (nhưng họ không nằm trên con đường tốt nhất của bạn đến <em>root</em>), thì bạn có thể dán nhãn cho <em>port</em> tương ứng là một <em>blocked port</em>.</p>
+<p>Các <em>BPDU</em> được trao đổi thường xuyên, để nếu <em>topology</em> mạng thay đổi, giao thức có thể thích ứng và tìm ra một cây bao trùm (tức là vô hiệu hóa các liên kết) cho <em>topology</em> mới.</p>
+<h2 id="stp-ví-dụ-về-trao-đổi-bpdu"><a class="header" href="#stp-ví-dụ-về-trao-đổi-bpdu">STP: Ví dụ về Trao đổi BPDU</a></h2>
+<p>Các <em>router</em> gửi và nhận các trao đổi <em>BPDU</em> song song, vì vậy không có một <em>router</em> cụ thể nào gửi <em>BPDU</em> đầu tiên. Trong ví dụ này, chúng ta sẽ hiển thị một tập hợp con của các <em>BPDU</em> được gửi đi.</p>
+<p>Trạng thái ban đầu của R3 nói: Root R3 cách 0. Quảng cáo đầu tiên của R3 gửi trạng thái này đến các neighbour của nó.</p>
+<img width="800px" src="../assets/end-to-end/5-034-bpdu-exchanges-1.png">
+<p>R1 nghe thấy advertise này. R1 hiện đang nghĩ <em>root</em> là R1, và advertise cung cấp một <em>root</em> là R3. <em>Root</em> được advertise tệ hơn (ID cao hơn), vì vậy R1 từ chối advertise này.</p>
+<p>R6 nghe thấy advertise này. R6 hiện đang nghĩ <em>root</em> là R6, và advertise này cung cấp một <em>root</em> là R3. <em>Root</em> được advertise tốt hơn, vì vậy R6 chấp nhận advertise này. Trạng thái cập nhật của R6 nói: Root R3 cách 1. Lưu ý: Chi phí được tính từ 0, chi phí trong advertise từ R3, cộng với 1, chi phí của liên kết đến R3.</p>
+<p>Tại thời điểm này, R6 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một advertise đến các neighbour của mình (không được hiển thị trong bản demo này).</p>
+<p>Một thời gian sau, R1 gửi một advertise đến các neighbour của nó với trạng thái của nó: Root R1 cách 0.</p>
+<img width="800px" src="../assets/end-to-end/5-035-bpdu-exchanges-2.png">
+<p>R2 nghe thấy advertise này. <em>Root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R2), vì vậy R2 chấp nhận advertise này. Trạng thái cập nhật của R2 nói: Root R1 cách 1.</p>
+<p>Tương tự, R3 nghe thấy advertise này, và chấp nhận nó vì <em>root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R3). Trạng thái cập nhật của R3 nói: Root R1 cách 1.</p>
+<p>R2 và R3 đã cập nhật trạng thái của chúng, vì vậy mỗi cái sẽ gửi một advertise đến các neighbour của chúng.</p>
+<img width="900px" src="../assets/end-to-end/5-036-bpdu-exchanges-3.png">
+<p>R4 nghe thấy advertise từ R2. <em>Root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R4), vì vậy R4 chấp nhận advertise này. Trạng thái cập nhật của R4 nói: Root R1 cách 2. Lưu ý: Chi phí này được tính bằng cách cộng 1 (chi phí trong advertise từ R2), cộng với 1 (chi phí liên kết đến R2).</p>
+<p>R6 nghe thấy advertise từ R3. <em>Root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R3), vì vậy R6 chấp nhận advertise này. Trạng thái cập nhật của R6 nói: Root R1 cách 2. Lưu ý: Trạng thái cũ của R6 nói R3 cách 1, và trạng thái mới nói R1 cách 2. Mặc dù trạng thái mới có khoảng cách cao hơn, nó vẫn tốt hơn vì trạng thái mới có một <em>root</em> tốt hơn.</p>
+<p>R4 và R6 đã cập nhật trạng thái của mình, vì vậy chúng sẽ gửi advertise đến các neighbour của mình với trạng thái cập nhật của mình. Chúng ta sẽ xem advertise của R4 trước, sau đó quay lại R6 sau (một lần nữa, hãy nhớ rằng tất cả những điều này đang diễn ra song song trong thực tế).</p>
+<img width="900px" src="../assets/end-to-end/5-037-bpdu-exchanges-4.png">
+<p>R5 nghe thấy advertise từ R4. <em>Root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R5), vì vậy R5 chấp nhận advertise này. Trạng thái cập nhật của R5 nói: Root R1 cách 3 (2 từ advertise, cộng 1 từ chi phí liên kết đến R4).</p>
+<p>R6 cũng nghe thấy advertise từ R4. <em>Root</em> được advertise (R1) giống như <em>root</em> hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận advertise sẽ cho chi phí là 2 (từ advertise), cộng với 1 (từ chi phí liên kết đến R4), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 2. Do đó, R6 từ chối advertise (3 tệ hơn 2).</p>
+<p>R5 đã cập nhật trạng thái của mình, vì vậy nó sẽ gửi một advertise đến các neighbour của mình với trạng thái cập nhật của mình.</p>
+<img width="700px" src="../assets/end-to-end/5-038-bpdu-exchanges-5.png">
+<p>R7 nghe thấy advertise từ R5. <em>Root</em> được advertise (R1) tốt hơn <em>root</em> hiện đang được biết đến tốt nhất (R7), vì vậy R7 chấp nhận advertise này.</p>
+<p>R7 đã cập nhật trạng thái của mình, và sẽ gửi một advertise đến các neighbour của mình, mặc dù advertise đó không được hiển thị ở đây (R6 sẽ từ chối nó vì có chi phí đến <em>root</em> tệ hơn).</p>
+<img width="700px" src="../assets/end-to-end/5-039-bpdu-exchanges-6.png">
+<p>Tiếp nối từ trước đó, R6 gửi một advertise đến các neighbour của nó, và R7 nhận được advertise này. <em>Root</em> được advertise (R1) giống như <em>root</em> hiện đang được biết đến tốt nhất (R1), vì vậy chúng ta cần kiểm tra chi phí. Chấp nhận advertise sẽ cho chi phí là 2 (từ advertise), cộng với 1 (từ chi phí liên kết đến R6), tổng cộng là 3. Chi phí tốt nhất hiện đang được biết đến là 4. Do đó, R7 chấp nhận advertise (3 tốt hơn 4), và cập nhật trạng thái của mình để có chi phí đến <em>root</em> là 3 (thay vì 4).</p>
+<p>Các <em>router</em> tiếp tục trao đổi advertise định kỳ với nhau. Không phải tất cả các advertise đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các <em>router</em> sẽ biết rằng <em>root</em> là R1. Ngoài ra, tất cả các <em>router</em> sẽ biết về chi phí của chúng đến <em>root</em>.</p>
+<p>Các <em>router</em> tiếp tục trao đổi advertise định kỳ với nhau. Không phải tất cả các advertise đều được hiển thị trong bản demo này, nhưng cuối cùng, giao thức sẽ hội tụ, và tất cả các <em>router</em> sẽ biết rằng <em>root</em> là R1. Ngoài ra, tất cả các <em>router</em> sẽ biết về chi phí của chúng đến <em>root</em>.</p>
+<img width="900px" src="../assets/end-to-end/5-040-bpdu-exchanges-7.png">
+<p>Một khi tất cả các <em>router</em> biết chi phí của chúng đến <em>root</em> đã được thống nhất, chúng có thể trao đổi các advertise định kỳ. Điều này cho phép các <em>router</em> tìm hiểu về giá trị chi phí đến <em>root</em> của các neighbour, điều này lần lượt cho phép các <em>router</em> gán các <em>port</em> là DP, RP, hoặc BP.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../end-to-end/ethernet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../end-to-end/arp.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../end-to-end/ethernet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../end-to-end/arp.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

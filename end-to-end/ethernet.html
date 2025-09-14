@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Ethernet - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html" class="active"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="ethernet"><a class="header" href="#ethernet">Ethernet</a></h1>
+<h2 id="mạng-cục-bộ"><a class="header" href="#mạng-cục-bộ">Mạng Cục bộ</a></h2>
+<p>Trong phần này, chúng ta sẽ tập trung vào những gì xảy ra bên trong một <em>local area network (mạng cục bộ)</em>, chẳng hạn như mạng trong nhà bạn với máy tính và <em>router (bộ định tuyến)</em> của bạn. Điều này trái ngược với các <em>wide-area networks (mạng diện rộng)</em> mà chúng ta đã tìm hiểu cho đến nay, vốn trải dài trên những khoảng cách lớn hơn.</p>
+<p>Cụ thể, chúng ta sẽ xem xét việc <em>forwarding (chuyển tiếp)</em> và <em>addressing (đánh địa chỉ)</em> ở <em>Layer 2 (Lớp 2)</em>. Chúng ta sẽ phải định nghĩa cách các <em>packet (gói tin)</em> được chuyển tiếp từ một <em>host (máy trạm)</em> cục bộ đến một <em>router</em>. Chúng ta cũng sẽ thấy cách các <em>host</em> trong cùng một mạng cục bộ có thể trao đổi thông điệp ở <em>Layer 2</em>, mà không cần liên hệ với <em>router</em> ở các lớp cao hơn. Giao thức chiếm ưu thế ở <em>Layer 2</em> là <em>Ethernet</em>.</p>
+<img width="400px" src="../assets/end-to-end/5-001-layer2.png">
+<h2 id="kết-nối-các-host-cục-bộ"><a class="header" href="#kết-nối-các-host-cục-bộ">Kết nối các Host Cục bộ</a></h2>
+<p>Cho đến nay, chúng ta đã vẽ các liên kết kết nối chính xác hai máy. Trong mạng cục bộ, chúng ta đã vẽ một đường nối mỗi <em>host</em> với <em>router</em>.</p>
+<p>Thực tế, một sợi dây duy nhất có thể được sử dụng để kết nối nhiều máy. Trong mạng cục bộ, các <em>host</em> và <em>router</em> đều có thể nằm trên cùng một dây. Chúng ta có thể trừu tượng hóa hơn nữa và lưu ý rằng ở <em>Layer 2</em>, <em>router</em> thực sự chỉ là một máy như bất kỳ máy nào khác (chỉ là nó chạy các giao thức định tuyến ở các lớp cao hơn). Cuối cùng, sợi dây không thực sự quan tâm các máy được kết nối đang làm gì với dữ liệu chúng trao đổi.</p>
+<img width="700px" src="../assets/end-to-end/5-002-linking-machines.png">
+<p>Cách tốt nhất để nối dây các máy tính trong một mạng cục bộ là gì? Trước đây, khi lần đầu giới thiệu về định tuyến, chúng ta đã nghĩ đến việc sử dụng <em>mesh topology (cấu trúc liên kết lưới)</em> để kết nối tất cả các cặp máy tính trên thế giới. Chúng ta cũng đã xem xét việc sử dụng một sợi dây duy nhất để kết nối tất cả các máy tính. Cuối cùng, chúng ta quyết định rằng đối với một mạng toàn cầu, cả hai cách tiếp cận đều không thực tế, và chúng ta cần giới thiệu các <em>router</em>.</p>
+<img width="800px" src="../assets/end-to-end/5-003-mesh-bus.png">
+<p>Chúng ta có thể xem xét lại các cấu trúc liên kết này trong mạng cục bộ. Một <em>mesh topology</em> vẫn khá không thực tế. Nếu một <em>host</em> mới tham gia, chúng ta sẽ phải thêm một dây nối nó với mọi <em>host</em> khác. Tuy nhiên, một <em>bus topology (cấu trúc liên kết bus)</em>, nơi chúng ta kết nối tất cả các máy tính dọc theo một sợi dây duy nhất, lại khá phổ biến và thực tế trong một mạng cục bộ.</p>
+<p><em>Bus topology</em> một dây giới thiệu khái niệm về <em>shared media (môi trường truyền dẫn chia sẻ)</em>. Khi chúng ta vẽ các liên kết nối hai máy, chỉ có hai máy tính đó sử dụng liên kết đó để giao tiếp. Bây giờ, một <em>packet</em> từ A đến C, và một <em>packet</em> từ B đến D, có thể ở trên dây cùng một lúc, và tín hiệu điện trên dây đó không thể chứa cả hai <em>packet</em> đồng thời.</p>
+<img width="600px" src="../assets/end-to-end/5-004-collision.png">
+<p>Để tương tự, hãy xem xét nhiều người trong một cuộc gọi nhóm, chia sẻ một đường dây điện thoại duy nhất: Bất kỳ hai người nào cũng có thể nói chuyện với nhau, nhưng bạn không thể có hai cuộc trò chuyện đồng thời, nếu không không ai hiểu được điều gì đang được nói.</p>
+<p>Chúng ta đã vẽ các liên kết như những sợi dây có tín hiệu điện trên đó cho đơn giản, nhưng thực tế, công nghệ liên kết có thể sử dụng các <em>shared media</em> khác. Ví dụ, trong một công nghệ liên kết không dây, tất cả các <em>host</em> được kết nối bởi liên kết đều chia sẻ cùng một phần của phổ điện từ.</p>
+<h2 id="giao-tiếp-qua-môi-trường-truyền-dẫn-chia-sẻ-các-phương-pháp-phối-hợp"><a class="header" href="#giao-tiếp-qua-môi-trường-truyền-dẫn-chia-sẻ-các-phương-pháp-phối-hợp">Giao tiếp qua Môi trường Truyền dẫn Chia sẻ: Các phương pháp Phối hợp</a></h2>
+<p>Trong một mạng có môi trường truyền dẫn chia sẻ, có nguy cơ các lần truyền từ các nút khác nhau có thể gây nhiễu hoặc <em>collision (xung đột)</em> với nhau. Nếu hai máy tính cố gắng truyền dữ liệu đồng thời, tín hiệu của chúng sẽ chồng chéo và gây nhiễu. Bên nhận có thể không giải mã được tín hiệu, và họ không thể biết ai đã gửi tín hiệu. Để giải quyết vấn đề này, chúng ta cần một <em>multiple access protocol (giao thức đa truy cập)</em> để đảm bảo rằng nhiều máy tính có thể chia sẻ liên kết và truyền qua nó.</p>
+<img width="700px" src="../assets/end-to-end/5-005-multiple-access-taxonomy.png">
+<p>Một loại phương pháp khả thi là phân bổ một phần tài nguyên cố định cho mỗi nút trên liên kết. Có hai cách chúng ta có thể xem xét để phân chia tài nguyên. Trong <em>frequency-division multiplexing (ghép kênh phân chia theo tần số)</em>, chúng ta phân bổ một dải tần số khác nhau cho mỗi máy tính. (Hãy xem xét đài AM/FM hoặc truyền hình quảng bá, chúng chia tần số thành các kênh.) Trong <em>time-division multiplexing (ghép kênh phân chia theo thời gian)</em>, chúng ta chia thời gian thành các khe cố định và phân bổ một khe cho mỗi nút được kết nối.</p>
+<p>Việc phân bổ tài nguyên cố định có một số nhược điểm. Chỉ có một lượng tần số/thời gian hạn chế để phân phối. Ngoài ra, không phải ai cũng có điều gì đó để nói mọi lúc, vì vậy tần số/thời gian chúng ta phân bổ có thể không được sử dụng trong phần lớn thời gian. Cách tiếp cận này lãng phí, bởi vì nó giới hạn các máy tính vào dải được phân bổ cụ thể của chúng, ngay cả khi các dải khác có thể không được sử dụng.</p>
+<p>Thay vì phân bổ cố định, một loại phương pháp khác dựa trên việc các nút thay phiên nhau, không có bất kỳ sự phân bổ cố định nào. Trong loại này, chúng ta đang phân vùng động theo thời gian, để các nút chỉ sử dụng thời gian chúng cần trong lượt của mình, không có thời gian lãng phí. Có hai cách chúng ta có thể xem xét để các nút thay phiên nhau.</p>
+<p>Trong một <em>polling protocol (giao thức thăm dò)</em>, một điều phối viên tập trung quyết định khi nào mỗi nút được kết nối được phép nói. Điều phối viên đi đến từng nút một và hỏi xem nút đó có điều gì muốn nói không. Nếu nút nói có, điều phối viên cho phép nút nói trong một khoảng thời gian. Nếu nút nói không, điều phối viên ngay lập tức chuyển sang nút tiếp theo, và nút đó không lãng phí bất kỳ tài nguyên nào. Bluetooth là một giao thức trong thế giới thực sử dụng ý tưởng này.</p>
+<img width="900px" src="../assets/end-to-end/5-006-polling.png">
+<p>Cách khác để cho các nút thay phiên là <em>token passing</em>. Thay vì có một điều phối viên tập trung, chúng ta có một thẻ bài ảo có thể được truyền giữa các nút, và chỉ nút có thẻ bài mới được phép nói. Nếu một nút có điều gì muốn nói, nó sẽ giữ thẻ bài trong khi truyền, sau đó chuyển nó cho nút tiếp theo. Nếu một nút không có gì để nói vào lúc đó, nó ngay lập tức chuyển thẻ bài cho nút tiếp theo. IBM Token Ring và FDDI là những ví dụ thực tế về các giao thức sử dụng ý tưởng này.</p>
+<img width="900px" src="../assets/end-to-end/5-007-token.png">
+<p>Một nhược điểm của các phương pháp dựa trên lượt này là sự phức tạp. Chúng ta phải triển khai một số hình thức giao tiếp giữa các nút, điều này có thể trở nên phức tạp. Trong <em>token passing</em>, chúng ta có thể cần một kênh tần số chuyên dụng để các nút có thể truyền thẻ bài một cách đáng tin cậy cho nhau. Chúng ta cũng có thể phải đối phó với các phức tạp như hai nút cùng nghĩ rằng chúng có thẻ bài và gây ra một <em>collision</em>. Trong một <em>polling protocol</em>, chúng ta cần chỉ định một điều phối viên trung tâm để giao tiếp với các nút, và triển khai một cách để điều phối viên nói chuyện với các nút. Trong Bluetooth, điện thoại thông minh của bạn có thể là điều phối viên trung tâm nói chuyện với các thiết bị phụ, nhưng trong các mạng khác, có thể không rõ ai là điều phối viên.</p>
+<h2 id="giao-tiếp-qua-môi-trường-truyền-dẫn-chia-sẻ-các-phương-pháp-truy-cập-ngẫu-nhiên"><a class="header" href="#giao-tiếp-qua-môi-trường-truyền-dẫn-chia-sẻ-các-phương-pháp-truy-cập-ngẫu-nhiên">Giao tiếp qua Môi trường Truyền dẫn Chia sẻ: Các phương pháp Truy cập Ngẫu nhiên</a></h2>
+<p>Một loại phương pháp thứ ba, bên cạnh phân bổ cố định hoặc thay phiên nhau, là <em>random access (truy cập ngẫu nhiên)</em>. Trong phương pháp này, chúng ta chỉ cho phép các nút nói bất cứ khi nào chúng có điều gì muốn nói, và giải quyết các <em>collision</em> khi chúng xảy ra. Các nút không phối hợp với nhau, và chỉ gửi dữ liệu bất cứ khi nào chúng có gì đó để gửi.</p>
+<p>Một lợi ích lớn của các giao thức <em>random access</em> là sự đơn giản. Không giống như các phương pháp dựa trên lượt, chúng ta không cần triển khai giao tiếp giữa các nút.</p>
+<p>Khi bên nhận nhận được một <em>packet</em>, nó sẽ trả lời bằng một <em>ack (gói tin xác nhận)</em>. Nếu hai nút gửi dữ liệu đồng thời, <em>collision</em> sẽ làm hỏng các <em>packet</em> của chúng, vì vậy không có <em>ack</em> nào được gửi. Nếu bên gửi không thấy <em>ack</em>, nó sẽ đợi một khoảng thời gian ngẫu nhiên và gửi lại. Việc đợi một khoảng thời gian ngẫu nhiên, thay vì gửi lại ngay lập tức, giúp chúng ta tránh được các <em>collision</em> khi các <em>packet</em> được gửi lại.</p>
+<p>Giao thức <em>random access</em> ngây thơ là &quot;thô lỗ&quot; vì các nút bắt đầu nói bất cứ khi nào chúng muốn, và giải quyết <em>collision</em> sau đó. Một biến thể &quot;lịch sự&quot; hơn của giao thức này được gọi là <em>Carrier Sense Multiple Access (CSMA) (Đa truy cập nhận biết sóng mang)</em>. Các nút lắng nghe <em>shared media</em> trước để xem có ai đang nói không, và chỉ bắt đầu nói khi nó yên tĩnh. Ở đây, &quot;lắng nghe&quot; đề cập đến việc cảm nhận một tín hiệu trên dây.</p>
+<p>Lưu ý rằng <em>CSMA</em> không giúp chúng ta tránh được tất cả các <em>collision</em>. Nếu tín hiệu lan truyền tức thời dọc theo toàn bộ chiều dài của dây, sẽ không có <em>collision</em> trong <em>CSMA</em>. Tuy nhiên, <em>propagation delay (độ trễ lan truyền)</em> có thể gây ra các vấn đề. Giả sử nút A ở một đầu của dây nghe thấy sự im lặng và bắt đầu truyền. Tín hiệu có thể chưa lan truyền đến nút B, ở đầu kia của dây. Nút B nghe thấy sự im lặng và cũng bắt đầu truyền, gây ra một <em>collision</em>.</p>
+<img width="500px" src="../assets/end-to-end/5-008-propagation.png">
+<p>Sơ đồ 2D này minh họa cách <em>propagation delay</em> có thể gây ra xung đột. Một mặt cắt ngang cho thấy sợi dây tại một thời điểm, và cho chúng ta thấy tín hiệu đã lan truyền được bao xa trên dây tại thời điểm đó. Một mặt cắt dọc cho thấy một vị trí duy nhất trên dây theo thời gian, và cho chúng ta thấy khi nào vị trí đó nhìn thấy các bit đầu tiên và cuối cùng của việc truyền. Cả H2 và H4 đều nghe thấy sự im lặng trước khi chúng bắt đầu truyền, nhưng tín hiệu của chúng vẫn xung đột.</p>
+<p>Để giảm thiểu vấn đề này, chúng ta có thể sử dụng <em>CSMA/CD</em> (Carrier Sense Multiple Access with <em>Collision Detection (Phát hiện xung đột)</em>), mở rộng ý tưởng của <em>CSMA</em>. Ngoài việc lắng nghe trước khi nói, chúng ta cũng lắng nghe trong khi nói. Nếu bạn bắt đầu nghe thấy điều gì đó trong khi bạn đang truyền, bạn dừng lại ngay lập tức. Lưu ý rằng <em>CSMA/CD</em> vẫn không khắc phục được vấn đề <em>collision</em>, nhưng nó cho phép chúng ta phát hiện <em>collision</em> sớm hơn.</p>
+<p>Nếu chỉ có một người nói, sẽ không có bất kỳ <em>collision</em> nào, và tất cả các lược đồ <em>random access</em> của chúng ta đều hoạt động tốt. Nếu chỉ có một vài người nói, có thể có những <em>collision</em> không thường xuyên, nhưng tất cả các lược đồ của chúng ta đều có thể giải quyết chúng. Tuy nhiên, nếu nhiều người gửi muốn nói đồng thời, chúng ta có thể gặp vấn đề với các <em>collision</em> lặp đi lặp lại, và việc đợi một khoảng thời gian ngẫu nhiên để gửi lại sẽ không giúp ích.</p>
+<p>Để đối phó với các <em>collision</em> lặp đi lặp lại, <em>CSMA/CD</em> sử dụng <em>binary exponential backoff (lùi số mũ nhị phân)</em>. Mỗi lần chúng ta phát hiện một <em>collision</em> trong một lần thử gửi lại, chúng ta đợi một khoảng thời gian dài gấp đôi trước lần gửi lại tiếp theo. Lưu ý rằng chúng ta vẫn chọn ngẫu nhiên thời gian gửi lại, nhưng mỗi lần chúng ta phát hiện một <em>collision</em>, chúng ta chọn số ngẫu nhiên từ một phạm vi có giới hạn cao gấp đôi. Ví dụ, nếu chúng ta chọn một thời gian ngẫu nhiên trong khoảng [0, 4] và phát hiện một <em>collision</em>, thời gian ngẫu nhiên tiếp theo chúng ta chọn là trong khoảng [0, 8].</p>
+<p><em>Binary exponential backoff</em> hoạt động tốt trong cả hai kịch bản. Khi có ít nút nói, các <em>collision</em> lặp lại không phổ biến, vì vậy chúng ta có thể gửi lại sau một thời gian chờ ngắn. Khi có nhiều nút nói, có nhiều <em>collision</em> lặp lại, vì vậy độ trễ tăng theo cấp số nhân cho đến khi không có <em>collision</em> nào (ví dụ: đủ số nút đã bị trì hoãn rất xa trong tương lai, và có ít nút cạnh tranh hơn ngay bây giờ). Cách tiếp cận này đảm bảo chúng ta chỉ giảm tốc độ khi nhiều nút muốn nói, và duy trì tốc độ truyền nhanh khi ít nút muốn nói.</p>
+<h2 id="lược-sử-layer-2-alohanet"><a class="header" href="#lược-sử-layer-2-alohanet">Lược sử Layer 2: ALOHANet</a></h2>
+<p>Năm 1968, Norman Abramson gặp một vấn đề tại Đại học Hawaii. Có một máy tính trung tâm tại Đại học Hawaii, và ông cần một cách để các máy tính trên các hòn đảo khác có thể truy cập vào máy tính trung tâm này. Thiết kế kết quả đã có ảnh hưởng rất lớn đến các thiết kế giao thức <em>Layer 2</em> hiện đại.</p>
+<p>Giao thức kết quả được gọi là <em>ALOHANet</em> (Additive Links On-line Hawaii Area), cho phép giao tiếp không dây từ các hòn đảo khác đến máy tính trung tâm. <em>ALOHANet</em> là không dây và sử dụng một <em>shared media</em>, nơi mọi người đều gửi dữ liệu qua cùng một liên kết.</p>
+<p><em>ALOHANet</em> đã sử dụng một sự kết hợp của phân bổ cố định và <em>random access</em>, do thiết lập bất đối xứng của nó. Máy tính trung tâm (hub) sử dụng tần số chuyên dụng của riêng mình để truyền các thông điệp đi, và tất cả các nút từ xa đều lắng nghe trên tần số này để nhận thông điệp. Với chỉ một người gửi trên một tần số chuyên dụng, không có nguy cơ <em>collision</em>.</p>
+<p>Ngược lại, tất cả các nút từ xa đều truyền trên một tần số chia sẻ riêng biệt, và hub lắng nghe trên tần số này. Hub sẽ không xung đột với các nút từ xa, vì chúng sử dụng các tần số khác nhau, nhưng các nút từ xa có thể xung đột với nhau.</p>
+<p>Thiết kế bất đối xứng này hoạt động tốt cho <em>ALOHANet</em> vì hub có lẽ có nhiều thứ để gửi hơn các nút từ xa.</p>
+<img width="200px" src="../assets/end-to-end/5-009-alohanet.png">
+<p><em>ALOHANet</em> là một trong những hệ thống đầu tiên sử dụng một <em>random access protocol</em> để xử lý các <em>collision</em>, và cách tiếp cận này sau này sẽ được sử dụng trong <em>Ethernet</em>. <em>ALOHANet</em> đã sử dụng cách tiếp cận <em>random access</em> ngây thơ và thô lỗ. Các giao thức sau này như <em>Ethernet</em> đã sử dụng cách tiếp cận lịch sự hơn của <em>CSMA/CD</em>, nơi chúng ta lắng nghe các <em>collision</em> trước và trong khi truyền, và chúng ta lùi theo cấp số nhân khi có <em>collision</em>.</p>
+<h2 id="giao-tiếp-lan-Địa-chỉ-mac"><a class="header" href="#giao-tiếp-lan-Địa-chỉ-mac">Giao tiếp LAN: Địa chỉ MAC</a></h2>
+<p>Bởi vì nhiều máy tính có thể được kết nối dọc theo cùng một liên kết <em>Ethernet</em>, chúng ta thực sự có thể sử dụng các giao thức <em>Layer 2</em> để gửi thông điệp giữa các máy tính cục bộ trên cùng một liên kết, mà không cần sử dụng bất kỳ giao thức <em>Layer 3 (Lớp 3)</em> nào cả (ví dụ: không có <em>router</em> chuyển tiếp <em>packet</em>). Trong phép tương tự về hệ thống bưu chính, hai người trong cùng một phòng có thể chuyền thư cho nhau, mà không cần gửi thư đến bưu điện.</p>
+<p>Một vấn đề khi gửi thông điệp qua <em>shared media</em> là: Khi chúng ta truyền thông điệp, mọi người trên liên kết đều nhận được thông điệp, không chỉ người nhận dự định. Để gửi một thông điệp chỉ cho một người, chúng ta cần một hệ thống <em>addressing</em> ở <em>Layer 2</em> để có thể xác định máy nào là đích của thông điệp. Trong phép tương tự về hệ thống bưu chính, nếu tôi nói trong một căn phòng, mọi người đều nhận được thông điệp. Để nói chuyện với một người cụ thể, tôi cần gọi tên họ.</p>
+<p>Ở <em>Layer 2</em>, mỗi máy tính có một <em>MAC address (Địa chỉ Kiểm soát Truy cập Phương tiện)</em>. <em>MAC address</em> dài 48 bit, và thường được viết dưới dạng thập lục phân với dấu hai chấm ngăn cách mỗi 2 chữ số hex (8 bit), ví dụ: <em>f8:ff:c2:2b:36:16</em>. <em>MAC address</em> đôi khi được gọi là địa chỉ ether hoặc địa chỉ liên kết.</p>
+<p><em>MAC address</em> thường được mã hóa cứng vĩnh viễn (&quot;burned in&quot;) trên một thiết bị (ví dụ: NIC trong máy tính của bạn). Hầu hết các hệ điều hành sẽ cho phép bạn ghi đè <em>MAC address</em> bằng phần mềm, nhưng mỗi thiết bị đã đi kèm với một <em>MAC address</em> được cài đặt sẵn. <em>MAC address</em> được phân bổ theo nhà sản xuất tạo ra phần cứng. Hai bit đầu tiên là cờ, sau đó 22 bit tiếp theo xác định nhà sản xuất, rồi 24 bit cuối cùng xác định máy cụ thể trong không gian địa chỉ của nhà sản xuất đó.</p>
+<p>Tại sao không chỉ sử dụng <em>IP addressing (việc đánh địa chỉ IP)</em>? Các <em>host</em> trên một liên kết có thể muốn trao đổi thông điệp, mà không cần kết nối với Internet (tức là chúng hoàn toàn không có địa chỉ IP).</p>
+<p>Lược đồ <em>addressing</em> vĩnh viễn này khác với IP, nơi bạn nhận được một địa chỉ khi lần đầu tham gia mạng, và địa chỉ đó phụ thuộc vào vị trí địa lý của bạn. <em>MAC address</em> thường được cho là duy nhất trên toàn cầu, bởi vì bạn có thể cắm máy tính của mình vào bất kỳ mạng cục bộ nào, và sẽ rất tệ nếu hai máy tính trên một liên kết có cùng một <em>MAC address</em>.</p>
+<h2 id="các-loại-giao-tiếp-lan-cấu-trúc-gói-tin-ethernet"><a class="header" href="#các-loại-giao-tiếp-lan-cấu-trúc-gói-tin-ethernet">Các loại Giao tiếp LAN, Cấu trúc Gói tin Ethernet</a></h2>
+<p>Có các loại đích đến khác nhau trong một <em>packet</em> <em>Layer 2</em>. Trong <em>unicast (truyền tin đơn hướng)</em>, <em>packet</em> được dành cho một người nhận duy nhất. Trong <em>broadcast (truyền tin quảng bá)</em>, <em>packet</em> được dành cho tất cả các máy trên mạng cục bộ. Trong <em>multicast (truyền tin đa hướng)</em>, <em>packet</em> được dành cho tất cả các máy trong mạng cục bộ thuộc về một nhóm cụ thể. Các máy có thể chọn tham gia các nhóm nhất định để nhận các <em>packet</em> dành cho nhóm đó. <em>Ethernet</em> hỗ trợ <em>unicast</em>, <em>multicast</em>, và <em>broadcast</em>.</p>
+<p>Lưu ý rằng <em>broadcast</em> đôi khi được coi là một trường hợp đặc biệt của <em>multicast</em>, nơi mọi người tự động là một phần của nhóm quảng bá.</p>
+<p>Mô hình <em>unicast/broadcast/multicast</em> này cũng mở rộng đến các lớp khác. Ví dụ, chúng ta đã thấy <em>anycast (truyền tin tới một trong nhóm)</em> ở <em>Layer 3</em>, với mục tiêu là gửi đến bất kỳ một thành viên nào của một nhóm (bất kỳ máy chủ nào có cùng địa chỉ IP).</p>
+<h2 id="cấu-trúc-gói-tin-ethernet"><a class="header" href="#cấu-trúc-gói-tin-ethernet">Cấu trúc Gói tin Ethernet</a></h2>
+<p>Một <em>packet</em> dữ liệu trong <em>Ethernet</em> được gọi là một <em>frame (khung dữ liệu)</em>. Nhiều trường trông tương tự như các trường tiêu đề IP, mặc dù có một số khác biệt.</p>
+<img width="900px" src="../assets/end-to-end/5-010-ethernet-packet.png">
+<p><em>Packet</em> <em>Ethernet</em> bắt đầu bằng một <em>preamble (phần mở đầu)</em> 7 byte, chỉ ra sự bắt đầu của một <em>packet</em>. Điều này giúp tách biệt các <em>packet</em> khi chúng được truyền tín hiệu qua dây.</p>
+<p>Sau đó, chúng ta có địa chỉ MAC đích và nguồn, tương tự như các trường đích và nguồn trong tiêu đề IP. Chúng ta có một trường loại 2 byte, cho phép chúng ta phân kênh giữa IPv4 hoặc IPv6, và chuyển tải trọng <em>packet</em> đến giao thức tiếp theo chính xác. Điều này tương tự như trường giao thức trong tiêu đề IP, hoặc trường cổng trong tiêu đề TCP/UDP. Chúng ta cũng có một <em>checksum (tổng kiểm)</em>, mặc dù không giống như IP, <em>checksum</em> là trên toàn bộ <em>packet</em>, để chúng ta không phải dựa vào các lớp cao hơn (ví dụ: <em>packet</em> có thể hoàn toàn không phải là TCP/IP).</p>
+<p>Để <em>unicast</em> một thông điệp, chúng ta đặt địa chỉ MAC đích thành <em>MAC address</em> của một máy cụ thể. Mọi người trên <em>shared media</em> đều nhận được <em>packet</em>, vì vậy mọi người cần kiểm tra MAC đích để xem <em>packet</em> có dành cho mình không. Nếu địa chỉ MAC đích không khớp với địa chỉ của bạn, bạn nên bỏ qua <em>packet</em>.</p>
+<p>Để <em>broadcast</em> một thông điệp, chúng ta đặt MAC đích thành địa chỉ đặc biệt <em>FF:FF:FF:FF:FF:FF</em> (toàn bit 1). Giống như trong <em>unicast</em>, mọi người trên <em>shared media</em> đều nhận được <em>packet</em>, nhưng lần này, vì địa chỉ MAC đích là địa chỉ <em>broadcast</em>, mọi người đều biết để đọc <em>packet</em>. Lưu ý rằng địa chỉ <em>broadcast</em> toàn bit 1 này là giống nhau trong mọi mạng <em>Ethernet</em>.</p>
+<p>Để <em>multicast</em> một thông điệp, chúng ta đặt MAC đích thành địa chỉ của nhóm đó. Nhớ lại rằng hai bit đầu tiên của <em>MAC address</em> là cờ. Các địa chỉ bình thường được phân bổ cho các máy luôn đặt bit đầu tiên thành 0, và các địa chỉ cho các nhóm luôn đặt bit đầu tiên thành 1. Giống như trong <em>unicast</em> và <em>broadcast</em>, mọi người vẫn nhận được thông điệp. Bất kỳ ai là thành viên của một nhóm cần đảm bảo rằng họ đang lắng nghe trên địa chỉ của nhóm đó để nhận các <em>packet</em> <em>multicast</em> đến nhóm đó. Các giao thức bổ sung là cần thiết để kiểm soát ai thuộc về nhóm nào, và chúng ta sẽ không thảo luận thêm về chúng.</p>
+<h2 id="mạng-layer-2-với-ethernet"><a class="header" href="#mạng-layer-2-với-ethernet">Mạng Layer 2 với Ethernet</a></h2>
+<p>Cho đến nay, chúng ta đã trình bày các giao thức <em>Layer 2</em> hoạt động trên một liên kết duy nhất với nhiều máy tính được gắn vào nó, nhưng chúng ta có thể giới thiệu nhiều liên kết và xây dựng một mạng hoàn toàn bằng <em>Layer 2</em>. Các <em>packet</em> có thể được chuyển tiếp, và các máy thậm chí có thể chạy các giao thức định tuyến, tất cả đều sử dụng độc quyền các <em>MAC address</em> <em>Layer 2</em>.</p>
+<p>Các giao thức định tuyến chúng ta chạy ở lớp IP cũng có thể hoạt động ở <em>Layer 2</em>, mặc dù một nhược điểm là chúng ta không thể tổng hợp các <em>MAC address</em>. Địa chỉ IP được phân bổ dựa trên địa lý, nhưng <em>MAC address</em> được phân bổ dựa trên nhà sản xuất, vì vậy không có cách nào rõ ràng để tổng hợp chúng. Nhược điểm này là lý do tại sao chúng ta không thể xây dựng Internet toàn cầu chỉ bằng <em>Layer 2</em>.</p>
+<p>Nếu có nhiều liên kết trong một mạng cục bộ duy nhất, chúng ta sẽ phải đảm bảo rằng nếu ai đó <em>broadcast</em> một thông điệp, bất kỳ <em>switch (thiết bị chuyển mạch)</em> nào ở <em>Layer 2</em> cũng sẽ chuyển tiếp <em>packet</em> ra khỏi tất cả các cổng đi.</p>
+<p><em>Multicast</em> trở nên phức tạp hơn trong một mạng <em>Layer 2</em> với nhiều liên kết. Cần có các giao thức bổ sung, mặc dù chúng ta sẽ không thảo luận thêm.</p>
+<p>Một ví dụ về <em>multicast</em> hữu ích trên mạng LAN là <em>Bonjour/mDNS</em>, một giao thức do Apple phát triển. Trong giao thức này, tất cả các thiết bị của Apple (ví dụ: iPhone, iPad, Apple TV) được mã hóa cứng để tham gia một nhóm đặc biệt trên mạng cục bộ. Nếu iPhone của bạn muốn tìm các thiết bị gần đó để phát nhạc (ví dụ: Apple TV, loa Apple hoặc HomePod hay bất cứ tên gọi nào của chúng), iPhone có thể <em>multicast</em> một thông điệp đến nhóm, hỏi xem có ai có thể phát nhạc không. Các thiết bị trong nhóm cũng có thể <em>multicast</em> phản hồi, nói rằng &quot;Tôi là một Apple TV và tôi có thể phát nhạc.&quot; Điều thú vị là giao thức này thực sự cũng sử dụng DNS trong nhóm <em>multicast</em> để gửi <em>SRV records (bản ghi SRV)</em>, ánh xạ mỗi máy với các khả năng của nó.</p>
+<p>Lưu ý lịch sử: Trong Internet hiện đại, chúng ta đã nói rằng các thuật ngữ &quot;router&quot; và &quot;switch&quot; có thể thay thế cho nhau. Bây giờ chúng ta đã có khái niệm về mạng <em>Layer 2</em>, chúng ta có thể nói rằng một <em>switch</em> chỉ hoạt động ở Lớp 1 và 2, trong khi một <em>router</em> hoạt động ở Lớp 1, 2 và 3.</p>
+<p>Nếu bạn quay lại hình ảnh của chúng ta về việc đóng gói và mở gói các tiêu đề, chúng ta đã giả định rằng mọi <em>router</em> đều phân tích <em>packet</em> lên đến <em>Layer 3</em>, và chuyển tiếp <em>packet</em> đến <em>router</em> tiếp theo qua IP. Tuy nhiên, nếu chúng ta có một mạng <em>Layer 2</em> với nhiều liên kết, một <em>switch</em> chỉ cần chuyển <em>packet</em> lên đến <em>Layer 2</em> và chuyển tiếp <em>packet</em> đến <em>switch</em> tiếp theo qua <em>Ethernet</em>.</p>
+<p>Ngày nay, hầu như tất cả các <em>switch</em> cũng triển khai <em>Layer 3</em>, đó là lý do tại sao chúng ta sử dụng các thuật ngữ này thay thế cho nhau. Về mặt lịch sử, <em>Ethernet</em> có trước Internet, đó là lý do tại sao có sự phân biệt giữa <em>switch</em> và <em>router</em>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../applications/http.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../end-to-end/l2-routing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../applications/http.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../end-to-end/l2-routing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

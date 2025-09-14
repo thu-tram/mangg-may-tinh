@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Designing Resource Sharing - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html" class="active"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="thiết-kế-chia-sẻ-tài-nguyên-designing-resource-sharing"><a class="header" href="#thiết-kế-chia-sẻ-tài-nguyên-designing-resource-sharing"><strong>Thiết kế chia sẻ tài nguyên</strong> (Designing Resource Sharing)</a></h1>
+<h2 id="chia-sẻ-tài-nguyên-statistical-multiplexing-ghép-kênh-thống-kê"><a class="header" href="#chia-sẻ-tài-nguyên-statistical-multiplexing-ghép-kênh-thống-kê"><strong>Chia sẻ tài nguyên: Statistical Multiplexing</strong> (Ghép kênh thống kê)</a></h2>
+<p>Các <strong>link</strong> (liên kết) và <strong>switch</strong> (bộ chuyển mạch) trên Internet đều có <strong>finite capacity</strong> (dung lượng hữu hạn). Một vấn đề thiết kế quan trọng cần giải quyết là: <strong>Làm thế nào để chia sẻ các tài nguyên này giữa những người dùng Internet khác nhau?</strong></p>
+<p>Hãy mô hình hóa vấn đề rõ hơn. Nhớ rằng một <strong>flow</strong> (luồng) là một chuỗi <strong>packet</strong> (gói tin) được trao đổi giữa hai <strong>end host</strong> (máy đầu cuối), ví dụ: một cuộc gọi video giữa bạn và bạn bè. Internet cần hỗ trợ nhiều flow đồng thời, mặc dù dung lượng có hạn.</p>
+<img width="600px" src="../assets/intro/1-44-multiple-flows.png">
+<p>Chúng ta thường nói rằng tài nguyên mạng được <strong>statistically multiplexed</strong> (ghép kênh thống kê), nghĩa là chúng ta sẽ phân bổ tài nguyên cho người dùng một cách <strong>dynamic</strong> (động) dựa trên nhu cầu của họ, thay vì chia cố định một phần tài nguyên cho mỗi người dùng.</p>
+<img width="900px" src="../assets/intro/1-45-statistical-multiplex.png">
+<p>Ví dụ tương tự: máy tính cá nhân của bạn không chia sẵn một nửa CPU cho Firefox và một nửa cho Zoom, rồi chỉ cho mỗi ứng dụng dùng phần của mình. Thay vào đó, máy tính phân bổ tài nguyên động cho các ứng dụng tùy theo nhu cầu.</p>
+<p>Ghép kênh thống kê hiện diện ở khắp nơi trong khoa học máy tính. Ví dụ: trong <strong>cloud computing</strong> (điện toán đám mây), các công ty khác nhau có thể chia sẻ tài nguyên trong một <strong>datacenter</strong> (trung tâm dữ liệu) một cách động.</p>
+<p>Ghép kênh thống kê là một cách hiệu quả để chia sẻ tài nguyên mạng, vì nhu cầu của người dùng thay đổi theo thời gian. Bạn có thể không dùng liên tục 10 Mbps băng thông mỗi giây, 24 giờ/ngày. Bạn có thể dùng nhiều hơn khi thức và ít hơn khi ngủ.</p>
+<p>Tiền đề giúp ghép kênh thống kê hoạt động là: <strong>Trên thực tế, đỉnh của tổng nhu cầu nhỏ hơn nhiều so với tổng của các đỉnh nhu cầu riêng lẻ.</strong></p>
+<p>Giả sử có hai người dùng A và B. Chúng ta vẽ đồ thị nhu cầu của từng người theo thời gian.</p>
+<img width="700px" src="../assets/intro/1-46-demand-over-time.png">
+<p><strong>Chiến lược kém hiệu quả</strong> (không ghép kênh thống kê) là cộng đỉnh nhu cầu của từng người. Ta lấy đỉnh nhu cầu của A và B, rồi cộng lại.</p>
+<img width="900px" src="../assets/intro/1-47-sum-of-peak1.png">
+<p>Nếu phân bổ dung lượng bằng tổng này, chắc chắn đáp ứng được nhu cầu. Ví dụ: đỉnh nhu cầu của A là X, ta cấp X cho A; đỉnh của B là Y, ta cấp Y cho B. Nhưng cách này lãng phí, vì đỉnh của A và B không xảy ra cùng lúc.</p>
+<img width="400px" src="../assets/intro/1-48-sum-of-peak2.png">
+<p><strong>Chiến lược tốt hơn</strong> (ghép kênh thống kê) là tính <strong>aggregate demand</strong> (tổng nhu cầu) bằng cách cộng nhu cầu của A và B tại từng thời điểm. Ví dụ: nhu cầu lúc 10h sáng = nhu cầu của A lúc 10h + nhu cầu của B lúc 10h. Sau đó, ta tìm đỉnh của tổng nhu cầu này.</p>
+<img width="900px" src="../assets/intro/1-49-peak-of-sum1.png">
+<p>Nếu phân bổ dung lượng bằng đỉnh của tổng nhu cầu, ta không thể chia cố định cho từng người. Nhưng bằng cách thay đổi động lượng cấp cho mỗi người theo thời gian, ta vẫn đáp ứng được nhu cầu, dù tổng dung lượng ít hơn.</p>
+<img width="400px" src="../assets/intro/1-50-peak-of-sum2.png">
+<p>Cách tiếp cận này cho phép hỗ trợ cùng số người dùng với dung lượng ít hơn (tiết kiệm chi phí, sử dụng tài nguyên hiệu quả hơn). Với nhiều phân phối, đỉnh của tổng nhu cầu gần bằng tổng nhu cầu trung bình, nhỏ hơn nhiều so với tổng các đỉnh riêng lẻ.</p>
+<p>Trong thực tế, mạng không được thiết kế để đáp ứng <strong>worst case</strong> (trường hợp xấu nhất) khi tất cả cùng đạt đỉnh. Thay vào đó, ta chia sẻ tài nguyên động và hy vọng các đỉnh không trùng nhau. Nếu đỉnh trùng nhau, packet có thể bị trễ hoặc bị drop (rớt) — nhớ lại hàng đợi ở liên kết. Dù vậy, chúng ta chọn ghép kênh thống kê để dùng tài nguyên hiệu quả hơn, chấp nhận hệ quả là đôi khi có đỉnh trùng.</p>
+<p>Cuối cùng, ghép kênh thống kê là một lựa chọn thiết kế có <strong>trade-off</strong> (đánh đổi), và người dùng khác nhau có thể chọn khác nhau. Ví dụ: các sàn giao dịch tài chính đôi khi xây mạng riêng để đáp ứng nhu cầu đỉnh, vì họ ưu tiên đảm bảo kết nối trong giờ cao điểm và có thể chi trả chi phí.</p>
+<h2 id="chia-sẻ-tài-nguyên-circuit-switching-vs-packet-switching"><a class="header" href="#chia-sẻ-tài-nguyên-circuit-switching-vs-packet-switching"><strong>Chia sẻ tài nguyên: Circuit Switching vs. Packet Switching</strong></a></h2>
+<p>Chúng ta đã biết có thể dùng ghép kênh thống kê để quyết định dung lượng cần xây dựng. Câu hỏi tiếp theo: <strong>Làm thế nào để phân bổ tài nguyên động giữa người dùng?</strong></p>
+<p>Ví dụ tương tự: một nhà hàng đông khách và số bàn có hạn. Có hai cách phân bổ bàn: đặt chỗ trước hoặc phục vụ theo thứ tự đến trước.</p>
+<p>Hai cách chia sẻ tài nguyên mạng cũng tương tự:</p>
+<ul>
+<li><strong>Best-effort</strong>: Mọi người gửi dữ liệu vào mạng mà không đặt chỗ, và hy vọng mọi thứ ổn. Không có gì đảm bảo băng thông đủ cho nhu cầu.</li>
+<li>Thiết kế chuẩn cho best-effort là <strong>packet switching</strong> (chuyển mạch gói). Switch xử lý từng packet độc lập và chuyển nó gần hơn tới đích. Các switch không quan tâm đến flow hay đặt chỗ.</li>
+</ul>
+<p>Ngoài việc packet độc lập với nhau, các switch cũng độc lập với nhau. Khi packet đi qua nhiều switch, mỗi switch xử lý nó riêng, không phối hợp.</p>
+<img width="700px" src="../assets/intro/1-51-best-effort.png">
+<ul>
+<li><strong>Reservations</strong> (đặt chỗ): Khi bắt đầu một flow, người dùng yêu cầu và đặt trước băng thông cần thiết. Sau khi gửi xong dữ liệu, tài nguyên được giải phóng cho người khác.</li>
+</ul>
+<p>Thiết kế chuẩn cho reservations, được nghiên cứu và áp dụng trong công nghiệp, là <strong>circuit switching</strong> (chuyển mạch kênh).</p>
+<p>Khi bắt đầu một flow, end host xác định một đường đi (chuỗi switch và link) qua mạng, dùng một <strong>routing algorithm</strong> (thuật toán định tuyến). (Chúng ta sẽ học định tuyến sau, tạm coi là “ma thuật” ở đây.)</p>
+<p>Sau đó, nguồn gửi một <strong>reservation request message</strong> (thông điệp yêu cầu đặt chỗ) tới đích. Trên đường đi, mỗi switch nhận yêu cầu này. Nếu tất cả switch chấp nhận, đặt chỗ được thiết lập, và một <strong>circuit</strong> (kênh) giữa nguồn và đích được hình thành.</p>
+<img width="700px" src="../assets/intro/1-52-reservations.png">
+<p>Khi tất cả switch xác nhận, dữ liệu có thể được gửi. Khi flow kết thúc, nguồn gửi một <strong>teardown message</strong> (thông điệp hủy kênh) tới đích. Trên đường đi, mỗi switch nhận thông điệp và giải phóng dung lượng.</p>
+<img width="700px" src="../assets/intro/1-53-reservation-teardown.png">
+<p><strong>Lưu ý:</strong> Từ “circuit” xuất phát từ mạng điện thoại, nơi hai người gọi cho nhau bằng cách thiết lập một kênh như vậy.</p>
+<p>Nhớ rằng, cả circuit switching và packet switching đều áp dụng ghép kênh thống kê. Khác biệt chính là <strong>granularity</strong> (độ chi tiết) khi phân bổ tài nguyên:</p>
+<ul>
+<li>Circuit switching: theo flow, có đặt chỗ.</li>
+<li>Packet switching: theo packet, best-effort.</li>
+</ul>
+<p>Ngay cả trong circuit switching, chúng ta vẫn phân bổ tài nguyên động dựa trên đặt chỗ, chứ không đặt trước cho mọi flow có thể xảy ra.</p>
+<img width="600px" src="../assets/intro/1-54-circuit-packet-multiplexing.png">
+<h2 id="circuit-switching-vs-packet-switching-các-yếu-tố-đánh-đổi-trade-offs"><a class="header" href="#circuit-switching-vs-packet-switching-các-yếu-tố-đánh-đổi-trade-offs"><strong>Circuit Switching vs. Packet Switching: Các yếu tố đánh đổi</strong> (Trade-offs)</a></h2>
+<p>Chúng ta hiện có hai cách tiếp cận để chia sẻ tài nguyên trên Internet. Cách nào tốt hơn? Điều đó phụ thuộc vào tiêu chí mà chúng ta dùng để đánh giá.</p>
+<p>Có bốn khía cạnh chính để so sánh hai cách tiếp cận này:</p>
+<p><strong>1. Đây có phải là một abstraction (hoặc API) tốt để mạng cung cấp cho lập trình viên ứng dụng không?</strong></p>
+<p><strong>Circuit switching</strong> cung cấp một abstraction hữu ích hơn cho lập trình viên, vì nó đảm bảo <strong>reserved bandwidth</strong> (băng thông được đặt trước). Điều này giúp lập trình viên dự đoán và hiểu rõ hành vi của hệ thống hơn (giả sử mọi thứ diễn ra suôn sẻ). Ví dụ tương tự: đặt trước một máy chủ trên <strong>cloud</strong> để chạy tác vụ. Lập trình viên dễ dàng ước lượng hiệu năng hơn nếu biết cấu hình máy mình nhận được. Nếu không biết, tác vụ vẫn có thể chạy, nhưng hiệu năng sẽ khó dự đoán.</p>
+<p>Circuit switching cũng hữu ích nếu bạn là <strong>network operator</strong> (nhà vận hành mạng) cần phân bổ tài nguyên cho người dùng. Bạn biết chính xác mỗi người dùng yêu cầu bao nhiêu băng thông và có thể tính phí phù hợp. Nếu không có đảm bảo, việc xây dựng mô hình kinh doanh trực quan sẽ khó hơn.</p>
+<p><strong>2. Cách tiếp cận này có hiệu quả ở quy mô lớn không? Có tận dụng hết băng thông khả dụng hay lãng phí?</strong></p>
+<p><strong>Packet switching</strong> thường hiệu quả hơn. Mức độ hơn bao nhiêu phụ thuộc vào <strong>burstiness</strong> (mức độ bùng nổ) của nguồn lưu lượng.</p>
+<ul>
+<li>Nếu mỗi bên gửi dữ liệu với tốc độ <strong>constant rate</strong> (ổn định) theo thời gian, cả circuit switching và packet switching đều tận dụng hết dung lượng.</li>
+</ul>
+<img width="900px" src="../assets/intro/1-55-smooth.png">
+<ul>
+<li>Ngược lại, nếu tốc độ gửi thay đổi theo thời gian, packet switching tận dụng băng thông tốt hơn.</li>
+</ul>
+<img width="900px" src="../assets/intro/1-56-bursty.png">
+<p>Ví dụ: với <strong>reservations</strong> (đặt chỗ), ba flow phải đặt lần lượt 12, 11 và 13 Mbps. Một yêu cầu sẽ bị từ chối vì tổng chỉ có 30 Mbps. Cách này lãng phí băng thông ở hai điểm:</p>
+<ol>
+<li>Flow đặt 12 Mbps không dùng hết phần lớn thời gian.</li>
+<li>Nếu flow 12 Mbps và 11 Mbps được chấp nhận, còn dư 7 Mbps không ai dùng.</li>
+</ol>
+<p>Ngược lại, với packet switching (gửi packet khi đến), tổng băng thông dùng tại mọi thời điểm không vượt quá 30 Mbps, và ta có thể hỗ trợ tất cả flow.</p>
+<p><strong>Burstiness</strong> được định nghĩa là tỉ lệ giữa <strong>peak rate</strong> (tốc độ đỉnh) và <strong>average rate</strong> (tốc độ trung bình). Không có ngưỡng rõ ràng để phân loại smooth hay bursty — đây là các thuật ngữ mô tả.</p>
+<ul>
+<li><strong>Voice call</strong>: thường có tỉ lệ mượt hơn, khoảng 3:1 → phù hợp với circuit switching (điện thoại cố định).</li>
+<li><strong>Web browsing</strong>: thường bursty hơn, khoảng 100:1.</li>
+</ul>
+<p>Một lý do khác packet switching hiệu quả hơn: circuit switching tốn thời gian <strong>setup</strong> và <strong>teardown</strong> kênh, đặc biệt lãng phí với flow rất ngắn (ví dụ: tải một file nhỏ).</p>
+<p><strong>3. Khả năng xử lý sự cố ở quy mô lớn</strong></p>
+<p><strong>Packet switching</strong> xử lý sự cố tốt hơn. Nếu một <strong>router</strong> hỏng, ta chỉ cần gửi packet theo đường khác (routing algorithm sẽ xử lý). <strong>End host</strong> không cần thay đổi gì.</p>
+<p>Ngược lại, với circuit switching, nếu router trên đường đi hỏng, mạng vẫn phải tìm đường mới, nhưng end host phải làm nhiều việc hơn: phát hiện sự cố, gửi lại yêu cầu đặt chỗ, giải phóng kênh cũ. Nếu yêu cầu mới bị từ chối thì sao?</p>
+<p>Cách này <strong>scale</strong> kém: nếu một router hỏng và hàng triệu flow đi qua nó, hàng triệu yêu cầu đặt chỗ phải được thiết lập lại cùng lúc.</p>
+<p><strong>4. Độ phức tạp khi triển khai ở quy mô lớn</strong></p>
+<p>Thiết kế circuit switching kéo theo nhiều câu hỏi phức tạp:</p>
+<ul>
+<li>Làm sao router biết đặt chỗ thành công? Khi router 2 đồng ý, làm sao biết router 3 và 4 cũng đồng ý? (Giải pháp: gửi <strong>confirmation</strong> ngược lại để xác nhận.)</li>
+<li>Nếu <strong>reservation request</strong> bị mất giữa đường? (Giải pháp: đặt <strong>timer</strong>, nếu không xác nhận kịp thì xóa đặt chỗ, end host thử lại.)</li>
+<li>Nếu yêu cầu được chấp nhận nhưng <strong>confirmation</strong> bị mất trên đường về?</li>
+<li>Nếu bị từ chối, end host nên thử lại với băng thông nhỏ hơn, hay chờ rồi thử lại? Router có nên gợi ý mức băng thông khả dụng?</li>
+</ul>
+<p>Vấn đề cốt lõi khiến circuit switching phức tạp là <strong>state consensus</strong> (đồng thuận trạng thái). Tất cả router phải lưu trạng thái bổ sung và đồng ý về trạng thái đó.</p>
+<p>Bạn có thể đã nghe về <strong>Paxos protocol</strong> — thuật toán đồng thuận phức tạp, thường chỉ chạy trên 4–5 server. Circuit switching yêu cầu chạy điều này ở quy mô Internet, với hàng triệu router và flow.</p>
+<p><strong>Tóm lại:</strong></p>
+<ul>
+<li><strong>Circuit switching</strong>: hiệu năng tốt hơn cho ứng dụng nhờ băng thông đặt trước, hành vi dễ dự đoán.</li>
+<li><strong>Packet switching</strong>: chia sẻ băng thông hiệu quả hơn, không tốn thời gian khởi tạo, phục hồi sự cố dễ hơn, triển khai đơn giản hơn.</li>
+</ul>
+<h2 id="circuit-switching-vs-packet-switching-trong-thực-tế"><a class="header" href="#circuit-switching-vs-packet-switching-trong-thực-tế"><strong>Circuit Switching vs. Packet Switching trong thực tế</strong></a></h2>
+<p>Trên Internet hiện đại, <strong>packet switching</strong> là mặc định.</p>
+<p><strong>Circuit switching</strong> chỉ dùng trong một số trường hợp hạn chế:</p>
+<ul>
+<li><strong>RSVP (Resource Reservation Protocol)</strong> trong mạng cục bộ nhỏ, cho phép router (không phải end host) đặt băng thông giữa nhau.</li>
+<li><strong>Dedicated circuits</strong> (ví dụ: MPLS circuits, leased lines): doanh nghiệp mua băng thông Internet (có thể kèm hạ tầng vật lý) dành riêng cho mình. Chi phí cao hơn nhiều so với kết nối Internet tiêu chuẩn.</li>
+</ul>
+<p>Các dedicated circuits này triển khai ở quy mô nhỏ hơn nhiều so với ý tưởng circuit switching toàn Internet. Thường được thiết lập thủ công, tồn tại lâu dài (nhiều năm), và ở cấp độ công ty, không phải từng flow.</p>
+<p><strong>Lịch sử ngắn gọn:</strong></p>
+<ul>
+<li>1970–1980: Internet được thiết kế dưới dạng packet switching, phục vụ nghiên cứu do chính phủ tài trợ.</li>
+<li>1990: Khi Internet thương mại hóa, nhiều người nghĩ cần chuyển sang circuit switching, dự đoán ứng dụng chính sẽ là thoại và truyền hình trực tiếp (nhu cầu băng thông mượt, phù hợp circuit switching). ISP cũng nghĩ circuit switching dễ xây dựng mô hình kinh doanh hơn.</li>
+</ul>
+<p>Nhiều nghiên cứu và tiêu chuẩn đã được đề xuất, nhưng thất bại vì các lý do đã nêu. Thêm vào đó, ứng dụng thúc đẩy Internet lại là email và web, không phải thoại và TV.</p>
+<p><strong>Hệ quả thú vị:</strong> Người dùng và lập trình viên đã thích nghi với packet switching. Ví dụ: khi xem video mà kết nối kém, ứng dụng sẽ tự giảm chất lượng video — điều mà truyền hình quảng bá không làm. Đây là minh chứng cho việc công nghệ có thể thay đổi hành vi người dùng.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../intro/architecture.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../intro/links.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../intro/architecture.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../intro/links.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

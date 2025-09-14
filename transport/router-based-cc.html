@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Router-Assisted Congestion Control - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html" class="active"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="kiểm-soát-tắc-nghẽn-hỗ-trợ-bởi-router"><a class="header" href="#kiểm-soát-tắc-nghẽn-hỗ-trợ-bởi-router">Kiểm soát tắc nghẽn hỗ trợ bởi Router</a></h1>
+<h2 id="kiểm-soát-tắc-nghẽn-với-router"><a class="header" href="#kiểm-soát-tắc-nghẽn-với-router">Kiểm soát tắc nghẽn với Router</a></h2>
+<p>Trước đây, chúng ta đã thấy một số vấn đề với các thuật toán kiểm soát tắc nghẽn dựa trên host. Nhiều vấn đề này có thể được khắc phục với sự hỗ trợ từ router (bộ định tuyến)!</p>
+<p>TCP (Transmission Control Protocol - Giao thức kiểm soát truyền) nhầm lẫn giữa tắc nghẽn và hỏng hóc. TCP làm đầy hàng đợi, có tốc độ không ổn định, và hoạt động kém với các dòng chảy ngắn, tất cả đều vì host cần liên tục điều chỉnh tốc độ để phát hiện tắc nghẽn. Nếu router có thể thông báo cho người gửi về tắc nghẽn, hoặc thậm chí trực tiếp chỉ cho người gửi tốc độ lý tưởng, thì nhiều vấn đề này có thể được giải quyết.</p>
+<p>Ngoài ra, nếu router thực thi chia sẻ công bằng, thì sẽ khó khăn hơn nhiều để host gian lận.</p>
+<p>Về mặt triết lý, đây là một lựa chọn thiết kế tự nhiên để router tham gia vào kiểm soát tắc nghẽn. Tắc nghẽn xảy ra tại router, vì vậy chúng thường có nhiều thông tin hơn về tắc nghẽn so với host.</p>
+<p>Kiểm soát tắc nghẽn hỗ trợ bởi router có thể rất hiệu quả và dẫn đến hiệu suất gần như tối ưu (sử dụng liên kết cao, độ trễ thấp), nhưng việc triển khai các giao thức này có thể gặp thách thức. Router giờ đây cần hỗ trợ chức năng bổ sung, và đôi khi chức năng đó có thể khá phức tạp. Một số giao thức thậm chí có thể yêu cầu mọi router đồng ý thêm chức năng đó.</p>
+<h2 id="thực-thi-fair-queuing"><a class="header" href="#thực-thi-fair-queuing">Thực thi Fair Queuing</a></h2>
+<p>Làm thế nào để một router đảm bảo rằng mọi kết nối nhận được phần chia sẻ công bằng của mình?</p>
+<p>Cho đến nay, một router đang nhận packet (gói tin), xếp hàng chúng nếu cần, và gửi chúng ra theo thứ tự first-in-first-out (FIFO - tiên nhập tiên xuất). Router không quan tâm packet đến từ kết nối nào.</p>
+<p>Trong mô hình mới của chúng ta, router sẽ cần phân loại packet vào các kết nối. (Hiện tại, giả sử các kết nối đều là kết nối TCP.) Điều này có nghĩa là router phải nhìn vào bên trong packet để biết địa chỉ IP nguồn và đích cũng như port (cổng).</p>
+<p>Để định nghĩa chính thức về tính công bằng, router có thể duy trì một hàng đợi riêng cho mỗi kết nối. Khi một packet đến, router thêm packet vào hàng đợi phù hợp. Sau đó, router chỉ cần chọn một hàng đợi mỗi lần, gửi packet từ đầu hàng đợi đó. Miễn là router chọn hàng đợi theo cách công bằng, thì router đang thực thi tính công bằng giữa các kết nối.</p>
+<p>Nếu tất cả packet có kích thước giống nhau, thì router có thể chọn hàng đợi theo kiểu round-robin (luân phiên - gửi từ hàng đợi đầu tiên, sau đó hàng đợi thứ hai, v.v.). Hóa ra cách này hoạt động, ngay cả khi không phải tất cả kết nối cần cùng bandwidth (băng thông). Một số kết nối có thể xếp hàng packet chậm hơn những kết nối khác. Nếu chúng ta áp dụng dịch vụ round-robin cho các kết nối có bandwidth khác nhau, làm thế nào để tính toán bandwidth được phân bổ cho mỗi kết nối? Ví dụ, giả sử chúng ta có thể gửi 10 packet mỗi giây, và A, B, và C gửi 8, 6, và 2 packet mỗi giây, tương ứng.</p>
+<img width="500px" src="../assets/transport/3-094-fair-queuing-1.png">
+<p>Nếu chúng ta gửi packet theo kiểu round-robin, thì sẽ có bao nhiêu packet mỗi giây của mỗi loại được gửi? Chúng ta có thể mô hình hóa điều này như một vấn đề phân bổ tài nguyên và giải quyết nó.</p>
+<img width="600px" src="../assets/transport/3-095-fair-queuing2.png">
+<p>Ví dụ, giả sử chúng ta có dung lượng liên kết là 10. Kết nối A yêu cầu 8, B yêu cầu 6, và C yêu cầu 2. Làm thế nào để phân bổ dung lượng giữa ba kết nối? Nếu chúng ta cố gắng công bằng, mọi người sẽ nhận 3.33. Nhưng C chỉ yêu cầu 2, vì vậy hãy cho C 2 mà nó yêu cầu, không thêm thừa.</p>
+<p>Bây giờ chúng ta còn dư 8, và A và B vẫn cần phân bổ. Nếu chúng ta công bằng, mỗi bên sẽ nhận 4. Điều này ít hơn những gì chúng yêu cầu, nhưng chúng ta không có cách nào để thỏa mãn yêu cầu của chúng, vì vậy chúng ta sẽ cho mỗi bên phần chia sẻ công bằng là 4.</p>
+<p>Chính thức, để định nghĩa max-min fairness (tính công bằng max-min), giả sử C là tổng bandwidth có sẵn cho router. Mỗi kết nối $$r_i$$ có nhu cầu bandwidth, và chúng ta phải phân bổ bandwidth $$a_i$$ cho mỗi kết nối. Các phân bổ bandwidth max-min là $$a_i = \min(f, r_i)$$, trong đó $$f$$ là giá trị duy nhất (giá trị giống nhau cho tất cả kết nối) sao cho $$\sum a_i = C$$. Trong phương trình này, thuật ngữ min đảm bảo rằng không ai nhận nhiều hơn những gì họ yêu cầu, và ràng buộc tổng đảm bảo rằng không có bandwidth nào bị lãng phí. Trực quan, $$f$$ là phần chia sẻ công bằng mà chúng ta phân bổ đều cho mọi người (do đó một giá trị $$f$$ cho tất cả kết nối).</p>
+<p>Một cách khác để đọc phương trình này là: Có một con số chia sẻ công bằng kỳ diệu mà chúng ta có thể phân bổ đều cho mọi người. Nếu bạn yêu cầu ít hơn phần chia sẻ công bằng, bạn nhận phần chia sẻ công bằng (không thêm thừa). Nếu bạn yêu cầu nhiều hơn phần chia sẻ công bằng, bạn bị giới hạn ở phần chia sẻ công bằng, nhưng không ai khác nhận nhiều hơn bạn.</p>
+<p>Trong ví dụ trước, $$f$$ là 4. A và B nhận $$f$$ (chúng muốn nhiều hơn), và C nhận 2 (nó muốn ít hơn).</p>
+<p>Nếu chúng ta áp dụng max-min fairness, phương trình đảm bảo rằng nếu bạn không nhận đầy đủ nhu cầu của mình, không ai khác nhận nhiều hơn bạn. Cách tiếp cận round-robin là max-min fair (giả sử kích thước packet bằng nhau).</p>
+<p>Điều gì nếu chúng ta không giả sử kích thước packet bằng nhau? Trong thực tế, kích thước packet có thể khác nhau lớn (ví dụ 40 byte so với 1500 byte). Lý tưởng, chúng ta muốn thực hiện bit-by-bit round robin (luân phiên từng bit), nơi chúng ta luân phiên gửi một bit từ hàng đợi của mỗi kết nối. Điều này không thực tế (chúng ta không gửi một bit mỗi lần), nhưng nếu chúng ta áp dụng lý thuyết này, chúng ta có thể ghi lại thời điểm bit cuối cùng của một packet được gửi ra, cho mọi packet. Chúng ta sẽ gọi đây là deadline (hạn chót) cho packet đó. Sau đó, một xấp xỉ công bằng sẽ là gửi packet theo thứ tự deadline (khi bit cuối cùng của chúng sẽ được gửi lý tưởng).</p>
+<p>Sự thật thú vị: Bài báo về mô phỏng fair queuing (xếp hàng công bằng) rất có ảnh hưởng, và hai trong số các tác giả là Scott Shenker (giảng viên UC Berkeley) và Srinivasan Keshav (sinh viên tiến sĩ EECS lúc đó).</p>
+<p>Dưới đây là ví dụ về fair queuing bit-by-bit chính xác trên hai kết nối (khi có hòa, chúng ta chọn packet đến trước).</p>
+<img width="900px" src="../assets/transport/3-096-fair-queuing3.png">
+<h2 id="fair-queuing-trong-thực-tế"><a class="header" href="#fair-queuing-trong-thực-tế">Fair Queuing trong Thực tế</a></h2>
+<p>Fair queuing có gì tốt? Nó đảm bảo sự cô lập giữa các kết nối, và ngăn chặn các kết nối gian lận nhận nhiều bandwidth hơn. Các kết nối sẽ không cần triển khai TCP (hoặc một lựa chọn thay thế thân thiện với TCP), và có thể chọn thuật toán kiểm soát tắc nghẽn riêng của mình (có thể không thân thiện).</p>
+<p>Về cơ bản, lợi ích của fair queuing là khả năng phục hồi trước các yếu tố bên ngoài như gian lận và biến đổi RTT (Round-Trip Time - thời gian khứ hồi). Dù sao đi nữa, mọi người đều nhận được phần chia sẻ công bằng của một liên kết nhất định. Nhưng, chúng ta vẫn cần các host đầu cuối phát hiện và thích ứng với phần chia sẻ công bằng của mình (ví dụ chậm lại nếu chúng yêu cầu quá nhiều).</p>
+<p>Fair queuing có gì xấu? Nó phức tạp hơn nhiều so với xếp hàng FIFO. Quá trình tính toán deadline khó khăn và chúng ta chưa trình bày thuật toán để làm điều đó ở đây. Ngoài ra, router sẽ cần duy trì nhiều hàng đợi, và thực hiện công việc phân tích bổ sung trên mọi packet.</p>
+<p>Trong thực tế, chúng ta không thể triển khai fair queuing hoàn hảo trong router (quá phức tạp để chạy ở tốc độ cao), nhưng các xấp xỉ tồn tại (ví dụ Deficit Round Robin). Các router hiện đại thường triển khai các xấp xỉ, mặc dù với ít hàng đợi hơn. Ít hàng đợi hơn nghĩa là thay vì một hàng đợi cho mỗi kết nối, sự cô lập thô hơn (ví dụ một hàng đợi cho mỗi khách hàng).</p>
+<p>Fair queuing không thể loại bỏ tắc nghẽn. Nó chỉ là một cách thay thế để quản lý tắc nghẽn. Ví dụ, hãy xem xét liên kết nút cổ chai này: Nó có thể phân bổ 0.5 Gbps cho mỗi kết nối, điều này đánh bại gian lận. Nhưng, nếu kết nối trên cùng chạy ở 0.5 Gbps, thì 0.4 Gbps sẽ bị drop tại liên kết tiếp theo ngay lập tức. Một phân bổ tốt hơn sẽ là gửi 0.1 Gbps dọc theo kết nối trên cùng, và 0.9 Gbps dọc theo kết nối dưới cùng.</p>
+<p>Về cơ bản, vấn đề là liên kết nút cổ chai này không biết điều gì sẽ xảy ra tại các liên kết tương lai (hạ lưu). Cách duy nhất để khắc phục là làm cho host người gửi chậm lại (xếp hàng router không thể giúp).</p>
+<p>Fair queuing mang lại tính công bằng cho mỗi kết nối, nhưng về mặt triết lý, chúng ta vẫn phải hỏi liệu đây có phải là mô hình công bằng đúng đắn không. Như chúng ta đã thấy trước đó, tính công bằng cho mỗi kết nối nghĩa là ai đó có nhiều kết nối hơn vẫn nhận nhiều bandwidth hơn. Chúng ta có nên thực thi tính công bằng cho mỗi cặp nguồn-đích, hoặc có lẽ cho mỗi nguồn? Chúng ta có nên phạt các kết nối sử dụng nhiều liên kết tắc nghẽn hơn (chiếm nhiều tài nguyên khan hiếm hơn)?</p>
+<h2 id="kiểm-soát-tắc-nghẽn-hỗ-trợ-bởi-router-1"><a class="header" href="#kiểm-soát-tắc-nghẽn-hỗ-trợ-bởi-router-1">Kiểm soát tắc nghẽn hỗ trợ bởi Router</a></h2>
+<p>Fair queuing thực thi tính công bằng trên một liên kết cụ thể, nhưng nó không thông báo gì cho người gửi. Điều gì nếu router truyền thông tin ngược lại cho người gửi để giúp người gửi điều chỉnh tốc độ của mình?</p>
+<p>Một giải pháp là để router trực tiếp chỉ cho người gửi tốc độ mà chúng nên sử dụng. Chúng ta có thể thêm một trường rate trong packet, và để router điền vào trường đó với phần chia sẻ công bằng của kết nối. Khi packet đến người gửi, người gửi có thể đọc header và đặt tốc độ theo những gì router nói. Bây giờ, người gửi không cần điều chỉnh động để phát hiện tốc độ tốt.</p>
+<p>Một giải pháp khác là để router thông báo cho người gửi về tắc nghẽn (mà không chỉ định tốc độ chính xác). Điều này được triển khai dưới dạng bit Explicit Congestion Notification (ECN - Thông báo tắc nghẽn rõ ràng) trong IP header (tiêu đề IP). Nếu một packet đi qua một router tắc nghẽn, router đặt bit đó thành 1. Khi người nhận nhận packet với bit ECN bật, ack (xác nhận) trả lời cũng sẽ có bit ECN được đặt, vì vậy người gửi biết về tắc nghẽn.</p>
+<p>Có nhiều lựa chọn cho việc khi nào router đặt bit này. Router có thể hoang tưởng và đặt bit thường xuyên, điều này giảm độ trễ nhưng có thể dẫn đến liên kết không được sử dụng đầy đủ. Hoặc, router có thể liều lĩnh hơn và hiếm khi đặt bit, điều này tăng độ trễ nhưng dẫn đến sử dụng liên kết cao.</p>
+<p>Cũng có nhiều lựa chọn cho cách host phản ứng khi bit này được đặt. Ví dụ, host có thể giả vờ packet bị drop và điều chỉnh tương ứng.</p>
+<p>ECN có gì tốt? Nó giải quyết vấn đề nhầm lẫn giữa hỏng hóc và tắc nghẽn. Nó cho phép router cảnh báo host về tắc nghẽn sớm hơn (ví dụ trước khi hàng đợi đầy), điều này có thể giảm độ trễ. Nó cũng nhẹ để triển khai.</p>
+<p>Trong thực tế, ECN hiệu quả yêu cầu hầu hết hoặc tất cả router hỗ trợ giao thức này và bật bit khi cần thiết. Trong Internet hiện đại, bit ECN được triển khai trên một số, nhưng không phải tất cả router. Tuy nhiên, bit ECN có thể hiệu quả trong một mạng nhỏ (ví dụ bên trong mạng cục bộ của datacenter) nơi tất cả router đồng ý kích hoạt bit.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../transport/cc-issues.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../applications/dns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../transport/cc-issues.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../applications/dns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

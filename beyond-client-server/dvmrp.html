@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>DVMRP - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html" class="active"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="dvmrp"><a class="header" href="#dvmrp">DVMRP</a></h1>
+<h2 id="thuật-toán-ngây-thơ-flooding-naive-algorithm-flooding"><a class="header" href="#thuật-toán-ngây-thơ-flooding-naive-algorithm-flooding"><strong>Thuật toán ngây thơ: Flooding</strong> (Naive Algorithm: Flooding)</a></h2>
+<p>Hãy nhớ lại mục tiêu của <strong>multicast routing</strong> (định tuyến multicast): Chúng ta có một gói tin mà đích đến là một nhóm, và các <strong>router</strong> cần phối hợp để chuyển tiếp gói tin này tới tất cả các thành viên của nhóm.</p>
+<p>Cách triển khai ngây thơ nhất là <strong>flooding</strong> (phát tràn). Khi một router nhận được gói tin, nó đơn giản chuyển tiếp gói tin đó ra tất cả các cổng (trừ cổng nhận vào).</p>
+<img width="500px" src="../assets/beyond-client-server/7-012-dvmrp-flooding.png">
+<p><strong>Tại sao flooding hoạt động?</strong> Nó đảm bảo mọi <strong>host</strong> trên mạng đều nhận được gói tin, bao gồm tất cả các thành viên của nhóm đích.</p>
+<p><strong>Điểm tốt của flooding:</strong> Khái niệm đơn giản, không cần chạy bất kỳ giao thức định tuyến nào.</p>
+<p><strong>Vấn đề của flooding:</strong> Có hai vấn đề chính, chúng ta sẽ giải quyết từng vấn đề một:</p>
+<ol>
+<li>Flooding lãng phí băng thông khi gửi cùng một dữ liệu qua nhiều đường, trong khi dữ liệu đó chỉ cần được gửi qua một đường duy nhất.</li>
+<li>Flooding lãng phí băng thông khi gửi gói tin tới các nút không phải thành viên.</li>
+</ol>
+<p>Ngoài ra, các vòng lặp có thể gây ra <strong>broadcast storm</strong> (bão quảng bá) khi cùng một gói tin được chuyển tiếp vô hạn trong vòng lặp, mặc dù điều này có thể được giải quyết bằng cách để router loại bỏ gói tin nếu đã thấy trước đó.</p>
+<h2 id="reverse-path-broadcasting-rpb"><a class="header" href="#reverse-path-broadcasting-rpb"><strong>Reverse Path Broadcasting (RPB)</strong></a></h2>
+<p>Bây giờ, hãy tập trung vào vấn đề đầu tiên. (Lưu ý: Điều này có nghĩa là hiện tại chúng ta vẫn sẽ gửi gói multicast tới tất cả mọi người, bao gồm cả các nút không phải thành viên. Chúng ta sẽ giải quyết vấn đề này sau.)</p>
+<p>Flooding gửi gói tin tới tất cả mọi người, nhưng lãng phí băng thông khi gửi dữ liệu qua các liên kết dư thừa. Ví dụ: nếu có nhiều đường giữa R1 và R4, flooding sẽ khiến các bản sao gói tin đi qua mọi đường từ R1 tới R4. Sau đó, R4 sẽ loại bỏ tất cả các bản sao trùng lặp.</p>
+<img width="500px" src="../assets/beyond-client-server/7-013-redundant-paths.png">
+<p>Lý tưởng nhất, chúng ta muốn gói tin chỉ đi qua <strong>một</strong> đường duy nhất từ R1 tới R4, và tương tự giữa mọi cặp router khác.</p>
+<p>Điều này gợi nhớ đến cấu trúc dữ liệu nào? <strong>Tree</strong> (cây) chỉ có một đường duy nhất giữa mọi cặp nút!</p>
+<img width="500px" src="../assets/beyond-client-server/7-014-single-path.png">
+<p>Cụ thể, chúng ta muốn xây dựng một <strong>spanning tree</strong> (cây bao trùm), để mọi người chỉ nhận gói tin qua một đường duy nhất.</p>
+<p>Chúng ta có thể xây dựng spanning tree từ đầu, nhưng có thể tận dụng công việc đã làm trước đó. Chúng ta đã thấy spanning tree ở đâu?</p>
+<p>Khi chạy <strong>distance-vector routing</strong> cho gói unicast, chúng ta đã xây dựng một spanning tree hướng về đích. Điều này cho phép tất cả gói tin chảy “lên” trong đồ thị mạng, hướng tới một đích duy nhất (gốc của cây).</p>
+<img width="500px" src="../assets/beyond-client-server/7-015-unicast-trees.png">
+<p>Nếu đảo ngược tất cả các mũi tên trong đồ thị này, chúng ta sẽ có một spanning tree phù hợp cho gói multicast. Gốc của cây bây giờ là <strong>sender</strong> (nguồn gửi), và các bản sao gói tin chảy “xuống” trong đồ thị mạng, rời khỏi nguồn và đi qua mạng để đến mọi đích.</p>
+<img width="500px" src="../assets/beyond-client-server/7-016-multicast-trees.png">
+<p>Để tránh nhầm lẫn khi nghĩ về mũi tên đảo ngược, chúng ta sẽ dùng thuật ngữ quen thuộc hơn: Trong cây router, mỗi router có đúng một <strong>parent</strong> (nút cha) và 0 hoặc nhiều <strong>child</strong> (nút con). Router ở “đỉnh” cây là <strong>root</strong> (gốc), và các router ở “đáy” cây không có con được gọi là <strong>leaf</strong> (lá).</p>
+<ul>
+<li>Trong unicast routing, root là <strong>destination</strong> (đích). Mọi nút nhận gói tin từ con của mình và chuyển tiếp “lên” cho cha, hướng về đích.</li>
+<li>Trong multicast routing, root là <strong>source</strong> (nguồn). Mọi nút nhận gói tin từ cha và chuyển tiếp “xuống” cho các con, hướng tới tất cả các đích.</li>
+</ul>
+<p><strong>Quy tắc chuyển tiếp multicast:</strong> Nếu nhận gói tin từ cha, gửi nó tới tất cả các con. Nếu nhận gói tin từ ai khác (không phải cha), loại bỏ gói tin.</p>
+<p>Quy tắc này giúp tránh việc gói tin đi qua nhiều đường. Dù có nhiều đường tới bạn, bạn chỉ nhận gói tin từ cha một lần và chuyển tiếp cho các con. Nếu nhận bản sao từ nút khác (không phải cha), bạn sẽ loại bỏ nó.</p>
+<h2 id="rpm-xác-định-cha-và-con-rpm-learning-your-parent-and-children"><a class="header" href="#rpm-xác-định-cha-và-con-rpm-learning-your-parent-and-children"><strong>RPM: Xác định cha và con</strong> (RPM: Learning Your Parent and Children)</a></h2>
+<p>Làm thế nào để triển khai quy tắc này? Mỗi router cần biết cha của mình và tất cả các con.</p>
+<p><strong>Xác định cha:</strong> Dễ dàng. Cây này giống hệt cây từ distance-vector cho unicast. Trong <strong>unicast forwarding table</strong> (bảng chuyển tiếp unicast), <strong>next-hop</strong> tới root chính là cha của bạn. Bạn có thể tái sử dụng thông tin này.</p>
+<img width="900px" src="../assets/beyond-client-server/7-017-learning-parents.png">
+<p><strong>Xác định con:</strong> Khó hơn một chút. Bảng chuyển tiếp chỉ cho biết cha (next-hop về phía root), nhưng không cho biết con (previous-hop, rời khỏi root).</p>
+<p>Vì bạn không biết con của mình, nên các con phải tự thông báo cho bạn. Cụ thể, mọi nút gửi <strong>multicast routing advertisement</strong> (thông báo định tuyến multicast) tới cha của mình: “Tôi là con của bạn (trong cây gốc A).” (Mọi nút biết cha của mình từ bảng chuyển tiếp unicast.)</p>
+<img width="600px" src="../assets/beyond-client-server/7-018-learning-children.png">
+<p>Sau đó, mỗi router nhận các thông báo này và lưu thông tin về các con của mình. Đây là thông tin mới, được thêm riêng cho multicast routing. <strong>Multicast forwarding table</strong> (bảng chuyển tiếp multicast) này tách biệt với bảng chuyển tiếp unicast.</p>
+<img width="900px" src="../assets/beyond-client-server/7-019-learning-children-tables.png">
+<p><strong>Tóm tắt:</strong> Khi nhận gói tin, dùng bảng chuyển tiếp unicast (liệt kê cha) để kiểm tra xem gói tin có đến từ cha không. Nếu có, dùng bảng chuyển tiếp multicast (chứa danh sách con) để gửi cho các con.</p>
+<img width="700px" src="../assets/beyond-client-server/7-020-rpb-recap.png">
+<p><strong>Vai trò của từng bảng:</strong></p>
+<ul>
+<li><strong>Unicast forwarding table:</strong> Liệt kê cha, dùng để unicast gói tin, kiểm tra gói multicast có từ cha không, và gửi multicast routing advertisement cho cha.</li>
+<li><strong>Multicast forwarding table:</strong> Liệt kê con, được xây dựng từ các advertisement nhận từ con, dùng để gửi gói multicast cho tất cả các con.</li>
+</ul>
+<p><strong>Lưu ý quan trọng:</strong> Trong distance-vector unicast routing, chúng ta xây dựng một spanning tree cho mỗi đích, nên bảng chuyển tiếp unicast có một next-hop cho mỗi đích (một cha cho mỗi cây). Khi đảo mũi tên, chúng ta có một spanning tree cho mỗi nguồn. Bảng chuyển tiếp multicast có danh sách con cho mỗi nguồn. Ví dụ: “Nếu nhận gói tin từ nguồn A, gửi cho các con R6, R7.”</p>
+<img width="900px" src="../assets/beyond-client-server/7-021-multiple-rpb-trees-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-022-multiple-rpb-trees-2.png">
+<h2 id="reverse-path-multicasting-rpm-pruning-cắt-tỉa-trong-định-tuyến-multicast-theo-đường-ngược"><a class="header" href="#reverse-path-multicasting-rpm-pruning-cắt-tỉa-trong-định-tuyến-multicast-theo-đường-ngược"><strong>Reverse Path Multicasting (RPM): Pruning</strong> (Cắt tỉa trong định tuyến multicast theo đường ngược)</a></h2>
+<p>Quy tắc <strong>Reverse Path Broadcasting</strong> (RPB) của chúng ta đảm bảo rằng các gói tin di chuyển dọc theo một <strong>spanning tree</strong> (cây bao trùm), bắt đầu từ <strong>source</strong> (nguồn – gốc cây) và đi “xuống” qua mạng tới tất cả các đích. Việc sử dụng cây đã giải quyết vấn đề đầu tiên (gói tin đi theo nhiều đường và lãng phí băng thông).</p>
+<p>Tuy nhiên, chúng ta vẫn còn vấn đề thứ hai cần giải quyết. Cho đến nay, các gói tin của chúng ta vẫn đang được <strong>broadcast</strong> (phát quảng bá) tới tất cả mọi người, bao gồm cả các host không thuộc nhóm. Điều này gây lãng phí băng thông.</p>
+<p>Để giải quyết, chúng ta sẽ <strong>prune</strong> (cắt tỉa) cây bằng cách loại bỏ các nhánh không có thành viên nhóm.</p>
+<img width="900px" src="../assets/beyond-client-server/7-023-pruning-end-goal-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-024-pruning-end-goal-2.png">
+<p>Quá trình cắt tỉa được lan truyền từ các <strong>child</strong> (nút con) lên <strong>parent</strong> (nút cha). Giả sử bạn là R5, và được kết nối trực tiếp với 3 host. Sử dụng <strong>IGMP</strong> (trao đổi thông tin với các host này), bạn biết rằng không host nào thuộc nhóm. Điều này có nghĩa là không có lý do gì để bạn tiếp tục là một phần của cây này.</p>
+<img width="900px" src="../assets/beyond-client-server/7-025-pruning-igmp.png">
+<p>Bạn có thể gửi một <strong>advertisement</strong> (thông báo) tới cha của mình: “Tôi là con của bạn, nhưng không có hậu duệ nào của tôi tham gia nhóm này, vì vậy đừng gửi gói dữ liệu cho tôi.” Cha của bạn sau đó có thể cập nhật <strong>multicast forwarding table</strong> (bảng chuyển tiếp multicast) để loại bạn khỏi danh sách con. Lưu ý rằng thông điệp pruning chỉ được gửi tới cha trực tiếp của bạn (không được chuyển tiếp xa hơn).</p>
+<img width="900px" src="../assets/beyond-client-server/7-026-pruning-message-1.png">
+<img width="900px" src="../assets/beyond-client-server/7-027-pruning-message-2.png">
+<p>Việc cắt tỉa cũng có thể xảy ra ở các mức cao hơn của cây. Xét R3, một router có 2 con. Giả sử cả hai con đều gửi thông báo pruning, nói rằng chúng không tham gia nhóm này. Nếu không con nào của bạn tham gia nhóm, thì bạn cũng không cần tham gia. Do đó, bạn có thể loại mình khỏi cây bằng cách gửi thông báo pruning tới cha, để cha ngừng gửi dữ liệu cho bạn.</p>
+<img width="900px" src="../assets/beyond-client-server/7-028-pruning-message-3.png">
+<p><strong>Lưu ý:</strong> Các router ở mức cao hơn có thể vừa có con là router, vừa có host kết nối trực tiếp. Trong trường hợp này, router chỉ có thể loại mình khỏi cây nếu <strong>tất cả</strong> các con gửi thông báo pruning <strong>và</strong> tất cả các host kết nối trực tiếp không thuộc nhóm.</p>
+<img width="700px" src="../assets/beyond-client-server/7-029-pruning-children-and-igmp.png">
+<p>Việc cắt tỉa làm cho bảng chuyển tiếp multicast phức tạp hơn một chút. Trước đây, mỗi mục ánh xạ một nguồn tới danh sách các con: “Nếu nhận gói tin từ nguồn A, chuyển tiếp tới các con R11, R12.” Tuy nhiên, danh sách con giờ đây còn phụ thuộc vào <strong>destination group</strong> (nhóm đích). Ví dụ: có thể R11 và R2 đều có hậu duệ thuộc nhóm G1, nhưng chỉ R11 có hậu duệ thuộc nhóm G2 (tức là R12 đã gửi thông báo prune cho bạn).</p>
+<p>Để xử lý, bảng chuyển tiếp multicast phải có một mục cho mỗi <strong>(source, group)</strong>. Ví dụ: “Nếu nhận gói tin từ nguồn A tới nhóm G1, chuyển tiếp tới các con R11, R12.”</p>
+<img width="900px" src="../assets/beyond-client-server/7-030-pruning-multiple-tables-1.png">
+<p>Một mục khác: “Nếu nhận gói tin từ nguồn A tới nhóm G2, chuyển tiếp tới con R11.”</p>
+<img width="900px" src="../assets/beyond-client-server/7-031-pruning-multiple-tables-2.png">
+<p>Một cách khác để hình dung: Trước đây, chúng ta có một cây cho mỗi nguồn, cho thấy nguồn đó gửi gói multicast tới tất cả mọi người. Giờ đây, chúng ta cắt bỏ các nhánh tùy theo nhóm đích. Do đó, chúng ta cần một cây cho mỗi <strong>(source, destination group)</strong>.</p>
+<p><strong>Lưu ý cuối:</strong> Có thể hiện tại không con nào của bạn thuộc nhóm, nhưng sau đó một hậu duệ của bạn tham gia nhóm. Để xử lý, mỗi router sẽ định kỳ xóa toàn bộ thông tin pruning, để không ai bị cắt tỉa nữa. Điều này khiến mọi thứ quay lại hành vi RPB ban đầu, nơi bạn luôn chuyển tiếp cho tất cả các con.</p>
+<p>Bằng cách này, nếu một hậu duệ của bạn tham gia nhóm, thì sau khi bộ đếm thời gian hết hạn, bạn sẽ không còn bị cắt tỉa và sẽ tham gia lại cây. Ngược lại, nếu vẫn không có hậu duệ nào thuộc nhóm, bạn chỉ cần gửi lại thông báo pruning cho cha để được loại khỏi cây.</p>
+<h2 id="tóm-tắt-các-quy-tắc-dvmrp-summary-of-dvmrp-rules"><a class="header" href="#tóm-tắt-các-quy-tắc-dvmrp-summary-of-dvmrp-rules"><strong>Tóm tắt các quy tắc DVMRP</strong> (Summary of DVMRP Rules)</a></h2>
+<p><strong>Quy tắc định tuyến (Routing Rules):</strong></p>
+<p>Với mỗi spanning tree của một nguồn, bạn cần biết cha và các con của mình.</p>
+<ol>
+<li><strong>Xác định cha:</strong> Không cần hành động gì. Bảng chuyển tiếp unicast của bạn đã xác định cha.</li>
+<li><strong>Xác định con:</strong> Mọi nút gửi advertisement tới cha. Khi nhận được advertisement, bạn biết ai là con của mình.</li>
+</ol>
+<p><strong>Quy tắc chuyển tiếp (Forwarding Rules):</strong></p>
+<ol>
+<li>Khi nhận gói tin, dùng bảng chuyển tiếp unicast cho nguồn đó để kiểm tra xem gói tin có đến từ cha không.</li>
+<li>Nếu gói tin đến từ cha, dùng bảng chuyển tiếp multicast để gửi cho các con. Chỉ gửi cho các con <strong>không bị cắt tỉa</strong> đối với nhóm đích.</li>
+<li>Nếu gói tin không đến từ cha, loại bỏ gói tin.</li>
+</ol>
+<p><strong>Quy tắc cắt tỉa (Pruning Rules):</strong></p>
+<p>Với mỗi cặp <strong>(destination group, source)</strong>:</p>
+<ol>
+<li>Nếu nhận thông báo pruning từ một con, loại con đó khỏi mục bảng chuyển tiếp multicast cho nhóm đích này.</li>
+<li>Nếu không hậu duệ nào (host kết nối trực tiếp hoặc con) thuộc nhóm, gửi thông báo pruning cho cha.</li>
+<li>Định kỳ xóa toàn bộ thông tin pruning (quay lại chuyển tiếp cho tất cả các con).</li>
+</ol>
+<h2 id="Ưu-và-nhược-điểm-của-dvmrp-dvmrp-pros-and-cons"><a class="header" href="#Ưu-và-nhược-điểm-của-dvmrp-dvmrp-pros-and-cons"><strong>Ưu và nhược điểm của DVMRP</strong> (DVMRP Pros and Cons)</a></h2>
+<p><strong>Nhược điểm:</strong></p>
+<ul>
+<li>Thông tin pruning được xóa định kỳ. Khi điều này xảy ra, gói tin lại được broadcast tới tất cả mọi người cho đến khi quá trình pruning hội tụ lại (nhớ rằng không có pruning thì gói tin được gửi tới tất cả).</li>
+<li>Bảng chuyển tiếp mở rộng kém: cần một mục cho mỗi <strong>(source, destination group)</strong>.</li>
+</ul>
+<p><strong>Ưu điểm:</strong></p>
+<ul>
+<li><strong>DVMRP</strong> là một phần mở rộng đơn giản, tinh gọn của giao thức định tuyến hiện có (<strong>distance-vector</strong>). Chúng ta có thể tái sử dụng bảng chuyển tiếp unicast để triển khai DVMRP. Ví dụ: không cần suy nghĩ nhiều về cách xác định cha vì đã có sẵn.</li>
+<li>Vì tái sử dụng cây phân phối từ giao thức distance-vector, các cây này cũng là <strong>least-cost tree</strong> (cây chi phí thấp nhất). Nói cách khác, chúng cung cấp đường tốt nhất từ nguồn tới tất cả thành viên nhóm. Đây là lý do tại sao ta nói IP multicast là tối ưu: DVMRP đạt hiệu năng tốt nhất xét theo chi phí trong topology mạng.</li>
+</ul>
+<p><strong>Hạn chế:</strong> Việc gắn kết multicast và unicast routing khiến việc chuyển đổi giao thức khó hơn. Ví dụ: nếu chuyển giao thức unicast từ distance-vector sang <strong>link-state</strong>, chúng ta cũng phải thiết kế lại giao thức multicast.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../beyond-client-server/ip-multicast-service-model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../beyond-client-server/cbt.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../beyond-client-server/ip-multicast-service-model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../beyond-client-server/cbt.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Host Networking - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html" class="active"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="host-networking-mạng-tại-máy-chủ"><a class="header" href="#host-networking-mạng-tại-máy-chủ"><strong>Host Networking</strong> (Mạng tại máy chủ)</a></h1>
+<h2 id="host-networking-là-gì-what-is-host-networking"><a class="header" href="#host-networking-là-gì-what-is-host-networking"><strong>Host Networking là gì?</strong> (What is Host Networking?)</a></h2>
+<p>Truyền thống trước đây, <strong>bottleneck</strong> (nút thắt cổ chai) của mạng nằm bên trong <strong>network infrastructure</strong> (hạ tầng mạng), chứ không phải ở <strong>end host</strong> (máy chủ đầu cuối). Tuy nhiên, trong các <strong>datacenter</strong> (trung tâm dữ liệu) hiệu năng cao hiện đại, khi nhu cầu hiệu năng mạng tiếp tục tăng, các end host đang gặp khó khăn để đáp ứng.</p>
+<p>Cụ thể, <strong>CPU</strong> chạy các <strong>network protocol</strong> (giao thức mạng) như <strong>TCP</strong> không còn đủ khả năng cung cấp hiệu năng cao mà datacenter cần. CPU đắt đỏ, và để đạt hiệu năng cao, CPU phải dành toàn bộ thời gian chạy các giao thức mạng, khiến ít tài nguyên hơn được phân bổ cho việc chạy ứng dụng thực tế.</p>
+<p>Ngoài ra, các giao thức mà chúng ta đang sử dụng, như <strong>IP</strong> và <strong>TCP</strong>, không còn đáp ứng được yêu cầu hiệu năng cao hiện đại.</p>
+<p>Để giải quyết hai vấn đề này, chúng ta chuyển sang <strong>host networking</strong> – bao gồm các tối ưu hóa tại end host (trái ngược với tối ưu hóa bên trong mạng).</p>
+<img width="700px" src="../assets/datacenter/6-079-host-networking-taxonomy.png">
+<h2 id="tối-ưu-hóa-shared-memory-trong-user-space-optimization-shared-memory-in-user-space"><a class="header" href="#tối-ưu-hóa-shared-memory-trong-user-space-optimization-shared-memory-in-user-space"><strong>Tối ưu hóa: Shared Memory trong User Space</strong> (Optimization: Shared Memory in User Space)</a></h2>
+<p>Nhớ rằng tại end host:</p>
+<ul>
+<li><strong>Layer 1</strong> và <strong>Layer 2</strong> được triển khai bằng phần cứng tại <strong>Network Interface Card (NIC)</strong>.</li>
+<li><strong>Layer 3</strong> và <strong>Layer 4</strong> được triển khai bằng phần mềm trong <strong>Operating System (OS)</strong> (trên CPU).</li>
+<li><strong>Layer 7</strong> là chính ứng dụng.</li>
+</ul>
+<img width="800px" src="../assets/datacenter/6-080-layers.png">
+<p>Từ các môn học nền tảng (ví dụ: CS 61C tại UC Berkeley), chúng ta biết rằng máy tính hiện đại được thiết kế với <strong>virtual memory</strong> (bộ nhớ ảo), để mỗi ứng dụng có <strong>address space</strong> (không gian địa chỉ) riêng, tách biệt với ứng dụng khác. Cụ thể, mỗi ứng dụng Layer 7 có không gian địa chỉ riêng trong <strong>user space</strong>. Ngược lại, hệ điều hành chạy trong <strong>kernel space</strong> – vùng bộ nhớ đặc biệt mà ứng dụng trong user space không thể truy cập.</p>
+<p>Mô hình quản lý bộ nhớ này có nghĩa là khi truyền packet xuống stack để gửi dữ liệu, chúng ta liên tục <strong>copy</strong> dữ liệu từ user space sang kernel space. Khi nhận dữ liệu, packet được truyền lên stack từ kernel space sang user space, cũng cần copy. Việc copy bit qua lại giữa kernel space và user space vừa tốn kém vừa không cần thiết.</p>
+<p>Một vấn đề khác là lập trình trong kernel space rất khó. Nếu muốn chỉnh sửa TCP để tối ưu cho mục đích riêng, chúng ta phải can thiệp sâu vào hệ điều hành và lập trình ở mức rất thấp. Việc triển khai và kiểm thử trong kernel space khó khăn và chậm hơn so với user space.</p>
+<img width="800px" src="../assets/datacenter/6-081-kernel1.png">
+<p>Để giải quyết hai vấn đề này, chúng ta có thể di chuyển <strong>networking stack</strong> (ví dụ: các giao thức Layer 3 và Layer 4) ra khỏi kernel space và đưa vào user space. Khi đó, Layer 3, 4 và 7 có thể truy cập cùng một không gian địa chỉ, không cần copy qua lại. Ngoài ra, việc phát triển và đổi mới trong user space cũng dễ dàng hơn.</p>
+<img width="500px" src="../assets/datacenter/6-082-kernel2.png">
+<p>Việc sử dụng <strong>shared memory</strong> trong user space giúp loại bỏ một số công việc thừa như copy dữ liệu qua lại, nhưng vẫn chưa đủ để giúp host đáp ứng yêu cầu hiệu năng hiện đại.</p>
+<h2 id="tối-ưu-hóa-offloading-sang-nic-optimization-offloading-to-nic"><a class="header" href="#tối-ưu-hóa-offloading-sang-nic-optimization-offloading-to-nic"><strong>Tối ưu hóa: Offloading sang NIC</strong> (Optimization: Offloading to NIC)</a></h2>
+<p>CPU không đủ nhanh để chạy các giao thức mạng (ví dụ: IP, TCP) ở tốc độ hiệu năng hiện đại. Ngoài ra, dùng CPU để chạy giao thức mạng sẽ làm giảm tài nguyên CPU dành cho ứng dụng.</p>
+<p>Để giải quyết, chúng ta có thể <strong>offload</strong> (chuyển tải) networking stack ra khỏi CPU (phần mềm) và đưa vào NIC (phần cứng).</p>
+<p>NIC là nơi tự nhiên để thực hiện offload. Mọi packet đều phải đi qua NIC, nên NIC có thể xử lý thêm và giảm tải cho CPU.</p>
+<img width="900px" src="../assets/datacenter/6-084-epoch0-1.png">
+<p><strong>Network driver</strong> là phần mềm trong OS dùng để lập trình và quản lý NIC. Driver cung cấp <strong>API</strong> cho phép các chương trình cấp cao hơn trong OS tương tác với NIC. Có thể coi driver là cầu nối giữa phần cứng và phần mềm.</p>
+<p><strong>Lợi ích của offloading</strong>:</p>
+<ul>
+<li>Giải phóng tài nguyên CPU cho ứng dụng.</li>
+<li>Xử lý chuyên biệt bằng phần cứng có thể hiệu quả hơn CPU đa dụng (về tốc độ và tiêu thụ điện).</li>
+<li>Thực thi trong phần cứng không chỉ giảm latency mà còn giúp latency ổn định và dự đoán được.</li>
+</ul>
+<p>Khi chạy ứng dụng trong phần mềm, CPU phải <strong>schedule</strong> (lập lịch) nhiều tiến trình, có thể gây trễ không đoán trước. Ví dụ: nếu có packet cần xử lý, CPU có thể phải hoàn thành tác vụ hiện tại trước khi xử lý packet đó.</p>
+<h2 id="lược-sử-offloading-epoch-0-brief-history-of-offloading-epoch-0"><a class="header" href="#lược-sử-offloading-epoch-0-brief-history-of-offloading-epoch-0"><strong>Lược sử Offloading: Epoch 0</strong> (Brief History of Offloading: Epoch 0)</a></h2>
+<p>Việc offload tác vụ từ OS (phần mềm) sang NIC (phần cứng) là một lĩnh vực nghiên cứu đang diễn ra. Có ba <strong>epoch</strong> (giai đoạn) phát triển, trong đó các tác vụ ngày càng phức tạp được offload sang NIC.</p>
+<p><strong>Epoch 0</strong>: Trước khi có offloading, hãy xem NIC làm gì trong networking stack tiêu chuẩn.</p>
+<p>NIC có một <strong>central controller processor</strong> (bộ xử lý điều khiển trung tâm) quản lý hoạt động trên card.</p>
+<ul>
+<li>
+<p><strong>Packet đến</strong>: <strong>Transceiver</strong> chuyển tín hiệu điện thành tín hiệu số (1 và 0) và đưa vào <strong>buffer</strong>. NIC đọc bit từ buffer, phân tích thành <strong>Ethernet frame</strong>, xử lý frame (ví dụ: kiểm tra <strong>checksum</strong>), và loại bỏ <strong>Layer 2 header</strong>. Cuối cùng, NIC tạo <strong>interrupt</strong> để báo CPU dừng việc đang làm và lấy packet Layer 3 để xử lý tiếp.</p>
+</li>
+<li>
+<p><strong>Packet đi</strong>: Packet từ network driver được đặt vào buffer. NIC đọc bit từ buffer, xử lý để tạo Ethernet frame, sau đó đưa frame tới transceiver để chuyển bit số thành tín hiệu điện.</p>
+</li>
+</ul>
+<img width="900px" src="../assets/datacenter/6-085-epoch0-2.png">
+<p>Trong networking stack tiêu chuẩn, có thể coi NIC như một “tấm thảm chùi chân” – chỉ chuyển packet đến OS và gửi packet ra ngoài cho OS, nhưng xử lý rất tối thiểu trên các packet đó.</p>
+<h2 id="lược-sử-offloading-epoch-1-brief-history-of-offloading-epoch-1"><a class="header" href="#lược-sử-offloading-epoch-1-brief-history-of-offloading-epoch-1"><strong>Lược sử Offloading: Epoch 1</strong> (Brief History of Offloading: Epoch 1)</a></h2>
+<img width="700px" src="../assets/datacenter/6-086-epoch-taxonomy.png">
+<p>Những tác vụ đầu tiên mà chúng ta thử <strong>offload</strong> (chuyển tải) sang <strong>NIC</strong> (Network Interface Card – card giao tiếp mạng) là các tác vụ <strong>stateless</strong> (không trạng thái) đơn giản. Các tác vụ này có thể được thực hiện độc lập trên từng <strong>packet</strong> (gói tin), và NIC không cần ghi nhớ trạng thái giữa nhiều packet.</p>
+<p>Một tác vụ stateless có thể offload là <strong>checksum computation</strong> (tính toán tổng kiểm tra), không chỉ ở <strong>Layer 2</strong> mà còn ở <strong>Layer 3</strong> và <strong>Layer 4</strong>. NIC có thể xác thực checksum (cho packet đến) và tính checksum (cho packet đi), để CPU không phải làm việc này.</p>
+<p>Một tác vụ stateless khác có thể offload là <strong>segmentation</strong> (phân mảnh). Trong mô hình tiêu chuẩn, nếu ứng dụng có một tệp lớn để gửi, <strong>OS</strong> (Operating System – hệ điều hành) chịu trách nhiệm chia tệp thành các packet nhỏ. Ở phía nhận, OS chịu trách nhiệm ghép lại các packet này. Như một tối ưu hóa, chúng ta có thể để NIC xử lý việc chia nhỏ và ghép lại packet. Khi đó, OS không còn phải xử lý số lượng lớn packet nhỏ, mà chỉ xử lý một số packet lớn hơn, hiệu quả hơn (ví dụ: ít header hơn để xử lý).</p>
+<img width="900px" src="../assets/datacenter/6-087-reassemble.png">
+<p>Với segmentation, có sự đánh đổi giữa kết nối mượt mà và hiệu quả CPU:</p>
+<ul>
+<li>Nếu ứng dụng gửi packet lớn cho NIC → CPU ít việc hơn, nhưng NIC nhận các đợt dữ liệu lớn, kết nối trở nên <strong>bursty</strong> (bùng nổ).</li>
+<li>Nếu ứng dụng gửi packet nhỏ cho NIC → CPU nhiều việc hơn, nhưng NIC nhận luồng dữ liệu đều hơn, kết nối mượt hơn.</li>
+</ul>
+<p>Một số thách thức khi <strong>aggregate</strong> (gộp) packet nhỏ:</p>
+<ul>
+<li>Nếu một packet trung gian bị mất → NIC có thể phải chuyển lên nhiều packet nhỏ và không thể gộp thành packet lớn.</li>
+<li>Nếu một số packet có <strong>flag</strong> (cờ) được bật (ví dụ: <strong>ECN</strong> cho tắc nghẽn) và số khác không → packet gộp cuối cùng có nên bật cờ hay không?</li>
+</ul>
+<p>Tác vụ stateless thứ ba là <strong>multi-queue support</strong> (hỗ trợ đa hàng đợi). Trong mô hình tiêu chuẩn, NIC có một hàng đợi cho packet đi và một hàng đợi cho packet đến, tất cả ứng dụng dùng chung. <strong>Network driver</strong> (trình điều khiển mạng – phần mềm) chịu trách nhiệm <strong>load balancing</strong> (cân bằng tải) nếu nhiều ứng dụng hoặc nhiều CPU gửi/nhận dữ liệu.</p>
+<p>Chúng ta có thể offload công việc cân bằng tải này sang NIC. NIC sẽ có nhiều <strong>transmit queue</strong> (hàng đợi gửi) và nhiều <strong>receive queue</strong> (hàng đợi nhận). Ví dụ: trong hệ thống đa xử lý, mỗi CPU có hàng đợi gửi/nhận riêng. NIC duy trì các hàng đợi song song, đảm bảo cách ly và cân bằng tải giữa các CPU. NIC cũng có thể ưu tiên một số hàng đợi hơn hàng đợi khác.</p>
+<p>Dù NIC có nhiều hàng đợi, cuối cùng vẫn phải gửi tất cả packet qua một dây. Do đó, NIC cần một <strong>packet scheduler</strong> (bộ lập lịch gói tin) để quyết định gửi từ hàng đợi nào tiếp theo. Bộ lập lịch có thể lập trình để đạt hành vi cân bằng tải mong muốn (ví dụ: ưu tiên một hàng đợi hơn hàng khác).</p>
+<img width="400px" src="../assets/datacenter/6-088-multiqueue.png">
+<p>Một thách thức với multi-queue là ánh xạ packet vào hàng đợi. Khi CPU có dữ liệu để gửi, nó dùng hàng đợi nào? Đặc biệt, cần đảm bảo tất cả packet trong cùng một <strong>flow</strong> (luồng) vào cùng một hàng đợi (không bị phân tán), để đảm bảo packet trong flow được gửi <strong>in-order</strong> (đúng thứ tự). Nhớ rằng trong TCP, gửi packet sai thứ tự vẫn hoạt động nhưng giảm hiệu năng (bên nhận phải buffer packet sai thứ tự).</p>
+<p>Khi xử lý packet đến từ nhiều receive queue, NIC có thể <strong>hash</strong> packet để quyết định CPU nào xử lý packet đó. Sau đó, NIC <strong>interrupt</strong> CPU đó để xử lý. Hành vi dựa trên hash này tương tự <strong>ECMP</strong> (Equal-Cost Multi-Path Routing) và giúp đảm bảo tất cả packet trong cùng một flow được xử lý theo thứ tự bởi cùng một CPU.</p>
+<h2 id="lược-sử-offloading-epoch-2-brief-history-of-offloading-epoch-2"><a class="header" href="#lược-sử-offloading-epoch-2-brief-history-of-offloading-epoch-2"><strong>Lược sử Offloading: Epoch 2</strong> (Brief History of Offloading: Epoch 2)</a></h2>
+<p>Sau đó, chúng ta bắt đầu offload các tác vụ <strong>stateful</strong> (có trạng thái) phức tạp hơn sang NIC.</p>
+<p>Sự phát triển của Epoch 2 được thúc đẩy bởi <strong>virtualization</strong> (ảo hóa) trong datacenter, nơi nhiều <strong>virtual machine (VM)</strong> chạy trên cùng một <strong>physical server</strong>. Ví dụ: trong ảo hóa, chúng ta cần một <strong>virtual switch</strong> để chuyển tiếp packet đến đúng VM. Virtual switch có thể chạy bằng phần mềm, nhưng cũng có thể triển khai bằng phần cứng.</p>
+<p><strong>Firewall</strong> (tường lửa) và <strong>bandwidth management</strong> (quản lý băng thông) là ví dụ khác của stateful offload. Trong phần mềm, ta có thể triển khai firewall để thực thi <strong>security policy</strong> (chính sách bảo mật) – ví dụ: drop tất cả packet đến từ IP độc hại. Ta cũng có thể áp dụng chính sách quản lý băng thông giữa người dùng – ví dụ: User A chỉ được gửi 100 packet/phút, vượt quá sẽ bị drop. Các chính sách này có thể được kiểm tra bởi phần cứng.</p>
+<p>Để triển khai các tác vụ stateful này, ta có thể dùng <strong>match-action pair table</strong> (bảng cặp điều kiện-hành động), tương tự bảng <strong>OpenFlow</strong> (trong phần SDN). API này cho phép phần mềm lập trình các chính sách lên phần cứng, để phần cứng xử lý packet theo chính sách. <strong>Match</strong> có thể dựa trên 5-tuple hoặc các trường header khác. <strong>Action</strong> có thể là drop packet, forward packet tới <strong>next-hop</strong> cụ thể, hoặc sửa header.</p>
+<img width="600px" src="../assets/datacenter/6-089-flowtable.png">
+<h2 id="lược-sử-offloading-epoch-3-brief-history-of-offloading-epoch-3"><a class="header" href="#lược-sử-offloading-epoch-3-brief-history-of-offloading-epoch-3"><strong>Lược sử Offloading: Epoch 3</strong> (Brief History of Offloading: Epoch 3)</a></h2>
+<p>Đây là kỷ nguyên hiện tại của offloading. Có nhiều nỗ lực offload toàn bộ <strong>protocol</strong> (giao thức) như TCP ra khỏi OS và đưa vào NIC. Epoch này được thúc đẩy bởi nhu cầu hiệu năng cao hơn nữa, đặc biệt với các ứng dụng <strong>AI/ML</strong> (Artificial Intelligence / Machine Learning) yêu cầu hiệu năng lớn.</p>
+<img width="900px" src="../assets/datacenter/6-090-epoch3.png">
+<p>Lý tưởng nhất, chúng ta muốn ứng dụng gửi dữ liệu trực tiếp cho phần cứng, và phần cứng thực hiện toàn bộ xử lý mạng ở Layer 4, 3, 2, 1. OS hoàn toàn không tham gia, và tất cả giao thức mạng được triển khai trực tiếp trong phần cứng.</p>
+<p>Dù đã có thử nghiệm offload các giao thức mạng tiêu chuẩn như TCP vào NIC, nhưng chưa triển khai ở quy mô lớn. Thay vào đó, chúng ta thiết kế các giao thức mới như <strong>RDMA</strong> (Remote Direct Memory Access), được thiết kế đặc biệt để triển khai trực tiếp trong phần cứng.</p>
+<h2 id="rdma-remote-direct-memory-access-truy-cập-bộ-nhớ-từ-xa-trực-tiếp"><a class="header" href="#rdma-remote-direct-memory-access-truy-cập-bộ-nhớ-từ-xa-trực-tiếp"><strong>RDMA: Remote Direct Memory Access</strong> (Truy cập bộ nhớ từ xa trực tiếp)</a></h2>
+<p><strong>RDMA</strong> cung cấp một <strong>abstraction</strong> (mô hình trừu tượng) cho phép <strong>Server A</strong> truy cập trực tiếp bộ nhớ của <strong>Server B</strong> mà không cần sự tham gia của <strong>OS</strong> (Operating System – hệ điều hành) hoặc <strong>CPU</strong> của bất kỳ server nào. RDMA có thể được triển khai trực tiếp trong phần cứng, thay thế <strong>TCP/IP software networking stack</strong> (ngăn xếp mạng phần mềm TCP/IP) tiêu chuẩn.</p>
+<p>Giả sử Server A muốn gửi một tệp 10 GB cho Server B. Trong networking stack tiêu chuẩn, CPU đọc tệp từ bộ nhớ, xử lý nó (ví dụ: TCP/IP), và chuyển các <strong>packet</strong> (gói tin) kết quả cho <strong>NIC</strong> (Network Interface Card – card giao tiếp mạng). Ở phía nhận, NIC chuyển packet cho CPU, CPU xử lý packet và ghi <strong>payload</strong> (dữ liệu tải) của tệp vào bộ nhớ. Lưu ý rằng CPU tham gia xử lý từng packet của tệp 10 GB.</p>
+<img width="800px" src="../assets/datacenter/6-091-pre-rdma.png">
+<p>Trong abstraction RDMA, NIC đọc tệp từ bộ nhớ và gửi đi, <strong>không cần CPU tham gia</strong>. Ở phía nhận, NIC xử lý các byte đến và ghi vào bộ nhớ, cũng không cần CPU tham gia. Lưu ý rằng CPU vẫn cần ở giai đoạn đầu để thiết lập quá trình truyền và ở giai đoạn cuối để hoàn tất. Nhưng phần lớn quá trình truyền tệp 10 GB được thực hiện mà không cần CPU.</p>
+<img width="800px" src="../assets/datacenter/6-092-post-rdma.png">
+<p>Để sử dụng RDMA, lập trình viên không còn dùng <strong>socket abstraction</strong> nữa. Thay vào đó, mô hình trừu tượng chính được sử dụng là <strong>queue pair</strong> (cặp hàng đợi). <strong>Send work queue</strong> (hàng đợi công việc gửi) chứa tất cả các tác vụ đang chờ, nơi dữ liệu cần được truyền từ tôi tới một máy khác. <strong>Receive work queue</strong> (hàng đợi công việc nhận) chứa tất cả các tác vụ đang chờ, nơi tôi cần nhận dữ liệu từ máy khác. Một NIC có thể có nhiều queue pair, mỗi cặp cung cấp dịch vụ khác nhau cho lập trình viên. Ví dụ: một cặp có thể cung cấp dịch vụ truyền tin cậy, đúng thứ tự (<strong>reliable, in-order delivery</strong>), trong khi một cặp khác có thể cung cấp dịch vụ không tin cậy (<strong>unreliable delivery</strong>). Một queue pair được cấu hình để truyền tin cậy và đúng thứ tự là gần giống nhất với một kết nối TCP truyền thống.</p>
+<img width="300px" src="../assets/datacenter/6-093-queue1.png">
+<p>Mỗi phần tử trong queue được gọi là <strong>Work Queue Element (WQE)</strong> (phần tử hàng đợi công việc). Một WQE cho phép ứng dụng mô tả công việc cần thực hiện. Ví dụ, WQE trong receive queue có thể nói: “Lấy 100 MB bắt đầu từ địa chỉ <em>0xffff1234</em> trên server từ xa, và ghi chúng vào địa chỉ <em>0xffff7890</em> trong bộ nhớ cục bộ của tôi.” Trong mã nguồn, WQE là một <strong>struct</strong> chứa các chỉ dẫn này, ví dụ: một <strong>pointer</strong> (con trỏ) tới nơi sẽ ghi dữ liệu nhận được.</p>
+<img width="400px" src="../assets/datacenter/6-094-queue2.png">
+<p>Lưu ý rằng abstraction WQE cung cấp cho giao thức RDMA một cái nhìn ở mức cao hơn về ứng dụng. Trong TCP/IP stack, mạng chỉ thấy một <strong>bytestream</strong> (luồng byte), nhưng trong RDMA, WQE cho phép ứng dụng mô tả công việc chi tiết hơn (ví dụ: chỉ định điểm bắt đầu và kết thúc của một khối dữ liệu được truyền).</p>
+<p>Khi một tác vụ hoàn tất, WQE được gỡ khỏi queue, và NIC tạo một <strong>Completion Queue Element (CQE)</strong> (phần tử hàng đợi hoàn tất) mới, mô tả điều gì đã xảy ra với tác vụ (ví dụ: thành công hoặc thất bại). CQE này được lưu trong <strong>Completion Queue</strong> và chờ cho đến khi ứng dụng sẵn sàng đọc CQE để biết kết quả của tác vụ.</p>
+<img width="300px" src="../assets/datacenter/6-095-queue3.png">
+<p>Lưu ý rằng RDMA hoạt động <strong>asynchronous</strong> (bất đồng bộ). Ứng dụng có thể thêm tác vụ (WQE) vào queue pair bất cứ lúc nào, và NIC sẽ xử lý các tác vụ theo thứ tự. Tương tự, khi tác vụ hoàn tất, một CQE được đặt vào completion queue, và ứng dụng có thể đọc CQE bất cứ lúc nào. (So sánh với TCP/IP stack, nơi dữ liệu đến sẽ kích hoạt một <strong>interrupt</strong> cho CPU để xử lý dữ liệu đó.)</p>
+<h2 id="ví-dụ-rdma-rdma-example"><a class="header" href="#ví-dụ-rdma-rdma-example"><strong>Ví dụ RDMA</strong> (RDMA Example)</a></h2>
+<p><strong>RDMA</strong> (Remote Direct Memory Access – truy cập bộ nhớ từ xa trực tiếp) có thể được sử dụng cho nhiều loại thao tác khác nhau giữa các <strong>server</strong>. Mỗi thao tác có các thông số hiệu năng riêng (ví dụ: <strong>latency</strong> – độ trễ – khác nhau) và <strong>semantics</strong> (ngữ nghĩa) khác nhau (ví dụ: thông báo lỗi khác nhau). Ví dụ dưới đây minh họa một thao tác <strong>RDMA send</strong>, trong đó <strong>Server A</strong> đọc một tệp từ bộ nhớ của mình, truyền dữ liệu đó, và <strong>Server B</strong> ghi tệp này vào bộ nhớ của nó.</p>
+<ol>
+<li>
+<p>Mỗi server chỉ định một vùng bộ nhớ để <strong>NIC</strong> (Network Interface Card – card giao tiếp mạng) có thể truy cập cho các phiên truyền RDMA. Server A chỉ định vùng bộ nhớ chứa tệp là <strong>NIC-readable</strong> (NIC có thể đọc). Server B chỉ định một <strong>blank buffer</strong> (bộ đệm trống) nơi nó sẽ nhận tệp là NIC-readable.</p>
+<img width="900px" src="../assets/datacenter/6-096-rdma1.png">
+</li>
+<li>
+<p>Mỗi server thiết lập các <strong>queue</strong> (hàng đợi). Cả hai NIC hiện có <strong>send queue</strong> (hàng đợi gửi), <strong>receive queue</strong> (hàng đợi nhận) và <strong>completion queue</strong> (hàng đợi hoàn tất). Lưu ý: bước này có thể thực hiện <strong>out-of-band</strong> (ngoài băng), sử dụng một giao thức truyền thống như <strong>TCP</strong> để phối hợp giữa hai server.</p>
+<img width="900px" src="../assets/datacenter/6-097-rdma2.png">
+</li>
+<li>
+<p>Server A tạo một <strong>WQE</strong> (Work Queue Element – phần tử hàng đợi công việc) trong send queue. WQE này chứa <strong>pointer</strong> (con trỏ) tới tệp, chỉ định dữ liệu cần gửi. Ở phía bên kia, Server B tạo một WQE trong receive queue. WQE này chứa con trỏ tới blank buffer, chỉ định nơi dữ liệu nhận được sẽ được ghi vào.</p>
+<img width="900px" src="../assets/datacenter/6-098-rdma3.png">
+<img width="900px" src="../assets/datacenter/6-099-rdma4.png">
+</li>
+<li>
+<p>Khi việc truyền đã được xếp hàng ở cả hai phía, quá trình truyền dữ liệu có thể diễn ra mà không cần phần mềm tham gia. NIC xử lý mọi thứ, bao gồm <strong>reliability</strong> (độ tin cậy), <strong>congestion control</strong> (kiểm soát tắc nghẽn), v.v.</p>
+<img width="900px" src="../assets/datacenter/6-100-rdma5.png">
+</li>
+<li>
+<p>Khi truyền xong, các WQE được gỡ khỏi queue. Cả hai NIC tạo một <strong>CQE</strong> (Completion Queue Element – phần tử hàng đợi hoàn tất), cho biết quá trình truyền đã hoàn tất và kèm theo các thông báo trạng thái liên quan (ví dụ: thông báo lỗi). CQE của Server A cho biết dữ liệu đã được gửi thành công, và CQE của Server B cho biết dữ liệu đã được nhận thành công.</p>
+<img width="900px" src="../assets/datacenter/6-101-rdma6.png">
+</li>
+<li>
+<p>Cuối cùng, ứng dụng đọc CQE để biết điều gì đã xảy ra với quá trình truyền.</p>
+<img width="900px" src="../assets/datacenter/6-102-rdma7.png">
+</li>
+</ol>
+<h2 id="Ưu-nhược-điểm-và-ứng-dụng-của-rdma-rdma-pros-cons-applications"><a class="header" href="#Ưu-nhược-điểm-và-ứng-dụng-của-rdma-rdma-pros-cons-applications"><strong>Ưu, nhược điểm và ứng dụng của RDMA</strong> (RDMA Pros, Cons, Applications)</a></h2>
+<p>RDMA mang lại khả năng truyền dữ liệu hiệu năng cao (<strong>low latency</strong> – độ trễ thấp, <strong>high bandwidth</strong> – băng thông cao) và giải phóng CPU cho ứng dụng. Tuy nhiên, RDMA không miễn phí: nó yêu cầu phần cứng và phần mềm chuyên dụng, và thường phức tạp hơn <strong>networking stack</strong> (ngăn xếp mạng) truyền thống. Hãy nhớ rằng RDMA thay thế <strong>TCP/IP stack</strong>, nên nó phải triển khai toàn bộ chức năng của TCP/IP như reliability và congestion control, tất cả trực tiếp trong phần cứng.</p>
+<p>RDMA cũng có một số hạn chế, và thường hoạt động tốt nhất trong datacenter khi hai server ở gần nhau về mặt vật lý. Nếu hai server ở xa, độ trễ chủ yếu đến từ việc truyền dữ liệu qua mạng, và lợi ích thời gian từ RDMA là không đáng kể. Ngược lại, nếu hai server ở gần, thời gian xử lý packet tại host có thể là nguyên nhân chính gây trễ, nên RDMA mang lại lợi ích đáng kể.</p>
+<p>RDMA đã được áp dụng trong nhiều bối cảnh yêu cầu tính toán hiệu năng cao, độ trễ thấp, ví dụ: nghiên cứu khoa học, mô hình tài chính, dự báo thời tiết, <strong>machine learning</strong> (học máy) và truy vấn tìm kiếm. Trong <strong>cloud computing</strong> (điện toán đám mây), RDMA có thể dùng để di chuyển một <strong>VM</strong> (Virtual Machine – máy ảo) lớn từ server vật lý này sang server khác, giải phóng CPU cho khách hàng. Trong huấn luyện AI/ML, RDMA không chỉ giải phóng CPU và giảm độ trễ, mà còn mang lại độ trễ <strong>predictable</strong> (dự đoán được), điều này quan trọng khi nhiều server cần phối hợp để huấn luyện mô hình AI/ML.</p>
+<h2 id="triển-khai-rdma-implementing-rdma"><a class="header" href="#triển-khai-rdma-implementing-rdma"><strong>Triển khai RDMA</strong> (Implementing RDMA)</a></h2>
+<p>Hãy nhớ rằng RDMA thay thế TCP/IP networking stack, nên RDMA chịu trách nhiệm cho reliability, congestion control, v.v. Có hai triết lý chính để triển khai:</p>
+<ul>
+<li><strong>Cách 1:</strong> Triển khai các tính năng này trong chính mạng, ví dụ: đảm bảo reliability tại <strong>switch</strong>. Đây là ý tưởng đằng sau <strong>Nvidia's InfiniBand</strong>.</li>
+<li><strong>Cách 2:</strong> Triển khai các tính năng này trong NIC, bên dưới <strong>queue-pair abstraction</strong> (mô hình trừu tượng cặp hàng đợi). Đây là hướng tiếp cận hiện đang được Google theo đuổi.</li>
+</ul>
+<p>Trong cả hai trường hợp, ứng dụng và OS ở tầng phần mềm đều có <strong>ảo giác</strong> về việc truyền tin cậy, đúng thứ tự thông qua queue pair abstraction. Sự khác biệt nằm ở cách RDMA thực sự triển khai các đảm bảo dịch vụ đó.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datacenter/sdn.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../beyond-client-server/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datacenter/sdn.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../beyond-client-server/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

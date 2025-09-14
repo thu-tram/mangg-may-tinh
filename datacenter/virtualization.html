@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Virtualization - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html" class="active"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="virtualization-and-encapsulation-Ảo-hóa-và-Đóng-gói"><a class="header" href="#virtualization-and-encapsulation-Ảo-hóa-và-Đóng-gói">Virtualization and Encapsulation (Ảo hóa và Đóng gói)</a></h1>
+<h2 id="hạn-chế-của-datacenter-vật-lý"><a class="header" href="#hạn-chế-của-datacenter-vật-lý">Hạn chế của Datacenter vật lý</a></h2>
+<p>Các <em>Datacenters</em> (trung tâm dữ liệu) được tổ chức một cách cố định và có cấu trúc. Các <em>servers</em> (máy chủ) giống hệt nhau được tổ chức thành các <em>racks</em> (giá đỡ), và các <em>racks</em> được sắp xếp theo một <em>topology</em> (topo) cố định nào đó. Cách tiếp cận này có một số lợi ích. Ví dụ, nó cho chúng ta một cách tự nhiên để gán <em>hierarchical addresses</em> (địa chỉ phân cấp).</p>
+<p>Tuy nhiên, khi chúng ta xem xét cách các ứng dụng được lưu trữ trên <em>datacenters</em>, việc tổ chức cố định của <em>datacenters</em> có một số nhược điểm. Giả sử Google giới thiệu một dịch vụ mới mà họ muốn lưu trữ trong một <em>datacenter</em> hiện có. Nếu chúng ta đặt ứng dụng đó trực tiếp lên một <em>physical server</em> (máy chủ vật lý), ai đó sẽ phải cài đặt vật lý một <em>server</em> mới, với <em>IP address</em> (địa chỉ IP) riêng, cho ứng dụng này. Nếu dịch vụ mở rộng, có thể cần phải cài đặt thêm nhiều <em>servers</em> hơn. Nếu <em>server</em> bị hỏng, chúng ta sẽ phải đợi ai đó sửa chữa nó. Vấn đề chính ở đây là việc thay đổi cơ sở hạ tầng vật lý rất khó khăn, nhưng chúng ta thường muốn thêm các <em>hosts</em> (máy chủ) mới, mở rộng quy mô các <em>hosts</em> hiện có, và di chuyển <em>hosts</em> một cách nhanh chóng và thường xuyên.</p>
+<p>Việc đặt các ứng dụng trên các <em>physical servers</em> cũng gây ra các vấn đề về khả năng mở rộng. Giả sử dịch vụ mới của Google rất nhẹ, nhưng cần một <em>server</em> chuyên dụng (ví dụ: vì lý do bảo mật). Chúng ta sẽ phải gán toàn bộ một <em>physical server</em> cho dịch vụ nhẹ này, và hầu hết năng lực tính toán của <em>server</em> sẽ không được sử dụng.</p>
+<p>Cách tiếp cận này cũng có các vấn đề về định tuyến. Giả sử chúng ta muốn di chuyển dịch vụ đến một phần khác của tòa nhà <em>datacenter</em> (ví dụ: vì một phần của tòa nhà đang được bảo trì). Đầu tiên, ai đó sẽ phải di chuyển vật lý <em>server</em> trong tòa nhà. Ngoài ra, trong mô hình <em>hierarchical address</em> của chúng ta, chúng ta sẽ cần gán cho dịch vụ này một <em>IP address</em> mới tương ứng với vị trí vật lý mới của nó. Lý tưởng nhất, ứng dụng sẽ muốn giữ nguyên địa chỉ, bất kể vị trí của nó trong <em>datacenter</em>.</p>
+<img width="900px" src="../assets/datacenter/6-043-dc-address-scaling.png">
+<h2 id="virtualization-Ảo-hóa"><a class="header" href="#virtualization-Ảo-hóa">Virtualization (Ảo hóa)</a></h2>
+<p>Chúng ta có thể sử dụng <em>virtualization</em> để giải quyết những vấn đề này và mang lại cho các ứng dụng sự linh hoạt hơn, trong khi vẫn duy trì cấu trúc vật lý cứng nhắc của <em>datacenter</em>. <em><strong>Virtualization</strong></em> cho phép chúng ta chạy một hoặc nhiều <em>virtual servers</em> (máy chủ ảo) bên trong một <em>physical server</em>.</p>
+<p><em>Virtual server</em> mang lại cho các ứng dụng ảo giác rằng chúng đang chạy trên một máy vật lý chuyên dụng. Tuy nhiên, trên thực tế, nhiều <em>virtual servers</em> có thể đang chạy trên cùng một máy. Khi ứng dụng cố gắng tương tác với phần cứng (ví dụ: đĩa, <em>network card</em> (card mạng)), nó thực sự đang tương tác với một <strong><em>hypervisor</em> (trình quản lý máy ảo)</strong> trong phần mềm. <em>Hypervisor</em> cung cấp cho mỗi ứng dụng ảo cùng một giao diện mà phần cứng thực sự sẽ có. Bản thân <em>hypervisor</em> chạy trên phần cứng vật lý thực tế, và có thể chuyển tiếp các yêu cầu của ứng dụng (ví dụ: ghi đĩa, gửi gói tin mạng) đến cấp độ phần cứng.</p>
+<p>Với <em>virtualization</em>, nếu chúng ta có một ứng dụng mới, chúng ta có thể yêu cầu một <em>hypervisor</em> khởi động một <em>virtual machine</em> (máy ảo) mới cho ứng dụng này. <em>Hypervisor</em> chạy trong phần mềm, vì vậy không cần phải cài đặt bất kỳ <em>server</em> mới nào trong <em>datacenter</em> vật lý. Tương tự, chúng ta có thể di chuyển <em>hosts</em> đến một máy vật lý khác, hoàn toàn bằng phần mềm.</p>
+<img width="900px" src="../assets/datacenter/6-044-vm.png">
+<p><em>Virtualization</em> cho phép nhiều ứng dụng chia sẻ một <em>physical server</em>. Các ứng dụng có thể được tách biệt với nhau, và có thể được quản lý bởi những người khác nhau. Điều này cho phép chúng ta sử dụng các tài nguyên tính toán trong <em>datacenter</em> hiệu quả hơn. Điều này cũng cho phép chúng ta có nhiều <em>hosts</em> hơn trong <em>datacenter</em>. Ví dụ, một <em>rack</em> duy nhất với 40 <em>servers</em> có thể có nhiều hơn 40 <em>end hosts</em> (máy chủ đầu cuối).</p>
+<h2 id="virtual-switches-bộ-chuyển-mạch-ảo"><a class="header" href="#virtual-switches-bộ-chuyển-mạch-ảo">Virtual Switches (Bộ chuyển mạch ảo)</a></h2>
+<p><em>Physical server</em> có một <em>network card</em> và một <em>IP address</em> duy nhất, nhưng chúng ta cần mang lại cho mỗi <em>virtual machine</em> ảo giác rằng nó có <em>network card</em> và địa chỉ chuyên dụng của riêng mình. Ngoài ra, các <em>switches</em> (bộ chuyển mạch) giờ đây có thể có nhiều <em>virtual machines</em> kết nối với một <em>port</em> (cổng) vật lý duy nhất.</p>
+<p>Để quản lý nhiều kết nối mạng trên cùng một máy vật lý, <em>server</em> cần một <em><strong>virtual switch</strong></em>. <em>Virtual switch</em> này chạy trong phần mềm trên <em>server</em> (nó không phải là một <em>router</em> vật lý), và thực hiện các hoạt động tương tự như một <em>switch</em> thực sự (ví dụ: chuyển tiếp gói tin). Mỗi <em>virtual machine</em> được kết nối với <em>virtual switch</em>, và <em>virtual switch</em> được kết nối với phần còn lại của mạng.</p>
+<img width="500px" src="../assets/datacenter/6-045-virtual-switch.png">
+<p>Lưu ý: Các <em>switches</em> thường chạy trên phần cứng chuyên dụng để tối đa hóa hiệu quả. Các <em>virtual switches</em> có thể chạy trong phần mềm trên một <em>CPU</em> (đơn vị xử lý trung tâm) đa dụng vì chúng chỉ cần hỗ trợ một vài <em>virtual machines</em> (dung lượng thấp hơn so với những gì các <em>switches</em> thường xử lý).</p>
+<h2 id="underlay-and-overlay-network-mạng-lớp-nền-và-mạng-lớp-phủ"><a class="header" href="#underlay-and-overlay-network-mạng-lớp-nền-và-mạng-lớp-phủ">Underlay and Overlay Network (Mạng lớp nền và Mạng lớp phủ)</a></h2>
+<p>Với <em>virtualization</em>, chúng ta giờ đây có các <em>virtual hosts</em> (máy chủ ảo) chạy trên các <em>physical servers</em>. Không giống như <em>physical servers</em>, <em>virtual hosts</em> có thể được tạo, tắt và thay đổi nhanh chóng.</p>
+<p>Các <em>virtual machines</em> không nhất thiết phải sử dụng cùng một sơ đồ địa chỉ như các <em>physical servers</em>. Các <em>IP addresses</em> của <em>physical server</em> được xác định bởi <em>topo</em> <em>datacenter</em> vật lý (ví dụ: pods, racks). Ngược lại, các <em>IP addresses</em> của <em>virtual machine</em> thường được xác định bởi một hệ thống phân cấp thực tế nào đó (ví dụ: quốc gia, tổ chức). Đặc biệt, các <em>virtual hosts</em> trên một <em>physical server</em> duy nhất không nhất thiết phải có cùng <em>IP prefixes</em> (tiền tố IP), vì vậy chúng ta không thể sử dụng các thủ thuật tổng hợp tương tự để mở rộng quy mô.</p>
+<p>Nếu chúng ta cố gắng mở rộng một cách ngây thơ các sơ đồ định tuyến của mình để hỗ trợ các <em>virtual machines</em>, các <em>forwarding tables</em> (bảng chuyển tiếp) của chúng ta sẽ trở nên rất lớn, rất nhanh. Trước đây, chúng ta có thể tổng hợp bằng cách nói: &quot;tất cả các <em>servers</em> trong pod màu xanh có cùng <em>IP prefix</em>, và tất cả chúng đều có <em>next hop</em> (chặng kế tiếp) là R2.&quot; Bây giờ, các <em>servers</em> trong pod màu xanh đó có thể chứa hàng trăm <em>virtual hosts</em>, tất cả đều có các <em>IP addresses</em> khác nhau (không có tiền tố chung). Chúng ta sẽ cần một mục chuyển tiếp riêng cho mỗi <em>virtual host</em>. Ngoài ra, nếu một <em>virtual host</em> di chuyển đến một máy vật lý khác (giữ nguyên <em>IP address</em>), giao thức định tuyến sẽ phải khám phá lại các đường đi đến <em>virtual host</em> này. Liệu chúng ta có thể tìm ra cách để tránh việc mở rộng <em>datacenter</em> để hỗ trợ mọi địa chỉ <em>VM</em> không?</p>
+<p>Vấn đề chính ở đây là chúng ta hiện có hai hệ thống địa chỉ khác nhau, một cho <em>virtual hosts</em>, và một cho <em>physical hosts</em>. Cả hai sơ đồ địa chỉ đều hoạt động ở <em>IP layer</em> (lớp IP), nhưng trong <em>IP layer</em>, hiện có hai lớp con trừu tượng mà chúng ta cần phải suy nghĩ đến.</p>
+<p><strong><em>Underlay network</em> (mạng lớp nền)</strong> xử lý việc định tuyến giữa các máy vật lý. <em>Underlay network</em> chứa cơ sở hạ tầng <em>datacenter</em> như <em>top-of-rack switches</em> (bộ chuyển mạch đỉnh giá) và <em>spine switches</em> (bộ chuyển mạch trục). <em>Underlay network</em> có khả năng mở rộng tốt vì chúng ta xác định các <em>hierarchical addresses</em> sử dụng <em>topo</em> <em>datacenter</em> vật lý.</p>
+<p><strong><em>Overlay network</em> (mạng lớp phủ)</strong> tồn tại trên <em>topo</em> vật lý (<em>underlay</em>), và nó chỉ suy nghĩ về việc định tuyến giữa các <em>virtual machines</em>. Trên thực tế, mỗi <em>virtual machine</em> thường chỉ cần giao tiếp với một vài <em>virtual machines</em> khác trong mạng. Do đó, <em>overlay network</em> có khả năng mở rộng tốt vì một <em>virtual machine</em> không cần phải biết về mọi <em>virtual machine</em> khác.</p>
+<img width="900px" src="../assets/datacenter/6-046-virtual1.png">
+<p>Lý tưởng nhất, chúng ta muốn hai lớp này suy nghĩ về việc đánh địa chỉ một cách riêng biệt. <em>Underlay network</em> không cần phải biết về các địa chỉ <em>virtual host</em> (nếu không, nó sẽ mở rộng kém). Tương tự, <em>overlay network</em> không cần phải biết về mọi <em>physical server</em> trong <em>datacenter</em> (mỗi <em>VM</em> chỉ cần biết về một vài <em>VMs</em> khác).</p>
+<p>Nếu chúng ta không cho <em>underlay network</em> biết về các địa chỉ <em>virtual host</em>, thì nếu một <em>datacenter switch</em> nhận được một <em>packet</em> (gói tin) với một IP ảo làm đích, nó sẽ tìm trong <em>forwarding table</em> của mình, không tìm thấy IP ảo nào, và loại bỏ <em>packet</em> này. Chúng ta cần một cách nào đó để kết nối khoảng cách giữa <em>overlay</em> (suy nghĩ theo hướng ảo) và <em>underlay</em> (suy nghĩ theo hướng vật lý).</p>
+<h2 id="encapsulation-Đóng-gói"><a class="header" href="#encapsulation-Đóng-gói">Encapsulation (Đóng gói)</a></h2>
+<p>Để hợp nhất các lớp <em>overlay</em> và <em>underlay</em>, chúng ta có thể sử dụng các chiến lược tương tự với phân lớp và các <em>headers</em> (tiêu đề) mà chúng ta đã sử dụng khi thiết kế Internet!</p>
+<p>Cho đến nay, chúng ta đã coi IP là một lớp duy nhất, và mỗi <em>packet</em> có một <em>IP header</em> duy nhất, hiểu hệ thống địa chỉ IP.</p>
+<p>Bây giờ chúng ta có hai lớp con IP với hai hệ thống địa chỉ IP khác nhau, chúng ta có thể giới thiệu một <em>header</em> bổ sung vào <em>packet</em>. Ví dụ, chúng ta có thể có hai <em>IP headers</em>, trong đó một <em>header</em> hiểu <em>overlay network</em>, và <em>header</em> kia hiểu <em>underlay network</em>. Hoặc, chúng ta có thể sử dụng <em>IP header</em> ban đầu cho <em>underlay network</em>, và giới thiệu một loại <em>header</em> mới (khác với IP) cho <em>overlay network</em>.</p>
+<img width="700px" src="../assets/datacenter/6-047-virtual2.png">
+<p>Bây giờ, chiến lược của chúng ta để định tuyến các <em>packets</em> có thể kết hợp <em>overlay</em> và <em>underlay networks</em>. Giả sử VM A muốn gửi một <em>packet</em> đến VM B.</p>
+<img width="900px" src="../assets/datacenter/6-048-virtual3.png">
+<ol>
+<li>
+<p>VM A tạo một <em>packet</em> với một <em>IP header</em> duy nhất, chứa địa chỉ IP ảo của B. (Hãy nhớ rằng, A đang suy nghĩ theo thuật ngữ của <em>overlay</em>, và không biết về các địa chỉ IP vật lý của <em>underlay</em>.) VM A chuyển tiếp <em>packet</em> này đến <em>virtual switch</em> (trên <em>physical server</em> của A).</p>
+<img width="900px" src="../assets/datacenter/6-049-virtual4.png">
+</li>
+<li>
+<p><em>Virtual switch</em> đọc <em>header</em> để biết địa chỉ IP ảo của B. Sau đó, <em>virtual switch</em> tra cứu địa chỉ <em>physical server</em> tương ứng với địa chỉ IP ảo của B. (Chúng ta chưa mô tả cách thực hiện điều này.)</p>
+<p><em>Virtual switch</em> thêm một <em>outer header</em> (tiêu đề bên ngoài) bổ sung chứa địa chỉ <em>physical server</em> của B. Việc thêm <em>header</em> đôi khi được gọi là <em><strong>encapsulation</strong></em>.</p>
+<p>Tại thời điểm này, <em>packet</em> có hai <em>headers</em>. <em>Inner header</em> (tiêu đề bên trong) (lớp cao hơn, <em>overlay</em>, được thêm bởi VM A) chứa địa chỉ IP ảo của B, và <em>outer header</em> (lớp thấp hơn, <em>underlay</em>, được thêm bởi <em>virtual switch</em>) chứa địa chỉ <em>physical server</em> của B.</p>
+<p><em>Virtual switch</em> chuyển tiếp <em>packet</em> này đến <em>switch</em> <em>next hop</em>, dựa trên địa chỉ <em>physical server</em>.</p>
+<img width="900px" src="../assets/datacenter/6-050-virtual5.png">
+</li>
+<li>
+<p><em>Packet</em> được gửi qua <em>underlay network</em>. Mỗi <em>switch</em> trong <em>datacenter</em> chỉ nhìn vào <em>outer header</em> (lớp nền, địa chỉ <em>physical server</em>) để quyết định cách chuyển tiếp <em>packet</em>. (Hãy nhớ rằng, các <em>datacenter switches</em> suy nghĩ theo thuật ngữ của <em>underlay</em>, và không biết về địa chỉ IP ảo của <em>overlay</em>.)</p>
+<img width="900px" src="../assets/datacenter/6-051-virtual6.png">
+<img width="900px" src="../assets/datacenter/6-052-virtual7.png">
+</li>
+<li>
+<p>Cuối cùng, <em>packet</em> đến <em>virtual switch</em> của <em>physical server</em> đích. <em>Virtual switch</em> nhìn vào <em>outer header</em> (<em>underlay</em>) và nhận thấy rằng địa chỉ <em>physical server</em> đích là chính nó.</p>
+<p><em>Virtual switch</em> loại bỏ <em>outer header</em>, để lộ <em>inner header</em> bên trong. Việc loại bỏ <em>outer header</em> đôi khi được gọi là <strong><em>decapsulation</em> (giải đóng gói)</strong>.</p>
+<img width="900px" src="../assets/datacenter/6-053-virtual8.png">
+</li>
+</ol>
+<p>Cuối cùng, <em>virtual switch</em> đọc <em>inner header</em> (<em>overlay</em>). Điều này cho <em>virtual switch</em> biết <em>packet</em> nên được chuyển tiếp đến <em>VM</em> nào trên <em>physical server</em>.</p>
+<img width="900px" src="../assets/datacenter/6-054-virtual9.png">
+<p>Trong quá trình này, <em><strong>encapsulation</strong></em> cho phép chúng ta suy nghĩ về việc định tuyến ở hai lớp khác nhau. <em>Underlay</em> có thể định tuyến các <em>packets</em> bằng cách sử dụng địa chỉ <em>physical server</em>, mà không cần suy nghĩ về <em>overlay</em>. Tương tự, <em>VM</em> trong <em>overlay</em> có thể gửi và nhận các <em>packets</em> mà không cần suy nghĩ về cách chuyển tiếp các <em>packets</em> trong <em>underlay</em>. Các <em>virtual switches</em> đã kết nối hai lớp bằng cách dịch địa chỉ <em>virtual machine</em> thành địa chỉ <em>physical server</em>, và thêm và bớt <em>header</em> <em>underlay</em> bổ sung.</p>
+<img width="900px" src="../assets/datacenter/6-055-virtual10.png">
+<img width="800px" src="../assets/datacenter/6-056-virtual11.png">
+<img width="900px" src="../assets/datacenter/6-057-virtual12.png">
+<h2 id="forwarding-tables-với-encapsulation"><a class="header" href="#forwarding-tables-với-encapsulation">Forwarding Tables với Encapsulation</a></h2>
+<p>Chúng ta nên cài đặt những mục nào trong các <em>forwarding tables</em> để hỗ trợ định tuyến với <em>encapsulation</em>?</p>
+<p>Các <em>virtual machines</em> nên cài đặt một <em>default route</em> (tuyến đường mặc định) để chuyển tiếp mọi <em>packet</em> đến <em>virtual switch</em> trên máy vật lý.</p>
+<p>Các <em>virtual switches</em> cần triển khai thêm một số chức năng để kết nối hai lớp. Cụ thể, khi bạn thấy một địa chỉ ảo, bạn nên áp dụng <em>encapsulation</em> (thêm một lớp ngoài) với địa chỉ vật lý tương ứng. <em>Forwarding table</em> có các mục cho mọi <em>VM</em> đích mà bất kỳ <em>VM</em> nào trên <em>server</em> này có thể muốn nói chuyện. Chúng ta có thể hỗ trợ quy mô này vì chúng ta giả định các <em>VMs</em> sẽ không cần nói chuyện với mọi <em>VM</em> khác trong <em>datacenter</em>. Không giống như các thuật toán định tuyến tiêu chuẩn, chúng ta không cần định tuyến any-to-any (chúng ta không cần đường đi đến mọi <em>VM</em> khác).</p>
+<p>Các <em>virtual switches</em> cũng cần một quy tắc bổ sung để <em>decapsulating</em> các <em>packets</em>. Nếu đích của <em>packet</em> ngoài (<em>underlay</em>) là chính <em>switch</em> đó, bạn nên <em>decapsulate</em> (loại bỏ <em>outer header</em>) và chuyển <em>packet</em> đến địa chỉ <em>VM</em> trong <em>inner header</em>. Quy tắc này mở rộng theo số lượng <em>VMs</em> trên <em>server</em>, thường đủ nhỏ để có thể quản lý được.</p>
+<p>Việc thêm chức năng này có khó không? May mắn thay, các <em>virtual switches</em> được triển khai trong phần mềm, vì vậy việc thêm chức năng này chỉ cần viết mã lệnh (không cần thêm phần cứng). Tuy nhiên, trên thực tế, <em>encapsulation</em> phổ biến đến mức đôi khi nó vẫn được triển khai trong phần cứng.</p>
+<p>Các <em>switches</em> trong <em>datacenter</em> hoạt động giống hệt như trước khi chúng ta giới thiệu <em>virtualization</em>. Các <em>forwarding tables</em> chỉ chứa địa chỉ <em>physical server</em>, và chúng ta biết rằng chúng có thể được mở rộng quy mô bằng các thủ thuật tổng hợp dựa trên <em>topo</em> vật lý.</p>
+<h2 id="multi-tenancy-Đa-người-thuê-và-private-networks-mạng-riêng"><a class="header" href="#multi-tenancy-Đa-người-thuê-và-private-networks-mạng-riêng">Multi-Tenancy (Đa người thuê) và Private Networks (Mạng riêng)</a></h2>
+<p>Các <em>Datacenters</em> được quản lý bởi một nhà khai thác duy nhất, nhưng các tổ chức khác nhau có thể đang chạy các ứng dụng bên trong <em>datacenter</em> đó. Ví dụ, một <em>datacenter</em> do Google điều hành có thể có một số <em>virtual servers</em> do Gmail chạy, và những <em>servers</em> khác do Google Maps chạy. Cách tiếp cận lưu trữ nhiều dịch vụ trong một <em>datacenter</em> này được gọi là <em><strong>multi-tenancy</strong></em>.</p>
+<p>Các <em>Cloud providers</em> (nhà cung cấp đám mây) cũng sử dụng các <em>datacenters</em> để cung cấp <em>virtual machines</em> cho khách hàng. Ví dụ, <em>Amazon Web Services (AWS)</em> và <em>Google Cloud Platform (GCP)</em> cho phép người dùng khởi động một <em>virtual machine</em> trong một <em>datacenter</em>, làm bất cứ điều gì họ muốn, và phá hủy <em>virtual machine</em> khi họ hoàn thành.</p>
+<p>Một vấn đề với <em>multi-tenancy</em> là, chúng ta không phải lúc nào cũng muốn các <em>tenants</em> (người thuê) khác nhau có thể giao tiếp với nhau. Ví dụ, nếu một khách hàng yêu cầu một <em>VM</em>, họ có lẽ không nên có thể kết nối với mọi <em>VM</em> khác trong <em>datacenter</em>.</p>
+<p>Một vấn đề khác là, các <em>tenants</em> trong một <em>datacenter</em> không phối hợp với nhau khi chọn địa chỉ. Ví dụ, giả sử <em>datacenter</em> của chúng ta có hai <em>tenants</em>, Pepsi và Coke. Mỗi <em>tenant</em> tạo ra <em>private network</em> của riêng mình, nơi họ gán các <em>IP addresses</em> nội bộ cho các <em>virtual machines</em>. <em>Private network</em> chỉ dành cho các <em>hosts</em> bên trong <em>datacenter</em> giao tiếp với nhau, và các <em>hosts</em> này sẽ không bao giờ được liên lạc từ Internet công cộng. Vì các mạng là riêng tư, hai <em>tenants</em> đều có thể sử dụng các địa chỉ trong cùng một dải địa chỉ riêng được phân bổ đặc biệt (<em>RFC 1918 addresses</em> - các dải địa chỉ dành riêng cho mạng nội bộ). <em>Private network</em> của Pepsi có thể có một <em>VM</em> với <em>IP address</em> 192.0.2.2, và <em>private network</em> của Coke có thể có một <em>VM</em> khác với <em>IP address</em> 192.0.2.2. (Trên thực tế, chúng ta sử dụng các dải địa chỉ riêng để tái sử dụng các <em>IPv4 addresses</em> (địa chỉ IPv4), vì chúng ta đang cạn kiệt chúng.)</p>
+<img width="900px" src="../assets/datacenter/6-058-tenancy1.png">
+<p>Từ góc độ của mỗi <em>tenant</em>, đây không phải là vấn đề. 192.0.2.2 của Pepsi sẽ không bao giờ giao tiếp với 192.0.2.2 của Coke, và cả hai <em>host</em> đều không thể truy cập từ Internet toàn cầu. Tuy nhiên, đây là một vấn đề đối với <em>datacenter</em>. Nếu chúng ta sử dụng <em>destination-based forwarding</em> (chuyển tiếp dựa trên đích), và chúng ta thấy một <em>packet</em> có đích là 192.0.2.2, chúng ta không biết địa chỉ này đang đề cập đến <em>VM</em> nào.</p>
+<p>Các <em>IP addresses</em> trùng lặp xảy ra trong thực tế vì hai lý do. Thứ nhất, các <em>datacenters</em> thường không có quyền kiểm soát các địa chỉ mà các <em>tenants</em> đang gán cho các <em>VMs</em> của họ. Thứ hai, trong IP, thông lệ tiêu chuẩn là sử dụng các dải cụ thể cho các <em>private networks</em>, điều này thường dẫn đến các địa chỉ trùng lặp.</p>
+<h2 id="encapsulation-cho-multi-tenancy"><a class="header" href="#encapsulation-cho-multi-tenancy">Encapsulation cho Multi-Tenancy</a></h2>
+<p>Chúng ta có thể sử dụng lại ý tưởng <em>encapsulation</em> để giải quyết vấn đề này. Chúng ta có thể thêm một <em>header</em> mới chứa một <strong><em>virtual network ID</em> (mã định danh mạng ảo)</strong> để xác định một <em>tenant</em> cụ thể (ví dụ: Pepsi có ID 1, Coke có ID 2). <em>Header</em> mới này không chứa thông tin để chuyển tiếp và định tuyến, nhưng nó cung cấp thêm ngữ cảnh. Bây giờ, nếu một <em>physical server</em> có các <em>VMs</em> cho nhiều <em>tenants</em>, nó có thể chuyển <em>packet</em> lên đúng mạng ảo.</p>
+<img width="900px" src="../assets/datacenter/6-059-tenancy2.png">
+<img width="900px" src="../assets/datacenter/6-060-tenancy3.png">
+<p>Khi một <em>virtual switch</em> nhận được một <em>packet</em> và mở <em>outer header</em> (<em>underlay</em>), nó sẽ nhìn vào <em>header</em> mới của chúng ta để quyết định <em>packet</em> dành cho <em>tenant</em> nào. Sau đó, nó nhìn vào <em>overlay header</em> để chuyển tiếp <em>packet</em> đến một <em>VM</em> cụ thể thuộc về <em>tenant</em> chính xác.</p>
+<h2 id="xếp-chồng-các-encapsulation"><a class="header" href="#xếp-chồng-các-encapsulation">Xếp chồng các Encapsulation</a></h2>
+<p>Chúng ta có thể sử dụng ý tưởng <em>encapsulation</em> nhiều lần, thêm nhiều <em>headers</em> mới để hỗ trợ cả <em>virtualization</em> và <em>multi-tenancy</em>.</p>
+<p>Để bắt đầu, <em>virtual machine</em> tạo ra một <em>packet</em> <em>TCP/IP</em> tiêu chuẩn, với một đích IP ảo.</p>
+<p>Trong bước <em>encapsulation</em> đầu tiên, chúng ta thêm một <em>virtual network header</em>, cho chúng ta biết <em>tenant</em> nào đã gửi <em>packet</em> này. Điều này giúp chúng ta phân biệt hai <em>tenants</em> sử dụng cùng một địa chỉ, và cũng ngăn chặn các <em>packets</em> được gửi đến một <em>tenant</em> khác.</p>
+<p>Trong bước <em>encapsulation</em> thứ hai, chúng ta thêm một <em>underlay network header</em>, cho chúng ta biết địa chỉ <em>physical server</em> tương ứng với đích IP ảo.</p>
+<img width="900px" src="../assets/datacenter/6-061-stack1.png">
+<p>Các lớp trừu tượng vẫn giữ nguyên khi chúng ta xếp chồng các <em>encapsulations</em>. <em>Underlay network</em> không cần biết rằng nhiều <em>tenants</em> đang ở trong cùng một <em>datacenter</em>. <em>Underlay network</em> chỉ nhìn vào <em>header</em> ngoài cùng nhất để tìm địa chỉ <em>physical server</em>, và chuyển tiếp <em>packet</em> tương ứng.</p>
+<p>Bước <em>decapsulation</em> hoạt động theo thứ tự ngược lại. <em>Virtual switch</em> trên <em>server</em> đích nhận được một <em>packet</em> có hai <em>headers</em> bổ sung.</p>
+<p>Trong bước <em>decapsulation</em> đầu tiên, chúng ta loại bỏ <em>outer underlay header</em>. Điều này không còn cần thiết vì <em>packet</em> đã đến <em>physical server</em> đích.</p>
+<p>Trong bước <em>decapsulation</em> thứ hai, chúng ta sử dụng <em>virtual network header</em> để quyết định chúng ta nên xem xét tập hợp <em>VMs</em> nào. <em>Physical server</em> có thể có các <em>VMs</em> cho nhiều <em>tenants</em>, và điều này giúp thu hẹp xuống một <em>tenant</em> duy nhất.</p>
+<p>Cuối cùng, chúng ta sử dụng <em>IP header</em> trong cùng nhất để gửi <em>packet</em> đến đúng <em>VM</em> trong đúng mạng ảo.</p>
+<img width="900px" src="../assets/datacenter/6-062-stack2.png">
+<p>Lưu ý: Với <em>encapsulation</em>, chúng ta phải cẩn thận khi đọc <em>5-tuple</em> (bộ 5 thông tin: IP nguồn, IP đích, cổng nguồn, cổng đích, và giao thức) để <em>load-balancing</em> (cân bằng tải) các <em>packets</em> trên nhiều đường đi. May mắn thay, phần cứng <em>router</em> hiện đại rất giỏi trong việc phân tích các <em>packets</em> để hiểu vị trí của các <em>headers</em> liên quan trong <em>packet</em>, ngay cả khi có thêm các <em>headers</em> được chèn vào.</p>
+<p>Trên thực tế, có nhiều giao thức khác nhau tồn tại cho <em>encapsulation</em>. Chúng ta có thể sử dụng <em>IP-in-IP</em> để hỗ trợ hai <em>IP headers</em> (một cho <em>overlay</em>, một cho <em>underlay</em>).</p>
+<p><em>MPLS</em> là một <em>header</em> đơn giản để thêm một nhãn xác định một dịch vụ (ví dụ: một mạng ảo, một <em>tenant</em>). Điều này có thể được sử dụng để thêm <em>encapsulation</em> cho <em>multi-tenancy</em>.</p>
+<p>Khi các <em>datacenters</em> trở nên phổ biến hơn, nhiều giao thức khác như <em>GRE</em>, <em>VXLAN</em>, và <em>GENEVE</em> đã được phát triển. Hầu hết chúng hoạt động trên IP, vì vậy các giao thức tùy chỉnh này là <em>inner overlay header</em>, và IP thông thường là <em>outer underlay header</em>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datacenter/datacenter-addressing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datacenter/sdn.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datacenter/datacenter-addressing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datacenter/sdn.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

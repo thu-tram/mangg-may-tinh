@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>HTTP - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html" class="active"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="http"><a class="header" href="#http">HTTP</a></h1>
+<h2 id="lược-sử-http-brief-history-of-http"><a class="header" href="#lược-sử-http-brief-history-of-http">Lược sử HTTP (Brief History of HTTP)</a></h2>
+<p>Năm 1989, <strong>Tim Berners-Lee</strong> đang làm việc tại <strong>CERN</strong> (phòng thí nghiệm nghiên cứu ở Thụy Sĩ) và cần trao đổi thông tin giữa các nhà khoa học. Thời điểm đó, đã tồn tại các giao thức như <strong>FTP (File Transfer Protocol)</strong> để truyền tệp qua Internet. Tuy nhiên, một tệp thường chứa các liên kết tới những tài nguyên khác trên Internet. Mục tiêu của ông là tạo ra một giao thức và định dạng tệp cho phép liên kết các trang với nhau và truy xuất các trang đó.</p>
+<p>Phiên bản đặc tả HTTP ban đầu được đánh số <strong>HTTP/0.9</strong> và phát hành năm 1991. <strong>HTTP/1.0</strong> được tiêu chuẩn hóa năm 1996, và <strong>HTTP/1.1</strong> được tiêu chuẩn hóa năm 1997. Trừ khi có ghi chú khác, phần này đề cập đến HTTP/1.1, vì đây là phiên bản phổ biến nhất hiện nay. Các phiên bản mới hơn có tồn tại (xem ở cuối phần này), nhưng các nguyên tắc cơ bản của giao thức đã giữ nguyên trong hơn 20 năm.</p>
+<h2 id="kiến-thức-cơ-bản-về-http-http-basics"><a class="header" href="#kiến-thức-cơ-bản-về-http-http-basics">Kiến thức cơ bản về HTTP (HTTP Basics)</a></h2>
+<p>HTTP hoạt động trên <strong>TCP (Transmission Control Protocol)</strong>. Hai bên muốn gửi dữ liệu qua HTTP sẽ bắt đầu bằng việc thiết lập kết nối TCP. Sau đó, họ có thể sử dụng cơ chế <strong>bytestream</strong> (luồng byte) của TCP để trao đổi dữ liệu có độ dài tùy ý một cách tin cậy. Các máy chủ chạy HTTP không phải lo lắng về việc gói tin bị sắp xếp lại, mất mát, v.v.</p>
+<img width="900px" src="../assets/applications/4-13-http-bytestream.png">
+<p>HTTP là một giao thức <strong>client-server</strong>. Một bên được chỉ định là <strong>client</strong> (ví dụ: bạn – người dùng cuối), và một bên là <strong>server</strong> (ví dụ: Google, trang web ngân hàng, v.v.). Client gần như luôn chạy HTTP trong trình duyệt web (ví dụ: Firefox hoặc Chrome), mặc dù HTTP cũng có thể chạy theo cách khác (ví dụ: trực tiếp trên terminal).</p>
+<p>Khi thiết lập kết nối HTTP, server phải lắng nghe các yêu cầu kết nối trên <strong>port</strong> cố định và phổ biến là 80. (<strong>HTTPS</strong>, phiên bản bảo mật hơn, sử dụng port 443). Client có thể chọn bất kỳ <strong>ephemeral port</strong> (cổng tạm thời) ngẫu nhiên nào để bắt đầu kết nối, và server sẽ gửi phản hồi về cổng đó.</p>
+<p>HTTP là một giao thức <strong>request-response</strong> (yêu cầu – phản hồi). Mỗi yêu cầu từ client sẽ nhận được đúng một phản hồi tương ứng từ server.</p>
+<h2 id="http-requests-yêu-cầu-http"><a class="header" href="#http-requests-yêu-cầu-http">HTTP Requests (Yêu cầu HTTP)</a></h2>
+<p>Thông điệp yêu cầu HTTP được định dạng ở dạng văn bản thuần (<strong>plaintext</strong>) dễ đọc, nghĩa là bạn có thể gõ trực tiếp yêu cầu HTTP thô vào terminal. Yêu cầu gồm ba phần: <strong>method</strong> (phương thức), <strong>URL</strong>, <strong>version</strong> (phiên bản), và nội dung tùy chọn (<strong>optional content</strong>).</p>
+<p>Thông điệp kết thúc bằng một ký tự xuống dòng (thực tế là <strong>CRLF</strong> – Carriage Return Line Feed), bạn có thể hình dung như việc nhấn phím Enter sau khi gõ yêu cầu HTTP trong terminal.</p>
+<ul>
+<li><strong>Version</strong>: chỉ định phiên bản HTTP đang sử dụng, ví dụ: HTTP/0.9, HTTP/1.0, HTTP/1.1, v.v.</li>
+<li><strong>URL</strong>: xác định tài nguyên trên server. Bạn có thể hình dung URL như đường dẫn tệp mà bạn muốn lấy từ server từ xa. Ví dụ: trong URL <em>http://cs168.io/assets/lectures/lecture1.pdf</em>, chúng ta đang yêu cầu tệp <em>lecture1.pdf</em> trong thư mục <em>assets/lectures</em> trên server <em>cs168.io</em>. (Server không bắt buộc phải hoạt động theo cách này, nhưng đây là một cách hình dung hữu ích).</li>
+<li><strong>Method</strong>: xác định hành động mà người dùng muốn thực hiện. Ban đầu, HTTP chỉ có một phương thức là <strong>GET</strong>, cho phép client lấy một trang cụ thể (được chỉ định bởi URL) từ server.</li>
+</ul>
+<p>Sau này, HTTP được mở rộng thêm các phương thức khác. Đáng chú ý là <strong>POST</strong>, cho phép client gửi dữ liệu tới server. Ví dụ: khi người dùng điền vào một biểu mẫu và nhấn Submit, dữ liệu sẽ được gửi tới server trong một yêu cầu POST.</p>
+<p>Một số phương thức ít dùng hơn gồm:</p>
+<ul>
+<li><strong>HEAD</strong>: chỉ lấy phần header (metadata) của phản hồi, không lấy nội dung.</li>
+<li><strong>PUT, CONNECT, DELETE, OPTIONS, PATCH, TRACE</strong>: mở rộng HTTP thành giao thức cho phép người dùng tương tác và thay đổi nội dung trên server, thay vì chỉ lấy nội dung như thiết kế ban đầu.</li>
+</ul>
+<p>Lưu ý: Với các phương thức như POST, chúng ta vẫn phải cung cấp URL để chỉ định cách diễn giải dữ liệu gửi đi. Ví dụ: trên trang web ngân hàng, gửi tên tới <em>/send-money</em> sẽ khác với gửi cùng tên đó tới <em>/request-money</em>.</p>
+<ul>
+<li>Với <strong>GET request</strong>, nội dung yêu cầu thường rỗng, vì chúng ta chỉ yêu cầu một trang từ server.</li>
+<li>Với <strong>POST request</strong>, nội dung yêu cầu chứa dữ liệu mà chúng ta muốn gửi tới server.</li>
+</ul>
+<h2 id="http-responses-phản-hồi-http"><a class="header" href="#http-responses-phản-hồi-http">HTTP Responses (Phản hồi HTTP)</a></h2>
+<p>Mỗi yêu cầu HTTP tương ứng với một phản hồi HTTP. Phản hồi cũng ở dạng văn bản thuần dễ đọc, nghĩa là bạn có thể đọc phản hồi HTTP thô trong terminal. Phản hồi gồm bốn phần: <strong>version</strong> (phiên bản), <strong>status code</strong> (mã trạng thái), thông điệp tùy chọn (<strong>optional message</strong>), và <strong>content</strong> (nội dung).</p>
+<ul>
+<li><strong>Version</strong>: chỉ định phiên bản HTTP đang sử dụng.</li>
+<li><strong>Content</strong>: chứa nội dung mà server trả về, ví dụ: trang mà người dùng yêu cầu trong GET request.</li>
+<li><strong>Status code</strong>: là số cho phép server thông báo kết quả xử lý yêu cầu của client. Mỗi mã trạng thái có thông điệp dễ đọc đi kèm.</li>
+</ul>
+<p>Các mã trạng thái được phân loại theo giá trị số:</p>
+<ul>
+<li><strong>100</strong> = Thông tin (<strong>Informational responses</strong>).</li>
+<li><strong>200</strong> = Thành công (<strong>Successful responses</strong>).
+<ul>
+<li><em>200 OK</em>: yêu cầu thành công (ý nghĩa cụ thể phụ thuộc vào phương thức và ứng dụng).</li>
+<li><em>201 Created</em>: yêu cầu thành công và một tài nguyên mới đã được tạo (thường thấy trong POST hoặc PUT).</li>
+</ul>
+</li>
+<li><strong>300</strong> = Chuyển hướng (<strong>Redirection messages</strong>).
+<ul>
+<li><em>301 Moved Permanently</em>: tài nguyên đã được chuyển vĩnh viễn.</li>
+<li><em>302 Found</em>: tài nguyên được chuyển tạm thời.<br />
+Trong các trường hợp này, phản hồi thường kèm thông tin bổ sung về vị trí mới của tài nguyên (ví dụ: URL khác).</li>
+</ul>
+</li>
+<li><strong>400</strong> = Lỗi từ phía client (<strong>Client errors</strong>).
+<ul>
+<li><em>401 Unauthorized</em>: client chưa được phép truy cập nội dung, nhưng có thể truy cập nếu xác thực (login).</li>
+<li><em>403 Forbidden</em>: client đã xác thực, server biết danh tính nhưng vẫn không cho phép truy cập.</li>
+</ul>
+</li>
+<li><strong>500</strong> = Lỗi từ phía server (<strong>Server errors</strong>).
+<ul>
+<li><em>500 Internal Server Error</em>, <em>503 Service Unavailable</em> là phổ biến. Client hầu như không thể làm gì ngoài thử lại sau.</li>
+</ul>
+</li>
+</ul>
+<p>Một số mã lỗi rất quen thuộc như <em>404 Not Found</em> (không tìm thấy tệp) và <em>503 Service Unavailable</em> (dịch vụ không khả dụng).</p>
+<p>Đôi khi, việc chọn mã trạng thái phù hợp có thể không rõ ràng. Ví dụ: nếu gửi yêu cầu HTTP phiên bản 0.9 tới Google, mã phù hợp có thể là <em>505 HTTP Version Not Supported</em>, nhưng Google lại trả về <em>400 Bad Request</em>. Thông thường, mục tiêu là trả về mã lỗi thuộc đúng nhóm (ví dụ: 400 hoặc 500) để kích hoạt hành vi xử lý phù hợp từ phía client.</p>
+<h2 id="http-headers"><a class="header" href="#http-headers"><strong>HTTP Headers</strong></a></h2>
+<p>Nếu <strong>client</strong> (máy khách) có thêm thông tin muốn gửi tới <strong>server</strong> (máy chủ), họ có thể bao gồm <strong>metadata</strong> (siêu dữ liệu) bổ sung gọi là <strong>header</strong>. Trong <strong>HTTP/1.1</strong>, không có header nào là bắt buộc, vì vậy việc không gửi bất kỳ header nào là hợp lệ (mặc dù server hoặc client có thể mong đợi một header nhất định và báo lỗi nếu thiếu).</p>
+<p>Ví dụ: <strong>Location header</strong> có thể được sử dụng trong phản hồi HTTP mã 300 để chỉ ra vị trí mới của tài nguyên.</p>
+<p>Đôi khi, thông tin trong header là tùy chọn. Ví dụ: <strong>User-Agent header</strong> trong yêu cầu cho phép client thông báo cho server biết về trình duyệt hoặc chương trình client đang sử dụng (ví dụ: Firefox hoặc Chrome). Điều này có thể cho phép server xử lý yêu cầu khác nhau tùy thuộc vào giá trị của header (ví dụ: người dùng đang dùng Chrome hay đang gửi yêu cầu từ terminal).</p>
+<p>Một số trường hợp khác, thông tin trong header lại rất quan trọng. Ví dụ: <strong>Content-Type</strong> cho biết payload (dữ liệu tải) là một trang HTML, hình ảnh, video, v.v. Thông tin này giúp trình duyệt biết cách hiển thị phản hồi HTTP. Nếu một server lưu trữ nhiều website, <strong>Host header</strong> có thể được dùng trong yêu cầu để chỉ định website nào cần truy cập.</p>
+<p>Một số header liên quan đến <strong>request</strong> (yêu cầu). Chúng cho phép client truyền thông tin tới server. Ví dụ:</p>
+<ul>
+<li><strong>Accept header</strong>: cho phép client cho server biết loại nội dung mà client mong đợi (ví dụ: HTML cho trang dễ đọc với con người, JSON cho dữ liệu máy có thể phân tích).</li>
+<li><strong>User-Agent header</strong>: cho biết loại client đang được sử dụng.</li>
+<li><strong>Host header</strong>: cho biết host cụ thể đang được truy cập (trong trường hợp server lưu trữ nhiều website).</li>
+<li><strong>Referer header</strong>: cho biết cách client đã thực hiện yêu cầu (ví dụ: nếu họ nhấp vào một liên kết từ Facebook để thực hiện yêu cầu này).</li>
+</ul>
+<p>Một số header liên quan đến <strong>response</strong> (phản hồi). Hãy nhớ rằng header là metadata về nội dung, không phải bản thân nội dung. Ví dụ:</p>
+<ul>
+<li><strong>Content-Encoding</strong>: cho biết cách diễn giải các bit của phản hồi (ví dụ: Unicode/ASCII cho văn bản dễ đọc, hoặc gzip cho tệp nén).</li>
+<li><strong>Date header</strong>: cho biết thời điểm server tạo ra phản hồi.</li>
+</ul>
+<p>Một số header là <strong>representation header</strong>, được sử dụng trong cả request và response để mô tả cách nội dung được biểu diễn. Ví dụ: <strong>Content-Type header</strong> chỉ định loại tài liệu (ví dụ: văn bản, hình ảnh) và có thể xuất hiện trong POST request hoặc GET response. Representation header cho phép chúng ta truyền nhiều loại nội dung khác nhau qua HTTP, giúp giao thức này tổng quát và có thể được sử dụng cho nhiều loại ứng dụng.</p>
+<h2 id="http-examples-ví-dụ-về-http"><a class="header" href="#http-examples-ví-dụ-về-http"><strong>HTTP Examples</strong> (Ví dụ về HTTP)</a></h2>
+<p>Trong terminal, bạn có thể gõ:</p>
+<hr />
+<p>telnet google.com 80</p>
+<hr />
+<p>để kết nối tới <strong>Port 80</strong> (HTTP) trên server của Google. Terminal sau đó sẽ cho phép bạn gõ một yêu cầu HTTP thô, kèm header, như:</p>
+<hr />
+<p>GET / HTTP/1.1
+User-Agent: robjs</p>
+<hr />
+<p>Đây là một GET request cho trang gốc trên server, chạy trên HTTP phiên bản 1.1. <strong>User-Agent header</strong> cho biết loại client mà chúng ta đang sử dụng.</p>
+<p>Tương tự, phản hồi cũng ở dạng văn bản dễ đọc:</p>
+<hr />
+<p>HTTP/1.1 200 OK
+Date: Sat, 16 Mar 2024 18:33:08 GMT
+Content-Type: text/html; charset=ISO-8859-1
+&lt;!doctype html&gt;<html lang="en"><head><meta content="Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for." name="description">...</p>
+<hr />
+<p>Dòng <em>HTTP/1.1 200 OK</em> cho chúng ta biết phiên bản và mã trạng thái (200) cùng thông điệp tương ứng (OK). Có hai header đi kèm: ngày tạo phản hồi và loại nội dung. Sau đó, phần nội dung chứa HTML thô của trang web. Nếu mở HTML này trong trình duyệt, nó sẽ hiển thị như một trang web thực sự.</p>
+<img width="800px" src="../assets/applications/4-14-httpexample1.png">
+<img width="800px" src="../assets/applications/4-15-httpexample2.png">
+<p>Dưới đây là một số ví dụ khác. Lưu ý rằng phần nội dung trống trong GET request, nhưng chứa dữ liệu trong POST và PUT request. Ngược lại, phản hồi của POST và PUT không có nội dung, nhưng phản hồi của GET thì có.</p>
+<p>Mã trạng thái và header cung cấp metadata hữu ích về yêu cầu. Ví dụ: mã trạng thái <em>201 Created</em> cho biết tệp mà chúng ta gửi đã được lưu thành công trên server. Header cho biết vị trí trên server nơi tệp được lưu (và chúng ta có thể dùng vị trí đó để tải lại tệp sau này).</p>
+<h2 id="speeding-up-http-with-pipelining-tăng-tốc-http-với-pipelining"><a class="header" href="#speeding-up-http-with-pipelining-tăng-tốc-http-với-pipelining"><strong>Speeding Up HTTP with Pipelining</strong> (Tăng tốc HTTP với Pipelining)</a></h2>
+<p>Tải một trang duy nhất trong trình duyệt web của bạn có thể yêu cầu nhiều HTTP request. Khi bạn yêu cầu một video YouTube, trình duyệt phải gửi các yêu cầu riêng cho:</p>
+<ul>
+<li>Video chính</li>
+<li>HTML chứa văn bản khác trên trang (ví dụ: tiêu đề video, bình luận)</li>
+<li>Ảnh thu nhỏ (thumbnail) của các video liên quan<br />
+… và nhiều thành phần khác. Nhiều yêu cầu trong số này có thể tới cùng một server (ví dụ: server của YouTube).</li>
+</ul>
+<p>Hãy nhớ rằng HTTP chạy trên TCP. Trong trường hợp đơn giản, mỗi yêu cầu riêng biệt sẽ cần bắt đầu một kết nối TCP mới với <strong>3-way handshake</strong>. Sau khi yêu cầu hoàn tất, chúng ta đóng kết nối và lại thực hiện handshake cho yêu cầu tiếp theo.</p>
+<img width="900px" src="../assets/applications/4-16-no-pipeline.png">
+<p><strong>HTTP/1.1</strong> đã tối ưu điều này bằng cách cho phép nhiều HTTP request và response được <strong>pipelined</strong> (xếp nối) trên cùng một kết nối. Giờ đây, chúng ta không cần một kết nối TCP riêng (với handshake riêng) cho mỗi yêu cầu nữa.</p>
+<img width="900px" src="../assets/applications/4-17-pipeline.png">
+<p>Một nhược điểm của tối ưu hóa này là server giờ phải giữ nhiều kết nối mở đồng thời hơn. Server cần có cơ chế <strong>timeout</strong> (hết thời gian chờ) cho các kết nối. Nếu server bị quá tải với các kết nối mở, client có thể gặp lỗi như <em>503 Service Unavailable</em>. Kẻ tấn công có thể lợi dụng điều này để thực hiện <strong>denial-of-service attack</strong> (tấn công từ chối dịch vụ).</p>
+<h2 id="tăng-tốc-http-với-caching-các-loại-speeding-up-http-with-caching-types"><a class="header" href="#tăng-tốc-http-với-caching-các-loại-speeding-up-http-with-caching-types"><strong>Tăng tốc HTTP với Caching: Các loại</strong> (Speeding Up HTTP with Caching: Types)</a></h2>
+<p>Một chiến lược khác để tăng tốc <strong>HTTP</strong> là lưu vào bộ nhớ đệm (<strong>cache</strong>) các phản hồi, nhằm tránh việc gửi các yêu cầu trùng lặp cho cùng một dữ liệu.</p>
+<p>Nếu không có caching, mọi yêu cầu đều phải đi đến server.</p>
+<img width="900px" src="../assets/applications/4-18-nocache.png">
+<p>Có ba loại HTTP cache:</p>
+<ul>
+<li><strong>Private cache</strong> (bộ nhớ đệm riêng) gắn liền với một client (máy khách) cụ thể kết nối tới server (ví dụ: cache trong trình duyệt của bạn). Khi cùng một người dùng yêu cầu cùng một tài nguyên lần thứ hai, họ có thể lấy tài nguyên từ cache cục bộ. Tuy nhiên, private cache không được chia sẻ giữa các người dùng.</li>
+</ul>
+<img width="900px" src="../assets/applications/4-19-privatecache.png">
+<ul>
+<li><strong>Proxy cache</strong> (bộ nhớ đệm proxy) nằm trong mạng (không nằm trên máy của người dùng cuối), và được điều khiển bởi nhà vận hành mạng, không phải nhà cung cấp ứng dụng. Các cache này có thể được chia sẻ giữa nhiều người dùng, vì vậy một người dùng yêu cầu một tài nguyên lần đầu tiên có thể nhận dữ liệu từ proxy cache thay vì từ <strong>origin server</strong> (máy chủ gốc).</li>
+</ul>
+<img width="900px" src="../assets/applications/4-20-proxycache.png">
+<p><strong>Vấn đề</strong> với proxy cache là client cần một cách nào đó để được chuyển hướng tới proxy cache. Ứng dụng không vận hành proxy cache, nên origin server không nhất thiết biết về nó. Nhà vận hành mạng cần một cách để kiểm soát client và thông báo cho họ về proxy cache.</p>
+<p>Một cách phổ biến là “nói dối” trong phản hồi <strong>DNS</strong> (nếu nhà mạng kiểm soát cả proxy cache và <strong>recursive resolver</strong>). Khi client tra cứu địa chỉ IP của origin server, recursive resolver có thể trả về địa chỉ IP của proxy cache (ví dụ: 1.2.3.4). Khi đó, các yêu cầu tới origin server sẽ đi tới proxy cache, nơi có thể phục vụ dữ liệu đã được cache. Nếu tài nguyên chưa có trong proxy cache, proxy cache sẽ gửi yêu cầu tới origin server, nhận dữ liệu và trả lại cho người dùng.</p>
+<p>Một vấn đề khác là ứng dụng không quản lý proxy cache, nên origin server phải tin rằng proxy cache hoạt động đúng (ví dụ: tôn trọng thời hạn cache, trả dữ liệu chính xác).</p>
+<ul>
+<li><strong>Managed cache</strong> (bộ nhớ đệm được quản lý) nằm trong mạng và do nhà cung cấp ứng dụng điều khiển. Các máy chủ cache này được triển khai riêng biệt, không phải là origin server tạo ra nội dung. Vì được kiểm soát bởi nhà cung cấp ứng dụng, managed cache cho phép ứng dụng có nhiều quyền kiểm soát hơn.</li>
+</ul>
+<img width="900px" src="../assets/applications/4-21-managedcache.png">
+<p>Vì ứng dụng kiểm soát cả origin server và cache, họ có thể tự chuyển hướng người dùng tới cache. Ví dụ: khi bạn yêu cầu một trang video YouTube từ origin server, phản hồi có thể chứa HTML (tiêu đề video, bình luận). HTML này có thể bao gồm các liên kết để tải video và hình ảnh từ proxy cache (ví dụ: tải từ <em>static.youtube.com</em> thay vì <em>www.youtube.com</em>).</p>
+<h2 id="tăng-tốc-http-với-caching-lợi-ích-và-hạn-chế-benefits-and-drawbacks"><a class="header" href="#tăng-tốc-http-với-caching-lợi-ích-và-hạn-chế-benefits-and-drawbacks"><strong>Tăng tốc HTTP với Caching: Lợi ích và Hạn chế</strong> (Benefits and Drawbacks)</a></h2>
+<p>Caching mang lại lợi ích cho tất cả mọi bên:</p>
+<ul>
+<li><strong>Client</strong>: tải trang nhanh hơn vì tránh được các yêu cầu trùng lặp và có thể sử dụng proxy gần hơn.</li>
+<li><strong>ISP</strong> (nhà cung cấp dịch vụ Internet): giảm số lượng HTTP request/response truyền qua mạng, tiết kiệm băng thông.</li>
+<li><strong>Server</strong>: nhận ít yêu cầu hơn, giảm tải xử lý.</li>
+</ul>
+<p>Tất cả (client, ISP, server) đều quan tâm đến việc mang lại hiệu năng tốt cho client. Client muốn xem video chất lượng cao, và ISP cùng ứng dụng sẽ thu hút nhiều khách hàng hơn nếu cung cấp hiệu năng tốt. Caching giúp đạt được điều này vì client có thể nhận dữ liệu từ cache gần hơn (cục bộ hoặc trong mạng), với độ trễ (<strong>latency</strong>) thấp hơn. Ngoài ra, hãy nhớ rằng <strong>TCP throughput</strong> và <strong>RTT</strong> (round-trip time) tỉ lệ nghịch, nên RTT ngắn hơn tới server gần hơn sẽ cho throughput cao hơn. Điều này đặc biệt hữu ích cho nội dung lớn như video.</p>
+<p>Khi nghĩ về caching, cần xem xét nội dung có thay đổi ở các yêu cầu sau hay không:</p>
+<ul>
+<li><strong>Tài nguyên tĩnh</strong>: không thay đổi giữa các lần yêu cầu (ví dụ: logo Google).</li>
+<li><strong>Tài nguyên động</strong>: thay đổi tùy người yêu cầu và thời điểm yêu cầu (ví dụ: kết quả tìm kiếm Google).</li>
+</ul>
+<p>Một số tài nguyên tĩnh có thể được cache và phục vụ từ proxy hoặc managed cache, trong khi tài nguyên động phải được tạo mới. Ví dụ: kết quả tìm kiếm Google (HTML) cần được tạo động từ origin server, nhưng HTML đó có thể chứa liên kết tải logo Google (tĩnh) từ managed cache.</p>
+<p>Thuận lợi là các tài nguyên lớn như hình ảnh và video thường là tĩnh và có thể cache mạnh tay. Nội dung động như HTML tùy biến thường nhỏ hơn. Client có thể lấy nội dung động từ origin server (xa) và dùng cache/proxy (gần) cho nội dung tĩnh.</p>
+<h2 id="tăng-tốc-http-với-caching-triển-khai-implementation"><a class="header" href="#tăng-tốc-http-với-caching-triển-khai-implementation"><strong>Tăng tốc HTTP với Caching: Triển khai</strong> (Implementation)</a></h2>
+<p>Để triển khai caching, chúng ta cần dùng <strong>HTTP header</strong> để mang metadata về caching (ví dụ: thời gian lưu cache). Đây là một ví dụ khác cho thấy header giúp mở rộng giao thức gốc (vốn không hỗ trợ caching).</p>
+<ul>
+<li>Trong <strong>HTTP/1.0</strong>, caching dùng <strong>Expires header</strong>, chỉ định thời gian dữ liệu có thể được cache.</li>
+<li>Trong <strong>HTTP/1.1</strong>, giới thiệu <strong>Cache-Control header</strong> phức tạp hơn. Để tương thích, một số web server trả về cả hai header. Client HTTP/1.0 sẽ bỏ qua Cache-Control, còn client HTTP/1.1 sẽ ưu tiên Cache-Control hơn Expires.</li>
+</ul>
+<p><strong>Cache-Control header</strong> chỉ định loại cache nào được phép lưu dữ liệu và thời gian lưu. Ví dụ: nếu tài nguyên là động và thay đổi theo từng người dùng nhưng giữ nguyên theo thời gian cho một người dùng cụ thể, server có thể trả về:</p>
+<hr />
+<p>Cache-Control: private, max-age=86400</p>
+<hr />
+<p>Điều này nghĩa là nội dung chỉ được lưu trong cache cục bộ của người dùng (không lưu trong proxy/managed cache chia sẻ) và có thể lưu trong 1 ngày (86400 giây).</p>
+<p>Một số dữ liệu không thể cache (ví dụ: nội dung động thay đổi thường xuyên). Khi đó, server có thể đặt:</p>
+<hr />
+<p>Cache-Control: no-store</p>
+<hr />
+<p>để báo rằng client và proxy không được cache nội dung.</p>
+<p>Cache-Control là tùy chọn, nên không đảm bảo client sẽ đọc hoặc tuân thủ. Bạn có thể coi đây là “yêu cầu” từ server để cache dữ liệu. Điều này đặc biệt đáng lo với proxy cache (không do nhà cung cấp ứng dụng vận hành). Ngược lại, private cache do client (trình duyệt) vận hành, vi phạm chỉ ảnh hưởng tới chính họ. Managed cache do cùng nhà cung cấp ứng dụng vận hành, nên họ có thể đảm bảo tuân thủ quy tắc từ origin server.</p>
+<p>Header này cũng có thể dùng cho chính sách phức tạp hơn. Ví dụ: server có thể cho phép cache dữ liệu, nhưng yêu cầu trước khi dùng dữ liệu cache, client phải gửi <strong>HTTP HEAD request</strong> để lấy lại header và xác thực dữ liệu. Nếu header cho thấy dữ liệu đã thay đổi, hãy xóa cache.</p>
+<h2 id="content-delivery-networks-cdns--mạng-phân-phối-nội-dung"><a class="header" href="#content-delivery-networks-cdns--mạng-phân-phối-nội-dung"><strong>Content Delivery Networks (CDNs)</strong> – Mạng phân phối nội dung</a></h2>
+<p>Trước đây, chúng ta đã thấy rằng <strong>managed cache</strong> (bộ nhớ đệm được quản lý) là một chiến lược tốt để lưu đệm và cải thiện hiệu năng cho người dùng. Không giống như <strong>private cache</strong> (bộ nhớ đệm riêng), chúng được chia sẻ giữa nhiều người dùng (ví dụ: một người dùng yêu cầu một nội dung lần đầu tiên vẫn có thể được phục vụ từ cache). Đồng thời, khác với <strong>proxy cache</strong> (bộ nhớ đệm proxy), chúng được kiểm soát bởi nhà cung cấp ứng dụng (<strong>application provider</strong>), điều này giúp ứng dụng có nhiều quyền kiểm soát hơn. Ứng dụng có thể đảm bảo rằng cache tuân thủ các quy tắc do <strong>origin server</strong> (máy chủ gốc) đặt ra, và origin server có thể kiểm soát việc người dùng được chuyển hướng tới cache nào.</p>
+<p>Triển khai managed cache trên toàn mạng dẫn đến ý tưởng về <strong>Content Delivery Network (CDN)</strong> – tập hợp các máy chủ trong mạng phục vụ nội dung (ví dụ: các tài nguyên HTTP).</p>
+<p>Để đạt hiệu năng tốt, chúng ta cố gắng đặt CDN gần người dùng cuối. Ở đây, “gần” có nghĩa là gần về mặt địa lý, nhưng cũng gần về mặt mạng (ít số bước nhảy hơn).</p>
+<p>CDN mang lại tất cả lợi ích của caching. Người dùng nhận được nội dung với hiệu năng cao hơn vì máy chủ gần hơn. Chúng ta có thể giảm lượng <strong>network bandwidth</strong> (băng thông mạng) và hạ tầng cần thiết, vì người dùng chủ yếu gửi yêu cầu tới các máy chủ gần thay vì một origin server duy nhất (có thể ở rất xa).</p>
+<p>CDN cho phép nhà cung cấp mở rộng hạ tầng máy chủ dễ dàng hơn. Với một origin server duy nhất, chúng ta phải nâng cấp máy chủ đó trở nên cực kỳ mạnh và có băng thông cực lớn. Ngược lại, với CDN, chúng ta chỉ cần bổ sung thêm nhiều máy chủ nhỏ trên khắp Internet.</p>
+<p>CDN cũng cung cấp khả năng <strong>redundancy</strong> (dự phòng) tốt hơn cho nhà cung cấp. Nếu một origin server gặp sự cố, dịch vụ có thể bị gián đoạn. Ngược lại, với CDN, nếu một máy chủ gặp sự cố, người dùng vẫn có thể được chuyển hướng tới các máy chủ khác.</p>
+<h2 id="triển-khai-cdn-cdn-deployment"><a class="header" href="#triển-khai-cdn-cdn-deployment"><strong>Triển khai CDN</strong> (CDN Deployment)</a></h2>
+<p>Hãy nhớ lại mô hình Internet: Yêu cầu của client được chuyển tiếp qua các <strong>WAN router</strong> (do ISP sở hữu) cho đến khi đến một <strong>peering location</strong> (điểm kết nối ngang hàng). Sau đó, yêu cầu đi tới peering location trong mạng của nhà cung cấp ứng dụng. Yêu cầu tiếp tục đi qua mạng WAN của ứng dụng cho đến khi đến <strong>datacenter network</strong> (mạng trung tâm dữ liệu), nơi đặt origin server.</p>
+<p>Nếu không triển khai CDN, mọi yêu cầu đều phải đến origin server. Điều này dẫn đến <strong>latency</strong> (độ trễ) cao nhất (so với các phương án có CDN), hiệu năng thấp nhất, yêu cầu nhiều băng thông nhất, và buộc origin server phải mở rộng để xử lý mọi yêu cầu.</p>
+<img width="900px" src="../assets/applications/4-21-cdn1.png">
+<p>Một lựa chọn tốt hơn là triển khai một số máy chủ CDN ở rìa mạng của nhà cung cấp ứng dụng. Ví dụ: nếu mạng của Google kết nối ngang hàng với mạng ISP ở New York, chúng ta có thể đặt một số CDN tại đó.</p>
+<p>Khi đó, lượng băng thông truyền qua mạng của nhà cung cấp ứng dụng giảm đáng kể. Origin server chỉ cần gửi video tới CDN một lần, và CDN có thể phục vụ video đó cho nhiều người dùng. Mạng ứng dụng không còn cần mở rộng mạng WAN của mình.</p>
+<p>Ngoài ra, như đã thấy, chúng ta có thể mở rộng bằng cách thêm nhiều CDN thay vì nâng cấp một origin server duy nhất. Chúng ta cũng có thêm khả năng dự phòng.</p>
+<img width="900px" src="../assets/applications/4-22-cdn2.png">
+<p>Chúng ta có thể làm tốt hơn nữa bằng cách đẩy caching sâu hơn vào trong mạng. Lúc này, ứng dụng triển khai máy chủ ngay bên trong mạng của ISP.</p>
+<img width="900px" src="../assets/applications/4-23-cdn3.png">
+<p>Tại sao ISP lại đồng ý cho ứng dụng triển khai CDN trong mạng của họ? Thực tế, điều này mang lại lợi ích cho cả hai bên. Khách hàng của ISP sẽ có hiệu năng tốt hơn vì họ có thể sử dụng CDN gần hơn. Ngoài ra, lưu lượng lớn giữa người dùng và CDN giờ đây được giữ hoàn toàn trong mạng của ISP. Điều này có nghĩa là ISP cần ít băng thông hơn ở kết nối peering giữa ISP và ứng dụng (vì nội dung chỉ được gửi một lần qua kết nối đó).</p>
+<p>Trên thực tế, ISP và CDN thường hợp tác để triển khai máy chủ. Ví dụ: ứng dụng cung cấp máy chủ miễn phí, và ISP kết nối máy chủ vào mạng miễn phí. Trong một số trường hợp, ISP và CDN cần đàm phán về khoản thanh toán (CDN trả cho ISP hoặc ISP trả cho CDN), tùy thuộc vào vị trí triển khai máy chủ trong mạng và chi phí máy chủ cũng như kết nối. Tuy nhiên, cả hai bên đều có lợi ích trong việc triển khai các máy chủ này.</p>
+<p>Chúng ta có thể tiến xa hơn nữa, nhưng cuối cùng sẽ gặp giới hạn chi phí – lợi ích. Trong trường hợp cực đoan, chúng ta có thể triển khai CDN tại từng hộ gia đình, nhưng chi phí có thể vượt quá lợi ích. Đặc biệt, CDN hoạt động tốt nhất khi có nhiều người dùng sử dụng nó. Cache tập thể sẽ lớn hơn, và một điểm triển khai có thể phục vụ nhiều người dùng.</p>
+<img width="900px" src="../assets/applications/4-24-cdn4.png">
+<p>Nói chung, luôn tồn tại sự đánh đổi giữa chi phí bổ sung CDN mới và số tiền tiết kiệm được từ việc giảm xây dựng băng thông. Trên thực tế, CDN tồn tại trong mạng ISP vì chúng vẫn mang lại lợi nhuận khi lắp đặt.</p>
+<p>Báo cáo năm 2023 của <strong>Sandvine</strong> (công ty giám sát gói tin) cho thấy 15% tổng lưu lượng Internet đến từ Netflix, 11,4% từ YouTube, và 4,5% từ Disney+. Nếu một ISP cài đặt máy chủ cho chỉ ba ứng dụng này trong mạng của họ, họ có thể giảm tới 25% dung lượng mạng cần xây dựng.</p>
+<p>Các nhà cung cấp ứng dụng lớn như Google, Netflix, Amazon và Facebook triển khai CDN cả trong mạng của họ và trong mạng ISP.</p>
+<p>Nếu bạn là nhà cung cấp ứng dụng, có thể bạn không phải là “ông lớn” công nghệ như Google hay Amazon, nhưng bạn vẫn muốn nội dung của mình được phân phối qua CDN để đạt hiệu năng tốt. Các ứng dụng nhỏ hơn có thể không đủ khả năng tự triển khai CDN. Tuy nhiên, các công ty như Cloudflare, Akamai và Edgio đã triển khai CDN, và bạn có thể trả phí để họ phân phối nội dung của bạn trên CDN sẵn có của họ. Các nhà cung cấp CDN này cũng triển khai hạ tầng cả trong mạng của họ và trong mạng ISP.</p>
+<p>CDN cũng có thể được ISP sử dụng, vì bản thân ISP cũng có thể có ứng dụng phục vụ nội dung. Khi bạn trả tiền cho dịch vụ Internet, ISP có thể cung cấp thêm dịch vụ TV (truyền hình trực tiếp hoặc video theo yêu cầu). Các ISP này triển khai CDN riêng để phục vụ nội dung TV đó một cách hiệu quả.</p>
+<p>Về cơ bản, các máy chủ trong CDN giống như bất kỳ máy chủ nào khác trên Internet cung cấp nội dung, mặc dù chúng thường được tối ưu hóa cao để lưu trữ và phân phối lượng lớn nội dung. Một số máy chủ có thể được tối ưu để lưu trữ và phục vụ lượng lớn dữ liệu, trong khi một số khác được tối ưu để phục vụ nhanh các phần nội dung nhỏ cho số lượng lớn khách hàng.</p>
+<h2 id="directing-clients-to-caches-chuyển-hướng-client-tới-các-bộ-nhớ-đệm"><a class="header" href="#directing-clients-to-caches-chuyển-hướng-client-tới-các-bộ-nhớ-đệm"><strong>Directing Clients to Caches</strong> (Chuyển hướng client tới các bộ nhớ đệm)</a></h2>
+<p>Trong một <strong>CDN (Content Delivery Network – Mạng phân phối nội dung)</strong>, có nhiều máy chủ khác nhau trên khắp Internet cùng cung cấp một nội dung giống nhau. Vậy làm thế nào để client (máy khách) biết nên kết nối tới máy chủ nào?</p>
+<p>Một số kỹ thuật từ <strong>DNS (Domain Name System)</strong> cũng có thể áp dụng cho CDN. Chúng ta có thể sử dụng <strong>anycast</strong>, trong đó nhiều máy chủ quảng bá cùng một tiền tố địa chỉ IP (<strong>IP prefix</strong>). Điều này cho phép thuật toán định tuyến tìm đường tốt nhất tới bất kỳ máy chủ nào trong số đó.</p>
+<img width="800px" src="../assets/applications/4-25-anycast1.png">
+<p>Một vấn đề của anycast là với các kết nối dài hạn. Giả sử client đang có một kết nối <strong>TCP</strong> đang hoạt động với một trong các máy chủ. Trong quá trình kết nối, một liên kết trung gian trong mạng bị lỗi. Vì tất cả các máy chủ đều có cùng địa chỉ IP, nên từ góc nhìn của router trung gian, việc chuyển tiếp tới bất kỳ máy chủ nào cũng hợp lệ. Router trung gian có thể bắt đầu chuyển tiếp gói tin tới một máy chủ khác (có cùng địa chỉ IP). Tuy nhiên, kết nối TCP ban đầu là với máy chủ cũ, và máy chủ mới này không thể tiếp tục kết nối đó.</p>
+<p>Lưu ý rằng vấn đề này không xảy ra khi chúng ta dùng anycast trong DNS, vì các kết nối DNS rất ngắn (thường chỉ là một gói UDP duy nhất).</p>
+<img width="800px" src="../assets/applications/4-26-anycast2.png">
+<p>Chúng ta cũng có thể dùng DNS để <strong>load-balance</strong> (cân bằng tải). Khác với anycast, các máy chủ lúc này có địa chỉ IP khác nhau, nhưng vẫn cùng một tên miền. Khi client truy vấn ánh xạ tên miền–IP, <strong>DNS name server</strong> có thể trả về địa chỉ IP khác nhau tùy theo vị trí của client.</p>
+<p>Cách tiếp cận dựa trên DNS này không gặp vấn đề với kết nối dài hạn như anycast, vì các máy chủ có địa chỉ khác nhau. Router sẽ không đột ngột chuyển gói tin sang máy chủ khác.</p>
+<p>Một vấn đề của cách tiếp cận dựa trên DNS là thiếu tính chi tiết (<strong>granularity</strong>). Ví dụ cực đoan: giả sử tất cả người dùng trong ISP Comcast dùng chung một <strong>recursive resolver</strong>. Điều này có nghĩa là tất cả gửi truy vấn DNS tới resolver này, và resolver sẽ gửi truy vấn tới <strong>application name server</strong>. Application name server chỉ thấy rằng truy vấn đến từ Comcast, và phải trả về một địa chỉ IP duy nhất cho Comcast. Kết quả là mọi người dùng trong mạng Comcast sẽ dùng cùng một máy chủ, ngay cả khi họ ở khắp nơi trên thế giới.</p>
+<img width="800px" src="../assets/applications/4-27-dns-loadbalance.png">
+<p>Một cách tiếp cận mạnh mẽ hơn anycast hoặc DNS là <strong>application-level mapping</strong> (ánh xạ ở tầng ứng dụng). Khi origin server nhận một yêu cầu HTTP, các liên kết trong phản hồi có thể trỏ tới các máy chủ khác nhau (ví dụ: <em>static1.google.com</em> hoặc <em>static2.google.com</em>, hai máy chủ ở các vị trí khác nhau), tùy thuộc vào nơi yêu cầu xuất phát. Hoặc, origin server có thể trả về mã trạng thái HTTP 300-level để chuyển hướng người dùng tới máy chủ phù hợp.</p>
+<p>Cách tiếp cận ở tầng ứng dụng này không gặp vấn đề về granularity như DNS, vì ứng dụng có thể thấy địa chỉ của client trong yêu cầu HTTP. Nó cũng không gặp vấn đề của anycast, vì các máy chủ có thể có địa chỉ IP khác nhau.</p>
+<p>Tuy nhiên, giống như trong cân bằng tải dựa trên DNS, ứng dụng vẫn cần một cách để ước lượng máy chủ gần nhất với client (gần có thể là về mặt địa lý hoặc dựa trên cấu trúc mạng).</p>
+<p>Một lợi ích của application-level mapping là có thể tinh chỉnh tùy theo nội dung. Ví dụ: các video phổ biến có thể được triển khai trên nhiều máy chủ, cho phép mọi client lấy video từ máy chủ gần nhất. Ngược lại, các video ít phổ biến hơn có thể chỉ được triển khai trên ít máy chủ, buộc người dùng phải kết nối xa hơn để lấy nội dung.</p>
+<h2 id="newer-http-versions-các-phiên-bản-http-mới-hơn"><a class="header" href="#newer-http-versions-các-phiên-bản-http-mới-hơn"><strong>Newer HTTP Versions</strong> (Các phiên bản HTTP mới hơn)</a></h2>
+<p>Khi Internet phát triển, <strong>HTTP</strong> bắt đầu được sử dụng bởi ngày càng nhiều ứng dụng, vì đây là một giao thức rất dễ tổng quát hóa.</p>
+<p>Cuối cùng, vấn đề bảo mật của HTTP trở nên đáng lo ngại hơn. Một máy chủ ngân hàng chạy HTTP có lẽ không muốn thông tin được gửi dưới dạng văn bản thuần (<strong>plaintext</strong>) qua mạng, nơi các router trung gian hoặc kẻ tấn công có thể đọc được.</p>
+<p><strong>HTTPS</strong> là một phần mở rộng của HTTP bổ sung bảo mật. Một giao thức gọi là <strong>TLS (Transport Layer Security)</strong> được xây dựng trên TCP, nơi người dùng trao đổi khóa bí mật và mã hóa thông điệp trước khi gửi qua bytestream. HTTPS có cùng giao thức cơ bản, nhưng chạy trên TLS (TLS chạy trên TCP), thay vì trực tiếp trên TCP không bảo mật. Trong những năm gần đây, đã có xu hướng nâng cấp website lên HTTPS, và tính đến năm 2024, hơn 85% website mặc định sử dụng HTTPS.</p>
+<p><strong>HTTP/2.0</strong> được giới thiệu năm 2015, là bản sửa đổi lớn đầu tiên của giao thức kể từ năm 1997. Mục tiêu chính là cải thiện hiệu năng bằng cách giảm độ trễ và tăng tốc độ tải trang.</p>
+<p>HTTP/2.0 giới thiệu <strong>server push</strong> (đẩy từ phía máy chủ), cho phép server gửi phản hồi ngay cả khi client chưa gửi yêu cầu. Điều này cho phép server dự đoán và chủ động gửi nội dung mà người dùng có thể cần, mà không phải chờ yêu cầu. Ví dụ: khi tìm kiếm Google, HTML kết quả được trả về. Sau đó, trình duyệt phân tích HTML, nhận ra cần logo Google và gửi yêu cầu HTTP khác. Với HTTP/2.0, server có thể gửi logo Google ngay lập tức, không cần chờ yêu cầu.</p>
+<p>HTTP/2.0 còn có các cải tiến hiệu năng khác:</p>
+<ul>
+<li><strong>Header compression</strong> (nén header) để tiết kiệm dung lượng.</li>
+<li><strong>Request/response prioritization</strong> (ưu tiên yêu cầu/phản hồi) để nội dung quan trọng (ví dụ: văn bản kết quả tìm kiếm) được gửi trước nội dung ít quan trọng (ví dụ: logo Google).</li>
+<li><strong>Multiplexing</strong> hiệu quả hơn: nhiều yêu cầu đồng thời được xử lý thông minh, tránh việc phản hồi nhỏ bị chặn bởi phản hồi lớn.</li>
+</ul>
+<p>HTTP/2.0 được hỗ trợ rộng rãi bởi cả client (trình duyệt hiện đại) và server (ví dụ: CDN).</p>
+<p><strong>HTTP/3.0</strong> được giới thiệu năm 2022 (không lâu sau HTTP/2.0, so với khoảng cách giữa 1.1 và 2.0). Ngữ nghĩa giống HTTP/2.0, nhưng thay đổi giao thức tầng vận chuyển (<strong>transport layer protocol</strong>). Thay vì chạy trên bytestream của TCP, HTTP/3.0 chạy trên một giao thức vận chuyển mới gọi là <strong>QUIC (Quick UDP Connections)</strong>, được thiết kế riêng để hoạt động tốt với HTTP/3.0. QUIC được Google phát triển và chuẩn hóa tại <strong>IETF</strong>.</p>
+<p>HTTP/3.0 là một ví dụ về việc cố ý từ bỏ một trong những nguyên tắc cốt lõi của mạng máy tính (<strong>layering</strong>) để đổi lấy hiệu quả cao hơn. Bằng cách cho phép thiết kế tùy chỉnh cả giao thức tầng vận chuyển (QUIC) và tầng ứng dụng (HTTP/3.0), chúng ta có thể tối ưu để cả hai hoạt động tốt cùng nhau.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../applications/dns.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../end-to-end/ethernet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../applications/dns.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../end-to-end/ethernet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

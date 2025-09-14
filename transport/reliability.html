@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Transport Layer Principles - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html" class="active"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="nguyên-lý-của-tầng-vận-chuyển-transport-layer-principles"><a class="header" href="#nguyên-lý-của-tầng-vận-chuyển-transport-layer-principles">Nguyên lý của Tầng Vận chuyển (<em>Transport Layer Principles</em>)</a></h1>
+<h2 id="trừu-tượng-hóa-và-mục-tiêu-của-Độ-tin-cậy-reliability-abstraction-and-goals"><a class="header" href="#trừu-tượng-hóa-và-mục-tiêu-của-Độ-tin-cậy-reliability-abstraction-and-goals">Trừu tượng hóa và Mục tiêu của Độ tin cậy (<em>Reliability Abstraction and Goals</em>)</a></h2>
+<p>Nhiều ứng dụng yêu cầu độ tin cậy (<em>reliability</em>). Ví dụ, khi gửi một tệp qua Internet, chúng ta muốn bên nhận nhận được đúng các byte theo đúng thứ tự mà bên gửi đã gửi.</p>
+<p>Tuy nhiên, <em>Layer 3</em> (tầng 3) chỉ cung cấp dịch vụ truyền gói tin (<em>packet</em>) không đáng tin cậy, theo cơ chế <em>best-effort</em> (nỗ lực tối đa nhưng không đảm bảo). Gói tin có thể bị mất (<em>dropped</em>), bị hỏng (<em>corrupted</em>), và bị thay đổi thứ tự (thứ tự gói tin gửi không khớp với thứ tự gói tin nhận). Gói tin cũng có thể bị trễ (ví dụ: bị kẹt trong hàng đợi chờ qua một liên kết).</p>
+<p>Trong một số trường hợp hiếm, gói tin thậm chí có thể bị nhân bản (<em>duplicated</em>), khi bên gửi chỉ gửi một gói tin nhưng bên nhận lại nhận được nhiều bản sao của gói đó. Điều này thường xảy ra nếu một <em>router</em> trên đường truyền gặp lỗi nào đó. Trên thực tế, lỗi này rất hiếm.</p>
+<p>Thông tin thú vị: Vern Paxson, giảng viên tại UC Berkeley, là một trong những người đầu tiên phát hiện và báo cáo hiện tượng gói tin bị nhân bản ở tầng liên kết (<em>link layer</em>).</p>
+<p>Chúng ta sẽ sử dụng <em>Layer 4</em> (tầng vận chuyển – <em>transport layer</em>) để lấp đầy khoảng trống này bằng cách phát triển các giao thức dựa trên trừu tượng hóa truyền gói tin <em>best-effort</em> do mạng cung cấp, và cung cấp một trừu tượng hóa đáng tin cậy mà lập trình viên ứng dụng có thể sử dụng.</p>
+<p>Vì lý do thực tiễn (được thảo luận ở phần khác), độ tin cậy được triển khai tại các <em>end host</em> (máy đầu cuối), không phải tại các <em>router</em> trung gian. Ngoài ra, độ tin cậy được triển khai trong hệ điều hành (<em>operating system</em>) để thuận tiện, giúp các ứng dụng không phải tự triển khai lại cơ chế này.</p>
+<img width="900px" src="/assets/transport/3-007-reliability-at-end-hosts.png">
+<p>Chúng ta sẽ chính thức hóa khái niệm độ tin cậy bằng cách định nghĩa <strong>at-least-once delivery</strong> (giao hàng ít nhất một lần). Trong mô hình này, đích đến phải nhận được mọi gói tin, không bị hỏng, ít nhất một lần, nhưng có thể nhận nhiều bản sao của cùng một gói. <em>Transport layer</em> sẽ sử dụng truyền <em>best-effort</em> để cung cấp <em>at-least-once delivery</em>. Sau đó, dựa trên <em>at-least-once delivery</em>, giao thức của chúng ta có thể loại bỏ các bản sao và cung cấp <em>exactly-once delivery</em> (giao hàng chính xác một lần) cho ứng dụng.</p>
+<p>Lưu ý rằng truyền tin đáng tin cậy không đảm bảo rằng gói tin sẽ được gửi đi. Một máy tính không kết nối mạng thì không thể gửi dữ liệu đến đích, bất kể chúng ta dùng giao thức độ tin cậy nào. Các giao thức độ tin cậy được phép từ bỏ và không gửi một gói tin, nhưng lỗi này phải được báo cho ứng dụng. Giao thức không được phép báo sai rằng đã gửi thành công một gói tin.</p>
+<p>Giao thức của chúng ta cũng cần hiệu quả. Cụ thể hơn, giao thức nên truyền dữ liệu nhanh nhất có thể, đồng thời giảm thiểu việc sử dụng <em>bandwidth</em> (băng thông) và tránh gửi gói tin không cần thiết. Ví dụ, chúng ta có thể đảm bảo gói tin đến nơi bằng cách gửi lại mỗi gói hàng trăm lần, nhưng điều này sẽ vi phạm yêu cầu sử dụng <em>bandwidth</em> hiệu quả.</p>
+<h2 id="mục-tiêu-của-tầng-vận-chuyển-transport-layer-goals"><a class="header" href="#mục-tiêu-của-tầng-vận-chuyển-transport-layer-goals">Mục tiêu của Tầng Vận chuyển (<em>Transport Layer Goals</em>)</a></h2>
+<p>Tại <em>transport layer</em>, mục tiêu của chúng ta là cung cấp cho ứng dụng một trừu tượng hóa tiện lợi, giúp lập trình viên dễ dàng hơn. <em>Transport layer</em> cho phép lập trình viên nghĩ theo khái niệm kết nối (<em>connection</em>), thay vì từng gói tin riêng lẻ được gửi qua mạng. Lý tưởng nhất, lập trình viên không cần quan tâm đến các chi tiết mạng cấp thấp như chia nhỏ dữ liệu dài thành gói tin, gửi lại gói tin bị mất, <em>timeout</em> (hết thời gian chờ), v.v.</p>
+<p><em>Reliability</em> chỉ là một trong nhiều mục tiêu mà chúng ta muốn đạt được ở <em>transport layer</em>.</p>
+<p><em>Transport layer</em> triển khai <strong>demultiplexing</strong> (tách luồng) giữa các tiến trình khác nhau tại <em>end host</em>, bằng cách sử dụng số <em>port</em> (cổng) để liên kết mỗi luồng (<em>flow</em> hoặc <em>connection</em>) với một tiến trình khác nhau trên <em>end host</em>.</p>
+<p><em>Transport layer</em> cũng triển khai <em>flow control</em> (điều khiển luồng) và <em>congestion control</em> (điều khiển tắc nghẽn), giúp giới hạn tốc độ gửi gói tin để tránh làm quá tải bộ nhận và mạng.</p>
+<h2 id="tách-luồng-bằng-port-demultiplexing-with-ports"><a class="header" href="#tách-luồng-bằng-port-demultiplexing-with-ports">Tách luồng bằng <em>Port</em> (<em>Demultiplexing with Ports</em>)</a></h2>
+<p>Giả sử máy tính cá nhân của tôi có hai ứng dụng cùng kết nối đến một máy chủ. Khi các gói tin đến máy tính của tôi, chúng có cùng địa chỉ <em>IP</em> nguồn (máy chủ) và cùng địa chỉ <em>IP</em> đích (máy tính của tôi). Làm sao tôi biết gói tin nào dành cho ứng dụng nào?</p>
+<img width="900px" src="/assets/transport/3-001-demultiplex.png">
+<p>Để phân biệt, hay <strong>demultiplex</strong>, gói tin nào dành cho ứng dụng nào, <em>transport layer</em> thêm vào tiêu đề một <strong>port number</strong> (số cổng), dùng để xác định một ứng dụng cụ thể trên <em>end host</em>.</p>
+<img width="900px" src="/assets/transport/3-002-ports.png">
+<p>Khi <em>transport layer</em> nhận một gói tin, nó có thể dùng số <em>port</em> để quyết định ứng dụng tầng cao nào sẽ nhận phần dữ liệu (<em>payload</em>). Vì <em>transport layer</em> được triển khai trong <em>operating system</em>, các <em>port</em> (đôi khi gọi là <strong>logical ports</strong> – cổng logic) là điểm kết nối nơi ứng dụng liên kết với ngăn xếp mạng (<em>network stack</em>) của hệ điều hành. Ứng dụng biết số <em>port</em> của mình, và hệ điều hành biết số <em>port</em> của tất cả ứng dụng, nhờ đó dữ liệu được truyền chính xác giữa ứng dụng và hệ điều hành (không bị lẫn với dữ liệu của ứng dụng khác).</p>
+<img width="800px" src="/assets/transport/3-003-port-attachment.png">
+<p>Số <em>port</em> dài 16 bit. Internet hiện đại thường sử dụng mô hình <em>client-server</em> (máy khách – máy chủ), trong đó <em>client</em> truy cập dịch vụ và <em>server</em> cung cấp dịch vụ. <em>Server</em> thường lắng nghe yêu cầu trên các <em>well-known ports</em> (cổng nổi tiếng, số từ 0–1023). <em>Client</em> biết các cổng này và có thể truy cập để yêu cầu dịch vụ. Ví dụ, các giao thức tầng ứng dụng với cổng nổi tiếng gồm <em>HTTP</em> (cổng 80) và <em>SSH</em> (cổng 22).</p>
+<p>Ngược lại, <em>client</em> có thể chọn số <em>port</em> ngẫu nhiên (thường từ 1024–65535). Các số <em>port</em> này có thể được chọn ngẫu nhiên vì <em>client</em> là bên khởi tạo kết nối, và không ai cần <em>client</em> có số <em>port</em> cố định (vì <em>client</em> không cung cấp dịch vụ). Số <em>port</em> của <em>client</em> là <strong>ephemeral</strong> (tạm thời), vì có thể bỏ sau khi kết nối kết thúc.</p>
+<h2 id="trừu-tượng-hóa-luồng-byte-bytestream-abstraction"><a class="header" href="#trừu-tượng-hóa-luồng-byte-bytestream-abstraction">Trừu tượng hóa luồng byte (<em>Bytestream Abstraction</em>)</a></h2>
+<p>Việc triển khai <em>reliability</em> (độ tin cậy) ở <em>transport layer</em> (tầng vận chuyển) có nghĩa là lập trình viên ứng dụng không còn phải nghĩ đến từng <em>packet</em> (gói tin) kích thước giới hạn được gửi qua mạng. Thay vào đó, lập trình viên có thể nghĩ theo khái niệm <strong>reliable in-order bytestream</strong> (luồng byte đáng tin cậy, đúng thứ tự).</p>
+<p>Phía gửi có một luồng byte không giới hạn độ dài và cung cấp luồng này cho <em>transport layer</em>. Sau đó, phía nhận sẽ nhận được chính xác cùng luồng byte đó, theo đúng thứ tự, không mất byte nào. Bạn có thể hình dung <em>bytestream</em> như một đường ống: phía gửi đưa từng byte vào một đầu ống, và các byte đó xuất hiện ở đầu kia của ống theo đúng thứ tự.</p>
+<p>Phía gửi và phía nhận không cần quan tâm đến việc gửi lại các <em>packet</em> bị mất hay xử lý <em>packet</em> đến sai thứ tự, vì giao thức <em>transport layer</em> sẽ đảm nhiệm điều đó cho lập trình viên.</p>
+<img width="900px" src="/assets/transport/3-004-bytestream.png">
+<h2 id="udp-và-datagram"><a class="header" href="#udp-và-datagram"><em>UDP</em> và <em>Datagram</em></a></h2>
+<p>Đôi khi, ứng dụng không cần <em>reliability</em>. Ví dụ, hãy xem xét một cảm biến đo áp suất nước trong nhà bạn. Cảm biến này gửi một bản ghi (thông điệp nhỏ, kích thước cố định, gồm thời gian và áp suất nước) đến công ty cấp nước mỗi phút.</p>
+<p>Hệ thống này có thể không cần các <em>packet</em> đến đúng thứ tự (ví dụ: nếu bản ghi đã bao gồm dấu thời gian), và cũng có thể không cần khả năng chia nhỏ thông điệp dài thành nhiều <em>packet</em> (mỗi bản ghi vốn đã nhỏ). Hệ thống thậm chí có thể không cần <em>reliability</em>, miễn là phần lớn bản ghi đến được công ty cấp nước.</p>
+<p>Các ứng dụng không cần <em>reliability</em> có thể sử dụng <strong>UDP</strong> (<em>User Datagram Protocol</em> – Giao thức gói tin người dùng) thay vì <em>TCP</em> ở <em>transport layer</em>. <em>UDP</em> không cung cấp đảm bảo <em>reliability</em>. Nếu ứng dụng cần một <em>packet</em> đến nơi, ứng dụng phải tự xử lý việc gửi lại (vì <em>transport layer</em> sẽ không gửi lại).</p>
+<p>Thông điệp trong <em>UDP</em> bị giới hạn trong một <em>packet</em>. Nếu ứng dụng muốn gửi thông điệp lớn hơn, ứng dụng phải tự chia nhỏ và ghép lại. Lưu ý rằng <em>UDP</em> vẫn sử dụng khái niệm <em>port</em> để <em>demultiplexing</em> (tách luồng).</p>
+<img width="900px" src="/assets/transport/3-005-datagram.png">
+<p>Ở <em>transport layer</em>, bạn có thể chọn dùng <em>UDP</em> hoặc <em>TCP</em> tùy nhu cầu, nhưng không thể dùng cả hai cùng lúc. <em>UDP</em> và <em>TCP</em> là các giao thức <em>transport layer</em> tiêu chuẩn trên Internet hiện đại.</p>
+<img width="300px" src="/assets/transport/3-006-tcp-features.png">
+<h2 id="các-thiết-kế-reliability-khác-other-reliability-designs"><a class="header" href="#các-thiết-kế-reliability-khác-other-reliability-designs">Các thiết kế <em>Reliability</em> khác (<em>Other Reliability Designs</em>)</a></h2>
+<p><em>TCP</em> ban đầu được triển khai bởi Vint Cerf và Bob Kahn khi họ còn là sinh viên tại UCLA. Sau này, họ đã nhận Giải thưởng Turing, Huân chương Tự do của Tổng thống, v.v. cho công trình của mình.</p>
+<p>Điều đáng chú ý là thiết kế ban đầu của <em>TCP</em> khá giống với những gì đang được sử dụng trong thực tế ngày nay và đã đứng vững trước thử thách của thời gian. Các ý tưởng cốt lõi của <em>TCP</em> rất đơn giản, thiết kế thanh thoát (dù không hoàn hảo). Tuy nhiên, việc triển khai có thể phức tạp để làm đúng, và rủi ro cao vì gần như toàn bộ Internet hiện đại chạy trên <em>TCP</em>.</p>
+<p>Kể từ khi ra đời, nhiều thành phần riêng lẻ của <em>TCP</em> đã được cải tiến (ví dụ: thuật toán ước lượng bộ định thời tốt hơn, cơ chế <em>acknowledgement</em> thông minh hơn, lựa chọn <em>ISN</em> tốt hơn, <em>congestion control</em> thông minh hơn), nhưng các quyết định kiến trúc và trừu tượng hóa cốt lõi (luồng byte theo kết nối, cửa sổ truyền) vẫn giữ nguyên.</p>
+<p><em>TCP</em> là giao thức <em>reliability</em> tiêu chuẩn trên Internet, nhưng vẫn tồn tại các cách tiếp cận hoàn toàn khác.</p>
+<p>Ví dụ, phía gửi có thể tận dụng ý tưởng <strong>redundancy</strong> (dư thừa – như trong mã sửa lỗi (<em>error-correcting codes</em>) hoặc <em>RAID</em>) để gửi dữ liệu đáng tin cậy hơn. Thay vì gửi nguyên dữ liệu, phía gửi mã hóa dữ liệu thành nhiều <em>packet</em> hơn, với phần dư thừa được chèn vào mỗi <em>packet</em>.</p>
+<p>Ví dụ: người dùng có 10 <em>packet</em>, và một thuật toán có thể mã hóa dữ liệu đó thành 20 <em>packet</em>. Thuật toán có thể đảm bảo rằng chỉ cần nhận được bất kỳ 15 trong số 20 <em>packet</em>, dữ liệu gốc gồm 10 <em>packet</em> có thể được khôi phục.</p>
+<p>Một cách mô tả chính xác hơn: thuật toán mã hóa nhận vào <em>k</em> <em>packet</em>, mã hóa thành <em>n</em> <em>packet</em> (với <em>n</em> &gt; <em>k</em>), sao cho dữ liệu gốc có thể được khôi phục nếu nhận được bất kỳ <em>k'</em> <em>packet</em> nào (với <em>k'</em> &gt; <em>k</em> nhưng <em>k'</em> &lt; <em>n</em>).</p>
+<p>Các sơ đồ mã hóa (<em>coding schemes</em>) là một chủ đề sâu rộng với nhiều thuật toán (ví dụ: <em>fountain codes</em>, <em>raptor codes</em>), dù ở đây chúng ta sẽ không đi sâu. Chúng có thể được ứng dụng thực tế trong các nền tảng truyền phát video (<em>video streaming</em>).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/ip-header.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../transport/tcp-design.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/ip-header.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../transport/tcp-design.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

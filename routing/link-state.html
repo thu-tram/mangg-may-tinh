@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Link-State Protocols - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html" class="active"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="giao-thức-trạng-thái-liên-kết-link-state-protocols"><a class="header" href="#giao-thức-trạng-thái-liên-kết-link-state-protocols">Giao thức Trạng thái Liên kết (Link-State Protocols)</a></h1>
+<h2 id="giới-thiệu-về-giao-thức-link-state"><a class="header" href="#giới-thiệu-về-giao-thức-link-state">Giới thiệu về Giao thức Link-State</a></h2>
+<p>Hãy nhớ lại rằng có nhiều lớp <em>routing protocol</em> khác nhau, tùy thuộc vào thuật toán cơ bản của chúng. Trong phần trước, chúng ta đã tìm hiểu về lớp giao thức <em>distance-vector</em>. Trong phần này, chúng ta sẽ thảo luận về <em><strong>link-state</strong></em> (trạng thái liên kết), một lớp giao thức chính khác.</p>
+<p>Cũng hãy nhớ lại rằng các giao thức cũng có thể được phân loại thành <em>exterior gateway protocols</em> (giao thức cổng ngoại vi) (hoạt động giữa các mạng) và <em>interior gateway protocols</em> (giao thức cổng nội vi) (hoạt động bên trong các mạng). Giống như <em>distance-vector</em>, các giao thức <em>link-state</em> thường là <em>interior gateway protocols</em>.</p>
+<p><em>IS-IS</em> (Intermediate System to Intermediate System - Hệ thống trung gian đến Hệ thống trung gian) và <em>OSPF</em> (Open Shortest Path First - Ưu tiên đường đi ngắn nhất) là hai ví dụ chính về các giao thức <em>link-state</em>. Cả hai đều được triển khai rộng rãi ngày nay.</p>
+<h2 id="tổng-quan-về-link-state"><a class="header" href="#tổng-quan-về-link-state">Tổng quan về Link-State</a></h2>
+<p><em>Distance-vector</em> thực hiện một phép tính phân tán, hợp tác. Mỗi nút tự tính toán phần giải pháp của riêng mình, dựa trên kết quả được tính toán bởi các láng giềng của nó. Phép tính trên tất cả các nút cùng nhau tạo thành giải pháp đầy đủ. Mỗi nút chỉ cần thông tin cục bộ từ các láng giềng của nó trong phép tính (các nút không biết toàn bộ <em>network graph</em> (đồ thị mạng)).</p>
+<p>Ngược lại, các giao thức <em>link-state</em> thực hiện một phép tính cục bộ. Mỗi nút tự tính toán giải pháp đầy đủ một cách độc lập và từ đầu, mà không sử dụng bất kỳ kết quả tính toán nào từ các láng giềng. Tuy nhiên, để làm được điều này, mỗi nút cần thông tin toàn cục từ tất cả các phần của mạng.</p>
+<p>Giao thức <em>link-state</em> trong một câu: Mọi <em>router</em> tìm hiểu toàn bộ <em>network graph</em>, và sau đó chạy thuật toán tìm <em>shortest-paths</em> (đường đi ngắn nhất) trên đồ thị để điền vào <em>forwarding table</em>.</p>
+<p>Có hai bước chính mà chúng ta phải thực hiện. Đầu tiên, <em>router</em> cần bằng cách nào đó tìm hiểu toàn bộ <em>network graph</em>, bao gồm trạng thái của mọi liên kết (hoạt động hay không), chi phí của mọi liên kết, và vị trí của mọi đích đến.</p>
+<p>Sau đó, <em>router</em> cần chạy một thuật toán nào đó trên đồ thị đó để tìm hiểu cách <em>forwarding</em> các gói tin đến mọi đích đến.</p>
+<p>Chúng ta sẽ suy nghĩ về bước thứ hai trước (<em>shortest-paths</em>), sau đó suy nghĩ về bước thứ nhất (tìm hiểu đồ thị).</p>
+<h2 id="tính-toán-Đường-đi-computing-paths"><a class="header" href="#tính-toán-Đường-đi-computing-paths">Tính toán Đường đi (Computing Paths)</a></h2>
+<p>Một khi <em>router</em> có cái nhìn toàn cục về mạng, nó có thể dễ dàng tính toán các đường đi qua mạng bằng một số <em>shortest-path algorithm</em> (thuật toán tìm đường đi ngắn nhất).</p>
+<p>Cụ thể, <em>router</em> nên tính toán đường đi ngắn nhất đến mọi đích. Sau đó, đối với mỗi đích, <em>router</em> ghi lại <em>next hop</em> dọc theo đường đi ngắn nhất, giống như trong các giao thức <em>distance-vector</em>. Phần còn lại của đường đi không cần thiết trong quá trình <em>forwarding</em>.</p>
+<p>Nhiều <em>shortest-path algorithm</em> từ một nguồn duy nhất có thể được sử dụng trong bước này. Ví dụ, <em>Bellman-Ford algorithm</em> (thuật toán Bellman-Ford) (phiên bản tuần tự, không có các thay đổi của <em>distance-vector</em>) và <em>Dijkstra's algorithm</em> (thuật toán Dijkstra) đều tính toán hiệu quả đường đi ngắn nhất từ một nguồn duy nhất đến tất cả các đích. Chúng ta cũng có thể xem xét các giải pháp thay thế như <em>breadth-first search</em> (tìm kiếm theo chiều rộng), hoặc các thuật toán có thể chạy song song.</p>
+<p>Một điều chúng ta phải cẩn thận là sự không nhất quán giữa các <em>router</em>.</p>
+<img width="900px" src="../assets/routing/2-090-link-state-loop.png">
+<p>Hãy nhớ rằng, mọi <em>router</em> đều tính toán các đường đi ngắn nhất một cách độc lập, và quyết định một <em>next hop</em> tương ứng. Mỗi <em>router</em> chỉ kiểm soát <em>next hop</em> của chính nó, và không thể ảnh hưởng đến những gì <em>next hop</em> sẽ làm.</p>
+<p>Ví dụ, giả sử R3 tính toán đường đi ngắn nhất này đến A, và quyết định <em>forwarding</em> các gói tin đến R2. Sau đó, R2 tính toán đường đi ngắn nhất này đến A, và quyết định <em>forwarding</em> các gói tin đến R3. Cả hai <em>router</em> đều tính toán các đường đi ngắn nhất hợp lệ, nhưng quyết định của chúng đã dẫn đến một <em>routing loop</em> (vòng lặp định tuyến).</p>
+<p>Để tránh vấn đề này, chúng ta phải đảm bảo rằng tất cả các <em>router</em> đang đưa ra các quyết định <em>forwarding</em> tương thích với nhau. Các yêu cầu để tất cả các <em>router</em> đưa ra các quyết định tương thích là gì?</p>
+<ol>
+<li>
+<p>Tất cả các <em>router</em> phải đồng ý về <em>network topology</em> (cấu trúc liên kết mạng). Giả sử một liên kết bị lỗi, nhưng chỉ có một <em>router</em> biết về nó. Khi đó, các <em>router</em> khác nhau đang tính toán các đường đi trên các đồ thị hoàn toàn khác nhau, và có thể tạo ra các kết quả không nhất quán.</p>
+</li>
+<li>
+<p>Tất cả các <em>router</em> đang tìm các đường đi chi phí thấp nhất qua đường đi. Nếu một <em>router</em> ưu tiên các đường đi đắt hơn vì một lý do nào đó, chúng ta sẽ nhận được kết quả không nhất quán.</p>
+</li>
+<li>
+<p>Tất cả các chi phí đều là số dương. Chi phí âm có thể tạo ra các chu trình có trọng số âm.</p>
+</li>
+<li>
+<p>Tất cả các <em>router</em> sử dụng cùng một quy tắc phá vỡ thế hòa (tiebreaking rules). Nếu chúng ta giả định rằng các đường đi ngắn nhất là duy nhất, thì hai điều kiện trước đó là đủ để đảm bảo mọi người đều chọn cùng một đường đi. Điều kiện này còn đảm bảo thêm rằng nếu có nhiều đường đi có cùng chi phí ngắn nhất, mọi người đều chọn cùng một đường.</p>
+</li>
+</ol>
+<p>Với bốn điều kiện này, các <em>router</em> có thể sử dụng các <em>shortest-path algorithm</em> khác nhau, và chúng vẫn sẽ cùng tính toán ra các đường đi giống nhau và đưa ra các quyết định tương thích. Tuy nhiên, trên thực tế, các <em>router</em> thường sử dụng cùng một thuật toán để đơn giản.</p>
+<h2 id="tìm-hiểu-về-cấu-trúc-liên-kết-Đồ-thị-learning-about-graph-topology"><a class="header" href="#tìm-hiểu-về-cấu-trúc-liên-kết-Đồ-thị-learning-about-graph-topology">Tìm hiểu về Cấu trúc Liên kết Đồ thị (Learning About Graph Topology)</a></h2>
+<p>Làm thế nào các <em>router</em> tìm hiểu về toàn bộ <em>network graph</em>? Đầu tiên, chúng ta cần tìm hiểu ai là láng giềng của mình (cả <em>router</em> và đích đến). Sau đó, chúng ta cần phân phối thông tin đó ra toàn bộ mạng. Chúng ta cũng cần các <em>router</em> ghép nối tất cả thông tin mà nó nhận được thành một <em>network topology</em>.</p>
+<p>Để khám phá các láng giềng, mọi <em>router</em> gửi một <em>hello message</em> (tin nhắn hello) đến tất cả các láng giềng của nó.</p>
+<img width="600px" src="../assets/routing/2-091-hellos.png">
+<p>Ví dụ, trong mạng này, R2 gửi đến cả hai láng giềng của nó: &quot;Xin chào, tôi là R2.&quot; Bây giờ, R1 biết rằng nó được kết nối với R2, và R3 cũng biết rằng nó được kết nối với R2. Tương tự, R1 gửi lời chào đến R2, vì vậy bây giờ R2 biết về R1. Tương tự, R3 gửi lời chào đến R2, vì vậy R2 cũng biết về R3.</p>
+<p>Kết quả là, mọi người bây giờ đều biết ai là láng giềng ngay cạnh mình. Lưu ý rằng R1 không biết về R3, vì R1 và R3 không phải là láng giềng.</p>
+<img width="900px" src="../assets/routing/2-092-after-hellos.png">
+<p>Chúng ta cũng muốn biết nếu các liên kết bị hỏng. Để hỗ trợ điều này, chúng ta sẽ định kỳ gửi lại <em>hello message</em>. Nếu một láng giềng ngừng gửi lời chào (ví dụ: bỏ lỡ một số lần gửi hello), chúng ta giả định rằng họ đã biến mất.</p>
+<p>Bây giờ chúng ta đã biết về các láng giềng của mình, chúng ta nên thông báo sự thật đó cho mọi người. Để đưa ra một thông báo toàn cục, chúng ta gửi thông báo đến tất cả các láng giềng của mình. Ngoài ra, nếu chúng ta nhận được một thông báo, chúng ta cũng nên gửi nó đến tất cả các láng giềng của mình. Điều này đảm bảo rằng mọi tin nhắn được lan truyền khắp mạng. Điều này được gọi là <em><strong>flooding</strong></em> (quảng bá) thông tin trên toàn mạng. Nếu có bất kỳ thông tin nào thay đổi (ví dụ: một láng giềng biến mất), chúng ta cũng nên <em>flooding</em> thông tin đó.</p>
+<img width="800px" src="../assets/routing/2-093-flooding.png">
+<p>Chúng ta cũng cần đảm bảo rằng các tin nhắn không bị mất. Nếu không, các <em>router</em> khác có thể bỏ lỡ một bản cập nhật và tính toán các đường đi trên đồ thị sai. Để khắc phục vấn đề này, chúng ta sử dụng cùng một thủ thuật mà chúng ta đã sử dụng trong <em>distance-vector</em>, và định kỳ gửi lại tin nhắn. Miễn là liên kết hoạt động, tin nhắn của chúng ta sẽ được gửi đi sau đủ số lần thử.</p>
+<h2 id="tránh-quảng-bá-vô-hạn-avoiding-infinite-flooding"><a class="header" href="#tránh-quảng-bá-vô-hạn-avoiding-infinite-flooding">Tránh Quảng bá Vô hạn (Avoiding Infinite Flooding)</a></h2>
+<p>Chúng ta phải cẩn thận về cách chúng ta <em>flooding</em> các thông báo qua mạng.</p>
+<img width="400px" src="../assets/routing/2-094-flood-problem1.png">
+<p>R2 biết được một số thông tin và thông báo cho láng giềng R3 của nó. Khi R3 nhận được thông tin này, nó lại thông báo cho láng giềng R2 của mình. Khi R2 nhận được thông tin này, nó lại thông báo cho láng giềng R3 của mình. Hai <em>router</em> này bị kẹt trong việc thông báo cho nhau, lãng phí <em>bandwidth</em>, mặc dù không có thông tin mới nào.</p>
+<p>Lưu ý rằng điều này không giống như việc gửi lại tin nhắn định kỳ để đảm bảo độ tin cậy. Để đảm bảo độ tin cậy, chúng ta có thể gửi lại một tin nhắn 5 giây một lần. Trong vòng lặp vô hạn này, các <em>router</em> đang nhận và gửi lại các thông báo trùng lặp với tốc độ tối đa (ví dụ: hàng triệu lần mỗi giây).</p>
+<p>Vấn đề còn tồi tệ hơn nếu mạng của chúng ta chứa một <em>loop</em>:</p>
+<img width="300px" src="../assets/routing/2-095-flood-problem2.png">
+<p>Bước thời gian 1: R1 quảng bá đến R2 và R3.</p>
+<p>Bước thời gian 2: R2 quảng bá đến R1 và R3. R3 quảng bá đến R1 và R2.</p>
+<p>Bước thời gian 3: R1, R1, R2, và R3 tất cả đều thực hiện quảng bá đến (R2, R3), (R2, R3), (R1, R3), và (R1, R2) tương ứng. Lưu ý rằng R1 đã nhận được hai tin nhắn ở bước thời gian 2, vì vậy nó thực hiện hai lần quảng bá.</p>
+<p>Bước thời gian 4: R1, R1, R2, R2, R2, R3, R3, R3 tất cả đều thực hiện quảng bá đến (R2, R3), (R2, R3), (R1, R3), (R1, R3), (R1, R3), (R1, R2), (R1, R2), (R1, R2), tương ứng.</p>
+<p>Bước thời gian 5: R1 thực hiện 6 lần quảng bá, R2 thực hiện 5 lần quảng bá, R3 thực hiện 5 lần quảng bá.</p>
+<img width="900px" src="../assets/routing/2-096-flood-problem3.png">
+<p>Tất cả thông tin mới đã được biết đến ở bước thời gian 1. Nhưng, mọi người vẫn tiếp tục gửi lại cùng một thông tin, và các thông báo trùng lặp nhân lên theo cấp số nhân và cuối cùng làm quá tải mạng.</p>
+<p>Để khắc phục vấn đề này, chúng ta cần đảm bảo rằng các <em>router</em> không gửi cùng một thông tin hai lần.</p>
+<p>Khi chúng ta thấy một tin nhắn lần đầu tiên, hãy gửi tin nhắn đó đến tất cả các láng giềng, và ghi lại rằng chúng ta đã thấy tin nhắn đó. (Dù sao chúng ta cũng phải ghi lại tin nhắn này, vì chúng ta đang cố gắng sử dụng thông tin này để xây dựng <em>network graph</em>.) Sau đó, nếu chúng ta thấy lại cùng một tin nhắn đó, đừng gửi nó lần thứ hai.</p>
+<p>Để xác định duy nhất một tin nhắn, chúng ta có thể giới thiệu một <em>timestamp</em> (dấu thời gian) (hoặc một bộ đếm nào đó khác là duy nhất cho mỗi tin nhắn).</p>
+<p>Bây giờ, nếu chúng ta quay lại ví dụ từ trước:</p>
+<img width="500px" src="../assets/routing/2-097-flood-solution.png">
+<p>Bước thời gian 1: R1 quảng bá đến R2 và R3.</p>
+<p>Bước thời gian 2: R2 quảng bá đến R1 và R3. R3 quảng bá đến R1 và R2.</p>
+<p>Bước thời gian 3: Tại thời điểm này, R1, R2, và R3 đều đã thấy tin nhắn này trước đó, vì vậy chúng không gửi lại nó. Không có thêm tin nhắn trùng lặp nào được gửi đi.</p>
+<p>Lưu ý rằng các tin nhắn trùng lặp đôi khi vẫn được gửi với sự sửa đổi này, nhưng chúng ta đã tránh được việc các tin nhắn trùng lặp được gửi đi vô hạn.</p>
+<h2 id="sự-hội-tụ-convergence"><a class="header" href="#sự-hội-tụ-convergence">Sự hội tụ (Convergence)</a></h2>
+<p><em>Link-state</em> <em>converges</em> (hội tụ) về một <em>routing state</em> <em>least-cost</em> hợp lệ sau khi mọi <em>router</em> tìm hiểu toàn bộ <em>network topology</em> và tính toán <em>forwarding table</em> của nó tương ứng. <em>Convergence</em> dựa trên việc mọi nút sử dụng cùng một đồ thị. Sau khi <em>convergence</em>, <em>routing state</em> vẫn hợp lệ miễn là <em>network topology</em> không thay đổi.</p>
+<p>Ngay khi <em>network topology</em> thay đổi, có thể mất một khoảng thời gian để mạng <em>converge</em> trở lại. Chúng ta phải đợi cho sự thay đổi được phát hiện (ví dụ: một liên kết bị lỗi). Sau đó, chúng ta phải đợi thông tin mới được lan truyền qua mạng, và để các <em>router</em> tính toán lại các mục trong <em>forwarding table</em>. Trong khi mạng đang <em>converging</em>, chúng ta có thể ở trong một <em>routing state</em> không hợp lệ, bởi vì một số <em>router</em> đang sử dụng đồ thị cũ, trong khi những <em>router</em> khác đang sử dụng đồ thị đã được cập nhật. <em>Routing state</em> có thể có các <em>dead-ends</em>, <em>loops</em>, hoặc các đường đi không phải là <em>least-cost</em>.</p>
+<img width="800px" src="../assets/routing/2-098-link-state-converge.png">
+<p>Ví dụ, giả sử liên kết R3-A đã bị lỗi. R3 biết về điều này, nhưng các <em>router</em> khác thì không. R3 sẽ <em>forwarding</em> các gói tin đến R1. Tuy nhiên, R1 vẫn sẽ <em>forwarding</em> các gói tin đến R3.</p>
+<p>Phần lớn sự phức tạp trong các giao thức <em>link-state</em> nằm ở những chi tiết nhỏ. Để đảm bảo <em>convergence</em> nhanh hơn và tránh <em>routing</em> không hợp lệ càng nhiều càng tốt, chúng ta có thể thực hiện các tối ưu hóa và điều chỉnh nhỏ trong giao thức.</p>
+<h2 id="link-state-so-với-distance-vector"><a class="header" href="#link-state-so-với-distance-vector">Link-State so với Distance-Vector</a></h2>
+<p>Một số ưu và nhược điểm của các giao thức <em>link-state</em> so với các giao thức <em>distance-vector</em> là gì?</p>
+<p>Trong <em>distance-vector</em>, khi chúng ta nhận được một thông báo, chúng ta không nhất thiết biết tất cả các chi tiết về đường đi mà chúng ta đang chấp nhận. Chúng ta phải tin vào bất cứ điều gì mà láng giềng của chúng ta tuyên bố trong thông báo. Ngược lại, trong <em>link-state</em>, chúng ta biết toàn bộ <em>topology</em> của đồ thị, vì vậy chúng ta biết nhiều hơn về các đường đi mà các gói tin đang đi.</p>
+<p>Tùy thuộc vào việc triển khai, <em>distance-vector</em> có thể chậm hơn để <em>converge</em>. Nếu mạng thay đổi, chúng ta phải đợi láng giềng của mình tính toán lại và advertise lại một đường đi, trước khi chúng ta có thể cập nhật <em>forwarding table</em> của mình. Sau đó, tất cả các láng giềng của chúng ta phải đợi chúng ta, và cứ thế tiếp tục. Ngược lại, trong <em>link-state</em>, mọi người có thể nhanh chóng <em>flooding</em> thông tin mới và tính toán lại cùng một lúc.</p>
+<p>Các giao thức <em>link-state</em> tốt cho các mạng cục bộ nhỏ, nhưng không mở rộng tốt cho Internet toàn cầu. Cụ thể, <em>link-state</em> yêu cầu mọi <em>router</em> phải biết về toàn bộ mạng. Trên Internet toàn cầu, các nhà khai thác có thể không muốn tiết lộ <em>network topology</em> của họ (ví dụ: vị trí của các <em>router</em> của họ, <em>bandwidth</em> của các liên kết của họ) cho các đối thủ cạnh tranh.</p>
+<p>Trên thực tế, hầu hết các mạng đều triển khai một sự kết hợp của các giao thức <em>distance-vector</em> và <em>link-state</em>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/distance-vector.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../routing/addressing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/distance-vector.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../routing/addressing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

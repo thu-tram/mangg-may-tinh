@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>End-to-End Connectivity - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html" class="active"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="kết-nối-end-to-end"><a class="header" href="#kết-nối-end-to-end">Kết nối End-to-End</a></h1>
+<h2 id="Động-lực"><a class="header" href="#Động-lực">Động lực</a></h2>
+<p>Trong phần này, chúng ta sẽ đi qua từng bước về những gì xảy ra khi chúng ta bật máy tính, cắm nó vào mạng <em>Ethernet</em>, và gõ <em>www.berkeley.edu</em> vào trình duyệt web. Trong quá trình đó, chúng ta sẽ thấy cách tất cả các thành phần khác nhau của mạng làm việc cùng nhau để xử lý yêu cầu của người dùng.</p>
+<p>Chúng ta sẽ giả định rằng chúng ta không cần phải khởi động Internet từ đầu. Ví dụ, các <em>routers</em> đã và đang chạy các giao thức định tuyến và đã điền vào <em>forwarding tables</em> của chúng một cách tương ứng.</p>
+<img width="900px" src="../assets/end-to-end/5-074-end1.png">
+<h2 id="bước-1-dhcp"><a class="header" href="#bước-1-dhcp">Bước 1: DHCP</a></h2>
+<p>Chúng ta bật máy tính và cắm nó vào một mạng <em>Ethernet</em>. Chúng ta chưa có bất kỳ thông tin nào về mạng, vì vậy chúng ta <em>broadcast</em> một yêu cầu <em>DHCP</em> (Giao thức Cấu hình Máy chủ Động).</p>
+<p>Chúng ta sẽ giả định <em>router</em> gia đình là <em>DHCP server</em> (máy chủ DHCP), điều này phổ biến trong các mạng gia đình. <em>Router</em>/<em>server</em> sẽ <em>unicast</em> một gói tin đề nghị (offer) trở lại cho chúng ta. Gói tin đề nghị này chứa thông tin về mạng: <em>subnet mask</em> (mặt nạ mạng con), địa chỉ IP của <em>default gateway</em> (cổng mặc định), và địa chỉ IP của <em>DNS server</em> (máy chủ DNS). Gói tin đề nghị cũng cấp cho chúng ta một địa chỉ IP mà chúng ta có thể sử dụng.</p>
+<p>Để hoàn tất giao thức <em>DHCP</em>, chúng ta gửi một thông điệp yêu cầu (request) xác nhận rằng chúng ta muốn sử dụng cấu hình đã được đề nghị, và <em>router</em>/<em>server</em> phản hồi bằng một thông điệp xác nhận (acknowledgement).</p>
+<img width="900px" src="../assets/end-to-end/5-075-end2.png">
+<h2 id="bước-2-tìm-router-ở-lớp-2"><a class="header" href="#bước-2-tìm-router-ở-lớp-2">Bước 2: Tìm Router ở Lớp 2</a></h2>
+<p>Từ <em>DHCP</em>, chúng ta đã biết được địa chỉ IP của <em>router</em>, và <em>forwarding table</em> của chúng ta bây giờ cho biết rằng tất cả các <em>packets</em> không thuộc <em>local network</em> sẽ được chuyển tiếp đến <em>router</em> này. Chúng ta sắp sửa gửi một số <em>packets</em> đến <em>DNS server</em> (để tra cứu địa chỉ IP của <em>www.berkeley.edu</em>), và đến chính <em>server</em> Berkeley, cả hai đều có thể không thuộc <em>local network</em>.</p>
+<p>Tuy nhiên, trước khi chúng ta có thể chuyển tiếp các <em>IP packets</em> đến <em>router</em>, chúng ta cần tìm ra <em>MAC address</em> <em>Layer 2</em> của <em>router</em>, để chúng ta có thể gửi <em>packet</em> đến <em>router</em> bên trong <em>local network</em>.</p>
+<p>Đầu tiên, chúng ta có thể xác minh rằng địa chỉ IP của <em>router</em>, 192.168.1.1, thuộc về <em>subnet</em> cục bộ, 192.168.1.2/24. Điều này cho chúng ta biết rằng <em>router</em> nằm trong <em>local network</em>, và bằng cách gửi một <em>packet</em> <em>Ethernet</em> đến <em>MAC address</em> của <em>router</em>, chúng ta sẽ đến được <em>router</em>.</p>
+<p>Để tìm <em>MAC address</em> của <em>router</em>, chúng ta <em>broadcast</em> một yêu cầu <em>ARP</em>, hỏi <em>MAC address</em> của 192.168.1.1 (địa chỉ IP của <em>router</em>). <em>Router</em> nghe thấy yêu cầu này và trả lời, &quot;Tôi là 192.168.1.1, và <em>MAC address</em> của tôi là 01:ab:cd:ef:42:01.&quot;</p>
+<p>Bây giờ chúng ta có thể lưu trữ ánh xạ IP-tới-MAC này, và chúng ta đã biết <em>MAC address</em> của <em>router</em>. Miễn là mục nhập này còn trong bộ đệm, chúng ta sẽ không phải thực hiện lại cùng một yêu cầu <em>ARP</em>. Tất cả các yêu cầu trong tương lai ra Internet bên ngoài đều có thể được chuyển tiếp đến <em>MAC address</em> của <em>router</em>.</p>
+<img width="900px" src="../assets/end-to-end/5-076-end3.png">
+<h2 id="bước-3-tra-cứu-dns"><a class="header" href="#bước-3-tra-cứu-dns">Bước 3: Tra cứu DNS</a></h2>
+<p>Tiếp theo, chúng ta cần tra cứu địa chỉ IP của <em>www.berkeley.edu</em>. Tất cả điều này được thực hiện trong hệ điều hành, sau khi mã của trình duyệt gọi một hàm như <em>getaddrinfo</em> để kích hoạt việc tra cứu <em>DNS</em> (Hệ thống Tên miền).</p>
+<p>Từ <em>DHCP</em>, chúng ta đã biết địa chỉ IP của <em>DNS server</em>, 8.8.8.8. Chúng ta cũng biết rằng chúng ta đang ở trong <em>subnet</em> 192.168.1.2/24. <em>DNS server</em> không nằm trong <em>local network</em> của chúng ta, vì vậy chúng ta cần chuyển tiếp <em>DNS packet</em> (gói tin DNS) đến <em>router</em>.</p>
+<p>Bây giờ chúng ta có thể xây dựng <em>DNS packet</em> yêu cầu của mình, từ trên xuống dưới.</p>
+<p><em>Layer 7</em> (Lớp 7): Trong phần Question, chúng ta thêm một <em>DNS record</em> (bản ghi DNS) yêu cầu <em>A record</em> (bản ghi A) với địa chỉ IP của <em>www.berkeley.edu</em>. Chúng ta thêm <em>header</em> <em>DNS</em> với ID, số lượng bản ghi, v.v.</p>
+<p><em>Layer 4</em> (Lớp 4): <em>DNS</em> chạy trên <em>UDP</em> (Giao thức Gói dữ liệu Người dùng). Chúng ta chọn một <em>source port</em> (cổng nguồn) ngẫu nhiên bất kỳ, vì chúng ta là client. Chúng ta chọn <em>Port</em> 53 cho <em>destination port</em> (cổng đích), vì đây là nơi các <em>resolvers</em> và <em>name servers</em> lắng nghe các truy vấn <em>DNS</em>.</p>
+<p><em>Layer 3</em>: <em>Source IP</em> là IP của chính chúng ta, được gán bởi <em>DHCP</em>. <em>Destination IP</em> là 8.8.8.8, địa chỉ IP của <em>DNS server</em>, mà chúng ta đã biết từ <em>DHCP</em>.</p>
+<p><em>Layer 2</em>: <em>Source MAC</em> là <em>MAC address</em> của chúng ta, được ghi sẵn trong phần cứng. <em>Destination MAC</em> là <em>MAC address</em> của <em>router</em> (<em>hop</em> tiếp theo), mà chúng ta đã biết từ <em>ARP</em>.</p>
+<p>Với <em>packet</em> được xây dựng hoàn chỉnh, chúng ta có thể gửi các bit đi trên dây (Lớp 1 - <em>Layer 1</em>).</p>
+<img width="800px" src="../assets/end-to-end/5-077-end4.png">
+<p>Khi <em>packet</em> đến <em>router</em>, nếu mạng đang sử dụng <em>NAT</em> (Network Address Translation - Biên dịch Địa chỉ Mạng), <em>router</em> có thể viết lại các <em>headers</em> <em>UDP</em>/<em>IP</em> để dịch địa chỉ IP riêng của chúng ta thành địa chỉ IP công cộng. Tuy nhiên, với tư cách là <em>end host</em>, chúng ta không cần phải lo lắng về <em>NAT</em>. <em>Router</em> sẽ thực hiện tất cả việc biên dịch cho chúng ta, tạo cho chúng ta ảo giác rằng chúng ta có thể sử dụng địa chỉ IP của riêng mình (từ <em>DHCP</em>).</p>
+<p>Khi <em>packet</em> của chúng ta đến <em>recursive resolver</em> (bộ phân giải đệ quy) tại 8.8.8.8, nếu <em>resolver</em> chưa có câu trả lời của chúng ta trong bộ đệm, nó có thể cần thực hiện một số tra cứu bổ sung và hỏi các <em>authoritative name servers</em> (máy chủ tên miền có thẩm quyền) để lấy các bản ghi. Cuối cùng, <em>recursive resolver</em> tìm thấy câu trả lời và gửi <em>A record</em> trở lại cho chúng ta. Bây giờ chúng ta đã có địa chỉ IP của <em>www.berkeley.edu</em>.</p>
+<img width="900px" src="../assets/end-to-end/5-078-end5.png">
+<h2 id="bước-4-kết-nối-đến-trang-web"><a class="header" href="#bước-4-kết-nối-đến-trang-web">Bước 4: Kết nối đến Trang web</a></h2>
+<p>Bây giờ chúng ta đã có địa chỉ IP của <em>www.berkeley.edu</em>, chúng ta có thể gửi <em>packets</em> đến Berkeley. Chúng ta đang sử dụng trình duyệt web, vì vậy mục tiêu của chúng ta là thực hiện một yêu cầu <em>HTTP</em> (Giao thức Truyền tải Siêu văn bản) đến <em>server</em> này.</p>
+<p><em>HTTP</em> chạy trên <em>TCP</em> (Giao thức Điều khiển Truyền vận), vì vậy trước tiên chúng ta phải thực hiện một <em>TCP handshake</em> (bắt tay TCP) để mở một kết nối với <em>server</em> Berkeley. Trình duyệt sẽ gọi một hàm như <em>connect</em> trên một <em>socket</em> (giao diện lập trình mạng) cụ thể để mở kết nối này, và hệ điều hành (nơi <em>TCP</em> đang chạy) sẽ thực hiện <em>handshake</em> và chuyển <em>packets</em> đến và đi từ trình duyệt.</p>
+<p><em>TCP handshake</em> được thực hiện: Chúng ta gửi một gói <em>SYN</em>, Berkeley gửi một gói <em>SYN-ACK</em>, và chúng ta gửi một gói <em>ACK</em>. Bây giờ chúng ta có một <em>bytestream</em> (luồng byte) giữa máy tính của chúng ta và <em>server</em> Berkeley.</p>
+<img width="900px" src="../assets/end-to-end/5-079-end6.png">
+<p>Bây giờ, chúng ta có thể xây dựng <em>packet</em> <em>HTTP</em> của mình, từ trên xuống dưới.</p>
+<p><em>Layer 7</em>: Phương thức <em>HTTP</em> là GET. Tài nguyên chúng ta muốn là <em>/</em> (trang chủ). Phiên bản là HTTP/1.1.</p>
+<p><em>Layer 4</em>: <em>HTTP</em> chạy trên <em>TCP</em>. Trình duyệt có thể chọn bất kỳ <em>source port</em> nào, vì nó là client. Nhìn chung, <em>port</em> này có thể được ứng dụng chỉ định thủ công, hoặc ứng dụng có thể chỉ định &quot;Port 0,&quot; là cách viết tắt để yêu cầu hệ điều hành chọn một <em>ephemeral port</em> (cổng tạm thời) ngẫu nhiên hiện không được sử dụng. (Ngoài lề, nghĩ lại về <em>NAT</em>, việc cho phép các ứng dụng chỉ định <em>ports</em> thủ công là lý do tại sao hai người dùng có thể chọn cùng một <em>source port</em>.) <em>Destination port</em> là 80, số <em>port</em> cố định cho <em>HTTP</em>.</p>
+<p><em>Layer 3</em>: <em>Source IP</em> là IP của chính chúng ta, được gán bởi <em>DHCP</em>. <em>Destination IP</em> là 141.193.213.21, địa chỉ IP của <em>www.berkeley.edu</em> đã được trả về từ truy vấn <em>DNS</em> của chúng ta trước đó.</p>
+<p><em>Layer 2</em>: Điều này giống như <em>DNS packet</em> của chúng ta trước đó. <em>Source MAC</em> là của chúng ta (được ghi sẵn trong phần cứng), và <em>destination MAC</em> là của <em>router</em> (được phát hiện và lưu trong bộ đệm từ <em>ARP</em>).</p>
+<img width="800px" src="../assets/end-to-end/5-080-end7.png">
+<p><em>HTTP response</em> (phản hồi HTTP) trả về với <em>status code</em> (mã trạng thái) 200 OK, và nội dung của phản hồi có mã <em>HTML</em> (Ngôn ngữ Đánh dấu Siêu văn bản) của trang web. Trình duyệt gọi hàm <em>read</em> trên <em>socket</em> để lấy các byte của <em>HTTP</em> <em>payload</em> (phần dữ liệu), cùng với <em>status code</em> và phản hồi, và xử lý chúng một cách tương ứng.</p>
+<p>Trong <em>bytestream</em>, <em>HTTP</em> có thể thêm một số dấu phân cách như ký tự xuống dòng để biểu thị sự kết thúc của một yêu cầu hoặc phản hồi. Ngoài ra, các <em>header</em> <em>HTTP</em> như Content-Length có thể chỉ định độ dài của <em>payload</em>. Điều này cũng cho phép trình duyệt cấp phát đủ bộ nhớ để nhận phản hồi.</p>
+<p><em>HTTP response</em> trả về có thể kích hoạt thêm các yêu cầu khác. Nếu <em>HTML</em> trong phản hồi có cú pháp như <em><img src="../logo.png"></em>, điều này báo cho trình duyệt thực hiện một yêu cầu <em>HTTP</em> khác để lấy tài nguyên <em>/logo.png</em>. Hoặc, người dùng có thể nhấp vào một liên kết trên trang web như <em>www.berkeley.edu/about.html</em>, điều này cũng sẽ kích hoạt một yêu cầu <em>HTTP</em> khác đến cùng một <em>server</em>.</p>
+<img width="900px" src="../assets/end-to-end/5-081-end8.png">
+<p>Hãy nhớ lại rằng nhiều yêu cầu <em>HTTP</em> đến cùng một <em>server</em> có thể được <em>pipelined</em> (truyền theo đường ống) qua cùng một kết nối <em>TCP</em> để tăng hiệu quả, vì vậy chúng ta có thể giữ kết nối <em>TCP</em> mở và tiếp tục sử dụng nó cho các yêu cầu và phản hồi <em>HTTP</em> tiếp theo.</p>
+<p>Cuối cùng, sau một vài lần <em>pipelining</em>, client hoặc <em>server</em> chọn đóng kết nối. Quá trình <em>handshake</em> ngắt kết nối thông thường xảy ra, trong đó mỗi bên gửi một gói <em>FIN</em>, và cả hai <em>packets</em> <em>FIN</em> đều được xác nhận (acked). Chúng ta đã hoàn tất!</p>
+<img width="900px" src="../assets/end-to-end/5-082-end9.png">
+<p>Lưu ý rằng các yêu cầu/phản hồi <em>HTTP</em> không nhất thiết phải chứa trong một <em>packet</em> duy nhất. <em>HTTP</em> được xây dựng trên <em>TCP bytestream</em>, vì vậy một yêu cầu hoặc phản hồi <em>HTTP</em> duy nhất có thể bị chia thành nhiều <em>packets</em> <em>TCP</em>/<em>IP</em>, trong đó mỗi <em>packet</em> có cùng các <em>headers</em> ở <em>Layers 1-3</em>, và các <em>headers</em> <em>Layer 4</em> khác nhau ở số thứ tự. Chỉ có một <em>header</em> duy nhất cho toàn bộ yêu cầu/phản hồi <em>HTTP</em>, ngay cả khi yêu cầu/phản hồi đó được chia trên nhiều <em>packets</em>. Với <em>HTTP</em>, không còn mối tương quan một-một từ một yêu cầu/phản hồi đến một <em>packet</em>.</p>
+<h2 id="sockets"><a class="header" href="#sockets">Sockets</a></h2>
+<p>Nếu bạn là người dùng truy cập một trang web trong trình duyệt, bạn không cần phải viết bất kỳ mã nào để chạy ứng dụng (<em>HTTP</em>) qua Internet. Tuy nhiên, nếu bạn là một lập trình viên viết ứng dụng của riêng mình, bạn có thể cần phải viết một số mã để tương tác với mạng.</p>
+<p>Khái niệm trừu tượng <strong>socket</strong> cung cấp cho các lập trình viên một cách thuận tiện để tương tác với mạng. Khái niệm trừu tượng <em>socket</em> hoàn toàn tồn tại trong phần mềm, và có năm hoạt động cơ bản mà các lập trình viên có thể thực hiện:</p>
+<p>Chúng ta có thể <strong>create</strong> (tạo) một <em>socket</em> mới, tương ứng với một kết nối mới. Trong một ngôn ngữ hướng đối tượng như Java, đây có thể là một lệnh gọi hàm tạo (constructor call).</p>
+<p>Chúng ta có thể gọi <strong>connect</strong> (kết nối), để khởi tạo một kết nối <em>TCP</em> đến một máy ở xa. Điều này hữu ích nếu chúng ta là client trong một kết nối client-server.</p>
+<p>Chúng ta có thể gọi <strong>listen</strong> (lắng nghe) trên một <em>port</em> cụ thể. Điều này không bắt đầu một kết nối, nhưng cho phép những người khác khởi tạo một kết nối với chúng ta trên <em>port</em> đã chỉ định.</p>
+<p>Khi kết nối đã mở, chúng ta có thể gọi <strong>write</strong> (ghi) để gửi một số byte trên kết nối. Chúng ta cũng có thể gọi <strong>read</strong> (đọc), nhận một đối số N, để đọc N byte từ kết nối.</p>
+<p>Khái niệm trừu tượng <em>socket</em> này cung cấp cho các lập trình viên một cách để viết các ứng dụng mà không cần suy nghĩ về các khái niệm trừu tượng ở cấp thấp hơn như <em>TCP</em>, <em>IP</em>, hay <em>Ethernet</em>.</p>
+<p>Từ góc độ hệ điều hành, mỗi <em>socket</em> được liên kết với một số <em>port</em> <em>Layer 4</em>. Tất cả các <em>packets</em> đến và đi từ một <em>socket</em> duy nhất đều có cùng một số <em>port</em>, và hệ điều hành có thể sử dụng số <em>port</em> để phân kênh và gửi <em>packets</em> đến đúng <em>socket</em>.</p>
+<h2 id="các-lớp-trong-hệ-điều-hành"><a class="header" href="#các-lớp-trong-hệ-điều-hành">Các Lớp trong Hệ điều hành</a></h2>
+<p>Trong phần cứng, <em>Layers 1</em> và <em>2</em> được triển khai trên <em>Network Interface Card (NIC)</em> (Card Giao diện Mạng) của máy tính bạn. <em>Layers 3</em> và <em>4</em> được triển khai trong chồng giao thức mạng (networking stack) trong hệ điều hành. Các ứng dụng <em>Layer 7</em> được triển khai trong phần mềm. Lợi ích của việc đặt <em>Layers 3</em> và <em>4</em> trong HĐH là các ứng dụng không phải lo lắng về việc triển khai lại chúng mỗi lần.</p>
+<p>Với sự phân công lao động này, ứng dụng chỉ cần nghĩ về dữ liệu. <em>NIC</em> chỉ cần nghĩ về các <em>packets</em>. Chồng giao thức mạng trong HĐH dịch giữa các kết nối và các <em>packets</em>.</p>
+<h2 id="xem-các-gói-tin"><a class="header" href="#xem-các-gói-tin">Xem các Gói tin</a></h2>
+<p>Các công cụ như tshark và wireshark tồn tại nếu bạn muốn xem các <em>packets</em> được gửi qua mạng. Những công cụ này hữu ích khi gỡ lỗi phần mạng trong mã của bạn.</p>
+<p>Trong trình duyệt, bạn cũng có thể sử dụng tab Network của bảng điều khiển inspect element để xem dữ liệu được gửi và nhận.</p>
+<p>Nếu bạn thực sự xem các <em>packets</em> thô được gửi qua mạng, bạn sẽ thấy một số phức tạp trong thế giới thực mà chúng ta đã không đề cập trong phần hướng dẫn đầu cuối-đến-đầu cuối của mình. Ví dụ, các <em>packets</em> có thể được mã hóa và gửi qua <em>TLS</em> (Transport Layer Security - An ninh Tầng Giao vận). Ngoài ra, nếu chúng ta đang sử dụng HTTP/3.0, các <em>packets</em> có thể được gửi qua <em>QUIC</em> (biến thể <em>UDP</em> được tối ưu hóa cho <em>HTTP</em>) thay vì <em>TCP</em>.</p>
+<h2 id="nhìn-lại-về-phân-tầng"><a class="header" href="#nhìn-lại-về-phân-tầng">Nhìn lại về Phân tầng</a></h2>
+<p>Bức tranh đầu cuối-đến-đầu cuối đầy đủ cho phép chúng ta thấy tại sao phân tầng là một nguyên tắc hữu ích để xây dựng mạng. Chúng ta đã có thể giải quyết các vấn đề cụ thể ở một lớp duy nhất, mà không cần suy nghĩ về tất cả các lớp cùng một lúc.</p>
+<p>Thực tế, chúng ta hoàn toàn không thảo luận về <em>Layer 1</em> trong lớp học này. Chúng ta đã không nói về kỹ thuật điện hay vật lý cần thiết để gửi tín hiệu qua một sợi dây. Tuy nhiên, chúng ta vẫn có thể xây dựng các lớp khác trên <em>Layer 1</em>, mà không cần biết chính xác <em>Layer 1</em> hoạt động như thế nào.</p>
+<p>Trong lớp học này, chúng ta đã thảo luận <em>HTTP</em> là giao thức <em>Layer 7</em> chủ yếu, nhưng <em>HTTP</em> là một giao thức tương đối đơn giản. Có thể nhiều ứng dụng muốn xây dựng cùng một chức năng phức tạp trên <em>HTTP</em>, nhưng họ không muốn mỗi người phải tự viết mã cho chức năng đó một cách độc lập. Để hỗ trợ điều này, chúng ta thực sự có thể xây dựng thêm các giao thức trên <em>HTTP</em>, để các lập trình viên không phải lúc nào cũng bắt đầu từ đầu với <em>HTTP</em>.</p>
+<p>Một ví dụ về một giao thức trên <em>Layer 7</em> là một thư viện <em>remote procedure call (RPC)</em> (gọi thủ tục từ xa). Điều này cho phép một lập trình viên viết một số mã, trong đó một số hàm thực sự thực thi trên một máy tính khác ở nơi khác trong mạng. Sẽ rất phiền phức nếu mọi người phải tự viết <em>RPC</em> trên <em>HTTP</em> từ đầu, vì vậy thay vào đó, các thư viện như Apache Thrift và gRPC tồn tại để trừu tượng hóa thêm nhiều chi tiết hơn nữa khỏi lập trình viên.</p>
+<img width="900px" src="../assets/end-to-end/5-083-layer8.png">
+<p>Đây là một ví dụ về một số mã mạng mà một lập trình viên có thể viết. Nó lập trình một client để nói xin chào với một <em>server</em> ở xa.</p>
+<p>Lưu ý rằng tất cả các giao thức mạng mà chúng ta đã thảo luận đều hoàn toàn bị ẩn đằng sau hai dòng lệnh gọi đến các thư viện mạng. Lập trình viên không cần phải suy nghĩ về <em>HTTP</em>, <em>TCP</em>, <em>IP</em>, <em>Ethernet</em>, <em>ARP</em>, <em>DHCP</em>, hoặc bất kỳ giao thức cấp thấp nào khác. Vẫn rất hữu ích khi biết về các giao lức này nếu chúng gặp sự cố, và việc hiểu các giao thức có thể giúp bạn tối ưu hóa mã của mình cho các giao thức cụ thể, nhưng cuối cùng, phân tầng là một công cụ trừu tượng hóa rất mạnh mẽ.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../end-to-end/tls.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datacenter/topology.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../end-to-end/tls.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datacenter/topology.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Routing States - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html" class="active"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="trạng-thái-Định-tuyến-routing-states"><a class="header" href="#trạng-thái-Định-tuyến-routing-states">Trạng thái Định tuyến (Routing States)</a></h1>
+<h2 id="các-chiến-lược-Định-tuyến-tồi-bad-routing-strategies"><a class="header" href="#các-chiến-lược-Định-tuyến-tồi-bad-routing-strategies">Các chiến lược Định tuyến Tồi (Bad Routing Strategies)</a></h2>
+<p>Cho đến nay, chúng ta đã định nghĩa bài toán định tuyến như sau: Khi một router nhận được một gói tin, làm thế nào để router biết được nơi để chuyển tiếp gói tin đó sao cho nó cuối cùng sẽ đến được đích cuối cùng?</p>
+<img width="600px" src="../assets/routing/2-013-forwarding.png">
+<p>Một khi chúng ta tìm thấy một thuật toán (một routing protocol (giao thức định tuyến)) để giải quyết vấn đề này, chúng ta có thể áp dụng thuật toán đó để tạo ra một câu trả lời, mà chúng ta sẽ gọi là <strong>routing state</strong> (trạng thái định tuyến). Bạn có thể nghĩ về một routing state như một tập hợp các quy tắc mà mỗi router sử dụng để chuyển tiếp các gói tin mà nó nhận được. Một routing state trông như thế nào, và làm thế nào chúng ta có thể kiểm tra xem một routing state cho trước có hợp lệ hay tốt không?</p>
+<p>Để bắt đầu, chúng ta có thể xem xét một số chiến lược tồi để tạo ra các routing state. Một chiến lược định tuyến khả thi là: Router chuyển tiếp gói tin đến một láng giềng được chọn ngẫu nhiên. Về mặt trực quan, chúng ta đã có thể thấy rằng các routing state được tạo ra theo cách này có lẽ sẽ không hợp lệ. Nếu chúng ta sử dụng chiến lược này, chúng ta không thể chắc chắn rằng các gói tin sẽ đến được đích cuối cùng của chúng.</p>
+<p>Một chiến lược tồi khả thi khác là: Router chuyển tiếp một bản sao của gói tin đến tất cả các láng giềng của nó. Về mặt trực quan, điều này có thể hợp lệ, theo nghĩa là các bản sao của gói tin cuối cùng sẽ lan truyền khắp toàn bộ mạng và có thể đến được đích. Tuy nhiên, chiến lược này không hiệu quả, vì nó lãng phí rất nhiều bandwidth (băng thông) để chuyển tiếp gói tin đến các router không cần thiết để gửi gói tin đến đích cuối cùng của nó.</p>
+<p>Chúng ta có thể thấy một cách trực quan rằng hai chiến lược này là tồi, nhưng để phân tích các routing protocol thông minh hơn, chúng ta sẽ cần phải định nghĩa một cách chính thức một routing state trông như thế nào. Sau đó, chúng ta sẽ cần phải chính thức hóa điều gì làm cho một routing state hợp lệ, và điều gì làm cho một routing state tốt.</p>
+<h2 id="bảng-chuyển-tiếp-forwarding-tables"><a class="header" href="#bảng-chuyển-tiếp-forwarding-tables">Bảng Chuyển tiếp (Forwarding Tables)</a></h2>
+<p>Trong mô hình mạng của chúng ta, mỗi router có một số liên kết đi ra kết nối nó với các router và máy chủ liền kề. Nói cách khác, trong đồ thị cơ bản, mỗi nút router có một số láng giềng, được kết nối với router bằng một cạnh.</p>
+<p>Khi router nhận được một gói tin, với đích cuối cùng của nó trong siêu dữ liệu, router cần quyết định gói tin nên được chuyển tiếp đến router hoặc máy chủ liền kề nào. Router trung gian tiếp theo mà gói tin sẽ được chuyển tiếp đến được gọi là <strong>next hop</strong> (chặng kế tiếp).</p>
+<img width="700px" src="../assets/routing/2-014-nexthop.png">
+<p>Ví dụ, hãy xem xét mạng này. Nếu R2 nhận được một gói tin có đích cuối cùng là B, next hop tự nhiên tương ứng sẽ là R3. Các lựa chọn next hop có thể là R1, R3 và R4 (ba router liền kề với R2), và R3 là next hop gửi gói tin đến gần B hơn.</p>
+<p>Nếu R2 thay vào đó nhận được một gói tin có đích cuối cùng là A, thì next hop tự nhiên tương ứng sẽ là R1.</p>
+<p>Đối với mỗi đích cuối cùng có thể, chúng ta có thể viết ra next hop tương ứng để chuyển tiếp gói tin đến gần đích đó hơn. Kết quả được gọi là <strong>forwarding table</strong> (bảng chuyển tiếp).</p>
+<img width="850px" src="../assets/routing/2-015-forwarding-table.png">
+<p>Lưu ý rằng trong việc ánh xạ từ đích đến next hop, một next hop có thể được sử dụng nhiều lần. Ví dụ, trong forwarding table của R2, các gói tin đến B và các gói tin đến C đều sẽ được chuyển tiếp đến R3.</p>
+<p>Bằng cách viết ra forwarding table cho mỗi router trung gian, chúng ta hiện có một routing state đầy đủ cho mạng. Nói cách khác, với một gói tin có một đích cuối cùng nào đó, chúng ta biết chính xác cách mỗi router sẽ chuyển tiếp gói tin đó.</p>
+<p>Trong thế giới thực, thay vì ánh xạ các đích đến các next hop, các router thường sẽ ánh xạ các đích đến các <strong>physical ports</strong> (cổng vật lý), trong đó mỗi cổng vật lý tương ứng với một liên kết. Trong mô hình đồ thị, bây giờ chúng ta sẽ ánh xạ mỗi đích đến một cạnh, thay vì ánh xạ mỗi đích đến một nút láng giềng. Trong thế giới thực, bạn có thể nghĩ về điều này như một router có nhiều dây đi ra, trong đó mỗi dây được kết nối với một router khác. Thay vì viết ra các router láng giềng trong forwarding table, router thay vào đó viết ra dây nào mà một gói tin nên được gửi đi.</p>
+<img width="550px" src="../assets/routing/2-016-ports.png">
+<p>Đây là một sự khác biệt tinh tế, và nó phản ánh thực tế rằng router không thực sự quan tâm đến danh tính của router láng giềng. Quyết định duy nhất mà router cần đưa ra là gửi gói tin đi theo một trong các dây, bất kể dây đó được kết nối với ai. Trong các ghi chú này, chúng ta sẽ vẽ các forwarding table dưới dạng ánh xạ các đích đến các next hop (thay vì các cổng vật lý), để đơn giản.</p>
+<h2 id="chuyển-tiếp-dựa-trên-Đích-đến-destination-based-forwarding"><a class="header" href="#chuyển-tiếp-dựa-trên-Đích-đến-destination-based-forwarding">Chuyển tiếp Dựa trên Đích đến (Destination-Based Forwarding)</a></h2>
+<p>Một hệ quả của việc sử dụng forwarding table là với một gói tin cho trước, quyết định về nơi chuyển tiếp gói tin chỉ phụ thuộc vào trường đích của gói tin. Nói cách khác, nếu một router nhận được nhiều gói tin khác nhau, tất cả đều có cùng một đích, chúng sẽ đều được định tuyến đến cùng một next hop (giả sử forwarding table không thay đổi). Vì mỗi đích chỉ được ánh xạ đến một next hop duy nhất, không có cách nào để hai gói tin có cùng một đích được chuyển tiếp đến các router khác nhau. Cách tiếp cận này được gọi là <strong>destination-based forwarding</strong> (chuyển tiếp dựa trên đích đến) hoặc <strong>destination-based routing</strong> (định tuyến dựa trên đích đến).</p>
+<p>Destination-based routing là cách tiếp cận phổ biến nhất để định tuyến, và đó là những gì được sử dụng trong Internet hiện đại. Về lý thuyết, các cách tiếp cận khác có thể tồn tại, nơi siêu dữ liệu bổ sung được sử dụng để đưa ra quyết định chuyển tiếp, nhưng chúng thường chỉ được sử dụng trong các ứng dụng hạn chế (ví dụ: bên trong một mạng cục bộ cụ thể).</p>
+<p>Trong các đơn vị sau, khi chúng ta xem xét các cấu trúc liên kết trung tâm dữ liệu, chúng ta có thể xem xét các phương pháp destination-based forwarding nơi có thể có nhiều hơn một next hop cho một đích cụ thể. Trong đơn vị này, chúng ta sẽ giả định rằng mỗi đích chỉ được ánh xạ đến một next hop duy nhất.</p>
+<h2 id="Định-tuyến-và-chuyển-tiếp-routing-vs-forwarding"><a class="header" href="#Định-tuyến-và-chuyển-tiếp-routing-vs-forwarding">Định tuyến và Chuyển tiếp (Routing vs. Forwarding)</a></h2>
+<p>Bây giờ chúng ta đã giới thiệu ý tưởng về forwarding table, chúng ta cần phân biệt giữa quá trình tạo ra forwarding table và quá trình sử dụng forwarding table.</p>
+<p><strong>Routing</strong> (Định tuyến) là quá trình các router giao tiếp với nhau để xác định cách điền vào forwarding table của chúng.</p>
+<p><strong>Forwarding</strong> (Chuyển tiếp) là quá trình nhận một gói tin, tra cứu next hop thích hợp của nó trong bảng, và gửi gói tin đến láng giềng thích hợp.</p>
+<p>Forwarding không giống như Routing. Khi Forwarding các gói tin, các router sử dụng forwarding table hiện có, mà không cần biết bảng đó được tạo ra như thế nào.</p>
+<p>Forwarding là một quy trình cục bộ. Khi một router đang Forwarding các gói tin, router không cần biết toàn bộ cấu trúc liên kết mạng. Router cũng không quan tâm đến việc gói tin đi đâu sau khi nó đã được chuyển tiếp đến next hop. Router chỉ cần biết về gói tin đến và forwarding table của chính nó.</p>
+<p>Ngược lại, Routing là một quy trình toàn cục. Để điền vào các forwarding table, chúng ta sẽ cần tìm hiểu một cái gì đó về cấu trúc liên kết toàn cục của mạng.</p>
+<img width="950px" src="../assets/routing/2-017-forwarding-routing.png">
+<p>Ví dụ, khi điền vào forwarding table của R2, chúng ta đã phải bằng cách nào đó biết được rằng đích B được liên kết với R3, mặc dù máy chủ B không được kết nối trực tiếp với R2. Trong quá trình Routing, mỗi router cũng sẽ cần biết về các đích không thuộc cục bộ.</p>
+<h2 id="tính-hợp-lệ-của-trạng-thái-Định-tuyến-là-toàn-cục-routing-state-validity-is-global"><a class="header" href="#tính-hợp-lệ-của-trạng-thái-Định-tuyến-là-toàn-cục-routing-state-validity-is-global">Tính hợp lệ của Trạng thái Định tuyến là Toàn cục (Routing State Validity is Global)</a></h2>
+<p>Hãy nhớ lại rằng một routing state bao gồm một forwarding table cho mỗi router, chúng cùng nhau cho chúng ta biết cách các gói tin sẽ di chuyển qua mạng. Với một routing state cho trước, làm thế nào chúng ta có thể biết được routing state đó là đúng hay sai?</p>
+<p>Đầu tiên, chúng ta cần định nghĩa chính thức <strong>routing state validity</strong> (tính hợp lệ của trạng thái định tuyến) để xác định xem một routing state có hợp lệ hay không (mặc dù thuật ngữ này có thể không được sử dụng rộng rãi ngoài khóa học CS 168 tại UC Berkeley). Yêu cầu chính đối với tính hợp lệ là: routing state cần tạo ra các quyết định chuyển tiếp đảm bảo rằng các gói tin thực sự đến được đích của chúng.</p>
+<p>Lưu ý rằng tính hợp lệ phải được đánh giá trong bối cảnh toàn cục, không phải bối cảnh cục bộ. Việc xem xét routing state cục bộ, chẳng hạn như forwarding table của một router duy nhất, không thể cho chúng ta biết liệu một routing state có hợp lệ hay không. Ví dụ, trong forwarding table cục bộ của router R2, chúng ta có thể thấy rằng next hop cho đích A là router R3, nhưng chúng ta không có cách nào để quyết định xem điều này có hợp lệ hay không. Liệu việc chuyển tiếp các gói tin đến R3 có giúp các gói tin đến được đích A không? Không có cách nào để biết chỉ từ forwarding table.</p>
+<img width="800px" src="../assets/routing/2-018-validity-local.png">
+<p>Thay vào đó, chúng ta cần xem xét routing state toàn cục, bao gồm tập hợp tất cả các forwarding table trong tất cả các router.</p>
+<img width="950px" src="../assets/routing/2-019-validity-global.png">
+<h2 id="Định-nghĩa-tính-hợp-lệ-của-trạng-thái-Định-tuyến-routing-state-validity-definition"><a class="header" href="#Định-nghĩa-tính-hợp-lệ-của-trạng-thái-Định-tuyến-routing-state-validity-definition">Định nghĩa Tính hợp lệ của Trạng thái Định tuyến (Routing State Validity Definition)</a></h2>
+<p>Bây giờ, chúng ta có thể định nghĩa một điều kiện chính thức mà chúng ta có thể sử dụng để kiểm tra xem các gói tin có đến được đích của chúng hay không đối với một routing state cho trước.</p>
+<p>Một routing state toàn cục là hợp lệ khi và chỉ khi, đối với bất kỳ đích nào, các gói tin không bị kẹt trong các ngõ cụt hoặc vòng lặp.</p>
+<p>Một <strong>dead end</strong> (ngõ cụt) xảy ra nếu một gói tin đến một router, nhưng router không biết cách chuyển tiếp gói tin đến đích của nó, vì vậy gói tin không được chuyển tiếp. Điều này có thể xảy ra nếu forwarding table của router không chứa một mục cho đích của gói tin.</p>
+<p>Lưu ý rằng điều kiện dead end chỉ áp dụng cho các router trung gian, chứ không phải các máy chủ cuối. Khi một gói tin đến máy chủ cuối đích, không cần thiết máy chủ cuối phải chuyển tiếp gói tin đi xa hơn, vì vậy chúng ta sẽ không xem xét các máy chủ cuối trong điều kiện dead end.</p>
+<img width="950px" src="../assets/routing/2-020-dead-end.png">
+<p>Một <strong>loop</strong> (vòng lặp) xảy ra nếu một gói tin được gửi theo một chu kỳ xung quanh cùng một nhóm các nút. Lưu ý rằng vì chúng ta đang sử dụng destination-based forwarding, nơi next hop chỉ phụ thuộc vào đích, một khi một gói tin đi vào một loop, nó sẽ bị kẹt trong loop đó mãi mãi. Khi gói tin đến router lần đầu tiên, hoặc lần thứ 10, hoặc lần thứ 500, nó sẽ được chuyển tiếp theo cùng một cách chính xác (vì đích cuối cùng là như nhau). Vì điều này áp dụng cho mọi router trên loop, gói tin sẽ bị kẹt trong loop mãi mãi.</p>
+<img width="850px" src="../assets/routing/2-021-loop.png">
+<p>Điều kiện này (không có dead ends, không có loops) là cần và đủ để một tuyến đường là hợp lệ. Hãy kiểm tra cả hai chiều của mệnh đề logic này.</p>
+<p>Không có dead ends và không có loops là một điều kiện cần cho tính hợp lệ. Nói cách khác, một trạng thái là hợp lệ chỉ khi không có dead ends và không có loops.</p>
+<p>Chứng minh: Nếu có một dead end, gói tin sẽ không đến được đích. Gói tin sẽ đến dead end và không được chuyển tiếp.</p>
+<p>Nếu có loops, gói tin sẽ không đến được đích. Gói tin sẽ bị kẹt trong loop mãi mãi (vì destination-based forwarding, được mô tả trước đó). Ngoài ra, lưu ý rằng đích cuối cùng không thể là một phần của loop, vì đích sẽ không chuyển tiếp gói tin. Do đó, một gói tin bị kẹt trong loop sẽ không đến được đích.</p>
+<p>Bây giờ, hãy kiểm tra chiều ngược lại. Nếu không có loops và không có dead ends, thì trạng thái đó là hợp lệ.</p>
+<p>Chứng minh: Giả sử rằng routing state không có loops hoặc dead ends. Một gói tin sẽ không đến cùng một nút hai lần (vì không có loops). Ngoài ra, gói tin sẽ không dừng lại trước khi đến đích (vì không có dead ends). Do đó, gói tin phải tiếp tục đi qua mạng, đến các nút khác nhau. Chỉ có một số lượng hữu hạn các nút duy nhất để ghé thăm, vì vậy gói tin cuối cùng phải đến được đích. Do đó, routing state phải hợp lệ.</p>
+<h2 id="cây-phân-phối-có-hướng-directed-delivery-trees"><a class="header" href="#cây-phân-phối-có-hướng-directed-delivery-trees">Cây Phân phối Có hướng (Directed Delivery Trees)</a></h2>
+<p>Bây giờ chúng ta đã có một định nghĩa chính thức cho routing state validity, chúng ta có thể hỏi: với một routing state toàn cục cho trước, làm thế nào chúng ta có thể kiểm tra xem nó có hợp lệ không?</p>
+<p>Để đơn giản hóa vấn đề, hãy bắt đầu bằng cách chỉ xem xét một máy chủ cuối đích duy nhất, bỏ qua tất cả các máy chủ cuối khác. Trong mỗi router, chúng ta có thể tra cứu đích này để lấy next hop tương ứng, điều này cho chúng ta biết cách mỗi router sẽ chuyển tiếp các gói tin dành cho đích này.</p>
+<p>Chúng ta có thể biểu diễn next hop tại mỗi router (cho đích duy nhất này) dưới dạng một mũi tên, cho chúng ta thấy tất cả các đường đi có thể mà gói tin này có thể đi để đến đích duy nhất.</p>
+<img width="800px" src="../assets/routing/2-022-delivery-tree.png">
+<p>Trong đồ thị kết quả, mỗi nút sẽ chỉ có một mũi tên đi ra. Điều này phản ánh giả định của chúng ta rằng trong forwarding table của mỗi router, chỉ có một next hop tương ứng với một đích.</p>
+<p>Lưu ý rằng trong đồ thị kết quả, một khi hai đường đi gặp nhau, chúng không bao giờ tách ra. Nói cách khác, ngay cả khi có nhiều mũi tên (đường đi) đến một nút, vì chỉ có một mũi tên đi ra, các đường đi đó bây giờ sẽ hội tụ thành một đường đi duy nhất. Điều này phản ánh phương pháp destination-based forwarding của chúng ta, bởi vì mỗi router chỉ sử dụng đích cuối cùng để quyết định cách chuyển tiếp một gói tin. Router không quan tâm gói tin đã đến router bằng cách nào ngay từ đầu.</p>
+<img width="900px" src="../assets/routing/2-023-no-diverging.png">
+<p>Các mũi tên mà chúng ta đã vẽ tạo thành một tập hợp các đường đi mà một gói tin có thể đi để đến đích duy nhất. Tập hợp các đường đi này được gọi là <strong>directed delivery tree</strong> (cây phân phối có hướng).</p>
+<p>Về mặt thuật ngữ đồ thị, các mũi tên trong một directed delivery tree hợp lệ phải tạo thành một <strong>oriented spanning tree</strong> (cây khung có hướng), có gốc tại đích. Hãy nhớ lại rằng một cây khung là một tập hợp các cạnh trong đồ thị chạm vào mọi nút và tạo thành một cây. Chúng ta muốn directed delivery tree là một cây, vì không nên có chu trình (các gói tin không thể đi theo vòng lặp). Chúng ta muốn directed delivery tree là cây khung (chạm vào mọi nút), bởi vì chúng ta muốn có thể đến đích từ mọi nơi. Directed delivery tree có hướng vì các cạnh có mũi tên, cho chúng ta biết hướng để chuyển tiếp gói tin.</p>
+<p>Tất cả các cạnh trong một directed delivery tree hợp lệ phải hướng về phía đích. Nói cách khác, bắt đầu từ bất kỳ nút nào, đi theo các mũi tên phải luôn luôn dẫn đến việc đến được đích.</p>
+<h2 id="xác-minh-tính-hợp-lệ-của-trạng-thái-Định-tuyến-verifying-routing-state-validity"><a class="header" href="#xác-minh-tính-hợp-lệ-của-trạng-thái-Định-tuyến-verifying-routing-state-validity">Xác minh Tính hợp lệ của Trạng thái Định tuyến (Verifying Routing State Validity)</a></h2>
+<p>Như trước đây, hãy chỉ xem xét một máy chủ cuối đích duy nhất, bỏ qua tất cả các máy chủ cuối khác.</p>
+<p>Ví dụ: Mặc dù có nhiều máy chủ cuối ở đây, hãy chỉ xem xét máy chủ cuối A.</p>
+<img width="800px" src="../assets/routing/2-024-validity1.png">
+<p>Sử dụng các forwarding table tại mỗi router, chúng ta sẽ vẽ các mũi tên vào mạng để tạo thành directed delivery tree cho đích duy nhất này. Về mặt chính thức, đối với mỗi router (nút trong đồ thị), chúng ta sẽ vẽ một mũi tên đi ra duy nhất từ nút đó.</p>
+<p>Ví dụ: Sử dụng các forwarding table (không hiển thị), chúng ta có thể vẽ một mũi tên đi ra cho mỗi router.</p>
+<img width="800px" src="../assets/routing/2-025-validity2.png">
+<p>Để đơn giản, tại thời điểm này, chúng ta có thể xóa tất cả các liên kết không có mũi tên trên chúng. Các liên kết không có mũi tên này sẽ không bao giờ được sử dụng để gửi gói tin đến đích duy nhất, vì chúng không nằm trên directed delivery tree.</p>
+<p>Ví dụ: Chúng ta có thể xóa tất cả các liên kết không có mũi tên.</p>
+<img width="800px" src="../assets/routing/2-026-validity3.png">
+<p>Nếu đồ thị còn lại là một directed delivery tree hợp lệ (cây khung, tất cả các mũi tên đều hướng về đích), thì chúng ta có thể nói rằng routing state là hợp lệ cho đích duy nhất này.</p>
+<p>Trong ví dụ trên, đồ thị còn lại thực sự là một cây khung hợp lệ hội tụ tại A, vì vậy chúng ta có thể nói routing state này là hợp lệ cho A.</p>
+<p>Dưới đây là một số ví dụ về các routing state không hợp lệ:</p>
+<img width="800px" src="../assets/routing/2-027-dead-end.png">
+<p>Trạng thái này không hợp lệ. Về mặt trực quan, có một router dead end. Một gói tin hướng đến A có thể được gửi đến router này, và router này sẽ loại bỏ gói tin mà không chuyển tiếp nó. Về mặt chính thức, đồ thị còn lại không phải là một cây khung, bởi vì các cạnh không được kết nối với nhau (có hai thành phần không liên thông, điều này không được phép trong một cây).</p>
+<img width="800px" src="../assets/routing/2-028-loop.png">
+<p>Trạng thái này cũng không hợp lệ. Về mặt trực quan, có một loop mà gói tin có thể bị kẹt trong đó. Về mặt chính thức, đồ thị còn lại không phải là một cây khung, bởi vì các cạnh không liên thông, và có một chu trình.</p>
+<p>Chúng ta có thể lặp lại quá trình này, một lần cho mỗi máy chủ cuối khác nhau (cô lập một máy chủ cuối khác nhau mỗi lần). Nếu routing state là hợp lệ cho tất cả các đích, thì chúng ta có thể nói rằng routing state là hợp lệ, và sẽ luôn chuyển giao các gói tin đến đúng đích của chúng.</p>
+<h2 id="Định-tuyến-chi-phí-thấp-nhất-least-cost-routing"><a class="header" href="#Định-tuyến-chi-phí-thấp-nhất-least-cost-routing">Định tuyến Chi phí Thấp nhất (Least-Cost Routing)</a></h2>
+<p>Bây giờ chúng ta đã có một định nghĩa về điều gì làm cho một routing state hợp lệ (các tuyến đường không có loops và dead ends), chúng ta có thể định nghĩa thêm điều gì làm cho một routing state tốt. Có thể một mạng có nhiều routing state hợp lệ, và chúng ta muốn có một số liệu có thể giúp chúng ta xác định xem một tuyến đường có tốt hơn tuyến đường khác hay không.</p>
+<p><strong>Least-cost routing</strong> (định tuyến chi phí thấp nhất) là một cách tiếp cận phổ biến để đo lường xem một tuyến đường có tốt hay không. Trong least-cost routing, chúng ta gán một chi phí bằng số cho mọi liên kết, và tìm kiếm các tuyến đường giảm thiểu chi phí. Nói cách khác, chúng ta muốn các tuyến đường dẫn đến việc các gói tin di chuyển dọc theo các đường đi có chi phí thấp nhất đến đích của chúng.</p>
+<img width="600px" src="../assets/routing/2-029-costs.png">
+<p>Có nhiều chi phí khác nhau mà chúng ta có thể xem xét gán cho các liên kết. Chi phí có thể phụ thuộc vào giá xây dựng liên kết, độ trễ lan truyền, khoảng cách vật lý của liên kết, độ không tin cậy, bandwidth, cùng nhiều yếu tố khác. Ví dụ, chúng ta có thể gán chi phí dựa trên chất lượng của liên kết (bandwidth và độ trễ lan truyền), sao cho đường đi chi phí thấp nhất ưu tiên các liên kết chất lượng cao hơn.</p>
+<p>Bằng cách cho phép các nhà khai thác đặt chi phí liên kết một cách tùy ý, chúng ta trao cho nhà khai thác khả năng tối ưu hóa mạng cho các nhu cầu cụ thể của họ. Chi phí chúng ta gán phụ thuộc vào mục tiêu của nhà khai thác đối với mạng. Nếu chúng ta có một liên kết 400 Gbps với độ trễ lan truyền 20 ms, và một liên kết 10 Gbps với độ trễ lan truyền 5 ms, cái nào có chi phí thấp hơn? Điều đó phụ thuộc vào việc chúng ta đang tối ưu hóa cho bandwidth, độ trễ lan truyền, một sự kết hợp nào đó, hay một thứ gì đó hoàn toàn khác.</p>
+<p>Nếu chúng ta gán chi phí là 1 cho mọi liên kết, thì đường đi chi phí thấp nhất là đường đi di chuyển qua ít liên kết nhất. Đôi khi chúng ta gọi đây là việc giảm thiểu <strong>hop count</strong> (số bước nhảy). Trong các ghi chú này, nếu các cạnh của một đồ thị không được dán nhãn với một chi phí, bạn có thể giả định tất cả các cạnh có chi phí là 1.</p>
+<p>Nhà khai thác của một mạng có thể quyết định cách gán chi phí cho mỗi liên kết. Nhà khai thác có thể gán chi phí thủ công. Hoặc, nhà khai thác có thể để mạng tự động cấu hình chi phí, mặc dù điều này có thể không hoạt động với một số số liệu không thể đo lường tự động (ví dụ: mạng không biết gì về chi phí tài chính để xây dựng liên kết).</p>
+<p>Khi thiết kế một routing protocol, chúng ta có thể trừu tượng hóa cách các chi phí được gán. Từ quan điểm của routing protocol, một ai đó khác (ví dụ: nhà khai thác mạng) đã gán các chi phí, dựa trên một cái gì đó mà họ cho là quan trọng. Thuật toán nhận các chi phí làm đầu vào, và tính toán các đường đi chi phí thấp nhất, bất kể các chi phí thực sự đại diện cho điều gì.</p>
+<img width="950px" src="../assets/routing/2-030-least-cost.png">
+<p>Lưu ý rằng chi phí là cục bộ đối với mỗi router. Một router biết về chi phí của các liên kết đi ra của chính nó, nhưng không có cách nào để router tự động biết chi phí của tất cả các liên kết. Điều này phù hợp với ràng buộc mà chúng ta đã đề cập trước đó, nơi các router không có cái nhìn toàn cục về toàn bộ cấu trúc liên kết của mạng.</p>
+<p>Để đơn giản, các routing protocol đưa ra một số giả định về cách các chi phí được định nghĩa.</p>
+<p>Chúng ta sẽ giả định rằng chi phí luôn là số nguyên dương. Điều này phù hợp với nhiều số liệu phổ biến trong đời thực, chẳng hạn như chiều dài của một liên kết hoặc chi phí tiền tệ của một liên kết. Nếu chúng ta đang cố gắng giảm thiểu tổng khoảng cách vật lý mà một gói tin di chuyển, một chi phí liên kết âm không có ý nghĩa. Bạn không thể di chuyển dọc theo một liên kết và giảm tổng khoảng cách đã đi. Giả định này sẽ giúp đơn giản hóa các giao thức của chúng ta sau này, vì chúng ta sẽ không phải lo lắng về các trường hợp biên như các vòng lặp có trọng số âm (nơi giải pháp chi phí thấp nhất sẽ là đi vòng quanh vòng lặp mãi mãi).</p>
+<p>Chúng ta sẽ giả định rằng chi phí là đối xứng. Chi phí từ A đến B giống như chi phí từ B đến A. Điều này phản ánh các sơ đồ chúng ta sẽ vẽ, trong đó một cạnh được dán nhãn với một chi phí đối xứng duy nhất. Về lý thuyết, có thể có chi phí liên kết bất đối xứng, nhưng điều này không được thực hiện trong thực tế, và sẽ dẫn đến các routing protocol phức tạp hơn.</p>
+<p>Với những giả định này, định nghĩa của chúng ta về các tuyến đường tốt (chi phí thấp nhất) phù hợp với định nghĩa của chúng ta về các tuyến đường hợp lệ. Cụ thể, một tuyến đường chi phí thấp nhất sẽ không có bất kỳ loops nào, bởi vì chi phí là dương (việc đi qua loop sẽ chỉ làm tăng chi phí).</p>
+<h2 id="Định-tuyến-tĩnh-static-routing"><a class="header" href="#Định-tuyến-tĩnh-static-routing">Định tuyến Tĩnh (Static Routing)</a></h2>
+<p>Một cách khả thi để tạo ra các tuyến đường là để nhà khai thác mạng điền vào forwarding table một cách thủ công. Điều này được gọi là <strong>static routing</strong> (định tuyến tĩnh).</p>
+<p>Bản thân static routing không thực tế (ví dụ: không thể mở rộng, dễ bị lỗi do con người), nhưng ngay cả khi đã triển khai một routing protocol, một số tuyến đường vẫn cần được các nhà khai thác tạo ra thủ công. Bạn có thể nghĩ về những tuyến đường thủ công này như những tuyến đường &quot;tầm thường&quot; hoặc &quot;trường hợp cơ sở&quot;, từ đó routing protocol tạo ra các tuyến đường phức tạp hơn.</p>
+<p>Nếu chúng ta được kết nối trực tiếp với một máy khác mà chúng ta muốn định tuyến các gói tin đến, chúng ta có thể cấu hình thủ công một tuyến đường để chuyển tiếp các gói tin đến máy đó. Những tuyến đường này được gọi là <strong>direct routes</strong> (tuyến đường trực tiếp) hoặc <strong>connected routes</strong> (tuyến đường kết nối). Ví dụ, router nhà bạn được kết nối với máy tính cá nhân của bạn bằng một liên kết, vì vậy router nhà bạn có thể thêm một mục trong forwarding table tương ứng với máy tính của bạn. Mục này được thêm vào bằng cách thông báo cho router về kết nối, và không được thêm vào từ việc chạy bất kỳ routing protocol nào.</p>
+<img width="800px" src="../assets/routing/2-031-static.png">
+<p>Cũng có thể sử dụng static routing để mã hóa cứng các mục cho các đích trong forwarding table, ngay cả khi chúng ta không được kết nối trực tiếp với đích đó. Điều này có thể hữu ích nếu có một tuyến đường không bao giờ thay đổi, và chúng ta muốn tuyến đường đó luôn ở trong forwarding table của mình, bất kể routing protocol đang làm gì.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../routing/distance-vector.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../routing/distance-vector.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

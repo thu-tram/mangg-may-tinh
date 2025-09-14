@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TCP Implementation - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html" class="active"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="triển-khai-tcp-tcp-implementation"><a class="header" href="#triển-khai-tcp-tcp-implementation">Triển khai TCP (TCP Implementation)</a></h1>
+<h2 id="phân-đoạn-tcp-tcp-segments"><a class="header" href="#phân-đoạn-tcp-tcp-segments">Phân đoạn TCP (TCP Segments)</a></h2>
+<p>Cho đến nay, chúng ta đã nói về TCP một cách khái niệm, dưới dạng các gói tin riêng lẻ được gửi đi. Nhưng ứng dụng không cung cấp cho chúng ta các gói tin được tạo sẵn để chúng ta có thể gửi trực tiếp vào mạng Lớp 3. Ứng dụng đang dựa vào một trừu tượng hóa bytestream, và thay vào đó đang gửi cho chúng ta một luồng byte liên tục. Để triển khai đầy đủ TCP, chúng ta sẽ cần phải suy nghĩ lại tất cả các ý tưởng trước đây của mình (ví dụ: sequence numbers, kích thước cửa sổ, v.v.) dưới dạng byte, chứ không phải gói tin. (Tuy nhiên, bạn vẫn nên có khả năng lý giải về các lựa chọn thiết kế dưới cả hai góc độ byte hoặc gói tin.)</p>
+<img width="900px" src="../assets/transport/3-035-segment1.png">
+<p>Để tạo thành các gói tin từ các byte trong bytestream, chúng ta sẽ giới thiệu một đơn vị dữ liệu được gọi là <strong>TCP segment</strong> (phân đoạn TCP). Việc triển khai TCP ở phía người gửi sẽ thu thập các byte từ bytestream, từng byte một, và đặt các byte đó vào một TCP segment. Khi TCP segment đầy (đạt đến một kích thước phân đoạn tối đa cố định), chúng ta gửi TCP segment đó, và sau đó bắt đầu một TCP segment mới.</p>
+<p>Đôi khi, người gửi muốn gửi ít dữ liệu hơn kích thước phân đoạn tối đa. Trong trường hợp đó, chúng ta sẽ không muốn TCP segment phải chờ đợi mãi mãi để có thêm các byte không bao giờ đến. Để khắc phục điều này, chúng ta sẽ bắt đầu một bộ đếm thời gian mỗi khi chúng ta bắt đầu điền vào một phân đoạn trống mới. Nếu bộ đếm thời gian hết hạn, chúng ta sẽ gửi TCP segment, ngay cả khi nó chưa đầy.</p>
+<img width="900px" src="../assets/transport/3-036-segment2.png">
+<p>Trước khi gửi dữ liệu trong một TCP segment, việc triển khai TCP của người gửi sẽ thêm một TCP header (phần đầu TCP) với các siêu dữ liệu liên quan (ví dụ: sequence number, số cổng). Sau đó, phân đoạn và phần đầu được chuyển xuống IP layer (lớp IP), lớp này sẽ đính kèm một IP header (phần đầu IP) và gửi gói tin qua mạng.</p>
+<p>TCP segment, với một TCP header và IP header ở trên, đôi khi được gọi là <strong>TCP/IP packet</strong> (gói tin TCP/IP). Tương đương, đây là một gói tin IP có phần tải (payload) bao gồm một TCP header và dữ liệu.</p>
+<img width="600px" src="../assets/transport/3-037-segment3.png">
+<p><strong>Maximum segment size (MSS)</strong> (kích thước phân đoạn tối đa) nên được đặt như thế nào? Hãy nhớ lại rằng kích thước của một gói tin IP bị giới hạn bởi maximum transmission unit (MTU) (đơn vị truyền tải tối đa) dọc theo mỗi liên kết. Tuy nhiên, gói tin IP cũng phải chứa IP header và TCP header, vì vậy maximum segment size của TCP sẽ nhỏ hơn một chút so với maximum transmission unit của IP. Cụ thể:</p>
+<p>MSS (giới hạn TCP segment) = MTU (giới hạn gói tin IP) - kích thước IP header - kích thước TCP header</p>
+<h2 id="số-thứ-tự-sequence-numbers"><a class="header" href="#số-thứ-tự-sequence-numbers">Số Thứ tự (Sequence Numbers)</a></h2>
+<p>Cho đến nay, chúng ta đã gán nhãn cho mỗi gói tin bằng một con số, để người nhận có thể nhận các gói tin theo đúng thứ tự.</p>
+<p>Trên thực tế, thay vì đánh số các phân đoạn riêng lẻ, chúng ta gán một số cho mỗi byte trong bytestream. TCP header của mỗi phân đoạn sẽ chứa một <strong>sequence number</strong> tương ứng với số của byte đầu tiên trong phân đoạn đó. Người nhận vẫn có thể sử dụng sequence numbers để xác định vị trí của mỗi phân đoạn trong bytestream, và lắp ráp lại các phân đoạn theo đúng thứ tự.</p>
+<p>Mỗi bytestream bắt đầu với một <strong>initial sequence number (ISN)</strong> (số thứ tự ban đầu). Người gửi chọn một ISN và gán nhãn cho byte đầu tiên với số ISN+1, byte tiếp theo với số ISN+2, byte tiếp theo với ISN+3, và cứ thế tiếp tục.</p>
+<img width="900px" src="../assets/transport/3-038-seq-num1.png">
+<p>Vì bây giờ chúng ta đang đánh số các byte thay vì các gói tin, số acknowledgement bây giờ cũng sẽ được tính theo byte, chứ không phải gói tin. Cụ thể, số acknowledgement cho biết, tôi đã nhận được tất cả các byte cho đến, nhưng không bao gồm, con số này. Tương đương, số acknowledgement đại diện cho byte tiếp theo mà nó mong đợi nhận được (nhưng chưa nhận được). Lưu ý rằng TCP đang sử dụng mô hình cumulative ack (thay vì full-information acks hoặc ack cho từng byte riêng lẻ).</p>
+<p>Làm ví dụ, giả sử ISN đã được chọn ngẫu nhiên là 50. Khi đó, một vài byte đầu tiên có các số 51, 52, 53, v.v. Một TCP segment cụ thể có thể chứa các byte từ 140 đến 219, bao gồm cả hai. Sequence number của phân đoạn này là 140 (đại diện cho byte đầu tiên trong phân đoạn). Nếu người nhận đã nhận được mọi thứ cho đến nay, người nhận có thể xác nhận phân đoạn này bằng cách gửi một số ack là 220, là byte tiếp theo chưa được nhận.</p>
+<img width="900px" src="../assets/transport/3-039-seq-num2.png">
+<p>Tổng quát hơn, giả sử chúng ta có một gói tin trong đó byte đầu tiên có sequence number là X, và gói tin có B byte. Gói tin này có các byte X, X+1, X+2, ..., X+B-1. Nếu gói tin này (và tất cả dữ liệu trước đó) được nhận, ack sẽ xác nhận X+B (byte tiếp theo được mong đợi). Nếu gói tin này không được nhận, hoặc gói tin này được nhận nhưng một số gói tin trước đó không được nhận, thì ack sẽ xác nhận một số nhỏ hơn (bởi vì TCP sử dụng cumulative acks).</p>
+<p>Tổng quát hơn nữa, giả sử chúng ta có nhiều gói tin, tất cả đều dài B byte. ISN là X, và kích thước cửa sổ là 1 (giao thức stop-and-wait, chỉ có một gói tin hoặc ack được gửi tại một thời điểm). Giả sử không có gói tin nào bị mất. Khi đó, các sequence number và số ack sẽ tiến hành như sau: Gói tin đầu tiên có sequence number X. Ack đầu tiên có số ack là X+B. Gói tin thứ hai có sequence number là X+B. Ack thứ hai có số ack là X+2B. Gói tin thứ ba có sequence number là X+2B, và cứ thế tiếp tục. Cụ thể, lưu ý rằng khi không có mất mát, số ack tương ứng với sequence number của gói tin tiếp theo.</p>
+<img width="500px" src="../assets/transport/3-040-seq-num3.png">
+<p>Trong lịch sử, ISN được chọn là ngẫu nhiên vì các nhà thiết kế lo ngại về các sequence number không rõ ràng nếu tất cả các bytestream đều bắt đầu đánh số từ 0. Cụ thể, giả sử một kết nối TCP gửi một số dữ liệu bắt đầu từ ISN 0, và sau đó người gửi bị treo. Nếu người gửi khởi động lại một kết nối mới, và ISN lại bắt đầu từ 0, người nhận có thể bị nhầm lẫn nếu thấy một gói tin có sequence number là 0. Gói tin này là từ kết nối đầu tiên trước khi bị treo, hay kết nối thứ hai sau khi bị treo?</p>
+<p>Trên thực tế, ISN được chọn là ngẫu nhiên vì lý do bảo mật. Nếu ISN được chọn một cách có thể dự đoán được, những kẻ tấn công có thể suy ra ISN và gửi các gói tin giả mạo trông giống như chúng đến từ người gửi. Khi ISN được chọn ngẫu nhiên, kẻ tấn công khó suy ra ISN và gửi các gói tin giả mạo hơn.</p>
+<h2 id="trạng-thái-của-tcp-tcp-state"><a class="header" href="#trạng-thái-của-tcp-tcp-state">Trạng thái của TCP (TCP State)</a></h2>
+<p>Trong TCP, cả người gửi và người nhận đều cần duy trì trạng thái. Trạng thái được duy trì tại các máy chủ cuối triển khai TCP, chứ không phải trong mạng.</p>
+<p>Người gửi phải nhớ những byte nào đã được gửi nhưng chưa được xác nhận. Người gửi cũng phải theo dõi các bộ đếm thời gian khác nhau, ví dụ: một bộ đếm thời gian cho việc khi nào gửi một phân đoạn chưa đầy, và một bộ đếm thời gian cho việc khi nào gửi lại các byte.</p>
+<p>Người nhận phải nhớ các byte không theo thứ tự mà chưa thể được giao cho ứng dụng.</p>
+<p>Bởi vì TCP yêu cầu lưu trữ trạng thái, mỗi bytestream được gọi là một <strong>connection</strong> (kết nối) hoặc <strong>session</strong> (phiên), và TCP là một giao thức hướng kết nối. Không giống như Lớp 3, nơi mọi gói tin có thể được xem xét riêng biệt, TCP yêu cầu cả hai bên phải thiết lập một connection và khởi tạo trạng thái trước khi có thể gửi dữ liệu. TCP cũng cần một cơ chế để hủy các connection để giải phóng bộ nhớ được phân bổ cho trạng thái trên cả hai máy chủ cuối.</p>
+<h2 id="tcp-là-duplex-toàn-phần"><a class="header" href="#tcp-là-duplex-toàn-phần">TCP là Duplex toàn phần</a></h2>
+<p>Cho đến nay, chúng ta đã xem TCP như một bytestream từ một máy chủ cuối (người gửi) đến máy chủ cuối kia (người nhận). Trên thực tế, hai máy chủ cuối thường muốn gửi tin nhắn theo cả hai hướng.</p>
+<p>Để hỗ trợ gửi tin nhắn theo cả hai hướng, các connection TCP là <strong>full duplex</strong> (song công toàn phần). Thay vì chỉ định một người gửi và một người nhận, cả hai máy chủ cuối trong connection có thể gửi và nhận dữ liệu đồng thời, trong cùng một connection.</p>
+<img width="900px" src="../assets/transport/3-041-duplex.png">
+<p>Để hỗ trợ gửi dữ liệu theo cả hai hướng, mỗi connection TCP có hai bytestream: một chứa dữ liệu từ A đến B, và cái còn lại chứa dữ liệu từ B đến A. Mỗi gói tin có thể chứa cả dữ liệu và thông tin acknowledgement. Sequence number sẽ tương ứng với bytestream của người gửi (các byte tôi đang gửi), và số acknowledgement sẽ tương ứng với bytestream của người nhận (các byte tôi đã nhận từ bạn).</p>
+<h2 id="tcp-handshake"><a class="header" href="#tcp-handshake">TCP Handshake</a></h2>
+<p>Hãy nhớ lại rằng TCP là hướng kết nối, vì vậy các connection phải được tạo và hủy một cách tường minh. Cũng hãy nhớ lại rằng các bytestream bắt đầu tại một initial sequence number (ISN) được chọn ngẫu nhiên, và mỗi connection TCP là full-duplex (hai bytestream, một theo mỗi hướng). Khi chúng ta tạo một connection mới, chúng ta cần cả hai bên đồng ý về hai ISN khởi đầu (một cho mỗi hướng).</p>
+<p>Để thiết lập một connection TCP, hai máy chủ thực hiện một <strong>three-way handshake</strong> (bắt tay ba bước) để đồng ý về các ISN ở mỗi hướng.</p>
+<img width="500px" src="../assets/transport/3-042-handshake.png">
+<p>Gói tin đầu tiên (từ A đến B) là tin nhắn <strong>SYN</strong> (tin nhắn SYN). Tin nhắn này chứa ISN của A (dữ liệu từ A đến B sẽ bắt đầu đếm từ ISN này), trong sequence number.</p>
+<p>Gói tin thứ hai (từ B đến A) là tin nhắn <strong>SYN-ACK</strong> (tin nhắn SYN-ACK). Tin nhắn này chứa ISN của B (dữ liệu từ B đến A sẽ bắt đầu đếm từ ISN này), trong sequence number. Tin nhắn này cũng xác nhận rằng B đã nhận được ISN của A, trong số ack.</p>
+<p>Gói tin thứ ba (lại từ A đến B) là tin nhắn <strong>ACK</strong> (tin nhắn ACK). Tin nhắn này xác nhận rằng A đã nhận được ISN của B, trong số ack.</p>
+<p>Cái handshake này là lý do tại sao các bytestream bắt đầu đếm từ ISN+1. Khi tôi gửi một ISN, ack là ISN+1, cho biết rằng ISN đã được nhận, và byte (đầu tiên) tiếp theo được mong đợi là ISN+1.</p>
+<p>Sau khi three-way handshake kết thúc, B có thể bắt đầu gửi dữ liệu.</p>
+<h2 id="kết-thúc-kết-nối-ending-connections"><a class="header" href="#kết-thúc-kết-nối-ending-connections">Kết thúc Kết nối (Ending Connections)</a></h2>
+<p>Có hai cách để kết thúc một connection.</p>
+<p>Trong trường hợp bình thường, khi tôi gửi xong tin nhắn, tôi có thể gửi một FIN packet (gói tin FIN) đặc biệt, có nội dung: Tôi sẽ không gửi thêm bất kỳ dữ liệu nào nữa, nhưng tôi sẽ tiếp tục nhận dữ liệu nếu bạn còn gì để gửi. Tại thời điểm này, connection được đóng một nửa. Gói tin này sẽ được xác nhận, giống như bất kỳ gói tin nào khác.</p>
+<p>Cuối cùng, phía bên kia cũng sẽ gửi xong dữ liệu và gửi một FIN packet. Khi FIN packet này được xác nhận, connection sẽ được đóng.</p>
+<img width="500px" src="../assets/transport/3-043-fin.png">
+<p>Đôi khi, chúng ta phải chấm dứt một connection một cách đột ngột, mà không có sự đồng ý của phía bên kia. Để đơn phương kết thúc một connection, tôi có thể gửi một RST packet (gói tin RST) đặc biệt, có nội dung: Tôi sẽ không gửi hoặc nhận thêm bất kỳ dữ liệu nào nữa. Gói tin này không cần phải được xác nhận, và tôi có thể hủy connection của mình ngay khi tôi gửi dữ liệu này.</p>
+<p>Các RST packet thường được sử dụng khi một máy chủ gặp lỗi và không thể tiếp tục gửi hoặc nhận các gói tin. Lưu ý rằng bất kỳ dữ liệu nào đang in-flight sẽ bị mất nếu một RST xảy ra và máy chủ cuối bị treo và mất trạng thái của nó.</p>
+<p>Nếu tôi đã gửi một RST, và ai đó tiếp tục gửi dữ liệu cho tôi, nếu có thể, tôi sẽ tiếp tục gửi các bản sao của RST packet để liên tục cố gắng chấm dứt connection.</p>
+<p>Các RST packet cũng có thể được những kẻ tấn công sử dụng để kiểm duyệt các connection. Một kẻ tấn công có thể giả mạo và tiêm một RST packet, điều này khiến toàn bộ connection bị chấm dứt.</p>
+<img width="500px" src="../assets/transport/3-044-rst.png">
+<p>Sơ đồ trạng thái TCP đầy đủ khá phức tạp, với nhiều trạng thái trung gian trong quá trình mở hoặc đóng một connection. Ví dụ về các trạng thái trung gian bao gồm: Tôi đã gửi một SYN, và đang chờ một SYN-ACK. Hoặc, tôi đã nhận một FIN, đã gửi FIN của mình, nhưng đang chờ FIN của mình được xác nhận. Hầu hết các connection TCP dành phần lớn thời gian của chúng ở trạng thái Established (Đã thiết lập), nơi connection đã bắt đầu (nhưng chưa kết thúc), và dữ liệu đang được trao đổi qua lại. Bạn không cần phải hiểu toàn bộ sơ đồ trạng thái này cho các ghi chú này.</p>
+<img width="900px" src="../assets/transport/3-045-state-diagram.png">
+<p>Trong sơ đồ trạng thái đơn giản hóa, chúng ta bắt đầu ở trạng thái đóng (không có connection nào đang diễn ra). Để bắt đầu một connection, chúng ta gửi một SYN. Cuối cùng, chúng ta nhận được một SYN-ACK và trả lời bằng một ACK, chuyển sang một connection đã được thiết lập. Khi chúng ta gửi xong dữ liệu, chúng ta gửi một FIN, và nhận một ACK. Cuối cùng, chúng ta nhận được một FIN, và connection lại được đóng.</p>
+<img width="900px" src="../assets/transport/3-046-simplified-state.png">
+<h2 id="gửi-ké-piggybacking"><a class="header" href="#gửi-ké-piggybacking">Gửi ké (Piggybacking)</a></h2>
+<p>Bởi vì TCP là full duplex, có thể một gói tin vừa xác nhận một số dữ liệu vừa gửi dữ liệu mới.</p>
+<p>Khi người nhận nhận được một gói tin, nếu nó không có dữ liệu để gửi, người nhận có hai lựa chọn. Người nhận có thể gửi ngay ack, mà không có dữ liệu để gửi. Hoặc, người nhận có thể đợi cho đến khi có dữ liệu để gửi, và sau đó gửi ack cùng với dữ liệu mới. Cách tiếp cận thứ hai này được gọi là <strong>piggybacking</strong> (gửi ké).</p>
+<p>Trên thực tế, một lý do chúng ta có thể không piggybacking là vì TCP được triển khai trong hệ điều hành, tách biệt với ứng dụng.</p>
+<p>Hãy xem xét hệ điều hành, không biết ứng dụng đang làm gì. Khi hệ điều hành nhận được một gói tin, nó không biết khi nào người gửi sẽ có thêm dữ liệu để gửi (hoặc liệu người gửi có bao giờ có thêm dữ liệu để gửi hay không), vì vậy nó có thể bị kẹt trong việc chờ đợi một thời gian dài trước khi có thể piggybacking ack với một số dữ liệu mới.</p>
+<p>Ở phía bên kia, hãy xem xét ứng dụng, không biết hệ điều hành đang làm gì. Ứng dụng đang chạy trên trừu tượng hóa bytestream, và hoàn toàn không nghĩ về các gói tin, vì vậy nó không có cách nào để nghĩ về piggybacking.</p>
+<p>Piggybacking còn phức tạp hơn bởi thực tế là hệ điều hành không chạy mọi chương trình đồng thời. Nhớ lại một khóa học kiến trúc máy tính (như CS 61C tại UC Berkeley), CPU liên tục chuyển đổi giữa các tiến trình khác nhau trên máy tính của bạn, tùy thuộc vào những gì cần chú ý. Sẽ khá ngớ ngẩn nếu, mỗi khi một gói tin TCP đến, CPU ngắt những gì nó đang làm để chuyển gói tin đó cho ứng dụng, và cho ứng dụng một chút thời gian để phản hồi. Thay vào đó, khi một gói tin TCP đến, hệ điều hành có thể gửi đi ack, trước khi ứng dụng có cơ hội piggybacking dữ liệu mới trên ack.</p>
+<p>Một trường hợp mà dữ liệu luôn được piggybacked là gói tin SYN-ACK trong handshake. Ngoài ack, chúng ta đang piggybacking initial sequence number của chính mình. Điều này không có vấn đề đã thảo luận ở trên, vì TCP handshake hoàn toàn được thực hiện bởi hệ điều hành. (Ứng dụng hoàn toàn không nghĩ về các gói tin SYN hoặc SYN-ACK.)</p>
+<h2 id="sliding-window"><a class="header" href="#sliding-window">Sliding Window</a></h2>
+<p>Khi chúng ta thảo luận về các gói tin, chúng ta đã định nghĩa cửa sổ là số lượng gói tin có thể in flight tại bất kỳ thời điểm nào. Bây giờ chúng ta đang triển khai TCP dưới dạng byte, chúng ta sẽ định nghĩa <strong>sliding window</strong> (cửa sổ trượt) là số lượng byte liên tục tối đa có thể in flight tại bất kỳ thời điểm nào.</p>
+<p>Việc hạn chế các byte in flight phải liên tục là khác so với trước đây. Định nghĩa cửa sổ dựa trên gói tin của chúng ta cho phép các gói tin không liên tục (ví dụ: 5, 7, 8) được in-flight. Tuy nhiên, các byte in flight được yêu cầu phải liên tiếp, không có khoảng trống. Yêu cầu này tạo ra một cửa sổ (phạm vi các byte) trong luồng byte.</p>
+<p>Bên trái của cửa sổ là byte đầu tiên chưa được xác nhận (được xác định bởi số ack từ người nhận). Bắt đầu từ byte này, W byte tiếp theo, cho đến bên phải của cửa sổ, có thể in-flight.</p>
+<img width="900px" src="../assets/transport/3-047-window1.png">
+<p>Lưu ý rằng ngay cả khi một số byte trung gian trong cửa sổ này đã được xác nhận, chúng ta vẫn không thể gửi thêm byte nào ngoài cửa sổ. Cách duy nhất chúng ta có thể gửi thêm byte là nếu cửa sổ trượt sang phải, tức là khi số ack tăng lên (các byte ở bên trái của cửa sổ được xác nhận).</p>
+<img width="900px" src="../assets/transport/3-048-window2.png">
+<p>Hãy nhớ lại rằng kích thước cửa sổ (xác định cạnh phải của cửa sổ) bị giới hạn bởi flow control và congestion control. Trong trường hợp flow control, kích thước cửa sổ được quyết định bởi cửa sổ được quảng bá bởi người nhận. Người nhận quyết định advertised window dựa trên lượng không gian bộ đệm có sẵn ở phía người nhận.</p>
+<h2 id="phát-hiện-mất-mát-và-hửi-lại-dữ-liệu-detecting-loss-and-re-sending-data"><a class="header" href="#phát-hiện-mất-mát-và-hửi-lại-dữ-liệu-detecting-loss-and-re-sending-data">Phát hiện mất mát và hửi lại Dữ liệu (Detecting Loss and Re-Sending Data)</a></h2>
+<p>Có hai điều kiện để dữ liệu được gửi lại. Chỉ cần một điều kiện (không phải cả hai) là đúng để kích hoạt việc gửi lại.</p>
+<img width="900px" src="../assets/transport/3-049-window3.png">
+<p>Tác nhân kích hoạt đầu tiên cho việc truyền lại là một bộ đếm thời gian (dữ liệu không được xác nhận sau một khoảng thời gian). Trong TCP dựa trên gói tin, mỗi gói tin có một bộ đếm thời gian, và khi bộ đếm thời gian hết hạn mà gói tin đó chưa được xác nhận, chúng ta sẽ gửi lại gói tin đó.</p>
+<p>Trong TCP dựa trên byte, thay vì một bộ đếm thời gian cho mỗi byte hoặc mỗi gói tin, chúng ta sẽ chỉ có một bộ đếm thời gian duy nhất, tương ứng với byte đầu tiên chưa được xác nhận (bên trái của cửa sổ). Nếu bộ đếm thời gian hết hạn, chúng ta sẽ gửi lại phân đoạn chưa được xác nhận ở ngoài cùng bên trái. Hãy nhớ lại rằng độ dài bộ đếm thời gian dựa trên RTT, và RTT được ước tính bằng cách sử dụng các phép đo thời gian giữa việc gửi dữ liệu và nhận ack. Cũng hãy nhớ lại rằng bộ đếm thời gian được đặt lại mỗi khi một ack mới đến (và cửa sổ thay đổi).</p>
+<p>Tác nhân kích hoạt thứ hai cho việc truyền lại là giả định rằng dữ liệu bị mất khi chúng ta nhận được ack cho các gói tin tiếp theo. Trong TCP dựa trên gói tin với cumulative acks (là những gì TCP sử dụng), chúng ta sẽ gửi lại một gói tin nếu chúng ta nhận được K duplicate acks (K=3 là phổ biến), điều này cho thấy rằng ba gói tin tiếp theo đã được xác nhận.</p>
+<p>Trong TCP dựa trên byte, nếu chúng ta nhận được K duplicate acks, chúng ta sẽ gửi lại phân đoạn chưa được xác nhận ở ngoài cùng bên trái.</p>
+<h2 id="tcp-header"><a class="header" href="#tcp-header">TCP Header</a></h2>
+<img width="800px" src="../assets/transport/3-050-tcp-header.png">
+<p>TCP header có các source and destination ports (cổng nguồn và cổng đích) 16-bit.</p>
+<p>TCP header có một sequence number 32-bit (độ lệch byte của byte đầu tiên trong gói tin này), và một số acknowledgement 32-bit (số thứ tự liên tục cao nhất đã nhận, cộng một).</p>
+<p>TCP header có một checksum trên toàn bộ dữ liệu (không chỉ phần đầu), để phát hiện dữ liệu bị hỏng.</p>
+<p>TCP header có advertised window, được sử dụng để hỗ trợ flow control và congestion control.</p>
+<p>Header length (độ dài phần đầu) chỉ định số lượng từ 4-byte trong TCP header. Giả sử không có tùy chọn bổ sung nào, độ dài này là 5.</p>
+<p>Các flags (cờ) là một chuỗi các bit có thể được đặt thành 1 hoặc 0. Khi một bit được đặt thành 1, cờ tương ứng được bật. Mọi người đều hiểu ngữ nghĩa của phần đầu, vì vậy họ biết bit nào tương ứng với cờ nào. Có bốn cờ liên quan cho các ghi chú này.</p>
+<p>Cờ SYN (synchronize - đồng bộ hóa) được bật khi máy chủ đang gửi ISN của nó. Cờ này thường chỉ được bật trong hai tin nhắn đầu tiên của three-way handshake.</p>
+<p>Cờ ACK (acknowledge - xác nhận) được bật khi số acknowledgement có liên quan và đang được sử dụng để xác nhận dữ liệu. Nếu tôi muốn gửi dữ liệu, nhưng không nhận được bất kỳ dữ liệu nào cần được xác nhận, tôi có thể tắt cờ này, điều này cho máy chủ khác biết để bỏ qua số ack.</p>
+<p>Có 6 bit dành riêng sau header length luôn được đặt thành 0. Bạn có thể bỏ qua chúng một cách an toàn.</p>
+<p>Urgent pointer (con trỏ khẩn) có thể được sử dụng để đánh dấu một số byte là khẩn cấp, điều này cho người nhận biết để gửi dữ liệu này đến ứng dụng càng sớm càng tốt. Đây là một trường lịch sử mà chúng ta sẽ không đề cập thêm.</p>
+<p>TCP header có thể có các tùy chọn bổ sung được nối vào cuối (điều này sẽ làm cho phần đầu dài hơn), nhưng chúng ta sẽ bỏ qua các tùy chọn cho lớp học này. Ví dụ, nếu bạn muốn triển khai full-information acks, có một tùy chọn gọi là selective acknowledgements (SACK) (tin báo nhận chọn lọc) có thể được thêm vào phần đầu.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../transport/tcp-design.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../transport/cc-principles.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../transport/tcp-design.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../transport/cc-principles.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

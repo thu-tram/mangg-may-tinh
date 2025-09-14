@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Kiến trúc mạng - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html" class="active"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="kiến-trúc-mạng-network-architecture"><a class="header" href="#kiến-trúc-mạng-network-architecture"><strong>Kiến trúc mạng</strong> (Network Architecture)</a></h1>
+<h2 id="các-mô-hình-thiết-kế-design-paradigms"><a class="header" href="#các-mô-hình-thiết-kế-design-paradigms"><strong>Các mô hình thiết kế</strong> (Design Paradigms)</a></h2>
+<p>Cho đến nay, chúng ta đã xem Internet từ góc nhìn <strong>bottom-up</strong> (từ dưới lên), bắt đầu từ các thành phần cơ bản để xây dựng bức tranh tổng thể. Trong phần này, chúng ta sẽ nhìn Internet từ góc nhìn <strong>top-down</strong> (từ trên xuống) và phân tích các lựa chọn kiến trúc tổng thể trong thiết kế.</p>
+<p>Các <strong>Internet design paradigms</strong> (mô hình thiết kế Internet) này ảnh hưởng đến lý do tại sao Internet hoạt động như hiện nay, và cũng ảnh hưởng đến các ứng dụng mà chúng ta xây dựng trên nền tảng Internet. Những mô hình này là một sự thay đổi lớn so với cách các hệ thống từng được xây dựng trong lịch sử.</p>
+<p>Những thiết kế này chỉ là một trong nhiều khả năng, và nhiều quyết định thiết kế đã được đưa ra từ nhiều năm trước, khi Internet chưa phát triển đến quy mô hiện tại. Các thiết kế khác vẫn tồn tại, và các cuộc tranh luận về thiết kế tối ưu vẫn tiếp diễn.</p>
+<p>Ví dụ: Internet được xây dựng theo mô hình <strong>federated</strong> (liên kết liên bang – các nhà vận hành độc lập hợp tác với nhau), nhưng trong những năm gần đây, <strong>Software-Defined Networking (SDN)</strong> xuất hiện như một cách tiếp cận tập trung hơn để quản lý mạng.</p>
+<p>Trong Internet ban đầu, các <strong>switch</strong> được thiết kế cố ý để “ngu” – chỉ chuyển tiếp dữ liệu mà không phân tích nội dung. Tuy nhiên, trong Internet hiện đại, kẻ tấn công có thể cố gắng làm quá tải switch bằng cách <strong>flood</strong> (phát tràn) dữ liệu vô nghĩa, và switch có thể cần cơ chế phát hiện điều này. Các nhà thiết kế Internet thời kỳ đầu, khi đưa ra mô hình hạ tầng “ngu”, đã không tính đến hệ quả bảo mật này.</p>
+<h2 id="narrow-waist-eo-hẹp"><a class="header" href="#narrow-waist-eo-hẹp"><strong>Narrow Waist</strong> (Eo hẹp)</a></h2>
+<p>Có thể tồn tại nhiều giao thức ở cùng một tầng. Ví dụ: ở <strong>Layer 7</strong>, chúng ta có thể dùng <strong>HTTP</strong> để phục vụ website, hoặc <strong>NTP</strong> để đồng bộ đồng hồ hệ thống, cả hai đều chạy trên cùng hạ tầng Internet. Hoặc ở <strong>Layer 2</strong>, chúng ta có thể dùng <strong>Ethernet</strong> cho mạng có dây, hoặc <strong>Wi-Fi</strong> cho mạng không dây.</p>
+<p>Lưu ý rằng mặc dù có nhiều giao thức ở một tầng, bạn có thể chọn một <strong>stack</strong> (ngăn xếp) giao thức cụ thể cho ứng dụng của mình. Ví dụ: bạn có thể chọn <strong>HTTP over TCP over IP</strong>, và không cần dùng các giao thức Layer 7 hoặc Layer 4 khác. Khi đó, tất cả người dùng ứng dụng của bạn sẽ dùng cùng một stack.</p>
+<img width="900px" src="../assets/intro/1-31-multi-protocols.png">
+<p>Nếu nhìn vào sơ đồ này, bạn sẽ thấy chỉ có <strong>một giao thức ở Layer 3</strong>. Đây chính là “<strong>narrow waist</strong>” (eo hẹp) cho phép kết nối Internet. Cuối cùng, mọi người trên Internet phải đồng ý sử dụng <strong>IP</strong> để các gói tin có thể được gửi đi khắp Internet.</p>
+<h2 id="demultiplexing-phân-kênh"><a class="header" href="#demultiplexing-phân-kênh"><strong>Demultiplexing</strong> (Phân kênh)</a></h2>
+<p><em>(Phần này trong bản gốc chưa được viết đầy đủ – TODO)</em></p>
+<img width="900px" src="../assets/intro/1-32-demultiplex.png">
+<img width="500px" src="../assets/intro/1-33-layer3-demultiplex.png">
+<img width="700px" src="../assets/intro/1-34-layer4-demultiplex.png">
+<img width="700px" src="../assets/intro/1-35-demultiplex-headers.png">
+<img width="900px" src="../assets/intro/1-36-ports.png">
+<p>Cần cẩn thận với thuật ngữ. Trong mạng máy tính, <strong>port</strong> có thể chỉ hai khái niệm khác nhau:</p>
+<ul>
+<li><strong>Physical port</strong> (cổng vật lý): vị trí thực tế để cắm dây mạng vào switch.</li>
+<li><strong>Logical port</strong> (cổng logic): một số trong <strong>Layer 4 header</strong> để phân biệt gói tin thuộc về ứng dụng nào.</li>
+</ul>
+<img width="700px" src="../assets/intro/1-37-logical-physical-port.png">
+<p><strong>Lưu ý:</strong> Thuật ngữ <strong>socket</strong> chỉ cơ chế của hệ điều hành (OS) để kết nối một ứng dụng với <strong>networking stack</strong> (ngăn xếp mạng) trong OS. Khi một ứng dụng mở một socket, socket đó được gán với một số cổng logic. Khi OS nhận một gói tin, nó dùng số cổng để chuyển gói tin tới socket tương ứng.</p>
+<img width="900px" src="../assets/intro/1-38-layers-in-os1.png">
+<img width="900px" src="../assets/intro/1-39-layers-in-os2.png">
+<img width="900px" src="../assets/intro/1-40-layers-in-os3.png">
+<h2 id="nguyên-tắc-end-to-end-end-to-end-principle"><a class="header" href="#nguyên-tắc-end-to-end-end-to-end-principle"><strong>Nguyên tắc End-to-End</strong> (End-to-End Principle)</a></h2>
+<p>Tại sao chúng ta thiết kế Internet với cấu trúc phân tầng như hiện nay? Tại sao chỉ các <strong>host</strong> hiểu <strong>Layer 4</strong> và <strong>Layer 7</strong>, còn các <strong>router</strong> thì không?</p>
+<p><strong>End-to-end principle</strong> (nguyên tắc đầu-cuối) đưa ra định hướng và triết lý cho việc thiết kế Internet. <strong>David D. Clark</strong>, nhà khoa học tại MIT và thành viên <strong>Internet Architecture Board</strong>, là người đóng góp lớn cho nguyên tắc này. Hai bài báo của ông, <em>&quot;End-to-End Arguments in System Design&quot;</em> (1981) và <em>&quot;The Design Philosophy of the DARPA Internet Protocols&quot;</em> (1988), có ảnh hưởng sâu rộng đến triết lý thiết kế Internet.</p>
+<p>Nguyên tắc end-to-end định hướng tranh luận về việc chức năng nào nên và không nên được triển khai trong mạng. Nguyên tắc này khá rộng và có nhiều ứng dụng, nhưng ở đây chúng ta tập trung vào câu hỏi: <strong>Có nên triển khai tính tin cậy (Layer 4) trong mạng, hay chỉ ở các end host?</strong></p>
+<p>Giả sử một giao thức đơn giản để đảm bảo tin cậy: Host A muốn gửi 10 gói tin tới Host B, đánh số từ 1 đến 10. Mục tiêu là B nhận đủ tất cả gói, hoặc phát hiện thiếu gói và báo lỗi (bỏ qua việc khôi phục lỗi).</p>
+<p><strong>Nếu triển khai tính tin cậy trong mạng:</strong> Mỗi router phải hiểu Layer 4 ngoài Layer 1–3. Router trung gian phải đảm bảo gửi tin cậy tới <strong>next hop</strong> (bước nhảy tiếp theo), và nếu mất gói, router phải gửi lại. Host không kiểm tra, mà tin tưởng mạng đảm bảo tất cả gói được nhận.</p>
+<img width="900px" src="../assets/intro/1-41-reliability-in-network.png">
+<p>Nhược điểm: Host phải <strong>trust</strong> (tin tưởng) mạng. Nếu một router bị lỗi và làm mất gói, host không thể làm gì.</p>
+<img width="900px" src="../assets/intro/1-42-buggy-reliability-in-network.png">
+<p><strong>Nếu triển khai tính tin cậy ở end host (end-to-end approach):</strong> Mạng có thể làm mất gói, và host sẽ tự kiểm tra, xác nhận và xử lý.</p>
+<img width="900px" src="../assets/intro/1-43-reliability-in-endhost.png">
+<p>Ưu điểm: Quyền kiểm soát nằm ở host. Nếu host bị lỗi, họ có thể tự sửa. Nói chung, khi lập trình, tốt hơn là bạn tự kiểm soát tính đúng đắn thay vì phụ thuộc vào người khác (và không thể sửa lỗi của họ).</p>
+<p>So sánh hai cách: Nếu dựa vào mạng, ta không thể đảm bảo tin cậy tuyệt đối nếu mạng bị lỗi. Cuối cùng, host vẫn phải làm kiểm tra end-to-end.</p>
+<p>Trong Internet cũ, mỗi liên kết đều triển khai tính tin cậy. Nhưng Internet hiện đại chỉ cung cấp <strong>best-effort</strong> (nỗ lực tối đa, không đảm bảo), và buộc end host triển khai tính tin cậy – phù hợp với nguyên tắc end-to-end.</p>
+<p><strong>Tóm lại:</strong> Một số yêu cầu ứng dụng phải được triển khai end-to-end để đảm bảo tính đúng đắn. Việc triển khai end-to-end là đủ, không cần hỗ trợ thêm từ mạng. Thêm chức năng vào mạng sẽ làm tăng độ phức tạp và chi phí mà không cải thiện kết quả.</p>
+<p>Lưu ý rằng <strong>end-to-end principle</strong> (nguyên tắc đầu-cuối) không phải là một định lý hay một chứng minh luôn đúng. Đây là một nguyên tắc định hướng và một lập luận mang tính triết lý, và các nhà thiết kế khác nhau có thể đưa ra những lập luận ủng hộ hoặc phản đối nguyên tắc này.</p>
+<p>Dưới đây là một ví dụ cho thấy nguyên tắc end-to-end không phải là một quy tắc tuyệt đối. Mặc dù nguyên tắc này nói rằng chỉ nên triển khai <strong>reliability</strong> (tính tin cậy) ở <strong>end host</strong> (máy đầu cuối), chúng ta vẫn có thể bổ sung thêm một chút tính tin cậy trong mạng, bên cạnh việc kiểm tra end-to-end. Điều này có thể hữu ích nếu chúng ta có các liên kết kém ổn định. Giả sử có 10 liên kết giữa A và B, và mỗi liên kết có xác suất lỗi 10%. Khi đó, mỗi lần gửi gói tin, xác suất bị mất gói là 65%. Tuy nhiên, nếu mỗi <strong>router</strong> được chỉnh sửa để gửi hai bản sao của gói tin nhằm tăng độ tin cậy, thì mỗi liên kết chỉ còn xác suất lỗi 0,1%, và gói tin chỉ còn 1% khả năng bị mất. Các liên kết <strong>wireless</strong> (không dây) đôi khi cũng triển khai cơ chế tin cậy để giảm tỷ lệ lỗi và cải thiện hiệu năng cho end host.</p>
+<p>Nguyên tắc end-to-end cũng mở rộng sang các lĩnh vực khác. Ví dụ, trong bảo mật, nguyên tắc này có thể nói rằng hai end host khi giao tiếp nên <strong>encrypt</strong> (mã hóa) thông điệp của mình ngay tại end host, thay vì tại các điểm trung gian trong mạng.</p>
+<p>Lập luận end-to-end theo lời của Clark:</p>
+<blockquote>
+<p>“Chức năng đang được xét chỉ có thể được triển khai đầy đủ và chính xác với sự hiểu biết và hỗ trợ của ứng dụng tại các điểm cuối. Do đó, việc cung cấp chức năng đó như một tính năng của chính hệ thống truyền thông là không khả thi. Đôi khi, một phiên bản chưa hoàn chỉnh của chức năng được cung cấp bởi hệ thống truyền thông có thể hữu ích như một cách cải thiện hiệu năng.”</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../intro/headers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../intro/sharing-resources.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../intro/headers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../intro/sharing-resources.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

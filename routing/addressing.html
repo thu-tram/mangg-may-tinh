@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Addressing - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html" class="active"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Định-địa-chỉ-addressing"><a class="header" href="#Định-địa-chỉ-addressing">Định địa chỉ (Addressing)</a></h1>
+<h2 id="mở-rộng-quy-mô-Định-tuyến-scaling-routing"><a class="header" href="#mở-rộng-quy-mô-Định-tuyến-scaling-routing">Mở rộng quy mô Định tuyến (Scaling Routing)</a></h2>
+<p>Cho đến nay, <em>forwarding table</em> (bảng chuyển tiếp) của chúng ta có một mục cho mỗi đích đến. Điều này sẽ không thể mở rộng cho toàn bộ Internet.</p>
+<p>Nếu chúng ta chạy giao thức <em>distance-vector</em> (vector khoảng cách) trên toàn bộ Internet, chúng ta sẽ phải gửi một thông báo cho mỗi máy chủ trên Internet. Nếu chúng ta chạy giao thức <em>link-state</em> (trạng thái liên kết) trên toàn bộ Internet, mỗi <em>router</em> (bộ định tuyến) sẽ phải biết toàn bộ đồ thị mạng Internet. Trong cả hai trường hợp, nếu bất kỳ máy chủ nào tham gia hoặc rời khỏi Internet, chúng ta sẽ phải thực hiện lại các phép tính để hội tụ về một trạng thái định tuyến mới.</p>
+<p>Bí quyết để mở rộng quy mô định tuyến nằm ở cách chúng ta định địa chỉ cho các máy chủ. Cho đến nay, chúng ta đã gọi mỗi máy chủ và <em>router</em> bằng một cái tên nào đó (ví dụ: R1, R2, A, B), nhưng trên thực tế, chúng ta sẽ sử dụng một lược đồ định địa chỉ thông minh hơn.</p>
+<img width="750px" src="../assets/routing/2-099-scaling-routing.png">
+<h2 id="Định-địa-chỉ-ip-ip-addressing"><a class="header" href="#Định-địa-chỉ-ip-ip-addressing">Định địa chỉ IP (IP Addressing)</a></h2>
+<p>Hãy nhớ lại trong phép ví von về dịch vụ bưu chính, chúng ta đã có các lược đồ định địa chỉ khác nhau cho các bối cảnh khác nhau. Người đưa thư sử dụng địa chỉ đường phố như 2551 Hearst Ave. Người thư ký bên trong tòa nhà sử dụng số phòng như 413 Soda Hall. Địa chỉ được gán theo một cách có cấu trúc nào đó. Ví dụ, tất cả các số phòng ở tầng ba bắt đầu bằng chữ số 3, và tất cả các phòng ở tầng bốn bắt đầu bằng chữ số 4.</p>
+<p>Cũng giống như hệ thống bưu chính, Internet sử dụng các lược đồ định địa chỉ khác nhau ở mỗi lớp. Trong phần này, chúng ta sẽ tập trung vào <em>IP address</em> (địa chỉ IP), có thể được sử dụng để định tuyến ở Lớp 3.</p>
+<p>Mỗi máy chủ trên mạng (ví dụ: máy tính của bạn, máy chủ của Google) được gán một <em>IP address</em>. Trong phần này, bạn có thể giả định rằng mỗi máy chủ có một <em>IP address</em> duy nhất.</p>
+<p>Một <em><strong>IP address</strong></em> là một con số định danh duy nhất cho một máy chủ. Giống như hệ thống bưu chính, con số này được chọn để chứa một số thông tin về nơi máy chủ được đặt.</p>
+<p>Lưu ý rằng <em>IP address</em> không nhất thiết phải tĩnh. Trong phép ví von, nếu bạn chuyển đến một ngôi nhà khác, địa chỉ của bạn sẽ thay đổi. Tương tự, nếu máy tính của bạn di chuyển đến một vị trí khác, nó có thể được gán một <em>IP address</em> khác khi tham gia vào mạng (và <em>IP address</em> cũ của bạn cuối cùng sẽ hết hạn).</p>
+<p>Độ dài của một <em>IP address</em> phụ thuộc vào phiên bản IP đang được sử dụng. Địa chỉ <em>IPv4</em> (Giao thức Internet phiên bản 4) dài 32 bit và địa chỉ <em>IPv6</em> (Giao thức Internet phiên bản 6) dài 128 bit. Các khái niệm định tuyến là tương tự cho cả hai phiên bản, nhưng chúng ta sẽ sử dụng <em>IPv4</em> khi có thể, vì địa chỉ nhỏ hơn dễ đọc hơn.</p>
+<h2 id="Định-địa-chỉ-phân-cấp-hierarchical-addressing"><a class="header" href="#Định-địa-chỉ-phân-cấp-hierarchical-addressing">Định địa chỉ Phân cấp (Hierarchical Addressing)</a></h2>
+<p>Hãy nhớ lại rằng Internet là một mạng của các mạng. Có nhiều mạng cục bộ, và chúng ta thêm các liên kết giữa các mạng cục bộ để tạo thành Internet rộng lớn hơn. Điều này mang lại cho chúng ta một hệ thống phân cấp tự nhiên mà chúng ta có thể sử dụng để tổ chức lược đồ định địa chỉ của mình.</p>
+<img width="900px" src="../assets/routing/2-100-address-intuition1.png">
+<p>Đây là một hình dung trực quan về việc định địa chỉ. Chúng ta có thể gán một số cho mỗi mạng. Sau đó, trong mạng 3, chúng ta có thể gán các số máy chủ 3.1, 3.2, 3.3, v.v., và tương tự cho các máy chủ trong các mạng khác.</p>
+<img width="900px" src="../assets/routing/2-101-address-intuition2.png">
+<p>Bây giờ, hãy xem xét <em>forwarding table</em> trong <em>router</em> R9. Trước đây, chúng ta sẽ có một mục cho mỗi máy chủ trong mạng 1, và tất cả chúng đều có cùng một chặng kế tiếp là R6. Với <em>hierarchical addressing</em> (định địa chỉ phân cấp) của chúng ta, thay vào đó, chúng ta có thể có một mục duy nhất cho toàn bộ mạng cục bộ, nói rằng tất cả các địa chỉ 1.* (trong đó * đại diện cho bất kỳ số nào) có chặng kế tiếp là R6. Chúng ta cũng có thể nói rằng tất cả các địa chỉ 2.* có chặng kế tiếp là R8.</p>
+<p>Mô hình phân cấp này, nơi chúng ta sử dụng các ký tự đại diện để tóm tắt các tuyến đường, làm cho <em>forwarding table</em> của chúng ta nhỏ hơn.</p>
+<p>Ngoài ra, mô hình này cũng làm cho các bảng của chúng ta ổn định hơn.</p>
+<img width="900px" src="../assets/routing/2-102-address-intuition3.png">
+<p>Nếu cấu trúc liên kết bên trong mạng 1 thay đổi, chúng ta không cần cập nhật <em>forwarding table</em> của R9 (hoặc bất kỳ bảng nào khác trong các mạng khác). Trên thực tế, những thay đổi trong một mạng cục bộ (ví dụ: máy chủ mới tham gia mạng) xảy ra thường xuyên hơn nhiều so với những thay đổi giữa các mạng (ví dụ: lắp đặt cáp ngầm mới), vì vậy đây là một điều tốt khi các thay đổi cục bộ chỉ ảnh hưởng đến các bảng cục bộ.</p>
+<p>Tổng quát hơn, địa chỉ của chúng ta có hai phần: <em>network ID</em> (định danh mạng) và <em>host ID</em> (định danh máy chủ). Điều này cho phép các giao thức <em>inter-domain routing</em> (định tuyến liên miền) tập trung vào <em>network ID</em> để tìm các tuyến đường giữa các mạng, và các giao thức <em>intra-domain routing</em> (định tuyến nội miền) tập trung vào <em>host ID</em> để tìm các tuyến đường bên trong các mạng. Điều này cũng làm cho các giao thức định tuyến của chúng ta ổn định hơn khi mạng thay đổi. Giao thức <em>inter-domain routing</em> không quan tâm đến những thay đổi bên trong các mạng, và giao thức <em>intra-domain routing</em> không quan tâm đến những thay đổi trong các mạng khác.</p>
+<img width="900px" src="../assets/routing/2-103-address-intuition4.png">
+<p>Lưu ý rằng <em>forwarding table</em> trong R9 vẫn cần các mục cho từng máy chủ riêng lẻ bên trong mạng của chính nó (tức là mạng 2).</p>
+<p>Tương tự, R4, một <em>router</em> nội bộ không có kết nối đến các mạng khác, cần cả hai mục cho các máy chủ riêng lẻ bên trong mạng 3 và các mục tổng hợp cho các mạng khác (ví dụ: 2.* có chặng kế tiếp là R9). Quy mô của một <em>forwarding table</em> phụ thuộc vào số lượng máy chủ nội bộ trong cùng một mạng, cộng với số lượng các mạng bên ngoài.</p>
+<h2 id="tuyến-đường-mặc-định-default-routes"><a class="header" href="#tuyến-đường-mặc-định-default-routes">Tuyến đường Mặc định (Default Routes)</a></h2>
+<p>Bây giờ chúng ta đã biết rằng các mục của chúng ta có thể đại diện cho toàn bộ dải địa chỉ, thay vì luôn đại diện cho một địa chỉ duy nhất. Chúng ta có thể mở rộng ý tưởng này hơn nữa để cải thiện quy mô.</p>
+<img width="900px" src="../assets/routing/2-104-aggregation1.png">
+<p>Hãy xem xét R4. Nó có một mục cho mỗi mạng bên ngoài (1.<em>, 3.</em>, và 4.*), tất cả đều có cùng một chặng kế tiếp là R9. Chúng ta có thể tổng hợp mọi mạng bên ngoài thành một mục duy nhất. Chúng ta vẫn sẽ có các mục cho mỗi máy chủ nội bộ (2.1, 2.2, v.v.), nhưng cuối cùng, chúng ta sẽ nói: Đối với tất cả các máy chủ khác không có trong <em>forwarding table</em>, chặng kế tiếp là R9.</p>
+<img width="900px" src="../assets/routing/2-105-aggregation2.png">
+<p>Chúng ta có thể sử dụng sự tổng hợp mạnh mẽ hơn tại R2. Một lần nữa, tất cả các mạng bên ngoài đều có chặng kế tiếp là R3. Nhưng, 2.1, 2.2, 2.3, 2.6, và 2.7 cũng có chặng kế tiếp là R3. Do đó, <em>forwarding table</em> chỉ cần các mục tĩnh cho 2.4 và 2.5. Sau đó, chúng ta có thể nói, đối với tất cả các máy chủ khác không có trong <em>forwarding table</em> (bao gồm một số máy chủ nội bộ và một số máy chủ bên ngoài), chặng kế tiếp là R3.</p>
+<p>Để đại diện cho tất cả các máy chủ không có trong bảng, chúng ta có thể sử dụng ký tự đại diện <em>.</em> để khớp với mọi thứ. Khi chuyển tiếp đến một đích nhất định, <em>router</em> trước tiên sẽ kiểm tra các máy chủ cụ thể (ví dụ: 3.1) hoặc các dải (ví dụ: 2.*) để tìm kết quả khớp. Nếu <em>router</em> không thể tìm thấy bất kỳ kết quả khớp nào, cuối cùng nó sẽ khớp với ký tự đại diện <em>.</em>. Đây được gọi là <em><strong>default route</strong></em> (tuyến đường mặc định).</p>
+<p>Hầu hết các máy chủ chỉ có một <em>default route</em> được mã hóa cứng duy nhất. Ví dụ, <em>forwarding table</em> của máy chủ 2.4 có một mục duy nhất, yêu cầu gửi mọi thứ đến R2. Trên thực tế, máy tính ở nhà của bạn có một mục duy nhất, yêu cầu gửi mọi thứ đến <em>router</em> tại nhà của bạn. Đây là lý do tại sao các máy chủ không cần tham gia vào các giao thức định tuyến.</p>
+<h2 id="gán-địa-chỉ-ip-phân-cấp-thời-kỳ-đầu-của-internet"><a class="header" href="#gán-địa-chỉ-ip-phân-cấp-thời-kỳ-đầu-của-internet">Gán địa chỉ IP Phân cấp: Thời kỳ đầu của Internet</a></h2>
+<p>Để có được định tuyến có khả năng mở rộng tốt hơn, chúng ta cần gán địa chỉ theo một cách phân cấp nào đó. Các địa chỉ cần chứa một số thông tin về vị trí của chúng (ví dụ: các máy chủ gần nhau cần chia sẻ một phần địa chỉ của chúng).</p>
+<p>Trong thời kỳ đầu của Internet, địa chỉ <em>IPv4</em> có <em>network ID</em> 8-bit và <em>host ID</em> 24-bit, giống như trong phiên bản trực quan của chúng ta.</p>
+<img width="800px" src="../assets/routing/2-106-cidr1.png">
+<p>Ví dụ, AT&amp;T có <em>network ID</em> 12, Apple có <em>network ID</em> 17, và Bộ Quốc phòng Hoa Kỳ có 13 <em>network ID</em> khác nhau.</p>
+<p><em>Network ID</em> 8-bit có nghĩa là chúng ta chỉ có thể gán 256 <em>network ID</em> khác nhau, nhưng trong thực tế, có nhiều hơn 256 tổ chức có thể vận hành mạng cục bộ của riêng họ. Ngoài ra, <em>host ID</em> 24-bit của chúng ta có nghĩa là mỗi mạng nhận được 2^24 = 16,777,216 địa chỉ. Một mạng nhỏ (ví dụ: một công ty có 10 nhân viên) có lẽ không cần 16 triệu địa chỉ. Khi Internet ngày càng lớn mạnh, một phương pháp định địa chỉ mới đã trở nên cần thiết.</p>
+<h2 id="gán-địa-chỉ-ip-phân-cấp-Định-địa-chỉ-theo-lớp-classful-addressing"><a class="header" href="#gán-địa-chỉ-ip-phân-cấp-Định-địa-chỉ-theo-lớp-classful-addressing">Gán địa chỉ IP Phân cấp: Định địa chỉ theo lớp (Classful Addressing)</a></h2>
+<p>Nỗ lực đầu tiên để khắc phục điều này là <em><strong>classful addressing</strong></em> (định địa chỉ theo lớp), phương pháp này phân bổ các kích thước mạng khác nhau dựa trên nhu cầu. Trong phương pháp này, có 3 lớp địa chỉ, mỗi lớp có số bit khác nhau được phân bổ cho <em>network ID</em> và <em>host ID</em>. 1-3 bit đầu tiên xác định lớp nào đang được sử dụng.</p>
+<img width="900px" src="../assets/routing/2-107-cidr2.png">
+<p>Địa chỉ Lớp A (Class A) bắt đầu bằng bit 0. 7 bit tiếp theo là <em>network ID</em> (128 mạng), và 24 bit tiếp theo là <em>host ID</em> (16 triệu máy chủ).</p>
+<p>Địa chỉ Lớp B (Class B) bắt đầu bằng các bit 10. 14 bit tiếp theo là <em>network ID</em> (16,000 mạng), và 16 bit tiếp theo là <em>host ID</em> (65,000 máy chủ).</p>
+<p>Địa chỉ Lớp C (Class C) bắt đầu bằng các bit 110. 21 bit tiếp theo là <em>network ID</em> (2 triệu mạng), và 8 bit tiếp theo là <em>host ID</em> (256 máy chủ).</p>
+<p>Trong phương pháp này, chúng ta giờ đây có thể có 2 triệu + 16,000 + 128 mạng cục bộ khác nhau. Các tổ chức lớn hơn với nhiều máy chủ hơn có thể nhận được một mạng Lớp A, và các tổ chức nhỏ hơn có thể nhận được một mạng Lớp B hoặc Lớp C. Như trước đây, trong một mạng duy nhất, (các) bit lớp đứng đầu và các bit <em>network ID</em> là giống nhau, và mỗi máy chủ nhận được một <em>host ID</em> khác nhau.</p>
+<p>Một vấn đề lớn với <em>classful addressing</em> là kích thước của mỗi lớp. Lớp A (16 triệu máy chủ) quá lớn đối với hầu hết các tổ chức, và Lớp C (256 máy chủ) quá nhỏ đối với hầu hết các tổ chức. Do đó, hầu hết các mạng cần phải thuộc Lớp B.</p>
+<p>Thật không may, chỉ có 16,000 <em>network ID</em> Lớp B, và đến năm 1994, chúng ta đã cạn kiệt các mạng Lớp B. Một lần nữa, một phương pháp định địa chỉ mới đã trở nên cần thiết.</p>
+<p>Lưu ý: <em>Classful addressing</em> hiện đã lỗi thời trên Internet hiện đại.</p>
+<p>Lưu ý: Về mặt kỹ thuật, số lượng máy chủ trên mỗi mạng bị trừ đi 2, vì địa chỉ toàn số không và địa chỉ toàn số một được dành riêng cho các mục đích đặc biệt. Ví dụ, trong Lớp C, thực sự có 254 máy chủ trên mỗi mạng, không phải 256.</p>
+<h2 id="gán-địa-chỉ-ip-phân-cấp-cidr"><a class="header" href="#gán-địa-chỉ-ip-phân-cấp-cidr">Gán địa chỉ IP Phân cấp: CIDR</a></h2>
+<p>Phương pháp thứ ba của chúng ta để định địa chỉ phân cấp, và là phương pháp vẫn được sử dụng trên Internet hiện đại, là <em><strong>CIDR</strong></em> (Classless Inter-Domain Routing - Định tuyến liên miền không lớp). Trong <em>CIDR</em>, chúng ta vẫn có các <em>network ID</em> có độ dài thay đổi, nhưng thay vì chỉ có 3 độ dài <em>network ID</em> khác nhau (Lớp A, B, C), chúng ta làm cho số lượng bit cố định trở nên tùy ý.</p>
+<p>Ví dụ, hãy xem xét công ty nhỏ với 10 nhân viên từ trước. Trong <em>classful addressing</em>, họ sẽ nhận được một mạng Lớp C với 256 địa chỉ máy chủ. Nếu họ chỉ cần 10 địa chỉ máy chủ, chúng ta có thể phân bổ ít địa chỉ hơn bằng cách cho họ một <em>network ID</em> dài hơn.</p>
+<p>Nếu chúng ta phân bổ một <em>network ID</em> 28-bit, <em>host ID</em> sẽ dài 4 bit (16 địa chỉ khả dụng). Nếu chúng ta phân bổ một <em>network ID</em> 29-bit, <em>host ID</em> sẽ dài 3 bit (8 địa chỉ khả dụng). Chúng ta không thể phân bổ chính xác 10 địa chỉ, nhưng một <em>network ID</em> 28-bit sẽ đủ cho mục đích của công ty này. Có một chút lãng phí (6 địa chỉ không sử dụng), nhưng điều này vẫn tốt hơn nhiều so với việc phân bổ 256 địa chỉ.</p>
+<p>Một ví dụ khác, hãy xem xét một tổ chức cần 450 địa chỉ máy chủ. Trong <em>classful addressing</em>, Lớp C (256 địa chỉ) không đủ, vì vậy họ sẽ nhận được một mạng Lớp B với 65,000 địa chỉ máy chủ, và hầu hết các địa chỉ sẽ không được sử dụng. Với các <em>network ID</em> có độ dài tùy ý, chúng ta có thể gán một <em>network ID</em> 23-bit, điều này cho phép 9 bit để định địa chỉ máy chủ (512 địa chỉ). Điều này đáp ứng nhu cầu của tổ chức và lãng phí ít địa chỉ hơn rất nhiều.</p>
+<h2 id="gán-phân-cấp-Đa-tầng-multi-layered-hierarchical-assignment"><a class="header" href="#gán-phân-cấp-Đa-tầng-multi-layered-hierarchical-assignment">Gán Phân cấp Đa tầng (Multi-Layered Hierarchical Assignment)</a></h2>
+<p>Trong thực tế, hệ thống phân cấp có thể có nhiều tầng. Ví dụ, bên trong một mạng, một tổ chức có thể chọn gán các dải địa chỉ cụ thể cho các tổ chức con cụ thể (ví dụ: các phòng ban trong một công ty hoặc trường đại học).</p>
+<p>Trên thực tế, chúng ta khai thác các hệ thống phân cấp về tổ chức và địa lý đa tầng trong đời thực để gán địa chỉ. <em>ICANN</em> (Internet Corporation for Names and Numbers - Tập đoàn Internet quản lý tên miền và số hiệu) là tổ chức toàn cầu sở hữu tất cả các địa chỉ IP.</p>
+<p><em>ICANN</em> cấp các khối địa chỉ cho <em>Regional Internet Registries (RIRs)</em> (Các cơ quan đăng ký Internet khu vực) đại diện cho các quốc gia hoặc châu lục cụ thể. Ví dụ, RIPE nhận tất cả các địa chỉ cho Liên minh Châu Âu, ARIN nhận địa chỉ Bắc Mỹ, APNIC nhận địa chỉ Châu Á/Thái Bình Dương, LACNIC nhận địa chỉ Nam Mỹ, và AFRINIC nhận địa chỉ Châu Phi. Ví dụ: <em>ICANN</em> cấp cho ARIN tất cả các địa chỉ bắt đầu bằng 1101.</p>
+<p>Mỗi <em>RIR</em> sau đó cấp các phần trong dải của họ cho các tổ chức lớn (ví dụ: công ty, trường đại học) hoặc <em>ISPs</em> (Internet Service Providers - Nhà cung cấp dịch vụ Internet). Các tổ chức hoặc <em>ISP</em> này được gọi là <em>Local Internet Registries</em> (Các cơ quan đăng ký Internet địa phương). Ví dụ: ARIN kiểm soát tất cả các địa chỉ bắt đầu bằng 1101, và cấp cho AT&amp;T tất cả các địa chỉ bắt đầu bằng 1101 11001.</p>
+<p>Cuối cùng, mỗi cơ quan đăng ký Internet địa phương gán các IP riêng lẻ cho các máy chủ cụ thể. Để có thêm hệ thống phân cấp, các cơ quan đăng ký địa phương cũng có thể gán các dải IP cho các tổ chức nhỏ, và các tổ chức nhỏ này đến lượt mình có thể gán các IP riêng lẻ.</p>
+<img width="700px" src="../assets/routing/2-108-cidr3.png">
+<p>Ở mỗi cấp, số lượng bit cố định bổ sung được xác định bởi số lượng địa chỉ cần được phân bổ. Ví dụ, ARIN có thể muốn cấp cho AT&amp;T 8 triệu địa chỉ, và tính toán rằng việc cố định 9 bit sẽ cho ra 8 triệu địa chỉ máy chủ. ARIN đã có 4 bit được cố định sẵn, vì vậy nó cố định thêm 5 bit nữa và gán cho AT&amp;T tất cả các địa chỉ bắt đầu bằng 9 bit đó. AT&amp;T sau đó có thể cấp tiền tố 1101 11001 110100010 để cung cấp 16,000 địa chỉ cho UC Berkeley. Khi chúng ta phân bổ địa chỉ cho các tổ chức con, nhiều bit hơn được cố định, luôn giữ lại các bit cố định từ các tổ chức mẹ.</p>
+<h2 id="viết-địa-chỉ-ip-writing-ip-addresses"><a class="header" href="#viết-địa-chỉ-ip-writing-ip-addresses">Viết địa chỉ IP (Writing IP Addresses)</a></h2>
+<p>Chúng ta có thể viết địa chỉ IP dưới dạng một chuỗi 32-bit gồm các số 1 và 0, hoặc dưới dạng một số nguyên lớn duy nhất. Trên thực tế, để dễ đọc, chúng ta lấy mỗi chuỗi 8 bit và viết nó dưới dạng một số nguyên (từ 0 đến 255). Ví dụ, địa chỉ IP 00010001 00100010 10011110 00000101 có thể được viết là 17.34.158.5. Đôi khi, đây được gọi là biểu diễn <em>dotted quad</em> (bộ bốn dấu chấm).</p>
+<p>Cho đến nay, chúng ta đã viết các dải địa chỉ dưới dạng bit (ví dụ: tất cả các IP bắt đầu bằng 1101). Để viết một dải địa chỉ, chúng ta có thể sử dụng <em>slash notation</em> (ký hiệu gạch chéo). Chúng ta viết tiền tố cố định, sau đó chúng ta viết các số 0 cho tất cả các bit không cố định còn lại, và chúng ta chuyển đổi giá trị 32-bit kết quả thành một địa chỉ IP dạng <em>dotted quad</em>. Sau đó, sau dấu gạch chéo, chúng ta viết số lượng bit cố định.</p>
+<p>Ví dụ, nếu tiền tố là 11000000, chúng ta thêm các số không cho tất cả các bit không cố định để có được 11000000 00000000 00000000 00000000. Dưới dạng địa chỉ 32-bit, đây là 192.0.0.0. Sau đó, vì có 8 bit được cố định, chúng ta viết dải địa chỉ là 192.0.0.0/8.</p>
+<p>Để viết một địa chỉ riêng lẻ dưới dạng một dải, chúng ta có thể viết một cái gì đó như 192.168.1.1/32, điều này chỉ ra rằng tất cả 32 bit đều được cố định. Ngoài ra, <em>default route</em> <em>.</em> có thể được viết là 0.0.0.0/0.</p>
+<p><em>Slash notation</em> đôi khi có thể trông hơi khó hiểu vì chúng ta đang sử dụng các phép chia 8-bit tùy ý và viết các số ở dạng thập phân. Ví dụ, tiền tố 8-bit 11000000 và tiền tố 12-bit 11000000 0000 sẽ được viết là 192.0.0.0/8 và 192.0.0.0/12 (cùng một địa chỉ IP đại diện cho các dải khác nhau). Một ví dụ khác, nếu tôi sở hữu tiền tố 4-bit 1100, tôi có thể gán tiền tố 5-bit 11001. Dưới dạng dải, chúng được viết là 192.0.0.0/4 và 200.0.0.0/5. Thoạt nhìn, không rõ ràng rằng dải thứ hai thực sự là một tập hợp con của dải thứ nhất, và chúng ta sẽ phải viết ra các bit để xác nhận.</p>
+<p>Một phương án thay thế cho dấu gạch chéo (ví dụ: /16) trong <em>slash notation</em> là <em>netmask</em> (mặt nạ mạng). Giống như con số sau dấu gạch chéo, <em>netmask</em> cho chúng ta biết những bit nào được cố định. Để viết một <em>netmask</em>, chúng ta viết các số 1 cho tất cả các bit cố định và số 0 cho tất cả các bit không cố định, và chuyển đổi kết quả thành dạng <em>dotted quad</em>. Ví dụ, nếu chúng ta có dải 192.168.1.0/29, chúng ta có thể viết 29 số một (bit cố định) và 3 số không (bit không cố định). 11111111 11111111 11111111 11111000 dưới dạng <em>dotted quad</em> là 255.255.255.248. Dải địa chỉ trong ký hiệu <em>netmask</em> là 192.168.1.0, với <em>netmask</em> 255.255.255.248 (thay thế dấu gạch chéo bằng một <em>netmask</em>).</p>
+<p>Trong các ghi chú này, chúng ta sẽ thường sử dụng <em>slash notation</em> vì chúng tiện lợi hơn để đọc. Trên thực tế, <em>netmask</em> có thể hữu ích vì với một địa chỉ IP cụ thể, nếu bạn thực hiện phép toán AND bit giữa địa chỉ IP và <em>netmask</em>, tất cả các bit của máy chủ sẽ bị xóa về không, và chỉ còn lại các bit của mạng.</p>
+<h2 id="tổng-hợp-các-tuyến-đường-với-cidr-aggregating-routes-with-cidr"><a class="header" href="#tổng-hợp-các-tuyến-đường-với-cidr-aggregating-routes-with-cidr">Tổng hợp các tuyến đường với CIDR (Aggregating Routes with CIDR)</a></h2>
+<p>Trong mô hình ban đầu của chúng ta với <em>network ID</em> và <em>host ID</em>, chúng ta có thể tổng hợp tất cả các máy chủ trong cùng một mạng thành một tuyến đường duy nhất trong <em>forwarding table</em> (ví dụ: 2.* cho mọi thứ trong mạng 2).</p>
+<p><em>Hierarchical addressing</em> đa tầng có nghĩa là chúng ta cũng có thể tổng hợp nhiều mạng thành một tuyến đường duy nhất.</p>
+<img width="900px" src="../assets/routing/2-109-aggregation1.png">
+<p>Hãy xem xét sơ đồ mạng này. Trong mô hình ban đầu của chúng ta, R6 cần một mục chuyển tiếp riêng cho AT&amp;T, UCB, và Stanford.</p>
+<img width="900px" src="../assets/routing/2-110-aggregation2.png">
+<p>Tuy nhiên, nếu chúng ta sử dụng <em>hierarchical addressing</em>, thì dải của UCB (4.12.0.0/16) và dải của Stanford (4.29.0.0/16) đều là tập hợp con của dải của AT&amp;T (4.0.0.0/8). Điều này có thể xảy ra nếu AT&amp;T phân bổ các dải đó cho các khách hàng cấp dưới của mình là UCB và Stanford.</p>
+<p>Bây giờ, R6 chỉ cần một mục duy nhất cho AT&amp;T, UCB, và Stanford. Chúng ta đã tổng hợp hai dải nhỏ hơn thành dải rộng hơn mà cả hai đều thuộc về.</p>
+<h2 id="Đa-kết-nối-multi-homing"><a class="header" href="#Đa-kết-nối-multi-homing">Đa kết nối (Multi-Homing)</a></h2>
+<p>Việc tổng hợp các dải không phải lúc nào cũng hoạt động. Giả sử chúng ta thêm một liên kết từ R6 trực tiếp đến Stanford.</p>
+<img width="900px" src="../assets/routing/2-111-aggregation3.png">
+<p>Tuyến đường tổng hợp của chúng ta nói rằng tất cả các gói tin đến AT&amp;T (và các cấp dưới của nó) có chặng kế tiếp là R2. Chúng ta cần thêm một mục bổ sung nói rằng Stanford có chặng kế tiếp là R7.</p>
+<p>Lưu ý rằng <em>forwarding table</em> của chúng ta bây giờ có các dải chồng chéo lên nhau. Một đích đến có thể khớp với nhiều dải. Để chọn một tuyến đường, chúng ta sẽ chạy <em><strong>longest prefix matching</strong></em> (khớp tiền tố dài nhất), có nghĩa là chúng ta sẽ sử dụng dải cụ thể nhất khớp với địa chỉ IP đích của chúng ta. Ví dụ, nếu chúng ta có một gói tin đến một máy chủ UCM, chúng ta sẽ sử dụng mục dành riêng cho UCM vì nó có tiền tố 19-bit dài hơn. Mặc dù mục AT&amp;T 9-bit cũng khớp với đích, tiền tố của nó ngắn hơn, vì vậy chúng ta không sử dụng tuyến đường này.</p>
+<p>Nếu thay vào đó chúng ta có một gói tin đến một máy chủ UCB, chúng ta không thể sử dụng mục dành riêng cho Stanford, vì tiền tố 16-bit sẽ không khớp với máy chủ UCB. Nhưng chúng ta vẫn có thể sử dụng mục AT&amp;T 8-bit, nó sẽ khớp với đích.</p>
+<h2 id="lịch-sử-tóm-tắt-của-ipv6-brief-history-of-ipv6"><a class="header" href="#lịch-sử-tóm-tắt-của-ipv6-brief-history-of-ipv6">Lịch sử tóm tắt của IPv6 (Brief History of IPv6)</a></h2>
+<p>Địa chỉ <em>IPv4</em> dài 32 bit, có nghĩa là chúng ta có khoảng 4 tỷ địa chỉ khả dụng. Điều này có đủ không?</p>
+<img width="900px" src="../assets/routing/2-112-ipv6-1.png">
+<p>Biểu đồ này thể hiện số lượng địa chỉ IP chưa được phân bổ còn lại (trục y) cho mỗi cơ quan đăng ký khu vực theo thời gian.</p>
+<p>Đến năm 2017, tất cả mọi người đều có ít hơn một khối /8 (tức là ít hơn 2^24 = 16 triệu địa chỉ) khả dụng. Mỗi cơ quan đăng ký khu vực giữ lại một khối địa chỉ /8 dự phòng phòng trường hợp cần thiết, nhưng đến năm 2017, tất cả mọi người đã phải bắt đầu sử dụng nguồn cung cấp địa chỉ dự phòng của mình. Đến năm 2021, ngay cả nguồn cung cấp địa chỉ dự phòng cũng sắp cạn kiệt.</p>
+<p>Một sự thật thú vị: Vào tháng 2 năm 2011, đã có một buổi lễ trực tiếp khi khối /8 cuối cùng được phân bổ. Thậm chí còn có một giấy chứng nhận đặc biệt được cấp.</p>
+<p>Khi Internet phát triển, chúng ta bắt đầu nhận ra rằng cuối cùng chúng ta sẽ hết địa chỉ. May mắn thay, điều này đã được nhận ra từ sớm, và <em>IPv6</em> đã được phát triển vào năm 1998 như một giải pháp cho sự cạn kiệt địa chỉ IP.</p>
+<p>Về cơ bản, cấu trúc định địa chỉ <em>IPv6</em> giống như <em>IPv4</em>. Có một số thay đổi nhỏ về triển khai cần thiết cho <em>IPv6</em>, mặc dù chúng không liên quan ở đây.</p>
+<p>Tính năng mới chính trong <em>IPv6</em> là địa chỉ dài hơn. Địa chỉ <em>IPv6</em> dài 128 bit, có nghĩa là có khoảng $$3.4 \times 10^{38}$$ địa chỉ khả dụng. Đây là một con số khổng lồ về mặt thiên văn học, vì vậy chúng ta sẽ không bao giờ cạn kiệt. Vũ trụ đã tồn tại $$10^{21}$$ giây, vì vậy chúng ta có thể gán một địa chỉ cho mỗi giây và vẫn chỉ sử dụng 0.000000000000001% tổng số địa chỉ khả dụng.</p>
+<img width="900px" src="../assets/routing/2-113-ipv6-2.png">
+<p><em>IPv6</em> được phát triển vào những năm 1990, nhưng không được tất cả các máy tính chấp nhận ngay lập tức. Ngay cả trong năm 2010, về cơ bản không ai sử dụng <em>IPv6</em>. Kể từ năm 2024, <em>IPv6</em> được sử dụng bởi khoảng 45% người dùng cuối, và hầu hết những người dùng này đều ở các quốc gia phát triển với việc áp dụng Internet rộng rãi hơn. Lý do chính tại sao <em>IPv6</em> đang được áp dụng rộng rãi hơn là vì chúng ta đang cạn kiệt địa chỉ <em>IPv4</em>.</p>
+<p>Tại sao việc áp dụng <em>IPv6</em> lại chậm như vậy? Người dùng, máy chủ, và các nhà khai thác Internet phải nâng cấp phần mềm và phần cứng của họ (ví dụ: <em>router</em>, liên kết, trình điều khiển thiết bị trên máy tính) để hỗ trợ <em>IPv6</em>. Các <em>router</em> giờ đây cần hai <em>forwarding table</em>, một với địa chỉ <em>IPv4</em> và một với địa chỉ <em>IPv6</em>.</p>
+<p>Việc nâng cấp <em>IPv6</em> phải tương thích ngược. Nếu một máy chủ chỉ có địa chỉ <em>IPv6</em>, người dùng trên các máy tính cũ chỉ hỗ trợ <em>IPv4</em> không thể sử dụng máy chủ này. <em>IPv4</em> và <em>IPv6</em> về cơ bản là các hệ thống định địa chỉ riêng biệt, và không có cách nào để chuyển đổi giữa địa chỉ <em>IPv4</em> và <em>IPv6</em>. Kể từ năm 2024, nhiều máy tính vẫn không hỗ trợ <em>IPv6</em>, vì vậy nhiều dịch vụ cần phải hỗ trợ cả <em>IPv4</em> và <em>IPv6</em>.</p>
+<p>Các máy tính hỗ trợ cả <em>IPv4</em> và <em>IPv6</em> cũng phải suy nghĩ về việc nên sử dụng cái nào. Liệu cái này có tốt hơn cái kia không? Trên thực tế, <em>IPv6</em> nhanh hơn, nhưng nhiều chi tiết triển khai khác có thể ảnh hưởng đến sự lựa chọn của bạn.</p>
+<h2 id="ký-hiệu-địa-chỉ-ipv6-ipv6-address-notation"><a class="header" href="#ký-hiệu-địa-chỉ-ipv6-ipv6-address-notation">Ký hiệu địa chỉ IPv6 (IPv6 Address Notation)</a></h2>
+<p>Địa chỉ <em>IPv6</em> thường được viết dưới dạng thập lục phân thay vì thập phân. Ví dụ:</p>
+<p>2001:0D08:CAFE:BEEF:DEAD:1234:5678:9012</p>
+<p>là một địa chỉ <em>IPv6</em> (32 chữ số thập lục phân = 128 bit). Chúng ta thêm dấu hai chấm vào giữa mỗi 4 chữ số thập lục phân (16 bit) để dễ đọc.</p>
+<p>Để dễ đọc, chúng ta có thể bỏ qua các số không đứng đầu trong một khối 4 chữ số. Ví dụ:</p>
+<p>2001:0DB8:0000:0000:0000:0000:0000:0001</p>
+<p>có thể được rút ngắn thành 2001:DB8:0:0:0:0:0:1.</p>
+<p>Để dễ đọc, chúng ta cũng có thể bỏ qua một chuỗi dài các số không, ví dụ: 2001:DB8::1. Dấu hai chấm kép cho biết hãy điền tất cả các khối 4 chữ số còn thiếu bằng 0000. Điều này chỉ có thể được thực hiện một lần cho mỗi địa chỉ. (Việc bỏ qua hai dải sẽ tạo ra sự mơ hồ, vì chúng ta không biết có bao nhiêu số không trong mỗi dải.)</p>
+<p><em>Slash notation</em> vẫn có thể được sử dụng trong <em>IPv6</em>. Một địa chỉ riêng lẻ có /128 (tất cả các bit đều cố định). Một tiền tố 32-bit có thể trông giống như 2001:0DB8::/32.</p>
+<p>Bởi vì không gian địa chỉ rất lớn, trong <em>IPv6</em>, bạn có thể cố định <em>network ID</em> là 64 bit và <em>host ID</em> là 64 bit, và vẫn không bao giờ hết <em>network ID</em> hoặc <em>host ID</em>. Trên thực tế, có các giao thức đặc biệt tồn tại nơi các mạng và máy chủ có thể tự chọn <em>network ID</em> 64-bit và <em>host ID</em> 64-bit của riêng mình (và kiểm tra xem không có ai khác đang sử dụng nó), mà không cần một tổ chức phải phân bổ các ID cụ thể.</p>
+<p>Trên thực tế, các cơ quan đăng ký khu vực thường phân bổ các tiền tố 32-bit cho các <em>ISP</em>, và các <em>ISP</em> thường phân bổ các tiền tố 48-bit cho các tổ chức. Tổ chức sau đó có thể phân bổ các tiền tố 64-bit cho các mạng con nhỏ hơn. Trong <em>IPv6</em>, chúng ta thường không thấy các tiền tố dài hơn /64. Ngay cả các mạng con nhỏ nhất bên trong một tổ chức cũng có một tiền tố 64-bit, và 64 bit để định địa chỉ cho các máy chủ cụ thể. Việc sử dụng các kích thước tiền tố được tiêu chuẩn hóa này cho phép các tiền tố cung cấp nhiều thông tin hơn. Ví dụ, trong <em>IPv4</em>, không rõ ràng một tiền tố /19 đại diện cho cái gì, nhưng trong <em>IPv6</em>, chúng ta biết một tiền tố /32 thường đại diện cho một <em>ISP</em>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../routing/link-state.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../routing/router.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../routing/link-state.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../routing/router.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

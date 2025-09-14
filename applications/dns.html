@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html lang="vi" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>DNS - Mạngg máy tính - Thư trạm</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Introduction</li><li class="chapter-item expanded "><a href="../intro/intro.html"><strong aria-hidden="true">1.</strong> Giới thiệu về Internet</a></li><li class="chapter-item expanded "><a href="../intro/layers.html"><strong aria-hidden="true">2.</strong> Các Layer của Internet</a></li><li class="chapter-item expanded "><a href="../intro/headers.html"><strong aria-hidden="true">3.</strong> Headers</a></li><li class="chapter-item expanded "><a href="../intro/architecture.html"><strong aria-hidden="true">4.</strong> Kiến trúc mạng</a></li><li class="chapter-item expanded "><a href="../intro/sharing-resources.html"><strong aria-hidden="true">5.</strong> Designing Resource Sharing</a></li><li class="chapter-item expanded "><a href="../intro/links.html"><strong aria-hidden="true">6.</strong> Links</a></li><li class="chapter-item expanded affix "><li class="part-title">Routing</li><li class="chapter-item expanded "><a href="../routing/intro.html"><strong aria-hidden="true">7.</strong> Introduction to Routing</a></li><li class="chapter-item expanded "><a href="../routing/model.html"><strong aria-hidden="true">8.</strong> Model for Intra-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/solutions.html"><strong aria-hidden="true">9.</strong> Routing States</a></li><li class="chapter-item expanded "><a href="../routing/distance-vector.html"><strong aria-hidden="true">10.</strong> Distance-Vector Protocols</a></li><li class="chapter-item expanded "><a href="../routing/link-state.html"><strong aria-hidden="true">11.</strong> Link-State Protocols</a></li><li class="chapter-item expanded "><a href="../routing/addressing.html"><strong aria-hidden="true">12.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../routing/router.html"><strong aria-hidden="true">13.</strong> Router Hardware</a></li><li class="chapter-item expanded "><a href="../routing/autonomous-systems.html"><strong aria-hidden="true">14.</strong> Model for Inter-Domain Routing</a></li><li class="chapter-item expanded "><a href="../routing/bgp.html"><strong aria-hidden="true">15.</strong> Border Gateway Protocol (BGP)</a></li><li class="chapter-item expanded "><a href="../routing/bgp-implementation.html"><strong aria-hidden="true">16.</strong> BGP Implementation and Issues</a></li><li class="chapter-item expanded "><a href="../routing/ip-header.html"><strong aria-hidden="true">17.</strong> IP Header</a></li><li class="chapter-item expanded affix "><li class="part-title">Transport</li><li class="chapter-item expanded "><a href="../transport/reliability.html"><strong aria-hidden="true">18.</strong> Transport Layer Principles</a></li><li class="chapter-item expanded "><a href="../transport/tcp-design.html"><strong aria-hidden="true">19.</strong> TCP Design</a></li><li class="chapter-item expanded "><a href="../transport/tcp-implementation.html"><strong aria-hidden="true">20.</strong> TCP Implementation</a></li><li class="chapter-item expanded "><a href="../transport/cc-principles.html"><strong aria-hidden="true">21.</strong> Congestion Control Principles</a></li><li class="chapter-item expanded "><a href="../transport/cc-design.html"><strong aria-hidden="true">22.</strong> Congestion Control Design</a></li><li class="chapter-item expanded "><a href="../transport/cc-implementation.html"><strong aria-hidden="true">23.</strong> Congestion Control Implementation</a></li><li class="chapter-item expanded "><a href="../transport/throughput-model.html"><strong aria-hidden="true">24.</strong> TCP Throughput Model</a></li><li class="chapter-item expanded "><a href="../transport/cc-issues.html"><strong aria-hidden="true">25.</strong> Congestion Control Issues</a></li><li class="chapter-item expanded "><a href="../transport/router-based-cc.html"><strong aria-hidden="true">26.</strong> Router-Assisted Congestion Control</a></li><li class="chapter-item expanded affix "><li class="part-title">Applications</li><li class="chapter-item expanded "><a href="../applications/dns.html" class="active"><strong aria-hidden="true">27.</strong> DNS</a></li><li class="chapter-item expanded "><a href="../applications/http.html"><strong aria-hidden="true">28.</strong> HTTP</a></li><li class="chapter-item expanded affix "><li class="part-title">End-to-End</li><li class="chapter-item expanded "><a href="../end-to-end/ethernet.html"><strong aria-hidden="true">29.</strong> Ethernet</a></li><li class="chapter-item expanded "><a href="../end-to-end/l2-routing.html"><strong aria-hidden="true">30.</strong> Layer 2 Routing (STP)</a></li><li class="chapter-item expanded "><a href="../end-to-end/arp.html"><strong aria-hidden="true">31.</strong> ARP: Connecting Layers 2 and 3</a></li><li class="chapter-item expanded "><a href="../end-to-end/dhcp.html"><strong aria-hidden="true">32.</strong> DHCP: Joining Networks</a></li><li class="chapter-item expanded "><a href="../end-to-end/nat.html"><strong aria-hidden="true">33.</strong> NAT: Network Address Translation</a></li><li class="chapter-item expanded "><a href="../end-to-end/tls.html"><strong aria-hidden="true">34.</strong> TLS: Secure Bytestreams</a></li><li class="chapter-item expanded "><a href="../end-to-end/end-to-end.html"><strong aria-hidden="true">35.</strong> End-to-End Connectivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Datacenters</li><li class="chapter-item expanded "><a href="../datacenter/topology.html"><strong aria-hidden="true">36.</strong> Topologies</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-cc.html"><strong aria-hidden="true">37.</strong> Congestion Control</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-routing.html"><strong aria-hidden="true">38.</strong> Routing</a></li><li class="chapter-item expanded "><a href="../datacenter/datacenter-addressing.html"><strong aria-hidden="true">39.</strong> Addressing</a></li><li class="chapter-item expanded "><a href="../datacenter/virtualization.html"><strong aria-hidden="true">40.</strong> Virtualization</a></li><li class="chapter-item expanded "><a href="../datacenter/sdn.html"><strong aria-hidden="true">41.</strong> Software-Defined Networking</a></li><li class="chapter-item expanded "><a href="../datacenter/host-networking.html"><strong aria-hidden="true">42.</strong> Host Networking</a></li><li class="chapter-item expanded affix "><li class="part-title">Beyond Client-Server</li><li class="chapter-item expanded "><a href="../beyond-client-server/intro.html"><strong aria-hidden="true">43.</strong> Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-service-model.html"><strong aria-hidden="true">44.</strong> IP Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/dvmrp.html"><strong aria-hidden="true">45.</strong> DVMRP</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/cbt.html"><strong aria-hidden="true">46.</strong> Core-Based Trees</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/ip-multicast-challenges.html"><strong aria-hidden="true">47.</strong> IP Multicast Challenges</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/overlay-multicast.html"><strong aria-hidden="true">48.</strong> Overlay Multicast</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-operations.html"><strong aria-hidden="true">49.</strong> Collective Operations</a></li><li class="chapter-item expanded "><a href="../beyond-client-server/collective-implementations.html"><strong aria-hidden="true">50.</strong> Collective Implementations</a></li><li class="chapter-item expanded affix "><li class="part-title">Wireless</li><li class="chapter-item expanded "><a href="../wireless/wireless-links.html"><strong aria-hidden="true">51.</strong> Wireless Links</a></li><li class="chapter-item expanded "><a href="../wireless/cellular.html"><strong aria-hidden="true">52.</strong> Cellular</a></li><li class="chapter-item expanded affix "><li class="part-title">Glossary</li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">53.</strong> Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Mạngg máy tính - Thư trạm</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thu-tram/mangg-may-tinh/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="dns"><a class="header" href="#dns">DNS</a></h1>
+<h2 id="dns-dùng-để-làm-gì-what-is-dns-for"><a class="header" href="#dns-dùng-để-làm-gì-what-is-dns-for">DNS dùng để làm gì? (What is DNS For?)</a></h2>
+<p>Trong phần này, chúng ta sẽ xem xét một số ứng dụng phổ biến ở <strong>Layer 7</strong> (tầng ứng dụng) hoạt động trên nền tảng các tầng mà chúng ta đã xây dựng trước đó.</p>
+<img width="400px" src="../assets/applications/4-01-layer7.png">
+<p>Ứng dụng đầu tiên chúng ta sẽ tìm hiểu là <strong>DNS (Domain Name System – Hệ thống tên miền)</strong>, đây là một giao thức hoạt động trên các tầng (1–4) để cung cấp chức năng mạng quan trọng là <strong>name resolution</strong> (phân giải tên miền).</p>
+<p>Trên Internet, thông tin thường được lập chỉ mục theo hai cách khác nhau. Con người truy cập các trang web bằng các tên dễ đọc như <em>google.com</em> và <em>eecs.berkeley.edu</em>, trong khi máy tính truy cập các trang web bằng địa chỉ IP như <em>172.217.4.174</em> và <em>23.195.69.108</em>. <strong>DNS</strong> là giao thức dịch giữa hai cách biểu diễn này.</p>
+<img width="700px" src="../assets/applications/4-02-dns-intro.png">
+<h2 id="lược-sử-dns-brief-history-of-dns"><a class="header" href="#lược-sử-dns-brief-history-of-dns">Lược sử DNS (Brief History of DNS)</a></h2>
+<p>Để hiểu tại sao DNS được thiết kế như hiện nay, chúng ta cần quay lại tìm hiểu lịch sử phát triển của nó.</p>
+<p>Trên Internet nguyên thủy và tiền thân của nó (<strong>ARPANET</strong>), có ba ứng dụng chính. Đây là thời kỳ trước khi có <strong>World Wide Web</strong> và trình duyệt web, khi hầu hết ứng dụng chạy trên dòng lệnh.</p>
+<ul>
+<li><strong>Remote terminal (telnet)</strong> cho phép người dùng kết nối từ xa tới một máy khác và chạy lệnh trên máy đó. Bạn có thể đã nghe đến <strong>SSH</strong>, phiên bản hiện đại và bảo mật hơn của giao thức này.</li>
+<li><strong>File transfer</strong> cho phép người dùng truyền tệp giữa máy cục bộ và máy từ xa. Bạn có thể đã nghe đến <strong>FTP (File Transfer Protocol)</strong>, giao thức tầng ứng dụng dùng để truyền tệp.</li>
+<li><strong>Email</strong> cho phép người dùng trao đổi thư điện tử. Email hiện đại thường có giao diện web trong trình duyệt, nhưng ban đầu, người dùng phải gõ lệnh trong terminal như <em>mail alice@46.0.1.2</em>, trong đó <em>46.0.1.2</em> là địa chỉ IP của người nhận và <em>alice</em> là tên người dùng trên máy đó.</li>
+</ul>
+<p>Trong cả ba trường hợp, để thực hiện thao tác, cần chỉ định một máy chủ từ xa. Nhưng như đã đề cập, việc ghi nhớ địa chỉ IP của các máy chủ từ xa là khó và không thân thiện với người dùng.</p>
+<p>Nỗ lực đầu tiên để khắc phục vấn đề này là gán một <strong>hostname</strong> (tên máy) cho mỗi địa chỉ IP. Mỗi máy tính sẽ có một tệp <em>hosts.txt</em> ánh xạ mỗi hostname tới địa chỉ IP tương ứng. Ví dụ, chúng ta có thể ánh xạ hostname <em>ucb-arpa</em> tới <em>10.0.0.78</em>, và thay vì gõ <em>mail mosher@10.0.0.78</em>, ta có thể gõ <em>mail mosher@ucb-arpa</em>.</p>
+<p>Khái niệm này thực tế vẫn tồn tại đến ngày nay. Nếu bạn từng khởi chạy một máy chủ trên máy tính của mình, nó thường có địa chỉ IP <em>127.0.0.1</em> và hostname <em>localhost</em>. Nhập một trong hai vào trình duyệt sẽ cho kết quả giống nhau.</p>
+<p>Chúng ta phải đảm bảo rằng <em>hosts.txt</em> giống nhau trên các máy tính khác nhau. Nếu bạn đến một máy khác và gõ <em>mail mosher@ucb-arpa</em>, bạn vẫn phải gửi thư đến đúng người. Ban đầu, tệp hosts được duy trì bởi một người duy nhất (Elizabeth Feinler) và được chia sẻ giữa người dùng bằng cách sao chép tài liệu giấy.</p>
+<p>Tệp hosts dạng giấy ban đầu có thể đọc được bởi con người. Nó ánh xạ hostname tới địa chỉ, nhưng cũng bao gồm thông tin như tên đầy đủ của người dùng, các giao thức họ sử dụng (ví dụ: TCP, FTP), và thậm chí cả số điện thoại.</p>
+<img width="600px" src="../assets/applications/4-03-paper-hostsfile.png">
+<p>Mọi người đều đồng ý (như được đề cập trong <strong>RFC606</strong> năm 1973) rằng đây là một tình huống bất hợp lý. Nếu bạn nhận được bản sao giấy của tệp, bạn phải nhập thủ công vào máy tính. Hơn nữa, vì tệp được truyền tay dưới dạng giấy, bạn có thể nhận phải bản đã lỗi thời.</p>
+<p>Cải tiến đầu tiên là làm cho danh sách này có thể đọc được bởi máy tính. Khi đó, thay vì bản giấy, chúng ta có thể dùng các giao thức như FTP để chia sẻ tệp. Nhưng cách này vẫn không thể mở rộng. Không thể yêu cầu một người duy nhất duy trì tệp này mãi mãi. Ngoài ra, khi tệp trở nên lớn, việc tải xuống có thể rất chậm, và nếu kết nối mạng bị gián đoạn, bạn có thể chỉ nhận được một phần tệp.</p>
+<p><strong>DNS</strong> lần đầu được đề xuất vào năm 1983 (<strong>RFC882</strong>) như một giải pháp cho các vấn đề này. Kể từ đó có một số sửa đổi, nhưng hệ thống cơ bản vẫn được sử dụng cho đến ngày nay.</p>
+<p>Một thông tin thú vị: phần mềm đầu tiên để chạy máy chủ DNS trên Unix là <strong>BIND</strong> (1984, UC Berkeley), và đến nay vẫn khá phổ biến.</p>
+<h2 id="mục-tiêu-thiết-kế-của-dns-dns-design-goals"><a class="header" href="#mục-tiêu-thiết-kế-của-dns-dns-design-goals">Mục tiêu thiết kế của DNS (DNS Design Goals)</a></h2>
+<p>Lược sử trên cho chúng ta thấy một số mục tiêu thiết kế của DNS cần ghi nhớ:</p>
+<ul>
+<li><strong>DNS phải có khả năng mở rộng</strong>: Internet có số lượng máy chủ khổng lồ, và mỗi giây có một lượng lớn truy vấn được thực hiện. Các máy chủ có thể được thêm hoặc gỡ bỏ thường xuyên.</li>
+<li><strong>DNS phải luôn sẵn sàng, nhẹ và nhanh</strong>: Hầu như mọi kết nối Internet đều bắt đầu bằng một truy vấn DNS để phân giải hostname thành địa chỉ IP. Do đó, DNS phải cực kỳ nhanh, nếu không mọi kết nối sẽ bị chậm lại. Đồng thời, không được tồn tại <strong>single point of failure</strong> (điểm lỗi đơn lẻ), nếu không Internet sẽ ngừng hoạt động khi xảy ra sự cố.</li>
+</ul>
+<h2 id="name-servers-máy-chủ-tên-miền"><a class="header" href="#name-servers-máy-chủ-tên-miền">Name servers (Máy chủ tên miền)</a></h2>
+<p>Sẽ thật tuyệt nếu có một máy chủ tập trung duy nhất lưu trữ ánh xạ từ mọi tên miền tới mọi địa chỉ IP để mọi người có thể truy vấn, nhưng thật không may, không có máy chủ nào đủ lớn để lưu trữ địa chỉ IP của mọi tên miền trên Internet và đủ nhanh để xử lý khối lượng truy vấn DNS khổng lồ từ toàn thế giới. Thay vào đó, DNS sử dụng một tập hợp nhiều <strong>name server</strong> (máy chủ tên miền), là các máy chủ chuyên dụng để trả lời các truy vấn DNS.</p>
+<p>Mỗi name server chịu trách nhiệm cho một <strong>zone</strong> (vùng) tên miền cụ thể, để không máy chủ nào phải lưu trữ toàn bộ tên miền trên Internet. Ví dụ, một name server chịu trách nhiệm cho zone <em>.com</em> chỉ cần trả lời các truy vấn cho tên miền kết thúc bằng <em>.com</em>. Máy chủ này không cần lưu bất kỳ thông tin DNS nào liên quan đến <em>wikipedia.org</em>. Tương tự, một name server chịu trách nhiệm cho zone <em>berkeley.edu</em> không cần lưu thông tin DNS nào liên quan đến <em>stanford.edu</em>.</p>
+<p>Mặc dù có mục đích đặc biệt (trả lời truy vấn DNS), một name server cũng giống như bất kỳ máy chủ nào khác trên Internet – mỗi máy chủ đều có một tên miền dễ đọc (ví dụ: <em>a.edu-servers.net</em>) và một địa chỉ IP mà máy tính có thể đọc được (ví dụ: <em>192.5.6.30</em>). Cần lưu ý không nhầm lẫn giữa tên miền của máy chủ và zone mà nó phục vụ. Ví dụ, name server này có <em>.net</em> trong tên miền, nhưng lại trả lời các truy vấn DNS cho các tên miền <em>.edu</em>.</p>
+<h2 id="cấu-trúc-phân-cấp-của-name-server-name-server-hierarchy"><a class="header" href="#cấu-trúc-phân-cấp-của-name-server-name-server-hierarchy">Cấu trúc phân cấp của Name server (Name server hierarchy)</a></h2>
+<p>Bạn có thể nhận thấy hai vấn đề với thiết kế này. Thứ nhất, zone <em>.com</em> có thể nhỏ hơn toàn bộ Internet, nhưng vẫn là bất khả thi nếu một name server phải lưu trữ tất cả các tên miền kết thúc bằng <em>.com</em>. Thứ hai, nếu có nhiều name server, làm sao máy tính của bạn biết phải liên hệ với cái nào?</p>
+<p><strong>DNS (Domain Name System – Hệ thống tên miền)</strong> giải quyết cả hai vấn đề này bằng cách đưa ra một ý tưởng mới: khi bạn truy vấn một name server, thay vì luôn trả về địa chỉ IP của tên miền bạn hỏi, name server đó cũng có thể hướng bạn đến một name server khác để lấy câu trả lời. Điều này cho phép các name server có zone lớn như <em>.edu</em> chuyển hướng truy vấn của bạn đến các name server có zone nhỏ hơn như <em>berkeley.edu</em>. Khi đó, name server cho zone <em>.edu</em> không cần lưu trữ bất kỳ thông tin nào về <em>eecs.berkeley.edu</em>, <em>math.berkeley.edu</em>, v.v. Thay vào đó, name server <em>.edu</em> lưu thông tin về name server <em>berkeley.edu</em> và chuyển hướng các yêu cầu cho <em>eecs.berkeley.edu</em>, <em>math.berkeley.edu</em>, v.v. đến name server <em>berkeley.edu</em>.</p>
+<p>DNS sắp xếp tất cả các name server thành một cấu trúc cây phân cấp dựa trên các zone của chúng:</p>
+<img width="900px" src="../assets/applications/4-04-basic-tree.png">
+<p><strong>Root server</strong> (máy chủ gốc) ở cấp cao nhất của cây có tất cả các tên miền trong zone của nó (zone này thường được viết là <em>.</em>). Các name server ở cấp thấp hơn của cây có các zone nhỏ hơn và cụ thể hơn.</p>
+<h2 id="tra-cứu-dns-khái-niệm--dns-lookup-conceptual"><a class="header" href="#tra-cứu-dns-khái-niệm--dns-lookup-conceptual">Tra cứu DNS (Khái niệm) – DNS Lookup (Conceptual)</a></h2>
+<p>Các truy vấn DNS luôn bắt đầu từ root. Root sẽ hướng truy vấn của bạn đến một trong các name server con của nó. Sau đó, bạn gửi truy vấn đến name server con, và name server đó lại chuyển hướng bạn đến một trong các name server con của nó. Quá trình này lặp lại cho đến khi bạn truy vấn đến một name server biết câu trả lời, và nó sẽ trả về địa chỉ IP tương ứng với tên miền của bạn.</p>
+<p>Để chuyển hướng bạn đến một name server con, name server cha phải cung cấp zone của name server con, tên miền dễ đọc và địa chỉ IP của nó, để bạn có thể liên hệ với name server con đó để biết thêm thông tin.</p>
+<p>Ví dụ, một truy vấn DNS cho <em>eecs.berkeley.edu</em> có thể diễn ra như sau (phiên bản minh họa dạng comic có tại <a href="https://howdns.works/">howdns.works</a>):</p>
+<img width="900px" src="../assets/applications/4-05-basic-lookup.png">
+<ol>
+<li>Bạn → root name server: Vui lòng cho tôi biết địa chỉ IP của <em>eecs.berkeley.edu</em>.</li>
+<li>Root server → bạn: Tôi không biết, nhưng tôi có thể chuyển bạn đến một name server khác có nhiều thông tin hơn. Name server này chịu trách nhiệm cho zone <em>.edu</em>. Nó có tên miền dễ đọc là <em>a.edu-servers.net</em> và địa chỉ IP là <em>192.5.6.30</em>.</li>
+<li>Bạn → name server <em>.edu</em>: Vui lòng cho tôi biết địa chỉ IP của <em>eecs.berkeley.edu</em>.</li>
+<li>Name server <em>.edu</em> → bạn: Tôi không biết, nhưng tôi có thể chuyển bạn đến một name server khác có nhiều thông tin hơn. Name server này chịu trách nhiệm cho zone <em>berkeley.edu</em>. Nó có tên miền dễ đọc là <em>adns1.berkeley.edu</em> và địa chỉ IP là <em>128.32.136.3</em>.</li>
+<li>Bạn → name server <em>berkeley.edu</em>: Vui lòng cho tôi biết địa chỉ IP của <em>eecs.berkeley.edu</em>.</li>
+<li>Name server <em>berkeley.edu</em> → bạn: Được, địa chỉ IP của <em>eecs.berkeley.edu</em> là <em>23.185.0.1</em>.</li>
+</ol>
+<p>Khi đã có câu trả lời, chúng ta có thể lưu nó vào bộ nhớ đệm (<strong>cache</strong>) để không phải hỏi lại nếu cần dùng bản ghi này sau đó.</p>
+<h2 id="stub-resolvers-và-recursive-resolvers"><a class="header" href="#stub-resolvers-và-recursive-resolvers">Stub Resolvers và Recursive Resolvers</a></h2>
+<p>Ban đầu, máy chủ đầu cuối (ví dụ: máy tính của bạn) sẽ tự thực hiện các truy vấn DNS, liên hệ trực tiếp với từng name server.</p>
+<p>Ngày nay, máy tính của bạn thường ủy quyền nhiệm vụ tra cứu DNS cho một <strong>DNS Recursive Resolver</strong> (bộ phân giải đệ quy DNS), bộ này sẽ truy vấn các name server thay cho bạn. Khi thực hiện tra cứu, <strong>DNS Stub Resolver</strong> (bộ phân giải stub DNS) trên máy tính của bạn sẽ gửi truy vấn đến recursive resolver, để resolver thực hiện toàn bộ công việc và trả lại kết quả.</p>
+<img width="900px" src="../assets/applications/4-06-stub-resolver.png">
+<p>Làm thế nào để biết địa chỉ IP của resolver? Khi bạn kết nối Internet lần đầu, ai đó (ví dụ: ISP hoặc Router) có thể cung cấp địa chỉ của resolver. Bạn cũng có thể nhập thủ công địa chỉ của resolver mà bạn muốn sử dụng.</p>
+<p>Một số resolver nổi tiếng trên Internet gồm 1.1.1.1 (do Cloudflare vận hành) và 8.8.8.8 (do Google vận hành). Chúng thường có địa chỉ IP dễ nhớ để chúng ta không cần gọi tên. Nếu không, chúng ta sẽ phải thực hiện truy vấn DNS để tìm địa chỉ IP của chúng, và mục đích của các máy chủ này là thực hiện truy vấn DNS cho chúng ta.</p>
+<p>Ngoài các công ty công nghệ, các <strong>ISP (Internet Service Provider – Nhà cung cấp dịch vụ Internet)</strong> cũng vận hành các resolver như một phần của dịch vụ Internet mà họ bán cho khách hàng. (Sẽ thật tệ nếu bạn trả tiền cho dịch vụ Internet nhưng lại phải nhập địa chỉ IP thủ công vào trình duyệt.)</p>
+<p>Router trong gia đình bạn cũng có thể đóng vai trò là resolver. Truy vấn DNS có thể nhanh hơn nếu bạn sử dụng một router ở gần về mặt vật lý (độ trễ giữa bạn và router thấp hơn).</p>
+<p>Một lợi ích lớn của resolver là khả năng lưu đệm tốt hơn. Resolver xử lý truy vấn từ nhiều máy chủ đầu cuối khác nhau (không chỉ riêng máy tính của bạn), nên nó xây dựng được bộ nhớ đệm lớn hơn nhiều. Nếu bạn hỏi resolver về <em>eecs.berkeley.edu</em> và trước đó có ai đó đã hỏi cùng câu này gần đây, resolver có thể trả lời ngay mà không cần liên hệ thêm bất kỳ name server nào khác.</p>
+<p>Lưu ý rằng mặc dù recursive resolver lưu trữ bộ nhớ đệm lớn hơn, stub resolver vẫn có thể duy trì bộ nhớ đệm riêng của mình. Một số truy vấn có thể được trả lời ngay từ cache của stub resolver mà không cần hỏi recursive resolver.</p>
+<h2 id="dự-phòng-redundancy"><a class="header" href="#dự-phòng-redundancy">Dự phòng (Redundancy)</a></h2>
+<p>Cho đến giờ, chúng ta vẫn đang nói về “name server <em>berkeley.edu</em>”, nhưng thực tế, mỗi zone có nhiều name server. Tất cả các name server của một zone đều giống nhau về chức năng, và mỗi name server có thể trả lời bất kỳ truy vấn nào trong zone đó.</p>
+<p>Điều này đảm bảo tính sẵn sàng cho zone, và nếu một name server gặp sự cố, các server khác vẫn có thể trả lời truy vấn cho zone đó. Theo quy ước, mỗi zone phải có ít nhất hai name server, nhưng trên thực tế, hầu hết các zone sẽ có ít nhất ba.</p>
+<p>Thông thường, một trong các name server được chỉ định là <strong>primary server</strong> (máy chủ chính) thực sự quản lý zone. Các server còn lại là <strong>secondary mirror server</strong> (máy chủ bản sao phụ) chỉ lưu trữ và phục vụ bản sao thông tin từ máy chủ chính.</p>
+<p>Trong quá trình tra cứu DNS, name server có thể trả lời bạn: “Tôi không biết, nhưng bạn nên hỏi zone <em>.edu</em>. Zone này có 13 name server. Đây là tên miền và địa chỉ IP của từng cái.” Sau đó, bạn có thể chọn name server nào để liên hệ tiếp theo.</p>
+<h2 id="dns-apis"><a class="header" href="#dns-apis"><strong>DNS APIs</strong></a></h2>
+<p>Bây giờ, khi chúng ta đã có cái nhìn khái quát về <strong>DNS (Domain Name System – Hệ thống tên miền)</strong>, hãy xem nó được triển khai thực tế như thế nào.</p>
+<p>Trước hết, lập trình viên sử dụng DNS để thực hiện tra cứu (<strong>lookup</strong>) như thế nào?</p>
+<p>Có những <strong>API</strong> (giao diện lập trình ứng dụng) tương đối đơn giản, phổ biến và ổn định để thực hiện tra cứu DNS. API này khá giống nhau giữa các ngôn ngữ lập trình khác nhau.</p>
+<p>Trong thư viện C chuẩn, hàm <em>gethostbyname(&quot;foo.com&quot;)</em> có thể được dùng để tra cứu địa chỉ IP tương ứng với <em>foo.com</em>. Tuy nhiên, hàm này chỉ hỗ trợ <strong>IPv4</strong>, nên hiện đã bị loại bỏ (deprecated), mặc dù bạn vẫn có thể bắt gặp nó trong một số mã nguồn.</p>
+<p>Phiên bản cập nhật, cũng nằm trong thư viện C chuẩn, là <em>getaddrinfo(&quot;example.com&quot;, NULL, NULL, &amp;result)</em>, dùng để tra cứu địa chỉ IP của <em>example.com</em> và lưu kết quả vào cấu trúc <em>result</em>. Bạn không cần quá lo lắng về chi tiết hoặc các tham số bổ sung (ở đây được đặt là NULL). API thay thế này hỗ trợ nhiều hơn IPv4, ví dụ như <strong>IPv6</strong>.</p>
+<p>Là lập trình viên, bạn không cần quan tâm đến các phức tạp của DNS như <strong>recursive resolver</strong> (bộ phân giải đệ quy) hay các name server cụ thể. Bạn chỉ cần gọi hàm thư viện chuẩn. Các hàm này thường gửi yêu cầu đến <strong>stub resolver</strong> (bộ phân giải stub) trong hệ điều hành của bạn.</p>
+<h2 id="dns-sử-dụng-udp-không-phải-tcp"><a class="header" href="#dns-sử-dụng-udp-không-phải-tcp"><strong>DNS sử dụng UDP, không phải TCP</strong></a></h2>
+<p>Về bản chất, DNS là một giao thức <strong>client-server</strong> (máy khách – máy chủ). Một bên (client) gửi câu hỏi, và bên kia (server) gửi câu trả lời. Client thường là máy người dùng hoặc recursive resolver, còn server thường là name server. Vậy client và server nên định dạng thông điệp như thế nào?</p>
+<p>DNS sử dụng <strong>UDP (User Datagram Protocol)</strong> – gói tin best-effort, không có bắt tay TCP – để giúp DNS nhẹ và nhanh. Chúng ta không phải chờ hoàn tất <strong>3-way TCP handshake</strong>. Chúng ta cũng không cần quan tâm đến việc gói tin đến đúng thứ tự, vì truy vấn và phản hồi thường vừa vặn trong một gói UDP duy nhất.</p>
+<p>Với UDP, server không cần lưu trạng thái cho mỗi kết nối (trái ngược với TCP, nơi server phải duy trì bộ đệm). Mỗi gói tin có thể được xử lý độc lập. Điều này giúp DNS nhẹ hơn, vì name server nhận rất nhiều yêu cầu, và việc mở kết nối mới cho từng yêu cầu sẽ rất tốn kém.</p>
+<p>Vậy làm sao xử lý việc UDP không đáng tin cậy và gói tin có thể bị mất? Chúng ta giải quyết bằng cơ chế thử lại đơn giản: nếu không nhận được phản hồi trong một khoảng thời gian nhất định, hãy gửi lại truy vấn. Thời gian chờ (<strong>timeout</strong>) khác nhau giữa các hệ điều hành, và đôi khi khá chậm.</p>
+<p>Việc UDP không đáng tin cậy và timeout chậm là lý do tại sao cần có một resolver ở gần và có thể liên hệ đáng tin cậy. Ví dụ, một resolver trong router gia đình ở gần bạn và thường khá ổn định (ít tắc nghẽn trong mạng nội bộ). Bạn cũng có thể cải thiện độ tin cậy bằng cách có nhiều resolver dự phòng (ví dụ: router gia đình và 8.8.8.8).</p>
+<p>Như đã đề cập, truy vấn và phản hồi DNS thường vừa trong một gói tin. Ngoại lệ đáng chú ý là khi chúng ta <strong>transfer zone</strong> (truyền vùng dữ liệu) giữa <strong>primary name server</strong> (máy chủ tên miền chính) và <strong>secondary name server</strong> (máy chủ tên miền phụ). Secondary name server sẽ yêu cầu: “Hãy gửi cho tôi tất cả bản ghi của bạn để tôi có thể phục vụ chúng.” Phản hồi có thể rất lớn, nên các truyền vùng này thường được thực hiện qua TCP.</p>
+<p>Những cải tiến gần đây của DNS đã bổ sung các tính năng bảo mật (ví dụ: ngăn kẻ tấn công thay đổi bản ghi trong quá trình truyền), điều này đôi khi cũng yêu cầu chuyển từ UDP sang TCP.</p>
+<p>Hãy nhớ rằng UDP sử dụng <strong>port</strong> để hỗ trợ nhiều ứng dụng trên cùng một server. Theo quy ước, tất cả name server lắng nghe truy vấn DNS trên <strong>UDP port 53</strong>. Số port này là cố định và được biết rộng rãi để mọi người có thể liên hệ đúng cổng trên name server.</p>
+<h2 id="Định-dạng-gói-tin-dns-dns-message-format"><a class="header" href="#Định-dạng-gói-tin-dns-dns-message-format"><strong>Định dạng gói tin DNS (DNS Message Format)</strong></a></h2>
+<img width="800px" src="../assets/applications/dns_packet.png">
+<p>Trường đầu tiên là <strong>identification field</strong> (trường định danh) dài 16 bit, được chọn ngẫu nhiên cho mỗi truy vấn và dùng để ghép yêu cầu với phản hồi. Khi gửi truy vấn DNS, trường ID được điền bằng các bit ngẫu nhiên. Vì UDP là giao thức không trạng thái, phản hồi DNS phải gửi lại đúng các bit này trong trường ID để bên gửi truy vấn biết phản hồi này thuộc về truy vấn nào.</p>
+<p>16 bit tiếp theo dành cho <strong>flags</strong> (cờ). Bit <strong>QR</strong> cho biết thông điệp là truy vấn (0) hay phản hồi (1). Bit <strong>RD</strong> cho biết bạn muốn resolver thực hiện truy vấn đệ quy hay chỉ trả về những gì name server nói (kể cả khi là “Tôi không biết”).</p>
+<p>Về lý thuyết, bạn có thể chỉ định loại truy vấn trong flags, nhưng loại <em>IQUERY</em> đã lỗi thời, và loại <em>STATUS</em> hầu như không được định nghĩa, nên loại <em>QUERY</em> được dùng cho hầu hết mọi trường hợp.</p>
+<p>Flags cũng có thể cho biết truy vấn thành công hay không (ví dụ: cờ <em>NOERROR</em> được đặt trong phản hồi nếu truy vấn thành công, cờ <em>NXDOMAIN</em> được đặt nếu truy vấn hỏi về tên miền không tồn tại).</p>
+<p>Trường tiếp theo cho biết số lượng câu hỏi được hỏi (trên thực tế, luôn là 1). Ba trường tiếp theo được dùng trong thông điệp phản hồi và cho biết số lượng <strong>resource record</strong> (RR – bản ghi tài nguyên) chứa trong thông điệp. Chúng ta sẽ mô tả chi tiết từng loại RR này sau.</p>
+<p>Phần còn lại của thông điệp chứa nội dung thực tế của truy vấn/phản hồi DNS. Nội dung này luôn được cấu trúc thành tập hợp các RR, mỗi RR là một cặp khóa–giá trị kèm loại dữ liệu.</p>
+<p>Cụ thể, khóa của một bản ghi DNS được định nghĩa chính thức là bộ 3 <em>&lt;Name, Class, Type&gt;</em>, trong đó <em>Name</em> là dữ liệu khóa, <em>Class</em> luôn là <em>IN</em> cho Internet (trừ các truy vấn đặc biệt để lấy thông tin về DNS), và <em>Type</em> chỉ loại bản ghi. Giá trị của bản ghi DNS chứa <em>&lt;TTL, Value&gt;</em>, trong đó <em>TTL</em> là thời gian sống (tính bằng giây – thời gian bản ghi có thể được lưu trong cache), và <em>Value</em> là dữ liệu giá trị thực tế.</p>
+<p>Có ba loại bản ghi chính trong DNS:</p>
+<ul>
+<li><strong>A type record</strong> ánh xạ tên miền sang địa chỉ IPv4 (khóa là tên miền, giá trị là địa chỉ IP).</li>
+<li><strong>AAAA type record</strong> ánh xạ tên miền sang địa chỉ IPv6.</li>
+<li><strong>NS type record</strong> ánh xạ zone sang tên miền (khóa là zone, giá trị là tên miền).</li>
+</ul>
+<p>Bạn cũng có thể gặp bản ghi loại <strong>CNAME</strong> dùng để tạo bí danh hoặc chuyển hướng. Cả tên và giá trị đều là tên miền, và bản ghi cho biết cả hai tên miền này có cùng địa chỉ IP.</p>
+<p>Điểm mấu chốt: Mỗi gói DNS có một trường ID ngẫu nhiên 16 bit, một số siêu dữ liệu, và một tập hợp các resource record. Mỗi bản ghi thuộc một trong bốn loại (question, answer, authority, additional) và chứa loại, khóa, giá trị. Có các bản ghi loại A và loại NS.</p>
+<h2 id="dns-lookup-triển-khai-thực-tế"><a class="header" href="#dns-lookup-triển-khai-thực-tế"><strong>DNS Lookup (Triển khai thực tế)</strong></a></h2>
+<p>Bây giờ, hãy cùng đi qua một truy vấn DNS thực tế để lấy địa chỉ IP của <em>eecs.berkeley.edu</em>. Bạn có thể thử tại nhà với tiện ích <a href="https://en.wikipedia.org/wiki/Dig_(command)"><em>dig</em></a> – nhớ đặt cờ <em>+norecurse</em> để bạn có thể tự lần theo quá trình đệ quy.</p>
+<p>Mỗi truy vấn DNS bắt đầu từ <strong>root server</strong>. Tên và địa chỉ IP của các root server thường được mã hóa sẵn trong resolver, dưới dạng <strong>root hints file</strong>. Bạn có thể xem một root hints file tại: <a href="https://www.internic.net/domain/named.root">https://www.internic.net/domain/named.root</a>.</p>
+<p>Root server đầu tiên có tên miền <em>a.root-servers.net</em> và địa chỉ IP <em>198.41.0.4</em>. Chúng ta có thể dùng <em>dig</em> để gửi yêu cầu DNS đến địa chỉ này, hỏi địa chỉ IP của <em>eecs.berkeley.edu</em>.</p>
+<hr />
+<p>$ dig +norecurse eecs.berkeley.edu @198.41.0.4</p>
+<p>;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 26114
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 13, ADDITIONAL: 27</p>
+<p>;; QUESTION SECTION:
+;eecs.berkeley.edu.          IN   A</p>
+<p>;; AUTHORITY SECTION:
+edu.                172800   IN   NS   a.edu-servers.net.
+edu.                172800   IN   NS   b.edu-servers.net.
+edu.                172800   IN   NS   c.edu-servers.net.
+...</p>
+<p>;; ADDITIONAL SECTION:
+a.edu-servers.net.  172800   IN   A    192.5.6.30
+b.edu-servers.net.  172800   IN   A    192.33.14.30
+c.edu-servers.net.  172800   IN   A    192.26.92.30
+...</p>
+<hr />
+<p>Trong <strong>phần đầu tiên</strong> của phản hồi, chúng ta có thể thấy thông tin tiêu đề (<strong>header information</strong>), bao gồm trường <strong>ID</strong> (<em>26114</em>), các cờ phản hồi (<strong>return flags</strong>) (<em>NOERROR</em>), và số lượng bản ghi được trả về trong mỗi phần.</p>
+<p><strong>Phần question</strong> (<strong>question section</strong>) chứa 1 bản ghi (bạn có thể xác minh bằng cách thấy <em>QUERY: 1</em> trong phần header). Bản ghi này có <strong>key</strong> là <em>eecs.berkeley.edu</em>, <strong>type</strong> là <em>A</em>, và giá trị (<strong>value</strong>) để trống. Điều này biểu thị tên miền mà chúng ta đã truy vấn (giá trị để trống vì chúng ta chưa biết địa chỉ IP tương ứng).</p>
+<p><strong>Phần answer</strong> (<strong>answer section</strong>) để trống (<em>ANSWER: 0</em> trong header), vì root server không cung cấp câu trả lời trực tiếp cho truy vấn của chúng ta.</p>
+<p><strong>Phần authority</strong> (<strong>authority section</strong>) chứa 13 bản ghi. Bản ghi đầu tiên có <strong>key</strong> là <em>.edu</em>, <strong>type</strong> là <em>NS</em>, và <strong>value</strong> là <em>a.edu-servers.net</em>. Đây là root server cung cấp cho chúng ta zone và tên miền của các name server tiếp theo mà chúng ta có thể liên hệ. Mỗi bản ghi trong phần này tương ứng với một name server tiềm năng mà chúng ta có thể hỏi tiếp.</p>
+<p><strong>Ghi chú:</strong> Thông thường, máy chủ có tên đứng đầu (theo thứ tự chữ cái hoặc số) là <strong>primary server</strong> (ở đây là <em>a.edu-servers.net</em>), và các máy chủ còn lại là các <strong>mirror</strong> (bản sao). Ngoài ra, việc có nhiều bản ghi cùng tên (<em>.edu</em>) là bình thường. Điều này chỉ cho biết có nhiều name server có thể trả lời truy vấn cho zone này.</p>
+<p><strong>Phần additional</strong> (<strong>additional section</strong>) chứa 27 bản ghi. Bản ghi đầu tiên có <strong>key</strong> là <em>a.edu-servers.net</em>, <strong>type</strong> là <em>A</em>, và <strong>value</strong> là <em>192.5.6.30</em>. Đây là root server cung cấp cho chúng ta địa chỉ IP của name server tiếp theo bằng cách ánh xạ một tên miền từ phần authority sang một địa chỉ IP.</p>
+<p>Kết hợp lại, <strong>phần authority</strong> và <strong>phần additional</strong> cung cấp cho chúng ta zone, tên miền, và địa chỉ IP của name server tiếp theo. Thông tin này được phân tách thành hai phần để duy trì cấu trúc <strong>key–value</strong> của thông điệp DNS.</p>
+<p><strong>Bổ sung:</strong> <em>172800</em> là <strong>TTL (time-to-live)</strong> cho mỗi bản ghi, được đặt ở mức 172.800 giây = 48 giờ trong trường hợp này. <em>IN</em> là lớp <strong>Internet class</strong> và về cơ bản có thể bỏ qua. Đôi khi bạn sẽ thấy các bản ghi loại <em>AAAA</em>, tương ứng với địa chỉ IPv6 (trong khi bản ghi loại <em>A</em> thông thường tương ứng với địa chỉ IPv4).</p>
+<p><strong>Kiểm tra nhanh:</strong> Name server nào chúng ta sẽ truy vấn tiếp theo? Làm sao chúng ta biết vị trí của name server đó? Chúng ta sẽ truy vấn name server đó về điều gì?<br />
+<sub>Trả lời: Truy vấn <em>a.edu-servers.net</em>, vị trí của nó được biết nhờ các bản ghi trong phần additional. Truy vấn địa chỉ IP của <em>eecs.berkeley.edu</em> giống như trước.</sub></p>
+<hr />
+<p>$ dig +norecurse eecs.berkeley.edu @192.5.6.30</p>
+<p>;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 36257
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 3, ADDITIONAL: 5</p>
+<p>;; QUESTION SECTION:
+;eecs.berkeley.edu.           IN   A</p>
+<p>;; AUTHORITY SECTION:
+berkeley.edu.        172800   IN   NS   adns1.berkeley.edu.
+berkeley.edu.        172800   IN   NS   adns2.berkeley.edu.
+berkeley.edu.        172800   IN   NS   adns3.berkeley.edu.</p>
+<p>;; ADDITIONAL SECTION:
+adns1.berkeley.edu.  172800   IN   A    128.32.136.3
+adns2.berkeley.edu.  172800   IN   A    128.32.136.14
+adns3.berkeley.edu.  172800   IN   A    192.107.102.142
+...</p>
+<hr />
+<p>The next query also has an empty answer section, with <em>NS</em> records in the authority section and <em>A</em> records in the additional section which give us the domains and IP addresses of name servers responsible for the <em>berkeley.edu</em> zone.</p>
+<hr />
+<p>$ dig +norecurse eecs.berkeley.edu @128.32.136.3</p>
+<p>;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 52788
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</p>
+<p>;; QUESTION SECTION:
+;eecs.berkeley.edu.         IN   A</p>
+<p>;; ANSWER SECTION:
+eecs.berkeley.edu.  86400   IN   A   23.185.0.1</p>
+<hr />
+<p>Cuối cùng, truy vấn cuối cùng cung cấp cho chúng ta địa chỉ IP tương ứng với <em>eecs.berkeley.edu</em> dưới dạng một bản ghi loại <strong>A</strong> duy nhất trong phần <strong>answer</strong> (phần trả lời).</p>
+<p>Trên thực tế, vì <strong>recursive resolver</strong> (bộ phân giải đệ quy) lưu vào bộ nhớ đệm (<strong>cache</strong>) càng nhiều câu trả lời càng tốt, nên hầu hết các truy vấn có thể bỏ qua một vài bước đầu và sử dụng các bản ghi đã được lưu trong cache thay vì phải hỏi lại các root server và name server cấp cao như <em>.edu</em> mỗi lần. Cơ chế lưu đệm giúp tăng tốc DNS vì ít gói tin hơn phải được gửi qua mạng để phân giải tên miền thành địa chỉ IP. Lưu đệm cũng giúp giảm tải yêu cầu lên các name server cấp cao nhất.</p>
+<p>Bây giờ, khi chúng ta đã biết DNS được triển khai như thế nào để hỗ trợ các truy vấn, chúng ta có thể xem DNS thực sự hoạt động ra sao trong thực tế và khám phá khía cạnh kinh doanh thực tế của DNS.</p>
+<h2 id="dns-authority-hierarchy-phân-cấp-quyền-quản-lý-dns"><a class="header" href="#dns-authority-hierarchy-phân-cấp-quyền-quản-lý-dns"><strong>DNS Authority Hierarchy</strong> (Phân cấp quyền quản lý DNS)</a></h2>
+<p>Cấu trúc cây mà chúng ta đã vẽ thực tế thể hiện ba cách khác nhau mà DNS mang tính phân cấp.</p>
+<p>Như chúng ta đã thấy, tên miền DNS có cấu trúc phân cấp. Đây là lý do tại sao tên miền của chúng ta, như <em>eecs.berkeley.edu</em>, gồm nhiều từ được phân tách bằng dấu chấm.</p>
+<img width="900px" src="../assets/applications/4-07-hierarchy1.png">
+<p>Chúng ta cũng đã thấy rằng hạ tầng của DNS có tính phân cấp. Chúng ta có thể tổ chức các name server thành cấu trúc cây, trong đó mỗi name server chỉ biết về phần cây mà nó quản lý.</p>
+<img width="700px" src="../assets/applications/4-08-hierarchy2.png">
+<p>Phân cấp thứ ba mà chúng ta sẽ giới thiệu là <strong>authority</strong> (quyền quản lý). Điều này cho biết ai là người định nghĩa các tên tồn tại trong cây. Ví dụ, tổ chức vận hành name server <em>.edu</em> chịu trách nhiệm cho tất cả các tên miền trong zone <em>.edu</em>. Tổ chức <em>.edu</em> có thể ủy quyền quản lý một phần zone của mình cho các đơn vị cấp dưới trong cây.</p>
+<p>Ví dụ, tổ chức <em>.edu</em> có thể nói: <em>berkeley.edu</em> (và tất cả các tên miền con) thuộc zone của tôi, và tôi sẽ chuyển quyền kiểm soát phần này của zone cho tổ chức UC Berkeley. Bây giờ, chúng ta đã tạo ra một zone mới thuộc sở hữu của UC Berkeley, và tổ chức <em>.edu</em> không cần biết về các cập nhật trong zone <em>berkeley.edu</em> mới này. UC Berkeley có quyền tạo các tên miền mới trong zone của mình, hoặc có thể ủy quyền một số phần của zone cho các đơn vị cấp dưới khác.</p>
+<img width="700px" src="../assets/applications/4-09-hierarchy3.png">
+<p>Khi vẽ cây này với cả ba khía cạnh phân cấp, chúng ta có thể nói chính xác hơn rằng mỗi nút đại diện cho một <strong>zone</strong>. Zone được định nghĩa chính thức là một đơn vị quản trị chịu trách nhiệm cho một phần của hệ thống phân cấp.</p>
+<ul>
+<li><strong>Về mặt tên miền</strong>: mỗi zone chứa một hoặc nhiều ánh xạ tên–IP, trong đó các tên là tên miền con của zone đó. Zone <em>eecs.berkeley.edu</em> có thể chứa tên <em>eecs.berkeley.edu</em> hoặc <em>iris.eecs.berkeley.edu</em>, nhưng không thể chứa <em>math.berkeley.edu</em>.</li>
+<li><strong>Về mặt hạ tầng</strong>: zone đó được hỗ trợ bởi một hoặc nhiều name server trả lời các truy vấn về tên miền trong zone.</li>
+<li><strong>Về mặt quyền quản lý</strong>: zone được kiểm soát bởi một tổ chức, tổ chức này được cấp quyền từ zone cha để quản lý các tên miền trong zone. Ví dụ, UC Berkeley, tổ chức kiểm soát zone <em>berkeley.edu</em>, có thể ủy quyền zone <em>eecs.berkeley.edu</em> cho khoa EECS.</li>
+</ul>
+<h2 id="dns-zones-in-practice-các-zone-dns-trong-thực-tế"><a class="header" href="#dns-zones-in-practice-các-zone-dns-trong-thực-tế"><strong>DNS Zones in Practice</strong> (Các zone DNS trong thực tế)</a></h2>
+<p>Vậy trong thực tế, những tổ chức này là ai?</p>
+<img width="800px" src="../assets/applications/4-10-zones.png">
+<p><strong>Root zone</strong> (zone gốc) được kiểm soát bởi <strong>ICANN (Internet Corporation for Assigned Names and Numbers)</strong>. ICANN chịu trách nhiệm phân chia các phần của root zone (đại diện cho toàn bộ Internet) cho các <strong>top-level domain</strong> (TLD – tên miền cấp cao nhất) cụ thể.</p>
+<p>Tất cả các zone nằm ngay dưới root trong cây là các <strong>TLD</strong>. Internet ban đầu được phát triển ở Mỹ, nên các TLD đầu tiên chia Internet thành các zone dựa trên mục đích, như <em>.com</em> (thương mại), <em>.gov</em> (chính phủ), <em>.edu</em> (giáo dục), và <em>.mil</em> (quân sự). Sau đó, các TLD cho quốc gia được tạo ra, như <em>.fr</em> (Pháp) và <em>.jp</em> (Nhật Bản).</p>
+<p>Lịch sử cho thấy số lượng TLD ban đầu khá ít. Gần đây, ICANN bắt đầu bán các TLD mới với giá đăng ký 150.000 USD (chưa kể chi phí duy trì hàng năm), dẫn đến sự bùng nổ các TLD mới. Tính đến năm 2024, có hơn 1.500 TLD, bao gồm các TLD dành riêng cho công ty như <em>.google</em>, và các TLD đặc biệt như <em>.travel</em> hoặc <em>.pizza</em>.</p>
+<p>Mỗi TLD được vận hành bởi một tổ chức, và tổ chức đó có thể quyết định cấu trúc chia nhỏ TLD của mình. Ví dụ, TLD <em>.uk</em> được quản lý bởi Nominet, và họ quyết định chia zone <em>.uk</em> theo mục đích, tạo ra các zone như <em>.co.uk</em> (thương mại), <em>.ac.uk</em> (học thuật).</p>
+<p>Các zone sâu hơn trong cây có thể được gọi theo độ sâu của chúng. <em>example.com</em> là tên miền cấp hai (<strong>second-level domain</strong>), và <em>blog.example.com</em> là tên miền cấp ba (<strong>third-level domain</strong>). Các zone này thường được kiểm soát bởi các tổ chức hoặc công ty khác nhau, những đơn vị mua zone đó từ zone cha. Khi bạn mua một zone, bạn cũng cần thông báo cho zone cha về các name server mà bạn sử dụng. Điều này cho phép zone cha chuyển hướng người dùng đến name server của bạn.</p>
+<p>Các name server ở sâu hơn trong cây thường được vận hành bởi <strong>domain name registrar</strong> (nhà đăng ký tên miền). Registrar là các công ty sở hữu các zone cụ thể và cho phép người dùng lưu trữ dịch vụ của họ trên các tên miền trong zone đó. Ví dụ, tôi có thể trả phí hàng tháng để lưu trữ trang web của mình trên <em>blog.foo.com</em>. Registrar thường sẽ cung cấp dịch vụ thêm ánh xạ tên miền–IP tương ứng vào name server của họ.</p>
+<p>Ngoài các registrar, các công ty như Google cũng có thể vận hành name server riêng cho các ứng dụng của họ (ví dụ: cung cấp bản ghi cho <em>maps.google.com</em>). Amazon Web Services cũng có một name server gọi là <strong>Route 53</strong>, nơi người dùng có thể thêm các bản ghi để được phục vụ.</p>
+<h2 id="root-server-availability-with-anycast-tính-sẵn-sàng-của-root-server-với-anycast"><a class="header" href="#root-server-availability-with-anycast-tính-sẵn-sàng-của-root-server-với-anycast"><strong>Root Server Availability with Anycast</strong> (Tính sẵn sàng của Root Server với Anycast)</a></h2>
+<p>Sẽ rất tệ nếu các root server không khả dụng. Một người có cache trống sẽ không thể thực hiện bất kỳ truy vấn DNS nào. Cuối cùng, cache của mọi người sẽ hết hạn khi TTL (time-to-live) kết thúc, và Internet sẽ ngừng hoạt động.</p>
+<p>Để dự phòng, có 13 root server được đặt tại nhiều nơi trên thế giới. Chúng ta có thể tra cứu <a href="https://www.iana.org/domains/root/servers">địa chỉ IP</a> của các root server, vốn là thông tin công khai và được biết rộng rãi.</p>
+<p>Con số 13 vẫn có vẻ khá ít, xét rằng toàn bộ Internet phụ thuộc vào chúng. Để cung cấp khả năng sẵn sàng cực cao, thực tế có nhiều hơn 13 root server, nhưng danh sách chỉ chứa 13 địa chỉ IP, nhờ một kỹ thuật thông minh gọi là <strong>anycast</strong>.</p>
+<p>Trong kỹ thuật <strong>anycast</strong>, chúng ta triển khai nhiều bản sao (<strong>mirror</strong>) của một root server và sử dụng cùng một địa chỉ IP cho tất cả. Nếu bạn liên hệ với tên miền <em>k.root-servers.net</em> hoặc địa chỉ IP tương ứng, bạn có thể đang kết nối tới bất kỳ bản sao nào của nó.</p>
+<p>Mỗi root server trong số 13 cái thực chất bao gồm nhiều bản sao. Ví dụ, <em>f.root-servers.net</em> có hơn 3.000 instance. Các bản sao này có thể được vận hành bởi các nhà cung cấp mạng khác nhau (ví dụ: Google và Cloudflare có thể hỗ trợ vận hành các root mirror).</p>
+<p>Để triển khai <strong>anycast</strong>, trong quá trình hoạt động của giao thức định tuyến (<strong>routing protocol</strong>), mỗi máy chủ bản sao (<strong>mirror</strong>) sẽ thông báo cùng một địa chỉ IP. Phần còn lại của giao thức định tuyến vẫn hoạt động như bình thường. Bạn có thể nhận được nhiều thông báo về các tuyến đường (<strong>route</strong>) tới <em>k.root-servers.net</em>, và bạn có thể chấp nhận bất kỳ tuyến nào trong số đó, kết quả là các gói tin của bạn sẽ được định tuyến tới một trong các mirror. Nếu một mirror gặp sự cố, các mirror còn lại vẫn tiếp tục gửi thông báo, và bạn có thể chấp nhận một tuyến đường khác để duy trì tính sẵn sàng.</p>
+<p>Anycast cũng có nghĩa là các địa chỉ IP của root server rất hiếm khi thay đổi, ngay cả khi các mirror được thêm hoặc gỡ bỏ. Do đó, <strong>root hints file</strong> (tệp gợi ý root) chứa các bản ghi cho các root name server với giá trị <strong>TTL (time-to-live)</strong> rất dài (42 ngày).</p>
+<img width="500px" src="../assets/applications/4-11-anycast.png">
+<p>Đây là bản đồ tất cả các mirror của <em>k.root-servers.net</em>. Tất cả chúng đều quảng bá cùng một địa chỉ IP, và router của bạn có thể sẽ chọn kết nối tới mirror gần nhất. <em>k.root-servers.net</em> được vận hành bởi <strong>RIPE</strong> (tại châu Âu), điều này có thể giải thích tại sao có nhiều mirror ở châu Âu.</p>
+<p>Các <strong>public resolver</strong> (bộ phân giải công cộng) như 8.8.8.8 của Google cũng có thể sử dụng anycast để đạt độ sẵn sàng cao.</p>
+<h2 id="dns-for-email-dns-cho-email"><a class="header" href="#dns-for-email-dns-cho-email"><strong>DNS for Email</strong> (DNS cho Email)</a></h2>
+<p>DNS có thể được sử dụng để lưu trữ và cung cấp nhiều thông tin hơn là ánh xạ tên miền–địa chỉ IP. Ví dụ, nếu bạn muốn gửi email tới một địa chỉ như <em>evanbot@berkeley.edu</em>, máy tính của bạn vẫn cần biết phải gửi các gói tin tới đâu.</p>
+<p>Để phân giải địa chỉ email thành máy chủ thư (<strong>mail server</strong>), chúng ta có thể sử dụng các bản ghi loại <strong>MX (Mail Exchange)</strong>. Các bản ghi này ánh xạ tên miền như <em>berkeley.edu</em> tới máy chủ thư như <em>aspmx.l.google.com</em>. Lưu ý rằng máy chủ thư có thể nằm ở một zone khác (ví dụ: trong trường hợp này, các máy chủ thư của UC Berkeley được Google vận hành).</p>
+<p>Trước đây, một địa chỉ email tương ứng với một người dùng trên một máy cụ thể, vì vậy máy chủ thư chính là máy đó. Ngày nay, bạn có thể muốn truy cập email của mình từ bất kỳ đâu. Đó là lý do tại sao các bản ghi MX ánh xạ tới các máy chủ thư như <em>aspmx.l.google.com</em>, nơi nhận thư của bạn và cho phép bạn truy cập từ bất kỳ máy tính nào.</p>
+<p>Một điểm khác biệt quan trọng của bản ghi MX là giá trị của chúng còn chứa <strong>priority</strong> (độ ưu tiên). Nếu bạn nhận được nhiều bản ghi MX, tất cả đều ánh xạ cùng một tên miền tới các máy chủ thư khác nhau, bạn nên thử kết nối tới máy chủ thư có độ ưu tiên cao nhất (số nhỏ nhất) trước.</p>
+<h2 id="dns-for-load-balancing-dns-cho-cân-bằng-tải"><a class="header" href="#dns-for-load-balancing-dns-cho-cân-bằng-tải"><strong>DNS for Load Balancing</strong> (DNS cho Cân bằng tải)</a></h2>
+<p>Chúng ta đã thấy trong phần demo rằng name server cuối cùng trả về một bản ghi loại <strong>A</strong>, nhưng thực tế có thể nhận được nhiều bản ghi loại A, ánh xạ một tên miền tới nhiều địa chỉ IP. Không có thứ tự cố định cho các bản ghi này, và server có thể xáo trộn thứ tự trước khi trả về. Tất cả đều hợp lệ, và client có thể chọn bất kỳ bản ghi nào (thường là bản đầu tiên). Việc cung cấp nhiều địa chỉ IP hữu ích cho <strong>load balancing</strong> (cân bằng tải) và <strong>redundancy</strong> (dự phòng).</p>
+<p>Name server cũng có thể trả về các bản ghi loại A khác nhau tùy thuộc vào ai gửi truy vấn và từ đâu. Điều này hữu ích nếu chúng ta muốn cân bằng tải cho một tên miền phổ biến như <em>www.google.com</em> trên nhiều máy chủ. Ví dụ, chúng ta có thể cố gắng gửi người dùng tới máy chủ gần nhất.</p>
+<p>Name server lúc này cần thêm logic bổ sung (có thể là độc quyền) để quyết định bản ghi nào sẽ được gửi trong phản hồi. Name server có thể kiểm tra recursive resolver là ai. Nó cũng có thể kiểm tra client cuối là ai, mặc dù điều này yêu cầu mở rộng DNS để truy vấn của resolver bao gồm địa chỉ của client. Thậm chí, nó có thể kiểm tra vị trí địa lý của người dùng cuối, mặc dù điều này cần ánh xạ địa chỉ IP sang vị trí vật lý. Các cơ sở dữ liệu thương mại như <strong>MaxMind</strong> tồn tại để phục vụ việc ánh xạ này.</p>
+<p>Cân bằng tải dựa trên vị trí địa lý của người dùng không phải lúc nào cũng hoàn hảo. Ngay cả khi biết vị trí vật lý của máy chủ và của người dùng, chúng ta vẫn phải phỏng đoán máy chủ nào gần nhất về mặt mạng. Chúng ta cũng không biết về hiệu năng (ví dụ: <strong>network bandwidth</strong> – băng thông mạng) giữa người dùng và các máy chủ khác nhau.</p>
+<img width="600px" src="../assets/applications/4-12-load-balance.png">
+<p>Dưới đây là một thí nghiệm để xem Google thực hiện cân bằng tải theo vị trí địa lý tốt như thế nào. Chúng tôi tra cứu <em>www.google.com</em> tại San Francisco và Oregon và nhận được hai địa chỉ IP khác nhau.</p>
+<p>Sau đó, chúng tôi thực hiện <strong>reverse lookup</strong> (tra cứu ngược) để ánh xạ mỗi địa chỉ IP tới một tên máy chủ cụ thể (khác nhau cho mỗi máy chủ, không phải <em>www.google.com</em>). Kết quả là một bản ghi loại <strong>PTR (Pointer)</strong>, ánh xạ địa chỉ IP sang tên (ngược lại với bản ghi loại A). Chúng ta có thể thấy rằng địa chỉ IP mà Google cung cấp cho San Francisco được ánh xạ tới một máy chủ có tên <em>sfo03s25</em>. Giả sử <em>sfo</em> là viết tắt của San Francisco, thì điều này khá chính xác.</p>
+<p>Nếu xem xét độ trễ (<strong>latency</strong>), kết nối từ máy tính ở San Francisco tới địa chỉ IP được cấp cho San Francisco mất 20 ms, trong khi kết nối từ máy tính ở San Francisco tới địa chỉ IP được cấp cho Oregon mất 35 giây. Google đã làm rất tốt khi cung cấp cho máy tính ở San Francisco một máy chủ gần hơn!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../transport/router-based-cc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../applications/http.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../transport/router-based-cc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../applications/http.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
